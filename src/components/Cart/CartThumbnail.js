@@ -1,49 +1,42 @@
-import React from 'react';
-import { graphql, StaticQuery } from 'gatsby';
-import styled from '@emotion/styled';
-import Image from 'gatsby-image';
+import React from 'react'
+import { graphql, StaticQuery } from 'gatsby'
+import styled from '@emotion/styled'
+import Image from 'gatsby-image'
 
-import { colors, radius } from '../../utils/styles';
+import { colors, radius } from '../../utils/styles'
 
 const CartThumbnailRoot = styled(Image)`
   border: 1px solid ${colors.brandLight};
   border-radius: ${radius.default}px;
   height: 36px;
   width: 36px;
-`;
+`
 
-const CartThumbnail = ({
-  shopifyImages,
-  id: imageId,
-  fallback,
-  ...imageProps
-}) => {
-  const image = shopifyImages.find(({ id }) => id === imageId);
+const CartThumbnail = ({ images, id: imageId, fallback, ...imageProps }) => {
+  const image = images.find(({ id }) => id === imageId)
 
   if (image) {
-    imageProps.fluid = image.localFile.childImageSharp.fluid;
+    imageProps.src = image.url
+    imageProps.width = `64px`
+    imageProps.height = `64px`
   } else {
-    imageProps.src = fallback;
+    imageProps.src = fallback
   }
 
-  return <CartThumbnailRoot {...imageProps} />;
-};
+  return <CartThumbnailRoot fixed={imageProps} />
+}
 
 export default props => (
   <StaticQuery
     query={graphql`
       {
-        allShopifyProduct {
+        allAirtable {
           edges {
             node {
-              images {
-                id
-                localFile {
-                  childImageSharp {
-                    fluid {
-                      ...GatsbyImageSharpFluid_withWebp
-                    }
-                  }
+              data {
+                Images {
+                  url
+                  id
                 }
               }
             }
@@ -51,12 +44,13 @@ export default props => (
         }
       }
     `}
-    render={({ allShopifyProduct: { edges } }) => {
+    render={({ allAirtable: { edges } }) => {
       const images = edges
-        .map(({ node }) => node.images)
-        .reduce((acc, val) => acc.concat(val), []);
+        .map(({ node }) => (node.data.Images ? node.data.Images[0] : null))
+        .reduce((acc, val) => (val ? acc.concat(val) : acc), [])
+      console.log(`aaa`, images)
 
-      return <CartThumbnail shopifyImages={images} {...props} />;
+      return <CartThumbnail images={images} {...props} />
     }}
   />
-);
+)

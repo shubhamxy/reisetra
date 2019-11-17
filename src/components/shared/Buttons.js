@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import { Link } from 'gatsby';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styled from '@emotion/styled'
+import { Link } from 'gatsby'
 
-import { colors, fonts, radius } from '../../utils/styles';
+import { colors, fonts, radius } from '../../utils/styles'
 
 export const ButtonBase = styled(`button`)`
   align-items: center;
@@ -15,7 +15,7 @@ export const ButtonBase = styled(`button`)`
   cursor: pointer;
   display: inline-flex;
   font-family: ${fonts.heading};
-  font-size: 1.1rem;
+  font-size: 1rem;
   justify-content: center;
   padding: 0.5em 0.75rem;
   transition: 0.5s;
@@ -28,8 +28,8 @@ export const ButtonBase = styled(`button`)`
 
   svg {
     height: 1.1em;
-    margin-left: ${props => (props.iconOnLeft ? 0 : '0.5em')};
-    margin-right: ${props => (props.iconOnLeft ? '0.5em' : 0)};
+    margin-left: ${props => (props.iconOnLeft ? 0 : `0.5em`)};
+    margin-right: ${props => (props.iconOnLeft ? `0.5em` : 0)};
     width: 1.1em;
   }
 
@@ -38,23 +38,23 @@ export const ButtonBase = styled(`button`)`
       box-shadow: 0 0 0 1px ${colors.accent};
     }
   }
-`;
+`
 
 const ButtonAsExternalLink = styled(ButtonBase.withComponent(`a`))`
   display: inline-flex;
   text-decoration: none;
-`;
+`
 
 const ButtonAsInternalLink = ButtonAsExternalLink.withComponent(
   ({ iconOnLeft, inverse, ...rest }) => <Link {...rest} />
-);
+)
 
 export class Button extends Component {
   render() {
-    const { children, to, href, ref, inverse = false, ...rest } = this.props;
+    const { children, to, href, ref, inverse = false, ...rest } = this.props
 
     // automtic recognition of icon placement, works properly only for [text + <Icon>] childrens
-    const iconOnLeft = typeof children[0] !== 'string';
+    const iconOnLeft = typeof children[0] !== `string`
 
     if (to) {
       return (
@@ -66,7 +66,7 @@ export class Button extends Component {
         >
           {children}
         </ButtonAsInternalLink>
-      );
+      )
     } else if (href) {
       return (
         <ButtonAsExternalLink
@@ -77,13 +77,13 @@ export class Button extends Component {
         >
           {children}
         </ButtonAsExternalLink>
-      );
+      )
     } else {
       return (
         <ButtonBase inverse={inverse} iconOnLeft={iconOnLeft} {...rest}>
           {children}
         </ButtonBase>
-      );
+      )
     }
   }
 }
@@ -93,7 +93,7 @@ Button.propTypes = {
   inverse: PropTypes.bool,
   to: PropTypes.string,
   href: PropTypes.string
-};
+}
 
 export const PrimaryButton = styled(Button)`
   background: ${colors.brand};
@@ -107,4 +107,4 @@ export const PrimaryButton = styled(Button)`
       background: ${colors.brandDark};
     }
   }
-`;
+`

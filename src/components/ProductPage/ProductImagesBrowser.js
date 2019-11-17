@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Image from 'gatsby-image';
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
-import { MdClose, MdZoomIn, MdZoomOut } from 'react-icons/md';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Image from 'gatsby-image'
+import styled from '@emotion/styled'
+import { keyframes } from '@emotion/core'
+import { MdClose, MdZoomIn, MdZoomOut } from 'react-icons/md'
 
-import CommunityCaption from './CommunityCaption';
+import CommunityCaption from './CommunityCaption'
 import ProductThumbnails, {
   ProductThumbnailsContent,
   Thumbnail
-} from './ProductThumbnails';
-import { Button } from '../shared/Buttons';
-import { debounce } from '../../utils/helpers';
+} from './ProductThumbnails'
+import { Button } from '../shared/Buttons'
+import { debounce } from '../../utils/helpers'
 
 import {
   breakpoints,
@@ -19,9 +19,9 @@ import {
   radius,
   spacing,
   dimensions
-} from '../../utils/styles';
+} from '../../utils/styles'
 
-const IMAGE_CHANGE_ANIM_DURATION = 250;
+const IMAGE_CHANGE_ANIM_DURATION = 250
 
 const entry = keyframes`
   0% {
@@ -32,7 +32,7 @@ const entry = keyframes`
     left: 0;
     transform: scale(1);
   }
-`;
+`
 
 const exit = keyframes`
   0% {
@@ -50,7 +50,7 @@ const exit = keyframes`
     opacity: 0;
     transform:scale(0.8);
   }
-`;
+`
 
 const ProductImagesBrowserRoot = styled(`div`)`
   background: white;
@@ -81,7 +81,7 @@ const ProductImagesBrowserRoot = styled(`div`)`
     flex-direction: row;
     height: 100vh;
   }
-`;
+`
 
 const change = keyframes`
   0% {
@@ -90,7 +90,7 @@ const change = keyframes`
   100% {
     opacity: 1;
   }
-`;
+`
 
 const ZoomArea = styled(`div`)`
   border-bottom: 1px solid ${colors.brandLight};
@@ -116,7 +116,7 @@ const ZoomArea = styled(`div`)`
     overflow-y: auto;
     width: calc(100% - ${dimensions.pictureBrowserAction.widthDesktop});
   }
-`;
+`
 
 const ImageBox = styled(`a`)`
   display: block;
@@ -131,28 +131,28 @@ const ImageBox = styled(`a`)`
 
   @media (orientation: landscape) {
     .gatsby-image-wrapper {
-      width: ${props => (props.superZoom ? '200' : '100')}%;
+      width: ${props => (props.superZoom ? `200` : `100`)}%;
     }
   }
 
   @media (min-width: ${breakpoints.desktop}px) {
-    cursor: ${props => (props.superZoom ? 'zoom-out' : 'zoom-in')};
-    width: ${props => (props.superZoom ? '100%' : 'auto')};
+    cursor: ${props => (props.superZoom ? `zoom-out` : `zoom-in`)};
+    width: ${props => (props.superZoom ? `100%` : `auto`)};
 
     .gatsby-image-wrapper {
-      width: ${props => (props.superZoom ? '100%' : '100vh')};
+      width: ${props => (props.superZoom ? `100%` : `100vh`)};
     }
   }
-`;
+`
 
 const ZoomHelper = styled(`span`)`
   background: rgba(255, 255, 255, 0.5);
   border-radius: ${radius.large}px;
   display: flex;
-  left: ${spacing['xs']}px;
-  padding: ${spacing['xs']}px;
+  left: ${spacing[`xs`]}px;
+  padding: ${spacing[`xs`]}px;
   position: fixed;
-  top: ${spacing['xs']}px;
+  top: ${spacing[`xs`]}px;
 
   svg {
     fill: ${colors.brand};
@@ -163,7 +163,7 @@ const ZoomHelper = styled(`span`)`
   @media (min-width: ${breakpoints.desktop}px) {
     display: none;
   }
-`;
+`
 
 const Actions = styled(`div`)`
   align-items: center;
@@ -180,11 +180,11 @@ const Actions = styled(`div`)`
     padding-top: ${spacing.xl}px;
     width: ${dimensions.pictureBrowserAction.widthDesktop};
   }
-`;
+`
 
 const CloseButton = styled(Button)`
   position: relative;
-`;
+`
 
 const ActionsThumbnails = styled(ProductThumbnails)`
   @media (min-width: ${breakpoints.desktop}px) {
@@ -200,37 +200,37 @@ const ActionsThumbnails = styled(ProductThumbnails)`
       width: 70px;
     }
   }
-`;
+`
 
 class ProductImagesBrowser extends Component {
-  zoomArea;
-  imageBox;
-  closeButton;
+  zoomArea
+  imageBox
+  closeButton
 
   state = {
     zoomAreaWidth: null,
     imageBoxHeight: null,
     superZoom: false
-  };
+  }
 
   componentDidMount = () => {
-    this.measureImage();
-    this.centerImage();
+    this.measureImage()
+    this.centerImage()
 
-    window.addEventListener('resize', debounce(250, this.measureImage));
-  };
+    window.addEventListener(`resize`, debounce(250, this.measureImage))
+  }
 
   componentWillUnmount = () => {
-    window.removeEventListener('resize', debounce(250, this.measureImage));
-  };
+    window.removeEventListener(`resize`, debounce(250, this.measureImage))
+  }
 
   componentDidUpdate = prevProps => {
     if (prevProps.position !== this.props.position) {
-      if (this.props.position === 'open') {
+      if (this.props.position === `open`) {
         if (this.state.superZoom) {
           this.setState({
             superZoom: false
-          });
+          })
         }
       }
     }
@@ -239,54 +239,51 @@ class ProductImagesBrowser extends Component {
       prevProps.imageFeatured !== this.props.imageFeatured ||
       prevProps.position !== this.props.position
     ) {
-      this.centerImage();
+      this.centerImage()
 
-      this.zoomArea.classList.add('change');
+      this.zoomArea.classList.add(`change`)
       setTimeout(
-        () => this.zoomArea.classList.remove('change'),
+        () => this.zoomArea.classList.remove(`change`),
         IMAGE_CHANGE_ANIM_DURATION
-      );
+      )
     }
-  };
+  }
 
   measureImage = () => {
     if (this.zoomArea && this.imageBox) {
       this.setState({
         zoomAreaWidth: this.zoomArea.offsetWidth,
         imageBoxHeight: this.imageBox.offsetHeight
-      });
+      })
     }
-  };
+  }
 
   centerImage = () => {
     const offsetToScroll =
-      (this.state.imageBoxHeight - this.state.zoomAreaWidth) / 2;
+      (this.state.imageBoxHeight - this.state.zoomAreaWidth) / 2
 
-    this.zoomArea.scrollLeft = offsetToScroll;
-  };
+    this.zoomArea.scrollLeft = offsetToScroll
+  }
 
   close = callback => event => {
-    callback();
-  };
+    callback()
+  }
 
   toggleZoomRatio = event => {
-    event.preventDefault();
+    event.preventDefault()
 
-    this.setState(state => ({ superZoom: !state.superZoom }));
-  };
+    this.setState(state => {
+      return { superZoom: !state.superZoom }
+    })
+  }
 
   render() {
-    const { images, position, imageFeatured, toggle } = this.props;
-    const image = imageFeatured ? imageFeatured : images[0];
+    const { images, position, imageFeatured, toggle } = this.props
+    const image = imageFeatured ? imageFeatured : images[0]
 
-    const {
-      altText,
-      localFile: {
-        childImageSharp: { fluid }
-      }
-    } = image;
+    const { altText, url, id } = image
 
-    const { imageBoxHeight, superZoom } = this.state;
+    const { imageBoxHeight, superZoom } = this.state
 
     return (
       <ProductImagesBrowserRoot role="dialog" className={position}>
@@ -300,19 +297,19 @@ class ProductImagesBrowser extends Component {
 
         <ZoomArea
           ref={container => {
-            this.zoomArea = container;
+            this.zoomArea = container
           }}
         >
           <ImageBox
             onClick={this.toggleZoomRatio}
-            href={fluid.src}
+            href={image.url}
             superZoom={superZoom}
             width={imageBoxHeight}
             ref={image => {
-              this.imageBox = image;
+              this.imageBox = image
             }}
           >
-            <Image fluid={fluid} />
+            <Image fixed={{ src: image.url, height: `100vh` }} />
           </ImageBox>
           {altText && (
             <CommunityCaption caption={altText} superZoom={superZoom} />
@@ -320,7 +317,7 @@ class ProductImagesBrowser extends Component {
         </ZoomArea>
         <ZoomHelper>{superZoom ? <MdZoomOut /> : <MdZoomIn />}</ZoomHelper>
       </ProductImagesBrowserRoot>
-    );
+    )
   }
 }
 
@@ -330,6 +327,6 @@ ProductImagesBrowser.propTypes = {
   toggle: PropTypes.func.isRequired,
   imageFeatured: PropTypes.object,
   isDesktopViewport: PropTypes.bool
-};
+}
 
-export default ProductImagesBrowser;
+export default ProductImagesBrowser

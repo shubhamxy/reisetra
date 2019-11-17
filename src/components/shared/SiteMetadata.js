@@ -1,6 +1,6 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import { graphql, StaticQuery } from 'gatsby';
+import React from 'react'
+import Helmet from 'react-helmet'
+import { graphql, StaticQuery } from 'gatsby'
 
 export default () => (
   <StaticQuery
@@ -23,8 +23,8 @@ export default () => (
       <Helmet defaultTitle={title} titleTemplate={`%s · ${title}`}>
         <html lang="en" />
 
-        <link rel="preconnect" href="https://gatsby-swag.myshopify.com" />
-        <link rel="preconnect" href="https://api.gatsbyjs.org" />
+        <link rel="preconnect" href={process.env.SHOPIFY_DOMAIN} />
+        <link rel="preconnect" href={process.env.API_DOMAIN} />
 
         <link rel="canonical" href={siteUrl} />
         <link
@@ -45,9 +45,9 @@ export default () => (
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#663399" />
-        <meta name="msapplication-TileColor" content="#663399" />
-        <meta name="theme-color" content="#663399" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2f3f4f" />
+        <meta name="msapplication-TileColor" content="#2f3f4f" />
+        <meta name="theme-color" content="#2f3f4f" />
 
         <meta name="description" content={description} />
 
@@ -58,20 +58,17 @@ export default () => (
         <meta property="og:site_name" content={title} />
         <meta property="og:description" content={description} />
 
-        <meta
-          property="og:image"
-          content={`${siteUrl}/instagram-doraforscale.jpg`}
-        />
+        <meta property="og:image" content={`${siteUrl}/cover.jpg`} />
         <meta
           property="og:image:alt"
-          content="Gatsby Socks using Dora for scale."
+          content="Reisetra Crafts | Buy authentic indian handcrafts"
         />
         <meta property="og:image:width" content="1280" />
         <meta property="og:image:height" content="686" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@gatsbyjs" />
+        <meta name="twitter:site" content="@shubhamxy" />
       </Helmet>
     )}
   />
-);
+)

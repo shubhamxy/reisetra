@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled'
 
-import { breakpoints, colors, spacing } from '../../utils/styles';
+import { breakpoints, colors, spacing } from '../../utils/styles'
 
 export const TextContainer = styled(`div`)`
   margin: 0;
@@ -13,23 +13,24 @@ export const TextContainer = styled(`div`)`
   @media (min-width: ${breakpoints.desktop}px) {
     padding-bottom: 100px;
   }
-`;
+`
 
-export const Heading = styled('h1')`
+export const Heading = styled(`h1`)`
   color: ${colors.brandDark};
-  font-size: 2.6rem;
+  font-size: 1.8rem;
   letter-spacing: -0.02em;
   margin: 0;
+  padding-right: 2rem;
   margin-bottom: ${spacing.lg}px;
-`;
+`
 
-export const Text = styled('p')`
+export const Text = styled(`p`)`
   color: ${colors.text};
   font-size: 1rem;
   margin: 1rem 0 0;
-`;
+`
 
-export const UnorderedList = styled('ul')`
+export const UnorderedList = styled(`ul`)`
   color: ${colors.text};
   margin: 1rem 0 0;
   padding-left: 2rem;
@@ -41,4 +42,4 @@ export const UnorderedList = styled('ul')`
   a {
     color: ${colors.text};
   }
-`;
+`

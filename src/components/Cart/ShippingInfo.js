@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
+import React, { Component } from 'react'
+import styled from '@emotion/styled'
+import { keyframes } from '@emotion/core'
 
-import { MdKeyboardArrowDown, MdInfo } from 'react-icons/md';
+import { MdKeyboardArrowDown, MdInfo } from 'react-icons/md'
 
-import { colors, radius, spacing, defaultFontStack } from '../../utils/styles';
+import { colors, radius, spacing, defaultFontStack } from '../../utils/styles'
 
 const ShippingInfoRoot = styled(`div`)`
   background: #f5f5f5;
   border-radius: ${radius.default}px;
   margin: ${spacing.sm}px 0;
   padding: ${spacing.sm}px ${spacing.md}px;
-`;
+`
 
 const Intro = styled(`p`)`
   color: ${colors.text};
@@ -22,13 +22,13 @@ const Intro = styled(`p`)`
   margin: 0;
   position: relative;
   text-align: left;
-`;
+`
 
 const on = keyframes`
   to {
     opacity: 1;
   }
-`;
+`
 
 const Details = styled(Intro)`
   animation: ${on} 1s ease forwards;
@@ -41,7 +41,7 @@ const Details = styled(Intro)`
   .expanded & {
     display: block;
   }
-`;
+`
 
 const ArrowIcon = styled(MdKeyboardArrowDown)`
   color: ${colors.lilac};
@@ -60,28 +60,28 @@ const ArrowIcon = styled(MdKeyboardArrowDown)`
   ${Intro}:hover & {
     color: ${colors.accent};
   }
-`;
+`
 
 const InfoIcon = styled(MdInfo)`
   color: ${colors.lilac};
-  margin-right: ${spacing['2xs']}px;
+  margin-right: ${spacing[`2xs`]}px;
   vertical-align: middle;
-`;
+`
 
 class ShippingInfo extends Component {
   state = {
     detailsVisible: false
-  };
+  }
 
   toggle = () => {
-    this.setState({ detailsVisible: !this.state.detailsVisible });
-  };
+    this.setState({ detailsVisible: !this.state.detailsVisible })
+  }
 
   render() {
-    const { detailsVisible } = this.state;
+    const { detailsVisible } = this.state
 
     return (
-      <ShippingInfoRoot className={detailsVisible ? 'expanded' : ''}>
+      <ShippingInfoRoot className={detailsVisible ? `expanded` : ``}>
         <Intro role="button" onClick={this.toggle}>
           <InfoIcon />
           International shipments can take <strong>6 weeks or more</strong> to
@@ -90,12 +90,12 @@ class ShippingInfo extends Component {
         <Details>
           Tracking updates may not always show up in real time on your tracking
           link. If you still have not received your order at the end of 6 weeks,
-          please let us know by sending an email to{' '}
-          <a href="mailto:team@gatsbyjs.com">team@gatsbyjs.com</a>
+          please let us know by sending an email to{` `}
+          <a href="mailto:contact@reisetra.co">contact@reisetra.co</a>
         </Details>
       </ShippingInfoRoot>
-    );
+    )
   }
 }
 
-export default ShippingInfo;
+export default ShippingInfo

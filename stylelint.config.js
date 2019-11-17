@@ -4,7 +4,7 @@ module.exports = {
     `stylelint-config-recommended`,
     `stylelint-config-styled-components`
   ],
-  plugins: ['stylelint-order'],
+  plugins: [`stylelint-order`],
   rules: {
     'no-descending-specificity': null,
     'property-no-unknown': [
@@ -26,4 +26,4 @@ module.exports = {
       }
     ]
   }
-};
+}

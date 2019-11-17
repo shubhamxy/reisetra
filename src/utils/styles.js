@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/core'
 
 /*
  * NOTE: use a six-character hex code for all colors to allow alpha channel
@@ -8,37 +8,44 @@ import { keyframes } from '@emotion/core';
  *    // use the brand color at 25% opacity
  *    border-color: ${colors.brand}40;
  */
+
 export const colors = {
-  brandDarker: '#221133',
-  brandDark: '#442266',
-  brand: '#663399',
-  brandBright: '#e0d6eb',
-  brandLight: '#f5f3f7',
-  brandLighter: '#fbfafc',
-  lightest: '#ffffff',
-  darkest: '#4d4058',
-  text: '#333333',
-  textMild: '#555555',
-  textLight: '#7e718a',
-  textLighter: '#aaaaaa',
-  lilac: `#8c65b3`,
+  logo: `#EAD2AC`,
+  background: `#fff`,
+  scrollbar: `#EAD2AC`,
+  brandPrimary: `#2e5e7e`,
+  brandDarker: `#2f3f4f`,
+  brandDark: `#2d5e7b`,
+  brand: `#0081AF`,
+  grey: `#eee`,
+  sidebar: `#fbf7ed`,
+  brandBright: `#fefefe`,
+  brandLight: `#fbffee`,
+  brandLighter: `#efefef`,
+  lightest: `#ffffff`,
+  darkest: `#283035`,
+  text: `#333333`,
+  textMild: `#555555`,
+  textLight: `#aaa`,
+  textLighter: `#ccc`,
+  tuscan: `#ffd689`,
   accent: `#ffb238`,
   error: `#ec1818`,
   lemon: `#ffdf37`
-};
+}
 
 export const badgeThemes = {
-  BUILDWITHGATSBY: {
+  HELLOWORLD: {
     level: 1,
     backgroundTheme: colors.brand,
-    textTheme: colors.lemon
+    textTheme: colors.tuscan
   },
-  HOLYBUCKETS: {
+  SHOPPINGSPREE: {
     level: 2,
-    backgroundTheme: colors.lemon,
+    backgroundTheme: colors.tuscan,
     textTheme: colors.brandDark
   }
-};
+}
 
 export const spacing = {
   '3xs': 2,
@@ -50,7 +57,7 @@ export const spacing = {
   xl: 32,
   '2xl': 40,
   '3xl': 48
-};
+}
 
 export const breakpoints = {
   mobile: 400,
@@ -58,25 +65,20 @@ export const breakpoints = {
   tablet: 750,
   desktop: 1000,
   hd: 1300
-};
+}
 
 export const radius = {
   default: 2,
   large: 4
-};
+}
 
 export const defaultFontStack = [
-  '-apple-system',
-  'BlinkMacSystemFont',
-  'Segoe UI',
-  'Roboto',
-  'Oxygen',
-  'Ubuntu',
-  'Cantarell',
-  'Open Sans',
-  'Helvetica Neue',
-  'sans-serif'
-].join();
+  `Source Sans pro`,
+  `Lato`,
+  `Open Sans`,
+  `Helvetica Neue`,
+  `sans-serif`
+].join()
 
 const monospaceFontStack = [
   `Space Mono`,
@@ -87,51 +89,54 @@ const monospaceFontStack = [
   `Liberation Mono`,
   `Courier New`,
   `monospace`
-].join();
+].join()
 
 export const fonts = {
   body: defaultFontStack,
-  heading: `Futura PT, ${defaultFontStack}`,
+  heading: defaultFontStack,
   monospace: monospaceFontStack
-};
+}
 
 export const dimensions = {
-  headerHeight: '60px',
-  cartWidthDesktop: '400px',
-  contributorAreaWidth: {
-    closedDesktop: '60px',
-    openDesktop: '340px',
-    openHd: '420px'
+  sidebarWidth: `420px`,
+  headerHeight: `60px`,
+  cartHeight: `80px`,
+  topHeadHeight: `20px`,
+  cartWidthDesktop: `400px`,
+  customerAreaWidth: {
+    closedDesktop: `60px`,
+    openDesktop: `60px`,
+    openHd: `60px`
   },
-  contributorAreaBarHeight: '50px',
+  customerAreaBarHeight: `50px`,
   pictureBrowserAction: {
-    widthDesktop: '200px',
-    heightMobile: '80px'
+    widthDesktop: `200px`,
+    heightMobile: `80px`
   }
-};
+}
 
 export const scrollbarStyles = {
   WebkitOverflowScrolling: `touch`,
   '&::-webkit-scrollbar': { width: `6px`, height: `6px` },
-  '&::-webkit-scrollbar-thumb': { background: colors.brandBright },
-  '&::-webkit-scrollbar-thumb:hover': { background: colors.lilac },
+  '&::-webkit-scrollbar-thumb': { background: colors.scrollbar },
+  '&::-webkit-scrollbar-thumb:hover': { background: colors.tuscan },
   '&::-webkit-scrollbar-track': { background: colors.brandLight }
-};
+}
 
 const simpleEntry = keyframes`
   from {
     opacity: 0;
     transform: translateY(20px);
   }
-`;
+`
 
 const deadSimpleEntry = keyframes`
   from {
     opacity: .25;
   }
-`;
+`
 
 export const animations = {
   simpleEntry: `${simpleEntry} .75s ease forwards`,
   deadSimpleEntry: `${deadSimpleEntry} .5s ease forwards`
-};
+}

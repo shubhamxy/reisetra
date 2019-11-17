@@ -1,13 +1,8 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "google",
     "eslint:recommended",
-    "plugin:flowtype/recommended",
-    "plugin:react/recommended",
-    "prettier",
-    "prettier/flowtype",
-    "prettier/react"
+    "plugin:react/recommended"
   ],
   "plugins": ["flowtype", "react"],
   "parserOptions": {
@@ -40,23 +35,10 @@
     ],
     "jsx-quotes": ["error", "prefer-double"],
     "semi": ["error", "never"],
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "off",
     "object-curly-spacing": ["error", "always"],
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "ignore"
-      }
-    ],
-    "react/prop-types": [
-      "error",
-      {
-        "ignore": ["children"]
-      }
-    ]
+    "comma-dangle": "off"
   },
   "overrides": [
     {

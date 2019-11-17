@@ -1,17 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import { MdCameraAlt } from 'react-icons/md';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from '@emotion/styled'
+import { MdCameraAlt } from 'react-icons/md'
 
-import ProductImage, { StyledImage } from './ProductImage';
+import ProductImage, { StyledImage } from './ProductImage'
 
-import {
-  breakpoints,
-  colors,
-  fonts,
-  radius,
-  spacing
-} from '../../utils/styles';
+import { breakpoints, colors, fonts, radius, spacing } from '../../utils/styles'
 
 const ProductImagesMobileRoot = styled(`div`)`
   -webkit-overflow-scrolling: touch;
@@ -24,7 +18,7 @@ const ProductImagesMobileRoot = styled(`div`)`
     padding: ${spacing.xl}px;
     padding-bottom: ${spacing.lg}px;
   }
-`;
+`
 
 const ProductImagesMobileContent = styled(`div`)`
   display: inline-flex;
@@ -38,7 +32,7 @@ const ProductImagesMobileContent = styled(`div`)`
       margin-right: ${spacing.xl}px;
     }
   }
-`;
+`
 
 const Incentive = styled(`div`)`
   border-radius: ${radius.large}px;
@@ -52,14 +46,14 @@ const Incentive = styled(`div`)`
 
   h3 {
     font-family: ${fonts.heading};
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.2;
     margin: 0 0 0.5em;
 
     svg {
       fill: ${colors.brand};
       height: 1.15em;
-      margin-right: ${spacing['2xs']}px;
+      margin-right: ${spacing[`2xs`]}px;
       vertical-align: top;
       width: 1.15em;
     }
@@ -70,7 +64,7 @@ const Incentive = styled(`div`)`
     line-height: 1.4;
     margin: 0;
   }
-`;
+`
 
 const ProductImagesMobile = ({ images, imageOnClick }) => (
   <ProductImagesMobileRoot>
@@ -82,23 +76,21 @@ const ProductImagesMobile = ({ images, imageOnClick }) => (
       <Incentive>
         <h3>
           <MdCameraAlt />
-          We want to see your Gatsby swag photos!
+          We want to see your Reisetra craft photos!
         </h3>
         <p>
-          Upload your photos to{' '}
-          <a href="https://github.com/gatsbyjs/store.gatsbyjs.org/issues/143">
-            the official photo sharing issue
-          </a>{' '}
-          and it may be featured in the store!
+          Upload your photos to{` `}
+          <a href="/upload">the official photo sharing track.</a> and it may be
+          featured in the store!
         </p>
       </Incentive>
     </ProductImagesMobileContent>
   </ProductImagesMobileRoot>
-);
+)
 
 ProductImagesMobile.propTypes = {
   images: PropTypes.array.isRequired,
   imageOnClick: PropTypes.func
-};
+}
 
-export default ProductImagesMobile;
+export default ProductImagesMobile

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import Image from 'gatsby-image';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styled from '@emotion/styled'
+import Image from 'gatsby-image'
 
-import InterfaceContext from '../../context/InterfaceContext';
+import InterfaceContext from '../../context/InterfaceContext'
 
-import { breakpoints, colors, radius, spacing } from '../../utils/styles';
+import { breakpoints, colors, radius, spacing } from '../../utils/styles'
 
-const THUMBNAIL_SIZE = '44px';
+const THUMBNAIL_SIZE = `44px`
 
 const ProductThumbnailsRoot = styled(`div`)`
   height: ${THUMBNAIL_SIZE};
@@ -19,7 +19,7 @@ const ProductThumbnailsRoot = styled(`div`)`
     height: auto;
     overflow-x: hidden;
   }
-`;
+`
 
 export const ProductThumbnailsContent = styled(`div`)`
   display: inline-flex;
@@ -31,7 +31,7 @@ export const ProductThumbnailsContent = styled(`div`)`
     min-width: 100%;
     padding: ${spacing.lg}px 0 0;
   }
-`;
+`
 
 export const Thumbnail = styled(`a`)`
   border: 1px solid ${colors.brandBright};
@@ -44,17 +44,17 @@ export const Thumbnail = styled(`a`)`
     cursor: pointer;
     margin-right: ${spacing.md}px;
   }
-`;
+`
 
 class ProductThumbnails extends Component {
   handleClick = (image, callback) => event => {
-    event.preventDefault();
+    event.preventDefault()
 
-    callback(image);
-  };
+    callback(image)
+  }
 
   render() {
-    const { images, className = '' } = this.props;
+    const { images, className = `` } = this.props
 
     return (
       <InterfaceContext.Consumer>
@@ -62,34 +62,35 @@ class ProductThumbnails extends Component {
           <ProductThumbnailsRoot className={className}>
             <ProductThumbnailsContent>
               {images.map((image, idx) => {
-                const {
-                  id,
-                  localFile: {
-                    childImageSharp: { fluid }
-                  }
-                } = image;
+                const { id, url } = image
 
                 return (
                   <Thumbnail
                     key={id}
                     onClick={this.handleClick(image, featureProductImage)}
-                    href={fluid.src}
+                    href={url}
                   >
-                    <Image fluid={fluid} />
+                    <Image
+                      fixed={{
+                        src: image.thumbnails.large.url,
+                        width: `54px`,
+                        height: `54px`
+                      }}
+                    />
                   </Thumbnail>
-                );
+                )
               })}
             </ProductThumbnailsContent>
           </ProductThumbnailsRoot>
         )}
       </InterfaceContext.Consumer>
-    );
+    )
   }
 }
 
 ProductThumbnails.propTypes = {
   images: PropTypes.array.isRequired,
   className: PropTypes.string
-};
+}
 
-export default ProductThumbnails;
+export default ProductThumbnails

@@ -1,11 +1,11 @@
-import React from 'react';
-import { graphql, StaticQuery } from 'gatsby';
-import styled from '@emotion/styled';
+import React from 'react'
+import { graphql, StaticQuery } from 'gatsby'
+import styled from '@emotion/styled'
 
-import ProductListingHeader from './ProductListingHeader';
-import ProductListingItem from './ProductListingItem';
+import ProductListingHeader from './ProductListingHeader'
+import ProductListingItem from './ProductListingItem'
 
-import { breakpoints, spacing } from '../../utils/styles';
+import { breakpoints, spacing } from '../../utils/styles'
 
 const ProductListingContainer = styled(`div`)`
   display: flex;
@@ -16,36 +16,31 @@ const ProductListingContainer = styled(`div`)`
   @media (min-width: ${breakpoints.desktop}px) {
     flex-direction: row;
     flex-wrap: wrap;
-    padding: ${spacing['2xl']}px;
+    padding: ${spacing[`2xl`]}px;
   }
-`;
+`
 
 const ProductListing = () => (
   <StaticQuery
     query={graphql`
       query ProductListingQuery {
-        products: allShopifyProduct(
-          sort: { fields: [publishedAt], order: ASC }
-        ) {
+        products: allAirtable {
           edges {
             node {
-              id
-              handle
-              title
-              description
-              productType
-              variants {
-                shopifyId
-                title
-                price
-                availableForSale
-              }
-              images {
-                id
-                localFile {
-                  childImageSharp {
-                    fluid(maxWidth: 910, maxHeight: 910) {
-                      ...GatsbyImageSharpFluid_withWebp
+              data {
+                _
+                Handle
+                Product_Name
+                Description
+                Selling_Price_Unit
+                Images {
+                  id
+                  url
+                  thumbnails {
+                    large {
+                      url
+                      width
+                      height
                     }
                   }
                 }
@@ -57,15 +52,18 @@ const ProductListing = () => (
     `}
     render={({ products }) => (
       <>
-        <ProductListingHeader />
+        {/* <ProductListingHeader /> */}
         <ProductListingContainer>
-          {products.edges.map(({ node: product }) => (
-            <ProductListingItem key={product.id} product={product} />
-          ))}
+          {products.edges.map(item => {
+            if (!(item.node.data.Images && item.node.data.Images[0]))
+              return null
+            const product = item.node.data
+            return <ProductListingItem key={product.Handle} product={product} />
+          })}
         </ProductListingContainer>
       </>
     )}
   />
-);
+)
 
-export default ProductListing;
+export default ProductListing

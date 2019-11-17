@@ -1,44 +1,45 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import React, { useState } from 'react'
+import styled from '@emotion/styled'
 
-import { MdClose } from 'react-icons/md';
+import { MdClose } from 'react-icons/md'
 
-import CartThumbnail from './CartThumbnail';
-import { Input } from '../shared/FormElements';
-import { Button } from '../shared/Buttons';
+import CartThumbnail from './CartThumbnail'
+import { Input } from '../shared/FormElements'
+import { Button } from '../shared/Buttons'
 
-import { breakpoints, colors, spacing } from '../../utils/styles';
+import { breakpoints, colors, spacing } from '../../utils/styles'
 
-const CartListItemRoot = styled('li')`
+const CartListItemRoot = styled(`li`)`
   align-items: center;
   border-bottom: 1px solid ${colors.brandLight};
   display: flex;
   justify-content: space-between;
   padding: ${spacing.md}px 0;
-`;
+`
 
 const Thumbnail = styled(CartThumbnail)`
   flex-grow: 0;
-  margin-left: ${spacing['2xs']}px;
+  margin-left: ${spacing[`2xs`]}px;
   margin-right: ${spacing.sm}px;
-`;
+`
 
-const Info = styled('div')`
+const Info = styled(`div`)`
   flex-grow: 1;
-`;
+  padding-left: 20px;
+`
 
-const Name = styled('span')`
+const Name = styled(`span`)`
   display: block;
   font-size: 1rem;
   line-height: 1.2;
-`;
+`
 
-const Meta = styled('span')`
+const Meta = styled(`span`)`
   color: ${colors.textLight};
   display: block;
   font-size: 0.95rem;
   font-style: normal;
-`;
+`
 
 const Quantity = styled(Input)`
   flex-grow: 0;
@@ -51,14 +52,14 @@ const Quantity = styled(Input)`
   @media (min-width: ${breakpoints.desktop}px) {
     width: 70px;
   }
-`;
+`
 
 const Remove = styled(Button)`
   border: 1px dotted ${colors.textLighter};
   display: flex;
   height: 44px;
   justify-content: center;
-  margin-right: ${spacing['2xs']}px;
+  margin-right: ${spacing[`2xs`]}px;
   padding: 0;
   width: 44px;
 
@@ -67,7 +68,7 @@ const Remove = styled(Button)`
     margin: 0;
     width: 24px;
   }
-`;
+`
 
 export default ({
   item,
@@ -76,68 +77,68 @@ export default ({
   handleRemove,
   isCartLoading
 }) => {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1)
 
-  if (item.quantity !== quantity && quantity !== '' && !isCartLoading) {
-    setQuantity(item.quantity);
+  if (item.quantity !== quantity && quantity !== `` && !isCartLoading) {
+    setQuantity(item.quantity)
   }
 
   const handleInputChange = event => {
     if (isCartLoading) {
-      return;
+      return
     }
 
-    const value = event.target.value;
+    const value = event.target.value
 
     // Make sure the quantity is always at least 1.
-    const safeValue = Math.max(Number(value), 0);
+    const safeValue = Math.max(Number(value), 0)
 
     // No need to update if the value hasn’t updated.
     if (value === quantity) {
-      return;
+      return
     }
 
     // If the field is empty, update the state but don’t do anything else.
-    if (value === '') {
-      setQuantity(value);
-      return;
+    if (value === ``) {
+      setQuantity(value)
+      return
     }
 
     // Otherwise, trigger the loading state and set the quantity in state.
-    setCartLoading(true);
-    setQuantity(safeValue);
+    setCartLoading(true)
+    setQuantity(safeValue)
 
     // If the quantity is set to 0, remove the item.
     if (safeValue === 0) {
-      handleRemove(event);
-      return;
+      handleRemove(event)
+      return
     }
 
     // If we get here, update the quantity.
-    updateQuantity(safeValue);
-  };
+    updateQuantity(safeValue)
+  }
 
   const handleRemoveItem = event => {
-    setCartLoading(true);
-    handleRemove(event);
-  };
+    setCartLoading(true)
+    handleRemove(event)
+  }
 
   return (
     <CartListItemRoot>
       <Thumbnail
-        id={item.variant.image.id}
-        fallback={item.variant.image.src}
-        alt={item.variant.image.altText}
+        id={item.variant.Images[0].id}
+        fallback={item.variant.Images[0].url}
+        // alt={item.variant.image.altText}
       />
       <Info>
-        <Name>{item.title}</Name>
+        <Name>{item.variant.Product_Name}</Name>
         <Meta>
-          {item.variant.title}, ${item.variant.price}
+          {item.variant.Handle}, ₹{item.variant.Selling_Price_Unit}
         </Meta>
       </Info>
       <Quantity
         aria-label="Quantity"
-        id={`quantity_${item.id.substring(58, 64)}`}
+        id={`quantity_${item.variant.Handle.substring(58, 64)}`}
         type="number"
         name="quantity"
         inputmode="numeric"
@@ -151,5 +152,5 @@ export default ({
         <MdClose />
       </Remove>
     </CartListItemRoot>
-  );
-};
+  )
+}

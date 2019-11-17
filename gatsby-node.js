@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require(`path`)
 
 exports.createPages = async ({
   graphql,
@@ -6,57 +6,35 @@ exports.createPages = async ({
 }) => {
   const pages = await graphql(`
     {
-      allShopifyProduct {
+      allAirtable {
         edges {
           node {
-            id
-            handle
+            data {
+              Handle
+              Images {
+                id
+              }
+            }
           }
         }
       }
     }
-  `);
+  `)
 
-  pages.data.allShopifyProduct.edges.forEach(edge => {
-    createPage({
-      path: `/product/${edge.node.handle}`,
-      component: path.resolve('./src/templates/ProductPageTemplate.js'),
-      context: {
-        id: edge.node.id,
-        handle: edge.node.handle
-      }
-    });
-  });
-
-  // Redirects for old product slugs.
-  [
-    {
-      oldSlug: 'purple-logo-tee-w-natural-process-print',
-      newSlug: 'vintage-purple-tee'
-    },
-    {
-      oldSlug: 'copy-of-gatsby-full-zip-sweatshirt-horizontal-logo',
-      newSlug: 'all-purple-everything-hoodie'
-    },
-    {
-      oldSlug: 'gatsby-full-zip-sweatshirt',
-      newSlug: 'all-purple-everything-hoodie-vertical'
-    },
-    { oldSlug: 'black-socks', newSlug: 'space-socks' },
-    { oldSlug: 'dark-deploy-t-shirt', newSlug: 'dark-deploy-tee' },
-    { oldSlug: 'gatsby-trucker-hat', newSlug: 'monogram-trucker-hat' },
-    { oldSlug: 'gatsby-water-bottle', newSlug: '12oz-travel-mug' },
-    { oldSlug: 'purple-gatsby-hat', newSlug: 'blazig-purple-hat' }
-  ].map(({ oldSlug, newSlug }) => {
-    const config = {
-      toPath: `/product/${newSlug}`,
-      isPermanent: true,
-      redirectInBrowser: true
-    };
-    createRedirect({ fromPath: `/product/${oldSlug}`, ...config });
-    createRedirect({ fromPath: `/product/${oldSlug}/`, ...config });
-  });
-};
+  pages.data.allAirtable.edges.forEach(edge => {
+    console.log(JSON.stringify(edge.node.data))
+    if (edge.node.data[`Handle`] && edge.node.data[`Images`]) {
+      createPage({
+        path: `/product/${edge.node.data.Handle}`,
+        component: path.resolve(`./src/templates/ProductPageTemplate.js`),
+        context: {
+          id: edge.node.data.Handle,
+          Handle: edge.node.data.Handle
+        }
+      })
+    }
+  })
+}
 
 exports.onCreatePage = async ({ page, actions: { createPage } }) => {
   /*
@@ -69,14 +47,14 @@ exports.onCreatePage = async ({ page, actions: { createPage } }) => {
    * Take a look at `src/pages/account.js` for more details.
    */
   if (page.path.match(/^\/account/)) {
-    page.matchPath = '/account/*';
+    page.matchPath = `/account/*`
 
-    createPage(page);
+    createPage(page)
   }
-};
+}
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === 'build-html') {
+  if (stage === `build-html`) {
     /*
      * During the build step, `auth0-js` will break because it relies on
      * browser-specific APIs. Fortunately, we don’t need it during the build.
@@ -93,6 +71,6 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
           }
         ]
       }
-    });
+    })
   }
-};
+}
