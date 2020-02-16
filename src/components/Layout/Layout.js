@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 
 import { navigate } from 'gatsby';
 
-import { client } from '../../context/ApolloContext';
 import StoreContext, { defaultStoreContext } from '../../context/StoreContext';
 import UserContext, { defaultUserContext } from '../../context/UserContext';
 import InterfaceContext, {
@@ -12,7 +11,7 @@ import InterfaceContext, {
 } from '../../context/InterfaceContext';
 
 import Header from './Header';
-import ContributorArea from '../ContributorArea';
+import CustomerArea from '../CustomerArea';
 import PageContent from './PageContent';
 import ProductImagesBrowser from '../ProductPage/ProductImagesBrowser';
 import Cart from '../Cart';
@@ -22,7 +21,7 @@ import { logout, getUserInfo } from '../../utils/auth';
 import { breakpoints, colors } from '../../utils/styles';
 
 // Import Futura PT typeface
-import '../../fonts/futura-pt/Webfonts/futurapt_demi_macroman/stylesheet.css';
+// import '../../fonts/futura-pt/Webfonts/futurapt_demi_macroman/stylesheet.css';
 import gql from 'graphql-tag';
 
 const globalStyles = css`
@@ -35,15 +34,59 @@ const globalStyles = css`
   *:after {
     box-sizing: inherit;
   }
-
+  @media (min-width: ${breakpoints.desktop}px) {
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: ${colors.scrollbar};
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: ${colors.lilac};
+    }
+    ::-webkit-scrollbar-track {
+      background: ${colors.brandLight};
+    }
+  }
   body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
     color: ${colors.text};
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 16px;
-    line-height: 1.375;
+    font-weight: normal;
+    font-family: Source Sans Pro, Montserrat, Open Sans !important;
+    font-size: 1rem;
+    line-height: 1.4;
     margin: 0 auto;
+    background: ${colors.background};
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: Source Sans Pro, Montserrat, Open Sans !important;
+  }
+  p {
+    font-family: Montserrat, Open Sans;
+    font-size: 1rem;
+  }
+  div {
+    font-family: Montserrat, Open Sans;
+    font-size: 1rem;
+  }
+  b {
+    font-family: Montserrat, Open Sans;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  span {
+    font-family: Montserrat, Open Sans;
+    font-size: 1rem;
+  }
+  a {
+    text-decoration: none;
+    font-family: Montserrat, Open Sans;
+    font-size: 1rem;
   }
 `;
 
@@ -61,11 +104,11 @@ export default class Layout extends React.Component {
         this.setState(state => ({
           interface: {
             ...state.interface,
-            contributorAreaStatus:
+            customerAreaStatus:
               state.interface.isDesktopViewport === false &&
-              state.interface.contributorAreaStatus === 'open'
+              state.interface.customerAreaStatus === 'open'
                 ? 'closed'
-                : state.interface.contributorAreaStatus,
+                : state.interface.customerAreaStatus,
             cartStatus:
               this.state.interface.cartStatus === 'open' ? 'closed' : 'open'
           }
@@ -99,11 +142,11 @@ export default class Layout extends React.Component {
           }
         }));
       },
-      toggleContributorArea: () => {
+      toggleCustomerArea: () => {
         this.setState(state => ({
           interface: {
             ...state.interface,
-            contributorAreaStatus: this.toggleContributorAreaStatus()
+            customerAreaStatus: this.togglecustomerAreaStatus()
           }
         }));
       }
@@ -119,11 +162,11 @@ export default class Layout extends React.Component {
         });
         logout(() => navigate('/'));
       },
-      updateContributor: data => {
+      updateCustomer: data => {
         this.setState(state => ({
           user: {
             ...state.user,
-            contributor: data,
+            customer: data,
             loading: false
           }
         }));
@@ -131,9 +174,9 @@ export default class Layout extends React.Component {
     },
     store: {
       ...defaultStoreContext,
-      addVariantToCart: (variantId, quantity) => {
+      addVariantToCart: (variantId, variant, quantity) => {
         if (variantId === '' || !quantity) {
-          console.error('Both a size and quantity are required.');
+          console.error('Both a variantId and quantity are required.');
           return;
         }
 
@@ -147,11 +190,11 @@ export default class Layout extends React.Component {
         const { checkout, client } = this.state.store;
         const checkoutId = checkout.id;
         const lineItemsToUpdate = [
-          { variantId, quantity: parseInt(quantity, 10) }
+          { id: variantId, variant, quantity: parseInt(quantity, 10) }
         ];
 
-        return client.checkout
-          .addLineItems(checkoutId, lineItemsToUpdate)
+        return client
+          .addCheckoutLineItems(checkoutId, lineItemsToUpdate)
           .then(checkout => {
             this.setState(state => ({
               store: {
@@ -163,8 +206,8 @@ export default class Layout extends React.Component {
           });
       },
       removeLineItem: (client, checkoutID, lineItemID) => {
-        return client.checkout
-          .removeLineItems(checkoutID, [lineItemID])
+        return client
+          .removeCheckoutLineItems(checkoutID, lineItemID)
           .then(res => {
             this.setState(state => ({
               store: {
@@ -174,13 +217,13 @@ export default class Layout extends React.Component {
             }));
           });
       },
-      updateLineItem: (client, checkoutID, lineItemID, quantity) => {
-        const lineItemsToUpdate = [
-          { id: lineItemID, quantity: parseInt(quantity, 10) }
-        ];
-
-        return client.checkout
-          .updateLineItems(checkoutID, lineItemsToUpdate)
+      updateCheckoutLineItems: (client, checkoutID, lineItemID, quantity) => {
+        return client
+          .updateCheckoutLineItems(
+            checkoutID,
+            lineItemID,
+            parseInt(quantity, 10)
+          )
           .then(res => {
             this.setState(state => ({
               store: {
@@ -196,13 +239,10 @@ export default class Layout extends React.Component {
   async initializeCheckout() {
     // Check for an existing cart.
     const isBrowser = typeof window !== 'undefined';
-    const existingCheckoutID = isBrowser
-      ? localStorage.getItem('shopify_checkout_id')
-      : null;
 
     const setCheckoutInState = checkout => {
       if (isBrowser) {
-        localStorage.setItem('shopify_checkout_id', checkout.id);
+        localStorage.setItem('checkout', JSON.stringify(checkout));
       }
 
       this.setState(state => ({
@@ -213,58 +253,45 @@ export default class Layout extends React.Component {
       }));
     };
 
-    const createNewCheckout = () => this.state.store.client.checkout.create();
-    const fetchCheckout = id => this.state.store.client.checkout.fetch(id);
-
-    if (existingCheckoutID) {
-      try {
-        const checkout = await fetchCheckout(existingCheckoutID);
-
-        // Make sure this cart hasn’t already been purchased.
-        if (!checkout.completedAt) {
-          setCheckoutInState(checkout);
-          return;
-        }
-      } catch (e) {
-        localStorage.setItem('shopify_checkout_id', null);
-      }
+    const fetchCheckout = () => this.state.store.client.fetchCheckout();
+    try {
+      const checkout = await fetchCheckout();
+      setCheckoutInState(checkout);
+    } catch (e) {
+      localStorage.setItem('checkout', null);
     }
-
-    const newCheckout = await createNewCheckout();
-    setCheckoutInState(newCheckout);
   }
 
-  async loadContributor(nickname) {
+  async loadCustomer(nickname) {
     try {
-      const { data } = await client.mutate({
-        mutation: gql`
-          mutation($user: String!) {
-            updateContributorTags(githubUsername: $user) {
-              email
-              github {
-                username
-                contributionCount
-                pullRequests {
-                  id
-                }
-              }
-              shopify {
-                id
-                codes {
-                  code
-                  used
-                }
-              }
-            }
-          }
-        `,
-        variables: { user: nickname }
-      });
+      // const { data } = await client.mutate({
+      //   mutation: gql`
+      //     mutation($user: String!) {
+      //       updateCustomerTags(userId: $user) {
+      //         email
+      //         turtle {
+      //           ordercount
+      //           orders {
+      //             id
+      //           }
+      //         }
+      //         shopify {
+      //           id
+      //           codes {
+      //             code
+      //             used
+      //           }
+      //         }
+      //       }
+      //     }
+      //   `,
+      //   variables: { user: nickname }
+      // });
 
       this.setState(state => ({
         user: {
           ...state.user,
-          contributor: data.updateContributorTags,
+          // customer: data.updateCustomerTags,
           loading: false
         }
       }));
@@ -302,6 +329,15 @@ export default class Layout extends React.Component {
     if (this.props.location.pathname !== '/callback/') {
       this.setUserProfile();
     }
+
+    if (this.state.interface.customerAreaStatus === 'initial') {
+      if (
+        this.state.interface.isDesktopViewport === true ||
+        this.state.interface.isDesktopViewport === null
+      ) {
+        this.state.interface.toggleCustomerArea();
+      }
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -313,7 +349,7 @@ export default class Layout extends React.Component {
       this.setState(state => ({
         interface: {
           ...state.interface,
-          contributorAreaStatus: 'open'
+          customerAreaStatus: 'open'
         }
       }));
       this.setUserProfile();
@@ -360,16 +396,16 @@ export default class Layout extends React.Component {
         }
       }));
 
-      // and load the contributor data
-      this.loadContributor(profile.nickname);
+      // and load the customer data
+      this.loadCustomer(profile.nickname);
     }
   };
 
-  toggleContributorAreaStatus = () => {
-    if (this.state.interface.contributorAreaStatus === 'initial') {
-      return this.state.interface.isDesktopViewport ? 'closed' : 'open';
+  togglecustomerAreaStatus = () => {
+    if (this.state.interface.customerAreaStatus === 'initial') {
+      return 'closed';
     } else {
-      return this.state.interface.contributorAreaStatus === 'closed'
+      return this.state.interface.customerAreaStatus === 'closed'
         ? 'open'
         : 'closed';
     }
@@ -390,8 +426,8 @@ export default class Layout extends React.Component {
                   isDesktopViewport,
                   cartStatus,
                   toggleCart,
-                  contributorAreaStatus,
-                  toggleContributorArea,
+                  customerAreaStatus,
+                  toggleCustomerArea,
                   productImagesBrowserStatus,
                   currentProductImages,
                   featureProductImage,
@@ -400,6 +436,9 @@ export default class Layout extends React.Component {
                 }) => (
                   <>
                     <Header
+                      location={location}
+                      user={this.state.user}
+                      toggle={toggleCustomerArea}
                       isDesktopViewport={isDesktopViewport}
                       productImagesBrowserStatus={productImagesBrowserStatus}
                     />
@@ -408,21 +447,19 @@ export default class Layout extends React.Component {
                         isDesktopViewport={isDesktopViewport}
                         status={cartStatus}
                         toggle={toggleCart}
-                        contributorAreaStatus={contributorAreaStatus}
+                        customerAreaStatus={customerAreaStatus}
                         productImagesBrowserStatus={productImagesBrowserStatus}
                       />
-
-                      <ContributorArea
+                      <CustomerArea
                         location={location}
-                        status={contributorAreaStatus}
-                        toggle={toggleContributorArea}
+                        status={customerAreaStatus}
+                        toggle={toggleCustomerArea}
                         isDesktopViewport={isDesktopViewport}
                         productImagesBrowserStatus={productImagesBrowserStatus}
                       />
-
                       <PageContent
                         cartStatus={cartStatus}
-                        contributorAreaStatus={contributorAreaStatus}
+                        customerAreaStatus={customerAreaStatus}
                         isDesktopViewport={isDesktopViewport}
                         productImagesBrowserStatus={productImagesBrowserStatus}
                         location={location}

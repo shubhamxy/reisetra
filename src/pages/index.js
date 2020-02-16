@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductListing from '../components/ProductListing';
+import HomePage from '../components/Home';
 
-const IndexPage = () => <ProductListing />;
+const IndexPage = () => <HomePage />;
 
 export default IndexPage;

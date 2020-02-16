@@ -122,22 +122,23 @@ export default ({
     handleRemove(event);
   };
 
+  // console.log("------??" , item);
   return (
     <CartListItemRoot>
       <Thumbnail
-        id={item.variant.image.id}
-        fallback={item.variant.image.src}
-        alt={item.variant.image.altText}
+        id={item.variant.Images[0].id}
+        fallback={item.variant.Images[0].url}
+        // alt={item.variant.image.altText}
       />
       <Info>
         <Name>{item.title}</Name>
         <Meta>
-          {item.variant.title}, ${item.variant.price}
+          {item.variant.Product_Name}, ${item.variant.Selling_Price_Unit}
         </Meta>
       </Info>
       <Quantity
         aria-label="Quantity"
-        id={`quantity_${item.id.substring(58, 64)}`}
+        id={`quantity_${item.variant.Handle.substring(58, 64)}`}
         type="number"
         name="quantity"
         inputmode="numeric"

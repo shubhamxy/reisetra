@@ -57,7 +57,7 @@ const Toggle = styled(`button`)`
 const Caption = styled(`div`)`
   background: rgba(0, 0, 0, 0.7);
   border-radius: ${radius.large}px ${radius.large}px 0 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: ${spacing.sm}px ${spacing.lg}px;
   padding-right: calc(${spacing.lg}px + 46px);
   width: 100%;
@@ -147,14 +147,12 @@ class CommunityCaption extends Component {
           onClick={this.toggleIncentive}
           className={hintExpanded ? 'expanded' : ''}
         >
-          <span>We want to see your Gatsby swag photos!</span>{' '}
+          <span>We want to see your Reisetra craft photos!</span>{' '}
           <strong>Read more...</strong>
           <span>
             Upload your photos to{' '}
-            <a href="https://github.com/gatsbyjs/store.gatsbyjs.org/issues/143">
-              the official photo sharing issue
-            </a>{' '}
-            and it may be featured in the store!
+            <a href="/upload">the official photo sharing issue</a> and it may be
+            featured in the store!
           </span>
         </UserPhotoHint>
         <Toggle onClick={this.toggle}>

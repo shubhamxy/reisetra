@@ -15,7 +15,7 @@ export const debounce = (delay, fn) => {
 
 export const removeCareInstructions = desc =>
   desc
-    .split(/Care Instructions/)
+    .split(/More Information/)
     .slice(0, 1)
     .join('');
 

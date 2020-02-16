@@ -6,7 +6,7 @@ import Footer from './Footer';
 import { breakpoints, dimensions, animations } from '../../utils/styles';
 
 const {
-  contributorAreaWidth: {
+  customerAreaWidth: {
     openDesktop: desktopMaxWidth,
     openHd: hdMaxWidth,
     closedDesktop: desktopMinWidth
@@ -17,9 +17,10 @@ const PageContentRoot = styled(`main`)`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: calc(100vh - 60px);
+  min-height: 100vh;
   opacity: 1;
   padding-left: 0;
+  padding-right: 0;
   transition: 0.75s;
   width: 100%;
   will-change: transform;
@@ -34,11 +35,11 @@ const PageContentRoot = styled(`main`)`
   }
 
   @media (min-width: ${breakpoints.desktop}px) {
-    padding-left: ${desktopMaxWidth};
+    padding: 80px 0 0 0;
     transform: translateX(0);
 
     &.wide {
-      padding-left: ${desktopMinWidth};
+      padding-left: 0;
     }
 
     &.moved {
@@ -50,11 +51,6 @@ const PageContentRoot = styled(`main`)`
     &.covered {
       display: none;
     }
-  }
-
-  @media (min-width: ${breakpoints.hd}px) {
-    padding-left: ${props =>
-      props.contributorAreaStatus === 'closed' ? desktopMinWidth : hdMaxWidth};
   }
 `;
 
@@ -81,8 +77,8 @@ class PageContent extends Component {
     const imageBrowserStatusChanged =
       this.props.productImagesBrowserStatus !==
       prevProps.productImagesBrowserStatus;
-    const contributorAreaStatusChanged =
-      prevProps.contributorAreaStatus !== this.props.contributorAreaStatus;
+    const customerAreaStatusChanged =
+      prevProps.customerAreaStatus !== this.props.customerAreaStatus;
     const cartStatusChanged = prevProps.cartStatus !== this.props.cartStatus;
 
     if (this.props.isDesktopViewport) {
@@ -100,11 +96,11 @@ class PageContent extends Component {
         }
       }
 
-      if (contributorAreaStatusChanged) {
-        if (this.props.contributorAreaStatus === 'closed') {
+      if (customerAreaStatusChanged) {
+        if (this.props.customerAreaStatus === 'closed') {
           this.setState(state => ({
             className:
-              this.props.contributorAreaStatus !== 'open'
+              this.props.customerAreaStatus !== 'open'
                 ? state.className + ' wide'
                 : state.className
           }));
@@ -130,10 +126,10 @@ class PageContent extends Component {
         }
       }
     } else {
-      if (contributorAreaStatusChanged || cartStatusChanged) {
+      if (customerAreaStatusChanged || cartStatusChanged) {
         this.setState({
           className:
-            this.props.contributorAreaStatus === 'open' ||
+            this.props.customerAreaStatus === 'open' ||
             this.props.cartStatus === 'open'
               ? 'covered'
               : ''
@@ -169,7 +165,7 @@ class PageContent extends Component {
 PageContent.propTypes = {
   cartStatus: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  contributorAreaStatus: PropTypes.string.isRequired,
+  customerAreaStatus: PropTypes.string.isRequired,
   location: PropTypes.object.isRequired,
   productImagesBrowserStatus: PropTypes.string.isRequired,
   isDesktopViewport: PropTypes.bool

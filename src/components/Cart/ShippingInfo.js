@@ -91,7 +91,7 @@ class ShippingInfo extends Component {
           Tracking updates may not always show up in real time on your tracking
           link. If you still have not received your order at the end of 6 weeks,
           please let us know by sending an email to{' '}
-          <a href="mailto:team@gatsbyjs.com">team@gatsbyjs.com</a>
+          <a href="mailto:contact@reisetra.co">contact@reisetra.co</a>
         </Details>
       </ShippingInfoRoot>
     );

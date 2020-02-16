@@ -25,9 +25,7 @@ const DESCRIPTION_LIMIT = 90;
 const TRANSITION_DURATION = '250ms';
 
 const ProductListingItemLink = styled(Link)`
-  background: ${colors.lightest};
-  border-radius: ${radius.large}px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+  background: ${colors.brandBright};
   margin-bottom: ${spacing.lg}px;
   overflow: hidden;
   text-decoration: none;
@@ -42,7 +40,7 @@ const ProductListingItemLink = styled(Link)`
   @media (min-width: ${breakpoints.desktop}px) {
     flex-basis: 300px;
     justify-content: center;
-    margin: ${spacing.md * 1.25}px;
+    margin: ${spacing.md}px;
   }
 
   @media (hover: hover) {
@@ -60,8 +58,6 @@ const Item = styled(`article`)`
 `;
 
 const Preview = styled(`div`)`
-  border-bottom: 1px solid ${colors.brandLight};
-  border-radius: ${radius.large}px ${radius.large}px 0 0;
   margin: -${spacing.lg}px;
   margin-bottom: ${spacing.lg}px;
   overflow: hidden;
@@ -107,9 +103,9 @@ const CodeEligibility = styled(`div`)`
 
   span:last-child {
     background: ${props =>
-      props.freeWith === 'HOLYBUCKETS' ? colors.lemon : colors.brand};
+      props.freeWith === 'SHOPPINGSPREE' ? colors.tuscan : colors.brand};
     color: ${props =>
-      props.freeWith === 'HOLYBUCKETS' ? colors.brand : colors.lemon};
+      props.freeWith === 'SHOPPINGSPREE' ? colors.brand : colors.tuscan};
     flex-basis: 65%;
     font-family: ${fonts.heading};
     font-size: 1rem;
@@ -119,7 +115,7 @@ const CodeEligibility = styled(`div`)`
 const Name = styled(`h1`)`
   color: ${colors.brandDark};
   font-family: ${fonts.heading};
-  font-size: 1.6rem;
+  font-size: 1rem;
   line-height: 1.2;
   margin: 0;
 `;
@@ -132,20 +128,20 @@ const Description = styled(`p`)`
 `;
 
 const PriceRow = styled(`div`)`
-  align-items: flex-end;
   display: flex;
   justify-content: space-between;
   margin-top: ${spacing.xs}px;
 `;
 
 const Price = styled(`div`)`
-  color: ${colors.brand};
-  font-size: 1.4rem;
-  font-weight: 500;
+  color: ${colors.darkest};
+  font-size: 1rem;
+  font-weight: normal;
   letter-spacing: -0.02em;
 
   span {
-    color: ${colors.textLight};
+    font-size: 1rem;
+    color: ${colors.darkest};
   }
 `;
 
@@ -153,17 +149,20 @@ const Incentive = styled('div')`
   align-items: center;
   color: ${colors.lilac};
   display: flex;
-  font-size: 0.9rem;
-  line-height: 1.3;
   margin-bottom: ${spacing['2xs']}px;
   margin-right: calc(-${spacing.lg}px - 40px);
   text-align: right;
+  color: ${colors.darkest};
   transition: all ${TRANSITION_DURATION};
+  font-size: 1rem;
 
   @media (hover: hover) {
     ${ProductListingItemLink}:hover & {
       transform: translateX(-40px);
     }
+  }
+  span {
+    font-size: 1rem;
   }
 
   > span {
@@ -171,13 +170,14 @@ const Incentive = styled('div')`
       display: inline;
       margin-right: -${spacing['3xs']}px;
       vertical-align: middle;
+      font-size: 1rem;
     }
   }
 `;
 
 const CartIcon = styled(`span`)`
   align-items: center;
-  background: ${colors.lilac};
+  background: ${colors.tuscan};
   border-radius: ${radius.default}px 0 0 ${radius.default}px;
   display: flex;
   height: 40px;
@@ -202,8 +202,8 @@ const CartIcon = styled(`span`)`
   }
 `;
 
-const checkEligibility = ({ contributor, freeWith }) => {
-  const { shopify } = contributor;
+const checkEligibility = ({ customer, freeWith }) => {
+  const { shopify } = customer;
 
   let eligibleCodes = [];
 
@@ -218,60 +218,33 @@ const checkEligibility = ({ contributor, freeWith }) => {
 
 const ProductListingItem = props => {
   const {
-    product: {
-      title,
-      handle,
-      description,
-      variants: [firstVariant],
-      images: [firstImage]
-    }
+    product: { Product_Name, Handle, Description, Selling_Price_Unit, Images }
   } = props;
 
-  const { price } = firstVariant;
-  const {
-    localFile: {
-      childImageSharp: { fluid }
-    }
-  } = firstImage;
-
-  const freeWith =
-    price >= 20 ? 'HOLYBUCKETS' : price >= 10 ? 'BUILDWITHGATSBY' : null;
+  const price = Selling_Price_Unit;
+  const aspectRatio =
+    Images[0].thumbnails.large.height / Images[0].thumbnails.large.width;
+  const height = 200;
+  const primeImg = { src: Images[0].url, width: height / aspectRatio, height };
 
   return (
     <UserContext.Consumer>
-      {({ contributor }) => {
+      {({ customer }) => {
         return (
-          <ProductListingItemLink to={`/product/${handle}`}>
+          <ProductListingItemLink to={`/product/${Handle}`}>
             <Item>
               <Preview>
-                <Image fluid={fluid} />
-                {checkEligibility({
-                  freeWith,
-                  contributor
-                }) && (
-                  <CodeEligibility freeWith={freeWith}>
-                    <span>free with </span>
-                    <span>
-                      Code Swag Level
-                      {freeWith === 'HOLYBUCKETS' ? '2' : '1'}
-                    </span>
-                  </CodeEligibility>
-                )}
+                <Image fixed={primeImg} />
               </Preview>
-              <Name>{title}</Name>
-              <Description>
-                {cutDescriptionShort(
-                  removeCareInstructions(description),
-                  DESCRIPTION_LIMIT
-                )}
-              </Description>
+              <Name>{Product_Name}</Name>
               <PriceRow>
                 <Price>
-                  <span>USD</span> ${price}
+                  <span>₹ </span>
+                  {price}
                 </Price>
                 <Incentive>
                   <span>
-                    view details
+                    View details
                     <br />& buy <MdArrowForward />
                   </span>
                   <CartIcon>

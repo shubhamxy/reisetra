@@ -53,7 +53,6 @@ const ZoomHelper = styled(`span`)`
 
 export const StyledImage = styled(Image)`
   border-radius: ${radius.large}px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
 `;
 
 class ProductImage extends Component {
@@ -77,25 +76,20 @@ class ProductImage extends Component {
   };
 
   render() {
-    const {
-      image: {
-        localFile: {
-          childImageSharp: { fluid }
-        }
-      },
-      onClick,
-      imageFeatured = null
-    } = this.props;
-
+    const { image, onClick, imageFeatured = null } = this.props;
+    const aspectRatio =
+      image.thumbnails.large.height / image.thumbnails.large.width;
+    const width = 400;
+    const height = width * aspectRatio;
     return (
       <ProductImageLink
         ref={el => {
           this.imageLink = el;
         }}
-        href={fluid.src}
+        href={image.url}
         onClick={this.handleClick(onClick)}
       >
-        <StyledImage fluid={imageFeatured ? featuredFluid : fluid} alt="" />
+        <StyledImage fixed={{ src: image.url, height, width }} alt="hello" />
         <ZoomHelper>
           <MdZoomIn />
         </ZoomHelper>

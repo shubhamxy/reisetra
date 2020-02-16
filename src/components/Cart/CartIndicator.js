@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { colors, dimensions, radius, spacing } from '../../utils/styles';
 
 const CartIndicatorRoot = styled(`div`)`
-  background: ${colors.lemon};
+  background: ${colors.tuscan};
   border-radius: ${radius.default}px;
   color: ${colors.brand};
   display: ${props => (props.visible ? 'flex' : 'none')};
@@ -39,12 +39,8 @@ class CartIndicator extends Component {
               : `${num} new item has been added to the cart`;
 
           this.setState({ message });
-
-          setTimeout(
-            () => this.setState({ visible: false, message: '' }),
-            3000
-          );
         }
+        setTimeout(() => this.setState({ visible: false, message: '' }), 3000);
       }
     }
   }

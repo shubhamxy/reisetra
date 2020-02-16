@@ -7,7 +7,8 @@ import {
   MdClose,
   MdShoppingCart,
   MdArrowBack,
-  MdArrowForward
+  MdArrowForward,
+  MdShoppingBasket
 } from 'react-icons/md';
 
 import StoreContext from '../../context/StoreContext';
@@ -25,13 +26,14 @@ import {
   spacing,
   dimensions
 } from '../../utils/styles';
+import { FaShoppingBag } from 'react-icons/fa';
 
 const CartRoot = styled(`div`)`
   background: ${colors.lightest};
   bottom: 0;
   position: fixed;
   right: 0;
-  top: -1px;
+  top: 19px;
   transform: translateX(100%);
   transition: transform 0.75s;
   width: 100%;
@@ -55,7 +57,7 @@ const CartRoot = styled(`div`)`
     pointer-events: none;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 0px;
     transition: all 250ms;
   }
 
@@ -85,7 +87,7 @@ const Heading = styled(`header`)`
 const Title = styled(`h2`)`
   flex-grow: 1;
   font-family: ${fonts.heading};
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   left: -${dimensions.headerHeight};
   margin: 0;
   margin-left: ${spacing.md}px;
@@ -114,7 +116,7 @@ const Content = styled(`div`)`
       width: 6px;
     }
     ::-webkit-scrollbar-thumb {
-      background: ${colors.brandBright};
+      background: ${colors.scrollbar};
     }
     ::-webkit-scrollbar-thumb:hover {
       background: ${colors.lilac};
@@ -127,12 +129,12 @@ const Content = styled(`div`)`
 
 const ItemsNumber = styled(`span`)`
   align-items: center;
-  background: ${colors.lemon};
+  background: ${colors.tuscan};
   border-radius: 50%;
   color: ${colors.brandDark};
   display: flex;
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: normal;
   height: 36px;
   justify-content: center;
   width: 36px;
@@ -186,7 +188,7 @@ const Total = styled(Cost)`
   padding-top: ${spacing.sm}px;
 
   span {
-    font-weight: bold;
+    font-weight: normal;
     text-transform: uppercase;
   }
 
@@ -221,11 +223,13 @@ const numberEntry = keyframes`
 `;
 
 const CartToggle = styled(Button)`
-  background: ${colors.lightest};
+  background: transparent;
   border: none;
   border-radius: 0;
+  color: ${colors.brandDarker};
   display: flex;
   height: ${dimensions.headerHeight};
+  width: ${dimensions.headerHeight};
   justify-content: center;
   left: 0;
   padding: 0;
@@ -233,15 +237,14 @@ const CartToggle = styled(Button)`
   top: 0;
   transform: translateX(-100%);
   transition: all 0.5s ease;
-  width: ${dimensions.headerHeight};
 
   :focus {
     box-shadow: 0 0 0 1px ${colors.accent} inset;
   }
 
   .open & {
-    background: ${colors.lilac};
-    color: ${colors.lightest};
+    background: ${colors.tuscan};
+    color: ${colors.darkest};
     transform: translateX(0);
   }
 
@@ -322,7 +325,13 @@ class Cart extends Component {
 
     return (
       <StoreContext.Consumer>
-        {({ client, checkout, removeLineItem, updateLineItem, adding }) => {
+        {({
+          client,
+          checkout,
+          removeLineItem,
+          updateCheckoutLineItems,
+          adding
+        }) => {
           const setCartLoading = bool => this.setState({ isLoading: bool });
 
           const handleRemove = itemID => async event => {
@@ -335,7 +344,12 @@ class Cart extends Component {
             if (!quantity) {
               return;
             }
-            await updateLineItem(client, checkout.id, lineItemID, quantity);
+            await updateCheckoutLineItems(
+              client,
+              checkout.id,
+              lineItemID,
+              quantity
+            );
             setCartLoading(false);
           };
 
@@ -356,6 +370,7 @@ class Cart extends Component {
             >
               <Heading>
                 <CartToggle
+                  inverse
                   aria-label={`Shopping cart with ${itemsInCart} items`}
                   onClick={toggle}
                 >
@@ -363,7 +378,7 @@ class Cart extends Component {
                     <MdClose />
                   ) : (
                     <>
-                      <MdShoppingCart />
+                      <FaShoppingBag size={'30px'} />
                       {itemsInCart > 0 && (
                         <ItemsNumber>{itemsInCart}</ItemsNumber>
                       )}
@@ -392,17 +407,18 @@ class Cart extends Component {
                   <Costs>
                     <Cost>
                       <span>Subtotal:</span>{' '}
-                      <strong>USD ${checkout.subtotalPrice}</strong>
+                      <strong>₹ {checkout.subtotalPrice}</strong>
                     </Cost>
                     <Cost>
-                      <span>Taxes:</span> <strong>{checkout.totalTax}</strong>
+                      <span>Taxes:</span> <strong>₹ {checkout.totalTax}</strong>
                     </Cost>
                     <Cost>
-                      <span>Shipping (worldwide):</span> <strong>FREE</strong>
+                      <span>Shipping (worldwide):</span>{' '}
+                      <strong>Calculated at checkout</strong>
                     </Cost>
                     <Total>
                       <span>Total Price:</span>
-                      <strong>USD ${checkout.totalPrice}</strong>
+                      <strong>₹ {checkout.totalPrice}</strong>
                     </Total>
                   </Costs>
 
@@ -432,7 +448,7 @@ class Cart extends Component {
 Cart.propTypes = {
   status: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired,
-  contributorAreaStatus: PropTypes.string.isRequired,
+  customerAreaStatus: PropTypes.string.isRequired,
   isDesktopViewport: PropTypes.bool,
   productImagesBrowserStatus: PropTypes.string
 };

@@ -24,28 +24,23 @@ const ProductListing = () => (
   <StaticQuery
     query={graphql`
       query ProductListingQuery {
-        products: allShopifyProduct(
-          sort: { fields: [publishedAt], order: ASC }
-        ) {
+        products: allAirtable {
           edges {
             node {
-              id
-              handle
-              title
-              description
-              productType
-              variants {
-                shopifyId
-                title
-                price
-                availableForSale
-              }
-              images {
-                id
-                localFile {
-                  childImageSharp {
-                    fluid(maxWidth: 910, maxHeight: 910) {
-                      ...GatsbyImageSharpFluid_withWebp
+              data {
+                _
+                Handle
+                Product_Name
+                Description
+                Selling_Price_Unit
+                Images {
+                  id
+                  url
+                  thumbnails {
+                    large {
+                      url
+                      width
+                      height
                     }
                   }
                 }
@@ -57,11 +52,16 @@ const ProductListing = () => (
     `}
     render={({ products }) => (
       <>
-        <ProductListingHeader />
+        {/* <ProductListingHeader /> */}
         <ProductListingContainer>
-          {products.edges.map(({ node: product }) => (
-            <ProductListingItem key={product.id} product={product} />
-          ))}
+          {products.edges.map(item => {
+            if (!(item.node.data.Images && item.node.data.Images[0]))
+              return null;
+            const product = item.node.data;
+            return (
+              <ProductListingItem key={product.Handle} product={product} />
+            );
+          })}
         </ProductListingContainer>
       </>
     )}

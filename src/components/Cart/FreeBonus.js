@@ -37,8 +37,8 @@ const FreeBonus = () => (
   <FreeBonusRoot>
     <p>
       <SmileIcon />
-      We will add the <strong>Gatsby Sticker Pack</strong> as a FREE bonus to
-      your order!
+      We will add a <strong>Surprise Gift</strong> as a FREE bonus to your
+      order!
     </p>
 
     <img src={gift} alt="Gift Icon" />

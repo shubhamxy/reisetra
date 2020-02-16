@@ -1,0 +1,23 @@
+name: Node CI on Pull
+
+on: 
+  pull_request:
+    branches: 
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: npm install, build, and test
+      run: |
+        yarn
+        yarn run setup
+        yarn run build
+      env:
+        CI: true
+        APP_SECRET_PASSPHRASE: ${{ secrets.APP_SECRET_PASSPHRASE }}

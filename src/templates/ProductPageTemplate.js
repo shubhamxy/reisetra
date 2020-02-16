@@ -6,23 +6,25 @@ import InterfaceContext from '../context/InterfaceContext';
 import ProductPage from '../components/ProductPage';
 
 const removeCareInstructions = desc =>
-  desc.split(/Care Instructions/).slice(0, 1);
+  desc.split(/More Information/).slice(0, 1);
 
 const ProductPageTemplate = props => {
   const {
     data: {
       site,
-      shopifyProduct: product,
-      shopifyProduct: { title, description: fullDescription, handle }
+      Product: { data: product },
+      Product: { data: Images, Product_Name, Description, Handle }
     },
     location: { pathname }
   } = props;
+
   const {
     siteMetadata: { siteUrl }
   } = site;
 
-  const description = removeCareInstructions(fullDescription);
-  const image = product.images[0].localFile.childImageSharp.fluid.src;
+  // const description = removeCareInstructions(fullDescription);
+
+  const image = Images[0] ? Images[0].url : null;
   const canonical = `${siteUrl}${pathname}`;
 
   return (
@@ -36,26 +38,27 @@ const ProductPageTemplate = props => {
       }) => (
         <>
           <Helmet>
-            <title>{title}</title>
+            <title>{Product_Name}</title>
 
-            <meta name="description" content={description} />
+            <meta name="description" content={Description} />
             <link rel="canonical" href={canonical} />
 
-            <meta property="og:url" content={`${siteUrl}/product/${handle}`} />
+            <meta property="og:url" content={`${siteUrl}/product/${Handle}`} />
             <meta property="og:locale" content="en" />
-            <meta property="og:title" content={title} />
-            <meta property="og:site_name" content="Gatsby Swag Store" />
-            <meta property="og:description" content={description} />
+            <meta property="og:Product_Name" content={Product_Name} />
+            <meta property="og:site_name" content="Reisetra Craft Store" />
+            <meta property="og:description" content={Description} />
 
             {/* TODO: add the image */}
             <meta property="og:image" content={`${siteUrl}${image}`} />
-            <meta property="og:image:alt" content={title} />
+            <meta property="og:image:alt" content={Product_Name} />
             <meta property="og:image:width" content="600" />
             <meta property="og:image:height" content="600" />
 
             <meta name="twitter:card" content="summary" />
-            <meta name="twitter:site" content="@gatsbyjs" />
+            <meta name="twitter:site" content="@shubhamxy" />
           </Helmet>
+          {/* <img src={image}></img> */}
           <ProductPage
             product={product}
             isDesktopViewport={isDesktopViewport}
@@ -73,7 +76,7 @@ const ProductPageTemplate = props => {
 export default ProductPageTemplate;
 
 export const query = graphql`
-  query($handle: String!) {
+  query($Handle: String!) {
     site {
       siteMetadata {
         siteUrl
@@ -81,25 +84,20 @@ export const query = graphql`
         description
       }
     }
-    shopifyProduct(handle: { eq: $handle }) {
-      id
-      title
-      handle
-      description
-      productType
-      variants {
-        shopifyId
-        title
-        price
-        availableForSale
-      }
-      images {
-        id
-        // altText
-        localFile {
-          childImageSharp {
-            fluid(maxWidth: 910, maxHeight: 910) {
-              ...GatsbyImageSharpFluid_withWebp
+    Product: airtable(data: { Handle: { eq: $Handle } }) {
+      data {
+        Product_Name
+        Handle
+        Description
+        Selling_Price_Unit
+        Images {
+          id
+          url
+          thumbnails {
+            large {
+              url
+              width
+              height
             }
           }
         }

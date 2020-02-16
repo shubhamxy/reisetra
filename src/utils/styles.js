@@ -8,34 +8,41 @@ import { keyframes } from '@emotion/core';
  *    // use the brand color at 25% opacity
  *    border-color: ${colors.brand}40;
  */
+
 export const colors = {
-  brandDarker: '#221133',
-  brandDark: '#442266',
-  brand: '#663399',
-  brandBright: '#e0d6eb',
-  brandLight: '#f5f3f7',
-  brandLighter: '#fbfafc',
+  logo: '#EAD2AC',
+  background: '#fff',
+  scrollbar: '#EAD2AC',
+  brandPrimary: '#2e5e7e',
+  brandDarker: '#2f3f4f',
+  brandDark: '#2d5e7b',
+  brand: '#0081AF',
+  grey: '#eee',
+  sidebar: '#fbf7ed',
+  brandBright: '#fefefe',
+  brandLight: '#fbffee',
+  brandLighter: '#efefef',
   lightest: '#ffffff',
-  darkest: '#4d4058',
+  darkest: '#283035',
   text: '#333333',
   textMild: '#555555',
-  textLight: '#7e718a',
-  textLighter: '#aaaaaa',
-  lilac: `#8c65b3`,
+  textLight: '#aaa',
+  textLighter: '#ccc',
+  tuscan: `#ffd689`,
   accent: `#ffb238`,
   error: `#ec1818`,
   lemon: `#ffdf37`
 };
 
 export const badgeThemes = {
-  BUILDWITHGATSBY: {
+  HELLOWORLD: {
     level: 1,
     backgroundTheme: colors.brand,
-    textTheme: colors.lemon
+    textTheme: colors.tuscan
   },
-  HOLYBUCKETS: {
+  SHOPPINGSPREE: {
     level: 2,
-    backgroundTheme: colors.lemon,
+    backgroundTheme: colors.tuscan,
     textTheme: colors.brandDark
   }
 };
@@ -66,13 +73,8 @@ export const radius = {
 };
 
 export const defaultFontStack = [
-  '-apple-system',
-  'BlinkMacSystemFont',
-  'Segoe UI',
-  'Roboto',
-  'Oxygen',
-  'Ubuntu',
-  'Cantarell',
+  'Source Sans pro',
+  'Lato',
   'Open Sans',
   'Helvetica Neue',
   'sans-serif'
@@ -91,19 +93,22 @@ const monospaceFontStack = [
 
 export const fonts = {
   body: defaultFontStack,
-  heading: `Futura PT, ${defaultFontStack}`,
+  heading: defaultFontStack,
   monospace: monospaceFontStack
 };
 
 export const dimensions = {
+  sidebarWidth: '420px',
   headerHeight: '60px',
+  cartHeight: '80px',
+  topHeadHeight: '20px',
   cartWidthDesktop: '400px',
-  contributorAreaWidth: {
+  customerAreaWidth: {
     closedDesktop: '60px',
-    openDesktop: '340px',
-    openHd: '420px'
+    openDesktop: '60px',
+    openHd: '60px'
   },
-  contributorAreaBarHeight: '50px',
+  customerAreaBarHeight: '50px',
   pictureBrowserAction: {
     widthDesktop: '200px',
     heightMobile: '80px'
@@ -113,8 +118,8 @@ export const dimensions = {
 export const scrollbarStyles = {
   WebkitOverflowScrolling: `touch`,
   '&::-webkit-scrollbar': { width: `6px`, height: `6px` },
-  '&::-webkit-scrollbar-thumb': { background: colors.brandBright },
-  '&::-webkit-scrollbar-thumb:hover': { background: colors.lilac },
+  '&::-webkit-scrollbar-thumb': { background: colors.scrollbar },
+  '&::-webkit-scrollbar-thumb:hover': { background: colors.tuscan },
   '&::-webkit-scrollbar-track': { background: colors.brandLight }
 };
 

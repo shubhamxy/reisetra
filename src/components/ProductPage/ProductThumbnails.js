@@ -62,20 +62,21 @@ class ProductThumbnails extends Component {
           <ProductThumbnailsRoot className={className}>
             <ProductThumbnailsContent>
               {images.map((image, idx) => {
-                const {
-                  id,
-                  localFile: {
-                    childImageSharp: { fluid }
-                  }
-                } = image;
+                const { id, url } = image;
 
                 return (
                   <Thumbnail
                     key={id}
                     onClick={this.handleClick(image, featureProductImage)}
-                    href={fluid.src}
+                    href={url}
                   >
-                    <Image fluid={fluid} />
+                    <Image
+                      fixed={{
+                        src: image.thumbnails.large.url,
+                        width: '54px',
+                        height: '54px'
+                      }}
+                    />
                   </Thumbnail>
                 );
               })}

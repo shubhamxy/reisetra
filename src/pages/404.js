@@ -7,6 +7,7 @@ const NotFoundPage = () => (
       style={{
         display: 'flex',
         justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center'
       }}
     >
@@ -14,19 +15,12 @@ const NotFoundPage = () => (
       <Text>
         Looks like the page you requested either doesn’t exist or has been
         moved. If you think this is an error or ended up at this page by
-        following a link, please{' '}
-        <a href="https://github.com/gatsbyjs/gatsby/issues/new">
-          open an issue
-        </a>{' '}
-        to let us know.
+        following a link, please <a href="/contact">contact</a> to let us know.
       </Text>
       <Text>
         {' '}
-        <a href="https://store.gatsbyjs.org/">Gatsby Store Home page</a>{' '}
-        <a href="https://www.gatsbyjs.org/">Gatsby Home</a>{' '}
-        <a href="https://github.com/gatsbyjs/store.gatsbyjs.org">
-          Gatsby Github Page
-        </a>{' '}
+        <a href="/">Reisetra Store Home page</a>{' '}
+        <a href="/contact">Contact Us!</a>{' '}
       </Text>
     </div>
   </TextContainer>

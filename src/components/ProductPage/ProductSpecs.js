@@ -15,49 +15,40 @@ const ProductSpecsRoot = styled(`div`)`
 const Name = styled(`h1`)`
   color: ${colors.brandDark};
   font-family: ${fonts.heading};
-  font-size: 1.8rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: normal;
   margin: 0;
 `;
 
 const Description = styled(`p`)`
   color: ${colors.text};
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.2;
 `;
 
 const Price = styled(`div`)`
   color: ${colors.brand};
-  font-size: 1.8rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-
+  font-size: 1rem;
+  font-weight: normal;
   span {
+    font-size: 1rem;
     color: ${colors.textLight};
   }
 `;
 
 const removeCareInstructions = desc =>
-  desc.split(/Care Instructions/).slice(0, 1);
+  desc.split(/More Information/).slice(0, 1);
 
 const ProductSpecs = props => {
   const {
-    product: {
-      title,
-      description,
-      variants: [variant]
-    }
+    product: { Product_Name, Selling_Price_Unit }
   } = props;
-
-  const { price } = variant;
-
+  const description = props.product.Description || '';
   return (
     <ProductSpecsRoot>
-      <Name>{title}</Name>
-      <Description>{removeCareInstructions(description)}</Description>
-      <Price>
-        <span>USD</span> ${price}
-      </Price>
+      <Name>{Product_Name && Product_Name}</Name>
+      <Description>{description}</Description>
+      <Price>₹ {Selling_Price_Unit && Selling_Price_Unit}</Price>
     </ProductSpecsRoot>
   );
 };

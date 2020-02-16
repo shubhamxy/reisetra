@@ -16,7 +16,7 @@ const LinkRoot = styled(GatsbyLink)`
   transition: 0.5s;
 
   :focus {
-    box-shadow: 0 0 0 2px ${colors.accent};
+    box-shadow: 0 0 0 1px ${colors.accent};
     outline: 0;
     transition: box-shadow 0.15s ease-in-out;
   }

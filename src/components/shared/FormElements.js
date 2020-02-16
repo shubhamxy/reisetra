@@ -10,7 +10,7 @@ export const Input = styled(`input`)`
   border-radius: ${radius.default}px;
   color: ${colors.text};
   display: block;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: ${spacing.sm}px ${spacing.md}px;
   width: 100%;
 
@@ -24,7 +24,7 @@ export const Input = styled(`input`)`
 export const Select = styled(Input.withComponent('select'))`
   appearance: none;
   /* stylelint-disable */
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23${colors.lilac.substr(
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23${colors.tuscan.substr(
     1
   )}' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
   /* stylelint-enable */

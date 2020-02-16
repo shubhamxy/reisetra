@@ -105,8 +105,7 @@ const AddToCartButton = styled(Submit)`
 
 class ProductForm extends Component {
   state = {
-    variant:
-      this.props.variants.length === 1 ? this.props.variants[0].shopifyId : '',
+    variant: this.props.variants.length === 1 ? this.props.variants[0] : '',
     quantity: 1,
     errors: []
   };
@@ -155,13 +154,16 @@ class ProductForm extends Component {
       return;
     }
 
-    callback(this.state.variant, this.state.quantity);
+    callback(
+      this.state.variant.Handle,
+      this.state.variant,
+      this.state.quantity
+    );
   };
 
   render() {
     const { variants } = this.props;
     const { errors } = this.state;
-
     const hasVariants = variants.length > 1;
 
     /*
@@ -169,7 +171,7 @@ class ProductForm extends Component {
      * and change the text. This flag prevents us from duplicating the logic in
      * multiple places.
      */
-    const isOutOfStock = !hasVariants && !variants[0].availableForSale;
+    const isOutOfStock = false;
 
     return (
       <StoreContext.Consumer>
@@ -239,15 +241,15 @@ class ProductForm extends Component {
               {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
               {isOutOfStock ? <MdSentimentDissatisfied /> : <MdShoppingCart />}
             </AddToCartButton>
-            <InfoLinks>
-              <Link to="/product-details?fromProduct#materials-fit">
-                <span>Materials &amp; Fit</span>
+            {/* <InfoLinks>
+              <Link to="/product-details?fromProduct#materials">
+                <span>Materials</span>
               </Link>
               &nbsp; • &nbsp;
-              <Link to="/product-details?fromProduct#care-instructions">
-                <span>Care instructions</span>
+              <Link to="/product-details?fromProduct#instructions">
+                <span>More Information</span>
               </Link>
-            </InfoLinks>
+            </InfoLinks> */}
           </Form>
         )}
       </StoreContext.Consumer>

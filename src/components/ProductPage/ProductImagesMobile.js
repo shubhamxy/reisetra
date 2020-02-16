@@ -52,7 +52,7 @@ const Incentive = styled(`div`)`
 
   h3 {
     font-family: ${fonts.heading};
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.2;
     margin: 0 0 0.5em;
 
@@ -82,14 +82,12 @@ const ProductImagesMobile = ({ images, imageOnClick }) => (
       <Incentive>
         <h3>
           <MdCameraAlt />
-          We want to see your Gatsby swag photos!
+          We want to see your Reisetra craft photos!
         </h3>
         <p>
           Upload your photos to{' '}
-          <a href="https://github.com/gatsbyjs/store.gatsbyjs.org/issues/143">
-            the official photo sharing issue
-          </a>{' '}
-          and it may be featured in the store!
+          <a href="/upload">the official photo sharing track.</a> and it may be
+          featured in the store!
         </p>
       </Incentive>
     </ProductImagesMobileContent>

@@ -17,9 +17,10 @@ export const TextContainer = styled(`div`)`
 
 export const Heading = styled('h1')`
   color: ${colors.brandDark};
-  font-size: 2.6rem;
+  font-size: 1.8rem;
   letter-spacing: -0.02em;
   margin: 0;
+  padding-right: 2rem;
   margin-bottom: ${spacing.lg}px;
 `;
 

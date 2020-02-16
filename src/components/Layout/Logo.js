@@ -49,8 +49,7 @@ const Product = () => (
 
 export default () => (
   <div css={svg}>
-    <Monogram />
-    <Logotype />
-    <Product />
+    {/* <Monogram /> */}
+    <img src={require('../../assets/monogram.svg')} />
   </div>
 );
