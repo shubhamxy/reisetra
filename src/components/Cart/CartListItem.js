@@ -25,6 +25,7 @@ const Thumbnail = styled(CartThumbnail)`
 
 const Info = styled('div')`
   flex-grow: 1;
+  padding-left: 20px;
 `;
 
 const Name = styled('span')`
@@ -122,7 +123,6 @@ export default ({
     handleRemove(event);
   };
 
-  // console.log("------??" , item);
   return (
     <CartListItemRoot>
       <Thumbnail
@@ -131,9 +131,9 @@ export default ({
         // alt={item.variant.image.altText}
       />
       <Info>
-        <Name>{item.title}</Name>
+        <Name>{item.variant.Product_Name}</Name>
         <Meta>
-          {item.variant.Product_Name}, ${item.variant.Selling_Price_Unit}
+          {item.variant.Handle}, ₹{item.variant.Selling_Price_Unit}
         </Meta>
       </Info>
       <Quantity

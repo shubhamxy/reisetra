@@ -42,7 +42,19 @@ export default class Client {
   }
   addCheckoutLineItems(checkoutId, lineItemsToUpdate) {
     const checkout = this.checkout;
-    checkout.lineItems = [...checkout.lineItems, ...lineItemsToUpdate];
+    const lineItemIndex = checkout.lineItems.findIndex(
+      lineItem => lineItem.id === lineItemsToUpdate[0].id
+    );
+    if (lineItemIndex > -1) {
+      checkout.lineItems[lineItemIndex] = {
+        ...checkout.lineItems[lineItemIndex],
+        quantity:
+          lineItemsToUpdate[0].quantity +
+          checkout.lineItems[lineItemIndex].quantity
+      };
+    } else {
+      checkout.lineItems = [...checkout.lineItems, ...lineItemsToUpdate];
+    }
     this.updatePrices();
     if (isBrowser) {
       localStorage.setItem('checkout', JSON.stringify(checkout));
