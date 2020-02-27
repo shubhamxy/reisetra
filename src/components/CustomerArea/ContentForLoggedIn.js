@@ -7,22 +7,17 @@ import ContentForCustomer from './ContentForCustomer';
 import Loading from './Loading';
 import Error from './Error';
 
-const ContentFor = ({ customer, error, loading, profile }) => {
-  const { shopify, github } = customer;
+const ContentFor = ({ customer, error, loading, profile, handleLogout }) => {
+  const {} = customer;
 
   if (error) {
     return <Error error={error} />;
   } else if (loading) {
     return <Loading />;
-  } else if (github && github.customerCount) {
-    if (shopify && shopify.id) {
-      return <ContentForCustomer />;
-    } else {
-      return <ContentForCustomerWithNoAccount />;
-    }
-  } else {
-    return <ContentForNotCustomer profile={profile} />;
   }
+  return (
+    <ContentForNotCustomer profile={profile} handleLogout={handleLogout} />
+  );
 };
 
 const ContentForLoggedIn = ({
