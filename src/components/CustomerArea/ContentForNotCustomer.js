@@ -34,7 +34,6 @@ class ContentForNotCustomer extends Component {
     return (
       <ContentForNotCustomerRoot>
         <Heading>Hi, @{nickname}!</Heading>
-        {JSON.stringify(this.props.profile, null, 4)}
         <Button onClick={this.props.handleLogout}> Logout </Button>
         <Lede>Let’s get you started with your first purchase on Reisetra!</Lede>
         <Text>
