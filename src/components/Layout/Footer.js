@@ -156,9 +156,9 @@ const Footer = () => (
           <FooterLink href="mailto:contact@reisetra.co">
             contact@reisetra.co
           </FooterLink>
-          <FooterLink href="phone:+919212222935">
-            +919212222935
-          </FooterLink>
+        </FooterText>
+        <FooterText>
+          Or give us a call @<FooterLink>+911143538935</FooterLink>
         </FooterText>
 
         <FooterHeader>Keep in touch</FooterHeader>
