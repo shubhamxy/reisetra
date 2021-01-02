@@ -5,7 +5,7 @@ const path = require(`path`)
 
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://shop.reisetra.co`,
+    siteUrl: `https://reisetra.com`,
     title: `Reisetra | Authentic Indian Handicraft | Buy Online!`,
     description: `A marketplace for Discovering Unique Indian Products including Handmade, Vintage, Ethnic, Organic and Natural products from India.`
   },

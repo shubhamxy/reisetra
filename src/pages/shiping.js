@@ -29,7 +29,7 @@ const Shiping = () => (
           <li>
             If you return an order delivered to you, order shipping charges will
             not be refunded. However if you self-ship your returns, we will
-            reimburse self-shipment charges based onshop.reisetra.co's Returns
+            reimburse self-shipment charges based onshop.reisetra.com's Returns
             Policy. For accounts whose return behavior violate our fair usage
             policy, a delivery charge of Rs. 149 will be levied on all orders,
             irrespective of order value.

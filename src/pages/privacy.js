@@ -15,7 +15,7 @@ const Privacy = () => (
       <Text>
         This Privacy Policy describes how your personal information is
         collected, used, and shared when you visit or make a purchase from
-        shop.reisetra.co (the “Site”) and Reisetra Enterprises ("the legal
+        shop.reisetra.com (the “Site”) and Reisetra Enterprises ("the legal
         entity")
         <br />
         <br /> <strong>Personal information we collect</strong> <br /> When you
@@ -115,8 +115,8 @@ const Privacy = () => (
         reasons. <br /> <br />
         <strong>Contact us</strong> <br /> For more information about our
         privacy practices, if you have questions, or if you would like to make a
-        complaint, please contact us by e‑mail at contact@reisetra.co or by mail
-        using the details provided below: <br /> <br />
+        complaint, please contact us by e‑mail at contact@reisetra.com or by
+        mail using the details provided below: <br /> <br />
         Reisetra Enterprises.
         <br /> [Re: Mukesh Jain - Privacy Compliance] <br />
         98, Pocket 21, Sector 24, Rohini, Delhi DL, India, 110085

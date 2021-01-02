@@ -343,7 +343,7 @@ const TNCPage = () => (
         of those changes. <br /> <br />
         {` `}
         <strong>SECTION 20 - CONTACT INFORMATION</strong> <br /> Questions about
-        the Terms of Service should be sent to us at contact@reisetra.co.
+        the Terms of Service should be sent to us at contact@reisetra.com.
       </Text>
     </div>
   </TextContainer>

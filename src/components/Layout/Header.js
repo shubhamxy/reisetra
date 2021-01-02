@@ -147,7 +147,7 @@ class Header extends Component {
               </Link>
               <OLink
                 className={path === '/shop' ? 'active' : ''}
-                href="https://reisetra.co"
+                href="https://reisetra.com"
               >
                 Shop
               </OLink> */}

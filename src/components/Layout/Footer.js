@@ -153,8 +153,8 @@ const Footer = () => (
         </FooterText>
         <FooterText>
           Send us an email to{` `}
-          <FooterLink href="mailto:contact@reisetra.co">
-            contact@reisetra.co
+          <FooterLink href="mailto:contact@reisetra.com">
+            contact@reisetra.com
           </FooterLink>
         </FooterText>
         <FooterText>

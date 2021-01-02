@@ -14,7 +14,7 @@ const auth0 = isBrowser
   ? new auth0js.WebAuth({
       domain: process.env.AUTH0_DOMAIN,
       clientID: process.env.AUTH0_CLIENTID,
-      redirectUri: process.env.AUTH0_CALLBACK,
+      redirectUri: `https://reisetra.com`, //process.env.AUTH0_CALLBACK
       audience: process.env.AUTH0_AUDIENCE,
       responseType: `token id_token`,
       scope: `openid profile email`
@@ -26,7 +26,7 @@ export const login = () => {
     return
   }
 
-  auth0.authorize()
+  // auth0.authorize()
 }
 
 export const logout = () => {
