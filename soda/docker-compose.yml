@@ -1,0 +1,53 @@
+version: "3.7"
+services:
+  # api:
+  #   container_name: soda
+  #   image: "soda:dev"
+  #   build:
+  #     context: ./
+  #     target: development
+
+  #   command: npm run dev
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - soda-backend
+  #   depends_on:
+  #     - redis-global
+  #     - postgres-global
+  #   env_file: .env
+  #   healthcheck:
+  #     test: ["CMD", "wget", "localhost:8080/__internal/health -q -O - > /dev/null 2>&1"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   # restart: "on-failure"
+
+  redis-global:
+    container_name: soda_redis-global
+    image: redis:latest
+    ports:
+      - "3136:6378"
+    networks:
+      - soda-backend
+    env_file: .env
+    volumes:
+      - ./databases/redis:/data
+    restart: always
+
+  postgres-global:
+    container_name: soda_postgres-global
+    image: postgres:latest
+    restart: always
+    env_file: .env
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./databases/mongodb:/data/db
+    networks:
+      - soda-backend
+
+networks:
+  soda-backend:
