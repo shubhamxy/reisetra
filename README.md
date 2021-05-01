@@ -6,9 +6,10 @@
 
 | Codebase             |      Description      |
 | :------------------- | :-------------------: |
-| [soda](soda)         |      NodeJS API       |
+| [soda](soda)         |   NodeJS API          |
 | [mint](mint)         |   Next.js frontend    |
-| [maze](maze)         |      API Client       |
+| [maze](maze)         |   Next.js cms         |
+| [rock](rock)         |   API Client          |
 
 
 ## Branches

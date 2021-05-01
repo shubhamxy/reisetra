@@ -3,6 +3,10 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "soda",
+      "mint",
+      "maze",
+      "rock"
     ],
     "nohoist": [
       "**"
