@@ -10,7 +10,7 @@ import { API_VERSION } from 'src/config';
 
 export interface Response<T> {
   statusCode: number;
-  message: string;
+  message?: string;
   data: T;
 }
 
@@ -21,17 +21,15 @@ export class DataTransformInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
-    return next
-      .handle()
-      .pipe(
-        map((data) => ({
-          statusCode: context.switchToHttp().getResponse().statusCode as number,
-          message: data.message as string,
-          data: data,
-          meta: {
-            version: API_VERSION
-          }
-        })),
-      );
+    return next.handle().pipe(map(transformData(context)),
+    );
   }
 }
+
+function transformData(context: ExecutionContext): (value: any, index: number) => { message: any; data: any; statusCode: number; } {
+  return (data) => {
+    data['statusCode'] = context.switchToHttp().getResponse().statusCode;
+    return data;
+  };
+}
+

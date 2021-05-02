@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String     @id @default(cuid())
 
   email String  @unique
   name  String?
@@ -31,11 +31,11 @@ model User {
 }
 
 model Profile {
-  id      Int     @id @default(autoincrement())
+  id      String     @id @default(cuid())
   bio     String
 
   user    User    @relation(fields: [userId], references: [id])
-  userId  Int    // relation scalar field (used in the `@relation` attribute above)
+  userId  String    // relation scalar field (used in the `@relation` attribute above)
 
   active Boolean @default(true)
   createdAt DateTime @default(now())
@@ -71,7 +71,7 @@ model Order {
 
   // relations
   user    User?    @relation(fields: [userId], references: [id])
-  userId  Int?
+  userId  String?
 
   address    Address?    @relation(fields: [addressId], references: [id])
   addressId  Int?
@@ -86,7 +86,7 @@ model CartItem {
   quantity Int
 
   user    User?    @relation(fields: [userId], references: [id])
-  userId  Int?
+  userId  String?
 
   product Product?
 
@@ -110,7 +110,7 @@ model Address {
   country String?
 
   user    User?    @relation(fields: [userId], references: [id])
-  userId  Int?
+  userId  String?
 
   orders Order[]
 

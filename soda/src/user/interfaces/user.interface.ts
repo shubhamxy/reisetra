@@ -1,7 +1,5 @@
-export interface UserData {
-  email: string;
-}
+import { User as UserModel } from '@prisma/client';
 
 export interface UserRO {
-  user: UserData;
+  user: Partial<UserModel>;
 }

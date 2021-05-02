@@ -3,20 +3,15 @@ import {PipeTransform, ArgumentMetadata, BadRequestException, HttpStatus, Inject
 import { validate } from 'class-validator';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { BAD_REQUEST, isRequired } from 'src/constants';
-import { errorResponse, IError } from './errorResponse';
+import { errorResponse, IError } from '../response/error';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value, metadata: ArgumentMetadata) {
-    console.log({
-      value,
-      metadata,
-    })
     if (!value) {
       throw new BadRequestException(isRequired('Data'));
     }
     const { metatype } = metadata;
-    console.log(metatype)
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
@@ -25,13 +20,15 @@ export class ValidationPipe implements PipeTransform<any> {
     if (errors.length > 0) {
       const errorResult: IError[] = [];
       errors.forEach(error => {
-        errorResult.push({
-          code: 0,
-          message: error.constraints[0],
-          source: error.property,
+        Object.entries(error.constraints).forEach(([errorKey, constraint]) => {
+          errorResult.push({
+            type: errorKey,
+            message: constraint,
+            source: error.property,
+          })
         })
       })
-      throw new HttpException(errorResponse(BAD_REQUEST, errorResult), HttpStatus.BAD_REQUEST);
+      throw new HttpException(errorResponse(BAD_REQUEST, errorResult.reverse()), HttpStatus.BAD_REQUEST);
     }
     return value;
   }
