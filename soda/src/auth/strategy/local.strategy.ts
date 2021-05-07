@@ -1,10 +1,10 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import { UserRO } from 'src/user/interfaces/user.interface';
 import { User as UserModel } from '.prisma/client';
-import { UnauthorizedException } from 'src/common/response/exeptions';
+import { Exception } from 'src/common/response';
+import { errorCodes, errorTypes } from 'src/common/codes/error';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -18,8 +18,15 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(email: string, password: string): Promise<Partial<UserModel>> {
     const userOrNull = await this.authService.validateUser(email, password);
     if (!userOrNull) {
-      throw UnauthorizedException();
+      throw new Exception(
+        {
+          code: errorCodes.LocalAuthFailed,
+          source: 'LocalStrategy.validate',
+          type: errorTypes[errorCodes.LocalAuthFailed],
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
     }
-    return userOrNull.user;
+    return userOrNull;
   }
 }

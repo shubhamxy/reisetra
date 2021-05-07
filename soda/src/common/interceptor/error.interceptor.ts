@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { API_VERSION } from 'src/config';
@@ -12,8 +13,6 @@ import { API_VERSION } from 'src/config';
 export class ErrorsInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(catchError(error => {
-          const statusCode =  context.switchToHttp().getResponse().statusCode as number;
-          error.response['statusCode'] = statusCode;
           return throwError(error)
         }),
       );

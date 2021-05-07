@@ -1,7 +1,12 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { IS_PUBLIC_KEY } from 'src/auth/decorator/public.decorator';
+import {
+  IS_LOCAL_AUTHENTICATED,
+  IS_PUBLIC_KEY,
+} from 'src/auth/decorator/public.decorator';
+import { errorCodes, errorTypes } from 'src/common/codes/error';
+import { Exception } from 'src/common/response';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -17,6 +22,28 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (isPublic) {
       return true;
     }
+    const isLocalAuthenticated = this.reflector.getAllAndOverride<boolean>(
+      IS_LOCAL_AUTHENTICATED,
+      [context.getHandler(), context.getClass()],
+    );
+    if (isLocalAuthenticated) {
+      return true;
+    }
     return super.canActivate(context);
+  }
+
+  handleRequest(err: any, user: any, info: any, context: any, status: any) {
+    if (err || !user) {
+      throw new Exception(
+        {
+          message: 'Authentication Failed',
+          code: errorCodes.AuthFailed,
+          source: 'JwtAuthGuard.handleRequest',
+          type: errorTypes[errorCodes.AuthFailed],
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    return user;
   }
 }

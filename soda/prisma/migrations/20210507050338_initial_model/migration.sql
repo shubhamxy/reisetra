@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "OAuthProvider" AS ENUM ('GOOGLE');
+
+-- CreateEnum
 CREATE TYPE "Role" AS ENUM ('USER');
 
 -- CreateEnum
@@ -6,11 +9,16 @@ CREATE TYPE "OrderStatus" AS ENUM ('PENDING', 'PAYMENT_FAILED', 'UNSHIPPED', 'CO
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "name" TEXT,
     "dateOfBirth" TIMESTAMP(3),
     "phone" TEXT,
+    "avatar" TEXT,
+    "password" TEXT,
+    "oauthId" TEXT,
+    "oauthProvider" "OAuthProvider",
     "role" "Role" NOT NULL DEFAULT E'USER',
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -21,9 +29,9 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Profile" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "bio" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -47,7 +55,7 @@ CREATE TABLE "Inventory" (
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
-    "userId" INTEGER,
+    "userId" TEXT,
     "addressId" INTEGER,
     "active" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -60,7 +68,7 @@ CREATE TABLE "Order" (
 CREATE TABLE "CartItem" (
     "id" SERIAL NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "userId" INTEGER,
+    "userId" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -79,7 +87,7 @@ CREATE TABLE "Address" (
     "zipcode" TEXT,
     "city" TEXT,
     "country" TEXT,
-    "userId" INTEGER,
+    "userId" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -117,6 +125,9 @@ CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.phone_unique" ON "User"("phone");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User.oauthId_unique" ON "User"("oauthId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_unique" ON "Profile"("userId");

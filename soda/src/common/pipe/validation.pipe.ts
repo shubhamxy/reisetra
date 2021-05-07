@@ -1,12 +1,23 @@
 import { plainToClass } from 'class-transformer';
 import {PipeTransform, ArgumentMetadata, BadRequestException, HttpStatus, Injectable} from '@nestjs/common';
-import { validate } from 'class-validator';
+import { validate, ValidationError } from 'class-validator';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { BAD_REQUEST, isRequired } from 'src/constants';
-import { errorResponse, IError } from '../response/error';
+import { errorResponse, Exception, IError } from '../response/error';
+import { ValidatorOptions } from '@nestjs/common/interfaces/external/validator-options.interface';
+export interface ValidationPipeOptions extends ValidatorOptions {
+  transform?: boolean;
+  disableErrorMessages?: boolean;
+  exceptionFactory?: (errors: ValidationError[]) => any;
+}
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
+  private options: ValidationPipeOptions;
+  constructor(options?: ValidationPipeOptions){
+    this.options = options || {};
+  }
+
   async transform(value, metadata: ArgumentMetadata) {
     if (!value) {
       throw new BadRequestException(isRequired('Data'));
@@ -28,8 +39,9 @@ export class ValidationPipe implements PipeTransform<any> {
           })
         })
       })
-      throw new HttpException(errorResponse(BAD_REQUEST, errorResult.reverse()), HttpStatus.BAD_REQUEST);
+      throw new Exception(errorResult.reverse(), HttpStatus.BAD_REQUEST, BAD_REQUEST);
     }
+
     return value;
   }
 

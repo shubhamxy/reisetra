@@ -5,9 +5,7 @@ import { UserService } from './user.service'
 import { RedisModule } from 'src/redis/redis.module'
 
 @Module({
-  imports: [
-    RedisModule,
-  ],
+  imports: [RedisModule],
   controllers: [UserController],
   providers: [PrismaService, UserService],
   exports: [UserService],

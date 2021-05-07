@@ -9,6 +9,7 @@ import { JwtRefreshStrategy } from './strategy/refresh.strategy';
 import { AuthController } from './auth.controller';
 import { RedisModule } from 'src/redis/redis.module';
 import { JWT_ACCESS_TOKEN_OPTIONS } from 'src/config';
+import { GoogleStrategy } from './strategy/google.strategy';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { JWT_ACCESS_TOKEN_OPTIONS } from 'src/config';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshStrategy, GoogleStrategy],
   exports: [],
 })
 export class AuthModule {}

@@ -1,4 +1,5 @@
 import toJson from "src/utils/yaml";
+export const isProduction = process.env.NODE_ENV === 'production'
 export const config = toJson(__dirname + "/../config.yml");
 export const PORT = process.env.PORT || '8000'
 export const API_PREFIX = 'api/v1'
@@ -16,9 +17,9 @@ export const DEFAULT_EMAIL_SENDER='team@reisetra.com'
 
 // JWT
 export const JWT_ACCESS_TOKEN_SECRET = 'secret'
-export const JWT_REFRESH_TOKEN_EXPIRATION_TIME = '4000s'
+export const JWT_REFRESH_TOKEN_EXPIRATION_TIME = '30d'
 export const JWT_REFRESH_TOKEN_SECRET = 'refresh secret'
-export const JWT_ACCESS_TOKEN_EXPIRATION_TIME = '10s'
+export const JWT_ACCESS_TOKEN_EXPIRATION_TIME = '1h'
 
 export const AUDIENCE = 'localhost:8080'
 export const SUBJECT = 'localhost:8080'
@@ -39,3 +40,10 @@ export const JWT_REFRESH_TOKEN_OPTIONS = {
   // subject: SUBJECT,
   // audience: AUDIENCE,
 };
+
+export const GOOGLE_OAUTH_OPTIONS = {
+  clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_OAUTH_CLIENT_CALLBACK_URL,
+  scope: ['email', 'profile'],
+}

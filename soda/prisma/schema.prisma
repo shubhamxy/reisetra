@@ -8,19 +8,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OAuthProvider {
+  GOOGLE
+}
+
 model User {
   id    String     @id @default(cuid())
 
   email String  @unique
+  emailVerified Boolean @default(false)
+
   name  String?
   dateOfBirth DateTime?
   phone String? @unique
 
+  avatar String?
+
   password String?
+
   cart CartItem[]
   orders Order[]
 
   addresses Address[]
+
+
+  oauthId String? @unique()
+  oauthProvider OAuthProvider?
 
   role    Role     @default(USER)
   profile Profile?

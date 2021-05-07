@@ -1,3 +1,6 @@
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { statusCodeText } from "src/utils/statusCodeText";
+
 export interface IError {
   code?: number | string
   type?: string
@@ -5,25 +8,17 @@ export interface IError {
   message?: string
 }
 
-export interface ErrorResponse<T> {
+interface IErrorResponse<T> {
   statusCode?: number;
   message?: string;
   errors?: T[];
   meta?: Record<string, string>
 }
+export type ErrorResponse<D = IError> = IErrorResponse<D>;
 
-/**
- * Error Response sent to user
- * @param message top level message ex. Bad Request | Unauthorized ... etc
- * @param errors errors
- * @param statusCode status code
- * @param meta
- * @returns
- */
 export function errorResponse(
-  message: string,
   errors?: IError[] | IError,
-  statusCode?: number,
+  message?: string,
   meta?: Record<string, string>,
 ): ErrorResponse<IError> {
   if(errors && !Array.isArray(errors)) {
@@ -33,6 +28,11 @@ export function errorResponse(
     errors: errors as IError[],
     message: message,
     meta,
-    statusCode,
   };
+}
+
+export class Exception extends HttpException {
+  constructor(errors: IError[] | IError, status: HttpStatus, description?: string) {
+    super(errorResponse(errors, description || statusCodeText[status] || 'Internal Exception'), status);
+  }
 }

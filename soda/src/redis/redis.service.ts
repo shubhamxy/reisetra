@@ -20,4 +20,8 @@ export class RedisService {
     async del(key) {
         await this.cache.del(key);
     }
+
+    async ping() {
+      return this.cache.store;
+    }
 }
