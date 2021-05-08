@@ -3,21 +3,20 @@ import {
   NestApplicationOptions,
 } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { config } from 'aws-sdk';
+import { config, SES } from 'aws-sdk';
 import { AppModule } from './app.module';
 import { DataTransformInterceptor } from './common/interceptor/data.interceptor';
-import { ErrorsInterceptor } from './common/interceptor/error.interceptor';
+// import { ErrorsInterceptor } from './common/interceptor/error.interceptor';
 import * as helmet from 'helmet';
-import * as csurf from 'csurf';
-import * as cookieParser from 'cookie-parser';
+// import * as csurf from 'csurf';
+// import * as cookieParser from 'cookie-parser';
 
 import { ValidationPipe } from './common/pipe/validation.pipe';
 import {
   API_PREFIX,
   AWS_ACCESS_KEY_ID,
-  AWS_REGION,
-  AWS_SECRET_ACCESS_KEY,
-  isProduction,
+  AWS_SECRET_KEY,
+  AWS_DEFAULT_REGION,
   PORT,
 } from './config';
 import { AllExceptionsFilter } from './common/filter/exeption.filter';
@@ -38,13 +37,13 @@ async function bootstrap() {
   //   origin: 'localhost',
   // });
 
-  app.use(cookieParser());
+  // app.use(cookieParser());
   // app.use(csurf({cookie: true}));
 
   config.update({
     accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    region: AWS_REGION,
+    secretAccessKey: AWS_SECRET_KEY,
+    region: AWS_DEFAULT_REGION,
   });
   app.setGlobalPrefix(API_PREFIX);
   app.useGlobalInterceptors(

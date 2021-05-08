@@ -1,8 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { User as UserModel } from '@prisma/client';
 import * as argon2 from 'argon2';
-import { errorResponse, Exception } from 'src/common/response/error';
+import { CustomError, errorResponse, Exception } from 'src/common/response/error';
 import { PrismaService } from 'src/db/prisma.service';
 import { RedisService } from 'src/redis/redis.service';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
@@ -16,6 +15,7 @@ import {
 import { UserEntity } from './entity';
 import { errorCodes, errorTypes } from 'src/common/codes/error';
 import { CreateOauthUserDto } from './dto/createUser.dto';
+import { prismaOffsetPagination } from 'src/utils/prisma';
 
 const SelectUserFeilds = {
   id: true,
@@ -38,155 +38,335 @@ export class UserService {
   async findAllOffset(
     options: OffsetPaginationOptionsInterface,
   ): Promise<OffsetPaginationResultInterface<Partial<UserModel>>> {
-    const users = await this.db.user.findMany({
-      take: options.limit,
-      skip: options.page,
-      orderBy: {
-        createdAt: 'desc',
-      },
-      select: SelectUserFeilds,
-    });
-    const total = await this.db.user.count({});
-    return {
-      results: users,
-      page_count: users.length,
-      total_count: total,
-    };
+    try {
+      const users = await this.db.user.findMany({
+        take: options.limit,
+        skip: options.page,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: SelectUserFeilds,
+      });
+      const total = await this.db.user.count({});
+      return {
+        results: users,
+        pageCount: users.length,
+        totalCount: total,
+      };
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.findAllOffset',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async findAllCursor(
     options: CursorPaginationOptionsInterface,
   ): Promise<CursorPaginationResultInterface<Partial<UserModel>>> {
-    const users = await this.db.user.findMany({
-      select: SelectUserFeilds,
-    });
-    return {
-      results: users,
-    };
-  }
-
-  async findOne({ id }: Partial<UserModel>): Promise<UserRO> {
-    const user = await this.db.user.findUnique({
-      where: { id },
-    });
-    user.password = undefined
-    if (!user) {
-      return null;
+    const {cursor, size = 10, buttonNum = 10, orderBy = 'createdAt', orderDirection = 'desc'} = options;
+    try {
+      const result = await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        select: SelectUserFeilds,
+        model: 'User',
+        prisma: this.db,
+      });
+      return result;
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.findAllCursor',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
-    return new UserEntity(user);
   }
 
   async findAndVerify({ email, password }: LoginUserDto): Promise<UserRO> {
-    const user = await this.db.user.findUnique({
-      where: { email },
-    });
-    if (!user) {
+    try {
+      const user = await this.db.user.findUnique({ where: { email } });
+      if (!user) {
+        return null;
+      }
+      if (await argon2.verify(user.password, password)) {
+        user.password = undefined;
+        return user;
+      }
       return null;
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.findAndVerify',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
-    if (await argon2.verify(user.password, password)) {
-      user.password = undefined;
-      return user;
-    }
-    return null;
+  }
+
+  async createPassword(password: string | Buffer) {
+    return argon2.hash(password);
   }
 
   async create(user: CreateUserDto): Promise<UserRO> {
     try {
       // create new user
-      user.password = await argon2.hash(user.password);
-      let newUser = await this.db.user.create({
+      user.password = await this.createPassword(user.password);
+      const newUser = await this.db.user.create({
         data: user,
       });
       newUser.password = undefined;
-
       return newUser;
     } catch (error) {
-      let message;
-      let type;
-      if(error.code === errorCodes.UniqueConstraintViolation) {
-        message = "Email and password do not match"
-        type = errorTypes[error.code];
+      let message: string = error?.meta?.cause || error.message;
+      if (error.code === errorCodes.UniqueConstraintViolation) {
+        message = 'User with email already exists';
       }
-      throw new Exception({message, code: error.code, type, source: 'UserService.create'}, HttpStatus.BAD_REQUEST);
+      throw new Exception(
+        {
+          message,
+          code: error.code,
+          type: errorTypes[error.code],
+          source: 'UserService.create',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
+  async updatePassword(
+    email: string,
+    newPassword: string,
+    oldPassword: string,
+  ) {
+    const userOrNull = await this.findAndVerify({ email, password: oldPassword });
+    if (userOrNull) {
+      const hasshedpw = await this.createPassword(newPassword);
+      const updatedUser = await this.db.user.update({
+        where: { email },
+        data: { password: hasshedpw },
+      });
+      updatedUser.password = undefined;
+      return updatedUser;
+    }
+    throw new Exception(
+      {
+        message: 'Email Password combination does not match',
+        code: errorCodes.AuthFailed,
+        type: errorTypes[errorCodes.AuthFailed],
+        source: 'UserService.updatePassword',
+      },
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+
+  async resetPassword(email: string, newPassword: string) {
+    try {
+      // create new user
+      const hasshedpw = await this.createPassword(newPassword);
+      const updatedUser = await this.db.user.update({
+        where: { email },
+        data: { password: hasshedpw },
+      });
+      updatedUser.password = undefined;
+      return updatedUser;
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          type: errorTypes[error.code],
+          source: 'UserService.resetPassword',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   async createOauthAccount(user: CreateOauthUserDto): Promise<UserRO> {
     try {
-      let newUser = await this.db.user.create({
+      const newUser = await this.db.user.create({
         data: user,
       });
       newUser.password = undefined;
       return newUser;
     } catch (error) {
-      let message: string;
-      const type = errorTypes[error.code];
-      if(error.code === errorCodes.UniqueConstraintViolation) {
-        message = "Account already present"
-      } else {
-        message = error?.meta?.cause
+      let message: string = error?.meta?.cause || error.message;
+      if (error.code === errorCodes.UniqueConstraintViolation) {
+        message = 'Account already present';
       }
-      throw new Exception({message, code: error.code, type, source: 'UserService.createOauthAccount'}, HttpStatus.BAD_REQUEST);
+      throw new Exception(
+        {
+          message,
+          code: error.code,
+          type: errorTypes[error.code],
+          source: 'UserService.createOauthAccount',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
   async findAndUpdateOauthAccount(user: CreateOauthUserDto): Promise<UserRO> {
     try {
-      let updatedUser = await this.db.user.update({
-        where: { oauthId: user.oauthId},
+      const updatedUser = await this.db.user.update({
+        where: { oauthId: user.oauthId },
         data: user,
       });
       updatedUser.password = undefined;
       return updatedUser;
     } catch (error) {
-      let message: string;
-      const type = errorTypes[error.code];
       if (error.code === errorCodes.RecordToUpdateNotFound) {
+        // we create a new account
         return null;
-      } if(error.code === errorCodes.UniqueConstraintViolation) {
-        message = "Account already present"
-      } else {
-        message = error?.meta?.cause
       }
-      throw new Exception({message, code: error.code, type, source: 'UserService.findAndUpdateOauthAccount'}, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  async update(id: string, dto: UpdateUserDto): Promise<UserRO> {
-    let toUpdate = await this.db.user.findFirst({ where: { id } });
-    toUpdate.password = undefined;
-
-    let updated = Object.assign(toUpdate, dto);
-    return new UserEntity(updated);
-  }
-
-  async delete(email: string): Promise<UserRO> {
-    const deleted = await this.db.user.delete({ where: { email: email } });
-    return deleted;
-  }
-
-  async findById(id: string): Promise<UserRO> {
-    const user = await this.db.user.findUnique({ where: { id } });
-    user.password = undefined;
-
-    if (!user) {
-      const errors = [{ code: 0, message: 'User not found', source: 'user' }];
-      throw new HttpException(
-        errorResponse(errors),
+      let message: string = error?.meta?.cause || error.message;
+      if (error.code === errorCodes.UniqueConstraintViolation) {
+        message = 'Account already present';
+      }
+      throw new Exception(
+        {
+          message,
+          code: error.code,
+          type: errorTypes[error.code],
+          source: 'UserService.findAndUpdateOauthAccount',
+        },
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
 
-    return new UserEntity(user);
+  async delete(id: string): Promise<UserRO> {
+    try {
+      const deleted = await this.db.user.delete({ where: { id } });
+      deleted.password = undefined;
+      return deleted;
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.delete',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async findAndUpdate(
+    id: string,
+    update: { emailVerified: boolean },
+  ): Promise<UserRO> {
+    try {
+      const user = await this.db.user.update({
+        where: { id },
+        data: update,
+        include: { profile: true },
+      });
+      user.password = undefined;
+      return new UserEntity(user);
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.findAndUpdate',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async find(id: string): Promise<UserRO> {
+    try {
+      const user = await this.db.user.findUnique({
+        where: { id },
+        include: { profile: true },
+      });
+      if (user) {
+        user.password = undefined;
+        return new UserEntity(user);
+      }
+      throw new CustomError(
+        'User does not exist',
+        errorCodes.RecordDoesNotExist,
+      );
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.find',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async findByEmail(email: string): Promise<UserRO> {
-    const user = await this.db.user.findUnique({ where: { email } });
-    user.password = undefined;
-    if(user) {
-      return new UserEntity(user);
+    try {
+      const user = await this.db.user.findUnique({ where: { email } });
+      user.password = undefined;
+      if (user) {
+        return new UserEntity(user);
+      }
+      return null;
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.findByEmail',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
-    return null;
+  }
+
+  async findByEmailAndUpdate(
+    email: string,
+    update: { password: string },
+  ): Promise<UserRO> {
+    try {
+      const user = await this.db.user.update({
+        where: { email },
+        data: update,
+        include: { profile: true },
+      });
+      user.password = undefined;
+      if (user) {
+        return new UserEntity(user);
+      }
+      return null;
+    } catch (error) {
+      throw new Exception(
+        {
+          message: error?.meta?.cause || error.message,
+          code: error.code,
+          source: 'UserService.findByEmail',
+          type: errorTypes[error.code],
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

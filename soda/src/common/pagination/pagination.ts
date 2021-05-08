@@ -1,3 +1,6 @@
+import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { PaginationType } from "src/utils/prisma";
+
 export interface OffsetPaginationOptionsInterface {
   limit: number;
   page: number;
@@ -6,46 +9,40 @@ export interface OffsetPaginationOptionsInterface {
 export interface OffsetPaginationResultInterface<PaginationEntity> {
   results: PaginationEntity[];
   page?: number;
-  per_page?: number;
-  total_count?: number;
-  page_count?: number;
+  size?: number;
+
+  totalCount?: number;
+  pageCount?: number;
   next?: string;
   previous?: string;
 
-  limit?: number;
   offset?: number;
-
   link?: {
-    self: string;
     first: string;
+    last: string;
+    self: string;
     previous: string;
     next: string;
-    last: string;
   };
 }
 
 export interface CursorPaginationOptionsInterface {
-  limit: number;
-  page: number;
+ size: number
+ buttonNum: number
+ cursor: string
+ orderBy: string
+ orderDirection: 'desc' | 'asc'
 }
 
-export interface CursorPaginationResultInterface<PaginationEntity> {
-  results: PaginationEntity[];
-  page?: number;
-  per_page?: number;
-  total_count?: number;
-  page_count?: number;
-  next?: string;
-  previous?: string;
 
-  limit?: number;
-  offset?: number;
+export class CursorPagination implements Partial<CursorPaginationOptionsInterface> {
+  size: number
+  buttonNum: number
+  cursor: string
+  orderBy: string
+  orderDirection: 'desc' | 'asc'
+ }
 
-  link?: {
-    self: string;
-    first: string;
-    previous: string;
-    next: string;
-    last: string;
-  };
+export interface CursorPaginationResultInterface<PaginationEntity> extends PaginationType {
+  results: PaginationEntity[]
 }

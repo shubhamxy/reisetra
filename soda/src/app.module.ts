@@ -4,7 +4,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { HealthCheckModule } from './health/health.module';
 import { UserModule } from './user/user.module';
-import { config, isProduction } from './config';
+import { config, IS_PRODUCTION } from './config';
 import { AuthModule } from './auth/auth.module';
 import * as redisStore from 'cache-manager-redis-store';
 import { REDIS_HOST, REDIS_PORT } from 'src/config';
@@ -24,13 +24,13 @@ const getconfig = (): any => config;
       ttl: 1000,
       limit: 1,
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        name: 'Log',
-        level: isProduction ? 'error' : 'warn',
-        prettyPrint: { colorize: true, levelFirst: true },
-      }
-    }),
+    // LoggerModule.forRoot({
+    //   pinoHttp: {
+    //     name: 'Log',
+    //     level: isProduction ? 'error' : 'info',
+    //     prettyPrint: { colorize: true, levelFirst: true },
+    //   }
+    // }),
     CacheModule.registerAsync({
       imports: [ConfigModule],
       inject: [],

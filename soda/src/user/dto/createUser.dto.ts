@@ -11,7 +11,7 @@ export class CreateUserDto implements Partial<User> {
   role?: 'USER';
   active?: boolean;
 
-  @IsEmail()
+  @IsEmail({}, {message: 'Email is invalid'})
   email: string;
 
   @IsNotEmpty({message: isRequired('Password')})

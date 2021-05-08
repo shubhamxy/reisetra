@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { isProduction } from 'src/config';
+import { IS_PRODUCTION } from 'src/config';
 import { ErrorResponse } from '../response';
 
 @Catch()
@@ -23,7 +23,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         };
       }
       exeptionResponse['statusCode'] = status;
-      if (!isProduction) {
+      if (!IS_PRODUCTION) {
         exeptionResponse['meta'] = exeptionResponse['meta'] || {};
         exeptionResponse['meta']['stack'] = exception.stack;
       }

@@ -12,6 +12,11 @@ enum OAuthProvider {
   GOOGLE
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id    String     @id @default(cuid())
 
@@ -55,9 +60,7 @@ model Profile {
   updatedAt DateTime @updatedAt
 }
 
-enum Role {
-  USER
-}
+
 
 model Inventory {
   id    Int     @id @default(autoincrement())

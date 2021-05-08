@@ -8,7 +8,7 @@ export class UserEntity implements User {
   name: string;
   dateOfBirth: Date;
   phone: string;
-  role: 'USER';
+  role: 'USER' | 'ADMIN';
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
