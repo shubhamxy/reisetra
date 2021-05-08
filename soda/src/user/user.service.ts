@@ -17,7 +17,7 @@ import { errorCodes, errorTypes } from 'src/common/codes/error';
 import { CreateOauthUserDto } from './dto/createUser.dto';
 import { prismaOffsetPagination } from 'src/utils/prisma';
 
-const SelectUserFeilds = {
+const selectUserFeilds = {
   id: true,
   email: true,
   name: true,
@@ -27,6 +27,13 @@ const SelectUserFeilds = {
   updatedAt: true,
   role: true,
   avatar: true,
+  emailVerified: true,
+  profile: {
+    select: {
+      active: true,
+      bio: true,
+    }
+  }
 };
 
 @Injectable()
@@ -45,7 +52,7 @@ export class UserService {
         orderBy: {
           createdAt: 'desc',
         },
-        select: SelectUserFeilds,
+        select: selectUserFeilds,
       });
       const total = await this.db.user.count({});
       return {
@@ -77,7 +84,7 @@ export class UserService {
         buttonNum: Number(buttonNum),
         orderBy,
         orderDirection,
-        select: SelectUserFeilds,
+        select: selectUserFeilds,
         model: 'User',
         prisma: this.db,
       });

@@ -12,16 +12,13 @@ import {
 import { Public } from 'src/auth/decorator/public.decorator';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './gaurd/local.gaurd';
-import {
-  AuthUserDto,
-  ResetPasswordDto,
-  UpdatePasswordDto,
-} from './dto/login.dto';
+import { ResetPasswordDto, UpdatePasswordDto } from './dto/login.dto';
 import JwtRefreshGuard from './gaurd/refresh.gaurd';
 import { CreateUserDto } from 'src/user/dto';
 import { Exception, SuccessResponse } from 'src/common/response';
 import { GoogleAuthGuard } from './gaurd/google.gaurd';
 import { FRONTEND_URL } from 'src/config';
+import { Message } from 'src/constants';
 
 @Controller()
 export class AuthController {
@@ -30,21 +27,17 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('auth/email/login')
-  async login(
-    @Req() request,
-    @Body() body: AuthUserDto,
-  ): Promise<SuccessResponse> {
+  async login(@Req() request): Promise<SuccessResponse> {
     const data = await this.authService.login(request.user);
-    return { data };
+    return { data, message: 'Login Success' };
   }
 
   @Public()
   @UseGuards(JwtRefreshGuard)
   @Get('auth/refresh')
   async refresh(@Req() request): Promise<SuccessResponse> {
-    // await this.authService.removeCurrentRefreshToken(request.user.id);
     const data = await this.authService.login(request.user);
-    return { data };
+    return { data, message: 'Refresh Success' };
   }
 
   @Public()
@@ -54,14 +47,16 @@ export class AuthController {
     @Body() body: CreateUserDto,
   ): Promise<SuccessResponse> {
     const data = await this.authService.signup(body);
-    return { data };
+    return { data, message: 'SignUp Success' };
   }
 
   @Public()
   @Get('auth/login/oauth/google')
   @UseGuards(GoogleAuthGuard)
   async googleAuth(@Req() request): Promise<SuccessResponse> {
-    return {};
+    return {
+      message: 'GoogleAuth Redirect',
+    };
   }
 
   @Public()
@@ -69,7 +64,7 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   async googleAuthRedirect(@Req() request): Promise<SuccessResponse> {
     const data = await this.authService.googleLogin(request.user);
-    return { data };
+    return { data, message: 'GoogleAuth Success' };
   }
 
   @Public()
@@ -90,17 +85,16 @@ export class AuthController {
 
   @Get('auth/email/resend-verification')
   public async sendEmailVerification(@Req() request): Promise<SuccessResponse> {
-    try {
-      const data = await this.authService.sendEmailVerification(
-        request.user.id,
-        request.user.email,
-      );
-      return {
-        data: {
-          emailSent: Boolean(data.MessageId),
-        },
-      };
-    } catch (error) {}
+    const data = await this.authService.sendEmailVerification(
+      request.user.id,
+      request.user.email,
+    );
+    return {
+      data: {
+        emailSent: Boolean(data.MessageId),
+      },
+      message: 'Resend Verification Email Success',
+    };
   }
 
   @Public()
@@ -108,14 +102,13 @@ export class AuthController {
   public async sendEmailForgotPassword(
     @Param() params,
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.authService.sendForgotPasswordEmail(params.email);
-      return {
-        data: {
-          emailSent: Boolean(data.MessageId),
-        },
-      };
-    } catch (error) {}
+    const data = await this.authService.sendForgotPasswordEmail(params.email);
+    return {
+      data: {
+        emailSent: Boolean(data.MessageId),
+      },
+      message: 'Forgot Password Email Success',
+    };
   }
 
   @Public()
@@ -144,7 +137,7 @@ export class AuthController {
     );
     if (tokenVerified) {
       const data = await this.authService.resetPassword(body);
-      return { data };
+      return { data, message: 'Reset Password Success' };
     }
     throw new Exception(
       { message: 'Invalid Token', source: 'auth/email/reset-password' },
@@ -161,6 +154,6 @@ export class AuthController {
       request.user.email,
       body,
     );
-    return { data };
+    return { data, message: 'Update Password Success' };
   }
 }

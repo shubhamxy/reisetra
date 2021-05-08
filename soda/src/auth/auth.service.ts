@@ -81,10 +81,11 @@ export class AuthService {
 
   async signup(user: CreateUserDto) {
     const createdUser = await this.user.create(user);
+    const authPayload = await this.getAuthToken(createdUser);
     if(createdUser) {
       this.sendEmailVerification(createdUser.id, createdUser.email);
     }
-    return this.getAuthToken(createdUser);
+    return authPayload;
   }
 
   async resetPassword(data: ResetPasswordDto) {

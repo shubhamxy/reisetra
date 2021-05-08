@@ -7,3 +7,5 @@ export const PASSWORD_MAX_LENGTH = 'Password must be less than 30 character'
 export const PASSWORD_IS_WEAK = 'Password must contain at least one uppercase and a special character (ex: !, @, # etc)'
 
 export const STRONG_PASSWORD_REGEX = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+
+export * from './strings';
