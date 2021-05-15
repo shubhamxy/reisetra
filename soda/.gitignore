@@ -32,3 +32,8 @@ databases/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+.env
+.env.local
+.env.production
+.env.staging

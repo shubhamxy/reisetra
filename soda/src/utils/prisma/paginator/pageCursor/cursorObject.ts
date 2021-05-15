@@ -28,7 +28,7 @@ export async function pageToCursorObject({
 }: Props<typeof model>): Promise<PageCursorType> {
   const { currentPage, size, totalCount, totalPages } = pageInfo;
   let cursorId: number | string;
-  const prismaModel = prisma[model.toLowerCase()];
+  const prismaModel = prisma[model];
 
   // first
   if (page === 1) {

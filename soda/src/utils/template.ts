@@ -2,12 +2,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import handlebars from 'handlebars';
 import { createParams, IParams } from './aws';
-import {
-  API_URL,
-  AWS_SES_DEFAULT_EMAIL_SENDER,
-  EMAIL_SENDER_NAME,
-  FRONTEND_URL,
-} from 'src/config';
+import {services, app} from 'src/config';
 
 const common = readFileSync(
   join(__dirname + '/../views/mail/common.hbs'),
@@ -29,22 +24,22 @@ const options = (
     footerText: string;
   },
 ): Partial<IParams> => {
-  const config = {
-    source: `"${EMAIL_SENDER_NAME}" <${AWS_SES_DEFAULT_EMAIL_SENDER}>`,
+  const config = services();
+  return {
+    source: `"${config.mailer.senderName}" <${config.aws.sesEmailSender}>`,
     to: [email],
-    subject: `${EMAIL_SENDER_NAME} | ${locals.messageSubject}`,
+    subject: `${config.mailer.senderName} | ${locals.messageSubject}`,
     html: commonTemplate(locals),
     text: `${locals.mainParagraph}`,
   };
-  console.log('info', `Sending password reset email to ${email}.`, config);
-  return config;
 };
 
 export function passwordResetEmail(user: {
   email: string;
   token: string;
 }) {
-  const passwordResetLink = `${FRONTEND_URL}/auth/reset-password?email=${user.email}&token=${user.token}`;
+  const config = app();
+  const passwordResetLink = `${config.clientUrl}/auth/reset-password?email=${user.email}&token=${user.token}`;
   return createParams(
     options(user.email, {
       messageSubject: 'Reset Password',
@@ -67,7 +62,8 @@ export function emailVerificationEmail(user: {
   token: string;
   id: string;
 }) {
-  const emailVerifyLink = `${API_URL}/auth/email/verify/${user.id}/${user.token}`;
+  const config = app();
+  const emailVerifyLink = `${config.apiUrl}/auth/email/verify/${user.id}/${user.token}`;
   return createParams(
     options(user.email, {
       messageSubject: 'Confirm your email address',

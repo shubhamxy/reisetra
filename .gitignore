@@ -7,11 +7,9 @@ node_modules
 .idea/
 */.idea/
 .docker
-.env
 .next
 storybook-static
 _
-.env.local
 yarn-error.log
 
 dist
@@ -21,3 +19,8 @@ dist
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+.env
+.env.local
+.env.production
+.env.staging

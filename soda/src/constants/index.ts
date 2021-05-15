@@ -1,5 +1,7 @@
 // Text constants
 export const isRequired = (string) => `${string} is required`;
+export const mustBeOfType= (type: string, feild: string) => `${feild} must be of type ${type}`;
+export const mustBe = (type: string, feild: string) => `${feild} must be ${type}`;
 
 export const BAD_REQUEST = 'Bad Request';
 export const PASSWORD_MIN_LENGTH = 'Password must be greater than 8 character'

@@ -1,27 +1,22 @@
 
-import { User } from '.prisma/client';
-import { Exclude } from 'class-transformer';
-
-export class UserEntity implements User {
+import { OAuthProvider, Role, User as UserModel } from '.prisma/client';
+export class User implements UserModel {
   id: string;
   email: string;
+  emailVerified: boolean;
   name: string;
   dateOfBirth: Date;
   phone: string;
-  role: 'USER' | 'ADMIN';
+  avatar: string;
+  oauthId: string;
+  oauthProvider: OAuthProvider;
+  role: Role;
+  bio: string;
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
-
-  @Exclude()
-  password: string;
-
-  constructor(partial: Partial<UserEntity>) {
-    Object.assign(this, partial);
-  }
-
-  emailVerified: boolean;
-  avatar: string;
-  oauthId: string;
-  oauthProvider: 'GOOGLE';
 }

@@ -59,6 +59,7 @@ const ErrorCodes = {
   LocalAuthFailed: 'E1000',
   AuthFailed: 'E1001',
   RefreshAuthFailed: 'E1002',
+  InvalidRequest: 'E1003',
 } as const;
 
 

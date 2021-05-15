@@ -1,10 +1,13 @@
 import { SES } from 'aws-sdk';
-import {AWS_ACCESS_KEY_ID, AWS_SECRET_KEY, AWS_SES_ENDPOINT, AWS_SES_REGION} from 'src/config';
+import {services} from 'src/config';
+
+const config = services();
+
 const ses = new SES({
-  region: AWS_SES_REGION,
-  endpoint: AWS_SES_ENDPOINT,
-  accessKeyId: AWS_ACCESS_KEY_ID,
-  secretAccessKey: AWS_SECRET_KEY,
+  region: config.aws.sesRegion,
+  endpoint: config.aws.sesEndpoint,
+  accessKeyId: config.aws.accessKeyId,
+  secretAccessKey: config.aws.secretAccessKey,
 });
 
 export interface IParams {
@@ -54,7 +57,7 @@ export const createParams = ({
   Tags: tags,
 });
 
-interface IData {
+export interface IData {
   MessageId: string;
 }
 
@@ -65,7 +68,6 @@ export function sendEmail(params: SES.SendEmailRequest): Promise<IData> {
         console.log(error);
         reject(error);
       } else {
-        console.log(JSON.stringify(data))
         resolve(data);
       }
     });

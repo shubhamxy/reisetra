@@ -1,5 +1,4 @@
-import { User as UserModel } from '@prisma/client';
+import { User } from "../entity";
 
-export type UserRO = Partial<UserModel>;
-
-export type UsersRO = Partial<UserModel>[]
+export type UserRO = Partial<User>;
+export type UsersRO = Partial<User>[]

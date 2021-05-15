@@ -1,7 +1,7 @@
-import { CacheModule, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { HealthCheckController } from './health.controller'
-import { PrismaService } from '../db/prisma.service'
-import { RedisModule } from 'src/redis/redis.module'
+import { PrismaService } from '../common/modules/db/prisma.service'
+import { RedisModule } from 'src/common/modules/redis/redis.module'
 
 @Module({
   imports: [RedisModule],

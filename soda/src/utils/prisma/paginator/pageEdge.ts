@@ -33,7 +33,7 @@ export async function prismaOffsetPagination({
   prisma,
 }: Props): Promise<PaginationType> {
   // totalCount
-  const prismaModel = prisma[model.toLowerCase()];
+  const prismaModel = prisma[model];
   const totalCount = await prismaModel.count({
     where: {
       ...where,
@@ -77,7 +77,7 @@ export async function prismaOffsetPagination({
   // cursor & currentPage
   let currentPage: number;
   if (cursor) {
-    const prismaModel = prisma[model.toLowerCase()];
+    const prismaModel = prisma[model];
     const decryptedCursor = Buffer.from(cursor, 'base64').toString('ascii').slice(9);
     let idOrigin: number | string = isNaN(parseInt(decryptedCursor)) ? decryptedCursor : Number(decryptedCursor);
 

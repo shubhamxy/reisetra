@@ -48,7 +48,7 @@ export async function pageCursorsToArrayNearTheBeginning({
 }: Props<typeof model>): Promise<PageCursorType[]> {
   const cursors = [];
   const { currentPage, size } = pageInfo;
-  const prismaModel = prisma[model.toLowerCase()];
+  const prismaModel = prisma[model];
 
   let findManyArgsForFirst;
   if (findManyArgs?.orderBy) {
@@ -88,7 +88,7 @@ export async function pageCursorsToArrayNearTheEnd({
 }: Props<typeof model>): Promise<PageCursorType[]> {
   const cursors = [];
   const { currentPage, size, totalCount } = pageInfo;
-  const prismaModel = prisma[model.toLowerCase()];
+  const prismaModel = prisma[model];
 
   let findManyArgsForLast;
   if (findManyArgs?.orderBy) {
@@ -145,7 +145,7 @@ export async function pageCursorsToArrayInTheMiddle({
 }: Props<typeof model>): Promise<PageCursorType[]> {
   const cursors = [];
   const { currentPage, size } = pageInfo;
-  const prismaModel = prisma[model.toLowerCase()];
+  const prismaModel = prisma[model];
 
   // First half except the currentPage
   const resultOfFirstHalf = await prismaModel.findMany({

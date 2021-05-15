@@ -36,11 +36,11 @@ export interface CursorPaginationOptionsInterface {
 
 
 export class CursorPagination implements Partial<CursorPaginationOptionsInterface> {
-  size: number
-  buttonNum: number
-  cursor: string
-  orderBy: string
-  orderDirection: 'desc' | 'asc'
+  size?: number
+  buttonNum?: number
+  cursor?: string
+  orderBy?: string
+  orderDirection?: 'desc' | 'asc'
  }
 
 export interface CursorPaginationResultInterface<PaginationEntity> extends PaginationType {

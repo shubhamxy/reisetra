@@ -1,10 +1,10 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import { User as UserModel } from '.prisma/client';
-import { Exception } from 'src/common/response';
-import { errorCodes, errorTypes } from 'src/common/codes/error';
+import { CustomException, CustomError } from '../../common/response';
+import { errorCodes } from '../../common/codes/error';
+import { User } from '../../user/entity';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -15,18 +15,19 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(email: string, password: string): Promise<Partial<UserModel>> {
-    const userOrNull = await this.authService.validateUser(email, password);
-    if (!userOrNull) {
-      throw new Exception(
-        {
-          code: errorCodes.LocalAuthFailed,
-          source: 'LocalStrategy.validate',
-          type: errorTypes[errorCodes.LocalAuthFailed],
-        },
+  async validate(email: string, password: string): Promise<Partial<User>> {
+    try {
+      const userOrNull = await this.authService.validateUser(email, password);
+      if (userOrNull === null) {
+        throw new CustomError( 'Username and password does not match', errorCodes.LocalAuthFailed, 'LocalStrategy.validate');
+      }
+      return userOrNull;
+    } catch (error) {
+      throw new CustomException(
+        error,
         HttpStatus.UNAUTHORIZED,
+        'LocalStrategy.validate',
       );
     }
-    return userOrNull;
   }
 }

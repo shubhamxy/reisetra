@@ -47,7 +47,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./databases/mongodb:/data/db
+      - ./databases/postgres:/var/lib/postgresql
     networks:
       - soda-backend
 

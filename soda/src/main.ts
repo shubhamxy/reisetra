@@ -1,61 +1,60 @@
-import {
-  ClassSerializerInterceptor,
-  NestApplicationOptions,
-} from '@nestjs/common';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { config, SES } from 'aws-sdk';
+require('dotenv').config();
+import { ClassSerializerInterceptor, INestApplication } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { config as awsconfig } from 'aws-sdk';
+import * as helmet from 'helmet';
+import { Logger, PinoLogger } from 'nestjs-pino';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filter/exeption.filter';
 import { DataTransformInterceptor } from './common/interceptor/data.interceptor';
 // import { ErrorsInterceptor } from './common/interceptor/error.interceptor';
-import * as helmet from 'helmet';
-// import * as csurf from 'csurf';
-// import * as cookieParser from 'cookie-parser';
-
 import { ValidationPipe } from './common/pipe/validation.pipe';
-import {
-  API_PREFIX,
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_KEY,
-  AWS_DEFAULT_REGION,
-  PORT,
-} from './config';
-import { AllExceptionsFilter } from './common/filter/exeption.filter';
+import { AppEnv, pinoConfig, ServicesEnv } from './config';
+import { setupSwagger } from './utils/openapi';
 
-const compression = require('compression');
+export const setupNestApp = (app: INestApplication): AppEnv => {
+  const configService = app.get(ConfigService);
+  const servicesConfig = configService.get<ServicesEnv>("services");
+  const appConfig = configService.get<AppEnv>("app");
 
-const options: NestApplicationOptions = {
-  cors: true,
-};
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule, options);
-  app.use(compression());
   app.use(helmet());
-  // app.enableCors({
-  //   allowedHeaders: 'X-Requested-With, content-type, authorization, x-refresh-token, x-auth-token',
-  //   methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE, HEAD',
-  //   origin: 'localhost',
-  // });
+  app.enableCors({
+    allowedHeaders: appConfig.cors.allowedHeaders,
+    methods: appConfig.cors.methods,
+    origin: appConfig.cors.origin,
+  })
 
-  // app.use(cookieParser());
-  // app.use(csurf({cookie: true}));
-
-  config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_KEY,
-    region: AWS_DEFAULT_REGION,
-  });
-  app.setGlobalPrefix(API_PREFIX);
+  const reflector = app.get(Reflector);
+  app.setGlobalPrefix(appConfig.apiPrefix);
   app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(reflector),
     new DataTransformInterceptor(),
     // new ErrorsInterceptor(),
   );
-  // const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalPipes(
-    new ValidationPipe(),
-  );
-  app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.listen(PORT);
+  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalPipes(new ValidationPipe());
+
+  if (appConfig.swagger) {
+    setupSwagger(app, appConfig);
+  }
+
+  awsconfig.update({
+    accessKeyId: servicesConfig.aws.accessKeyId,
+    secretAccessKey: servicesConfig.aws.secretAccessKey,
+    region: servicesConfig.aws.region,
+  });
+
+  return appConfig;
+};
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    logger: new Logger(new PinoLogger(pinoConfig), {}),
+  });
+  const config= setupNestApp(app);
+  await app.listen(config.port);
 }
+
 bootstrap();

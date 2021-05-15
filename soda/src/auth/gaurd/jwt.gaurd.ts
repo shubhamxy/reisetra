@@ -4,9 +4,9 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   IS_LOCAL_AUTHENTICATED,
   IS_PUBLIC_KEY,
-} from 'src/auth/decorator/public.decorator';
-import { errorCodes, errorTypes } from 'src/common/codes/error';
-import { Exception } from 'src/common/response';
+} from '../../auth/decorator/public.decorator';
+import { errorCodes, errorTypes } from '../../common/codes/error';
+import { Exception } from '../../common/response';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -38,7 +38,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         {
           message: 'Authentication Failed',
           code: errorCodes.AuthFailed,
-          source: 'JwtAuthGuard.handleRequest',
+          context: 'JwtAuthGuard.handleRequest',
           type: errorTypes[errorCodes.AuthFailed],
         },
         HttpStatus.UNAUTHORIZED,

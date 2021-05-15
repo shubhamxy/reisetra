@@ -5,8 +5,7 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { statusCodeText } from 'src/utils/statusCodeText';
+import { map } from 'rxjs/operators';
 import { SuccessResponse } from '../response';
 
 export class DataTransformInterceptor<T>
@@ -21,8 +20,7 @@ export class DataTransformInterceptor<T>
 
 function transformData(context: ExecutionContext) {
   return (response: SuccessResponse) => {
-    response['statusCode'] = response['statusCode'] || context.switchToHttp().getResponse()?.statusCode || 200;
-    response['message'] = response['message'] || statusCodeText[response['statusCode']] || 'OK'
+    response['success'] = true;
     return response;
   };
 }
