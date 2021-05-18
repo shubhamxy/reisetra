@@ -6,6 +6,7 @@ module.exports = {
       instances: "max",
       exec_mode: "cluster",
       watch: false,
+      node_args: "--max_old_space_size=500",
       env: {
         NODE_ENV: "development",
       },
