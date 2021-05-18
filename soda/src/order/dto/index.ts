@@ -1,9 +1,9 @@
-import { OrderStatus } from '.prisma/client';
-import { Allow } from 'class-validator';
-import { CursorPaginationDTO } from 'src/common/dto';
-import { Order } from '../entity';
+import { OrderStatus } from ".prisma/client";
+import { Allow } from "class-validator";
+import { CursorPaginationDTO } from "src/common/dto";
+import { Order } from "../entity";
 
-type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId';
+type Excluded = "id" | "active" | "createdAt" | "updatedAt" | "userId";
 
 export class GetAllOrdersDto extends CursorPaginationDTO {}
 

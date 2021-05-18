@@ -1,4 +1,4 @@
-import { registerAs } from '@nestjs/config';
+import { registerAs } from "@nestjs/config";
 export interface SettingsEnv {}
 export const settings = (): SettingsEnv => ({});
-export default registerAs('settings', settings);
+export default registerAs("settings", settings);

@@ -1,10 +1,10 @@
-import { PageCursorType, pageToCursorObject } from './cursorObject';
+import { PageCursorType, pageToCursorObject } from "./cursorObject";
 import {
   pageCursorsToArray,
   pageCursorsToArrayInTheMiddle,
   pageCursorsToArrayNearTheBeginning,
   pageCursorsToArrayNearTheEnd,
-} from './cursorArray';
+} from "./cursorArray";
 
 // Returns the total number of pagination results capped to PAGE_NUMBER_CAP.
 export function computeTotalPages(totalCount: number, size: number): number {
@@ -43,7 +43,7 @@ export async function createPageCursors({
     console.log(
       `buttonNum of ${buttonNum} passed to page cursors, but using ${
         buttonNum + 1
-      } instead for the pagination logic`,
+      } instead for the pagination logic`
     );
     buttonNum = buttonNum + 1;
   }

@@ -9,26 +9,24 @@ import {
   Put,
   Query,
   Req,
-} from '@nestjs/common';
-import { UserService } from './user.service';
+} from "@nestjs/common";
+import { UserService } from "./user.service";
 import {
   CustomException,
   Exception,
   SuccessResponse,
-} from 'src/common/response';
-import { validate } from 'class-validator';
-import { GetAllUsersDto, UpdateUserDto } from './dto';
-import { errorTypes } from 'src/common/codes/error';
-import { getErrorMessage, stackObj } from 'src/utils/errorUtils';
-import { AuthenticatedRequest } from 'src/auth/auth.interface';
-import { ApiTags } from '@nestjs/swagger';
+} from "src/common/response";
+import { validate } from "class-validator";
+import { GetAllUsersDto, UpdateUserDto } from "./dto";
+import { errorTypes } from "src/common/codes/error";
+import { getErrorMessage, stackObj } from "src/utils/errorUtils";
+import { AuthenticatedRequest } from "src/auth/auth.interface";
 
-@ApiTags('user')
 @Controller()
 export class UserController {
   constructor(private readonly user: UserService) {}
 
-  @Get('users')
+  @Get("users")
   async getAllUsers(@Query() query: GetAllUsersDto): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.user.allUsers(query);
@@ -38,16 +36,16 @@ export class UserController {
         {
           message: getErrorMessage(error),
           code: error.code,
-          context: 'UserController.getAllUsers',
+          context: "UserController.getAllUsers",
           type: errorTypes[error.code],
           stack: stackObj(error.message),
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }
 
-  @Get('user/me')
+  @Get("user/me")
   async getMe(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
     try {
       const data = await this.user.find(req.user.id);
@@ -57,10 +55,10 @@ export class UserController {
     }
   }
 
-  @Put('user/me')
+  @Put("user/me")
   async updateMe(
     @Req() req: AuthenticatedRequest,
-    @Body() body: UpdateUserDto,
+    @Body() body: UpdateUserDto
   ): Promise<SuccessResponse> {
     try {
       const data = await this.user.findAndUpdate(req.user.id, body);
@@ -70,23 +68,23 @@ export class UserController {
         {
           message: getErrorMessage(error),
           code: error.code,
-          context: 'UserController.updateMe',
+          context: "UserController.updateMe",
           type: errorTypes[error.code],
           stack: stackObj(error.message),
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }
 
-  @Delete('user/me')
+  @Delete("user/me")
   async deleteMe(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
     const data = await this.user.delete(req.user.id);
     return { data };
   }
 
-  @Get('user/:id')
-  async getUser(@Param('id') id: string): Promise<SuccessResponse> {
+  @Get("user/:id")
+  async getUser(@Param("id") id: string): Promise<SuccessResponse> {
     try {
       const data = await this.user.find(id);
       return { data };
@@ -95,18 +93,18 @@ export class UserController {
     }
   }
 
-  @Put('user/:id')
+  @Put("user/:id")
   async updateUser(
-    @Param('id') id: string,
-    @Body() body: UpdateUserDto,
+    @Param("id") id: string,
+    @Body() body: UpdateUserDto
   ): Promise<SuccessResponse> {
     const update = body;
     const data = await this.user.findAndUpdate(id, update);
     return { data };
   }
 
-  @Delete('user/:id')
-  async deleteUser(@Param('id') id: string): Promise<SuccessResponse> {
+  @Delete("user/:id")
+  async deleteUser(@Param("id") id: string): Promise<SuccessResponse> {
     const data = await this.user.delete(id);
     return { data };
   }

@@ -1,5 +1,4 @@
-
-import { OAuthProvider, Role, User as UserModel } from '.prisma/client';
+import { OAuthProvider, Role, User as UserModel } from ".prisma/client";
 export class User implements UserModel {
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

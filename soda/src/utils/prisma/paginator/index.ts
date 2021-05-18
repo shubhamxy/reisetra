@@ -1,1 +1,1 @@
-export * from './pageEdge';
+export * from "./pageEdge";

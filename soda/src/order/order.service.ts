@@ -1,33 +1,33 @@
-import { Product } from '.prisma/client';
-import { Injectable } from '@nestjs/common';
-import { errorCodes } from 'src/common/codes/error';
+import { Product } from ".prisma/client";
+import { Injectable } from "@nestjs/common";
+import { errorCodes } from "src/common/codes/error";
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-} from 'src/common/pagination';
-import { CustomError } from 'src/common/response';
-import { PrismaService } from 'src/common/modules/db/prisma.service';
-import { RedisService } from 'src/common/modules/redis/redis.service';
-import { prismaOffsetPagination } from 'src/utils/prisma';
-import { CreateOrderDto } from './dto';
+} from "src/common/pagination";
+import { CustomError } from "src/common/response";
+import { PrismaService } from "src/common/modules/db/prisma.service";
+import { RedisService } from "src/common/modules/redis/redis.service";
+import { prismaOffsetPagination } from "src/utils/prisma";
+import { CreateOrderDto } from "./dto";
 
 @Injectable()
 export class OrderService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: RedisService
   ) {}
 
   async getAllOrders(
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
     try {
       const {
         cursor,
         size = 10,
         buttonNum = 10,
-        orderBy = 'createdAt',
-        orderDirection = 'desc',
+        orderBy = "createdAt",
+        orderDirection = "desc",
       } = options;
       const result = await prismaOffsetPagination({
         cursor,
@@ -35,7 +35,7 @@ export class OrderService {
         buttonNum: Number(buttonNum),
         orderBy,
         orderDirection,
-        model: 'order',
+        model: "order",
         include: {
           address: true,
           user: true,
@@ -47,7 +47,7 @@ export class OrderService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'OrderService.getAllOrders',
+        "OrderService.getAllOrders"
       );
     }
   }
@@ -59,10 +59,13 @@ export class OrderService {
         orderItems: true,
         address: true,
         user: true,
-      }
+      },
     });
     if (!product) {
-      throw new CustomError('Order does not exist', errorCodes.RecordDoesNotExist);
+      throw new CustomError(
+        "Order does not exist",
+        errorCodes.RecordDoesNotExist
+      );
     }
     return product;
   }
@@ -84,7 +87,7 @@ export class OrderService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'OrderService.createOrder',
+        "OrderService.createOrder"
       );
     }
   }
@@ -97,14 +100,14 @@ export class OrderService {
         include: {
           address: true,
           user: true,
-        }
+        },
       });
       return data;
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'OrderService.updateOrder',
+        "OrderService.updateOrder"
       );
     }
   }
@@ -123,7 +126,7 @@ export class OrderService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'OrderService.deleteOrder',
+        "OrderService.deleteOrder"
       );
     }
   }

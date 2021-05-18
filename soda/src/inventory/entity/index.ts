@@ -1,4 +1,4 @@
-import { Prisma, Inventory as InventoryModel } from '.prisma/client';
+import { Prisma, Inventory as InventoryModel } from ".prisma/client";
 
 export class Inventory implements InventoryModel {
   id: string;

@@ -1,15 +1,15 @@
-import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { AuthGuard } from '@nestjs/passport';
+import { ExecutionContext, HttpStatus, Injectable } from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { AuthGuard } from "@nestjs/passport";
 import {
   IS_LOCAL_AUTHENTICATED,
   IS_PUBLIC_KEY,
-} from '../../auth/decorator/public.decorator';
-import { errorCodes, errorTypes } from '../../common/codes/error';
-import { Exception } from '../../common/response';
+} from "../../auth/decorator/public.decorator";
+import { errorCodes, errorTypes } from "../../common/codes/error";
+import { Exception } from "../../common/response";
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthGuard extends AuthGuard("jwt") {
   constructor(private reflector: Reflector) {
     super();
   }
@@ -24,7 +24,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
     const isLocalAuthenticated = this.reflector.getAllAndOverride<boolean>(
       IS_LOCAL_AUTHENTICATED,
-      [context.getHandler(), context.getClass()],
+      [context.getHandler(), context.getClass()]
     );
     if (isLocalAuthenticated) {
       return true;
@@ -36,12 +36,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw new Exception(
         {
-          message: 'Authentication Failed',
+          message: "Authentication Failed",
           code: errorCodes.AuthFailed,
-          context: 'JwtAuthGuard.handleRequest',
+          context: "JwtAuthGuard.handleRequest",
           type: errorTypes[errorCodes.AuthFailed],
         },
-        HttpStatus.UNAUTHORIZED,
+        HttpStatus.UNAUTHORIZED
       );
     }
     return user;

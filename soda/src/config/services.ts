@@ -1,4 +1,4 @@
-import { registerAs } from '@nestjs/config';
+import { registerAs } from "@nestjs/config";
 
 export interface ServicesEnv {
   razorpay: {
@@ -26,7 +26,7 @@ export const services = (): ServicesEnv => ({
     razorpaySecretKey: process.env.RAZORPAY_SECRET_KEY,
   },
   mailer: {
-    senderName: process.env.EMAIL_SENDER_NAME || 'Reisetra',
+    senderName: process.env.EMAIL_SENDER_NAME || "Reisetra",
   },
   aws: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -42,4 +42,4 @@ export const services = (): ServicesEnv => ({
   },
 });
 
-export default registerAs('services', services);
+export default registerAs("services", services);

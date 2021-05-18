@@ -1,23 +1,23 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { JwtService } from '@nestjs/jwt';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { UserService } from "../user/user.service";
+import { JwtService } from "@nestjs/jwt";
 import {
   getEmailVerificationTokenKey,
   getForgotPasswordKey,
   getRefreshTokenKey,
-} from '../utils/redis';
-import { RedisService } from '../common/modules/redis/redis.service';
-import { CreateUserDto } from '../user/dto';
-import { User } from '.prisma/client';
-import { UserRO } from '../user/interfaces/user.interface';
-import { nanoid } from 'nanoid';
-import { GoogleUser } from './strategy/google.strategy';
-import { sendEmail, IData } from '../utils/aws';
-import { passwordResetEmail, emailVerificationEmail } from '../utils/template';
-import { CustomError } from '../common/response';
-import { errorCodes } from '../common/codes/error';
-import { ConfigService } from '@nestjs/config';
-import { AppEnv, AuthEnv } from 'src/config';
+} from "../utils/redis";
+import { RedisService } from "../common/modules/redis/redis.service";
+import { CreateUserDto } from "../user/dto";
+import { User } from ".prisma/client";
+import { UserRO } from "../user/interfaces/user.interface";
+import { nanoid } from "nanoid";
+import { GoogleUser } from "./strategy/google.strategy";
+import { sendEmail, IData } from "../utils/aws";
+import { passwordResetEmail, emailVerificationEmail } from "../utils/template";
+import { CustomError } from "../common/response";
+import { errorCodes } from "../common/codes/error";
+import { ConfigService } from "@nestjs/config";
+import { AppEnv, AuthEnv } from "src/config";
 
 export interface AuthTokenPayload {
   tid: string;
@@ -38,16 +38,16 @@ export interface AuthResponse {
 
 @Injectable()
 export class AuthService {
-  appConfig: AppEnv
-  authConfig: AuthEnv
+  appConfig: AppEnv;
+  authConfig: AuthEnv;
   constructor(
     private user: UserService,
     private jwt: JwtService,
     private cache: RedisService,
     configService: ConfigService
   ) {
-    this.appConfig = configService.get<AppEnv>('app');
-    this.authConfig = configService.get<AuthEnv>('auth');
+    this.appConfig = configService.get<AppEnv>("app");
+    this.authConfig = configService.get<AuthEnv>("auth");
   }
 
   async validateUser(email: string, password: string): Promise<UserRO> {
@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   async isRefreshTokenPayloadValid(
-    payload: AuthTokenPayload,
+    payload: AuthTokenPayload
   ): Promise<boolean> {
     const tokenId = await this.getRefreshToken(payload.sub);
     return tokenId && tokenId === payload.tid ? true : false;
@@ -77,25 +77,29 @@ export class AuthService {
     id,
     email,
     role,
-  }: Partial<{id: string, email: string, role: string}>): Promise<AuthResponse> {
+  }: Partial<{
+    id: string;
+    email: string;
+    role: string;
+  }>): Promise<AuthResponse> {
     if (!id || !email || !role) {
       throw new CustomError(
-        'Invalid Token',
+        "Invalid Token",
         errorCodes.AuthFailed,
-        'AuthService.getAuthToken',
+        "AuthService.getAuthToken"
       );
     }
     const tid = nanoid(5);
-    const jwtAccessTokenPayload = { email, sub: id, role: role, tid};
-    const jwtRefreshTokenPayload = { email, sub: id, role: role, tid};
+    const jwtAccessTokenPayload = { email, sub: id, role: role, tid };
+    const jwtRefreshTokenPayload = { email, sub: id, role: role, tid };
     const accessToken = this.jwt.sign(
       jwtAccessTokenPayload,
-      this.authConfig.jwtAccessTokenOptions,
+      this.authConfig.jwtAccessTokenOptions
     );
 
     const refreshToken = this.jwt.sign(
       jwtRefreshTokenPayload,
-      this.authConfig.jwtRefreshTokenOptions,
+      this.authConfig.jwtRefreshTokenOptions
     );
 
     this.setRefreshToken(id, tid);
@@ -106,7 +110,7 @@ export class AuthService {
       expires_in: this.authConfig.jwtAccessTokenOptions.expiresIn,
       access_token: accessToken,
       refresh_token: refreshToken,
-      token_type: 'Bearer',
+      token_type: "Bearer",
     };
   }
 
@@ -131,7 +135,7 @@ export class AuthService {
   }): Promise<AuthResponse> {
     const updatedUser = await this.user.resetPassword(
       data.email,
-      data.password,
+      data.password
     );
     this.cache.del(getForgotPasswordKey(data.email));
     return this.getAuthToken(updatedUser);
@@ -142,12 +146,12 @@ export class AuthService {
     data: {
       password: string;
       oldPassword: string;
-    },
+    }
   ): Promise<AuthResponse> {
     const updatedUser = await this.user.updatePassword(
       email,
       data.password,
-      data.oldPassword,
+      data.oldPassword
     );
     return this.getAuthToken(updatedUser);
   }
@@ -159,8 +163,8 @@ export class AuthService {
       avatar: user.avatar,
       emailVerified: user.emailVerified,
       oauthId: user.oauthId,
-      oauthProvider: 'GOOGLE',
-      role: 'USER',
+      oauthProvider: "GOOGLE",
+      role: "USER",
     });
     if (userOrNull) {
       return this.getAuthToken(userOrNull);
@@ -172,8 +176,8 @@ export class AuthService {
       avatar: user.avatar,
       emailVerified: user.emailVerified,
       oauthId: user.oauthId,
-      oauthProvider: 'GOOGLE',
-      role: 'USER',
+      oauthProvider: "GOOGLE",
+      role: "USER",
     });
     return this.getAuthToken(newUser);
   }
@@ -211,17 +215,17 @@ export class AuthService {
         email,
         token: emailToken,
         id: id,
-      }),
+      })
     );
     return data;
   }
 
   async verifyForgotPasswordToken(
     email: string,
-    token: string,
+    token: string
   ): Promise<boolean> {
     const storedToken = (await this.cache.get(
-      getForgotPasswordKey(email),
+      getForgotPasswordKey(email)
     )) as string;
     if (!storedToken) {
       return false;
@@ -239,7 +243,7 @@ export class AuthService {
         passwordResetEmail({
           email,
           token: forgotPasswordToken,
-        }),
+        })
       );
       return data;
     }

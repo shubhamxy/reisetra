@@ -1,7 +1,7 @@
-import { CursorPaginationDTO } from 'src/common/dto';
-import { Address } from '../entity';
+import { CursorPaginationDTO } from "src/common/dto";
+import { Address } from "../entity";
 
-type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId';
+type Excluded = "id" | "active" | "createdAt" | "updatedAt" | "userId";
 
 export class GetAllAddressDto extends CursorPaginationDTO {}
 

@@ -2,13 +2,13 @@ import {
   Prisma,
   Transaction as TransactionModel,
   TransactionStatus,
-} from '.prisma/client';
+} from ".prisma/client";
 
 export class Transaction implements TransactionModel {
   constructor(partial: Partial<TransactionModel>) {
     Object.assign(this, partial);
   }
-  type: 'RAZORPAY';
+  type: "RAZORPAY";
   amount: number;
   id: string;
   userId: string;

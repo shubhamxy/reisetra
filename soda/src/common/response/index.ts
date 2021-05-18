@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
-import { getErrorMessage, stackObj } from 'src/utils';
-import { statusText } from 'src/utils/statusText';
-import { ErrorCode, ErrorType, errorTypes } from '../codes/error';
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { getErrorMessage, stackObj } from "src/utils";
+import { statusText } from "src/utils/statusText";
+import { ErrorCode, ErrorType, errorTypes } from "../codes/error";
 type Data = Record<string, any> | string | number | boolean | Object;
 
 export interface IMeta {
@@ -33,7 +32,7 @@ export type ErrorResponse<D = IError> = IErrorResponse<D>;
 export function errorResponse(
   errors?: IError[] | IError,
   message?: string,
-  meta?: Partial<IMeta>,
+  meta?: Partial<IMeta>
 ): ErrorResponse<IError> {
   if (errors && !Array.isArray(errors)) {
     errors = [errors];
@@ -49,7 +48,7 @@ export class Exception extends HttpException {
   constructor(
     errors: IError[] | IError,
     status: HttpStatus,
-    description?: string,
+    description?: string
   ) {
     super(errorResponse(errors, description), status);
   }
@@ -60,7 +59,7 @@ export class CustomException extends HttpException {
     error: IError,
     status: HttpStatus,
     context?: string,
-    description?: string,
+    description?: string
   ) {
     const message = getErrorMessage(error);
     super(
@@ -72,12 +71,12 @@ export class CustomException extends HttpException {
             context: context,
             type: errorTypes[error.code],
             stack: stackObj(error.message),
-            data: error?.data || undefined
+            data: error?.data || undefined,
           },
         ],
-        description || message,
+        description || message
       ),
-      status,
+      status
     );
   }
 }
@@ -113,12 +112,8 @@ export type SuccessResponse<D = DataT> = ISuccessResponse<D>;
 
 export class SuccessResponseDTO<T = DataT> implements SuccessResponse<T> {
   [key: string]: DataT;
-  @ApiProperty()
   success?: boolean;
-  @ApiProperty()
   message?: string;
-  @ApiProperty()
   data?: T;
-  @ApiProperty()
   meta?: Partial<IMeta>;
 }

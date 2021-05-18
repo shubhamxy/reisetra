@@ -1,13 +1,13 @@
-import { ConfigService } from '@nestjs/config';
-import { plainToClass } from 'class-transformer';
-import { validateSync } from 'class-validator';
-import { IsString } from 'class-validator';
-import { AppEnv } from './app';
-import { AuthEnv } from './auth';
-import { DBEnv } from './db';
-import { RedisEnv } from './redis';
-import { ServicesEnv } from './services';
-import { SettingsEnv } from './settings';
+import { ConfigService } from "@nestjs/config";
+import { plainToClass } from "class-transformer";
+import { validateSync } from "class-validator";
+import { IsString } from "class-validator";
+import { AppEnv } from "./app";
+import { AuthEnv } from "./auth";
+import { DBEnv } from "./db";
+import { RedisEnv } from "./redis";
+import { ServicesEnv } from "./services";
+import { SettingsEnv } from "./settings";
 
 export class EnviromentVars {
   //  APP
@@ -126,14 +126,13 @@ export function validate(config: Record<string, unknown>) {
   return validatedConfig;
 }
 
-
 export function getConfig(configService: ConfigService) {
-  const app = configService.get<AppEnv>('app');
-  const services = configService.get<ServicesEnv>('services');
-  const auth = configService.get<AuthEnv>('auth');
-  const db = configService.get<DBEnv>('db');
-  const redis = configService.get<RedisEnv>('redis');
-  const setting = configService.get<SettingsEnv>('settings');
+  const app = configService.get<AppEnv>("app");
+  const services = configService.get<ServicesEnv>("services");
+  const auth = configService.get<AuthEnv>("auth");
+  const db = configService.get<DBEnv>("db");
+  const redis = configService.get<RedisEnv>("redis");
+  const setting = configService.get<SettingsEnv>("settings");
   return {
     app,
     services,

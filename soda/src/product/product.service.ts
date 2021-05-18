@@ -1,33 +1,33 @@
-import { Product } from '.prisma/client';
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { errorCodes } from 'src/common/codes/error';
+import { Product } from ".prisma/client";
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { errorCodes } from "src/common/codes/error";
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-} from 'src/common/pagination';
-import { CustomError } from 'src/common/response';
-import { PrismaService } from 'src/common/modules/db/prisma.service';
-import { RedisService } from 'src/common/modules/redis/redis.service';
-import { prismaOffsetPagination } from 'src/utils/prisma';
-import { CreateProductDto } from './dto';
+} from "src/common/pagination";
+import { CustomError } from "src/common/response";
+import { PrismaService } from "src/common/modules/db/prisma.service";
+import { RedisService } from "src/common/modules/redis/redis.service";
+import { prismaOffsetPagination } from "src/utils/prisma";
+import { CreateProductDto } from "./dto";
 
 @Injectable()
 export class ProductService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: RedisService
   ) {}
 
   async getAllProducts(
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
     try {
       const {
         cursor,
         size = 10,
         buttonNum = 10,
-        orderBy = 'createdAt',
-        orderDirection = 'desc',
+        orderBy = "createdAt",
+        orderDirection = "desc",
       } = options;
       const result = await prismaOffsetPagination({
         cursor,
@@ -35,7 +35,7 @@ export class ProductService {
         buttonNum: Number(buttonNum),
         orderBy,
         orderDirection,
-        model: 'product',
+        model: "product",
         include: {
           inventory: true,
         },
@@ -46,7 +46,7 @@ export class ProductService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'ProductService.getAllProducts',
+        "ProductService.getAllProducts"
       );
     }
   }
@@ -56,7 +56,10 @@ export class ProductService {
       where: { id },
     });
     if (!product) {
-      throw new CustomError('Product does not exist', errorCodes.RecordDoesNotExist);
+      throw new CustomError(
+        "Product does not exist",
+        errorCodes.RecordDoesNotExist
+      );
     }
     return product;
   }
@@ -80,7 +83,7 @@ export class ProductService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'ProductService.findAllOffset',
+        "ProductService.findAllOffset"
       );
     }
   }
@@ -98,7 +101,7 @@ export class ProductService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'ProductService.findAllOffset',
+        "ProductService.findAllOffset"
       );
     }
   }
@@ -116,7 +119,7 @@ export class ProductService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'ProductService.findAllOffset',
+        "ProductService.findAllOffset"
       );
     }
   }

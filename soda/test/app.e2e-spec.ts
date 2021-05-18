@@ -1,13 +1,13 @@
-import * as request from 'supertest';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../src/app.module';
+import * as request from "supertest";
+import { Test, TestingModule } from "@nestjs/testing";
+import { AppModule } from "../src/app.module";
 
-import { INestApplication } from '@nestjs/common';
+import { INestApplication } from "@nestjs/common";
 import { setupNestApp } from "src/setupNestApp";
-import { PrismaService } from '../src/common/modules/db/prisma.service';
-import { AppEnv } from 'src/config';
+import { PrismaService } from "../src/common/modules/db/prisma.service";
+import { AppEnv } from "src/config";
 
-describe('AppController (e2e)', () => {
+describe("AppController (e2e)", () => {
   let app: INestApplication;
   let config: AppEnv;
   let api: string;
@@ -24,9 +24,7 @@ describe('AppController (e2e)', () => {
   });
 
   it(`/healthz (GET)`, () => {
-    return request(app.getHttpServer())
-      .get(`/${api}/healthz`)
-      .expect(200)
+    return request(app.getHttpServer()).get(`/${api}/healthz`).expect(200);
   });
 
   afterAll(async () => {

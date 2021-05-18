@@ -1,13 +1,13 @@
-import { plainToClass } from 'class-transformer';
+import { plainToClass } from "class-transformer";
 import {
   ArgumentMetadata,
   BadRequestException,
   HttpStatus,
   Injectable,
   ValidationPipe as _ValidationPipe,
-} from '@nestjs/common';
-import { validate, ValidationError } from 'class-validator';
-import { Exception, IError } from '../response';
+} from "@nestjs/common";
+import { validate, ValidationError } from "class-validator";
+import { Exception, IError } from "../response";
 export class ValidationPipe extends _ValidationPipe {
   constructor() {
     super({

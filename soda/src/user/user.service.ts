@@ -1,35 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import * as argon2 from 'argon2';
-import { CustomError } from 'src/common/response';
-import { PrismaService } from 'src/common/modules/db/prisma.service';
-import { RedisService } from 'src/common/modules/redis/redis.service';
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
-import { UserRO, UsersRO } from './interfaces/user.interface';
+import { Injectable } from "@nestjs/common";
+import * as argon2 from "argon2";
+import { CustomError } from "src/common/response";
+import { PrismaService } from "src/common/modules/db/prisma.service";
+import { RedisService } from "src/common/modules/redis/redis.service";
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from "./dto";
+import { UserRO, UsersRO } from "./interfaces/user.interface";
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-} from 'src/common/pagination';
-import { User } from './entity';
-import { errorCodes, errorTypes } from 'src/common/codes/error';
-import { CreateOauthUserDto } from './dto';
-import { prismaOffsetPagination } from 'src/utils/prisma';
+} from "src/common/pagination";
+import { User } from "./entity";
+import { errorCodes, errorTypes } from "src/common/codes/error";
+import { CreateOauthUserDto } from "./dto";
+import { prismaOffsetPagination } from "src/utils/prisma";
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: RedisService
   ) {}
 
   async allUsers(
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<UserRO>> {
     const {
       cursor,
       size = 10,
       buttonNum = 10,
-      orderBy = 'createdAt',
-      orderDirection = 'desc',
+      orderBy = "createdAt",
+      orderDirection = "desc",
     } = options;
     const result = await prismaOffsetPagination({
       cursor,
@@ -37,7 +37,7 @@ export class UserService {
       buttonNum: Number(buttonNum),
       orderBy,
       orderDirection,
-      model: 'user',
+      model: "user",
       prisma: this.db,
     });
     return result;
@@ -65,12 +65,12 @@ export class UserService {
     } catch (error) {
       let message: string = error?.meta?.cause || error.message;
       if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = 'User with email already exists';
+        message = "User with email already exists";
       }
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.emailLogin',
+        "UserService.emailLogin"
       );
     }
   }
@@ -81,14 +81,14 @@ export class UserService {
       return new User(user);
     }
     throw new CustomError(
-      'User with id does not exist',
-      errorCodes.RecordDoesNotExist,
+      "User with id does not exist",
+      errorCodes.RecordDoesNotExist
     );
   }
 
   async findAndUpdate(
     id: string,
-    update: Partial<UpdateUserDto & { emailVerified: boolean }>,
+    update: Partial<UpdateUserDto & { emailVerified: boolean }>
   ): Promise<UserRO> {
     try {
       const user = await this.db.user.update({
@@ -100,7 +100,7 @@ export class UserService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.findAndUpdate',
+        "UserService.findAndUpdate"
       );
     }
   }
@@ -115,7 +115,7 @@ export class UserService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.delete',
+        "UserService.delete"
       );
     }
   }
@@ -127,7 +127,7 @@ export class UserService {
   async updatePassword(
     email: string,
     newPassword: string,
-    oldPassword: string,
+    oldPassword: string
   ) {
     const userOrNull = await this.verifyEmailPassword({
       email,
@@ -142,9 +142,9 @@ export class UserService {
       return updatedUser;
     }
     throw new CustomError(
-      'Email Password combination does not match',
+      "Email Password combination does not match",
       errorTypes[errorCodes.AuthFailed],
-      'UserService.updatePassword',
+      "UserService.updatePassword"
     );
   }
 
@@ -161,7 +161,7 @@ export class UserService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.resetPassword',
+        "UserService.resetPassword"
       );
     }
   }
@@ -180,18 +180,18 @@ export class UserService {
     } catch (error) {
       let message: string = error?.meta?.cause || error.message;
       if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = 'Account already present';
+        message = "Account already present";
       }
       throw new CustomError(
         message,
         error.code,
-        'UserService.createOauthAccount',
+        "UserService.createOauthAccount"
       );
     }
   }
 
   async findAndUpdateOauthAccount(
-    user: Partial<CreateOauthUserDto>,
+    user: Partial<CreateOauthUserDto>
   ): Promise<UserRO> {
     try {
       const updatedUser = await this.db.user.update({
@@ -206,12 +206,12 @@ export class UserService {
       }
       let message: string = error?.meta?.cause || error.message;
       if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = 'Account already present';
+        message = "Account already present";
       }
       throw new CustomError(
         message,
         error.code,
-        'UserService.findAndUpdateOauthAccount',
+        "UserService.findAndUpdateOauthAccount"
       );
     }
   }
@@ -241,7 +241,7 @@ export class UserService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.verifyEmailPassword',
+        "UserService.verifyEmailPassword"
       );
     }
   }
@@ -256,7 +256,7 @@ export class UserService {
 
   async findByEmailAndUpdate(
     email: string,
-    update: { password: string },
+    update: { password: string }
   ): Promise<UserRO> {
     try {
       const user = await this.db.user.update({
@@ -271,7 +271,7 @@ export class UserService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.findByEmailAndUpdate',
+        "UserService.findByEmailAndUpdate"
       );
     }
   }

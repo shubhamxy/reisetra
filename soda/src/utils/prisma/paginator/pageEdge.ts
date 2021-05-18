@@ -1,5 +1,4 @@
-import { PageCursorsType, createPageCursors } from './pageCursor';
-
+import { PageCursorsType, createPageCursors } from "./pageCursor";
 
 export interface PaginationType {
   results: any[];
@@ -13,7 +12,7 @@ interface Props {
   size: number;
   buttonNum: number;
   orderBy: string;
-  orderDirection: 'asc' | 'desc';
+  orderDirection: "asc" | "desc";
   include?: any;
   where?: any;
   prisma: any;
@@ -78,8 +77,12 @@ export async function prismaOffsetPagination({
   let currentPage: number;
   if (cursor) {
     const prismaModel = prisma[model];
-    const decryptedCursor = Buffer.from(cursor, 'base64').toString('ascii').slice(9);
-    let idOrigin: number | string = isNaN(parseInt(decryptedCursor)) ? decryptedCursor : Number(decryptedCursor);
+    const decryptedCursor = Buffer.from(cursor, "base64")
+      .toString("ascii")
+      .slice(9);
+    let idOrigin: number | string = isNaN(parseInt(decryptedCursor))
+      ? decryptedCursor
+      : Number(decryptedCursor);
 
     // findManyArgsForCursorCount -> cursorCount -> currentPage
     let findManyArgsForCursorCount: Record<string, any>;
@@ -96,15 +99,18 @@ export async function prismaOffsetPagination({
         },
         take: 1,
       });
-      const whereArgs = orderDirection === 'desc' ? {
-        [orderBy]: {
-          gte: cursorObject[0][orderBy],
-        },
-      } : {
-        [orderBy]: {
-          lte: cursorObject[0][orderBy],
-        },
-      };
+      const whereArgs =
+        orderDirection === "desc"
+          ? {
+              [orderBy]: {
+                gte: cursorObject[0][orderBy],
+              },
+            }
+          : {
+              [orderBy]: {
+                lte: cursorObject[0][orderBy],
+              },
+            };
       findManyArgsForCursorCount = {
         orderBy: {
           [orderBy]: orderDirection,
@@ -141,7 +147,7 @@ export async function prismaOffsetPagination({
         cursor: {
           id: idOrigin,
         },
-        skip: cursorCount % size !== 0 ? cursorCount % size - 1 : size - 1,
+        skip: cursorCount % size !== 0 ? (cursorCount % size) - 1 : size - 1,
         take: -1,
       });
       idOrigin = newCursorObject[0].id;

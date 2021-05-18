@@ -27,22 +27,23 @@ export interface OffsetPaginationResultInterface<PaginationEntity> {
 }
 
 export interface CursorPaginationOptionsInterface {
- size: number
- buttonNum: number
- cursor: string
- orderBy: string
- orderDirection: 'desc' | 'asc'
+  size: number;
+  buttonNum: number;
+  cursor: string;
+  orderBy: string;
+  orderDirection: "desc" | "asc";
 }
 
+export class CursorPagination
+  implements Partial<CursorPaginationOptionsInterface> {
+  size?: number;
+  buttonNum?: number;
+  cursor?: string;
+  orderBy?: string;
+  orderDirection?: "desc" | "asc";
+}
 
-export class CursorPagination implements Partial<CursorPaginationOptionsInterface> {
-  size?: number
-  buttonNum?: number
-  cursor?: string
-  orderBy?: string
-  orderDirection?: 'desc' | 'asc'
- }
-
-export interface CursorPaginationResultInterface<PaginationEntity> extends PaginationType {
-  results: PaginationEntity[]
+export interface CursorPaginationResultInterface<PaginationEntity>
+  extends PaginationType {
+  results: PaginationEntity[];
 }

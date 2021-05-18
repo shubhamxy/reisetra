@@ -1,16 +1,24 @@
-import { Prisma, TransactionStatus } from '.prisma/client';
-import { Allow, IsEnum, IsNumber, IsNumberString, IsOptional, IsString, Min } from 'class-validator';
-import { CursorPaginationDTO } from 'src/common/dto';
-import { mustBeValidEnum } from 'src/constants';
-import { Transaction } from '../entity';
+import { Prisma, TransactionStatus } from ".prisma/client";
+import {
+  Allow,
+  IsEnum,
+  IsNumber,
+  IsNumberString,
+  IsOptional,
+  IsString,
+  Min,
+} from "class-validator";
+import { CursorPaginationDTO } from "src/common/dto";
+import { mustBeValidEnum } from "src/constants";
+import { Transaction } from "../entity";
 
 type Excluded =
-  | 'id'
-  | 'active'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'userId'
-  | 'verified';
+  | "id"
+  | "active"
+  | "createdAt"
+  | "updatedAt"
+  | "userId"
+  | "verified";
 
 export class GetAllTransactionsDto extends CursorPaginationDTO {}
 
@@ -48,15 +56,17 @@ export class CreateTransactionDto implements Omit<Transaction, Excluded> {
   @IsString()
   reference: string;
   @IsOptional()
-  @IsEnum(TransactionStatus, {message: mustBeValidEnum(TransactionStatus, 'status')})
+  @IsEnum(TransactionStatus, {
+    message: mustBeValidEnum(TransactionStatus, "status"),
+  })
   status: TransactionStatus;
   @IsOptional()
-  @IsEnum(['RAZORPAY'], {message: mustBeValidEnum(['RAZORPAY'], 'type')})
-  type: 'RAZORPAY';
+  @IsEnum(["RAZORPAY"], { message: mustBeValidEnum(["RAZORPAY"], "type") })
+  type: "RAZORPAY";
 }
 
 export class UpdateTransactionDto
-  implements Omit<Transaction, Excluded | 'orderId'> {
+  implements Omit<Transaction, Excluded | "orderId"> {
   @Allow()
   notes: Prisma.JsonValue;
   @IsOptional()
@@ -85,9 +95,11 @@ export class UpdateTransactionDto
   @IsString()
   reference: string;
   @IsOptional()
-  @IsEnum(TransactionStatus, {message: mustBeValidEnum(TransactionStatus, 'status')})
+  @IsEnum(TransactionStatus, {
+    message: mustBeValidEnum(TransactionStatus, "status"),
+  })
   status: TransactionStatus;
   @IsOptional()
-  @IsEnum(['RAZORPAY'], {message: mustBeValidEnum(['RAZORPAY'], 'type')})
-  type: 'RAZORPAY';
+  @IsEnum(["RAZORPAY"], { message: mustBeValidEnum(["RAZORPAY"], "type") })
+  type: "RAZORPAY";
 }

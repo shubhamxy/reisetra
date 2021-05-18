@@ -1,5 +1,5 @@
-import { SES } from 'aws-sdk';
-import {services} from 'src/config';
+import { SES } from "aws-sdk";
+import { services } from "src/config";
 
 const config = services();
 
@@ -40,16 +40,16 @@ export const createParams = ({
   Message: {
     Body: {
       Html: {
-        Charset: 'UTF-8',
+        Charset: "UTF-8",
         Data: html,
       },
       Text: {
-        Charset: 'UTF-8',
+        Charset: "UTF-8",
         Data: text,
       },
     },
     Subject: {
-      Charset: 'UTF-8',
+      Charset: "UTF-8",
       Data: subject,
     },
   },

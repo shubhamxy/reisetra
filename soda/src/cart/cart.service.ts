@@ -1,16 +1,16 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from "@nestjs/common";
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-} from 'src/common/pagination';
-import { CustomError } from 'src/common/response';
-import { PrismaService } from 'src/common/modules/db/prisma.service';
-import { RedisService } from 'src/common/modules/redis/redis.service';
-import { prismaOffsetPagination } from 'src/utils/prisma';
-import { CartItemRO } from './interfaces';
-import { CheckoutDto, UpdateCartItemDto } from './dto';
-import { TransactionService } from 'src/transaction/transaction.service';
-import { CartItem, Order, Product } from '.prisma/client';
+} from "src/common/pagination";
+import { CustomError } from "src/common/response";
+import { PrismaService } from "src/common/modules/db/prisma.service";
+import { RedisService } from "src/common/modules/redis/redis.service";
+import { prismaOffsetPagination } from "src/utils/prisma";
+import { CartItemRO } from "./interfaces";
+import { CheckoutDto, UpdateCartItemDto } from "./dto";
+import { TransactionService } from "src/transaction/transaction.service";
+import { CartItem, Order, Product } from ".prisma/client";
 
 function calculateBilling(
   cartItemsWithProduct: {
@@ -19,7 +19,7 @@ function calculateBilling(
       price: number;
       tax: number;
     };
-  }[],
+  }[]
 ) {
   let subTotal = 0;
   let tax = 0;
@@ -43,7 +43,7 @@ function calculateBilling(
     shipping,
     itemDiscount,
     total,
-    promo: 'new',
+    promo: "new",
     discount: 20,
     grandTotal,
   };
@@ -53,18 +53,18 @@ export class CartService {
   constructor(
     private readonly db: PrismaService,
     private readonly cache: RedisService,
-    private readonly txn: TransactionService,
+    private readonly txn: TransactionService
   ) {}
   async getAllCarts(
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<CartItemRO>> {
     try {
       const {
         cursor,
         size = 10,
         buttonNum = 10,
-        orderBy = 'createdAt',
-        orderDirection = 'desc',
+        orderBy = "createdAt",
+        orderDirection = "desc",
       } = options;
       const result = await prismaOffsetPagination({
         cursor,
@@ -75,7 +75,7 @@ export class CartService {
         include: {
           cartItems: true,
         },
-        model: 'cart',
+        model: "cart",
         prisma: this.db,
       });
       return result;
@@ -83,28 +83,28 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'CartService.getAllCarts',
+        "CartService.getAllCarts"
       );
     }
   }
 
   async getUserCart(
     id,
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<CartItemRO>> {
     try {
       const {
         cursor,
         size = 10,
         buttonNum = 10,
-        orderBy = 'createdAt',
-        orderDirection = 'desc',
+        orderBy = "createdAt",
+        orderDirection = "desc",
       } = options;
       const result = await prismaOffsetPagination({
         where: {
           cartId: id,
         },
-        cursor: cursor || '',
+        cursor: cursor || "",
         size: Number(size),
         buttonNum: Number(buttonNum),
         orderBy,
@@ -112,7 +112,7 @@ export class CartService {
         include: {
           product: true,
         },
-        model: 'cartItem',
+        model: "cartItem",
         prisma: this.db,
       });
       return result;
@@ -120,7 +120,7 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'CartService.getAllCarts',
+        "CartService.getAllCarts"
       );
     }
   }
@@ -133,7 +133,7 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.getCartItem',
+        "UserService.getCartItem"
       );
     }
   }
@@ -177,14 +177,14 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.addCartItem',
+        "UserService.addCartItem"
       );
     }
   }
 
   async checkoutCart(
     userId: string,
-    checkout: CheckoutDto,
+    checkout: CheckoutDto
   ): Promise<
     Order & {
       razorpayOptions: Record<string, any>;
@@ -227,7 +227,7 @@ export class CartService {
             },
             take: 1,
             orderBy: {
-              createdAt: 'desc',
+              createdAt: "desc",
             },
           },
         },
@@ -247,7 +247,7 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.removeCartItem',
+        "UserService.removeCartItem"
       );
     }
   }
@@ -262,14 +262,14 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.removeCartItem',
+        "UserService.removeCartItem"
       );
     }
   }
 
   async updateCartItem(
     cartItemId: string,
-    data: UpdateCartItemDto,
+    data: UpdateCartItemDto
   ): Promise<any> {
     try {
       const updated = await this.db.cartItem.update({
@@ -283,7 +283,7 @@ export class CartService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'UserService.updateCartItem',
+        "UserService.updateCartItem"
       );
     }
   }

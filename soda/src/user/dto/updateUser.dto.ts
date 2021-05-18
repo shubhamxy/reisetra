@@ -1,5 +1,5 @@
-import { OAuthProvider, Role } from '.prisma/client';
-import { Type } from 'class-transformer';
+import { OAuthProvider, Role } from ".prisma/client";
+import { Type } from "class-transformer";
 import {
   IsEmail,
   IsNotEmpty,
@@ -7,7 +7,7 @@ import {
   Matches,
   MaxLength,
   MinLength,
-} from 'class-validator';
+} from "class-validator";
 import {
   INVALID_PHONE,
   PASSWORD_IS_WEAK,
@@ -15,28 +15,28 @@ import {
   PASSWORD_MIN_LENGTH,
   PHONE_REGEX,
   STRONG_PASSWORD_REGEX,
-} from 'src/constants';
-import { User } from '../entity';
+} from "src/constants";
+import { User } from "../entity";
 type Excluded =
-  | 'id'
-  | 'active'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'extra'
-  | 'bio'
-  | 'dateOfBirth'
-  | 'phone'
-  | 'inventoryId'
-  | 'role'
-  | 'oauthProvider'
-  | 'emailVerified'
-  | 'oauthId';
+  | "id"
+  | "active"
+  | "createdAt"
+  | "updatedAt"
+  | "extra"
+  | "bio"
+  | "dateOfBirth"
+  | "phone"
+  | "inventoryId"
+  | "role"
+  | "oauthProvider"
+  | "emailVerified"
+  | "oauthId";
 export class UpdateUserDto implements Omit<User, Excluded> {
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }
   @IsOptional()
-  @IsEmail({}, { message: 'Email is invalid' })
+  @IsEmail({}, { message: "Email is invalid" })
   email: string;
 
   @IsOptional()
@@ -46,7 +46,7 @@ export class UpdateUserDto implements Omit<User, Excluded> {
   password: string;
 
   @IsOptional()
-  @MinLength(3, { message: 'name should be min 3 chars' })
+  @MinLength(3, { message: "name should be min 3 chars" })
   name: string;
 
   @IsOptional()

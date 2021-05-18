@@ -1,2 +1,2 @@
-export * from './data.interceptor';
-export * from './error.interceptor';
+export * from "./data.interceptor";
+export * from "./error.interceptor";

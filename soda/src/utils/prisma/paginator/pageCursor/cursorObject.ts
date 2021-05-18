@@ -1,4 +1,3 @@
-
 interface Props<T> {
   page: number;
   pageInfo: {
@@ -35,7 +34,10 @@ export async function pageToCursorObject({
     let findManyArgsForFirst;
     if (findManyArgs?.orderBy) {
       const { orderBy } = findManyArgs;
-      findManyArgsForFirst = { ...findManyArgsForFirst, orderBy: { ...orderBy } };
+      findManyArgsForFirst = {
+        ...findManyArgsForFirst,
+        orderBy: { ...orderBy },
+      };
     }
     if (findManyArgs?.where) {
       const { where } = findManyArgs;
@@ -52,7 +54,8 @@ export async function pageToCursorObject({
     let findManyArgsForLast;
     if (findManyArgs?.orderBy) {
       const orderByKey = Object.keys(findManyArgs.orderBy)[0];
-      const orderDirection = findManyArgs.orderBy[orderByKey] === 'asc' ? 'desc' : 'asc';
+      const orderDirection =
+        findManyArgs.orderBy[orderByKey] === "asc" ? "desc" : "asc";
       findManyArgsForLast = {
         ...findManyArgsForLast,
         orderBy: {
@@ -63,7 +66,7 @@ export async function pageToCursorObject({
       findManyArgsForLast = {
         ...findManyArgsForLast,
         orderBy: {
-          id: 'desc',
+          id: "desc",
         },
       };
     }
@@ -72,9 +75,7 @@ export async function pageToCursorObject({
       findManyArgsForLast = { ...findManyArgsForLast, where: { ...where } };
     }
     const itemsOnTheLastPage =
-    totalCount % size !== 0
-      ? totalCount % size
-      : size;
+      totalCount % size !== 0 ? totalCount % size : size;
     const result = await prismaModel.findMany({
       ...findManyArgsForLast,
       skip: itemsOnTheLastPage - 1,
@@ -97,7 +98,9 @@ export async function pageToCursorObject({
   }
 
   return {
-    cursor: Buffer.from('saltysalt'.concat(String(cursorId))).toString('base64'),
+    cursor: Buffer.from("saltysalt".concat(String(cursorId))).toString(
+      "base64"
+    ),
     page,
     isCurrent: currentPage === page,
   };

@@ -1,4 +1,4 @@
-import { Prisma, Address as AddressModel } from '.prisma/client';
+import { Prisma, Address as AddressModel } from ".prisma/client";
 
 export class Address implements AddressModel {
   constructor(partial: Partial<AddressModel>) {

@@ -1,4 +1,4 @@
-import { PageCursorType, pageToCursorObject } from './cursorObject';
+import { PageCursorType, pageToCursorObject } from "./cursorObject";
 
 interface Props<T> {
   start: number;
@@ -68,7 +68,9 @@ export async function pageCursorsToArrayNearTheBeginning({
   for (let page = start; page <= end; page++) {
     const cursorId = result[(page - start) * size].id;
     const cursorObject = {
-      cursor: Buffer.from('saltysalt'.concat(String(cursorId))).toString('base64'),
+      cursor: Buffer.from("saltysalt".concat(String(cursorId))).toString(
+        "base64"
+      ),
       page: page,
       isCurrent: currentPage === page,
     };
@@ -93,7 +95,8 @@ export async function pageCursorsToArrayNearTheEnd({
   let findManyArgsForLast;
   if (findManyArgs?.orderBy) {
     const orderByKey = Object.keys(findManyArgs.orderBy)[0];
-    const orderDirection = findManyArgs.orderBy[orderByKey] === 'asc' ? 'desc' : 'asc';
+    const orderDirection =
+      findManyArgs.orderBy[orderByKey] === "asc" ? "desc" : "asc";
     findManyArgsForLast = {
       ...findManyArgsForLast,
       orderBy: {
@@ -104,7 +107,7 @@ export async function pageCursorsToArrayNearTheEnd({
     findManyArgsForLast = {
       ...findManyArgsForLast,
       orderBy: {
-        id: 'desc',
+        id: "desc",
       },
     };
   }
@@ -112,10 +115,7 @@ export async function pageCursorsToArrayNearTheEnd({
     const { where } = findManyArgs;
     findManyArgsForLast = { ...findManyArgsForLast, where: { ...where } };
   }
-  const itemsOnTheLastPage =
-  totalCount % size !== 0
-    ? totalCount % size
-    : size;
+  const itemsOnTheLastPage = totalCount % size !== 0 ? totalCount % size : size;
   const result = await prismaModel.findMany({
     ...findManyArgsForLast,
     skip: itemsOnTheLastPage - 1,
@@ -125,7 +125,9 @@ export async function pageCursorsToArrayNearTheEnd({
   for (let page = start; page <= end; page++) {
     const cursorId = result[(end - page) * size].id;
     const cursorObject = {
-      cursor: Buffer.from('saltysalt'.concat(String(cursorId))).toString('base64'),
+      cursor: Buffer.from("saltysalt".concat(String(cursorId))).toString(
+        "base64"
+      ),
       page: page,
       isCurrent: currentPage === page,
     };
@@ -151,12 +153,14 @@ export async function pageCursorsToArrayInTheMiddle({
   const resultOfFirstHalf = await prismaModel.findMany({
     ...findManyArgs,
     skip: 1,
-    take: ((currentPage - start) * size) * -1,
+    take: (currentPage - start) * size * -1,
   });
   for (let page = start; page < currentPage; page++) {
     const cursorId = resultOfFirstHalf[(page - start) * size].id;
     const cursorObject = {
-      cursor: Buffer.from('saltysalt'.concat(String(cursorId))).toString('base64'),
+      cursor: Buffer.from("saltysalt".concat(String(cursorId))).toString(
+        "base64"
+      ),
       page: page,
       isCurrent: currentPage === page,
     };
@@ -172,7 +176,9 @@ export async function pageCursorsToArrayInTheMiddle({
   for (let page = currentPage; page <= end; page++) {
     const cursorId = resultOfLastHalf[(page - currentPage) * size].id;
     const cursorObject = {
-      cursor: Buffer.from('saltysalt'.concat(String(cursorId))).toString('base64'),
+      cursor: Buffer.from("saltysalt".concat(String(cursorId))).toString(
+        "base64"
+      ),
       page: page,
       isCurrent: currentPage === page,
     };

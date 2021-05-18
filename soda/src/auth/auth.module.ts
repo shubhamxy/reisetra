@@ -1,17 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategy/jwt.strategy';
-import { UserModule } from '../user/user.module';
-import { LocalStrategy } from './strategy/local.strategy';
-import { JwtRefreshStrategy } from './strategy/refresh.strategy';
-import { AuthController } from './auth.controller';
-import { RedisModule } from '../common/modules/redis/redis.module';
-import {auth} from '../config';
-import { GoogleStrategy } from './strategy/google.strategy';
+import { Module } from "@nestjs/common";
+import { AuthService } from "./auth.service";
+import { PassportModule } from "@nestjs/passport";
+import { JwtModule } from "@nestjs/jwt";
+import { JwtStrategy } from "./strategy/jwt.strategy";
+import { UserModule } from "../user/user.module";
+import { LocalStrategy } from "./strategy/local.strategy";
+import { JwtRefreshStrategy } from "./strategy/refresh.strategy";
+import { AuthController } from "./auth.controller";
+import { RedisModule } from "../common/modules/redis/redis.module";
+import { auth } from "../config";
+import { GoogleStrategy } from "./strategy/google.strategy";
 
-const config = auth()
+const config = auth();
 @Module({
   imports: [
     UserModule,
@@ -27,7 +27,13 @@ const config = auth()
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshStrategy, GoogleStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    JwtRefreshStrategy,
+    GoogleStrategy,
+  ],
   exports: [],
 })
 export class AuthModule {}

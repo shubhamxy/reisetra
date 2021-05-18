@@ -1,33 +1,33 @@
-import { Product } from '.prisma/client';
-import { Injectable } from '@nestjs/common';
-import { errorCodes } from 'src/common/codes/error';
+import { Product } from ".prisma/client";
+import { Injectable } from "@nestjs/common";
+import { errorCodes } from "src/common/codes/error";
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-} from 'src/common/pagination';
-import { CustomError } from 'src/common/response';
-import { PrismaService } from 'src/common/modules/db/prisma.service';
-import { RedisService } from 'src/common/modules/redis/redis.service';
-import { prismaOffsetPagination } from 'src/utils/prisma';
-import { CreateAddressDto } from './dto';
+} from "src/common/pagination";
+import { CustomError } from "src/common/response";
+import { PrismaService } from "src/common/modules/db/prisma.service";
+import { RedisService } from "src/common/modules/redis/redis.service";
+import { prismaOffsetPagination } from "src/utils/prisma";
+import { CreateAddressDto } from "./dto";
 
 @Injectable()
 export class AddressService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: RedisService
   ) {}
 
   async getAllAddresses(
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
     try {
       const {
         cursor,
         size = 10,
         buttonNum = 10,
-        orderBy = 'createdAt',
-        orderDirection = 'desc',
+        orderBy = "createdAt",
+        orderDirection = "desc",
       } = options;
       const result = await prismaOffsetPagination({
         cursor,
@@ -35,7 +35,7 @@ export class AddressService {
         buttonNum: Number(buttonNum),
         orderBy,
         orderDirection,
-        model: 'address',
+        model: "address",
         prisma: this.db,
       });
       return result;
@@ -43,7 +43,7 @@ export class AddressService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'AddressService.getAllAddresss',
+        "AddressService.getAllAddresss"
       );
     }
   }
@@ -53,7 +53,10 @@ export class AddressService {
       where: { id },
     });
     if (!product) {
-      throw new CustomError('Address does not exist', errorCodes.RecordDoesNotExist);
+      throw new CustomError(
+        "Address does not exist",
+        errorCodes.RecordDoesNotExist
+      );
     }
     return product;
   }
@@ -71,7 +74,7 @@ export class AddressService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'AddressService.createAddress',
+        "AddressService.createAddress"
       );
     }
   }
@@ -79,14 +82,14 @@ export class AddressService {
     try {
       const data = await this.db.address.update({
         where: { id: addressId },
-        data: update
+        data: update,
       });
       return data;
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'AddressService.updateAddress',
+        "AddressService.updateAddress"
       );
     }
   }
@@ -101,7 +104,7 @@ export class AddressService {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        'AddressService.deleteAddress',
+        "AddressService.deleteAddress"
       );
     }
   }

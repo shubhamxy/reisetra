@@ -1,4 +1,4 @@
-import { Prisma, Order as OrderModel, OrderStatus } from '.prisma/client';
+import { Prisma, Order as OrderModel, OrderStatus } from ".prisma/client";
 
 export class Order implements OrderModel {
   constructor(partial: Partial<OrderModel>) {

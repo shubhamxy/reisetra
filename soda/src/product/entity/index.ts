@@ -1,4 +1,4 @@
-import { Prisma, Product as ProductModel } from '.prisma/client';
+import { Prisma, Product as ProductModel } from ".prisma/client";
 
 export class Product implements ProductModel {
   id: string;

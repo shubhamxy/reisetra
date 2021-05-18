@@ -1,4 +1,4 @@
-import { registerAs } from '@nestjs/config';
+import { registerAs } from "@nestjs/config";
 export interface AuthEnv {
   jwtAccessTokenOptions: {
     secret: string;
@@ -43,14 +43,14 @@ export const auth = (): AuthEnv => ({
     clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
     clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_OAUTH_CLIENT_CALLBACK_URL,
-    scope: ['email', 'profile'],
+    scope: ["email", "profile"],
   },
   facebookOAuthOptions: {
     clientID: process.env.FACEBOOK_OAUTH_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_OAUTH_CLIENT_SECRET,
     callbackURL: process.env.FACEBOOK_OAUTH_CLIENT_CALLBACK_URL,
-    scope: ['email', 'profile'],
+    scope: ["email", "profile"],
   },
 });
 
-export default registerAs('auth', auth);
+export default registerAs("auth", auth);

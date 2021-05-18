@@ -1,24 +1,32 @@
-import { Product } from '.prisma/client';
-import { Injectable } from '@nestjs/common';
-import { CursorPagination, CursorPaginationResultInterface } from 'src/common/pagination';
-import { CustomError } from 'src/common/response';
-import { PrismaService } from 'src/common/modules/db/prisma.service';
-import { RedisService } from 'src/common/modules/redis/redis.service';
-import { prismaOffsetPagination } from 'src/utils/prisma';
-import { CreateInventoryDto } from './dto';
-
+import { Product } from ".prisma/client";
+import { Injectable } from "@nestjs/common";
+import {
+  CursorPagination,
+  CursorPaginationResultInterface,
+} from "src/common/pagination";
+import { CustomError } from "src/common/response";
+import { PrismaService } from "src/common/modules/db/prisma.service";
+import { RedisService } from "src/common/modules/redis/redis.service";
+import { prismaOffsetPagination } from "src/utils/prisma";
+import { CreateInventoryDto } from "./dto";
 
 @Injectable()
 export class InventoryService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: RedisService
   ) {}
 
   async getAllInventory(
-    options: CursorPagination,
+    options: CursorPagination
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
-    const {cursor, size = 10, buttonNum = 10, orderBy = 'createdAt', orderDirection = 'desc'} = options;
+    const {
+      cursor,
+      size = 10,
+      buttonNum = 10,
+      orderBy = "createdAt",
+      orderDirection = "desc",
+    } = options;
     try {
       const result = await prismaOffsetPagination({
         cursor,
@@ -29,26 +37,34 @@ export class InventoryService {
         include: {
           product: true,
         },
-        model: 'inventory',
+        model: "inventory",
         prisma: this.db,
       });
       return result;
     } catch (error) {
-      throw new CustomError(error?.meta?.cause || error.message, error.code, 'InventoryService.getAllInventory');
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "InventoryService.getAllInventory"
+      );
     }
   }
 
   async getInventory(id: string): Promise<any> {
     try {
       const product = await this.db.inventory.findUnique({
-        where: {id},
+        where: { id },
         include: {
           product: true,
-        }
+        },
       });
       return product;
     } catch (error) {
-      throw new CustomError(error?.meta?.cause || error.message, error.code, 'InventoryService.getInventory');
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "InventoryService.getInventory"
+      );
     }
   }
 
@@ -58,40 +74,47 @@ export class InventoryService {
         data,
         include: {
           product: true,
-        }
+        },
       });
       return product;
     } catch (error) {
-      throw new CustomError(error?.meta?.cause || error.message, error.code, 'InventoryService.createInventory');
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "InventoryService.createInventory"
+      );
     }
   }
 
-  async updateInventory(
-    id: string,
-    data,
-  ): Promise<any> {
+  async updateInventory(id: string, data): Promise<any> {
     try {
       const updated = await this.db.inventory.update({
-        where: {id},
+        where: { id },
         data,
         include: {
           product: true,
-        }
+        },
       });
       return updated;
     } catch (error) {
-      throw new CustomError(error?.meta?.cause || error.message, error.code, 'InventoryService.updateInventory');
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "InventoryService.updateInventory"
+      );
     }
   }
 
-  async deleteInventory(
-    id: string,
-  ): Promise<any> {
+  async deleteInventory(id: string): Promise<any> {
     try {
-      const data = await this.db.inventory.delete({where: {id}});
+      const data = await this.db.inventory.delete({ where: { id } });
       return data;
     } catch (error) {
-      throw new CustomError(error?.meta?.cause || error.message, error.code, 'InventoryService.deleteInventory');
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "InventoryService.deleteInventory"
+      );
     }
   }
 }

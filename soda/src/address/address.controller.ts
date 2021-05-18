@@ -9,77 +9,95 @@ import {
   Put,
   Query,
   Req,
-} from '@nestjs/common';
-import { AddressService } from './address.service';
-import { CustomException, SuccessResponse } from 'src/common/response';
-import { CreateAddressDto, GetAllAddressDto, UpdateAddressDto } from './dto';
-import { AuthenticatedRequest } from 'src/auth/auth.interface';
-import { ApiTags } from '@nestjs/swagger';
+} from "@nestjs/common";
+import { AddressService } from "./address.service";
+import { CustomException, SuccessResponse } from "src/common/response";
+import { CreateAddressDto, GetAllAddressDto, UpdateAddressDto } from "./dto";
+import { AuthenticatedRequest } from "src/auth/auth.interface";
 
-@ApiTags('Address')
 @Controller()
 export class AddressController {
   constructor(private readonly address: AddressService) {}
 
-  @Get('addresses')
+  @Get("addresses")
   async getAllAddresses(
-    @Query() query: GetAllAddressDto,
+    @Query() query: GetAllAddressDto
   ): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.address.getAllAddresses(query);
       return { data: results || [], meta: meta };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "AddressController.getAllOrders");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "AddressController.getAllOrders"
+      );
     }
   }
 
-  @Get('address/:addressId')
+  @Get("address/:addressId")
   async getAddress(
-    @Param('addressId') addressId: string,
+    @Param("addressId") addressId: string
   ): Promise<SuccessResponse> {
     try {
       const data = await this.address.getAddress(addressId);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "AddressController.getOrder");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "AddressController.getOrder"
+      );
     }
   }
 
-  @Post('address')
+  @Post("address")
   async createOrder(
     @Req() request: AuthenticatedRequest,
-    @Body() body: CreateAddressDto,
+    @Body() body: CreateAddressDto
   ): Promise<SuccessResponse> {
     try {
       const data = await this.address.createAddress(request.user.id, body);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "AddressController.createOrder");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "AddressController.createOrder"
+      );
     }
   }
 
-  @Put('address/:addressId')
+  @Put("address/:addressId")
   async updateOrder(
-    @Param('addressId') addressId: string,
-    @Body() body: UpdateAddressDto,
+    @Param("addressId") addressId: string,
+    @Body() body: UpdateAddressDto
   ): Promise<SuccessResponse> {
     try {
       const data = await this.address.updateAddress(addressId, body);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "AddressController.updateOrder");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "AddressController.updateOrder"
+      );
     }
   }
 
-  @Delete('address/:addressId')
+  @Delete("address/:addressId")
   async deleteOrder(
-    @Param('addressId') addressId: string,
+    @Param("addressId") addressId: string
   ): Promise<SuccessResponse> {
     try {
       const data = await this.address.deleteAddress(addressId);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "AddressController.deleteOrder");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "AddressController.deleteOrder"
+      );
     }
   }
 }

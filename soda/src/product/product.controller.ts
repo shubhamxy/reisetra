@@ -8,76 +8,92 @@ import {
   Post,
   Put,
   Query,
-} from '@nestjs/common';
-import { ProductService } from './product.service';
-import { CustomException, SuccessResponse } from 'src/common/response';
-import { CreateProductDto, GetAllProductsDto, UpdateProductDto } from './dto';
-import { ApiTags } from '@nestjs/swagger';
-
-
-@ApiTags('Product')
+} from "@nestjs/common";
+import { ProductService } from "./product.service";
+import { CustomException, SuccessResponse } from "src/common/response";
+import { CreateProductDto, GetAllProductsDto, UpdateProductDto } from "./dto";
 @Controller()
 export class ProductController {
   constructor(private readonly product: ProductService) {}
 
-  @Get('products')
+  @Get("products")
   async getAllProducts(
-    @Query() query: GetAllProductsDto,
+    @Query() query: GetAllProductsDto
   ): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.product.getAllProducts(query);
       return { data: results || [], meta: meta };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "ProductController.getAllProducts");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.getAllProducts"
+      );
     }
   }
 
-  @Get('product/:productId')
+  @Get("product/:productId")
   async getProduct(
-    @Param('productId') productId: string,
+    @Param("productId") productId: string
   ): Promise<SuccessResponse> {
     try {
       const data = await this.product.getProduct(productId);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "ProductController.getProduct");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.getProduct"
+      );
     }
   }
 
-  @Post('product')
+  @Post("product")
   async createProduct(
-    @Body() body: CreateProductDto,
+    @Body() body: CreateProductDto
   ): Promise<SuccessResponse> {
     try {
       const data = await this.product.createProduct(body);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "ProductController.createProduct");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createProduct"
+      );
     }
   }
 
-  @Put('product/:productId')
+  @Put("product/:productId")
   async updateProduct(
-    @Param('productId') productId: string,
-    @Body() body: UpdateProductDto,
+    @Param("productId") productId: string,
+    @Body() body: UpdateProductDto
   ): Promise<SuccessResponse> {
     try {
       const data = await this.product.updateProduct(productId, body);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "ProductController.updateProduct");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.updateProduct"
+      );
     }
   }
 
-  @Delete('product/:productId')
+  @Delete("product/:productId")
   async deleteProduct(
-    @Param('productId') productId: string,
+    @Param("productId") productId: string
   ): Promise<SuccessResponse> {
     try {
       const data = await this.product.deleteProduct(productId);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "ProductController.deleteProduct");
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.deleteProduct"
+      );
     }
   }
 }

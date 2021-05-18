@@ -1,4 +1,4 @@
-import { CartItem as CartItemModel, Cart as CartModel } from '.prisma/client';
+import { CartItem as CartItemModel, Cart as CartModel } from ".prisma/client";
 
 export class CartItem implements CartItemModel {
   constructor(partial: Partial<CartItemModel>) {
@@ -16,8 +16,6 @@ export class CartItem implements CartItemModel {
   createdAt: Date;
   updatedAt: Date;
 }
-
-
 
 export class Cart implements CartModel {
   constructor(partial: Partial<CartItemModel>) {
