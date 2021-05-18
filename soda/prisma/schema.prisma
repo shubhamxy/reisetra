@@ -37,7 +37,6 @@ enum TransactionStatus {
   SUCCESS
 }
 
-
 enum TransactionType {
   RAZORPAY
 }
@@ -46,6 +45,16 @@ model Secrets {
   id       String @id @default(cuid())
   user     User   @relation(fields: [id], references: [id])
   password String
+}
+
+model Cart {
+  id   String @id @default(cuid())
+  user User   @relation(fields: [id], references: [id])
+
+  cartItems  CartItem[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  checkedOut Boolean    @default(false)
 }
 
 model User {
@@ -60,49 +69,38 @@ model User {
   phone       String?   @unique
   bio         String?
 
-  cart          Cart?
   orders        Order[]
   addresses     Address[]
   oauthId       String?        @unique
   oauthProvider OAuthProvider?
   role          Role           @default(USER)
 
+  cart    Cart?
   secrets Secrets?
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Transaction Transaction[]
-}
-
-model Cart {
-  id   String @id @default(cuid())
-  user User   @relation(fields: [id], references: [id])
-
-  cartItems  CartItem[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  checkedOut Boolean    @default(false)
+  transactions Transaction[]
 }
 
 model CartItem {
-  id       String @id @default(cuid())
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  cartId String?
+  cart   Cart?   @relation(fields: [cartId], references: [id])
+
+  orderId String?
+  order   Order?  @relation(fields: [orderId], references: [id])
+
   quantity Int
 
-
-  productId String
-  product   Product  @relation(fields: [productId], references: [id])
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-
-  cart   Cart?   @relation(fields: [cartId], references: [id])
-  cartId String?
-
-  Order   Order?  @relation(fields: [orderId], references: [id])
-  orderId String?
 
   @@unique([productId, cartId])
   @@unique([productId, orderId])
@@ -142,7 +140,9 @@ model Product {
 
   published Boolean @default(false)
 
-  price Float
+  mrp      Float
+  price    Float // mrp - discount
+  tax      Float // total = price + tax
 
   inventory   Inventory @relation(fields: [inventoryId], references: [id])
   inventoryId String
@@ -173,8 +173,8 @@ model Order {
   shipping     Float   @default(0) // The shipping charges of the Order Items.
   total        Float   @default(0) // The total price of the Order including tax and shipping. It excludes the items discount.
   promo        String? // The promo code of the Order.
-  discount     String? // The total discount of the Order based on the promo code or store discount.
-  grandTotal   Float   @default(0) // The grand total of the order to be paid by the buyer.
+  discount     Float   @default(0) // The total discount of the Order based on the promo code or store discount.
+  grandTotal   Float // The grand total of the order to be paid by the buyer.
 
   // relations
   user   User   @relation(fields: [userId], references: [id])
@@ -185,19 +185,19 @@ model Order {
 
   orderItems CartItem[]
 
-  status      OrderStatus   @default(PENDING)
-  active      Boolean       @default(false)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  Transaction Transaction[]
+  status      OrderStatus  @default(PENDING)
+  active      Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  transaction Transaction?
 }
 
 model Transaction {
-  id      String @id @default(cuid())
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
-  order   Order  @relation(fields: [orderId], references: [id])
-  orderId String
+  id    String @id @default(cuid())
+  order Order  @relation(fields: [id], references: [id])
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   notes Json?
 

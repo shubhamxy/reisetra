@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 
 import { INestApplication } from '@nestjs/common';
-import { setupNestApp } from 'src/main';
+import { setupNestApp } from "src/setupNestApp";
 import { PrismaService } from '../src/common/modules/db/prisma.service';
 import { AppEnv } from 'src/config';
 

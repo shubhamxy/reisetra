@@ -1,7 +1,8 @@
-import { OAuthProvider, Role, User } from '.prisma/client';
+import { OAuthProvider, Role } from '.prisma/client';
 import { IsNotEmpty } from 'class-validator';
+import { User } from '../entity';
 
-export class LoginUserDto implements User{
+export class LoginUserDto implements User {
   id: string;
   emailVerified: boolean;
   name: string;
@@ -19,11 +20,6 @@ export class LoginUserDto implements User{
 
   @IsNotEmpty()
   readonly password: string;
-
-  constructor(partial:  Partial<User> ) {
-    Object.assign(this, partial);
-  }
-
 
   active: boolean;
   createdAt: Date;

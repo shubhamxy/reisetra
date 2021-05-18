@@ -65,9 +65,6 @@ export class AddressService {
           ...data,
           userId: userId,
         },
-        include: {
-          user: true,
-        },
       });
       return product;
     } catch (error) {
@@ -82,10 +79,7 @@ export class AddressService {
     try {
       const data = await this.db.address.update({
         where: { id: addressId },
-        data: update,
-        include: {
-          user: true,
-        }
+        data: update
       });
       return data;
     } catch (error) {
@@ -101,9 +95,6 @@ export class AddressService {
     try {
       const data = await this.db.address.delete({
         where: { id: addressId },
-        include: {
-          user: true,
-        },
       });
       return data;
     } catch (error) {

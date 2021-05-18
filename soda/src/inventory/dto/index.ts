@@ -1,19 +1,11 @@
-import { Prisma } from '.prisma/client';
-
-import { IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
-import { CursorPaginationOptionsInterface } from 'src/common/pagination';
-import { isRequired, mustBeOfType } from 'src/constants';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { CursorPaginationDTO } from 'src/common/dto';
+import { mustBeOfType } from 'src/constants';
 import { Inventory } from '../entity';
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt';
 
-export class GetAllInventoryDto implements CursorPaginationOptionsInterface {
-  size: number;
-  buttonNum: number;
-  cursor: string;
-  orderBy: string;
-  orderDirection: 'desc' | 'asc';
-}
+export class GetAllInventoryDto extends CursorPaginationDTO {}
 
 export class CreateInventoryDto implements Omit<Inventory, Excluded> {
   @IsNotEmpty()

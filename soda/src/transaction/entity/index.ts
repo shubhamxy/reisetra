@@ -8,10 +8,10 @@ export class Transaction implements TransactionModel {
   constructor(partial: Partial<TransactionModel>) {
     Object.assign(this, partial);
   }
+  type: 'RAZORPAY';
   amount: number;
   id: string;
   userId: string;
-  orderId: string;
   notes: Prisma.JsonValue;
   currency: string;
   receipt: string;
@@ -20,7 +20,6 @@ export class Transaction implements TransactionModel {
   paymentSignature: string;
   reference: string;
   verified: boolean;
-  type: string;
   status: TransactionStatus;
   active: boolean;
   createdAt: Date;

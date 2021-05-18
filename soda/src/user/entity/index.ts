@@ -1,6 +1,10 @@
 
 import { OAuthProvider, Role, User as UserModel } from '.prisma/client';
 export class User implements UserModel {
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
+
   id: string;
   email: string;
   emailVerified: boolean;
@@ -12,10 +16,6 @@ export class User implements UserModel {
   oauthProvider: OAuthProvider;
   role: Role;
   bio: string;
-
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
   active: boolean;
   createdAt: Date;
   updatedAt: Date;

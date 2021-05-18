@@ -33,6 +33,9 @@
   "scripts": {
     "prepare": "husky install",
     "commit": "cz",
-    "commit:signed": "cz -S"
+    "commit:signed": "cz -S",
+    "build": "./scripts/build.sh",
+    "start": "./scripts/up.sh",
+    "stop": "./scripts/down.sh"
   }
 }

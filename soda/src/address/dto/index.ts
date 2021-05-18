@@ -1,17 +1,11 @@
-import { CursorPaginationOptionsInterface } from 'src/common/pagination';
-import { Order } from '../entity';
+import { CursorPaginationDTO } from 'src/common/dto';
+import { Address } from '../entity';
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId';
 
-export class GetAllAddressDto implements CursorPaginationOptionsInterface {
-  size: number;
-  buttonNum: number;
-  cursor: string;
-  orderBy: string;
-  orderDirection: 'desc' | 'asc';
-}
+export class GetAllAddressDto extends CursorPaginationDTO {}
 
-export class CreateAddressDto implements Omit<Order, Excluded> {
+export class CreateAddressDto implements Omit<Address, Excluded> {
   fullname: string;
   address: string;
   town: string;
@@ -22,7 +16,7 @@ export class CreateAddressDto implements Omit<Order, Excluded> {
   country: string;
 }
 
-export class UpdateAddressDto implements Omit<Order, Excluded> {
+export class UpdateAddressDto implements Omit<Address, Excluded> {
   fullname: string;
   address: string;
   town: string;

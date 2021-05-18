@@ -22,6 +22,16 @@ CREATE TABLE "Secrets" (
 );
 
 -- CreateTable
+CREATE TABLE "Cart" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "checkedOut" BOOLEAN NOT NULL DEFAULT false,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -42,25 +52,15 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Cart" (
-    "id" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "checkedOut" BOOLEAN NOT NULL DEFAULT false,
-
-    PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "CartItem" (
     "id" TEXT NOT NULL,
-    "quantity" INTEGER NOT NULL,
     "productId" TEXT NOT NULL,
+    "cartId" TEXT,
+    "orderId" TEXT,
+    "quantity" INTEGER NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "cartId" TEXT,
-    "orderId" TEXT,
 
     PRIMARY KEY ("id")
 );
@@ -94,7 +94,9 @@ CREATE TABLE "Product" (
     "color" TEXT,
     "extra" JSONB,
     "published" BOOLEAN NOT NULL DEFAULT false,
+    "mrp" DOUBLE PRECISION NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
+    "tax" DOUBLE PRECISION NOT NULL,
     "inventoryId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -124,8 +126,8 @@ CREATE TABLE "Order" (
     "shipping" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "total" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "promo" TEXT,
-    "discount" TEXT,
-    "grandTotal" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "discount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "grandTotal" DOUBLE PRECISION NOT NULL,
     "userId" TEXT NOT NULL,
     "addressId" TEXT NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT E'PENDING',
@@ -140,7 +142,6 @@ CREATE TABLE "Order" (
 CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "orderId" TEXT NOT NULL,
     "notes" JSONB,
     "amount" DOUBLE PRECISION NOT NULL,
     "currency" TEXT NOT NULL DEFAULT E'INR',
@@ -208,7 +209,7 @@ ALTER TABLE "Order" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE
 ALTER TABLE "Order" ADD FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD FOREIGN KEY ("id") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

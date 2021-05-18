@@ -11,13 +11,16 @@ export class Product implements ProductModel {
   published: boolean;
   price: number;
 
-  constructor(partial: Partial<ProductModel>) {
-    Object.assign(this, partial);
-  }
+  mrp: number;
+  tax: number;
 
   inventoryId: string;
 
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
+
+  constructor(partial: Partial<ProductModel>) {
+    Object.assign(this, partial);
+  }
 }

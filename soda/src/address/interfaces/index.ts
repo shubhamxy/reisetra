@@ -1,3 +1,3 @@
-import { Order } from "../entity";
-export type OrderRO = Partial<Order>;
-export type OrdersRO = Partial<Order>[]
+import { Address } from "../entity";
+export type AddressRO = Partial<Address>;
+export type AddressesRO = Partial<Address>[]

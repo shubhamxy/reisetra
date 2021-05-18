@@ -1,10 +1,6 @@
 import {
-  IsEnum,
-  IsInt,
-  IsNumber,
   IsOptional,
   IsEmail,
-  isNotEmpty,
   IsNotEmpty,
   IsString,
   Matches,
@@ -17,11 +13,15 @@ import {
   PASSWORD_MIN_LENGTH,
   isRequired,
   PASSWORD_IS_WEAK,
+  PHONE_REGEX,
+  INVALID_PHONE,
+  isInvalid,
 } from 'src/constants';
 import { CursorPaginationOptionsInterface } from 'src/common/pagination';
 import { mustBeOfType, mustBe } from 'src/constants';
 import { User } from '../entity';
 import { OAuthProvider, Role } from '.prisma/client';
+import { CursorPaginationDTO } from 'src/common/dto';
 
 type Excluded =
   | 'id'
@@ -40,36 +40,38 @@ type Excluded =
 
 export { LoginUserDto } from './loginUser.dto';
 export { UpdateUserDto } from './updateUser.dto';
-export class GetAllUsersDto implements CursorPaginationOptionsInterface {
-  size: number;
-  buttonNum: number;
-
-  @IsOptional()
-  @IsString({ message: mustBeOfType('string', 'cursor') })
-  cursor: string;
-
-  @IsOptional()
-  @IsString({ message: mustBeOfType('string', 'orderBy') })
-  orderBy: string;
-
-  @IsOptional()
-  @IsEnum(['asc', 'desc'], { message: mustBe('desc or asc', 'orderDirection') })
-  orderDirection: 'asc' | 'desc';
+export class GetAllUsersDto extends CursorPaginationDTO {
+  constructor(partial: Partial<User>) {
+    super();
+    Object.assign(this, partial);
+  }
 }
 
 export class CreateUserDto implements Omit<User, Excluded> {
-  @IsEmail({}, { message: 'Email is invalid' })
+  @IsEmail({}, { message: isInvalid('Email')})
   email: string;
+
   @IsNotEmpty({ message: isRequired('Password') })
   @MinLength(8, { message: PASSWORD_MIN_LENGTH })
   @MaxLength(20, { message: PASSWORD_MAX_LENGTH })
   @Matches(STRONG_PASSWORD_REGEX, { message: PASSWORD_IS_WEAK })
   password: string;
+
   @IsNotEmpty({ message: isRequired('Name') })
+  @MinLength(3, { message: 'name should be min 3 chars' })
   name: string;
   dateOfBirth: Date;
+
+  @IsOptional()
+  @Matches(PHONE_REGEX, { message: INVALID_PHONE })
   phone: string;
+
+  @IsOptional()
+  @IsString()
   avatar: string;
+
+  @IsOptional()
+  @IsString()
   bio: string;
 }
 
@@ -84,7 +86,4 @@ export class CreateOauthUserDto implements Omit<User, Excluded> {
   bio?: string;
   oauthId: string;
   oauthProvider: OAuthProvider;
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
 }

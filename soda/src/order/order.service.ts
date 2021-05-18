@@ -67,12 +67,12 @@ export class OrderService {
     return product;
   }
 
-  async createOrder(userId, data: CreateOrderDto): Promise<any> {
+  async createOrder(userId: string, data: CreateOrderDto): Promise<any> {
     try {
       const product = await this.db.order.create({
         data: {
           ...data,
-          userId: userId
+          userId: userId,
         },
         include: {
           address: true,
@@ -88,6 +88,7 @@ export class OrderService {
       );
     }
   }
+
   async updateOrder(orderId: string, update): Promise<any> {
     try {
       const data = await this.db.order.update({

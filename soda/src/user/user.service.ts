@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as argon2 from 'argon2';
-import {
-  CustomError,
-} from 'src/common/response';
+import { CustomError } from 'src/common/response';
 import { PrismaService } from 'src/common/modules/db/prisma.service';
 import { RedisService } from 'src/common/modules/redis/redis.service';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
@@ -53,6 +51,9 @@ export class UserService {
       const newUser = await this.db.user.create({
         data: {
           ...update,
+          cart: {
+            create: {},
+          },
           secrets: {
             create: {
               password: newPassword,
@@ -79,10 +80,16 @@ export class UserService {
     if (user) {
       return new User(user);
     }
-    throw new CustomError('User with id does not exist', errorCodes.RecordDoesNotExist);
+    throw new CustomError(
+      'User with id does not exist',
+      errorCodes.RecordDoesNotExist,
+    );
   }
 
-  async findAndUpdate(id: string, update: Partial<UpdateUserDto>): Promise<UserRO> {
+  async findAndUpdate(
+    id: string,
+    update: Partial<UpdateUserDto & { emailVerified: boolean }>,
+  ): Promise<UserRO> {
     try {
       const user = await this.db.user.update({
         where: { id },
@@ -100,7 +107,9 @@ export class UserService {
 
   async delete(id: string): Promise<UserRO> {
     try {
-      const deleted = await this.db.user.delete({ where: { id } });
+      const deleted = await this.db.user.delete({
+        where: { id },
+      });
       return deleted;
     } catch (error) {
       throw new CustomError(
@@ -160,7 +169,12 @@ export class UserService {
   async createOauthAccount(user: CreateOauthUserDto): Promise<UserRO> {
     try {
       const newUser = await this.db.user.create({
-        data: user,
+        data: {
+          ...user,
+          cart: {
+            create: {},
+          },
+        },
       });
       return newUser;
     } catch (error) {

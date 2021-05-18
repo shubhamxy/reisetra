@@ -72,6 +72,7 @@ export class CustomException extends HttpException {
             context: context,
             type: errorTypes[error.code],
             stack: stackObj(error.message),
+            data: error?.data || undefined
           },
         ],
         description || message,
@@ -86,11 +87,13 @@ export function CustomError(
   code: ErrorCode,
   context?: string,
   type?: ErrorType,
+  data?: any
 ) {
   this.message = message;
   this.code = code;
   this.type = type || errorTypes[code] || undefined;
   this.context = context;
+  this.data = data;
 }
 
 export type DataT =

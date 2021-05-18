@@ -12,7 +12,7 @@ export class Order implements OrderModel {
   shipping: number;
   total: number;
   promo: string;
-  discount: string;
+  discount: number;
   grandTotal: number;
   userId: string;
   addressId: string;

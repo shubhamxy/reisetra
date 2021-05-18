@@ -60,6 +60,12 @@ const ErrorCodes = {
   AuthFailed: 'E1001',
   RefreshAuthFailed: 'E1002',
   InvalidRequest: 'E1003',
+  UserNotFound: 'E1004',
+  TransactionAlreadyInProgress: 'E1005',
+  TransactionAlreadySucceded: 'E1006',
+  OrderDoesNotExistWithUser: "E1007",
+  RazorPayFailure: 'E2000',
+  BillingCalculationError: 'E2002',
 } as const;
 
 

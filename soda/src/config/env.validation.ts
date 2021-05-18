@@ -134,7 +134,6 @@ export function getConfig(configService: ConfigService) {
   const db = configService.get<DBEnv>('db');
   const redis = configService.get<RedisEnv>('redis');
   const setting = configService.get<SettingsEnv>('settings');
-  // console.log({app, services, auth, db, redis, setting});
   return {
     app,
     services,

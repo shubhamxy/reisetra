@@ -1,6 +1,10 @@
 import { Prisma, Address as AddressModel } from '.prisma/client';
 
-export class Order implements AddressModel {
+export class Address implements AddressModel {
+  constructor(partial: Partial<AddressModel>) {
+    Object.assign(this, partial);
+  }
+
   id: string;
   fullname: string;
   address: string;
@@ -11,10 +15,6 @@ export class Order implements AddressModel {
   city: string;
   country: string;
   userId: string;
-
-  constructor(partial: Partial<AddressModel>) {
-    Object.assign(this, partial);
-  }
 
   active: boolean;
   createdAt: Date;

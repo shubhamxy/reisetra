@@ -10,3 +10,13 @@
 | Postgres |        DB        |
 | Redis    |  Caching Layer   |
 | Prisma   |       ORM        |
+
+`Features`
+- User Auth / Management APIs
+- Product/Inventory managemante APIs
+- Cart managemante APIs
+- Checkout API
+- Orders API
+- Transaction API
+- Razorpay Integrated
+

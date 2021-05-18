@@ -8,7 +8,6 @@ import { UserAuthPayload } from '../auth.interface';
 import { auth } from 'src/config';
 import { errorCodes } from 'src/common/codes/error';
 const config = auth();
-console.log({config});
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
@@ -27,9 +26,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
   }
 
   async validate(request: Request, payload: any): Promise<UserAuthPayload> {
-    console.log({payload});
     const isValid = await this.authService.isRefreshTokenPayloadValid(payload);
-    console.log({isValid});
     if (isValid) {
       return { email: payload.email, id: payload.sub, role: payload.role };
     } else {

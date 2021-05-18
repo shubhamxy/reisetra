@@ -4,23 +4,30 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import * as redisStore from 'cache-manager-redis-store';
 import { LoggerModule } from 'nestjs-pino';
-import {config } from './config';
-import { pinoConfig } from "./config";
+import { AddressModule } from './address/address.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/gaurd/jwt.gaurd';
 import { RolesGuard } from './auth/gaurd/roles.gaurd';
 import { CartModule } from './cart/cart.module';
+import { config, pinoConfig } from './config';
 import { validate } from './config/env.validation';
 import { HealthCheckModule } from './health/health.module';
 import { InventoryModule } from './inventory/inventory.module';
-import { ProductModule } from './product/product.module';
-import { UserModule } from './user/user.module';
 import { OrderModule } from './order/order.module';
-import { AddressModule } from './address/address.module';
+import { ProductModule } from './product/product.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { UserModule } from './user/user.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'client'),
+    //   exclude: ['/api*'],
+    //   serveStaticOptions: {
+    //   }
+    // }),
     LoggerModule.forRoot(pinoConfig),
     ConfigModule.forRoot({
       isGlobal: true,

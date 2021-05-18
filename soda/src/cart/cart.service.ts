@@ -8,13 +8,52 @@ import { PrismaService } from 'src/common/modules/db/prisma.service';
 import { RedisService } from 'src/common/modules/redis/redis.service';
 import { prismaOffsetPagination } from 'src/utils/prisma';
 import { CartItemRO } from './interfaces';
-import { CheckoutDto } from './dto';
+import { CheckoutDto, UpdateCartItemDto } from './dto';
+import { TransactionService } from 'src/transaction/transaction.service';
+import { CartItem, Order, Product } from '.prisma/client';
 
+function calculateBilling(
+  cartItemsWithProduct: {
+    quantity: number;
+    product: {
+      price: number;
+      tax: number;
+    };
+  }[],
+) {
+  let subTotal = 0;
+  let tax = 0;
+  let shipping = 100;
+  cartItemsWithProduct.forEach((item) => {
+    let itemPrice = item.quantity * item.product.price;
+    subTotal += itemPrice;
+    tax +=
+      (Number(itemPrice) *
+        Number(item.product.price) *
+        Number(item.product.tax || 18.5)) /
+      100;
+  });
+  let total = subTotal + tax + shipping;
+  let itemDiscount = (total * 20) / 100;
+  let grandTotal = total - itemDiscount;
+
+  return {
+    subTotal,
+    tax,
+    shipping,
+    itemDiscount,
+    total,
+    promo: 'new',
+    discount: 20,
+    grandTotal,
+  };
+}
 @Injectable()
 export class CartService {
   constructor(
     private readonly db: PrismaService,
     private readonly cache: RedisService,
+    private readonly txn: TransactionService,
   ) {}
   async getAllCarts(
     options: CursorPagination,
@@ -63,7 +102,7 @@ export class CartService {
       } = options;
       const result = await prismaOffsetPagination({
         where: {
-          id: id,
+          cartId: id,
         },
         cursor: cursor || '',
         size: Number(size),
@@ -71,9 +110,9 @@ export class CartService {
         orderBy,
         orderDirection,
         include: {
-          cartItems: true,
+          product: true,
         },
-        model: 'cart',
+        model: 'cartItem',
         prisma: this.db,
       });
       return result;
@@ -101,35 +140,38 @@ export class CartService {
 
   async addCartItem(userId: string, productId: string, quantity): Promise<any> {
     try {
-      const data = this.db.cart.upsert({
-        where: {
-          id: userId,
-        },
-        include: {
-          cartItems: {
+      const data = this.db.user.update({
+        where: { id: userId },
+        select: {
+          cart: {
             include: {
-              product: true,
+              cartItems: true,
             },
           },
         },
-        create: {
-          cartItems: {
-            create: {
-              quantity,
-              productId,
-            },
-          },
-        },
-        update: {
-          cartItems: {
-            create: {
-              quantity,
-              productId,
+        data: {
+          cart: {
+            upsert: {
+              create: {
+                cartItems: {
+                  create: {
+                    quantity,
+                    productId,
+                  },
+                },
+              },
+              update: {
+                cartItems: {
+                  create: {
+                    quantity,
+                    productId,
+                  },
+                },
+              },
             },
           },
         },
       });
-
       return data;
     } catch (error) {
       throw new CustomError(
@@ -140,12 +182,54 @@ export class CartService {
     }
   }
 
-  async checkoutCart(userId: string, checkout: CheckoutDto): Promise<any> {
+  async checkoutCart(
+    userId: string,
+    checkout: CheckoutDto,
+  ): Promise<
+    Order & {
+      razorpayOptions: Record<string, any>;
+    }
+  > {
     try {
-      const data = await this.db.order.create({
+      // @TODO: OPTIMIZE THIS ... too slow :(
+      const cartItemsWithProduct = await this.db.cartItem.findMany({
+        where: {
+          cartId: userId,
+        },
+        select: {
+          quantity: true,
+          product: {
+            select: {
+              price: true,
+              tax: true,
+              mrp: true,
+            },
+          },
+        },
+      });
+
+      const billing = calculateBilling(cartItemsWithProduct);
+      const user = await this.db.user.update({
+        where: { id: userId },
         data: {
-          userId,
-          ...checkout,
+          orders: {
+            create: {
+              ...checkout,
+              ...billing,
+            },
+          },
+        },
+        include: {
+          orders: {
+            include: {
+              address: true,
+              transaction: true,
+            },
+            take: 1,
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
         },
       });
 
@@ -155,16 +239,10 @@ export class CartService {
         },
         data: {
           cartId: { set: null },
-          orderId: data.id,
+          orderId: user.orders[0].id,
         },
       });
-      // await this.db.$executeRaw`
-      //   UPDATE "CartItem"
-      //   SET "cartId" = null, "orderId" = ${data.id}
-      //   WHERE "cartId" = ${userId}
-      // `
-
-      return data;
+      return this.txn.createTransaction(user);
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -189,7 +267,10 @@ export class CartService {
     }
   }
 
-  async updateCartItem(cartItemId, data): Promise<any> {
+  async updateCartItem(
+    cartItemId: string,
+    data: UpdateCartItemDto,
+  ): Promise<any> {
     try {
       const updated = await this.db.cartItem.update({
         where: {

@@ -29,7 +29,7 @@ export class TransactionController {
       const { results, ...meta } = await this.txn.allTransactions(query);
       return { data: results || [], meta: meta };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "OrderController.getAllTransaction");
+      throw new CustomException(error, HttpStatus.BAD_REQUEST, "TransactionController.getAllTransaction");
     }
   }
 
@@ -41,7 +41,7 @@ export class TransactionController {
       const data = await this.txn.transaction(transactionId);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "OrderController.getTransaction");
+      throw new CustomException(error, HttpStatus.BAD_REQUEST, "TransactionController.getTransaction");
     }
   }
 
@@ -51,10 +51,10 @@ export class TransactionController {
     @Body() body: CreateTransactionDto,
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.txn.createTransaction(request.user.id, body);
+      const data = await this.txn.createTransactionFromOrderId(request.user.id, body);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "OrderController.createTransaction");
+      throw new CustomException(error, HttpStatus.BAD_REQUEST, "TransactionController.createTransaction");
     }
   }
 
@@ -67,7 +67,7 @@ export class TransactionController {
       const data = await this.txn.updateTransaction(transactionId, body);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "OrderController.updateTransaction");
+      throw new CustomException(error, HttpStatus.BAD_REQUEST, "TransactionController.updateTransaction");
     }
   }
 
@@ -79,7 +79,7 @@ export class TransactionController {
       const data = await this.txn.deleteTransaction(transactionId);
       return { data };
     } catch (error) {
-      throw new CustomException(error, HttpStatus.BAD_REQUEST, "OrderController.deleteTransaction");
+      throw new CustomException(error, HttpStatus.BAD_REQUEST, "TransactionController.deleteTransaction");
     }
   }
 }

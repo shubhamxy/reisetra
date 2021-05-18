@@ -1,5 +1,6 @@
 import { Params } from 'nestjs-pino';
 import { statusText } from '../utils/statusText';
+import { app } from './app';
 
 const icons = {
   10: '🔵',
@@ -9,7 +10,7 @@ const icons = {
   50: '🚨',
   60: '🔴',
 };
-
+const appEnv = app();
 export const pinoConfig: Params = {
   pinoHttp: {
     customLogLevel: function (res, err) {
@@ -33,7 +34,7 @@ export const pinoConfig: Params = {
       return req.headers['requestid'];
     },
     prettyPrint: {
-      colorize: true,
+      colorize: !appEnv.isProduction,
       crlf: true,
       translateTime: 'dd-mm-yyyy HH:MM:ss.l',
       messageFormat: function (log) {

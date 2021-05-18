@@ -65,7 +65,6 @@ export function sendEmail(params: SES.SendEmailRequest): Promise<IData> {
   return new Promise((resolve, reject) => {
     ses.sendEmail(params, function (error, data) {
       if (error) {
-        console.log(error);
         reject(error);
       } else {
         resolve(data);

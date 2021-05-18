@@ -1,16 +1,11 @@
 import { CartItem, OrderStatus } from '.prisma/client';
+import { CursorPaginationDTO } from 'src/common/dto';
 import { CursorPaginationOptionsInterface } from 'src/common/pagination';
 import { Order } from 'src/order/entity';
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'id';
 
 
-export class GetAllCartsDto implements CursorPaginationOptionsInterface {
-  size: number;
-  buttonNum: number;
-  cursor: string;
-  orderBy: string;
-  orderDirection: 'desc' | 'asc';
-}
+export class GetAllCartsDto extends CursorPaginationDTO {}
 
 export class CreateCartItemDto implements Omit<CartItem, Excluded> {
   quantity: number;
@@ -27,7 +22,7 @@ export class CheckoutDto implements Omit<Order, Excluded | 'status'> {
   shipping: number;
   total: number;
   promo: string;
-  discount: string;
+  discount: number;
   grandTotal: number;
   userId: string;
   addressId: string;

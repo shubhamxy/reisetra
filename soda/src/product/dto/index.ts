@@ -12,6 +12,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { CursorPaginationDTO } from 'src/common/dto';
 import { CursorPaginationOptionsInterface } from 'src/common/pagination';
 import { isRequired, mustBeOfType } from 'src/constants';
 import { CreateInventoryDto } from 'src/inventory/dto';
@@ -19,13 +20,7 @@ import { Product } from '../entity';
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'extra' | 'inventoryId';
 
-export class GetAllProductsDto implements CursorPaginationOptionsInterface {
-  size: number;
-  buttonNum: number;
-  cursor: string;
-  orderBy: string;
-  orderDirection: 'desc' | 'asc';
-}
+export class GetAllProductsDto extends CursorPaginationDTO {}
 
 export class CreateProductDto implements Omit<Product, Excluded> {
   @IsString({ message: mustBeOfType('string', 'string') })
@@ -45,8 +40,17 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   color: string;
   @IsBoolean({ message: mustBeOfType('boolean', 'published') })
   published: boolean;
+
   @IsNumber({}, { message: mustBeOfType('number', 'price') })
   price: number;
+
+  @IsOptional()
+  @IsNumber({}, { message: mustBeOfType('number', 'mrp') })
+  mrp: number;
+
+  @IsOptional()
+  @IsNumber({}, { message: mustBeOfType('number', 'tax') })
+  tax: number;
 
   @IsOptional()
   @IsObject({ message: mustBeOfType('object', 'extra') })
@@ -75,7 +79,15 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   published: boolean;
   @IsNumber({}, { message: mustBeOfType('number', 'price') })
   price: number;
-  @IsString({ message: mustBeOfType('inventoryId', 'price') })
+
+  @IsNumber({}, { message: mustBeOfType('number', 'mrp') })
+  mrp: number;
+
+  @IsNumber({}, { message: mustBeOfType('number', 'tax') })
+  tax: number;
+
+  @IsOptional()
+  @IsString({ message: mustBeOfType('string', 'inventoryId') })
   inventoryId: string;
   @IsOptional()
   @IsString({ message: mustBeOfType('string', 'size') })
