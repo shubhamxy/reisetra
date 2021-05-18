@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "Soda API v1",
-      script: "./dist/src/main.js",
+      script: "./dist/main.js",
       instances: "max",
       exec_mode: "cluster",
       watch: false,
