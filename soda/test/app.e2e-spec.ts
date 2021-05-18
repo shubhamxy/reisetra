@@ -23,17 +23,10 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it(`/__internal/health (GET)`, () => {
+  it(`/healthz (GET)`, () => {
     return request(app.getHttpServer())
-      .get(`/${api}/__internal/health`)
+      .get(`/${api}/healthz`)
       .expect(200)
-      .expect({
-        data: {
-          server: 'up',
-          database: 'up',
-        },
-        success: true,
-      });
   });
 
   afterAll(async () => {

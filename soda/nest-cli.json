@@ -3,8 +3,7 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": [
-      { "include": "**/*.hbs", "outDir": "./dist/src", "watchAssets": true },
-      { "include": "../client/**", "outDir": "./dist/client", "watchAssets": true }
+      { "include": "**/*.hbs", "outDir": "./dist", "watchAssets": true }
     ]
   }
 }

@@ -5,7 +5,7 @@ import { createParams, IParams } from './aws';
 import {services, app} from 'src/config';
 
 const common = readFileSync(
-  join(__dirname + '/../views/mail/common.hbs'),
+  join(__dirname + '/views/mail/common.hbs'),
   'utf8',
 );
 const commonTemplate = handlebars.compile(common);

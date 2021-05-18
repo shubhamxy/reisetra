@@ -7,10 +7,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "nest build --path tsconfig.build.json --webpack",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "dev": "nest start --watch",
+    "dev": "nest start --watch --webpack",
     "start:debug": "nest start --debug --watch",
     "start:prod": "pm2 start ecosystem.config.js --env production",
     "stop:prod": "pm2 stop ecosystem.config.js --env production",
