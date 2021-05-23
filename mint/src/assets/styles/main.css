@@ -1,0 +1,111 @@
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Light.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Regular.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Medium.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Bold.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-SemiBold-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Bold-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: bold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+body {
+  font-family: "Gibson", "NeueHaasUnicaPro", "SF Pro Text", "SF Pro Icons",
+    "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+#nprogress .bar {
+  height: 4px;
+}
+
+#container {
+  padding: 40px;
+  background-color: grey;
+  color: white;
+}
+
+#nprogress .bar {
+  background: linear-gradient(to right, #4f44e0 0%, #000000 50%, #4f44e0 100%);
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #4f44e0;
+  border-left-color: #000000;
+}
