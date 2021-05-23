@@ -19,9 +19,6 @@ import {
   UpdateCartItemDto,
 } from "./dto";
 import { AuthenticatedRequest } from "src/auth/auth.interface";
-import { ApiTags } from "@nestjs/swagger";
-
-@ApiTags("Cart")
 @Controller()
 export class CartController {
   constructor(private readonly cart: CartService) {}

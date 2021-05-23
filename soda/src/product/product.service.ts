@@ -66,6 +66,7 @@ export class ProductService {
 
   async createProduct(data: CreateProductDto): Promise<any> {
     try {
+      console.log({data: JSON.stringify(data, null, 3)});
       const { inventory, ...productData } = data;
       const product = await this.db.product.create({
         data: {
@@ -73,9 +74,15 @@ export class ProductService {
           inventory: {
             create: inventory,
           },
+          images: {
+            createMany: {
+              data: data.images,
+            }
+          }
         },
         include: {
           inventory: true,
+          images: true,
         },
       });
       return product;

@@ -39,8 +39,12 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   size: string;
 
   @IsOptional()
-  @IsString({ message: mustBeOfType("string", "size") })
+  @IsString({ message: mustBeOfType("string", "brand") })
   brand: string;
+
+  @IsOptional()
+  @IsString({ message: mustBeOfType("string", "taxCode") })
+  taxCode: string;
 
   @IsString({ message: mustBeOfType("string", "color") })
   color: string;
@@ -67,6 +71,12 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   @ValidateNested({ each: true, message: mustBeOfType("object", "inventory") })
   @Type(() => CreateInventoryDto)
   inventory?: CreateInventoryDto;
+
+  images: {
+    key: string,
+    url: string,
+    contentType: string,
+  }[]
 }
 
 export class UpdateProductDto implements Omit<Product, Excluded> {
@@ -91,6 +101,10 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
 
   @IsNumber({}, { message: mustBeOfType("number", "tax") })
   tax: number;
+
+  @IsOptional()
+  @IsString({ message: mustBeOfType("string", "taxCode") })
+  taxCode: string;
 
   @IsOptional()
   @IsString({ message: mustBeOfType("string", "inventoryId") })

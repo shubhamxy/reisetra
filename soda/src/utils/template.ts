@@ -33,7 +33,7 @@ const options = (
 
 export function passwordResetEmail(user: { email: string; token: string }) {
   const config = app();
-  const passwordResetLink = `${config.clientUrl}/auth/reset-password?email=${user.email}&token=${user.token}`;
+  const passwordResetLink = `${config.clientUrl}/login/reset-password?email=${user.email}&token=${user.token}`;
   return createParams(
     options(user.email, {
       messageSubject: "Reset Password",

@@ -9,7 +9,7 @@ export interface GoogleUser {
   emailVerified: boolean;
   name: string;
   avatar?: string;
-  accessToken: string;
+  accessToken?: string;
   refreshToken?: string;
   oauthProvider: string;
 }

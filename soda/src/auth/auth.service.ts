@@ -238,7 +238,7 @@ export class AuthService {
 
   async sendForgotPasswordEmail(email: string): Promise<IData> {
     const forgotPasswordToken = await this.createForgottenPasswordToken(email);
-    if (this.appConfig.isProduction) {
+    // if (this.appConfig.isProduction) {
       const data = await sendEmail(
         passwordResetEmail({
           email,
@@ -246,6 +246,6 @@ export class AuthService {
         })
       );
       return data;
-    }
+    // }
   }
 }

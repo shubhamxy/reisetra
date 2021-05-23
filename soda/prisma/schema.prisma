@@ -47,6 +47,15 @@ model Secrets {
   password String
 }
 
+model Image {
+  id          String   @id @default(cuid())
+  product     Product? @relation(fields: [productId], references: [id])
+  productId   String?
+  url         String?
+  key         String?
+  contentType String?
+}
+
 model Cart {
   id   String @id @default(cuid())
   user User   @relation(fields: [id], references: [id])
@@ -129,10 +138,11 @@ model Address {
 }
 
 model Product {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
   brand       String
+  images      Image[]
 
   size  String?
   color String?
@@ -140,9 +150,13 @@ model Product {
 
   published Boolean @default(false)
 
-  mrp      Float
-  price    Float // mrp - discount
-  tax      Float // total = price + tax
+
+  mrp   Float
+  price Float // mrp - discount
+  tax   Float // total = price + tax
+
+  // hsn/sac code
+  taxCode String?
 
   inventory   Inventory @relation(fields: [inventoryId], references: [id])
   inventoryId String

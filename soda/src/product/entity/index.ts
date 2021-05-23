@@ -13,7 +13,7 @@ export class Product implements ProductModel {
 
   mrp: number;
   tax: number;
-
+  taxCode: string;
   inventoryId: string;
 
   active: boolean;

@@ -64,6 +64,7 @@ const ErrorCodes = {
   TransactionAlreadyInProgress: "E1005",
   TransactionAlreadySucceded: "E1006",
   OrderDoesNotExistWithUser: "E1007",
+  ResetPasswordTokenInvalid: "E1008",
   RazorPayFailure: "E2000",
   BillingCalculationError: "E2002",
 } as const;

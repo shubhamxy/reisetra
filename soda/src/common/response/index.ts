@@ -100,6 +100,7 @@ export type DataT =
   | Record<string, Data>
   | Data[]
   | Data;
+
 interface ISuccessResponse<D> {
   success?: boolean;
   message?: string;

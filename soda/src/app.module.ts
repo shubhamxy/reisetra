@@ -17,8 +17,7 @@ import { OrderModule } from "./order/order.module";
 import { ProductModule } from "./product/product.module";
 import { TransactionModule } from "./transaction/transaction.module";
 import { UserModule } from "./user/user.module";
-import { ServeStaticModule } from "@nestjs/serve-static";
-import { join } from "path";
+import { FilesModule } from "./files/files.module";
 
 @Module({
   imports: [
@@ -59,6 +58,7 @@ import { join } from "path";
     OrderModule,
     AddressModule,
     TransactionModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [
