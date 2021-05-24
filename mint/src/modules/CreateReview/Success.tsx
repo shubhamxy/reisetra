@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	Avatar,
 	Box,
 	Card,
 	CardActions,
@@ -150,7 +149,7 @@ function Actions({isValid, classes, hasNext, handleSkipForNow, handleNext}) {
 					onClick={handleNext}
 				>
 					<Typography variant={"h5"}>
-						{hasNext ? "Next college" : "Done"}
+						{hasNext ? "Next" : "Done"}
 					</Typography>
 				</Button>
 			</Box>
@@ -188,12 +187,12 @@ export default function Success({
 				<img
 					className={classes.illustrationmain}
 					alt=""
-					src="/images/icons/dashboard/welcome/illustration-success.png"
+					src="/icons/illustration-success.png"
 				/>
 				<img
 					className={classes.illustrationmain}
 					alt=""
-					src="/images/icons/dashboard/welcome/illustration-front.png"
+					src="/icons/illustration-front.png"
 				/>
 			</Box>
 
@@ -208,20 +207,7 @@ export default function Success({
 							style={{maxWidth: "420px"}}
 							className={classes.description}
 						>
-							Thank you for sharing your review
-							<Typography
-								variant={"caption"}
-								style={{
-									fontWeight: 600,
-								}}
-								className={classes.description}
-							>
-								{/* {collegeName ? collegeName : ""} */}
-							</Typography>
-							.{" "}
-							{hasNext
-								? "We noticed that went to another college. Would you like do the same for it?"
-								: ""}
+							Thank you for sharing your review.
 						</Typography>
 					</Box>
 				</Box>

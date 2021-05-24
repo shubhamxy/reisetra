@@ -1,19 +1,15 @@
-import {
-  Box,
-  makeStyles,
-  Paper,
-} from "@material-ui/core";
+import { Box, makeStyles, Paper } from "@material-ui/core";
 import React from "react";
 import { MainLayout } from "../layouts/MainLayout";
 import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import RecommendedCategories from "../ui/RecommendedCategories";
-import Feed from "../ui/Feed";
-import Catelogs from "../modules/Catelogs";
+import Catelogs from "../modules/Catelog";
 import HeroCard from "../ui/HeroCard";
-import SectionCard from "../ui/SectionCard";
-import ShowCase from "../modules/Showcase";
-import { Image } from "../ui/Image";
+import { SectionCard } from "../ui/SectionCard";
+import { ShowCase } from "../modules/ShowCase";
+import { ProductsFeed } from "../ui/Feed/Feed";
+import { Products } from "../modules/Products";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -44,9 +40,9 @@ const IndexPage = () => {
       top={
         <HeroCard
           data={{
-            title: 'Indian Handcrafts',
-            subtitle: 'Unique products designed by independent artists.',
-            backgroundImage: '',
+            title: "Indian Handcrafts",
+            subtitle: "Unique products designed by independent artists.",
+            backgroundImage: "",
           }}
         />
       }
@@ -54,23 +50,26 @@ const IndexPage = () => {
       right={
         <Box style={{ minHeight: "400px" }}>
           <RecommendedCategories />
+          <ProductsFeed />
         </Box>
       }
       footer={<Footer />}
     >
-      <>
-        <Paper className={classes.content}>
-          <Box style={{ marginBottom: 48 }}>
-            <Catelogs />
-          </Box>
-          <Box pl={2.4} pr={2.4}>
-            <SectionCard />
-          </Box>
-          <Box className={classes.content} style={{ marginTop: 48 }}>
-            <ShowCase />
-          </Box>
-        </Paper>
-      </>
+      <Paper className={classes.content}>
+        <Box>
+          <Catelogs />
+        </Box>
+        <Box pl={2.4} pr={2.4} pt={2.4} pb={2.4}>
+          <SectionCard />
+        </Box>
+        <Box className={classes.content}>
+          <ShowCase />
+        </Box>
+
+        <Box className={classes.content}>
+          <Products />
+        </Box>
+      </Paper>
     </MainLayout>
   );
 };

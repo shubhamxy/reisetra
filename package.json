@@ -3,10 +3,8 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "soda",
       "mint",
-      "maze",
-      "rock"
+      "soda"
     ],
     "nohoist": [
       "**"
@@ -34,8 +32,12 @@
     "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
-    "build": "./scripts/build.sh",
-    "start": "./scripts/up.sh",
-    "stop": "./scripts/down.sh"
+    "build:soda": "yarn workspace soda build",
+    "start:soda": "yarn workspace soda start:prod",
+    "stop:soda": "yarn workspace soda stop:prod",
+    "dev:soda": "yarn workspace soda dev",
+    "build:mint": "yarn workspace mint build",
+    "start:mint": "yarn workspace mint start",
+    "dev:mint": "yarn workspace mint dev"
   }
 }

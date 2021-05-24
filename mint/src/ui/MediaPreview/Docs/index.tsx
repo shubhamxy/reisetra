@@ -128,7 +128,7 @@ const useStyles = makeStyles(theme => ({
 		fontSize: 30,
 		lineHeight: 0,
 		borderRadius: "50%",
-		background: fade("#ffffff"),
+		background: "#ffffff",
 		color: "#000000",
 		border: "none",
 		cursor: "pointer",
@@ -193,13 +193,13 @@ export default function DocsPreview({
 					display="flex"
 					pr={6}
 					bgcolor="transparent"
-					bgColor="#ffffff"
 				>
 					<object
 						className={classes.doc}
-						data={openDoc.mediaUrl}
-						alt={`document ${openDoc.mediaUrl}`}
-						key={openDoc.mediaUrl}
+            // @ts-ignore
+						data={openDoc.url}
+            // @ts-ignore
+						key={openDoc.url}
 					/>
 					<button
 						onClick={() => setIsOpen(false)}
@@ -223,7 +223,7 @@ export default function DocsPreview({
 							}}
 						>
 							<Image
-								src="/images/icons/dashboard/file-pdf.svg"
+								src="/icons/file-pdf.svg"
 								className={classes.icon}
 								width={20}
 								height={20}

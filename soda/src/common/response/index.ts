@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { getErrorMessage, stackObj } from "src/utils";
+import { PageCursorsType } from "src/utils/prisma/paginator/pageCursor";
 import { statusText } from "src/utils/statusText";
 import { ErrorCode, ErrorType, errorTypes } from "../codes/error";
 type Data = Record<string, any> | string | number | boolean | Object;
 
 export interface IMeta {
   context: string;
-  link: any;
+  link: PageCursorsType;
   totalCount: number;
   page: number;
   [key: string]: any;

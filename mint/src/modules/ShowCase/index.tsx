@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import {
   Box,
   Card,
@@ -8,38 +8,37 @@ import {
   fade,
   Typography,
 } from "@material-ui/core";
+import { useProducts } from "../../libs";
+import GridList from "../../ui/List/GridList";
 
-const useGridStyles = makeStyles((theme) => ({
-  root: {
-    display: "grid",
-    width: "100%",
-    height: "100%",
-    rowGap: 8,
-    columnGap: 8,
-    overflow: "hidden",
-    padding: theme.spacing(2.2, 2.2, 1.9, 2.2),
-    gridTemplateColumns: "repeat(3, 1fr)",
-    [theme.breakpoints.down("md")]: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
-  },
-}));
-
-const colors = {
+type ColorsT = {
+  [key: string]: {
+    background: string,
+    color: string,
+  }
+}
+const colors: ColorsT = {
   default: {
     background: "#ffffff",
     color: "#000000",
   },
   dark: {
-    background: "#ffffff",
-    color: "#000000",
+    background: "#000000",
+    color: "#ffffff",
   },
   primary: {
-    background: "#ffffff",
+    background: "#74D125",
+    color: "#000000",
+  },
+  secondary: {
+    background: "#286dc1",
     color: "#000000",
   },
 };
-const useGridItemStyles = makeStyles((theme) => ({
+const useGridItemStyles = makeStyles<
+  Theme,
+  { variant: keyof ColorsT }
+>((theme) => ({
   root: ({ variant }) => ({
     display: "flex",
     flex: 1,
@@ -50,6 +49,7 @@ const useGridItemStyles = makeStyles((theme) => ({
     mixBlendMode: "normal",
     borderRadius: "8.52671px",
     boxShadow: "0px 3.79093px 11.3728px rgba(0, 0, 0, 0.103775)",
+    color: fade(colors[variant].color, 0.8),
     background: colors[variant].background,
     "&:hover": {
       backgroundColor: fade(colors[variant].background, 0.8),
@@ -83,12 +83,10 @@ const useGridItemStyles = makeStyles((theme) => ({
   },
   title: ({ variant }) => ({
     ...theme.typography.caption,
-    color: fade(colors[variant].color, 0.8),
     lineHeight: "16px",
   }),
   description: ({ variant }) => ({
     ...theme.typography.body2,
-    color: fade(colors[variant].color, 0.8),
     lineHeight: "32px",
     display: "-webkit-box",
     overflow: "hidden",
@@ -107,7 +105,6 @@ const useGridItemStyles = makeStyles((theme) => ({
   cost: {},
   seeAllText: ({ variant }) => ({
     ...theme.typography.body2,
-    color: fade(colors[variant].color, 0.8),
     fontSize: "12px",
     lineHeight: "14px",
   }),
@@ -126,27 +123,26 @@ const useGridItemStyles = makeStyles((theme) => ({
   },
 }));
 
-// common responsive css grid variants
-export function Grid({ children, ...rest }) {
-  const classes = useGridStyles();
-  return (
-    <Box className={classes.root} {...rest}>
-      {children}
-    </Box>
-  );
-}
 
 export function GridItem({
   variant = "default",
   title,
   description,
+  price,
+  images,
+}: {
+  variant: "default" | "dark" | "primary";
+  title: string;
+  description: string;
+  price: string;
+  images: { url: string }[];
 }) {
   const classes = useGridItemStyles({ variant });
   return (
     <Card elevation={0} className={classes.root}>
       <CardMedia
         className={classes.image}
-        image={"/images/1.jpeg"}
+        image={images?.[0]?.url}
         title="Paella dish"
       />
       <CardContent className={classes.card}>
@@ -159,7 +155,7 @@ export function GridItem({
         <Box className={classes.costContainer}>
           <Typography
             className={classes.cost}
-            children={"$200"}
+            children={price}
             variant="subtitle2"
           />
         </Box>
@@ -178,35 +174,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ShowCase = () => {
+export function ShowCase() {
   const classes = useStyles();
+  const query = useProducts();
   return (
-    <Grid>
-      {[
-        {
-          variant: "primary",
-          title: "title",
-          description: "description",
-          descriptionImage: "/images/icons/dashboard/group.png",
-          image: "/images/1.jpeg",
-        },
-        {
-          variant: "dark",
-          title: "title",
-          description: "description",
-          image: "/images/2.jpeg",
-        },
-        {
-          variant: "primary",
-          title: "Your Title",
-          description: "Your description",
-          image: "/images/3.jpeg",
-        },
-      ].map((item, index) => (
-        <GridItem {...item} key={index}></GridItem>
-      ))}
-    </Grid>
+    <GridList
+      query={query}
+      renderItem={({ item, index }) => (
+        <GridItem
+          {...item}
+          key={item.id}
+          variant={
+            Object.keys(colors)[index % 4]
+          }
+        />
+      )}
+    />
   );
-};
-
-export default ShowCase;
+}

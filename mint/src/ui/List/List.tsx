@@ -1,197 +1,112 @@
-import React, { forwardRef } from "react";
-import { Box, makeStyles, Typography, Button } from "@material-ui/core";
-import Image from "next/image";
+import React from "react";
+import {
+  Grid,
+  List as MaterialList,
+  ListItem as MaterialListItem,
+} from "@material-ui/core";
+import { InfiniteData } from "react-query";
+import { DataT, ISuccessResponse } from "../../libs";
 import clsx from "clsx";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-    height: "100%",
-  },
-  contentRoot: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-  },
-  emtyResultText: {
-    textAlign: "center",
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    fontWeight: 600,
-    fontSize: "24px",
-    lineHeight: "32px",
-    padding: theme.spacing(0, 8, 0, 8),
-  },
-  emtyResultSubtext: {
-    ...theme.typography.body1,
-    fontSize: "14px",
-    color: "#667587",
-    maxWidth: "400px",
-    textAlign: "center",
-    paddingBottom: "20px",
-    lineHeight: "19px",
-  },
-  button: {
-    margin: 0,
-    height: "35px",
-  },
-}));
-
-export function EmptyListComponent(props) {
-  const {
-    icon: Icon,
-    imgProps,
-    title,
-    subtext,
-    titleProps = {},
-    subtextProps = {},
-    buttonText,
-    onButtonClick,
-    ...rest
-  } = props;
-  const classes = useStyles();
-  return (
-    <Box
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      flexDirection={"column"}
-      flex={1}
-      flexGrow={1}
-      {...rest}
-    >
-      <Box
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        flexDirection={"column"}
-      >
-        {Icon ? (
-          <Icon
-            src={"/images/icons/dashboard/folder.svg"}
-            height={180}
-            width={180}
-            objectFit={"contain"}
-            {...imgProps}
-          />
-        ) : (
-          <Image
-            src={"/images/icons/dashboard/folder.svg"}
-            height={180}
-            width={180}
-            objectFit={"contain"}
-            {...imgProps}
-          />
-        )}
-
-        <Typography
-          variant={"h4"}
-          className={classes.emtyResultText}
-          {...titleProps}
-        >
-          {title}
-        </Typography>
-        <Typography
-          variant="body2"
-          className={classes.emtyResultSubtext}
-          {...subtextProps}
-        >
-          {subtext}
-        </Typography>
-        {buttonText && (
-          <Button
-            onClick={onButtonClick}
-            className={classes.button}
-            variant="contained"
-            type="button"
-            color="primary"
-          >
-            <Typography variant={"subtitle2"}>{buttonText}</Typography>
-          </Button>
-        )}
-      </Box>
-    </Box>
-  );
+interface ListProps {
+  classes?: Record<string, string>;
+  variant: "infinite" | "default";
+  isLoading?: boolean;
+  isEmpty?: boolean;
+  ListLoadingComponent?: any;
+  ListHeaderComponent?: any;
+  ListHeaderComponentProps?: any;
+  ListFooterComponent?: any;
+  ListFooterComponentProps?: any;
+  ItemSeparatorComponent?: any;
+  ItemSeparatorComponentProps?: any;
+  data?: InfiniteData<ISuccessResponse<DataT>>;
+  renderItem?: any;
+  ListEmptyComponent?: any;
+  ListEmptyComponentProps?: any;
+  keyExtractor?: Function;
 }
 
-export const List = forwardRef(function (props: any, ref) {
+export function List(props: ListProps) {
   const {
-    className,
+    classes = {},
+    variant = "default",
     isLoading = false,
     isEmpty = false,
     ListLoadingComponent,
     ListHeaderComponent,
-    ListHeaderComponentProps,
     ListFooterComponent,
-    ListFooterComponentProps,
     ItemSeparatorComponent,
-    ItemSeparatorComponentProps,
     data,
     renderItem,
-    ListEmptyComponent = EmptyListComponent,
-    ListEmptyComponentProps,
+    ListEmptyComponent,
     keyExtractor = (data, index) => {
-      return data.id || data._id || data.key || index;
+      return data.id || data.key || index;
     },
-    classes: cls = {},
-    style,
-    ...rest
   } = props;
-  const classes = useStyles();
-  return (
-    <ul className={clsx(cls.root, classes.root)} style={style}>
-      {ListHeaderComponent && (
-        <ListHeaderComponent {...ListHeaderComponentProps} />
-      )}
-      {isEmpty === true && !isLoading && (
-        <ListEmptyComponent {...ListEmptyComponentProps} />
-      )}
-      {Array.isArray(data) && data.length > 0 ? (
-        <Box className={clsx(cls.contentRoot, classes.contentRoot)}>
-          {data.map((item, index) => (
-            <li key={keyExtractor(item, index)}>
-              {renderItem({ item, index, ...rest })}
-              {!(index === data.length - 1) && ItemSeparatorComponent && (
-                <ItemSeparatorComponent {...ItemSeparatorComponentProps} />
-              )}
-            </li>
-          ))}
-        </Box>
-      ) : isEmpty === false &&
-        data &&
-        data.pages &&
-        Array.isArray(data.pages) ? (
-        <Box
-          className={[cls.content ? cls.content : "", classes.contentRoot].join(
-            " "
-          )}
-        >
-          {data.pages.map((page: any, pageIndex) =>
-            page?.data?.length > 0
-              ? page.data.map((item, index) => (
-                  <li key={keyExtractor(item, pageIndex + "-" + index)}>
-                    {renderItem({ item, index, ...rest })}
-                    {!(
-                      pageIndex === data.pages.length - 1 &&
-                      index === page.data.length - 1
-                    ) &&
-                      ItemSeparatorComponent && (
-                        <ItemSeparatorComponent
-                          {...ItemSeparatorComponentProps}
-                        />
-                      )}
-                  </li>
-                ))
-              : null
-          )}
-        </Box>
-      ) : null}
-      {isLoading && ListLoadingComponent && <ListLoadingComponent />}
-      {!isLoading && ListFooterComponent && (
-        <ListFooterComponent {...ListFooterComponentProps} />
-      )}
-    </ul>
-  );
-});
+
+  if (variant === "infinite") {
+    return (
+      <Grid
+        container
+        className={classes.root}
+        justify="center"
+        direction="column"
+      >
+        {ListHeaderComponent && <Grid item>{ListHeaderComponent}</Grid>}
+        {(data?.pages?.[0]?.data === undefined ||
+          data?.pages?.[0]?.meta?.totalCount === 0) &&
+          !isLoading && <Grid item>{ListEmptyComponent}</Grid>}
+        <Grid item>
+          <MaterialList className={clsx(classes.list, "scrollbar")}>
+            {data?.pages?.map((page: ISuccessResponse<any>, pageIndex: number) =>
+              page.data?.map((item, index) => (
+                //@TODO fix the type ???
+                <MaterialListItem
+                  key={keyExtractor(item, pageIndex + "-" + index)}
+                >
+                  {renderItem({ item, index })}
+                  {!(
+                    pageIndex === data.pages.length - 1 &&
+                    index === page.data.length - 1
+                  ) &&
+                    ItemSeparatorComponent && ItemSeparatorComponent}
+                </MaterialListItem>
+              ))
+            )}
+          </MaterialList>
+        </Grid>
+        {isLoading && ListLoadingComponent && (
+          <Grid item>{ListLoadingComponent}</Grid>
+        )}
+        {!isLoading && ListFooterComponent && (
+          <Grid item>{ListFooterComponent}</Grid>
+        )}
+      </Grid>
+    );
+  } else {
+    return (
+      <Grid container className={classes.root}>
+        {ListHeaderComponent && <Grid item>{ListHeaderComponent}</Grid>}
+        {isEmpty === true && !isLoading && (
+          <Grid item>{ListEmptyComponent}</Grid>
+        )}
+        <Grid item>
+          {Array.isArray(data) && data.length > 0 ? (
+            <MaterialList className={classes.list}>
+              {data.map((item, index) => (
+                <MaterialListItem key={keyExtractor(item, index)}>
+                  {renderItem({ item, index })}
+                  {!(index === data.length - 1) &&
+                    ItemSeparatorComponent && { ItemSeparatorComponent }}
+                </MaterialListItem>
+              ))}
+            </MaterialList>
+          ) : null}
+        </Grid>
+        {isLoading && ListLoadingComponent && { ListLoadingComponent }}
+        {!isLoading && ListFooterComponent && { ListFooterComponent }}
+      </Grid>
+    );
+  }
+}

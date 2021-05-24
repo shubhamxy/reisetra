@@ -6,14 +6,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { MainLayout } from "../layouts/MainLayout";
-import { AppHeader } from "../ui/Header";
-import { Footer } from "../ui/Footer";
-import HeroCard from "../ui/HeroCard";
-import { config } from "../libs";
-import { ImagePreview } from "../ui/MediaPreview";
-import { useFileUpload } from "../libs/rock/file";
-import { CreateProduct } from "../modules/Product";
+import { MainLayout } from "../../layouts/MainLayout";
+import { AppHeader } from "../../ui/Header";
+import { Footer } from "../../ui/Footer";
+import HeroCard from "../../ui/HeroCard";
+import { config } from "../../libs";
+import { ImagePreview } from "../../ui/MediaPreview";
+import { useFileUpload } from "../../libs/rock/file";
+import { CreateProduct } from "../../modules/CreateProduct";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -52,11 +52,6 @@ const ErrorPage = () => {
     setOpen(false);
   };
 
-  const pageMeta = {
-    title: "404",
-    description: "Oops! You found a missing page!",
-    url: `${config.clientUrl}/404`,
-  };
   return (
     <MainLayout
       classes={{
@@ -66,12 +61,14 @@ const ErrorPage = () => {
       header={<AppHeader />}
       footer={<Footer />}
     >
+      <>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
+        Open create product form dialog
       </Button>
       <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
          <CreateProduct />
       </Dialog>
+      </>
     </MainLayout>
   );
 };

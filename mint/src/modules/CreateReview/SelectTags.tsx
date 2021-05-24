@@ -307,6 +307,7 @@ export default function CreateExperience({
 					t={t}
 					classes={classes}
 					isValid={isValid}
+          // @ts-ignore
 					handleSaveAsDraft={handleSaveAsDraft}
 					handleNext={handleNext}
 				/>

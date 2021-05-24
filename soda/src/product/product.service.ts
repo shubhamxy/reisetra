@@ -38,6 +38,7 @@ export class ProductService {
         model: "product",
         include: {
           inventory: true,
+          images: true,
         },
         prisma: this.db,
       });
@@ -101,6 +102,7 @@ export class ProductService {
         data: update,
         include: {
           inventory: true,
+          images: true,
         },
       });
       return data;
@@ -119,6 +121,7 @@ export class ProductService {
         where: { id: productId },
         include: {
           inventory: true,
+          images: true,
         },
       });
       return data;

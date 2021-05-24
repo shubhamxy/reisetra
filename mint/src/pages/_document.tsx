@@ -5,7 +5,7 @@ import { Theme } from "@material-ui/core";
 import { ServerStyleSheets } from "@material-ui/styles";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import * as React from "react";
-import { WithTheme } from "../libs";
+import { config, WithTheme } from "../libs";
 
 const getCache = () => {
   const cache = createCache({ key: "css", prepend: true });
@@ -44,8 +44,8 @@ export default class MyDocument extends Document {
                 href="/static/safari-pinned-tab.svg"
                 color={theme.palette.primary.main}
               />
-              <meta name="apple-mobile-web-app-title" content="Reisetra" />
-              <meta name="application-name" content="Reisetra" />
+              <meta name="apple-mobile-web-app-title" content={config.name} />
+              <meta name="application-name" content={config.name} />
               <meta name="msapplication-TileColor" content={theme.palette.primary.main} />
               <meta name="theme-color" content={theme.palette.primary.main} />
 

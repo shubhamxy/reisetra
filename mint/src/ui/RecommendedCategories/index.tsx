@@ -67,8 +67,7 @@ const useStyles = makeStyles((theme) =>
         boxShadow: `0px 0px 0px 4px#d0f20f33`,
       },
     },
-    listPrimaryText: {
-    },
+    listPrimaryText: {},
     action: {
       top: "35%",
       padding: "1px 6px 1px 6px",
@@ -123,13 +122,6 @@ export default function RecommendedCategories() {
         </Typography>
       </Box>
       <Box display={"flex"} flexDirection={"column"}>
-        {/* <Box display={"flex"} pb={1.2}>
-          <Typography
-            variant={"h5"}
-            style={{ color: "#ffffff", fontSize: 14 }}
-            children={"Shop by theme"}
-          />
-        </Box> */}
         <List
           classes={{
             root: classes.taglist,
@@ -138,9 +130,7 @@ export default function RecommendedCategories() {
         >
           {data.map((item, index) => (
             <Chip
-              onClick={(e) => {
-
-              }}
+              onClick={(e) => {}}
               key={index}
               className={classes.taglistitem}
               label={

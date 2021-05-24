@@ -171,6 +171,7 @@ const useStyles = makeStyles(theme => ({
 		maxWidth: "100%",
 		maxHeight: "100%",
 	},
+  titleBar: {}
 }));
 
 export default function VideoPreview({
@@ -252,7 +253,8 @@ export default function VideoPreview({
 				scroll="paper"
 			>
 				<video controls className={classes.video} autoPlay>
-					<source src={openDoc?.mediaUrl} />
+          {/* @ts-ignore */}
+					<source src={openDoc?.url} />
 				</video>
 				<button
 					onClick={() => setIsOpen(false)}

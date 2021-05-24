@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: "hidden",
     },
     list: {
-      background: "#ffffff",
+      background: theme.palette.background.paper,
       minWidth: 100,
       margin: 0,
       marginTop: 8,

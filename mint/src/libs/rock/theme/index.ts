@@ -268,7 +268,7 @@ export const useTheme = () => {
   return useMemo(
     () =>
       responsiveFontSizes(
-        createMuiTheme(themeOptions(!prefersDarkMode ? "dark" : "light"))
+        createMuiTheme(themeOptions(prefersDarkMode ? "dark" : "light"))
       ),
     [prefersDarkMode]
   );

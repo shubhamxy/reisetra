@@ -16,6 +16,7 @@ import {
   Theme,
   Box,
 } from "@material-ui/core";
+import { config } from "../../libs";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     footer: {
@@ -87,14 +88,14 @@ function Footer() {
                     height={32}
                     width={32}
                     src={Icons.logo}
-                    alt="Reisetra Logo"
+                    alt={`${config.name} Logo`}
                   />
                 </a>
               </Link>
             </Box>
             <Box display="flex" flex={1} maxWidth={"400px"}>
               <Typography variant="caption">
-                Reisetra has achieved a remarkable reputation in the manufacturing & exporting of premium quality wooden products and we are here to satisfy your design needs.</Typography>
+                {config.name} has achieved a remarkable reputation in the manufacturing & exporting of premium quality wooden products and we are here to satisfy your design needs.</Typography>
             </Box>
             <Box className={classes.payments}>
               <Image
@@ -107,7 +108,7 @@ function Footer() {
             </Box>
             <Box>
             <Typography color="textPrimary"  variant="caption">
-              &copy; 2021 Reisetra.
+              &copy; 2021 {config.name}.
             </Typography>
 
             </Box>

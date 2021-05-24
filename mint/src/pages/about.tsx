@@ -10,6 +10,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
+import { config } from "../libs/rock/config";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -67,7 +68,7 @@ const AboutPage = () => {
                 designs ranging from rustic to eclectic, from antique to
                 contemporary, well proportioned and durable for today's casual
                 chic life styles. It is imbued with style and strength,
-                resulting in affordable piece to furnish one's home. Reisetra
+                resulting in affordable piece to furnish one's home. {config.name}
                 has achieved a remarkable reputation in the manufacturing &
                 exporting of premium quality wooden products.
               </Typography>
@@ -82,7 +83,7 @@ const AboutPage = () => {
               </Typography>
               <br />
               <Typography variant="body1">
-                Reisetra Emphasizes on Quality, Innovation, Renovation, and most
+                {config.name} Emphasizes on Quality, Innovation, Renovation, and most
                 importantly customer satisfaction. Our Professionaly qualified
                 and dedicated product design team leaves no stone unturned to
                 provide you quality products. In addition to this, competitive

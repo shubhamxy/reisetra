@@ -318,8 +318,10 @@ function Actions({
   handleTagsClick,
   toolbarText,
   handleNext,
+  setFieldValue,
 }) {
   const imageUpload = useFileUpload({
+    fileType: 'images',
     multiple: true,
     onSuccess: (files) => {
       // setFieldValue("images", [...files, ...values.images]);
@@ -328,6 +330,7 @@ function Actions({
   });
 
   const videoUpload = useFileUpload({
+    fileType: 'documents',
     multiple: false,
     accept: ["video/*"],
     onSuccess: (files) => {
@@ -441,31 +444,13 @@ function Actions({
                 style={{ width: "36px", height: "36px" }}
               >
                 <Image
-                  src={"/images/icons/dashboard/tag.svg"}
+                  src={"/icons/tag.svg"}
                   quality={1}
                   height={18}
                   width={18}
                 />
               </Button>
             </Badge>
-            {/* This Badge is commented to hide the code button in add experiece modal */}
-            {/* <Badge
-							badgeContent={getTotalCount(values.content, "embed") || 0}
-							classes={{badge: classes.badgeContainer}}
-						>
-							<GradiantButton
-								className="gradient-btn-links"
-								onClick={handleLinkClick}
-								style={{width: "36px", height: "36px"}}
-							>
-								<Image
-									src={"/images/icons/dashboard/links.svg"}
-									quality={1}
-									height={18}
-									width={18}
-								/>
-							</GradiantButton>
-						</Badge> */}
             <Badge
               badgeContent={getTotalCount(values.content, "image") || 0}
               classes={{ badge: classes.badgeContainer }}
@@ -478,7 +463,7 @@ function Actions({
               >
                 <input {...imageUpload.getInputProps()} />
                 <Image
-                  src={"/images/icons/dashboard/img.svg"}
+                  src={"/icons/img.svg"}
                   quality={1}
                   height={18}
                   width={18}
@@ -497,7 +482,7 @@ function Actions({
               >
                 <input {...videoUpload.getInputProps()} />
                 <Image
-                  src={"/images/icons/dashboard/video.svg"}
+                  src={"/icons/video.svg"}
                   quality={1}
                   height={18}
                   width={18}
@@ -531,7 +516,6 @@ function Actions({
 export default function CreateContent({
   values,
   setFieldValue,
-  // handleChange,
   onCloseHandler,
   handleNext,
   isValid,
@@ -540,18 +524,18 @@ export default function CreateContent({
   handleTagsClick,
   text = {
     header: {
-      title: "Share your experience",
+      title: "",
     },
     title: {
       id: "title",
-      placeholder: "Title of your experience",
+      placeholder: "",
     },
     content: {
       id: "content",
-      placeholder: "Start writing here",
+      placeholder: "",
     },
     toolbar: {
-      text: "Add to your experience",
+      text: "",
     },
   },
 }) {
@@ -600,6 +584,7 @@ export default function CreateContent({
             ref={editorRef}
             key={text.content.id}
             aria-label={text.content.placeholder}
+            // @ts-ignore
             placeholder={text?.content?.placeholder || ''}
             className={classes.contentInput}
             onChange={(value) => {
@@ -616,7 +601,6 @@ export default function CreateContent({
           toolbarText={text.toolbar.text}
           setFieldValue={setFieldValue}
           classes={classes}
-          isValid={isValid}
           handleNext={handleNext}
           handleTagsClick={handleTagsClick}
         />

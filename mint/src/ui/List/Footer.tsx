@@ -11,10 +11,10 @@ export const useStyles = makeStyles(theme => ({
 	},
 	button: {},
 	text: {
+    color: theme.palette.text.primary,
 		fontWeight: 500,
 		fontSize: "14px",
 		lineHeight: "19px",
-		color: fade("#131415", 0.6),
 	},
 }));
 
@@ -23,7 +23,7 @@ export default function Footer({
 	fetchNextPage,
 	totalDataCount = 0,
 	totalCount = 0,
-	showCount,
+	showCount = true,
 }) {
 	const {ref, inView} = useInView({
 		threshold: 1,
@@ -37,13 +37,14 @@ export default function Footer({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [inView, hasNextPage]);
 	const classes = useStyles();
-	return totalDataCount !== 0 && totalCount !== 0 ? (
+	return (
 		<Box className={classes.root}>
-			<Box display={"flex"} flex={1} ref={ref}>
+			<Box display={"flex"} flex={1}>
 				{hasNextPage && (
 					<Button
+            ref={ref}
 						className={classes.button}
-						color={"primary"}
+						color={"secondary"}
 						variant={"text"}
 						onClick={fetchNextPage}
 					>
@@ -67,5 +68,5 @@ export default function Footer({
 				)}
 			</Box>
 		</Box>
-	) : null;
+	);
 }

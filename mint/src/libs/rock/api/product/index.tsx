@@ -1,4 +1,6 @@
 import { get, post, put } from "../../utils/http";
+import pickBy from 'lodash.pickby';
+import identity from 'lodash.identity';
 
 export interface CreateProductDTO {
   title: string;
@@ -37,4 +39,19 @@ export function updateProduct({
   body: CreateProductDTO;
 }) {
   return put(`product/${productId}`, body);
+}
+interface PaginationParams {
+  [key: string]: string;
+  size?: string;
+  buttonNum?: string;
+  cursor?: string;
+  orderBy?: string;
+  orderDirection?: "desc" | "asc";
+};
+
+export function getProducts(params: PaginationParams) {
+  console.log({params});
+  const qs = new URLSearchParams(pickBy(params, identity)).toString();
+  console.log({qs});
+  return get(`products?${qs}`);
 }

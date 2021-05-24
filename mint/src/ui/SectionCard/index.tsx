@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) =>
       backgroundImage: `url("/images/hero.jpeg")`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
-      backgroundPosition: "",
+      backgroundPosition: "bottom",
       boxShadow: "2px 2px 7px rgba(0, 0, 0, 0.15)",
       display: "flex",
       flexDirection: "column",
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) =>
     actionsContainer: {},
   })
 );
-export default React.memo(function SectionCard({}) {
+export const SectionCard = React.memo(function SectionCard({}) {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
   return (

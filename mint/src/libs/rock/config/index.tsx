@@ -15,7 +15,6 @@ export interface Config {
   clientUrl: string;
   googleOAuthOptions: {
     clientID: string;
-    callbackURL: string;
   };
 }
 
@@ -25,7 +24,7 @@ export const config: Config = {
   // Common
   isProduction: process.env.NODE_ENV === "production",
   name: process.env.APP_NAME || "Reisetra",
-  description: process.env.APP_DESCRIPTION || "Authentic Indian Handcrafts",
+  description: process.env.APP_DESCRIPTION || "Unique products designed by independent artists.",
   contactEmail: "contact@reisetra.com",
   appEnv: (process.env.APP_ENV || "production") as Environment,
   port: +process.env.PORT || 3000,
@@ -36,7 +35,6 @@ export const config: Config = {
 
   // GOOGLE Login
   googleOAuthOptions: {
-    clientID: '583554562558-6stke69s8nsc3lca6beajdu4ergs2msh.apps.googleusercontent.com',
-    callbackURL: 'auth/login/oauth/google/verify',
+    clientID: process.env.GOOGLE_OAUTH_CLIENT_ID || '583554562558-6stke69s8nsc3lca6beajdu4ergs2msh.apps.googleusercontent.com',
   },
 };

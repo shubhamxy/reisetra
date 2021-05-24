@@ -1,5 +1,5 @@
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 import {Box, Card, CardContent, fade, Typography} from "@material-ui/core";
 
 const useGridStyles = makeStyles(theme => ({
@@ -29,7 +29,7 @@ const colors = {
 		color: "#fff",
 	},
 };
-const useGridItemStyles = makeStyles(theme => ({
+const useGridItemStyles = makeStyles<Theme, any>(theme => ({
 	root: ({variant}) => ({
 		display: "flex",
 		flex: 1,
@@ -139,7 +139,7 @@ export function GridItem({
 	return (
 		<Card elevation={0} className={classes.root} style={{backgroundImage: `url(${illustration})`}}>
 			<CardContent className={classes.card}>
-				<Typography className={classes.title} variant="subtext2">
+				<Typography className={classes.title} variant="subtitle2">
 					{title}{" "}
 				</Typography>
 				<Typography className={classes.description} variant="body2">
@@ -151,7 +151,6 @@ export function GridItem({
 							alt=""
 							src={descriptionImage}
 							height={"40px"}
-							objectFit={"contain"}
 						/>
 					</Box>
 				)}
@@ -162,7 +161,6 @@ export function GridItem({
 							alt=""
 							src={descriptionImage2}
 							height={"40px"}
-							objectFit={"contain"}
 						/>
 					</Box>
 				)}
@@ -173,17 +171,16 @@ export function GridItem({
 					children={"See All"}
 					variant="caption"
 				/>
-				<img
+				{/* <img
 					alt=""
 					src={
 						variant === "default"
-							? "/images/icons/dashboard/seealldark.svg"
-							: "/images/icons/dashboard/seeall.svg"
+							? "/icons/seealldark.svg"
+							: "/icons/seeall.svg"
 					}
 					width={8}
 					height={9}
-					objectFit={"contain"}
-				/>
+				/> */}
 			</Box>
 			{/* <Box
 				className={classes.illustration}
@@ -220,7 +217,6 @@ const Catelogs = () => {
 						variant: "primary",
 						title: "title",
 						description: "description",
-						descriptionImage: "/images/icons/dashboard/group.png",
 						illustration: "/images/1.jpeg",
 					},
 					{
@@ -245,7 +241,6 @@ const Catelogs = () => {
 						variant: "primary",
 						title: "title",
 						description: "description",
-						descriptionImage: "/images/icons/dashboard/group.png",
 						illustration: "/images/1.jpeg",
 					},
 					{
@@ -267,6 +262,7 @@ const Catelogs = () => {
 						illustration: "/images/4.jpeg",
 					},
 				].map((item, index) => (
+          //@ts-ignore
 					<GridItem {...item} key={index}></GridItem>
 				))}
 			</Grid>

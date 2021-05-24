@@ -14,27 +14,20 @@ import {
 function useHelper({
 	isUpdate,
 	step,
-	collegeId,
-	collegeName,
 	data,
 }) {
-	const {_id, isPublished, title, college, content, tags, type, images, docs} =
+	const {_id, isPublished, title, description, tags, type, images, docs} =
 		data || {};
-	const collegename =
-		college && college.name ? college.name : collegeName || "";
-	const collegeid = college && college.id ? college.id : collegeId || "";
 	const initialValues = {
 		step: step || 0,
 		isUpdate: isUpdate || false,
 		isPublished: isPublished === false ? false : true,
 		title: title || "",
-		content: fromString(content),
+		content: fromString(description),
 		tags: tags || [],
-		type: type || (collegename || collegeid ? "college" : "general"),
+		type: type,
 		images: images || [],
 		docs: docs || [],
-		collegeName: collegename,
-		collegeId: collegeid,
 	};
 
 	const onError = error => {
@@ -73,22 +66,10 @@ function useHelper({
 			return errors;
 		},
 		onSubmit: ({
-			title,
-			content,
-			type,
-			docs,
-			tags,
-			collegeId,
-			collegeName,
-			images,
-			isPublished,
-			step,
-			isUpdate,
 		}) => {
 
 		},
 	});
-
 	return {
 		isLoading,
 		onError,
@@ -108,8 +89,6 @@ export default function CreateReview({
 	step,
 	isUpdate,
 	setFieldError,
-	collegeName,
-	collegeId,
 	data,
 }) {
 	const {
@@ -122,8 +101,6 @@ export default function CreateReview({
 	} = useHelper({
 		step,
 		isUpdate,
-		collegeName,
-		collegeId,
 		data,
 	});
 
@@ -145,11 +122,7 @@ export default function CreateReview({
 					}}
 					text={{
 						header: {
-							title: `Share your review${
-								values.type === "college"
-									? ` for ${values.collegeName || values.collegeId}`
-									: ""
-							}`,
+							title: "Share your review",
 						},
 						title: {
 							id: "title",

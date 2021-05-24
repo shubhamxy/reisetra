@@ -46,7 +46,7 @@ export interface IErrorResponse<T> {
  *  }
  *  const data = await http<Todo[]>("https://jsonplaceholder.typicode.com/todos")
  */
-interface ISuccessResponse<D> {
+export interface ISuccessResponse<D> {
   success?: boolean;
   message?: string;
   data?: D;
