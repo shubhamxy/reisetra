@@ -144,9 +144,10 @@ model Product {
   brand       String
   images      Image[]
 
-  size  String?
-  color String?
-  extra Json?
+  color String[]
+  size  String[]
+  dimensions Int[]
+  details Json
 
   published Boolean @default(false)
 

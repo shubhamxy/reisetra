@@ -55,6 +55,10 @@ export class ProductService {
   async getProduct(id: string): Promise<any> {
     const product = await this.db.product.findUnique({
       where: { id },
+      include: {
+        inventory: true,
+        images: true,
+      },
     });
     if (!product) {
       throw new CustomError(
@@ -67,7 +71,6 @@ export class ProductService {
 
   async createProduct(data: CreateProductDto): Promise<any> {
     try {
-      console.log({data: JSON.stringify(data, null, 3)});
       const { inventory, ...productData } = data;
       const product = await this.db.product.create({
         data: {

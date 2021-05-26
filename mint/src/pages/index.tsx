@@ -10,6 +10,7 @@ import { SectionCard } from "../ui/SectionCard";
 import { ShowCase } from "../modules/ShowCase";
 import { ProductsFeed } from "../ui/Feed/Feed";
 import { Products } from "../modules/Products";
+import { Categories } from "../modules/Categories";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -56,18 +57,22 @@ const IndexPage = () => {
       footer={<Footer />}
     >
       <Paper className={classes.content}>
-        <Box>
-          <Catelogs />
-        </Box>
-        <Box pl={2.4} pr={2.4} pt={2.4} pb={2.4}>
-          <SectionCard />
-        </Box>
         <Box className={classes.content}>
           <ShowCase />
         </Box>
 
+        <Box pl={2.4} pr={2.4} pt={2.4} pb={2.4}>
+          <SectionCard />
+        </Box>
         <Box className={classes.content}>
           <Products />
+        </Box>
+
+        <Box className={classes.content}>
+          <Categories />
+        </Box>
+        <Box>
+          <Catelogs />
         </Box>
       </Paper>
     </MainLayout>

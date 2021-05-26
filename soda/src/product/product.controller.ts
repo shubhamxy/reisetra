@@ -12,10 +12,12 @@ import {
 import { ProductService } from "./product.service";
 import { CustomException, SuccessResponse } from "src/common/response";
 import { CreateProductDto, GetAllProductsDto, UpdateProductDto } from "./dto";
+import { Public } from "src/auth/decorator/public.decorator";
 @Controller()
 export class ProductController {
   constructor(private readonly product: ProductService) {}
 
+  @Public()
   @Get("products")
   async getAllProducts(
     @Query() query: GetAllProductsDto
@@ -32,6 +34,7 @@ export class ProductController {
     }
   }
 
+  @Public()
   @Get("product/:productId")
   async getProduct(
     @Param("productId") productId: string

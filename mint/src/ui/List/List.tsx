@@ -58,11 +58,12 @@ export function List(props: ListProps) {
           data?.pages?.[0]?.meta?.totalCount === 0) &&
           !isLoading && <Grid item>{ListEmptyComponent}</Grid>}
         <Grid item>
-          <MaterialList className={clsx(classes.list, "scrollbar")}>
+          <MaterialList className={clsx(classes.list, "scrollbar")} disablePadding>
             {data?.pages?.map((page: ISuccessResponse<any>, pageIndex: number) =>
               page.data?.map((item, index) => (
                 //@TODO fix the type ???
                 <MaterialListItem
+                  disableGutters
                   key={keyExtractor(item, pageIndex + "-" + index)}
                 >
                   {renderItem({ item, index })}

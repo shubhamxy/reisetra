@@ -31,7 +31,7 @@ export const services = (): ServicesEnv => ({
   aws: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_KEY,
-    region: process.env.AWS_S3_REGION,
+    region: process.env.AWS_REGION,
     // S3
     s3BucketName: process.env.AWS_S3_BUCKET_NAME,
     s3Region: process.env.AWS_S3_REGION,

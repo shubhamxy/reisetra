@@ -5,9 +5,14 @@ export class Product implements ProductModel {
   title: string;
   description: string;
   brand: string;
-  size: string;
-  color: string;
-  extra: Prisma.JsonValue;
+
+
+  color: string[];
+
+  size: string[];
+  dimensions: number[];
+  details: Prisma.JsonValue;
+
   published: boolean;
   price: number;
 
@@ -23,4 +28,5 @@ export class Product implements ProductModel {
   constructor(partial: Partial<ProductModel>) {
     Object.assign(this, partial);
   }
+
 }

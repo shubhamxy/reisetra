@@ -16,7 +16,8 @@ const useStyles = makeStyles<
   }
 >((theme) => ({
   root: {
-    padding: "16px 0px 0 0px",
+    padding: 0,
+    margin: 0,
     overflow: "hidden",
   },
   gridList: ({ length, selected }) => ({

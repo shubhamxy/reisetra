@@ -1,9 +1,14 @@
-import { useInfiniteQuery, useMutation } from "react-query";
-import { createProduct, getProducts } from "../api/product";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
+import { createProduct, getProduct, getProducts } from "../api/product";
 import { DataT, IErrorResponse, ISuccessResponse } from "../utils";
 
 export const useCreateProduct = () => useMutation(createProduct);
-export const useProduct = () => useMutation(createProduct);
+export const useProduct = (id: string) => useQuery(["product", id], getProduct, {
+  enabled: !!id,
+  onSuccess: () => {
+
+  },
+});
 export const useUpdateProduct = () => useMutation(createProduct);
 export const useDeleteProduct = () => useMutation(createProduct);
 export const useProducts = () =>

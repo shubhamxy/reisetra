@@ -193,7 +193,7 @@ export function CreateProduct() {
   });
 
   const handleNext = () => {
-    validateForm();
+
     if (activeStep === 0) {
       setTouched({
         title: true,
@@ -220,7 +220,10 @@ export function CreateProduct() {
       handleSubmit();
       return;
     }
-    setActiveStep(activeStep + 1);
+    if(isValid) {
+      setActiveStep(activeStep + 1);
+      return;
+    }
   };
 
   const handleBack = () => {
@@ -272,7 +275,6 @@ export function CreateProduct() {
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
-                    disabled={!isValid}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? "Submit" : "Next"}

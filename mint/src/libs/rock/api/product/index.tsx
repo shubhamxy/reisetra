@@ -1,6 +1,6 @@
 import { get, post, put } from "../../utils/http";
-import pickBy from 'lodash.pickby';
-import identity from 'lodash.identity';
+import pickBy from "lodash.pickby";
+import identity from "lodash.identity";
 
 export interface CreateProductDTO {
   title: string;
@@ -14,17 +14,17 @@ export interface CreateProductDTO {
   mrp: number;
   tax: number;
   inventory: {
-    stockQuantity: number,
-    sku: string,
-  }
+    stockQuantity: number;
+    sku: string;
+  };
   images?: {
-    key: string,
-    url: string,
-  }[]
+    key: string;
+    url: string;
+  }[];
 }
 
-export function getProduct(productId: string) {
-  return get(`product/${productId}`);
+export function getProduct({ queryKey }: { queryKey: [string, string] }) {
+  return get(`product/${queryKey[1]}`);
 }
 
 export function createProduct(body: CreateProductDTO) {
@@ -47,11 +47,11 @@ interface PaginationParams {
   cursor?: string;
   orderBy?: string;
   orderDirection?: "desc" | "asc";
-};
+}
 
 export function getProducts(params: PaginationParams) {
-  console.log({params});
+  console.log({ params });
   const qs = new URLSearchParams(pickBy(params, identity)).toString();
-  console.log({qs});
+  console.log({ qs });
   return get(`products?${qs}`);
 }

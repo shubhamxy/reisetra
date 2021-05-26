@@ -1,5 +1,4 @@
 import { S3 } from "aws-sdk";
-import { URL } from "node:url";
 import { services } from "src/config";
 var url = require('url');
 

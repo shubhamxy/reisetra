@@ -112,6 +112,7 @@ export function MainLayout({
             className={clsx(cls?.top, classes.top)}
             component="section"
             xs={12}
+            item
           >
             {top}
           </Grid>
@@ -122,6 +123,7 @@ export function MainLayout({
             <Grid
               className={clsx(cls?.left, classes.left)}
               component="aside"
+              item
               xs={3}
             >
               {left}
@@ -143,6 +145,7 @@ export function MainLayout({
             <Grid
               className={clsx(cls?.right, classes.right)}
               component="aside"
+              item
               xs={3}
             >
               {right}
@@ -152,6 +155,8 @@ export function MainLayout({
 
         {bottom && (
           <Grid
+            item
+            xs={12}
             className={clsx(cls?.bottom, classes.bottom)}
             component="section"
           >

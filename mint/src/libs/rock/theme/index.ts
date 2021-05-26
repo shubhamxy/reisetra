@@ -10,17 +10,24 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 export const primary: SimplePaletteColorOptions = {
-  main: "#4f44e0",
+  main: "#665df5",
   dark: "#463dbb",
   light: "#7856ff",
   contrastText: "#f8f8f8",
 };
 
 export const secondary: SimplePaletteColorOptions = {
-  main: "#BDEAF8",
-  dark: "##98DCF2",
-  light: "#F3F6FB",
-  contrastText: "##FFF5CA",
+  main: "#1c1c1c",
+  dark: "#202020af",
+  light: "#20202033",
+  contrastText: "#ffffff",
+};
+
+export const tertiary: SimplePaletteColorOptions = {
+  main: "#ffffff",
+  dark: "#ffffff",
+  light: "#ffffff",
+  contrastText: "#1c1c1c",
 };
 
 export const error: SimplePaletteColorOptions = {
@@ -69,6 +76,8 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       type: type,
       primary,
       secondary,
+      // @ts-ignore
+      tertiary,
       error,
       warning,
       info,
@@ -268,7 +277,7 @@ export const useTheme = () => {
   return useMemo(
     () =>
       responsiveFontSizes(
-        createMuiTheme(themeOptions(prefersDarkMode ? "dark" : "light"))
+        createMuiTheme(themeOptions(!prefersDarkMode ? "dark" : "light"))
       ),
     [prefersDarkMode]
   );

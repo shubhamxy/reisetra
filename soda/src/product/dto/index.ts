@@ -2,6 +2,7 @@ import { Prisma } from ".prisma/client";
 import { Type } from "class-transformer";
 
 import {
+  IsArray,
   IsBoolean,
   IsDefined,
   IsNotEmpty,
@@ -35,10 +36,6 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   description: string;
 
   @IsOptional()
-  @IsString({ message: mustBeOfType("string", "size") })
-  size: string;
-
-  @IsOptional()
   @IsString({ message: mustBeOfType("string", "brand") })
   brand: string;
 
@@ -46,8 +43,6 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   @IsString({ message: mustBeOfType("string", "taxCode") })
   taxCode: string;
 
-  @IsString({ message: mustBeOfType("string", "color") })
-  color: string;
   @IsBoolean({ message: mustBeOfType("boolean", "published") })
   published: boolean;
 
@@ -62,9 +57,20 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   @IsNumber({}, { message: mustBeOfType("number", "tax") })
   tax: number;
 
+  @IsArray({ message: mustBeOfType("array", "color") })
+  color: string[];
+
   @IsOptional()
-  @IsObject({ message: mustBeOfType("object", "extra") })
-  extra?: Prisma.JsonValue;
+  @IsArray({ message: mustBeOfType("array", "size") })
+  size: string[];
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "dimentions") })
+  dimensions: number[];
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "details") })
+  details: Prisma.JsonValue;
 
   @IsDefined()
   @IsNotEmptyObject({}, { message: mustBeOfType("object", "inventory") })
@@ -85,12 +91,6 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsString({ message: mustBeOfType("string", "description") })
   description: string;
 
-  @IsOptional()
-  @IsString({ message: mustBeOfType("string", "size") })
-  size: string;
-
-  @IsString({ message: mustBeOfType("string", "color") })
-  color: string;
   @IsBoolean({ message: mustBeOfType("boolean", "published") })
   published: boolean;
   @IsNumber({}, { message: mustBeOfType("number", "price") })
@@ -113,6 +113,19 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsString({ message: mustBeOfType("string", "size") })
   brand: string;
   @IsOptional()
-  @IsObject({ message: mustBeOfType("object", "extra") })
-  extra?: Prisma.JsonValue;
+
+  @IsArray({ message: mustBeOfType("string", "color") })
+  color: string[];
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "size") })
+  size: string[];
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "dimentions") })
+  dimensions: number[];
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "extra") })
+  details: Prisma.JsonValue;
 }
