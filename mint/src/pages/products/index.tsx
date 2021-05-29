@@ -9,9 +9,9 @@ import { Footer } from "../../ui/Footer";
 import { CreateProduct } from "../../modules/CreateProduct";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
+import { DataGrid} from '@material-ui/data-grid';
 import { useProducts } from "../../libs";
-const columns: ColDef[] = [
+const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'title', headerName: 'Title', width: 130 },
   { field: 'description', headerName: 'Description', width: 130 },
@@ -78,6 +78,7 @@ const ErrorPage = () => {
         </Button>
       </Box>
       <Box flex={1}  width={"100%"}>
+        {/* @ts-ignore */}
         <DataGrid rows={data?.pages?.[page]?.data || []} columns={columns}
           rowCount={data?.pages?.[page]?.meta?.totalCount}
           pageSize={10}
