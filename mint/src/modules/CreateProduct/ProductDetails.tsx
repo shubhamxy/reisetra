@@ -132,18 +132,18 @@ export default function ProductDetails({
         <Grid item xs={12} sm={6}>
           <TagsInput
             onChange={(value) => {
-              setFieldValue("dimentions", value);
+              setFieldValue("dimensions", value);
             }}
-            value={values.dimentions}
+            value={values.dimensions}
             fullWidth
             variant="outlined"
-            id="dimentions"
-            name="dimentions"
+            id="dimensions"
+            name="dimensions"
             placeholder="eg. 24, 25, 26"
-            label="dimentions"
+            label="dimensions"
             onBlur={handleBlur}
-            error={touched.dimentions ? !!errors.dimentions : false}
-            helperText={touched.dimentions ? errors.dimentions : ""}
+            error={touched.dimensions ? !!errors.dimensions : false}
+            helperText={touched.dimensions ? errors.dimensions : ""}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
