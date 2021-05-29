@@ -177,7 +177,7 @@ export class TransactionService {
               { userId: user.id, addressId: order.address.id },
             ],
             theme: {
-              color: "#3399cc",
+              color: "#000000",
             },
           };
           return { ...product, razorpayOptions };
@@ -365,6 +365,17 @@ export class TransactionService {
         const updatedData = await this.db.transaction.update({
           where: { id: transactionId },
           data: {
+            order: {
+              update: {
+                user: {
+                  update: {
+                    cart: {
+                      create: {}
+                    }
+                  }
+                }
+              }
+            },
             paymentId: update.paymentId,
             paymentSignature: update.paymentSignature,
             verified: true,

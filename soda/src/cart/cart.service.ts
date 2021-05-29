@@ -11,6 +11,7 @@ import { CartItemRO } from "./interfaces";
 import { CheckoutDto, UpdateCartItemDto } from "./dto";
 import { TransactionService } from "src/transaction/transaction.service";
 import { CartItem, Order, Product } from ".prisma/client";
+import { errorCodes } from "src/common/codes/error";
 
 function calculateBilling(
   cartItemsWithProduct: {
@@ -18,20 +19,19 @@ function calculateBilling(
     product: {
       price: number;
       tax: number;
+      mrp: number;
+      taxCode?: string;
     };
   }[]
 ) {
   let subTotal = 0;
   let tax = 0;
-  let shipping = 100;
+  let shipping = 0;
   cartItemsWithProduct.forEach((item) => {
     let itemPrice = item.quantity * item.product.price;
     subTotal += itemPrice;
     tax +=
-      (Number(itemPrice) *
-        Number(item.product.price) *
-        Number(item.product.tax || 18.5)) /
-      100;
+      (Number(itemPrice) * Number(item.product.tax || 18.5)) / 100;
   });
   let total = subTotal + tax + shipping;
   let itemDiscount = (total * 20) / 100;
@@ -73,7 +73,7 @@ export class CartService {
         orderBy,
         orderDirection,
         include: {
-          cartItems: true,
+          items: true,
         },
         model: "cart",
         prisma: this.db,
@@ -88,34 +88,38 @@ export class CartService {
     }
   }
 
-  async getUserCart(
-    id,
-    options: CursorPagination
-  ): Promise<CursorPaginationResultInterface<CartItemRO>> {
+  async getCart(
+    cartId: string,
+  ): Promise<any> {
     try {
-      const {
-        cursor,
-        size = 10,
-        buttonNum = 10,
-        orderBy = "createdAt",
-        orderDirection = "desc",
-      } = options;
-      const result = await prismaOffsetPagination({
+      const cart = await this.db.cart.findUnique({
         where: {
-          cartId: id,
+          id: cartId,
         },
-        cursor: cursor || "",
-        size: Number(size),
-        buttonNum: Number(buttonNum),
-        orderBy,
-        orderDirection,
         include: {
-          product: true,
-        },
-        model: "cartItem",
-        prisma: this.db,
+          items: {
+            include: {
+              product: {
+                include: {
+                  images: true,
+                }
+              },
+            }
+          },
+        }
       });
-      return result;
+      if(!cart) {
+        throw new CustomError(
+          "Cart not found",
+          errorCodes.CartNotFound,
+          "UserService.getAllCarts"
+        );
+      }
+      const billing = calculateBilling(cart.items);
+      return {
+        ...cart,
+        ...billing,
+      };
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -125,9 +129,14 @@ export class CartService {
     }
   }
 
-  async getCartItem(id: string): Promise<any> {
+  async getCartItem(cartId: string, productId: string): Promise<any> {
     try {
-      const cart = await this.db.cartItem.findUnique({ where: { id } });
+      const cart = await this.db.cartItem.findUnique({ where: {
+        productId_cartId: {
+          cartId,
+          productId,
+        }
+      } });
       return cart;
     } catch (error) {
       throw new CustomError(
@@ -138,40 +147,39 @@ export class CartService {
     }
   }
 
-  async addCartItem(userId: string, productId: string, quantity): Promise<any> {
+  async updateCart(cartId: string, productId: string, update: UpdateCartItemDto): Promise<any> {
     try {
-      const data = this.db.user.update({
-        where: { id: userId },
-        select: {
-          cart: {
-            include: {
-              cartItems: true,
-            },
-          },
+      const data = this.db.cart.update({
+        where: {
+          id: cartId,
+        },
+        include: {
+          items: true,
         },
         data: {
-          cart: {
+          items: {
             upsert: {
               create: {
-                cartItems: {
-                  create: {
-                    quantity,
-                    productId,
-                  },
-                },
+                productId,
+                quantity: update.quantity,
+                size: update.size,
+                color: update.color,
               },
               update: {
-                cartItems: {
-                  create: {
-                    quantity,
-                    productId,
-                  },
-                },
+                quantity: update.quantity,
+                size: update.size,
+                color: update.color,
               },
-            },
-          },
-        },
-      });
+              where: {
+                productId_cartId: {
+                  productId,
+                  cartId,
+                }
+              }
+            }
+          }
+        }
+      })
       return data;
     } catch (error) {
       throw new CustomError(
@@ -181,6 +189,34 @@ export class CartService {
       );
     }
   }
+
+
+  async removeCartItem(cartId: string, productId: string): Promise<any> {
+    try {
+      const data = await this.db.cart.update({
+        where: {id: cartId},
+        select: {id: true},
+        data: {
+          items: {
+            delete: {
+              productId_cartId: {
+                cartId,
+                productId,
+              }
+            }
+          }
+        }
+      });
+      return data;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "UserService.removeCartItem"
+      );
+    }
+  }
+
 
   async checkoutCart(
     userId: string,
@@ -192,23 +228,39 @@ export class CartService {
   > {
     try {
       // @TODO: OPTIMIZE THIS ... too slow :(
-      const cartItemsWithProduct = await this.db.cartItem.findMany({
+      const userCart = await this.db.cart.findFirst({
         where: {
-          cartId: userId,
+          AND: {
+            id: checkout.cartId,
+            userId: userId,
+          }
         },
         select: {
-          quantity: true,
-          product: {
-            select: {
-              price: true,
-              tax: true,
-              mrp: true,
-            },
+          items: {
+            include: {
+              product: true,
+            }
           },
         },
       });
 
-      const billing = calculateBilling(cartItemsWithProduct);
+      if(!userCart) {
+        throw new CustomError(
+          "Cart not found",
+          errorCodes.CartNotFound,
+          "UserService.removeCartItem"
+        );
+      }
+      if(userCart.items.length === 0) {
+        throw new CustomError(
+          "Cart is empty",
+          errorCodes.CartIsEmpty,
+          "UserService.removeCartItem"
+        );
+      }
+      const billing = calculateBilling(userCart.items);
+
+      console.log({billing});
       const user = await this.db.user.update({
         where: { id: userId },
         data: {
@@ -233,57 +285,13 @@ export class CartService {
         },
       });
 
-      await this.db.cartItem.updateMany({
-        where: {
-          cartId: userId,
-        },
-        data: {
-          cartId: { set: null },
-          orderId: user.orders[0].id,
-        },
-      });
       return this.txn.createTransaction(user);
     } catch (error) {
+      console.log(error);
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
         "UserService.removeCartItem"
-      );
-    }
-  }
-
-  async removeCartItem(cartItemId: string): Promise<any> {
-    try {
-      const data = await this.db.cartItem.delete({
-        where: { id: cartItemId },
-      });
-      return data;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "UserService.removeCartItem"
-      );
-    }
-  }
-
-  async updateCartItem(
-    cartItemId: string,
-    data: UpdateCartItemDto
-  ): Promise<any> {
-    try {
-      const updated = await this.db.cartItem.update({
-        where: {
-          id: cartItemId,
-        },
-        data: data,
-      });
-      return updated;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "UserService.updateCartItem"
       );
     }
   }

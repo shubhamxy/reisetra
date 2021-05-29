@@ -5,15 +5,20 @@ export class Address implements AddressModel {
     Object.assign(this, partial);
   }
 
+
   id: string;
   fullname: string;
   address: string;
-  town: string;
   region: string;
   nearby: string;
   zipcode: string;
   city: string;
+  state: string;
   country: string;
+
+  phone: string;
+  email: string;
+
   userId: string;
 
   active: boolean;

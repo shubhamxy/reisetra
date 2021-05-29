@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     border: `2px dashed ${theme.palette.primary.main}88`,
   },
 }));
-export default function PaymentForm({ values, errors, touched, handleBlur, setFieldValue, handleChange }) {
+export default function ProductImages({ values, errors, touched, handleBlur, setFieldValue, handleChange }) {
   const upload = useFileUpload({
     fileType: "images",
     multiple: true,

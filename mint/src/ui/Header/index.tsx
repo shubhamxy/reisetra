@@ -4,6 +4,7 @@ import {
   makeStyles,
   Theme,
   createStyles,
+  useTheme,
 } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -20,11 +21,32 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import { Box, Button, Link } from "@material-ui/core";
-import {Image} from "../Image";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Link,
+  Grid,
+} from "@material-ui/core";
+import { Image } from "../Image";
 import { logout, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
-import { ShoppingCart } from "@material-ui/icons";
-
+import { Close, ShoppingCart } from "@material-ui/icons";
+import clsx from "clsx";
+import Drawer from "@material-ui/core/Drawer";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import { useCartItems } from "../../libs";
+import { Footer, List } from '../List';
+import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
+import { Cart } from "../Cart";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -32,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       top: -1,
       left: 0,
-      border: 'none',
+      border: "none",
       right: 0,
       position: "sticky",
       display: "flex",
@@ -42,8 +64,8 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: fade(theme.palette.background.default, 0.4),
       backdropFilter: "blur(50px)",
       boxShadow: "0 2px 8px rgb(0 0 0 / 15%)",
-      maxHeight: '100px',
-      transition: 'all ease 0.2s'
+      maxHeight: "100px",
+      transition: "all ease 0.2s",
     },
     flex1: {
       flex: 1,
@@ -57,6 +79,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.main,
       backgroundColor: "transparent",
       boxShadow: "none",
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -116,16 +142,50 @@ const useStyles = makeStyles((theme: Theme) =>
         borderLeft: "1px solid rgba(175, 175, 175, 0.1)",
       },
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer - 1,
+      backgroundColor: "rgba(0, 0, 0, 0.8)",
+    },
+    drawer: {
+      width: "auto",
+    },
+    drawerPaper: {
+      maxWidth: "30%",
+      [theme.breakpoints.down("md")]: {
+        maxWidth: "40%",
+      },
+      [theme.breakpoints.down("sm")]: {
+        maxWidth: "50%",
+      },
+    },
+    drawerHeader: {
+      display: "flex",
+      alignItems: "center",
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: "flex-start",
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
   })
 );
 
 const NavigationLinks = {};
 
 export function AppHeader() {
+  const [open, setOpen] = React.useState(false);
   const [searchText, setSearchText] = useState("");
   const authState = useAuthState();
+  const {data: response} = useCartItems(authState?.user?.cart.id);
+  const data = response.data;
   const authDispatch = useAuthDispatch();
-
   const debounced = useDebouncedCallback((value) => {
     setSearchText(value);
   }, 1000);
@@ -239,83 +299,120 @@ export function AppHeader() {
     </Menu>
   );
 
-  return (
-    <header className={classes.container}>
-      <AppBar
-        component="div"
-        position="sticky"
-        classes={{ root: classes.appBar }}
-      >
-        <Toolbar>
-          <Link href="/">
-            <Typography className={classes.title} variant="h2" noWrap>
-              <Image src="/icons/logo.svg" height="30px" width="30px" />
-            </Typography>
-          </Link>
-          <div className={classes.flex1} />
-          <div className={classes.sectionDesktop}>
-            <Button href="/" variant="text" color={"primary"}>
-              Shop
-            </Button>
-            <Button href="/stories" variant="text">Stories</Button>
-            <Button href="/about" variant="text">About</Button>
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-            <IconButton
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-              onClick={() => {}}
-              centerRipple={false}
-            >
-              <ShoppingCart style={{ width: 20, height: 20 }} />
-            </IconButton>
-            <Box
-              pl={0.8}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              {authState?.isAuthenticated ? (
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  {authState?.user?.avatar ? (
-                    <Avatar
-                      style={{ width: 20, height: 20 }}
-                      src={authState?.user?.avatar}
-                      alt="user avatar"
-                    />
-                  ) : (
-                    <AccountCircle style={{ width: 20, height: 20 }} />
-                  )}
-                </IconButton>
-              ) : (
-                <Button href="/login" variant="contained" color="primary">
-                  Login
-                </Button>
-              )}
-            </Box>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </header>
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  function handleAddToCart() {}
+
+  function handleBuyNow() {}
+  return (
+    <>
+      <CssBaseline />
+      <header className={classes.container}>
+        <AppBar component="div" position="sticky" className={classes.appBar}>
+          <Toolbar>
+            <Link href="/">
+              <Typography className={classes.title} variant="h2" noWrap>
+                <Image src="/icons/logo.svg" height="30px" width="30px" />
+              </Typography>
+            </Link>
+            <div className={classes.flex1} />
+            <div className={classes.sectionDesktop}>
+              <Button href="/" variant="text" color={"primary"}>
+                Shop
+              </Button>
+              <Button href="/stories" variant="text">
+                Stories
+              </Button>
+              <Button href="/about" variant="text">
+                About
+              </Button>
+
+              <IconButton
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                color="inherit"
+                onClick={open ? handleDrawerClose : handleDrawerOpen}
+                centerRipple={false}
+              >
+                <Badge badgeContent={data['items']?.length} color="primary">
+                  <ShoppingCart style={{ width: 20, height: 20 }} />
+                </Badge>
+              </IconButton>
+              <Box
+                pl={0.8}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                {authState?.isAuthenticated ? (
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    {authState?.user?.avatar ? (
+                      <Avatar
+                        style={{ width: 20, height: 20 }}
+                        src={authState?.user?.avatar}
+                        alt="user avatar"
+                      />
+                    ) : (
+                      <AccountCircle style={{ width: 20, height: 20 }} />
+                    )}
+                  </IconButton>
+                ) : (
+                  <Button href="/login" variant="contained" color="primary">
+                    Login
+                  </Button>
+                )}
+              </Box>
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+        {renderMobileMenu}
+        {renderMenu}
+      </header>
+      <Drawer
+        className={classes.drawer}
+        variant="temporary"
+        anchor="right"
+        onBackdropClick={handleDrawerClose}
+        open={open}
+        BackdropProps={{
+          className: classes.backdrop,
+        }}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <Grid item className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            <Close />
+          </IconButton>
+        </Grid>
+        <Divider />
+        <Cart data={data} />
+      </Drawer>
+    </>
   );
 }

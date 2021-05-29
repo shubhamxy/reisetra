@@ -1,4 +1,4 @@
-import { get, put } from "../../utils/http";
+import { get, post, put } from "../../utils/http";
 
 export interface UserProfile {
   id: string;
@@ -9,8 +9,8 @@ export interface UserProfile {
   phone: string;
   avatar: string;
   oauthId: string;
-  oauthProvider: 'GOOGLE';
-  role: 'USER' | 'ADMIN';
+  oauthProvider: "GOOGLE";
+  role: "USER" | "ADMIN";
   bio: string;
   active: boolean;
   createdAt: Date;
@@ -18,9 +18,23 @@ export interface UserProfile {
 }
 
 export function getMe() {
-  return get<Partial<UserProfile>>('user/me')
+  return get<Partial<UserProfile>>("user/me");
 }
 
 export function updateMe(body: Partial<UserProfile>) {
-  return put<Partial<UserProfile>, Partial<UserProfile>>('user/me', body)
+  return put<Partial<UserProfile>, Partial<UserProfile>>("user/me", body);
+}
+
+interface IAddress {
+  fullname: string;
+  address: string;
+  town: string;
+  region: string;
+  nearby: string;
+  zipcode: string;
+  city: string;
+  country: string;
+}
+export function createAddress(body: Partial<IAddress>) {
+  return post<Partial<IAddress>, Partial<IAddress>>("address", body);
 }

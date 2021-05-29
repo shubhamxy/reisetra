@@ -76,7 +76,7 @@ export class UserService {
   }
 
   async find(id: string): Promise<UserRO> {
-    const user = await this.db.user.findUnique({ where: { id } });
+    const user = await this.db.user.findUnique({ where: { id }, include: {cart: true} });
     if (user) {
       return new User(user);
     }

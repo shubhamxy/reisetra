@@ -19,5 +19,6 @@ export class Order implements OrderModel {
   status: OrderStatus;
   active: boolean;
   createdAt: Date;
+  cartId: string;
   updatedAt: Date;
 }

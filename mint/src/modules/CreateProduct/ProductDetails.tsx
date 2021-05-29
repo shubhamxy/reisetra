@@ -4,8 +4,10 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import TagsInput from "../../ui/ChipInput";
+import MapInput from "../../ui/MultiInput";
 
-export default function AddressForm({
+export default function ProductDetails({
   values,
   errors,
   touched,
@@ -60,17 +62,88 @@ export default function AddressForm({
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            id="color"
-            name="color"
-            label="Color"
+          <TagsInput
+            onChange={(value) => {
+              setFieldValue("colors", value);
+            }}
+            value={values.colors}
             fullWidth
-            value={values.color}
-            onChange={handleChange}
-
+            variant="outlined"
+            id="colors"
+            name="colors"
+            placeholder="eg. red"
+            label="Colors"
             onBlur={handleBlur}
-            error={touched.color ? !!errors.color : false}
-            helperText={touched.color ? errors.color : ""}
+            error={touched.colors ? !!errors.colors : false}
+            helperText={touched.colors ? errors.colors : ""}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <MapInput
+            onChange={(value) => {
+              setFieldValue("details", value);
+            }}
+            value={values.details}
+            fullWidth
+            variant="outlined"
+            id="details"
+            name="details"
+            placeholder="eg. Weight "
+            label="Details"
+            onBlur={handleBlur}
+            error={touched.details ? !!errors.details : false}
+            helperText={touched.details ? errors.details : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TagsInput
+            onChange={(value) => {
+              setFieldValue("sizes", value);
+            }}
+            value={values.sizes}
+            fullWidth
+            variant="outlined"
+            id="sizes"
+            name="sizes"
+            placeholder="eg. xl, xxl"
+            label="Sizes"
+            onBlur={handleBlur}
+            error={touched.sizes ? !!errors.sizes : false}
+            helperText={touched.sizes ? errors.sizes : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TagsInput
+            onChange={(value) => {
+              setFieldValue("categories", value);
+            }}
+            value={values.categories}
+            fullWidth
+            variant="outlined"
+            id="categories"
+            name="categories"
+            placeholder="eg. xl, xxl"
+            label="categories"
+            onBlur={handleBlur}
+            error={touched.categories ? !!errors.categories : false}
+            helperText={touched.categories ? errors.categories : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TagsInput
+            onChange={(value) => {
+              setFieldValue("dimentions", value);
+            }}
+            value={values.dimentions}
+            fullWidth
+            variant="outlined"
+            id="dimentions"
+            name="dimentions"
+            placeholder="eg. 24, 25, 26"
+            label="dimentions"
+            onBlur={handleBlur}
+            error={touched.dimentions ? !!errors.dimentions : false}
+            helperText={touched.dimentions ? errors.dimentions : ""}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -83,7 +156,6 @@ export default function AddressForm({
             fullWidth
             value={values.price}
             onChange={handleChange}
-
             onBlur={handleBlur}
             error={touched.price ? !!errors.price : false}
             helperText={touched.price ? errors.price : ""}
@@ -145,8 +217,16 @@ export default function AddressForm({
             value={values.inventory.stockQuantity}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.inventory?.stockQuantity ? !!errors.inventory?.stockQuantity : false}
-            helperText={touched.inventory?.stockQuantity ? errors.inventory?.stockQuantity : ""}
+            error={
+              touched.inventory?.stockQuantity
+                ? !!errors.inventory?.stockQuantity
+                : false
+            }
+            helperText={
+              touched.inventory?.stockQuantity
+                ? errors.inventory?.stockQuantity
+                : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -158,7 +238,6 @@ export default function AddressForm({
             fullWidth
             value={values.inventory.sku}
             onChange={handleChange}
-
             onBlur={handleBlur}
             error={touched.inventory?.sku ? !!errors.inventory?.sku : false}
             helperText={touched.inventory?.sku ? errors.inventory?.sku : ""}

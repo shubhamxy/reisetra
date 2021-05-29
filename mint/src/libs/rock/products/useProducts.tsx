@@ -9,6 +9,7 @@ export const useProduct = (id: string) => useQuery(["product", id], getProduct, 
 
   },
 });
+
 export const useUpdateProduct = () => useMutation(createProduct);
 export const useDeleteProduct = () => useMutation(createProduct);
 export const useProducts = () =>

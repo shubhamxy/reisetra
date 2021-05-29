@@ -92,21 +92,21 @@ export function List(props: ListProps) {
         {isEmpty === true && !isLoading && (
           <Grid item>{ListEmptyComponent}</Grid>
         )}
-        <Grid item>
+        <Grid item xs={12}>
           {Array.isArray(data) && data.length > 0 ? (
             <MaterialList className={classes.list}>
               {data.map((item, index) => (
-                <MaterialListItem key={keyExtractor(item, index)}>
+                <MaterialListItem key={keyExtractor(item, index)} divider>
                   {renderItem({ item, index })}
                   {!(index === data.length - 1) &&
-                    ItemSeparatorComponent && { ItemSeparatorComponent }}
+                    ItemSeparatorComponent && ItemSeparatorComponent}
                 </MaterialListItem>
               ))}
             </MaterialList>
           ) : null}
         </Grid>
-        {isLoading && ListLoadingComponent && { ListLoadingComponent }}
-        {!isLoading && ListFooterComponent && { ListFooterComponent }}
+        {isLoading && ListLoadingComponent && ListLoadingComponent}
+        {!isLoading && ListFooterComponent && ListFooterComponent}
       </Grid>
     );
   }

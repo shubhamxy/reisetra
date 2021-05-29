@@ -56,7 +56,11 @@ export class OrderService {
     const product = await this.db.order.findUnique({
       where: { id },
       include: {
-        orderItems: true,
+        cart: {
+          include: {
+            items: true,
+          },
+        },
         address: true,
         user: true,
       },

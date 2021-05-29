@@ -9,7 +9,7 @@ import { CustomError } from "src/common/response";
 import { PrismaService } from "src/common/modules/db/prisma.service";
 import { RedisService } from "src/common/modules/redis/redis.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
-import { CreateProductDto } from "./dto";
+import { CreateProductDto, UpdateProductDto } from "./dto";
 
 @Injectable()
 export class ProductService {
@@ -82,7 +82,7 @@ export class ProductService {
             createMany: {
               data: data.images,
             }
-          }
+          },
         },
         include: {
           inventory: true,
@@ -98,11 +98,22 @@ export class ProductService {
       );
     }
   }
-  async updateProduct(productId: string, update): Promise<any> {
+  async updateProduct(productId: string, update: UpdateProductDto): Promise<any> {
     try {
+      const { inventory, images, ...productData } = update;
       const data = await this.db.product.update({
         where: { id: productId },
-        data: update,
+        data: {
+          ...productData,
+          images: {
+            createMany: {
+              data: images,
+            },
+          },
+          inventory: {
+            update: inventory,
+          }
+        },
         include: {
           inventory: true,
           images: true,

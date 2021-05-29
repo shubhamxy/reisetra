@@ -26,12 +26,16 @@ import {
   Divider,
   TextField,
 } from "@material-ui/core";
-import { useProduct } from "../../libs";
+import {
+  useAddCartItem,
+  useAuthState,
+  useDeleteCartItem,
+  useProduct,
+} from "../../libs";
 import { ImagePreview } from "../../ui/MediaPreview";
 import { Rating } from "@material-ui/lab";
 import { ShowCase } from "../ShowCase";
-import { useFormik } from "formik";
-import ReviewCard from "./review";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -245,26 +249,69 @@ export default function DetailsTable({ rows, label }) {
   );
 }
 
+function useHelper() {
+
+  return {
+
+  };
+}
 export function Product({ id }) {
   const classes = useStyles();
+  const router = useRouter()
   const { data: result, isLoading } = useProduct(id);
+  const addCartItem = useAddCartItem();
+  const removeCartItem = useDeleteCartItem();
+  const {user} = useAuthState();
   const [tabIndex, setTabIndex] = useState(0);
   const [qty, setQty] = useState(1);
   const { data } = result || {};
-
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const {
+    mrp,
+    tax,
+    price,
+    published,
+    sizes,
+    dimensions,
+    details,
+    colors,
+    brand,
+    title,
+    description,
+    inventory: {
+      stockQuantity,
+      sku,
+    } = {stockQuantity: 0, sku: 0},
+    images,
+  } = data || {} as any;
 
   useEffect(() => {
     if (data) {
-      setSelectedSize(data["size"][0]);
-      setSelectedColor(data["color"][0]);
+      setSelectedSize(data["sizes"][0]);
+      setSelectedColor(data["colors"][0]);
     }
   }, [data]);
 
-  function handleAddToCart() {}
+  function handleAddToCart() {
+    addCartItem.mutate(
+      {
+        body: {
+          quantity: qty,
+          size: selectedSize,
+          color: selectedColor,
+        },
+        productId: id,
+        cartId: user.cart.id,
+      },
+      {}
+    );
+  }
 
-  function handleBuyNow() {}
+  function handleBuyNow() {
+    handleAddToCart();
+    router.push("/checkout");
+  }
 
   return (
     <Grid
@@ -324,7 +371,7 @@ export function Product({ id }) {
                 <Typography variant="caption">{"Color"}</Typography>
               </Grid>
               <Grid item xs container spacing={1}>
-                {data?.["color"].map((color) => {
+                {data?.["colors"].map((color) => {
                   return (
                     <Grid
                       item
@@ -383,7 +430,7 @@ export function Product({ id }) {
                   }}
                   label="Size"
                 >
-                  {data?.["size"]?.map((item) => (
+                  {data?.["sizes"]?.map((item) => (
                     <MenuItem key={item} value={item}>
                       {item}
                     </MenuItem>

@@ -22,11 +22,12 @@ CREATE TABLE "Secrets" (
 );
 
 -- CreateTable
-CREATE TABLE "Cart" (
+CREATE TABLE "Image" (
     "id" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "checkedOut" BOOLEAN NOT NULL DEFAULT false,
+    "productId" TEXT,
+    "url" TEXT,
+    "key" TEXT,
+    "contentType" TEXT,
 
     PRIMARY KEY ("id")
 );
@@ -52,17 +53,26 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "CartItem" (
+CREATE TABLE "Cart" (
     "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "cartId" TEXT,
-    "orderId" TEXT,
-    "quantity" INTEGER NOT NULL,
-    "active" BOOLEAN NOT NULL DEFAULT true,
+    "userId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "checkedOut" BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CartItem" (
+    "productId" TEXT NOT NULL,
+    "cartId" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "size" TEXT,
+    "color" TEXT,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL
 );
 
 -- CreateTable
@@ -70,12 +80,14 @@ CREATE TABLE "Address" (
     "id" TEXT NOT NULL,
     "fullname" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "town" TEXT,
     "region" TEXT,
     "nearby" TEXT,
     "zipcode" TEXT NOT NULL,
     "city" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
     "country" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -89,14 +101,17 @@ CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "brand" TEXT NOT NULL,
-    "size" TEXT,
-    "color" TEXT,
-    "extra" JSONB,
+    "brand" TEXT NOT NULL DEFAULT E'Generic',
+    "colors" TEXT[],
+    "sizes" TEXT[],
+    "categories" TEXT[],
+    "dimensions" INTEGER[],
+    "details" JSONB NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
     "mrp" DOUBLE PRECISION NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "tax" DOUBLE PRECISION NOT NULL,
+    "taxCode" TEXT,
     "inventoryId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -130,6 +145,7 @@ CREATE TABLE "Order" (
     "grandTotal" DOUBLE PRECISION NOT NULL,
     "userId" TEXT NOT NULL,
     "addressId" TEXT NOT NULL,
+    "cartId" TEXT NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT E'PENDING',
     "active" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -170,10 +186,10 @@ CREATE UNIQUE INDEX "User.phone_unique" ON "User"("phone");
 CREATE UNIQUE INDEX "User.oauthId_unique" ON "User"("oauthId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "CartItem.productId_cartId_unique" ON "CartItem"("productId", "cartId");
+CREATE UNIQUE INDEX "Cart_userId_unique" ON "Cart"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "CartItem.productId_orderId_unique" ON "CartItem"("productId", "orderId");
+CREATE UNIQUE INDEX "CartItem.productId_cartId_unique" ON "CartItem"("productId", "cartId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Product_inventoryId_unique" ON "Product"("inventoryId");
@@ -185,16 +201,16 @@ CREATE UNIQUE INDEX "Inventory.sku_unique" ON "Inventory"("sku");
 ALTER TABLE "Secrets" ADD FOREIGN KEY ("id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Cart" ADD FOREIGN KEY ("id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Image" ADD FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Cart" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CartItem" ADD FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CartItem" ADD FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CartItem" ADD FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "CartItem" ADD FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Address" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -207,6 +223,9 @@ ALTER TABLE "Order" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD FOREIGN KEY ("id") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;

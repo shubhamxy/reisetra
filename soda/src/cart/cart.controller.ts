@@ -14,7 +14,6 @@ import { CartService } from "./cart.service";
 import { CustomException, SuccessResponse } from "src/common/response";
 import {
   CheckoutDto,
-  CreateCartItemDto,
   GetAllCartsDto,
   UpdateCartItemDto,
 } from "./dto";
@@ -40,37 +39,12 @@ export class CartController {
     }
   }
 
-  @Get("cart")
+  @Get("cart/:id")
   async getUserCart(
-    @Query() query: GetAllCartsDto,
-    @Req() req: AuthenticatedRequest
+    @Param("id") id: string,
   ): Promise<SuccessResponse> {
     try {
-      const { results, ...meta } = await this.cart.getUserCart(
-        req.user.id,
-        query
-      );
-      return { data: results || [], meta: meta };
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        "CartController.getUserCart"
-      );
-    }
-  }
-
-  @Post("cart")
-  async createCartItem(
-    @Req() req: AuthenticatedRequest,
-    @Body() body: CreateCartItemDto
-  ): Promise<SuccessResponse> {
-    try {
-      const data = await this.cart.addCartItem(
-        req.user.id,
-        body.productId,
-        body.quantity
-      );
+      const data = await this.cart.getCart(id);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -98,13 +72,14 @@ export class CartController {
     }
   }
 
-  @Get("cart/:id")
+  @Get("cart/:cartid/:productid")
   async getCartItem(
-    @Param("id") id: string,
+    @Param("cartid") cartid: string,
+    @Param("productid") productid: string,
     @Body() body: UpdateCartItemDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.cart.getCartItem(id);
+      const data = await this.cart.getCartItem(cartid, productid);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -115,13 +90,14 @@ export class CartController {
     }
   }
 
-  @Put("cart/:id")
+  @Put("cart/:cartId/:productId")
   async updateCartItem(
-    @Param("id") id: string,
-    @Body() body: UpdateCartItemDto
+    @Param("cartId") cartId: string,
+    @Param("productId") productId: string,
+    @Body() update: UpdateCartItemDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.cart.updateCartItem(id, body);
+      const data = await this.cart.updateCart(cartId, productId, update);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -132,10 +108,10 @@ export class CartController {
     }
   }
 
-  @Delete("cart/:id")
-  async deleteCartItem(@Param("id") id: string): Promise<SuccessResponse> {
+  @Delete("cart/:cartId/:productId")
+  async deleteCartItem(@Param("cartId") cartId: string, @Param("productId") productId: string): Promise<SuccessResponse> {
     try {
-      const data = await this.cart.removeCartItem(id);
+      const data = await this.cart.removeCartItem(cartId, productId);
       return { data };
     } catch (error) {
       throw new CustomException(

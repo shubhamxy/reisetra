@@ -6,31 +6,15 @@ type Excluded = "id" | "active" | "createdAt" | "updatedAt" | "id";
 
 export class GetAllCartsDto extends CursorPaginationDTO {}
 
-export class CreateCartItemDto implements Omit<CartItem, Excluded> {
-  quantity: number;
-  price: number;
-  cartId: string;
-  productId: string;
-  orderId: string;
-}
-
-export class CheckoutDto implements Omit<Order, Excluded | "status"> {
-  subTotal: number;
-  itemDiscount: number;
-  tax: number;
-  shipping: number;
-  total: number;
-  promo: string;
-  discount: number;
-  grandTotal: number;
-  userId: string;
+export class CheckoutDto {
   addressId: string;
+  cartId: string;
 }
 
-export class UpdateCartItemDto implements Omit<CartItem, Excluded | "userId"> {
+export class UpdateCartItemDto implements Omit<CartItem, Excluded | "userId" | "productId"> {
   quantity: number;
-  price: number;
   cartId: string;
-  productId: string;
   orderId: string;
+  size: string;
+  color: string;
 }

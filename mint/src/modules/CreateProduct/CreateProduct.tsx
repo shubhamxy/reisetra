@@ -7,31 +7,14 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import AddressForm from "./ProductDetails";
-import PaymentForm from "./ProductImages";
-import Review from "./Review";
+import ProductDetails from "./ProductDetails";
+import ProductImages from "./ProductImages";
+import Summary from "./Review";
 import { useCreateProduct, useUpdateProduct } from "../../libs";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Container } from "@material-ui/core";
-// {
-//   mrp: 30000,
-//   tax: 18.5,
-//   price: 20000,
-//   published: true,
-//   size: "xl",
-//   extra: {},
-//   color: "red",
-//   brand: "Apple",
-//   title: "Apple IPhone XS",
-//   description:
-//     "iPhone Xs and iPhone Xs Max build on the all-screen design of iPhone X and feature the sharpest displays with the highest pixel density of any Apple device.",
-//   inventory: {
-//     stockQuantity: 100,
-//     sku: "APL-1010",
-//   },
-//   images: [],
-// }
+
 const createProductSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
@@ -39,7 +22,10 @@ const createProductSchema = Yup.object().shape({
   tax: Yup.string().required("Tax is required"),
   taxCode: Yup.string().required("HSN/SAC code is required"),
   price: Yup.number().required("Price is required"),
-  color: Yup.string().required("Color is required"),
+  colors: Yup.array(),
+  sizes: Yup.array(),
+  categories: Yup.array(),
+  dimensions: Yup.array(),
   brand: Yup.string().required("Brand is required"),
   inventory: Yup.object().shape({
     stockQuantity: Yup.number().required("Stock Quantity is required"),
@@ -69,12 +55,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
     padding: theme.spacing(3),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
       padding: theme.spacing(4.6),
     },
   },
@@ -105,7 +87,7 @@ function StepContent({
   switch (step) {
     case 0:
       return (
-        <AddressForm
+        <ProductDetails
           values={values}
           touched={touched}
           errors={errors}
@@ -116,7 +98,7 @@ function StepContent({
       );
     case 1:
       return (
-        <PaymentForm
+        <ProductImages
           values={values}
           touched={touched}
           errors={errors}
@@ -127,7 +109,7 @@ function StepContent({
       );
     case 2:
       return (
-        <Review
+        <Summary
           values={values}
           touched={touched}
           errors={errors}
@@ -157,10 +139,82 @@ export function CreateProduct() {
     taxCode: "",
     price: 0,
     published: true,
-    size: "",
-    extra: {},
-    color: "",
+    sizes: [],
+    details: undefined,
+    colors: [],
+    dimensions: [],
+    categories: [],
     brand: "",
+    ...{
+      mrp: 30000,
+      tax: 18.5,
+      taxCode: "1800",
+      price: 20000,
+      published: true,
+      sizes: ["L", "XL", "XXL", "XXL"],
+      dimensions: [3, 2, 4],
+      categories: ["wall art", "gifts", "stationary"],
+      details: [
+        {
+          label: "Weight (Kg)",
+          value: "30",
+        },
+        {
+          label: "Material",
+          value: "Powder Coated Aluminum, Mango wood",
+        },
+        {
+          label: "Legs",
+          value: "Metal Black Finish",
+        },
+        {
+          label: "Assembly",
+          value: "Legs to be fitted",
+        },
+        {
+          label: "Caring Instructions",
+          value: "Wipe with dry cloths",
+        },
+        {
+          label: "Special Features",
+          value: "Made From Dry solid leaves",
+        },
+        {
+          label: "SKU",
+          value: "AVULUC-UL",
+        },
+      ],
+      colors: ["red"],
+      brand: "Apple",
+      title: "Apple IPhone XS",
+      description:
+        "iPhone Xs and iPhone Xs Max build on the all-screen design of iPhone X and feature the sharpest displays with the highest pixel density of any Apple device.",
+      inventory: {
+        stockQuantity: 100,
+        sku: "APL2",
+      },
+      images: [
+        {
+          key: "ckozorq8606530orlxq136pln/images/fbblock.png",
+          url:
+            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckozorq8606530orlxq136pln/images/fbblock.png",
+          contentType: "image/png",
+        },
+        {
+          key:
+            "ckozorq8606530orlxq136pln/images/analog-wall-clock-se-108-analog-brothers-creation-original-imafzzdzggzgnj5e.jpeg",
+          url:
+            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckozorq8606530orlxq136pln/images/analog-wall-clock-se-108-analog-brothers-creation-original-imafzzdzggzgnj5e.jpeg",
+          contentType: "image/jpeg",
+        },
+        {
+          key: "ckozorq8606530orlxq136pln/images/ava_0010-512.v1443724322.png",
+          url:
+            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckozorq8606530orlxq136pln/images/ava_0010-512.v1443724322.png",
+          contentType: "image/png",
+        },
+      ],
+    },
   };
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
@@ -193,7 +247,6 @@ export function CreateProduct() {
   });
 
   const handleNext = () => {
-
     if (activeStep === 0) {
       setTouched({
         title: true,
@@ -207,20 +260,18 @@ export function CreateProduct() {
         taxCode: true,
         price: true,
         published: true,
-        size: true,
-        color: true,
+        sizes: true,
+        colors: true,
         brand: true,
       });
     } else if (activeStep === 1) {
-      setTouched({
-        images: true,
-      });
+
     }
     if (activeStep === steps.length - 1) {
       handleSubmit();
       return;
     }
-    if(isValid) {
+    if (isValid) {
       setActiveStep(activeStep + 1);
       return;
     }
@@ -272,6 +323,7 @@ export function CreateProduct() {
                     </Button>
                   )}
                   <Button
+                    size="large"
                     variant="contained"
                     color="primary"
                     onClick={handleNext}

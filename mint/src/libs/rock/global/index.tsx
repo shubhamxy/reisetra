@@ -105,7 +105,7 @@ function reducer(state: GlobalState, action: Action): GlobalState {
   }
 }
 
-export const GlobalProvider = ({ children}) => {
+export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const theme = useTheme();
 

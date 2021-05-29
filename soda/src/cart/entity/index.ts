@@ -4,10 +4,12 @@ export class CartItem implements CartItemModel {
   constructor(partial: Partial<CartItemModel>) {
     Object.assign(this, partial);
   }
-  id: string;
+
   userId: string;
   quantity: number;
-  price: number;
+  size: string;
+  color: string;
+
   cartId: string;
   productId: string;
   orderId: string;
@@ -21,6 +23,8 @@ export class Cart implements CartModel {
   constructor(partial: Partial<CartItemModel>) {
     Object.assign(this, partial);
   }
+  userId: string;
+  orderId: string;
   id: string;
   subTotal: number;
   itemDiscount: number;

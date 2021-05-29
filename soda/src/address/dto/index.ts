@@ -6,9 +6,11 @@ type Excluded = "id" | "active" | "createdAt" | "updatedAt" | "userId";
 export class GetAllAddressDto extends CursorPaginationDTO {}
 
 export class CreateAddressDto implements Omit<Address, Excluded> {
+  state: string;
+  phone: string;
+  email: string;
   fullname: string;
   address: string;
-  town: string;
   region: string;
   nearby: string;
   zipcode: string;
@@ -17,9 +19,11 @@ export class CreateAddressDto implements Omit<Address, Excluded> {
 }
 
 export class UpdateAddressDto implements Omit<Address, Excluded> {
+  state: string;
+  phone: string;
+  email: string;
   fullname: string;
   address: string;
-  town: string;
   region: string;
   nearby: string;
   zipcode: string;

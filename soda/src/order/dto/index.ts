@@ -28,9 +28,11 @@ export class CreateOrderDto implements Omit<Order, Excluded> {
   addressId: string;
   @Allow()
   status: OrderStatus;
+  cartId: string;
 }
 
 export class UpdateOrderDto implements Omit<Order, Excluded> {
+  cartId: string;
   @Allow()
   subTotal: number;
   @Allow()

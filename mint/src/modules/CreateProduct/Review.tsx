@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review({ values, touched, errors, handleBlur, handleChange }) {
+export default function Summary({ values, touched, errors, handleBlur, handleChange }) {
   const classes = useStyles();
 
   return (
@@ -54,11 +54,15 @@ export default function Review({ values, touched, errors, handleBlur, handleChan
           />
         </Grid>
         {Object.keys(values).map((key) =>
-          typeof values[key] !== "object" ? (
+          typeof values[key] === "string" ? (
             <ListItem className={classes.listItem} key={key}>
-              <ListItemText primary={key} secondary={values[key]} />
+              <ListItemText primary={String(key).toLocaleUpperCase()} secondary={values[key]} />
             </ListItem>
-          ) : null
+          ) : Array.isArray(values[key]) && typeof values[key][0] === 'string' ? (
+            <ListItem className={classes.listItem} key={key}>
+            <ListItemText primary={String(key).toLocaleUpperCase()} secondary={values[key].join(", ")} />
+          </ListItem>
+          ): null
         )}
       </List>
     </React.Fragment>

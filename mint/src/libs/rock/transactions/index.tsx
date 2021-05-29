@@ -51,3 +51,5 @@ export const TransactionsProvider = ({ children }) => {
     </TransactionsStateContext.Provider>
   );
 };
+
+export * from './useTransaction';

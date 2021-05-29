@@ -18,8 +18,8 @@ export const primary: SimplePaletteColorOptions = {
 
 export const secondary: SimplePaletteColorOptions = {
   main: "#1c1c1c",
-  dark: "#202020af",
-  light: "#20202033",
+  dark: "#202020",
+  light: "#202020",
   contrastText: "#ffffff",
 };
 

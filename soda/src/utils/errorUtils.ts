@@ -11,7 +11,7 @@ export function stackObj(stacktrace: string): string | string[] | undefined {
 export function getErrorMessage(error: any): string {
   // @TODO: find a better way??
   if (String(error.message).startsWith("\nInvalid `prisma.")) {
-    return "Invalid Request";
+    return "Database error";
   }
   return error?.meta?.cause || error.message;
 }

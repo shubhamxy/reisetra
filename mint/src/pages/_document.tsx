@@ -57,10 +57,12 @@ export default class MyDocument extends Document {
                 async
                 defer
               />
+
             </Head>
             <body>
               <Main />
               <NextScript />
+              <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
             </body>
           </Html>
         )}

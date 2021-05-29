@@ -10,6 +10,9 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: defaultQueryFn,
+      retry: 1,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
     },
   },
 });

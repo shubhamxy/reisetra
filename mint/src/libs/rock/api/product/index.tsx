@@ -3,23 +3,28 @@ import pickBy from "lodash.pickby";
 import identity from "lodash.identity";
 
 export interface CreateProductDTO {
-  title: string;
-  description: string;
-  brand: string;
-  size: string;
-  color: string;
-  extra: Record<string, string>;
-  published: boolean;
-  price: number;
   mrp: number;
   tax: number;
+  price: number;
+  published: boolean;
+  sizes: string[];
+  dimensions?: number[];
+  details?: {
+    label: string;
+    value: string;
+  }[];
+  colors: string[];
+  brand: string;
+  title: string;
+  description: string;
   inventory: {
     stockQuantity: number;
     sku: string;
   };
-  images?: {
+  images: {
     key: string;
     url: string;
+    contentType: string;
   }[];
 }
 

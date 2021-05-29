@@ -56,16 +56,6 @@ model Image {
   contentType String?
 }
 
-model Cart {
-  id   String @id @default(cuid())
-  user User   @relation(fields: [id], references: [id])
-
-  cartItems  CartItem[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  checkedOut Boolean    @default(false)
-}
-
 model User {
   id String @id @default(cuid())
 
@@ -84,7 +74,7 @@ model User {
   oauthProvider OAuthProvider?
   role          Role           @default(USER)
 
-  cart    Cart?
+  cart    Cart? // active cart
   secrets Secrets?
 
   active    Boolean  @default(true)
@@ -94,25 +84,35 @@ model User {
   transactions Transaction[]
 }
 
+model Cart {
+  id     String  @id @default(cuid())
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  items      CartItem[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  checkedOut Boolean    @default(false)
+
+  order   Order[]
+}
+
 model CartItem {
-  id        String  @id @default(cuid())
-  product   Product @relation(fields: [productId], references: [id])
   productId String
+  product   Product @relation(fields: [productId], references: [id])
 
-  cartId String?
-  cart   Cart?   @relation(fields: [cartId], references: [id])
-
-  orderId String?
-  order   Order?  @relation(fields: [orderId], references: [id])
+  cart   Cart   @relation(fields: [cartId], references: [id])
+  cartId String
 
   quantity Int
+  size String?
+  color String?
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([productId, cartId])
-  @@unique([productId, orderId])
 }
 
 model Address {
@@ -120,34 +120,38 @@ model Address {
   fullname String
 
   address String // full address
-  town    String?
   region  String?
   nearby  String?
   zipcode String
   city    String
+  state   String
   country String
+
+  phone String
+  email String
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  orders Order[]
-
+  orders    Order[]
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+
 model Product {
   id          String  @id @default(cuid())
   title       String
   description String
-  brand       String
+  brand       String  @default("Generic")
   images      Image[]
 
-  color String[]
-  size  String[]
+  colors     String[]
+  sizes      String[]
+  categories   String[]
   dimensions Int[]
-  details Json
+  details    Json
 
   published Boolean @default(false)
 
@@ -198,7 +202,8 @@ model Order {
   address   Address @relation(fields: [addressId], references: [id])
   addressId String
 
-  orderItems CartItem[]
+  cart        Cart   @relation(fields: [cartId], references: [id])
+  cartId      String
 
   status      OrderStatus  @default(PENDING)
   active      Boolean      @default(false)
@@ -208,11 +213,10 @@ model Order {
 }
 
 model Transaction {
-  id    String @id @default(cuid())
-  order Order  @relation(fields: [id], references: [id])
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  id      String @id @default(cuid())
+  order   Order  @relation(fields: [id], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
 
   notes Json?
 
