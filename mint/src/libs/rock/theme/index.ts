@@ -76,6 +76,10 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       type: type,
       primary,
       secondary,
+      background: {
+        default: type === "dark" ? "#000000" : "#ffffff",
+        paper: type === "dark" ? "#121212" : "#fcfcfc"
+      },
       // @ts-ignore
       tertiary,
       error,
@@ -277,7 +281,7 @@ export const useTheme = () => {
   return useMemo(
     () =>
       responsiveFontSizes(
-        createMuiTheme(themeOptions(!prefersDarkMode ? "dark" : "light"))
+        createMuiTheme(themeOptions(prefersDarkMode ? "dark" : "light"))
       ),
     [prefersDarkMode]
   );

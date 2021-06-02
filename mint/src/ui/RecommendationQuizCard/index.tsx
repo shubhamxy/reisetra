@@ -54,7 +54,7 @@ export default React.memo(function HeroCard({}) {
 				<CardContent className={classes.content}>
 					<Typography variant={"h5"}>Get better recommendations</Typography>
 					<Typography className={classes.description} variant={"subtitle2"}>
-						Answer a few questions and we’ll help you find the colleges which
+						Answer a few questions and we’ll help you find the products which
 						best suits your preferences
 					</Typography>
 					<Box display={"flex"} mt={"auto"}>

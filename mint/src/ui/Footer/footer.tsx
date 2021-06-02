@@ -17,6 +17,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { config } from "../../libs";
+import { Logo } from "../Logo";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     footer: {
@@ -81,17 +82,7 @@ function Footer() {
         <Grid container className={classes.content}>
           <Box className={classes.left}>
             <Box display="flex" flex={1}>
-              <Link href="/">
-                <a className="text-decoration-none footer-logo">
-                  <Image
-                    objectFit={"contain"}
-                    height={32}
-                    width={32}
-                    src={Icons.logo}
-                    alt={`${config.name} Logo`}
-                  />
-                </a>
-              </Link>
+              <Logo />
             </Box>
             <Box display="flex" flex={1} maxWidth={"400px"}>
               <Typography variant="caption">
@@ -102,7 +93,7 @@ function Footer() {
                 objectFit={"contain"}
                 height={60}
                 width={320}
-                src={Icons.payments}
+                icon={Icons.payments}
                 alt="Payments"
               />
             </Box>

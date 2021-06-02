@@ -60,7 +60,7 @@ export default React.memo(function HeroCard(
   };
   const {
     title = "Get better recommendations",
-    subtitle = "Answer a few questions and we’ll help you find the colleges which best suits your preferences",
+    subtitle = "",
     backgroundImage,
   } = props.data || {};
 

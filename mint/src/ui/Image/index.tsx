@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import NextImage, { ImageProps } from "next/image";
+import { useTheme } from "@material-ui/core";
 
 export enum Icons {
-  logo = "/icons/logo.svg",
-  payments = "/icons/payments.svg"
+  logo = "logo",
+  payments = "payments",
 };
 
+
+export const Icon = (icon: Icons, theme: "dark" | "light") => (`/icons/${icon}${theme === 'dark' ? '.dark' : ''}.svg`);
 
 export enum Images {
   category1 = "/images/1.jpeg",
@@ -22,16 +25,20 @@ export enum Images {
   category12 = "/images/12.jpeg",
 };
 
-export function Image(props: JSX.IntrinsicAttributes & ImageProps) {
+export function Image(props: Omit<JSX.IntrinsicAttributes & ImageProps & {icon: Icons}, "src">) {
+  const theme = useTheme();
   const [isErrored, setIsErrored] = useState(false);
   return isErrored ? (
+    // @ts-ignore
     <NextImage objectFit="contain" {...props} src={"/images/fallback.png"} />
   ) : (
+    // @ts-ignore
     <NextImage
       objectFit="contain"
       onError={(e) => {
         setIsErrored(true);
       }}
+      src={Icon(props.icon, theme.palette.type)}
       {...props}
     />
   );

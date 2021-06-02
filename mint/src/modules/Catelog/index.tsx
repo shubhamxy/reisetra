@@ -44,8 +44,10 @@ const useGridItemStyles = makeStyles<Theme, any>(theme => ({
 		boxShadow: "0px 3.79093px 11.3728px rgba(0, 0, 0, 0.103775)",
 		borderRadius: "8.52671px",
 		background: colors[variant].background,
-    backgroundSize: '100%',
-    backgroundPosition: 'bottom',
+    objectFit: "cover",
+    backgroundSize: "auto 100%",
+    backgroundPosition: 'center',
+    backgroundRepeat: "no-repeat",
 		"&:hover": {
 			backgroundColor: fade(colors[variant].background, 0.8),
 			transition:
@@ -76,13 +78,12 @@ const useGridItemStyles = makeStyles<Theme, any>(theme => ({
 	},
 	title: ({variant}) => ({
 		...theme.typography.caption,
-		color: fade(colors[variant].color, 0.8),
+		color: colors[variant].color,
 		fontSize: "12px",
-		lineHeight: "16px",
 	}),
 	description: ({variant}) => ({
 		...theme.typography.body2,
-		color: fade(colors[variant].color, 0.8),
+		color: fade(colors[variant].color, 0.9),
 		fontSize: "24px",
 		lineHeight: "32px",
 		paddingBottom: "24px",
@@ -214,52 +215,52 @@ const Catelogs = () => {
 			<Grid>
 				{[
 					{
-						variant: "primary",
-						title: "title",
-						description: "description",
+						variant: "dark",
+						title: "Stickers",
+						// description: "Personalized Stikers collection you will love",
 						illustration: "/images/1.jpeg",
 					},
 					{
 						variant: "dark",
-						title: "title",
-						description: "description",
+						title: "TShirts",
+						// description: "Think of something you love. Pop culture, memes and everything else.",
 						illustration: "/images/2.jpeg",
 					},
 					{
-						variant: "primary",
-						title: "title",
-						description: 'description',
+						variant: "dark",
+						title: "Mobile Covers",
+						// description: 'Stylish and protective for your phone with slim, tough, and soft case options.',
 						illustration:  "/images/3.jpeg",
 					},
 					{
 						variant: "dark",
-						title: "title",
-						description: "description",
+						title: "Wall decor",
+						// description: "Wall decorations that suits your style.",
 						illustration: "/images/4.jpeg",
 					},
-          {
-						variant: "primary",
-						title: "title",
-						description: "description",
-						illustration: "/images/1.jpeg",
+          // {
+					// 	variant: "primary",
+					// 	title: "title",
+					// 	description: "description",
+					// 	illustration: "/images/5.jpeg",
+					// },
+					{
+						variant: "dark",
+						title: "Frames",
+						// description: "Wall art",
+						illustration: "/images/6.jpeg",
 					},
 					{
 						variant: "dark",
-						title: "title",
-						description: "description",
-						illustration: "/images/2.jpeg",
-					},
-					{
-						variant: "primary",
-						title: "title",
-						description: 'description',
-						illustration:  "/images/3.jpeg",
+						title: "Living room",
+						// description: 'description',
+						illustration:  "/images/7.jpeg",
 					},
 					{
 						variant: "dark",
-						title: "title",
-						description: "description",
-						illustration: "/images/4.jpeg",
+						title: "Accessories",
+						// description: "description",
+						illustration: "/images/8.jpeg",
 					},
 				].map((item, index) => (
           //@ts-ignore

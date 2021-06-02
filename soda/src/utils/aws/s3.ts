@@ -36,7 +36,6 @@ export const getUploadURL = async function ({
     ContentType: contentType,
     ACL: "public-read",
   };
-
   const signedUrl = await s3.getSignedUrlPromise("putObject", s3Params);
   return {
     key,

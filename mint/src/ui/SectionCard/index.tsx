@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) =>
       flexDirection: "column",
       justifyContent: 'center',
       alignItems: 'center',
+      minHeight: "200px",
     },
     content: {
       height: "100%",
@@ -35,6 +36,8 @@ const useStyles = makeStyles((theme) =>
       color: theme.palette.common.white,
     },
     description: {
+      ...theme.typography.caption,
+      fontSize: 16,
       color: theme.palette.common.white,
       textAlign: 'center'
     },
@@ -44,10 +47,11 @@ const useStyles = makeStyles((theme) =>
 export const SectionCard = React.memo(function SectionCard({}) {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
-  return (
+  const [visible, setVisible] = useState(true);
+  return visible ? (
     <Card className={classes.root}>
       <CardContent className={classes.content}>
-        <Typography style={{textTransform: 'uppercase'}} variant={"h4"}>Get better recommendations</Typography>
+        {/* <Typography style={{textTransform: 'uppercase'}} variant={"h4"}>Get better recommendations</Typography> */}
         <Typography className={classes.description} variant={"caption"}>
           Answer a few questions and we’ll help you find the products which best
           suits your preferences
@@ -61,7 +65,7 @@ export const SectionCard = React.memo(function SectionCard({}) {
             Get Started
           </Button>{" "}
           <Button
-            onClick={() => {}}
+            onClick={() => {setVisible(false)}}
             style={{ marginLeft: 30 }}
             variant={"text"}
           >
@@ -70,5 +74,5 @@ export const SectionCard = React.memo(function SectionCard({}) {
         </Box>
       </CardContent>
     </Card>
-  );
+  ) : null;
 });

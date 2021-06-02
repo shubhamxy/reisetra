@@ -47,6 +47,7 @@ import { useCartItems } from "../../libs";
 import { Footer, List } from '../List';
 import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
 import { Cart } from "../Cart";
+import { Logo } from "../Logo";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -307,20 +308,13 @@ export function AppHeader() {
     setOpen(false);
   };
 
-  function handleAddToCart() {}
-
-  function handleBuyNow() {}
   return (
     <>
       <CssBaseline />
       <header className={classes.container}>
         <AppBar component="div" position="sticky" className={classes.appBar}>
           <Toolbar>
-            <Link href="/">
-              <Typography className={classes.title} variant="h2" noWrap>
-                <Image src="/icons/logo.svg" height="30px" width="30px" />
-              </Typography>
-            </Link>
+            <Logo />
             <div className={classes.flex1} />
             <div className={classes.sectionDesktop}>
               <Button href="/" variant="text" color={"primary"}>

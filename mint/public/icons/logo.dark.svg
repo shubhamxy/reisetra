@@ -8,13 +8,13 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    data-name="Layer 1"
-   viewBox="0 0 38.866772 27.214079"
+   viewBox="0 0 100 40"
    version="1.1"
    id="svg18"
-   sodipodi:docname="logo.svg"
+   sodipodi:docname="logo-dark.svg"
    inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
-   width="38.866772"
-   height="27.214079">
+   width="100"
+   height="40">
   <metadata
      id="metadata24">
     <rdf:RDF>
@@ -43,26 +43,22 @@
      id="namedview20"
      showgrid="false"
      inkscape:zoom="13.668933"
-     inkscape:cx="45.996322"
-     inkscape:cy="7.5286471"
+     inkscape:cx="46.541299"
+     inkscape:cy="15.899739"
      inkscape:window-x="0"
      inkscape:window-y="23"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg18"
-     inkscape:document-rotation="0"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
+     inkscape:document-rotation="0" />
   <text
      xml:space="preserve"
-     style="font-size:13.66039999999999921px;line-height:1.25;font-family:Caramellia;-inkscape-font-specification:Caramellia;fill:#f9f9f9;stroke-width:2.56134;"
-     x="0.16008282"
-     y="22.224831"
+     style="font-size:16.12079999999999913px;line-height:1.25;font-family:Caramellia;-inkscape-font-specification:Caramellia;fill:#f9f9f9;stroke-width:3.02267;"
+     x="0.73389274"
+     y="29.770451"
      id="text54"><tspan
        sodipodi:role="line"
        id="tspan52"
-       x="0.16008282"
-       y="22.224831"
-       style="font-size:13.66039999999999921px;fill:#f9f9f9;stroke-width:2.56134;">Re</tspan></text>
+       x="0.73389274"
+       y="29.770451"
+       style="font-size:16.12079999999999913px;fill:#f9f9f9;stroke-width:3.02267;">Reisetra</tspan></text>
 </svg>
