@@ -8,11 +8,20 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { CustomException, SuccessResponse } from "src/common/response";
-import { CreateProductDto, GetAllProductsDto, UpdateProductDto } from "./dto";
+import {
+  CreateCategoryDto,
+  CreateProductDto,
+  CreateTagDto,
+  GetAllProductsDto,
+  UpdateProductDto,
+  UpdateTagDto,
+} from "./dto";
 import { Public } from "src/auth/decorator/public.decorator";
+import { AuthenticatedRequest } from "src/auth/auth.interface";
 @Controller()
 export class ProductController {
   constructor(private readonly product: ProductService) {}
@@ -24,7 +33,7 @@ export class ProductController {
   ): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.product.getAllProducts(query);
-      return { data: results || [], meta: meta };
+      return { data: results || [], meta: meta, message: testData };
     } catch (error) {
       throw new CustomException(
         error,
@@ -53,10 +62,11 @@ export class ProductController {
 
   @Post("product")
   async createProduct(
+    @Req() request: AuthenticatedRequest,
     @Body() body: CreateProductDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.product.createProduct(body);
+      const data = await this.product.createProduct(request.user.id, body);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -69,11 +79,16 @@ export class ProductController {
 
   @Put("product/:productId")
   async updateProduct(
+    @Req() request: AuthenticatedRequest,
     @Param("productId") productId: string,
     @Body() body: UpdateProductDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.product.updateProduct(productId, body);
+      const data = await this.product.updateProduct(
+        request.user.id,
+        productId,
+        body
+      );
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -96,6 +111,124 @@ export class ProductController {
         error,
         HttpStatus.BAD_REQUEST,
         "ProductController.deleteProduct"
+      );
+    }
+  }
+
+  @Get("tags")
+  async getTags(): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.getTags();
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.getTags"
+      );
+    }
+  }
+
+  @Post("tags")
+  async createTags(@Body() body: CreateTagDto): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.createTags(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createTag"
+      );
+    }
+  }
+
+  @Put("tags")
+  async updateTags(@Body() body: UpdateTagDto): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.updateTags(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.updateTags"
+      );
+    }
+  }
+
+  @Put("tags")
+  async deleteTags(@Body() body: UpdateTagDto): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.deleteTags(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.deleteTags"
+      );
+    }
+  }
+
+  @Get("categories")
+  async getCategories(): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.getCategories();
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.getCategories"
+      );
+    }
+  }
+
+  @Post("categories")
+  async createCategory(
+    @Body() body: CreateCategoryDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.createCategory(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createCategory"
+      );
+    }
+  }
+
+  @Put("categories")
+  async updateCategories(
+    @Body() body: CreateCategoryDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.updateCategories(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.updateCategories"
+      );
+    }
+  }
+
+  @Delete("categories")
+  async deleteCategories(
+    @Body() body: CreateCategoryDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.deleteCategories(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.deleteCategories"
       );
     }
   }

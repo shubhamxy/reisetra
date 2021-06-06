@@ -25,7 +25,6 @@ export class CartController {
   @Get("allCarts")
   async getAllCarts(
     @Query() query: GetAllCartsDto,
-    @Req() req: AuthenticatedRequest
   ): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.cart.getAllCarts(query);

@@ -1,6 +1,7 @@
 import { S3 } from "aws-sdk";
 import { services } from "src/config";
-var url = require('url');
+import { File } from "src/files/entity";
+var url = require("url");
 
 const awsConfig = services().aws;
 const URL_EXPIRATION_SECONDS = 300;
@@ -21,13 +22,16 @@ export const getUploadURL = async function ({
   fileType,
   fileName,
   contentType,
-}: UploadUrlProps): Promise<{
-  url: string;
-  signedUrl: string;
-  key: string;
-  expiresIn: number;
-  contentType: any;
-}> {
+}: UploadUrlProps): Promise<
+  Partial<File> & {
+    key: string;
+    url: string;
+    fileName: string;
+    signedUrl: string;
+    expiresIn: number;
+    contentType: any;
+  }
+> {
   const key = `${userId}/${fileType}/${fileName}`;
   const s3Params = {
     Bucket: awsConfig.s3BucketName,
@@ -39,14 +43,18 @@ export const getUploadURL = async function ({
   const signedUrl = await s3.getSignedUrlPromise("putObject", s3Params);
   return {
     key,
+    contentType,
+    fileType,
+    fileName,
+    expiresIn: URL_EXPIRATION_SECONDS,
     signedUrl,
     url: signedUrl.split("?").shift(),
-    expiresIn: URL_EXPIRATION_SECONDS,
-    contentType,
   };
 };
 
-export const deleteObject = async function (key: string): Promise<{ key: string}> {
+export const deleteObject = async function (
+  key: string
+): Promise<{ key: string }> {
   const s3Params = {
     Bucket: awsConfig.s3BucketName,
     Key: key,

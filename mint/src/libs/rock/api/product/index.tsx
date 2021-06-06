@@ -1,6 +1,7 @@
 import { get, post, put } from "../../utils/http";
 import pickBy from "lodash.pickby";
 import identity from "lodash.identity";
+const queryString = require('query-string');
 
 export interface CreateProductDTO {
   mrp: number;
@@ -21,8 +22,11 @@ export interface CreateProductDTO {
     stockQuantity: number;
     sku: string;
   };
+  categories: string[];
+  tags: string[];
   images: {
-    key: string;
+    fileType: string;
+    fileName: string;
     url: string;
     contentType: string;
   }[];
@@ -30,6 +34,13 @@ export interface CreateProductDTO {
 
 export function getProduct({ queryKey }: { queryKey: [string, string] }) {
   return get(`product/${queryKey[1]}`);
+}
+export function getTags() {
+  return get(`tags`);
+}
+
+export function getCategories() {
+  return get(`categories`);
 }
 
 export function createProduct(body: CreateProductDTO) {
@@ -55,8 +66,18 @@ interface PaginationParams {
 }
 
 export function getProducts(params: PaginationParams) {
-  console.log({ params });
-  const qs = new URLSearchParams(pickBy(params, identity)).toString();
-  console.log({ qs });
+  const qs = queryString.stringify(pickBy(params, identity));
+  console.log({qs});
   return get(`products?${qs}`);
+}
+
+export function getReviews({
+  id,
+  params,
+}: {
+  id: string;
+  params: PaginationParams;
+}) {
+  const qs = queryString.stringify(pickBy(params, identity));
+  return get(`reviews/${id}?${qs}`);
 }

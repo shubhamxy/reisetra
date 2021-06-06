@@ -5,9 +5,9 @@ import {
   IsString,
   MinLength,
 } from "class-validator";
-import { mustBe, mustBeOfType, mustBeValidEnum } from "src/constants";
+import {mustBeOfType, mustBeValidEnum } from "src/constants";
 import { CursorPaginationOptionsInterface } from "../pagination";
-enum OrderDirection {
+export enum OrderDirection {
   asc = "asc",
   desc = "desc",
 }

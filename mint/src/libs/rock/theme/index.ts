@@ -24,9 +24,23 @@ export const secondary: SimplePaletteColorOptions = {
 };
 
 export const tertiary: SimplePaletteColorOptions = {
-  main: "#ffffff",
-  dark: "#ffffff",
-  light: "#ffffff",
+  main: "#6ad1e0",
+  dark: "#6ad1e0",
+  light: "#6ad1e0",
+  contrastText: "#1c1c1c",
+};
+
+export const link: SimplePaletteColorOptions = {
+  main: "#6ad1e0",
+  dark: "#1e88e5",
+  light: "#64b5f6",
+  contrastText: "#1c1c1c",
+};
+
+export const golden: SimplePaletteColorOptions = {
+  main: "#d1b39b",
+  dark: "#6ad1e0",
+  light: "#6ad1e0",
   contrastText: "#1c1c1c",
 };
 
@@ -59,29 +73,68 @@ export const success: SimplePaletteColorOptions = {
 };
 
 export const grey: Partial<Color> = {
-  50: "#FAFAFA",
-  100: "#F6F6F6",
-  200: "#E9E9E9",
-  300: "#8F8F91",
-  400: "#626266",
-  500: "#2A2A2F",
-  600: "#202020",
-  700: "#1A1A1A",
-  800: "#131415",
+  50: "#fafafa",
+  100: "#f5f5f5",
+  200: "#eeeeee",
+  300: "#e0e0e0",
+  400: "#bdbdbd",
+  500: "#757575",
+  600: "#616161",
+  700: "#424242",
+  800: "#212121",
 };
 
+export const blue: Partial<Color> = {
+  50: "#e3f2fd",
+  100: "#bbdefb",
+  200: "#90caf9",
+  300: "#64b5f6",
+  400: "#42a5f5",
+  500: "#2196f3",
+  600: "#1e88e5",
+  700: "#1976d2",
+  800: "#1565c0",
+  900: "#0d47a1",
+  A100: "#82b1ff",
+  A200: "#448aff",
+  A400: "#2979ff",
+  A700: "#2962ff",
+};
+declare module '@material-ui/core/styles/createMuiTheme' {
+  interface Theme {
+    colors: {
+      tertiary: SimplePaletteColorOptions,
+      golden: SimplePaletteColorOptions,
+      link: SimplePaletteColorOptions,
+      blue: Partial<Color>;
+    };
+  }
+  // allow configuration using `createMuiTheme`
+  interface ThemeOptions {
+    colors?: {
+      golden: SimplePaletteColorOptions,
+      tertiary: SimplePaletteColorOptions,
+      link: SimplePaletteColorOptions,
+      blue?: Partial<Color>;
+    };
+  }
+}
 export function themeOptions(type: "light" | "dark"): ThemeOptions {
   return {
+    colors: {
+      golden,
+      tertiary,
+      link,
+      blue,
+    },
     palette: {
       type: type,
       primary,
       secondary,
       background: {
         default: type === "dark" ? "#000000" : "#ffffff",
-        paper: type === "dark" ? "#121212" : "#fcfcfc"
+        paper: type === "dark" ? "#121212" : "#fcfcfc",
       },
-      // @ts-ignore
-      tertiary,
       error,
       warning,
       info,
@@ -184,7 +237,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
         fontWeight: 500,
         fontSize: "14px",
         letterSpacing: "0.5px",
-        textTransform: 'unset',
+        textTransform: "unset",
       },
       caption: {
         fontFamily:
@@ -202,7 +255,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
 
     props: {
       MuiButton: {
-        size: 'small',
+        size: "small",
       },
       MuiButtonBase: {
         disableRipple: true,

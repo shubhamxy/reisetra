@@ -88,7 +88,7 @@ export default function ProductDetails({
             variant="outlined"
             id="details"
             name="details"
-            placeholder="eg. Weight "
+            placeholder="eg. Weight: 16kg "
             label="Details"
             onBlur={handleBlur}
             error={touched.details ? !!errors.details : false}
@@ -122,11 +122,28 @@ export default function ProductDetails({
             variant="outlined"
             id="categories"
             name="categories"
-            placeholder="eg. xl, xxl"
-            label="categories"
+            placeholder="eg. wall-decor, table"
+            label="Categories"
             onBlur={handleBlur}
             error={touched.categories ? !!errors.categories : false}
             helperText={touched.categories ? errors.categories : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TagsInput
+            onChange={(value) => {
+              setFieldValue("tags", value);
+            }}
+            value={values.tags}
+            fullWidth
+            variant="outlined"
+            id="tags"
+            name="tags"
+            placeholder="eg. phone, exclusive"
+            label="Tags"
+            onBlur={handleBlur}
+            error={touched.tags ? !!errors.tags : false}
+            helperText={touched.tags ? errors.tags : ""}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -139,8 +156,8 @@ export default function ProductDetails({
             variant="outlined"
             id="dimensions"
             name="dimensions"
-            placeholder="eg. 24, 25, 26"
-            label="dimensions"
+            placeholder="eg. 24 x 25 x 26"
+            label="Dimensions"
             onBlur={handleBlur}
             error={touched.dimensions ? !!errors.dimensions : false}
             helperText={touched.dimensions ? errors.dimensions : ""}

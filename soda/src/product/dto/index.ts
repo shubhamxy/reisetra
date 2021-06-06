@@ -16,8 +16,9 @@ import {
 import { CursorPaginationDTO } from "src/common/dto";
 import { CursorPaginationOptionsInterface } from "src/common/pagination";
 import { isRequired, mustBeOfType } from "src/constants";
+import { File } from "src/files/entity";
 import { CreateInventoryDto } from "src/inventory/dto";
-import { Product } from "../entity";
+import { Category, Product, Tag } from "../entity";
 
 type Excluded =
   | "id"
@@ -27,7 +28,19 @@ type Excluded =
   | "extra"
   | "inventoryId";
 
-export class GetAllProductsDto extends CursorPaginationDTO {}
+export enum ProductSort {
+  new = "new",
+  bestSelling = "bestselling",
+  trending = "trending",
+  relevant = "relevant",
+}
+
+export class GetAllProductsDto extends CursorPaginationDTO {
+  sort: ProductSort;
+  tags: string[]
+  category: string
+  price: string[]
+}
 
 export class CreateProductDto implements Omit<Product, Excluded> {
   @IsString({ message: mustBeOfType("string", "string") })
@@ -78,14 +91,11 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   @Type(() => CreateInventoryDto)
   inventory?: CreateInventoryDto;
 
-  images: {
-    key: string,
-    url: string,
-    contentType: string,
-  }[]
+  images: Omit<File, "userId">[];
 
-  categories: string[]
-
+  categories: string[];
+  tags: string[]
+  rating: number;
 }
 
 export class UpdateProductDto implements Omit<Product, Excluded> {
@@ -137,11 +147,22 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @Type(() => CreateInventoryDto)
   inventory?: CreateInventoryDto;
 
-  images: {
-    key: string,
-    url: string,
-    contentType: string,
-  }[]
+  images: Omit<File, "userId">[];
 
-  categories: string[]
+  categories: string[];
+  tags: string[];
+  rating: number;
+}
+
+
+export class CreateCategoryDto {
+  data: Omit<Category, Excluded>[]
+}
+
+export class CreateTagDto {
+  data: Omit<Tag, Excluded>[]
+}
+
+export class UpdateTagDto {
+  data: Omit<Tag, Excluded>[]
 }

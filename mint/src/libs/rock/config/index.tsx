@@ -7,6 +7,7 @@ export enum Environment {
 export interface Config {
   isProduction: boolean;
   name: string;
+  debug: boolean;
   description: string;
   contactEmail: string;
   appEnv: Environment;
@@ -15,26 +16,29 @@ export interface Config {
   clientUrl: string;
   googleOAuthOptions: {
     clientID: string;
+    callbackUrl: string;
   };
 }
 
 export const isBrowser = typeof window !== undefined;
 
 export const config: Config = {
-  // Common
+  // app
   isProduction: process.env.NEXT_PUBLIC_NODE_ENV === "production",
-  name: process.env.NEXT_PUBLIC_APP_NAME || "Reisetra",
-  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Unique products designed by independent artists.",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@reisetra.com",
+  name: process.env.NEXT_PUBLIC_APP_NAME || "",
+  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || "",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   appEnv: (process.env.NEXT_PUBLIC_APP_ENV || "production") as Environment,
-  port: +process.env.PORT || 3000,
-  clientUrl: process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000',
+  debug: +process.env.NEXT_PUBLIC_APP_DEBUG === 1,
+  port: +process.env.NEXT_PUBLIC_PORT || 3000,
+  clientUrl: process.env.NEXT_PUBLIC_CLIENT_URL || '',
 
   // API
-  apiUrl: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1/",
+  apiUrl: process.env.NEXT_PUBLIC_API_URL || "",
 
   // GOOGLE Login
   googleOAuthOptions: {
-    clientID: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '583554562558-6stke69s8nsc3lca6beajdu4ergs2msh.apps.googleusercontent.com',
+    clientID: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '',
+    callbackUrl: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_CALLBACK_URL || '',
   },
 };

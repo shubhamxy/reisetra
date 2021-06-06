@@ -18,6 +18,7 @@ import { ProductModule } from "./product/product.module";
 import { TransactionModule } from "./transaction/transaction.module";
 import { UserModule } from "./user/user.module";
 import { FilesModule } from "./files/files.module";
+import { ReviewModule } from "./review/review.module";
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { FilesModule } from "./files/files.module";
     AddressModule,
     TransactionModule,
     FilesModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [

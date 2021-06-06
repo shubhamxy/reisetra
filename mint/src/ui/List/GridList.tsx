@@ -132,7 +132,7 @@ function Footer({
   ) : null;
 }
 
-export default function GridList({ query, renderItem }) {
+export default function GridList({ emptyListCaption = "", query, renderItem }) {
   const { data, hasNextPage, isLoading, fetchNextPage } = query;
   const classes = useStyles();
   return (
@@ -142,6 +142,16 @@ export default function GridList({ query, renderItem }) {
         data={data}
         classes={{ list: classes.list }}
         isLoading={isLoading}
+        ListEmptyComponent={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flex={1}
+          >
+            <Typography variant="caption">{emptyListCaption}</Typography>
+          </Box>
+        }
         ListFooterComponent={
           <Footer
             classes={classes}

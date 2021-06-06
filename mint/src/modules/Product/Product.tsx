@@ -14,9 +14,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Radio, { RadioProps } from "@material-ui/core/Radio";
-
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   ButtonGroup,
   FormControl,
@@ -25,6 +23,7 @@ import {
   Select,
   Divider,
   TextField,
+  Link as MaterialLink,
 } from "@material-ui/core";
 import {
   useAddCartItem,
@@ -36,6 +35,9 @@ import { ImagePreview } from "../../ui/MediaPreview";
 import { Rating } from "@material-ui/lab";
 import { ShowCase } from "../ShowCase";
 import { useRouter } from "next/router";
+import ReviewCard from "../Reviews/review";
+import { Reviews } from "../Reviews";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -250,23 +252,21 @@ export default function DetailsTable({ rows, label }) {
 }
 
 function useHelper() {
-
-  return {
-
-  };
+  return {};
 }
 export function Product({ id }) {
   const classes = useStyles();
-  const router = useRouter()
+  const router = useRouter();
   const { data: result, isLoading } = useProduct(id);
   const addCartItem = useAddCartItem();
   const removeCartItem = useDeleteCartItem();
-  const {user} = useAuthState();
+  const { user } = useAuthState();
   const [tabIndex, setTabIndex] = useState(0);
   const [qty, setQty] = useState(1);
   const { data } = result || {};
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const theme = useTheme();
   const {
     mrp,
     tax,
@@ -279,12 +279,9 @@ export function Product({ id }) {
     brand,
     title,
     description,
-    inventory: {
-      stockQuantity,
-      sku,
-    } = {stockQuantity: 0, sku: 0},
+    inventory: { stockQuantity, sku } = { stockQuantity: 0, sku: 0 },
     images,
-  } = data || {} as any;
+  } = data || ({} as any);
 
   useEffect(() => {
     if (data) {
@@ -312,7 +309,7 @@ export function Product({ id }) {
     handleAddToCart();
     router.push("/checkout");
   }
-
+  console.log({d: String(data?.["description"]).split("\n")})
   return (
     <Grid
       container
@@ -324,7 +321,29 @@ export function Product({ id }) {
       <Grid item className={classes.header}>
         <Box className={classes.circle} />
         <Typography variant="caption">
-          Home / Furnitures / {data?.["title"]}
+          <MaterialLink
+            style={{ color: theme.colors.link.main }}
+            underline="none"
+            href="/"
+          >
+            Home
+          </MaterialLink>{" "}
+          /{" "}
+          <MaterialLink
+            style={{ color: theme.colors.link.main }}
+            underline="none"
+            href={`/products?category=${data?.["categories"][0]?.value}`}
+          >
+            {data?.["categories"] ? data?.["categories"][0]?.label: ""}
+          </MaterialLink>{" "}
+          /{" "}
+          <MaterialLink
+            style={{ color: theme.colors.link.main }}
+            underline="none"
+            href={`/product/${data?.["id"]}`}
+          >
+            {data?.["title"]}
+          </MaterialLink>
         </Typography>
       </Grid>
       <Grid item container xs sm className={classes.content}>
@@ -337,11 +356,13 @@ export function Product({ id }) {
           </Grid>
           <Grid item xs container>
             <Grid item xs>
-              <Rating />
+              <Rating value={data?.["rating"] || 5} readOnly />
             </Grid>
             <Grid item xs>
               <Typography variant="subtitle1">
-                {"75 Customer reviews"}
+                {`(${data?.["numberOfRatings"] || "1"} rating${
+                  data?.["numberOfRatings"] > 0 ? "s" : ""
+                })`}
               </Typography>
             </Grid>
           </Grid>
@@ -355,7 +376,7 @@ export function Product({ id }) {
                 <Typography variant="caption">{"Category"}</Typography>
               </Grid>
               <Grid item xs>
-                <Typography variant="caption">{"Furnitures"}</Typography>
+                <Typography variant="caption">{data?.["categories"]?.map(item => item.label).join(", ")}</Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} className={classes.shippingContainer}>
@@ -531,20 +552,12 @@ export function Product({ id }) {
         </Grid>
         <Grid item xs={12} style={{ minHeight: 420 }}>
           <TabPanel value={tabIndex} index={0}>
-            <Typography variant="body1">{data?.["description"]}</Typography>
+            {String(data?.["description"]).split("\n").map((item, index) => {
+              return <Typography component="p" key={index} variant="body1">{item}</Typography>
+            })}
           </TabPanel>
           <TabPanel value={tabIndex} index={1}>
-            {/* <ReviewCard /> */}
-            <Box
-              display="flex"
-              alignItems="center"
-              maxWidth
-              maxHeight
-              justifyContent="center"
-              height="100%"
-            >
-              <Typography variant="caption">{"No Reviews yet"}</Typography>
-            </Box>
+            <Reviews id={id} />
           </TabPanel>
         </Grid>
       </Grid>

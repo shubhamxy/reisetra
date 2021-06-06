@@ -9,20 +9,24 @@ import {
   Typography,
   Button,
   CardActions,
+  fade,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
+      alignSelf: 'center',
+      margin: "0 auto",
+      overflow: 'hidden',
       width: "100%",
-      background: "linear-gradient(0deg, #F0F0F0, #F0F0F0), #0B0C0C",
+      // background: "linear-gradient(0deg, #F0F0F0, #F0F0F0), #0B0C0C",
       backgroundImage: `url("/images/hero.jpeg")`,
       backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      boxShadow: "2px 2px 7px rgba(0, 0, 0, 0.15)",
+      backgroundSize: "contain",
+      backgroundPosition: "center center",
+      boxShadow: `2px 2px 7px ${fade(theme.palette.common.black, 0.2)}`,
       borderRadius: 8,
-      height: 362,
+      height: 360,
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -36,10 +40,8 @@ const useStyles = makeStyles((theme) =>
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      color: theme.palette.common.white,
     },
     description: {
-      color: theme.palette.common.white,
       textAlign: "center",
     },
     actionsContainer: {},

@@ -1,4 +1,6 @@
-import { IsEnum, IsString } from "class-validator";
+import { FileType, File } from "../entity";
+import { IsEnum, IsOptional, IsString } from "class-validator";
+import { CursorPaginationDTO } from "src/common/dto";
 import { UploadUrlProps } from "src/utils";
 import { mustBeValidEnum, mustBe } from "../../constants/validation";
 export class PublicFile {
@@ -13,14 +15,47 @@ enum ContentTypeEnum {
   png = "image/png",
   svg = "image/svg",
 }
+export class GetAllFilesDto extends CursorPaginationDTO {}
 
 export class UploadFileDTO implements Omit<UploadUrlProps, "userId"> {
-  @IsEnum(["images", "documents"], {
-    message: mustBeValidEnum(["images", "documents"], "fileType"),
+  @IsEnum(FileType, {
+    message: mustBeValidEnum(FileType, "fileType"),
   })
-  fileType: "images" | "documents";
+  fileType: FileType;
   @IsString({ message: mustBe("string", "fileName") })
   fileName: string;
-  @IsEnum(ContentTypeEnum, { message: mustBeValidEnum(ContentTypeEnum, "fileType") })
+  @IsEnum(ContentTypeEnum, {
+    message: mustBeValidEnum(ContentTypeEnum, "fileType"),
+  })
   contentType: ContentTypeEnum;
+}
+
+export class AddFileDTO implements Omit<File, "userId"> {
+  @IsString({ message: mustBe("string", "fileName") })
+  fileName: string;
+
+  @IsEnum(FileType, {
+    message: mustBeValidEnum(FileType, "fileType"),
+  })
+  fileType: FileType;
+
+  @IsEnum(ContentTypeEnum, {
+    message: mustBeValidEnum(ContentTypeEnum, "fileType"),
+  })
+  contentType: ContentTypeEnum;
+
+  @IsString({ message: mustBe("string", "url") })
+  url: string;
+
+  @IsOptional()
+  @IsString({ message: mustBe("string", "productId") })
+  productId: string;
+
+  @IsOptional()
+  @IsString({ message: mustBe("string", "reviewId") })
+  reviewId: string;
+
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

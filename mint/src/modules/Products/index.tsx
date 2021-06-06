@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import {
   Box,
@@ -7,10 +7,13 @@ import {
   CardContent,
   fade,
   Typography,
+  IconButton,
+  Button,
 } from "@material-ui/core";
 import { useProducts } from "../../libs";
 import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
+import { ShoppingCart } from "@material-ui/icons";
 
 type TStyles = {
   background: string;
@@ -26,29 +29,24 @@ const styles: TStyles = [
     background: "#000000",
     color: "#ffffff",
   },
+  { background: "#906039", color: "#ffffff" },
+  {
+    background: "#d3b7a1",
+    color: "#ffffff",
+  },
+  {
+    background: "#d88ea3",
+    color: "#ffffff",
+  },
+  {
+    background: "#286dc1",
+    color: "#000000",
+  },
   {
     background: "#74D125",
     color: "#000000",
   },
-  {
-    background: "#286dc1",
-    color: "#000000",
-  },
-  { background: "#906039", color: "#000000" },
-  {
-    background: "#d3b7a1",
-    color: "#fff",
-  },
-  {
-    background: "#d88ea3",
-    color: "#fff",
-  },
-  {
-    background: "#286dc1",
-    color: "#000000",
-  },
 ];
-
 const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
   (theme) => ({
     root: ({ styleIndex }) => ({
@@ -58,43 +56,21 @@ const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
       flexDirection: "column",
       alignItems: "flex-start",
       cursor: "pointer",
+      height: 400,
       mixBlendMode: "normal",
       borderRadius: 8,
-      height: 354,
-      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.103775)",
+      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
       color: fade(styles[styleIndex].color, 0.8),
       background: styles[styleIndex].background,
-      "&:hover": {
-        backgroundColor: fade(styles[styleIndex].background, 0.8),
-        transition:
-          "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-      },
     }),
     card: {
       margin: 0,
-      padding: "20px 20px 10px 20px",
+      padding: "30px 30px 19px 24px",
       width: "100%",
-      height: 120,
+      height: "100%",
     },
-    primary: {
-      background: "#74D125",
-      "&:hover": {
-        backgroundColor: "#74D125",
-        opacity: 0.9,
-        transition:
-          "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-      },
-    },
-    dark: {
-      background: "#1A1A1A",
-      "&:hover": {
-        backgroundColor: "#222222",
-        opacity: 0.9,
-        transition:
-          "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-      },
-    },
-    title: ({}) => ({
+
+    title: ({ styleIndex }) => ({
       ...theme.typography.subtitle2,
       display: "-webkit-box",
       overflow: "hidden",
@@ -102,11 +78,11 @@ const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
       WebkitBoxOrient: "vertical",
       wordBreak: "break-all",
     }),
-    description: ({}) => ({
+    description: ({ styleIndex }) => ({
       ...theme.typography.caption,
       display: "-webkit-box",
       overflow: "hidden",
-      WebkitLineClamp: 2,
+      WebkitLineClamp: 3,
       WebkitBoxOrient: "vertical",
       wordBreak: "break-all",
     }),
@@ -118,8 +94,16 @@ const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
       bottom: "24px",
       left: "24px",
     },
+    addToCartContainer: {
+      position: "absolute",
+      bottom: "24px",
+      right: "24px",
+    },
+    button: {
+      transition: "opacity ease-in 0.2s",
+    },
     cost: {},
-    seeAllText: ({}) => ({
+    seeAllText: ({ styleIndex }) => ({
       ...theme.typography.body2,
       fontSize: "12px",
       lineHeight: "14px",
@@ -133,9 +117,17 @@ const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
       height: "100%",
     },
     image: {
+      backgroundColor: "#fff",
+      borderBottomLeftRadius: 8,
+      borderBottomRightRadius: 8,
+      backgroundSize: "contain",
       height: 0,
       width: "100%",
       paddingTop: "56.25%", // 16:9
+      "&:hover": {
+        transition:
+          "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+      },
     },
   })
 );
@@ -156,50 +148,70 @@ export function GridItem({
   onClick: () => any;
 }) {
   const classes = useGridItemStyles({ styleIndex });
+  const [image, setImage] = useState(0);
+  const [addToCartVisible, setAddToCartVisible] = useState(false);
   return (
-    <Card elevation={0} className={classes.root} onClick={onClick}>
+    <Card className={classes.root} onClick={onClick}>
       <CardMedia
         className={classes.image}
-        image={images?.[0]?.url}
-        title="Paella dish"
+        onMouseEnter={() => setImage(image + 1)}
+        onMouseLeave={() => setImage(0)}
+        image={images?.[image % images.length]?.url}
+        title={title}
       />
-      <CardContent className={classes.card}>
+      <CardContent
+        className={classes.card}
+        onMouseEnter={() => setAddToCartVisible(true)}
+        onMouseLeave={() => setAddToCartVisible(false)}
+      >
         <Typography className={classes.title} variant="h5">
           {title}
         </Typography>
         <Typography className={classes.description} variant="subtitle2">
           {description}
         </Typography>
-        <Box className={classes.costContainer}>
-          <Typography
-            className={classes.cost}
-            children={`₹ ${price}`}
-            variant="subtitle2"
-          />
+        <Box display="flex" flex={1}>
+          <Box className={classes.costContainer}>
+            <Typography
+              className={classes.cost}
+              children={`₹ ${price}`}
+              variant="subtitle2"
+            />
+          </Box>
+          <Box className={classes.addToCartContainer}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              style={{ opacity: addToCartVisible ? 1 : 0 }}
+              className={classes.button}
+              startIcon={<ShoppingCart style={{ width: 14, height: 14 }} />}
+            >
+              Add to Cart
+            </Button>
+          </Box>
         </Box>
       </CardContent>
     </Card>
   );
 }
 
-export function Products() {
-  const products = useProducts();
+export function Products({ filters }) {
+  const query = useProducts(filters);
   const router = useRouter();
   return (
     <GridList
-      query={products}
-      renderItem={({ item, index }) => {
-        return (
-          <GridItem
-            {...item}
-            onClick={() => {
-              router.push(`product/${item.id}`);
-            }}
-            key={item.id}
-            styleIndex={index % styles.length}
-          />
-        );
-      }}
+      query={query}
+      renderItem={({ item, index }) => (
+        <GridItem
+          {...item}
+          onClick={() => {
+            router.push(`/product/${item.id}`);
+          }}
+          key={item.id}
+          styleIndex={index % styles.length}
+        />
+      )}
     />
   );
 }

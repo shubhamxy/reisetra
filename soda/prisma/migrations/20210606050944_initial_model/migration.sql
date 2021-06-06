@@ -13,6 +13,9 @@ CREATE TYPE "TransactionStatus" AS ENUM ('NEW', 'CANCELLED', 'FAILED', 'PENDING'
 -- CreateEnum
 CREATE TYPE "TransactionType" AS ENUM ('RAZORPAY');
 
+-- CreateEnum
+CREATE TYPE "FileType" AS ENUM ('images', 'documents');
+
 -- CreateTable
 CREATE TABLE "Secrets" (
     "id" TEXT NOT NULL,
@@ -22,14 +25,17 @@ CREATE TABLE "Secrets" (
 );
 
 -- CreateTable
-CREATE TABLE "Image" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT,
+CREATE TABLE "File" (
+    "fileName" TEXT NOT NULL,
+    "fileType" "FileType" NOT NULL,
+    "userId" TEXT NOT NULL,
     "url" TEXT,
-    "key" TEXT,
     "contentType" TEXT,
-
-    PRIMARY KEY ("id")
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "productId" TEXT,
+    "reviewId" TEXT
 );
 
 -- CreateTable
@@ -97,6 +103,36 @@ CREATE TABLE "Address" (
 );
 
 -- CreateTable
+CREATE TABLE "Tag" (
+    "label" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+
+    PRIMARY KEY ("value")
+);
+
+-- CreateTable
+CREATE TABLE "Category" (
+    "label" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+
+    PRIMARY KEY ("value")
+);
+
+-- CreateTable
+CREATE TABLE "Review" (
+    "id" TEXT NOT NULL,
+    "rating" INTEGER NOT NULL DEFAULT 0,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "productId" TEXT,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -104,7 +140,7 @@ CREATE TABLE "Product" (
     "brand" TEXT NOT NULL DEFAULT E'Generic',
     "colors" TEXT[],
     "sizes" TEXT[],
-    "categories" TEXT[],
+    "rating" INTEGER NOT NULL DEFAULT 5,
     "dimensions" INTEGER[],
     "details" JSONB NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
@@ -176,6 +212,21 @@ CREATE TABLE "Transaction" (
     PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "_ProductToTag" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_CategoryToProduct" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "File.userId_fileName_fileType_unique" ON "File"("userId", "fileName", "fileType");
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
@@ -197,11 +248,29 @@ CREATE UNIQUE INDEX "Product_inventoryId_unique" ON "Product"("inventoryId");
 -- CreateIndex
 CREATE UNIQUE INDEX "Inventory.sku_unique" ON "Inventory"("sku");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_ProductToTag_AB_unique" ON "_ProductToTag"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ProductToTag_B_index" ON "_ProductToTag"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_CategoryToProduct_AB_unique" ON "_CategoryToProduct"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_CategoryToProduct_B_index" ON "_CategoryToProduct"("B");
+
 -- AddForeignKey
 ALTER TABLE "Secrets" ADD FOREIGN KEY ("id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Image" ADD FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "File" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD FOREIGN KEY ("reviewId") REFERENCES "Review"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Cart" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -214,6 +283,9 @@ ALTER TABLE "CartItem" ADD FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DEL
 
 -- AddForeignKey
 ALTER TABLE "Address" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -232,3 +304,15 @@ ALTER TABLE "Transaction" ADD FOREIGN KEY ("id") REFERENCES "Order"("id") ON DEL
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ProductToTag" ADD FOREIGN KEY ("A") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ProductToTag" ADD FOREIGN KEY ("B") REFERENCES "Tag"("value") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CategoryToProduct" ADD FOREIGN KEY ("A") REFERENCES "Category"("value") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CategoryToProduct" ADD FOREIGN KEY ("B") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;

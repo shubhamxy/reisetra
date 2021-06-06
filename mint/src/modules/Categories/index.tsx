@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Box, Card, CardContent, fade, Typography } from "@material-ui/core";
 import GridList from "../../ui/List/GridList";
@@ -19,20 +19,19 @@ const useGridStyles = makeStyles((theme) => ({
     },
   },
 }));
-type TStyles =
-  {
-    background: string,
-    color: string,
-  }[]
+type TStyles = {
+  background: string;
+  color: string;
+}[];
 const styles: TStyles = [
-  { background: "#906039", color: "#000000" },
+  { background: "#ffffff", color: "#000000" },
   {
-    background: "#d3b7a1",
-    color: "#fff",
+    background: "#000000",
+    color: "#ffffff",
   },
   {
     background: "#d88ea3",
-    color: "#fff",
+    color: "#000000",
   },
   {
     background: "#286dc1",
@@ -48,19 +47,17 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     alignItems: "flex-start",
     padding: "30px 30px 19px 30px",
     cursor: "pointer",
-    width: "275px",
-    height: "352px",
+    height: "380px",
     mixBlendMode: "normal",
-    boxShadow: "0px 3.79093px 11.3728px rgba(0, 0, 0, 0.103775)",
-    borderRadius: "8.52671px",
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
+    borderRadius: 8,
     background: styles[styleIndex].background,
     backgroundSize: "100%",
-    backgroundPosition: "bottom",
+    backgroundPosition: "center bottom",
     backgroundRepeat: "no-repeat",
     "&:hover": {
-      backgroundColor: fade(styles[styleIndex].background, 0.8),
       transition:
-        "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
   }),
   card: {
@@ -132,11 +129,14 @@ export function GridItem({
   images,
 }) {
   const classes = useGridItemStyles({ styleIndex });
+  const [image, setImage] = useState(0);
   return (
     <Card
       elevation={0}
       className={classes.root}
-      style={{ backgroundImage: `url(${images?.[0]?.url})` }}
+      onMouseEnter={() => setImage(image + 1)}
+      onMouseLeave={() => setImage(0)}
+      style={{ backgroundImage: `url(${images?.[image % images.length]?.url})` }}
     >
       <CardContent className={classes.card}>
         <Typography className={classes.title} variant="subtitle2">
@@ -163,7 +163,7 @@ export const Categories = () => {
     <GridList
       query={query}
       renderItem={({ item, index }) => (
-        <GridItem {...item} key={index} styleIndex={index % styles.length}></GridItem>
+        <GridItem {...item} key={index} styleIndex={item.style || 0}></GridItem>
       )}
     />
   );

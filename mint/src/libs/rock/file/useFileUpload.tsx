@@ -1,6 +1,7 @@
 import {useDropzone} from "react-dropzone";
 import {useMutation} from "react-query";
 import { uploadFile } from "../api/file";
+import { useGlobalDispatch, updateSnackBar } from "../global";
 
 interface UseFileUploadParams {
   maxSize?: number;
@@ -25,11 +26,14 @@ export function useFileUpload({
 	onError = () => {},
 }: UseFileUploadParams) {
 	const fileUploadMutation = useMutation(uploadFile);
+  const dispatch = useGlobalDispatch();
 	const _onError = error => {
 		let message = String(error.message);
-		if (error.error) {
-			message = message + ": " + error.error;
-		}
+    dispatch(updateSnackBar({
+      message: message,
+      type: "error",
+      open: true,
+    }));
     onError(error);
 	};
 
@@ -41,34 +45,45 @@ export function useFileUpload({
 			if (files.length > 0) {
 				const uploadedFiles = Promise.all(
 					files.map(async file => {
+            const fileName = `${key || Date.now()}-${file.name}`.trim();
 						try {
 							const response = await fileUploadMutation.mutateAsync({
                 file,
                 params: {
                   contentType: file.type,
-                  fileName: key || file.name,
-                  fileType: fileType,
+                  fileName,
+                  fileType,
                 }
               });
               const data = response.data;
 							if (!data.key) {
 								throw Error("Server error: data missing");
 							}
-              const {signedUrl, expiresIn, ...rest} = data;
+              const {signedUrl, expiresIn, key, ...rest} = data;
 							return rest;
 						} catch (error) {
 							_onError(error);
 						}
 					}),
 				);
+        dispatch(updateSnackBar({
+          message: infoText,
+          type: "info",
+          open: true,
+        }));
 				uploadedFiles.then(data => {
 					const uploaded = data.filter(Boolean);
 					if (uploaded.length > 0) {
 						onSuccess(uploaded);
+            dispatch(updateSnackBar({
+              message: successText,
+              type: "success",
+              open: true,
+            }));
 					}
 				});
 			} else if (rejectedFiles[0].errors[0].code === "file-too-large") {
-
+        _onError({message: "File too large"})
 			}
 		},
 	});

@@ -47,13 +47,27 @@ model Secrets {
   password String
 }
 
-model Image {
-  id          String   @id @default(cuid())
-  product     Product? @relation(fields: [productId], references: [id])
-  productId   String?
+enum FileType {
+  images
+  documents
+}
+
+model File {
+  fileName    String
+  fileType    FileType
+  user        User    @relation(fields: [userId], references: [id])
+  userId      String
+
   url         String?
-  key         String?
   contentType String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+  review   Review? @relation(fields: [reviewId], references: [id])
+  reviewId String?
+  @@unique([userId, fileName, fileType])
 }
 
 model User {
@@ -82,6 +96,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   transactions Transaction[]
+  files         File[]
 }
 
 model Cart {
@@ -94,7 +109,7 @@ model Cart {
   updatedAt  DateTime   @updatedAt
   checkedOut Boolean    @default(false)
 
-  order   Order[]
+  order Order[]
 }
 
 model CartItem {
@@ -105,8 +120,8 @@ model CartItem {
   cartId String
 
   quantity Int
-  size String?
-  color String?
+  size     String?
+  color    String?
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -139,17 +154,49 @@ model Address {
   updatedAt DateTime @updatedAt
 }
 
+model Tag {
+  label    String
+  value    String    @id
+  products Product[]
+}
 
-model Product {
-  id          String  @id @default(cuid())
+model Category {
+  label    String
+  value    String    @id
+  products Product[]
+}
+
+model Review {
+  id     String @id @default(cuid())
+  rating Int    @default(0)
+
   title       String
   description String
-  brand       String  @default("Generic")
-  images      Image[]
+  images      File[]
+
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Product {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  brand       String @default("Generic")
+  images      File[]
 
   colors     String[]
   sizes      String[]
-  categories   String[]
+  categories Category[]
+  tags       Tag[]
+
+  rating  Int      @default(5)
+  reviews Review[]
+
   dimensions Int[]
   details    Json
 
@@ -202,8 +249,8 @@ model Order {
   address   Address @relation(fields: [addressId], references: [id])
   addressId String
 
-  cart        Cart   @relation(fields: [cartId], references: [id])
-  cartId      String
+  cart   Cart   @relation(fields: [cartId], references: [id])
+  cartId String
 
   status      OrderStatus  @default(PENDING)
   active      Boolean      @default(false)
@@ -213,10 +260,10 @@ model Order {
 }
 
 model Transaction {
-  id      String @id @default(cuid())
-  order   Order  @relation(fields: [id], references: [id])
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
+  id     String @id @default(cuid())
+  order  Order  @relation(fields: [id], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   notes Json?
 

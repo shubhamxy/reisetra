@@ -65,7 +65,7 @@ const IndexPage = () => {
           <SectionCard />
         </Box>
         <Box className={classes.content}>
-          <Products />
+          <Products filters={{}} />
         </Box>
 
         <Box className={classes.content}>

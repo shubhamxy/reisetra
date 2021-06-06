@@ -11,13 +11,15 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import { useRouter } from "next/router";
 import * as React from "react";
+import { useCategories } from "../../libs";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       backgroundColor: "#d3b7a1",
-      padding: "24px 32px 24px 32px",
+      padding: 24,
     },
     badge: {
       top: "-10px !important",
@@ -52,7 +54,7 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
     },
     taglistitem: {
-      background: "#e1dbd7",
+      background: "#ffffff",
       borderRadius: "48px",
       justifyContent: "center",
       alignItems: "center",
@@ -60,10 +62,10 @@ const useStyles = makeStyles((theme) =>
       marginRight: "8px",
       marginBottom: "8px",
       "&:hover": {
-        backgroundColor: "#e1dbd7",
+        backgroundColor: "#ffffff",
       },
       "&:focus": {
-        backgroundColor: "#e1dbd7",
+        backgroundColor: "#ffffff",
         boxShadow: `0px 0px 0px 4px#d0f20f33`,
       },
     },
@@ -80,26 +82,8 @@ const useStyles = makeStyles((theme) =>
 
 export default function RecommendedCategories() {
   const classes = useStyles();
-  const data = [
-    {
-      title: "Wall Art",
-    },
-    {
-      title: "Gifts",
-    },
-    {
-      title: "Stationary",
-    },
-    {
-      title: "Stickers",
-    },
-    {
-      title: "Home Decor",
-    },
-    {
-      title: "Furniture",
-    },
-  ];
+  const {data} = useCategories();
+  const router = useRouter();
   return (
     <Paper className={classes.root}>
       <Box
@@ -128,9 +112,12 @@ export default function RecommendedCategories() {
           }}
           disablePadding
         >
-          {data.map((item, index) => (
+          {/* @ts-ignore */}
+          {data?.data?.map((item, index) => (
             <Chip
-              onClick={(e) => {}}
+              onClick={(e) => {
+                router.push(`/products?category=${item.value}`)
+              }}
               key={index}
               className={classes.taglistitem}
               label={
@@ -138,7 +125,7 @@ export default function RecommendedCategories() {
                   style={{ fontSize: 14, color: "#2E2F2F" }}
                   variant="subtitle2"
                 >
-                  {item.title}
+                  {item.label}
                 </Typography>
               }
             />

@@ -25,6 +25,7 @@ const createProductSchema = Yup.object().shape({
   colors: Yup.array(),
   sizes: Yup.array(),
   categories: Yup.array(),
+  tags: Yup.array(),
   dimensions: Yup.array(),
   brand: Yup.string().required("Brand is required"),
   inventory: Yup.object().shape({
@@ -33,7 +34,8 @@ const createProductSchema = Yup.object().shape({
   }),
   images: Yup.array().of(
     Yup.object().shape({
-      key: Yup.string().required("key is required"),
+      fileName: Yup.string().required("fileName is required"),
+      fileType: Yup.string().required("fileType is required"),
       contentType: Yup.string().required("contentType is required"),
       url: Yup.string().required("url is required"),
     })
@@ -155,30 +157,10 @@ export function CreateProduct() {
       },
       images: [
         {
-          key:
-            "ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV1.jpeg",
+          fileName: "refurb-iphone-xs-silver_AV1.jpeg",
+          fileType: "images",
           url:
             "https://raw-soda.s3.ap-south-1.amazonaws.com/ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV1.jpeg",
-          contentType: "image/jpeg",
-        },
-        {
-          key: "ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver.jpeg",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver.jpeg",
-          contentType: "image/jpeg",
-        },
-        {
-          key:
-            "ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV3.jpeg",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV3.jpeg",
-          contentType: "image/jpeg",
-        },
-        {
-          key:
-            "ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV2.jpeg",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV2.jpeg",
           contentType: "image/jpeg",
         },
       ],
@@ -231,7 +213,8 @@ export function CreateProduct() {
       ],
       colors: ["silver", "grey", "gold"],
       dimensions: [3, 2, 4],
-      categories: ["Phone"],
+      categories: ["smartphone"],
+      tags: ["iphone"],
       brand: "Apple",
     },
   };

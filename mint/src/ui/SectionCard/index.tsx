@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) =>
       flexDirection: "column",
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: "200px",
+      minHeight: "242px",
     },
     content: {
       height: "100%",
@@ -59,7 +59,7 @@ export const SectionCard = React.memo(function SectionCard({}) {
         <Box display={"flex"} pt={2.4}>
           <Button
             onClick={() => setShowModal(true)}
-            color={"primary"}
+            color={"secondary"}
             variant={"contained"}
           >
             Get Started

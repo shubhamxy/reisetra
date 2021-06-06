@@ -10,10 +10,11 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
-import { useProducts } from "../../libs";
+import { useProducts, useReviews } from "../../libs";
 import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
+import ReviewCard from "./review";
 
 type TStyles = {
   background: string;
@@ -196,14 +197,15 @@ export function GridItem({
   );
 }
 
-export function ShowCase() {
-  const query = useProducts();
+export function Reviews({id}: {id: string}) {
+  const query = useReviews(id);
   const router = useRouter();
   return (
     <GridList
       query={query}
+      emptyListCaption="No Reviews Yet"
       renderItem={({ item, index }) => (
-        <GridItem
+        <ReviewCard
           {...item}
           onClick={() => {
             router.push(`/product/${item.id}`);
