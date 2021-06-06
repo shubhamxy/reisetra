@@ -33,7 +33,7 @@ export class ProductController {
   ): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.product.getAllProducts(query);
-      return { data: results || [], meta: meta, message: testData };
+      return { data: results || [], meta: meta,};
     } catch (error) {
       throw new CustomException(
         error,
