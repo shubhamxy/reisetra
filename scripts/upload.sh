@@ -11,12 +11,6 @@ echo "Local date and time: $(date)"
 echo
 echo "*** Running commands on remote host named $_remote ***"
 echo
-ssh -i "~/.ssh/aws/Soda.pem" $_remote <<'EOL'
-  cd ~/server/soda
-  ls -la
-  nvm use default
-  yarn install
-  mv .env.production .env
-  yarn run start:prod
-  cd
-EOL
+
+ssh -i "~/.ssh/aws/Soda.pem" -tt $_remote < scripts/deploy.sh
+

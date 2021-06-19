@@ -63,7 +63,9 @@ export const pinoConfig: Params = {
         if (log["level"] >= 50 && log["err"])
           suffix += `${suffix} \n🚦 ${JSON.stringify(log.err, null, 4)}`;
         log["message"] = `${icons[log["level"]]} → ${log["message"]} ${suffix}`;
-        logger.log(log);
+        if(serviceEnv.logzio.enable){
+          logger.log(log);
+        }
         return log["message"];
       },
       hideObject: true,

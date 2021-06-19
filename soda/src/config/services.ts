@@ -19,6 +19,7 @@ export interface ServicesEnv {
     sesRegion: string;
   };
   logzio: {
+    enable: boolean;
     token: string;
     host: string;
   }
@@ -45,6 +46,7 @@ export const services = (): ServicesEnv => ({
     sesRegion: process.env.AWS_SES_REGION,
   },
   logzio: {
+    enable: Boolean(process.env.LOGZIO_TOKEN),
     host: process.env.LOGZIO_HOST,
     token: process.env.LOGZIO_TOKEN,
   }

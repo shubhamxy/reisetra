@@ -19,6 +19,8 @@ import { TransactionModule } from "./transaction/transaction.module";
 import { UserModule } from "./user/user.module";
 import { FilesModule } from "./files/files.module";
 import { ReviewModule } from "./review/review.module";
+import settings from "./config/settings";
+const settingsEnv = settings();
 
 @Module({
   imports: [
@@ -36,10 +38,7 @@ import { ReviewModule } from "./review/review.module";
       validationOptions: { config },
       validate,
     }),
-    ThrottlerModule.forRoot({
-      limit: 10000,
-      ttl: 120,
-    }),
+    ThrottlerModule.forRoot(settingsEnv.throttle),
     CacheModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
