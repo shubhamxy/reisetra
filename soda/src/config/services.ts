@@ -18,6 +18,10 @@ export interface ServicesEnv {
     sesEmailSender: string;
     sesRegion: string;
   };
+  logzio: {
+    token: string;
+    host: string;
+  }
 }
 
 export const services = (): ServicesEnv => ({
@@ -40,6 +44,10 @@ export const services = (): ServicesEnv => ({
     sesEmailSender: process.env.AWS_SES_DEFAULT_EMAIL_SENDER,
     sesRegion: process.env.AWS_SES_REGION,
   },
+  logzio: {
+    host: process.env.LOGZIO_HOST,
+    token: process.env.LOGZIO_TOKEN,
+  }
 });
 
 export default registerAs("services", services);

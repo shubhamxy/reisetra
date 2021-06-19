@@ -1,6 +1,18 @@
 import { Params } from "nestjs-pino";
+import {createLogger} from 'logzio-nodejs';
 import { statusText } from "../utils/statusText";
 import { app } from "./app";
+import services from "./services";
+const serviceEnv= services();
+const appEnv = app();
+
+const logger = createLogger({
+  token: serviceEnv.logzio.token,
+  host: serviceEnv.logzio.host,
+  protocol: "https",
+  port: "8071",
+  type: "nodejs",
+});
 
 const icons = {
   10: "🔵",
@@ -10,9 +22,9 @@ const icons = {
   50: "🚨",
   60: "🔴",
 };
-const appEnv = app();
 export const pinoConfig: Params = {
   pinoHttp: {
+    autoLogging: true,
     customLogLevel: function (res, err) {
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return "warn";
@@ -32,15 +44,15 @@ export const pinoConfig: Params = {
         error.message
       }`;
     },
+    messageKey: "message",
     genReqId: function (req) {
       return req.headers["requestid"];
     },
     prettyPrint: {
-      colorize: !appEnv.isProduction,
+      colorize: false,
       crlf: true,
       translateTime: "dd-mm-yyyy HH:MM:ss.l",
       messageFormat: function (log) {
-        // return ''
         let suffix = "";
         if (log["req"] && log["req"]["id"]) suffix = `| 👨‍💻 ${log["req"]["id"]}`;
         if (log["responseTime"])
@@ -50,7 +62,9 @@ export const pinoConfig: Params = {
           suffix = `| ${log["req"]["method"]} | ${log["req"]["url"]} ${suffix}`;
         if (log["level"] >= 50 && log["err"])
           suffix += `${suffix} \n🚦 ${JSON.stringify(log.err, null, 4)}`;
-        return `${icons[log["level"]]}  → ${log["msg"]} ${suffix}`;
+        log["message"] = `${icons[log["level"]]} → ${log["message"]} ${suffix}`;
+        logger.log(log);
+        return log["message"];
       },
       hideObject: true,
       ignore: "hostname,pid",

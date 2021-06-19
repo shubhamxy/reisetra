@@ -50,6 +50,7 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "logzio-nodejs": "^2.0.2",
     "nanoid": "^3.1.22",
     "nestjs-pino": "^1.4.0",
     "nodemailer": "^6.6.0",
