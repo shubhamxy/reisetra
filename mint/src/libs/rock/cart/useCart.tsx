@@ -22,6 +22,11 @@ export const useAddCartItem = () => {
   return useMutation(addCartItem, {
     onSuccess: () => {
       queryClient.invalidateQueries("cart");
+      dispatch(updateSnackBar({
+        message: 'Product added to cart successfully',
+        type: "success",
+        open: true,
+      }));
     },
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -87,7 +92,7 @@ export const useCartCheckout = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Cart Successfully checked out',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },

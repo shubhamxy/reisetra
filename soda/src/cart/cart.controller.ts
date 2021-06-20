@@ -71,7 +71,7 @@ export class CartController {
       throw new CustomException(
         error,
         HttpStatus.BAD_REQUEST,
-        "CartController.getUserCart"
+        "CartController.checkoutCart"
       );
     }
   }

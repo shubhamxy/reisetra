@@ -43,7 +43,7 @@ function calculateBilling(
   });
   let total = subTotal + tax + shipping;
   let itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0;
-  let grandTotal = total - itemDiscount;
+  let grandTotal = (total - itemDiscount) | 0; // convert to int
 
   return {
     subTotal,
@@ -262,6 +262,7 @@ export class CartService {
           "UserService.removeCartItem"
         );
       }
+
       if (userCart.items.length === 0) {
         throw new CustomError(
           "Cart is empty",
@@ -269,6 +270,7 @@ export class CartService {
           "UserService.removeCartItem"
         );
       }
+
       const offer = checkout.promo ? await  this.db.offer.findFirst({where: {AND: {label: checkout.promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
       const billing = calculateBilling(userCart.items, offer);
       console.log({billing});

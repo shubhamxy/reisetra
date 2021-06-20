@@ -95,6 +95,7 @@ export class TransactionService {
     }
   ): Promise<Order & { razorpayOptions: Record<string, any> }> {
     try {
+      console.log("createTransaction::started");
       const order = user.orders[0];
       if (!order.grandTotal) {
         throw new CustomError(
@@ -106,6 +107,7 @@ export class TransactionService {
 
       const servicesConfig = this.config.get<ServicesEnv>("services");
       const { razorpayKeyId, razorpaySecretKey } = servicesConfig.razorpay;
+      console.log("createTransaction::razorpay::started", razorpayKeyId);
       const response: AxiosResponse<RazororpayOrderResponse> = await this.httpService
         .post<RazororpayOrderResponse>(
           "https://api.razorpay.com/v1/orders",
@@ -124,6 +126,7 @@ export class TransactionService {
         .toPromise();
 
       const razorpayData = response.data;
+      console.log("createTransaction::razorpay::data", JSON.stringify(razorpayData, null, 4));
       if (razorpayData?.status === "created") {
         try {
           const product = await this.db.order.update({
@@ -160,6 +163,7 @@ export class TransactionService {
               },
             },
           });
+          console.log("createTransaction::razorpay::order.update", JSON.stringify(product, null, 4));
           const razorpayOptions = {
             key: razorpayKeyId,
             amount: product.transaction.amount,
@@ -182,6 +186,7 @@ export class TransactionService {
           };
           return { ...product, razorpayOptions };
         } catch (error) {
+          console.log("createTransaction::razorpay::order.update::error", JSON.stringify(error, null, 4));
           throw new CustomError(
             error?.meta?.cause || error.message,
             error.code,
@@ -189,6 +194,7 @@ export class TransactionService {
           );
         }
       } else {
+        console.log("createTransaction::razorpay::data::error");
         throw new CustomError(
           "Razorpay failed, please try again",
           errorCodes.RazorPayFailure,
@@ -196,6 +202,7 @@ export class TransactionService {
         );
       }
     } catch (error) {
+      console.log("createTransaction::transaction::data", JSON.stringify(error, null, 4));
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,

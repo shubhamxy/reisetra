@@ -8,7 +8,7 @@ export const useRefreshAuth = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Auth refreshed Successfully',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
@@ -27,7 +27,7 @@ export const useVerifyGoogleLogin = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Google verification success',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
@@ -46,7 +46,7 @@ export const useUserEmailLogin = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Email login success',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
@@ -65,7 +65,7 @@ export const useUserEmailForgotPassword = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Success',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
@@ -84,7 +84,7 @@ export const useUserEmailResetPassword = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Success',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
@@ -105,7 +105,7 @@ export const useUserEmailSignUp = () => {
     onSuccess: () => {
       dispatch(updateSnackBar({
         message: 'Email Signup Success',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
