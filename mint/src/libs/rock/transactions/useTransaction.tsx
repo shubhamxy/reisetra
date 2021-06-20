@@ -13,7 +13,7 @@ export const useUpdateTransaction = () => {
       queryClient.invalidateQueries("cart");
       globalDispatch(updateSnackBar({
         message: 'Transaction Success',
-        type: "error",
+        type: "success",
         open: true,
       }));
     },
