@@ -12,31 +12,57 @@ import {
   cartCheckout,
 } from "../api/cart";
 import { setAuthState, useAuthDispatch } from "../auth";
+import { updateSnackBar, useGlobalDispatch } from "../global";
 import { DataT, IErrorResponse, ISuccessResponse } from "../utils";
 
+
 export const useAddCartItem = () => {
+  const dispatch = useGlobalDispatch();
   const queryClient = useQueryClient();
   return useMutation(addCartItem, {
     onSuccess: () => {
       queryClient.invalidateQueries("cart");
     },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
   });
 };
 export const useDeleteCartItem = () => {
+  const dispatch = useGlobalDispatch();
   const queryClient = useQueryClient();
   return useMutation(removeCartItem, {
     onSuccess: () => {
       queryClient.invalidateQueries("cart");
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
     }
   });
 };
 
-export const useCartItem = (cartId: string, productId: string) =>
-  useQuery(["cart", cartId, productId], getCartItem, {
+export const useCartItem = (cartId: string, productId: string) => {
+  const dispatch = useGlobalDispatch();
+  return useQuery(["cart", cartId, productId], getCartItem, {
     enabled: !!cartId && !!productId,
     onSuccess: () => {},
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
   });
-
+}
 export const useCartItems = (cartId: string, promo: string) =>
   useQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
     ["cart", cartId || '', promo || ''],
@@ -56,10 +82,21 @@ export const useCartItems = (cartId: string, promo: string) =>
   );
 
 export const useCartCheckout = () => {
-
+  const dispatch = useGlobalDispatch();
   return useMutation(cartCheckout, {
     onSuccess: () => {
-
+      dispatch(updateSnackBar({
+        message: 'Cart Successfully checked out',
+        type: "error",
+        open: true,
+      }));
     },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
   });
 };

@@ -1,13 +1,120 @@
 import { useMutation } from "react-query";
 import { refreshAuthToken, loginEmailForgotPassword, oauthGoogleVerify, loginEmail, signupEmail, loginEmailResetPassword } from "../api/auth";
+import { updateSnackBar, useGlobalDispatch } from "../global";
 
-export const useRefreshAuth = () => useMutation(refreshAuthToken);
-export const useVerifyGoogleLogin = () => useMutation(oauthGoogleVerify);
-export const useUserEmailLogin = () => useMutation(loginEmail);
-export const useUserEmailForgotPassword = () => useMutation(loginEmailForgotPassword);
-export const useUserEmailResetPassword = () => useMutation(loginEmailResetPassword);
+export const useRefreshAuth = () => {
+  const dispatch = useGlobalDispatch();
+  return useMutation(refreshAuthToken, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message: 'Auth refreshed Successfully',
+        type: "error",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
+  })
+};
+export const useVerifyGoogleLogin = () => {
+  const dispatch = useGlobalDispatch();
+  return useMutation(oauthGoogleVerify, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message: 'Google verification success',
+        type: "error",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
+  })
+};
+export const useUserEmailLogin = () => {
+  const dispatch = useGlobalDispatch();
+  return useMutation(loginEmail, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message: 'Email login success',
+        type: "error",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
+  })
+};
+export const useUserEmailForgotPassword = () => {
+  const dispatch = useGlobalDispatch();
+  return useMutation(loginEmailForgotPassword, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message: 'Success',
+        type: "error",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
+  })
+};
+export const useUserEmailResetPassword = () => {
+  const dispatch = useGlobalDispatch();
+  return useMutation(loginEmailResetPassword, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message: 'Success',
+        type: "error",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
+  })
+};
 
 
-export const useUserEmailSignUp = () => useMutation(signupEmail);
-
-
+export const useUserEmailSignUp = () => {
+  const dispatch = useGlobalDispatch();
+  return useMutation(signupEmail, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message: 'Email Signup Success',
+        type: "error",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Server Error',
+        type: "error",
+        open: true,
+      }));
+    }
+  })
+};
