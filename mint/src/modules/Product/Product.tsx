@@ -571,9 +571,9 @@ export function Product({ id }) {
           <DetailsTable
             label={"Dimensions"}
             rows={[
-              createData("Width (mt)", data?.["dimensions"][0]),
-              createData("Height (mt)", data?.["dimensions"][1]),
-              createData("Depth (mt)", data?.["dimensions"][2]),
+              createData("Width", data?.["dimensions"][0]),
+              createData("Height", data?.["dimensions"][1]),
+              createData("Depth", data?.["dimensions"][2]),
             ]}
           />
         </Grid>
