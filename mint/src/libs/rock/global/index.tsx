@@ -37,6 +37,7 @@ interface SnackBar {
 
 interface GlobalState {
   snackbar: SnackBar;
+  promo: string;
 }
 
 const initialState: GlobalState = {
@@ -47,12 +48,14 @@ const initialState: GlobalState = {
     type: "info",
     onClick: null,
   },
+  promo: null,
 };
 
 enum ActionKind {
   OpenSnackBar = "OpenSnackBar",
   CloseSnackBar = "CloseSnackBar",
   UpdateSnackBar = "UpdateSnackBar",
+  UpdatePromo = "UpdatePromo",
 }
 
 type Action = {
@@ -70,6 +73,11 @@ export const closeSnackBar: Action = {
 
 export const updateSnackBar = (payload: Partial<SnackBar>): Action => ({
   type: ActionKind.UpdateSnackBar,
+  payload,
+});
+
+export const updatePromo = (payload: any): Action => ({
+  type: ActionKind.UpdatePromo,
   payload,
 });
 
@@ -100,6 +108,12 @@ function reducer(state: GlobalState, action: Action): GlobalState {
           ...action.payload,
         },
       };
+
+      case ActionKind.UpdatePromo:
+        return {
+          ...state,
+          promo: action.payload as string,
+        };
     default:
       return state;
   }

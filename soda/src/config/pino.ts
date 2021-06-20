@@ -1,12 +1,12 @@
 import { Params } from "nestjs-pino";
-import {createLogger} from 'logzio-nodejs';
+import { createLogger } from "logzio-nodejs";
 import { statusText } from "../utils/statusText";
 import { app } from "./app";
-import services from "./services";
-const serviceEnv= services();
+import {services} from "./services";
+const serviceEnv = services();
 const appEnv = app();
-
 const logger = createLogger({
+  supressErrors: true,
   token: serviceEnv.logzio.token,
   host: serviceEnv.logzio.host,
   protocol: "https",
@@ -44,7 +44,6 @@ export const pinoConfig: Params = {
         error.message
       }`;
     },
-    messageKey: "message",
     genReqId: function (req) {
       return req.headers["requestid"];
     },
@@ -54,6 +53,9 @@ export const pinoConfig: Params = {
       translateTime: "dd-mm-yyyy HH:MM:ss.l",
       messageFormat: function (log) {
         let suffix = "";
+        if(log['req']) {
+          log["ip"] = (log["req"]['ip'] || log["req"]["headers"]["x-forwarded-for"] || (log["req"]["socket"] ? log["req"]["socket"]["remoteAddress"] : log["req"]["remoteAddress"]));
+        }
         if (log["req"] && log["req"]["id"]) suffix = `| 👨‍💻 ${log["req"]["id"]}`;
         if (log["responseTime"])
           suffix = `| ✨ ${log["responseTime"]}ms ${suffix}`;
@@ -62,8 +64,8 @@ export const pinoConfig: Params = {
           suffix = `| ${log["req"]["method"]} | ${log["req"]["url"]} ${suffix}`;
         if (log["level"] >= 50 && log["err"])
           suffix += `${suffix} \n🚦 ${JSON.stringify(log.err, null, 4)}`;
-        log["message"] = `${icons[log["level"]]} → ${log["message"]} ${suffix}`;
-        if(serviceEnv.logzio.enable){
+        log["message"] = `${icons[log["level"]]} → ${log["msg"]} ${suffix}`;
+        if (serviceEnv.logzio.enable) {
           logger.log(log);
         }
         return log["message"];

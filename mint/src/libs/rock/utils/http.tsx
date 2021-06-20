@@ -71,10 +71,9 @@ async function http<S, E = any>(
     const access_token = storage.get.access_token();
     config = config || {};
     config.headers = config.headers || {};
-    config.headers["Authorization"] =
-      config.headers["Authorization"] || access_token
-        ? `Bearer ${access_token}`
-        : undefined;
+    if(access_token) {
+      config.headers["Authorization"] = `Bearer ${access_token}`
+    }
     config.headers["Content-Type"] = "application/json";
   }
 
@@ -82,13 +81,14 @@ async function http<S, E = any>(
   const response = await fetch(request);
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    if (response.status === 401 && withAPI && config.headers["Authorization"]) {
+    if (response.status === 401 && withAPI && config.headers["Authorization"] && !config.headers['X-Refresh-Token']) {
       const response = await refreshAuthToken();
       if (response.data.access_token && response.data.refresh_token) {
         storage.put.access_token(response.data.access_token);
         storage.put.refresh_token(response.data.refresh_token);
         return http(path, config, withAPI);
       }
+      storage.clear();
     }
 
     throw new HTTPError<E>(data);
@@ -139,5 +139,14 @@ export async function putRaw<ResponseT = DataT, ErrorT = DataT>(
   withAPI = false
 ): Promise<ISuccessResponse<ResponseT>> {
   const init = { method: "put", body: body, ...config };
+  return await http<ISuccessResponse<ResponseT>, ErrorT>(path, init, withAPI);
+}
+
+export async function del<ResponseT = DataT, ErrorT = DataT>(
+  path: string,
+  config?: RequestInit,
+  withAPI = true
+): Promise<ISuccessResponse<ResponseT>> {
+  const init = { method: "delete", ...config };
   return await http<ISuccessResponse<ResponseT>, ErrorT>(path, init, withAPI);
 }

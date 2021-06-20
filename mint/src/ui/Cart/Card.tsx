@@ -1,38 +1,50 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Box, IconButton, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
-function useHelper({ id }) {
+import { Grid } from "@material-ui/core";
+import {CloseOutlined} from '@material-ui/icons'
+import { useCartItem, useDeleteCartItem } from "../../libs";
+function useHelper({ id, data }) {
   const router = useRouter();
+  const removeCartItem = useDeleteCartItem()
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
     router.push(`/product/${id}?ref=${encodeURIComponent(router.asPath)}`);
   }
+
+  function handleRemove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    removeCartItem.mutate({cartId: data.cartId, productId: data.productId})
+  }
+
   return {
     handleClick,
+    handleRemove,
   };
 }
 
 export function ProductCard({ data }) {
   const { id, title, description, price, mrp, images } = data.product;
-  const { handleClick } = useHelper({
+  const { handleClick, handleRemove } = useHelper({
     id,
+    data,
   });
 
   const classes = useStyles();
   return (
-    <Box className={classes.root} onClick={handleClick}>
-      <Box className={classes.cover}>
+    <Grid container item xs={12} className={classes.root} onClick={handleClick} direction="row">
+      <Grid item className={classes.cover}>
         <Box
           borderRadius="12px"
           overflow="hidden"
           display="flex"
           justifyContent="center"
           alignItems="center"
-          bgcolor="#F0F3F6"
+          bgcolor="#FFFFFF"
           width="62px"
           height="62px"
         >
@@ -47,18 +59,23 @@ export function ProductCard({ data }) {
             <Image src="/icons/file.svg" width={24} height={24} />
           )}
         </Box>
-      </Box>
-      <Box className={classes.content} ml={1.2}>
-        <Typography
-          className={classes.contentText}
-          variant="body1"
-          color="textPrimary"
-          component="p"
-        >
-          {title}
-        </Typography>
-        <Box display="flex" flexDirection="column">
-          <Box display="flex" justifyContent="space-between" flex={1}>
+      </Grid>
+      <Grid container item xs className={classes.content} direction="column">
+        <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
+          <Typography
+            className={classes.title}
+            variant="body1"
+            color="textPrimary"
+            component="p"
+          >
+            {title}
+          </Typography>
+          <IconButton aria-label="delete" onClick={handleRemove}>
+            <CloseOutlined color="primary" />
+          </IconButton>
+        </Grid>
+        <Grid container item xs direction="column">
+          <Grid item xs={12} style={{display: 'flex'}} justify="space-between" direction="row">
             {data.quantity && (
               <Typography
                 className={classes.subText}
@@ -91,9 +108,9 @@ export function ProductCard({ data }) {
                 size: {data.size}
               </Typography>
             )}
-          </Box>
+          </Grid>
 
-          <Box display="flex">
+          <Grid item xs={12} style={{display: 'flex'}} justify="space-between" direction="row">
             <Typography
               className={classes.subText}
               variant="body1"
@@ -111,9 +128,10 @@ export function ProductCard({ data }) {
             >
               {`₹ ${Math.ceil(price) || 1}`}
             </Typography>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+          </Grid>
+
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

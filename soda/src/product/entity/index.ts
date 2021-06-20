@@ -8,7 +8,7 @@ export class Product implements ProductModel {
   colors: string[];
   sizes: string[];
 
-  dimensions: number[];
+  dimensions: string[];
   details: Prisma.JsonValue;
   published: boolean;
   price: number;

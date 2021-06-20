@@ -5,7 +5,7 @@ ls -la
 nvm use default
 yarn install
 mv .env.production .env
-yarn run start:prod
+yarn run deploy:prod
 cd
 
 exit

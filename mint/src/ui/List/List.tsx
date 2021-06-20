@@ -96,7 +96,7 @@ export function List(props: ListProps) {
           {Array.isArray(data) && data.length > 0 ? (
             <MaterialList className={classes.list}>
               {data.map((item, index) => (
-                <MaterialListItem key={keyExtractor(item, index)} divider>
+                <MaterialListItem key={keyExtractor(item, index)} divider={false} disableGutters>
                   {renderItem({ item, index })}
                   {!(index === data.length - 1) &&
                     ItemSeparatorComponent && ItemSeparatorComponent}

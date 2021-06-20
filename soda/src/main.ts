@@ -1,13 +1,13 @@
-require("dotenv").config();
-
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+// require this to be on top
 import { setupNestApp, nestOptions } from "./setupNestApp";
+import { NestFactory } from "@nestjs/core";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
   try {
     console.log("🦺 Bootstrapping Nest App");
-    const app = await NestFactory.create(AppModule, nestOptions);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, nestOptions);
     const config = setupNestApp(app);
     await app.listen(config.port);
   } catch (error) {

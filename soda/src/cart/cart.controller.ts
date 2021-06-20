@@ -14,10 +14,14 @@ import { CartService } from "./cart.service";
 import { CustomException, SuccessResponse } from "src/common/response";
 import {
   CheckoutDto,
+  CreateOfferDto,
+  DeleteOfferDto,
   GetAllCartsDto,
   UpdateCartItemDto,
+  UpdateOfferDto,
 } from "./dto";
 import { AuthenticatedRequest } from "src/auth/auth.interface";
+import { Public } from "src/auth/decorator/public.decorator";
 @Controller()
 export class CartController {
   constructor(private readonly cart: CartService) {}
@@ -41,9 +45,10 @@ export class CartController {
   @Get("cart/:id")
   async getUserCart(
     @Param("id") id: string,
+    @Query("promo") promo: string,
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.cart.getCart(id);
+      const data = await this.cart.getCart(id, promo);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -117,6 +122,72 @@ export class CartController {
         error,
         HttpStatus.BAD_REQUEST,
         "CartController.deleteCartItem"
+      );
+    }
+  }
+
+  @Public()
+  @Get("offers")
+  async getOffers(
+    @Query("label") label: string,
+    @Query("type") type: string
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.cart.getOffers(label, type);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "CartController.getOffers"
+      );
+    }
+  }
+
+  @Post("offers")
+  async createOffers(
+    @Body() body: CreateOfferDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.cart.createOffers(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "CartController.createOffers"
+      );
+    }
+  }
+
+  @Put("offers")
+  async updateOffers(
+    @Body() body: UpdateOfferDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.cart.updateOffers(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "CartController.updateOffers"
+      );
+    }
+  }
+
+  @Delete("offers")
+  async deleteOffers(
+    @Body() body: DeleteOfferDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.cart.deleteOffers(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "CartController.deleteOffers"
       );
     }
   }

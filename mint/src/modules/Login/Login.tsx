@@ -14,6 +14,8 @@ import { useUserEmailLogin } from "../../libs/rock/auth/useAuth";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
 import { login, useAuthDispatch } from "../../libs/rock/auth";
+import { Icon } from "../../ui/Image";
+import { Logo } from "../../ui/Logo";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -204,7 +206,7 @@ export function LogIn() {
       >
         <Box display="flex" className={classes.logo}>
           <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Image src="/images/logo.svg" height="30px" width="30px" />
+            <Logo />
           </Link>
         </Box>
       </Grid>

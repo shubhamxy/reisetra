@@ -282,7 +282,17 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       },
       MuiButton: {
         text: {
+          borderRadius: 8,
+          paddingLeft: 16,
+          paddingRight: 16,
+          "&:disabled": {
+            opacity: 0.4,
+          },
+          "&:focus": {
+            boxShadow: `0px 0px 0px 4px ${primary.main}33`,
+          },
           "&:hover": {
+            boxShadow: `0px 0px 0px 4px ${primary.main}33`,
             backgroundColor: "unset",
           },
         },

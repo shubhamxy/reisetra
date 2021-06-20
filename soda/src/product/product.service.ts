@@ -76,7 +76,15 @@ export class ProductService {
           ...(price ? { price: { gte: +price[0], lte: +price[1] } } : {}),
           ...(category ? { categories: { some: { value: category } } } : {}),
           ...(tags
-            ? { tags: { some: { OR: Array.isArray(tags) ? tags.map((t) => ({ value: t })) : [{value: tags}] } } }
+            ? {
+                tags: {
+                  some: {
+                    OR: Array.isArray(tags)
+                      ? tags.map((t) => ({ value: t }))
+                      : [{ value: tags }],
+                  },
+                },
+              }
             : {}),
         },
         include: {
@@ -133,7 +141,15 @@ export class ProductService {
         ...(price ? { price: { gte: +price[0], lte: +price[1] } } : {}),
         ...(category ? { categories: { some: { value: category } } } : {}),
         ...(tags
-          ? { tags: { some: { OR: Array.isArray(tags) ? tags.map((t) => ({ value: t })) : [{value: tags}] } } }
+          ? {
+              tags: {
+                some: {
+                  OR: Array.isArray(tags)
+                    ? tags.map((t) => ({ value: t }))
+                    : [{ value: tags }],
+                },
+              },
+            }
           : {}),
       },
       include: {
@@ -197,25 +213,33 @@ export class ProductService {
   ): Promise<any> {
     try {
       const { inventory, images, tags, categories, ...productData } = update;
+      const updateData = productData;
+      if (images && images.length > 0) {
+        updateData["images"] = {
+          createMany: {
+            data: images?.map((item) => ({ ...item, userId })),
+          },
+        };
+      }
+      if (inventory) {
+        updateData["inventory"] = {
+          update: inventory,
+        };
+      }
+      if (tags) {
+        updateData["tags"] = {
+          set: tags?.map((tag) => ({ value: tag })),
+        };
+      }
+      if (categories) {
+        updateData["categories"] = {
+          set: categories?.map((category) => ({ value: category })),
+        };
+      }
+
       const data = await this.db.product.update({
         where: { id: productId },
-        data: {
-          ...productData,
-          images: {
-            createMany: {
-              data: images.map((item) => ({ ...item, userId })),
-            },
-          },
-          inventory: {
-            update: inventory,
-          },
-          tags: {
-            set: tags.map((tag) => ({ value: tag })),
-          },
-          categories: {
-            set: categories.map((category) => ({ value: category })),
-          },
-        },
+        data: updateData,
         include: {
           categories: true,
           tags: true,
@@ -255,19 +279,6 @@ export class ProductService {
     try {
       const categories = await this.db.category.findMany({});
       return categories;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "ProductService.getCategories"
-      );
-    }
-  }
-
-  async getTags(): Promise<any> {
-    try {
-      const tags = await this.db.tag.findMany({});
-      return tags;
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -328,6 +339,19 @@ export class ProductService {
         error?.meta?.cause || error.message,
         error.code,
         "ProductService.deleteTags"
+      );
+    }
+  }
+
+  async getTags(): Promise<any> {
+    try {
+      const tags = await this.db.tag.findMany({});
+      return tags;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.getCategories"
       );
     }
   }

@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as React from "react";
-import { useAuthState, useCartItems } from "../../libs";
+import { useAuthState, useCartItems, useGlobalState } from "../../libs";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -87,9 +87,12 @@ const useStyles = makeStyles((theme) =>
 export function CheckoutSummary() {
   const classes = useStyles();
   const authState = useAuthState();
-  const { data: response } = useCartItems(authState?.user?.cart.id);
+  const globalState = useGlobalState();
+  const { data: response } = useCartItems(
+    authState?.user?.cart.id,
+    globalState?.promo || null
+  );
   const data = response.data;
-
   return (
     <Paper className={classes.root}>
       <Box
@@ -99,12 +102,12 @@ export function CheckoutSummary() {
         pb={2.6}
       >
         <Box pt={0.6} pb={0.6}>
-          <Typography variant={"h5"} style={{ color: "#fff" }}>
+          <Typography variant={"h5"}>
             Order Summary
           </Typography>
         </Box>
 
-        <Typography variant={"subtitle2"} className={classes.subtext}>
+        <Typography variant={"caption"} >
           Grand total of your purchase
         </Typography>
       </Box>
@@ -122,7 +125,7 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  ₹{String(data['subTotal'])}
+                  ₹{String(data["subTotal"])}
                 </Typography>
               </Grid>
             </Grid>
@@ -131,7 +134,9 @@ export function CheckoutSummary() {
                 <Typography className={classes.subtext}>Taxes</Typography>
               </Grid>
               <Grid item>
-                <Typography className={classes.subtext}>₹{data['tax']}</Typography>
+                <Typography className={classes.subtext}>
+                  ₹{data["tax"]}
+                </Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} container>
@@ -142,7 +147,7 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  {data['shipping'] === 0 ? "Free" : `₹${data['shipping']}`}
+                  {data["shipping"] === 0 ? "Free" : `₹${data["shipping"]}`}
                 </Typography>
               </Grid>
             </Grid>
@@ -152,43 +157,50 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  ₹{data['total']}
+                  ₹{data["total"]}
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Typography className={classes.subtext}>Promo</Typography>
+            {data["promo"] && (
+              <Grid item xs={12} container>
+                <Grid item xs>
+                  <Typography className={classes.subtext}>Promo</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.subtext}>
+                    {data?.["promo"]?.toUpperCase()}{" "}
+                    {data["discount"] > 0 ? `(${data["discount"]}% off)` : "-"}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography
-                  className={classes.subtext}
-                >
-                  {data?.['promo']?.toUpperCase()} ({data['discount']}% off)
-                </Typography>
+            )}
+            {+data["itemDiscount"] > 0 && (
+              <Grid item xs={12} container>
+                <Grid item xs>
+                  <Typography className={classes.subtext}>Discount</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.subtext}>
+                    -₹{data["itemDiscount"]}
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Typography className={classes.subtext}>Discount</Typography>
-              </Grid>
-              <Grid item>
-                <Typography className={classes.subtext}>
-                  -₹{data['itemDiscount']}
-                </Typography>
-              </Grid>
-            </Grid>
+            )}
 
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Typography className={classes.subtext}>Grand Total</Typography>
+            {+data["grandTotal"] > 0 && (
+              <Grid item xs={12} container>
+                <Grid item xs>
+                  <Typography className={classes.subtext}>
+                    Grand Total
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.subtext}>
+                    ₹{data["grandTotal"]}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography className={classes.subtext}>
-                  ₹{data['grandTotal']}
-                </Typography>
-              </Grid>
-            </Grid>
+            )}
           </Grid>
         </List>
       </Box>

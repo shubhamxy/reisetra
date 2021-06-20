@@ -4,6 +4,8 @@ import { Address } from "../entity";
 type Excluded = "id" | "active" | "createdAt" | "updatedAt" | "userId";
 
 export class GetAllAddressDto extends CursorPaginationDTO {}
+export class GetAddressesDto extends CursorPaginationDTO {}
+
 
 export class CreateAddressDto implements Omit<Address, Excluded> {
   state: string;

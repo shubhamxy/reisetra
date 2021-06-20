@@ -1,34 +1,22 @@
 FROM node:12.13-alpine As development
 
-ARG SSH_KEY
-
 RUN apk add git openssh-client
-
-# RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
-
 WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN ssh-agent sh -c 'npm install --only=development'
 
 COPY . .
 
-RUN npm run build
+RUN yarn run install
+RUN yarn run build
+
+EXPOSE 8080
+CMD [ "npm", "start" ]
 
 FROM node:12.13-alpine as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-
-RUN npm install --only=production
-
-COPY . .
-
+COPY --from=development /usr/src/app/node_modules ./usr/src/app/node_modules
 COPY --from=development /usr/src/app/dist ./usr/src/app/dist
 
-CMD ["node", "/usr/src/app/dist/main"]
+EXPOSE 8080
+CMD ["node", "dist/main"]

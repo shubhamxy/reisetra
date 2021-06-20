@@ -43,7 +43,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import { useCartItems } from "../../libs";
+import { useCartItems, useGlobalState } from "../../libs";
 import { Footer, List } from '../List';
 import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
 import { Cart } from "../Cart";
@@ -184,7 +184,8 @@ export function AppHeader() {
   const [open, setOpen] = React.useState(false);
   const [searchText, setSearchText] = useState("");
   const authState = useAuthState();
-  const {data: response} = useCartItems(authState?.user?.cart.id);
+  const globalState = useGlobalState();
+  const {data: response} = useCartItems(authState?.user?.cart.id, globalState?.promo || null);
   const data = response.data;
   const authDispatch = useAuthDispatch();
   const debounced = useDebouncedCallback((value) => {

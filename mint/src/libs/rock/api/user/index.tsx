@@ -1,5 +1,8 @@
-import { get, post, put } from "../../utils/http";
-
+import { useInfiniteQuery } from "react-query";
+import { DataT, del, get,  IErrorResponse, ISuccessResponse, post, put,  } from "../../utils/http";
+const queryString = require('query-string');
+import pickBy from "lodash.pickby";
+import identity from "lodash.identity";
 export interface UserProfile {
   id: string;
   email: string;
@@ -35,6 +38,32 @@ interface IAddress {
   city: string;
   country: string;
 }
+
+
+interface PaginationParams {
+  [key: string]: string;
+  size?: string;
+  buttonNum?: string;
+  cursor?: string;
+  orderBy?: string;
+  orderDirection?: "desc" | "asc";
+}
+
+export function getAddreses(params: PaginationParams) {
+  const qs = queryString.stringify(pickBy(params, identity));
+  return get<Partial<IAddress[]>>(`addresses?${qs}`);
+}
+
+
 export function createAddress(body: Partial<IAddress>) {
   return post<Partial<IAddress>, Partial<IAddress>>("address", body);
 }
+
+export function updateAddress({addressId, body}: {addressId: string, body: Partial<IAddress>}) {
+  return put<Partial<IAddress>, Partial<IAddress>>(`address/${addressId}`, body);
+}
+
+export function deleteAddress(addressId: string) {
+  return del<Partial<IAddress>>(`address/${addressId}`);
+}
+

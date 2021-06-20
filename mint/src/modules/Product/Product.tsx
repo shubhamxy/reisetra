@@ -291,6 +291,10 @@ export function Product({ id }) {
   }, [data]);
 
   function handleAddToCart() {
+    if(!user) {
+      router.push(`/login?ref=${encodeURIComponent(router.asPath)}`)
+      return;
+    }
     addCartItem.mutate(
       {
         body: {

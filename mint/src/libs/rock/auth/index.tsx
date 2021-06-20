@@ -137,7 +137,11 @@ function useAuth() {
   useEffect(() => {
     if (state.isAuthenticated) {
       if (router.route === "/login" || router.route === "/signup") {
-        router.replace("/");
+        if(router.query.ref) {
+          router.replace(router.query.ref as string);
+        } else {
+          router.replace("/");
+        }
       }
     } else {
       if (privateRoutes.has(router.route)) {

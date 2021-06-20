@@ -19,6 +19,7 @@ import { useUserEmailSignUp } from "../../libs/rock/auth/useAuth";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
 import { login, useAuthDispatch } from "../../libs/rock/auth";
+import { Logo } from "../../ui/Logo";
 
 const SignUpSchema = Yup.object().shape({
   tos: Yup.boolean().isTrue("Agreement is required for signup."),
@@ -222,7 +223,7 @@ export function SignUp() {
       >
         <Box display="flex" className={classes.logo}>
           <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Image src="/images/logo.svg" height="30px" width="30px" />
+            <Logo />
           </Link>
         </Box>
       </Grid>

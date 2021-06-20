@@ -141,7 +141,7 @@ CREATE TABLE "Product" (
     "colors" TEXT[],
     "sizes" TEXT[],
     "rating" INTEGER NOT NULL DEFAULT 5,
-    "dimensions" INTEGER[],
+    "dimensions" TEXT[],
     "details" JSONB NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
     "mrp" DOUBLE PRECISION NOT NULL,
@@ -169,6 +169,16 @@ CREATE TABLE "Inventory" (
 );
 
 -- CreateTable
+CREATE TABLE "Offer" (
+    "label" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "type" TEXT NOT NULL DEFAULT E'promo',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
     "subTotal" DOUBLE PRECISION NOT NULL DEFAULT 0,
@@ -176,9 +186,9 @@ CREATE TABLE "Order" (
     "tax" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "shipping" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "total" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "promo" TEXT,
     "discount" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "grandTotal" DOUBLE PRECISION NOT NULL,
+    "promo" TEXT,
     "userId" TEXT NOT NULL,
     "addressId" TEXT NOT NULL,
     "cartId" TEXT NOT NULL,
@@ -249,6 +259,9 @@ CREATE UNIQUE INDEX "Product_inventoryId_unique" ON "Product"("inventoryId");
 CREATE UNIQUE INDEX "Inventory.sku_unique" ON "Inventory"("sku");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Offer.label_unique" ON "Offer"("label");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_ProductToTag_AB_unique" ON "_ProductToTag"("A", "B");
 
 -- CreateIndex
@@ -298,6 +311,9 @@ ALTER TABLE "Order" ADD FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON 
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD FOREIGN KEY ("promo") REFERENCES "Offer"("label") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD FOREIGN KEY ("id") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;

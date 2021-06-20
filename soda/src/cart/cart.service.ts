@@ -8,10 +8,18 @@ import { PrismaService } from "src/common/modules/db/prisma.service";
 import { RedisService } from "src/common/modules/redis/redis.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
 import { CartItemRO } from "./interfaces";
-import { CheckoutDto, UpdateCartItemDto } from "./dto";
+import {
+  CheckoutDto,
+  CreateOfferDto,
+  DeleteOfferDto,
+  UpdateCartItemDto,
+  UpdateOfferDto,
+} from "./dto";
 import { TransactionService } from "src/transaction/transaction.service";
 import { CartItem, Order, Product } from ".prisma/client";
 import { errorCodes } from "src/common/codes/error";
+import { Offer } from "./entity";
+
 
 function calculateBilling(
   cartItemsWithProduct: {
@@ -22,7 +30,8 @@ function calculateBilling(
       mrp: number;
       taxCode?: string;
     };
-  }[]
+  }[],
+  offer: Offer | null
 ) {
   let subTotal = 0;
   let tax = 0;
@@ -30,11 +39,10 @@ function calculateBilling(
   cartItemsWithProduct.forEach((item) => {
     let itemPrice = item.quantity * item.product.price;
     subTotal += itemPrice;
-    tax +=
-      (Number(itemPrice) * Number(item.product.tax || 18.5)) / 100;
+    tax += (Number(itemPrice) * Number(item.product.tax || 18.5)) / 100;
   });
   let total = subTotal + tax + shipping;
-  let itemDiscount = (total * 20) / 100;
+  let itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0;
   let grandTotal = total - itemDiscount;
 
   return {
@@ -43,8 +51,8 @@ function calculateBilling(
     shipping,
     itemDiscount,
     total,
-    promo: "new",
-    discount: 20,
+    promo: offer ? offer.label : null,
+    discount: (total - grandTotal) / total * 100,
     grandTotal,
   };
 }
@@ -88,9 +96,7 @@ export class CartService {
     }
   }
 
-  async getCart(
-    cartId: string,
-  ): Promise<any> {
+  async getCart(cartId: string, promo: string): Promise<any> {
     try {
       const cart = await this.db.cart.findUnique({
         where: {
@@ -102,20 +108,21 @@ export class CartService {
               product: {
                 include: {
                   images: true,
-                }
+                },
               },
-            }
+            },
           },
-        }
+        },
       });
-      if(!cart) {
+      if (!cart) {
         throw new CustomError(
           "Cart not found",
           errorCodes.CartNotFound,
           "UserService.getAllCarts"
         );
       }
-      const billing = calculateBilling(cart.items);
+      const offer = promo ? await this.db.offer.findFirst({where: {AND: {label: promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
+      const billing = calculateBilling(cart.items, offer);
       return {
         ...cart,
         ...billing,
@@ -131,12 +138,14 @@ export class CartService {
 
   async getCartItem(cartId: string, productId: string): Promise<any> {
     try {
-      const cart = await this.db.cartItem.findUnique({ where: {
-        productId_cartId: {
-          cartId,
-          productId,
-        }
-      } });
+      const cart = await this.db.cartItem.findUnique({
+        where: {
+          productId_cartId: {
+            cartId,
+            productId,
+          },
+        },
+      });
       return cart;
     } catch (error) {
       throw new CustomError(
@@ -147,7 +156,11 @@ export class CartService {
     }
   }
 
-  async updateCart(cartId: string, productId: string, update: UpdateCartItemDto): Promise<any> {
+  async updateCart(
+    cartId: string,
+    productId: string,
+    update: UpdateCartItemDto
+  ): Promise<any> {
     try {
       const data = this.db.cart.update({
         where: {
@@ -174,12 +187,12 @@ export class CartService {
                 productId_cartId: {
                   productId,
                   cartId,
-                }
-              }
-            }
-          }
-        }
-      })
+                },
+              },
+            },
+          },
+        },
+      });
       return data;
     } catch (error) {
       throw new CustomError(
@@ -190,22 +203,21 @@ export class CartService {
     }
   }
 
-
   async removeCartItem(cartId: string, productId: string): Promise<any> {
     try {
       const data = await this.db.cart.update({
-        where: {id: cartId},
-        select: {id: true},
+        where: { id: cartId },
+        select: { id: true },
         data: {
           items: {
             delete: {
               productId_cartId: {
                 cartId,
                 productId,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       });
       return data;
     } catch (error) {
@@ -216,7 +228,6 @@ export class CartService {
       );
     }
   }
-
 
   async checkoutCart(
     userId: string,
@@ -233,34 +244,35 @@ export class CartService {
           AND: {
             id: checkout.cartId,
             userId: userId,
-          }
+          },
         },
         select: {
           items: {
             include: {
               product: true,
-            }
+            },
           },
         },
       });
 
-      if(!userCart) {
+      if (!userCart) {
         throw new CustomError(
           "Cart not found",
           errorCodes.CartNotFound,
           "UserService.removeCartItem"
         );
       }
-      if(userCart.items.length === 0) {
+      if (userCart.items.length === 0) {
         throw new CustomError(
           "Cart is empty",
           errorCodes.CartIsEmpty,
           "UserService.removeCartItem"
         );
       }
-      const billing = calculateBilling(userCart.items);
-
+      const offer = checkout.promo ? await  this.db.offer.findFirst({where: {AND: {label: checkout.promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
+      const billing = calculateBilling(userCart.items, offer);
       console.log({billing});
+
       const user = await this.db.user.update({
         where: { id: userId },
         data: {
@@ -287,11 +299,86 @@ export class CartService {
 
       return this.txn.createTransaction(user);
     } catch (error) {
-      console.log(error);
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
         "UserService.removeCartItem"
+      );
+    }
+  }
+
+  async getOffers(label: string, type: string): Promise<any> {
+    try {
+      const offers = await this.db.offer.findFirst({
+        rejectOnNotFound: true,
+        where: {
+          label: label,
+        },
+      });
+      return offers;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "UserService.getOffers"
+      );
+    }
+  }
+
+  async createOffers(data: CreateOfferDto): Promise<any> {
+    try {
+      const offers = await this.db.offer.createMany({
+        data: data.data,
+      });
+      return offers;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.findAllOffset"
+      );
+    }
+  }
+
+  async updateOffers(data: UpdateOfferDto): Promise<any> {
+    try {
+      // TODO: find beter way??
+      const update = await Promise.all(
+        data.data.map((offer) => {
+          return this.db.offer.update({
+            where: { label: offer.label },
+            data: {
+              value: offer.value,
+            },
+          });
+        })
+      );
+      return update;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.updateCategories"
+      );
+    }
+  }
+
+  async deleteOffers(data: DeleteOfferDto): Promise<any> {
+    try {
+      const deleted = await this.db.offer.updateMany({
+        where: {
+          label: { in: data.data.map((item) => item.label) },
+        },
+        data: {
+          active: false,
+        },
+      });
+      return deleted;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.deleteTags"
       );
     }
   }

@@ -1,4 +1,4 @@
-import { get, post, put } from "../../utils/http";
+import { del, get, post, put } from "../../utils/http";
 import pickBy from "lodash.pickby";
 import identity from "lodash.identity";
 
@@ -10,8 +10,8 @@ export function addCartItem({cartId, productId, body}) {
   return put(`cart/${cartId}/${productId}`, body);
 }
 
-export function removeCartItem(body) {
-  return post("cart", body);
+export function removeCartItem({cartId, productId}: {cartId: string, productId: string}) {
+  return del(`cart/${cartId}/${productId}`);
 }
 
 interface PaginationParams {
@@ -23,8 +23,8 @@ interface PaginationParams {
   orderDirection?: "desc" | "asc";
 }
 
-export function getCart({ queryKey }: {queryKey: [string, string]}) {
-  return get(`cart/${queryKey[1]}`);
+export function getCart({ queryKey }: {queryKey: [string, string, string]}) {
+  return get(`cart/${queryKey[1]}${queryKey[2] ? `?promo=${queryKey[2]}`: ''}`);
 }
 
 export function cartCheckout(body) {

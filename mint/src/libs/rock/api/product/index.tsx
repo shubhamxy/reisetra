@@ -9,7 +9,7 @@ export interface CreateProductDTO {
   price: number;
   published: boolean;
   sizes: string[];
-  dimensions?: number[];
+  dimensions?: string[];
   details?: {
     label: string;
     value: string;

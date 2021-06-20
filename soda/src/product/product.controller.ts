@@ -115,6 +115,7 @@ export class ProductController {
     }
   }
 
+  @Public()
   @Get("tags")
   async getTags(): Promise<SuccessResponse> {
     try {
@@ -171,6 +172,7 @@ export class ProductController {
     }
   }
 
+  @Public()
   @Get("categories")
   async getCategories(): Promise<SuccessResponse> {
     try {

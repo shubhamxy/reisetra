@@ -53,20 +53,20 @@ enum FileType {
 }
 
 model File {
-  fileName    String
-  fileType    FileType
-  user        User    @relation(fields: [userId], references: [id])
-  userId      String
+  fileName String
+  fileType FileType
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
 
   url         String?
   contentType String?
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  product   Product? @relation(fields: [productId], references: [id])
-  productId String?
-  review   Review? @relation(fields: [reviewId], references: [id])
-  reviewId String?
+  product     Product? @relation(fields: [productId], references: [id])
+  productId   String?
+  review      Review?  @relation(fields: [reviewId], references: [id])
+  reviewId    String?
   @@unique([userId, fileName, fileType])
 }
 
@@ -96,7 +96,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   transactions Transaction[]
-  files         File[]
+  files        File[]
 }
 
 model Cart {
@@ -177,9 +177,9 @@ model Review {
   product   Product? @relation(fields: [productId], references: [id])
   productId String?
 
-  active        Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
@@ -197,7 +197,7 @@ model Product {
   rating  Int      @default(5)
   reviews Review[]
 
-  dimensions Int[]
+  dimensions String[]
   details    Json
 
   published Boolean @default(false)
@@ -230,6 +230,16 @@ model Inventory {
   sku           String   @unique
 }
 
+model Offer {
+  label  String  @unique
+  value  String
+  active        Boolean  @default(true)
+  type          String   @default("promo")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orders Order[]
+}
+
 model Order {
   id String @id @default(cuid())
 
@@ -238,9 +248,9 @@ model Order {
   tax          Float   @default(0) // The tax on the Order Items.
   shipping     Float   @default(0) // The shipping charges of the Order Items.
   total        Float   @default(0) // The total price of the Order including tax and shipping. It excludes the items discount.
-  promo        String? // The promo code of the Order.
   discount     Float   @default(0) // The total discount of the Order based on the promo code or store discount.
   grandTotal   Float // The grand total of the order to be paid by the buyer.
+  promo        String? // The promo code of the Order.
 
   // relations
   user   User   @relation(fields: [userId], references: [id])
@@ -257,6 +267,7 @@ model Order {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   transaction Transaction?
+  offer       Offer?       @relation(fields: [promo], references: [label])
 }
 
 model Transaction {

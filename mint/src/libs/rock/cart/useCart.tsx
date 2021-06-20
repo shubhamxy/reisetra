@@ -22,7 +22,14 @@ export const useAddCartItem = () => {
     },
   });
 };
-export const useDeleteCartItem = () => useMutation(removeCartItem);
+export const useDeleteCartItem = () => {
+  const queryClient = useQueryClient();
+  return useMutation(removeCartItem, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("cart");
+    }
+  });
+};
 
 export const useCartItem = (cartId: string, productId: string) =>
   useQuery(["cart", cartId, productId], getCartItem, {
@@ -30,9 +37,9 @@ export const useCartItem = (cartId: string, productId: string) =>
     onSuccess: () => {},
   });
 
-export const useCartItems = (cartId: string) =>
+export const useCartItems = (cartId: string, promo: string) =>
   useQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
-    ["cart", cartId],
+    ["cart", cartId || '', promo || ''],
     getCart,
     {
       initialData: {
@@ -40,7 +47,7 @@ export const useCartItems = (cartId: string) =>
           items: [],
         },
       },
-      enabled: !!cartId,
+      enabled: Boolean(cartId),
       getNextPageParam: (lastPage, _pages) => {
         return lastPage.meta.link?.next?.cursor;
       },

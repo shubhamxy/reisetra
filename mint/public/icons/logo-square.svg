@@ -8,16 +8,16 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    data-name="Layer 1"
-   viewBox="0 0 38.866772 27.214079"
+   viewBox="0 0 64 64"
    version="1.1"
    id="svg18"
-   sodipodi:docname="logo2.svg"
+   sodipodi:docname="logo-square.svg"
    inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
-   width="38.866772"
-   height="27.214079"
-   inkscape:export-filename="/Users/mahak/bitmap.png"
-   inkscape:export-xdpi="2529.2791"
-   inkscape:export-ydpi="2529.2791">
+   width="64"
+   height="64"
+   inkscape:export-filename="/Users/mahak/Workspace/reiseta-mono/mint/public/icons/logo-square.png"
+   inkscape:export-xdpi="1536.0001"
+   inkscape:export-ydpi="1536.0001">
   <metadata
      id="metadata24">
     <rdf:RDF>
@@ -47,7 +47,7 @@
      showgrid="false"
      inkscape:zoom="13.668933"
      inkscape:cx="45.59395"
-     inkscape:cy="10.454991"
+     inkscape:cy="30.939399"
      inkscape:window-x="0"
      inkscape:window-y="23"
      inkscape:window-maximized="1"
@@ -59,13 +59,13 @@
      fit-margin-bottom="0" />
   <text
      xml:space="preserve"
-     style="font-size:13.66039999999999921px;line-height:1.25;font-family:Caramellia;-inkscape-font-specification:Caramellia;fill:#f9f9f9;stroke-width:2.56134;"
-     x="0.16008282"
-     y="22.224831"
+     style="font-size:18.97919999999999874px;line-height:1.25;font-family:Caramellia;-inkscape-font-specification:Caramellia;fill:#000000;stroke-width:3.55864;"
+     x="5.2224083"
+     y="43.878273"
      id="text54"><tspan
        sodipodi:role="line"
        id="tspan52"
-       x="0.16008282"
-       y="22.224831"
-       style="font-size:13.66039999999999921px;fill:#f9f9f9;stroke-width:2.56134;">Re</tspan></text>
+       x="5.2224083"
+       y="43.878273"
+       style="font-size:18.97919999999999874px;fill:#000000;stroke-width:3.55864;">Re</tspan></text>
 </svg>

@@ -1,10 +1,9 @@
 import { readFileSync } from "fs";
-import { join } from "path";
 import handlebars from "handlebars";
 import { createParams, IParams } from "./aws";
 import { services, app } from "src/config";
 
-const common = readFileSync(join(__dirname + "/views/mail/common.hbs"), "utf8");
+const common = readFileSync(process.env.NODE_PATH + "/views/mail/common.hbs", "utf8");
 const commonTemplate = handlebars.compile(common);
 const options = (
   email: string,

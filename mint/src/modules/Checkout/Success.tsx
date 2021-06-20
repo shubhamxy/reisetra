@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		display: "flex",
 		flexDirection: "column",
-		background: "#f0f0f0",
+		background: theme.palette.common.white,
 		padding: theme.spacing(4, 2.6, 4, 2.6),
 		flex: 1,
 		position: "relative",
@@ -26,18 +26,18 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: "column",
 	},
 	illustrationmain: {
-		position: "absolute",
-		right: 0,
-		bottom: 0,
 		objectFit: "contain",
+    width: '100%',
 	},
 	title: {
 		...theme.typography.h5,
+    color: theme.palette.common.black,
 	},
 	description: {
 		...theme.typography.subtitle1,
+    color: theme.palette.common.black,
+    paddingTop: 16,
 	},
-
 	nextbtn: {
 
 	},
@@ -64,8 +64,8 @@ const useStyles = makeStyles(theme => ({
 		fontSize: 18,
 		lineHeight: 18,
 		borderRadius: "50%",
-		background: "#000000",
-		color: "#ffffff",
+		background: theme.palette.common.black,
+		color: theme.palette.common.white,
 		cursor: "pointer",
 		margin: 0,
 		fontWeight: "bold",
@@ -91,7 +91,7 @@ function Actions({isValid, classes, handleNext}) {
 			<Box mr={1.6} pt={1.4}>
 				<Button
           size="large"
-          color="secondary"
+          color="primary"
 					variant="contained"
 					// disabled={!isValid}
 					className={classes.nextbtn}
@@ -118,15 +118,12 @@ export default function Success({
 			</button>
 
 			<Box className={classes.illustration}>
-				<img
+				<Image
 					className={classes.illustrationmain}
 					alt=""
-					src="/icons/illustration-success.png"
-				/>
-				<img
-					className={classes.illustrationmain}
-					alt=""
-					src="/icons/illustration-front.png"
+          src="/images/success.svg"
+          width="100%"
+          height="100%"
 				/>
 			</Box>
 

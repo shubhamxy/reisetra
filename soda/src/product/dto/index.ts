@@ -79,7 +79,7 @@ export class CreateProductDto implements Omit<Product, Excluded> {
 
   @IsOptional()
   @IsArray({ message: mustBeOfType("array", "dimensions") })
-  dimensions: number[];
+  dimensions: string[];
 
   @IsOptional()
   @IsArray({ message: mustBeOfType("array", "details") })
@@ -135,7 +135,7 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
 
   @IsOptional()
   @IsArray({ message: mustBeOfType("array", "dimensions") })
-  dimensions: number[];
+  dimensions: string[];
 
   @IsOptional()
   @IsArray({ message: mustBeOfType("array", "details") })

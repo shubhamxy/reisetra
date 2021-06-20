@@ -2,22 +2,19 @@ import {makeStyles, fade} from "@material-ui/core";
 
 export const useStyles = makeStyles(theme => ({
 	root: {
-		display: "flex",
-		flex: 1,
-		flexDirection: "row",
-		margin: 0,
-		padding: theme.spacing(0.8, 2.0, 0.8, 2.0),
 		width: "100%",
-		cursor: "pointer",
 	},
 	cover: {},
 	img: {
 		objectFit: "cover",
 	},
 	content: {
-    paddingLeft: 16,
+		display: "flex",
+    flex: 1,
+		flexDirection: "column",
+		justifyContent: "space-between",
 	},
-	title: {
+	contentText: {
 		...theme.typography.body2,
 		display: "-webkit-box",
 		overflow: "hidden",
@@ -34,4 +31,8 @@ export const useStyles = makeStyles(theme => ({
 		wordBreak: "break-all",
 		opacity: 0.8,
 	},
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
 }));

@@ -18,6 +18,41 @@ export class AddressService {
     private readonly cache: RedisService
   ) {}
 
+  async getAddresses(
+    options: CursorPagination,
+    userId: string
+  ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
+    try {
+      const {
+        cursor,
+        size = 10,
+        buttonNum = 10,
+        orderBy = "createdAt",
+        orderDirection = "desc",
+      } = options;
+      const result = await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: "address",
+        prisma: this.db,
+        where: {
+          userId,
+          active: true,
+        }
+      });
+      return result;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "AddressService.getAddresses"
+      );
+    }
+  }
+
   async getAllAddresses(
     options: CursorPagination
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
@@ -37,6 +72,9 @@ export class AddressService {
         orderDirection,
         model: "address",
         prisma: this.db,
+        where: {
+          active: true,
+        }
       });
       return result;
     } catch (error) {
@@ -96,8 +134,11 @@ export class AddressService {
 
   async deleteAddress(addressId: string): Promise<any> {
     try {
-      const data = await this.db.address.delete({
+      const data = await this.db.address.update({
         where: { id: addressId },
+        data: {
+          active: false,
+        }
       });
       return data;
     } catch (error) {

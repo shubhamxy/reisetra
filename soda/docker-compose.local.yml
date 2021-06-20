@@ -2,12 +2,17 @@ version: "3.7"
 services:
   soda:
     container_name: reisetra-soda
-    image: "reisetra-soda:prod"
+    image: "reisetra-soda:dev"
     build:
       context: ./
-      target: production
+      target: development
+    volumes:
+      - "./src:/usr/src/app/src"
     ports:
       - "8080:8080"
+    working_dir: "/usr/src/app"
+    command:
+      - node dist/main.js
     networks:
       - soda-backend
     depends_on:

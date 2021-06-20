@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "Soda API v1",
       script: "./dist/main.js",
-      instances: "max",
+      instances: 1,
       exec_mode: "cluster",
       watch: false,
       node_args: "--max_old_space_size=500",

@@ -21,9 +21,11 @@ import { useUserEmailSignUp } from "../../libs/rock/auth/useAuth";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
 import { login, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
-import { DateTimePicker } from "@material-ui/pickers";
 import { useUpdateUserProfile } from "../../libs";
 import { useFileUpload } from "../../libs/rock/file";
+import { Logo } from "../../ui/Logo";
+import { Addresses } from "./Addresses";
+import { useState } from "react";
 
 const SignUpSchema = Yup.object().shape({
   name: Yup.string()
@@ -136,7 +138,7 @@ export function Account() {
   const updateUserProfile = useUpdateUserProfile();
   const authState = useAuthState();
   const globalDispatch = useGlobalDispatch();
-
+  const [selected, setSelected] = useState();
   const initialValues = {
     name: authState.user?.name,
     email: authState.user?.email,
@@ -204,7 +206,7 @@ export function Account() {
       >
         <Box display="flex" className={classes.logo}>
           <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Image src="/images/logo.svg" height="30px" width="30px" />
+            <Logo />
           </Link>
         </Box>
       </Grid>
@@ -328,11 +330,17 @@ export function Account() {
                   helperText={touched.dateOfBirth ? errors.dateOfBirth : ""}
                 />
               </Box>
+
+              <Box mt={4.6}>
+                <Addresses defaultExpanded={false} header selected={selected} setSelected={setSelected} />
+              </Box>
+
               <Box mt={4.6}>
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
+                  size="medium"
                   color="primary"
                   disabled={!isValid || updateUserProfile.isLoading}
                   className={classes.submit}

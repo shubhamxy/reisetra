@@ -212,7 +212,7 @@ export function CreateProduct() {
         },
       ],
       colors: ["silver", "grey", "gold"],
-      dimensions: [3, 2, 4],
+      dimensions: ["3", "2", "4"],
       categories: ["smartphone"],
       tags: ["iphone"],
       brand: "Apple",

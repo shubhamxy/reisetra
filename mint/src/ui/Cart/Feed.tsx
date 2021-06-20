@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Paper,
   Box,
@@ -8,10 +8,19 @@ import {
   Divider,
   Button,
   Grid,
+  TextField,
 } from "@material-ui/core";
 import { List } from "../List/List";
 import { Footer } from "../List";
-import { useAuthState, useCartCheckout, useCartItems, useProducts } from "../../libs";
+import {
+  updatePromo,
+  useAuthState,
+  useCartCheckout,
+  useCartItems,
+  useGlobalDispatch,
+  useGlobalState,
+  useProducts,
+} from "../../libs";
 import { ProductCard } from "./Card";
 import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
 import clsx from "clsx";
@@ -26,9 +35,12 @@ export const useStyles = makeStyles((theme) => ({
   list: {},
 }));
 
-export function Cart({data}) {
+export function Cart({ data }) {
   const classes = useStyles();
   const router = useRouter();
+  const globalState = useGlobalState();
+  const [promo, setPromo] = useState(globalState.promo);
+  const dispatch = useGlobalDispatch();
   return (
     <Paper className={classes.root}>
       <Grid item xs={12}>
@@ -90,6 +102,41 @@ export function Cart({data}) {
           alignItems="center"
           justify="center"
         >
+          <Grid
+            container
+            item
+            xs={12}
+            direction="row"
+            justify="space-between"
+            style={{ paddingTop: 16, }}
+          >
+            <Grid item>
+              <TextField
+                id="promo"
+                name="promo"
+                label="Promo"
+                type="text"
+                value={promo}
+                onChange={(e) => {
+                  setPromo(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                size="large"
+                color="secondary"
+                disabled={!globalState.promo && !promo}
+                onClick={(e) => {
+                  dispatch(updatePromo(promo));
+                }}
+              >
+                Apply
+              </Button>
+            </Grid>
+          </Grid>
+
           <Grid item xs={12} container alignItems="center" justify="center">
             <Grid item xs={12} container>
               <Grid item xs>
@@ -112,7 +159,9 @@ export function Cart({data}) {
                 <Typography>Estimated Shipping</Typography>
               </Grid>
               <Grid item>
-                <Typography>{data.shipping === 0 ? 'Free' : `₹ ${data.shipping}`}</Typography>
+                <Typography>
+                  {data.shipping === 0 ? "Free" : `₹ ${data.shipping}`}
+                </Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} container>
@@ -123,42 +172,53 @@ export function Cart({data}) {
                 <Typography>₹ {data.total}</Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Typography>Promo</Typography>
+            {data["promo"] && (
+              <Grid item xs={12} container>
+                <Grid item xs>
+                  <Typography>Promo</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography>
+                    {data?.promo?.toUpperCase()}{" "}
+                    {data["discount"] > 0 ? `(${data["discount"]}% off)` : "-"}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography>{data?.promo?.toUpperCase()} ({data.discount}% off)</Typography>
+            )}
+            {+data["itemDiscount"] > 0 && (
+              <Grid item xs={12} container>
+                <Grid item xs>
+                  <Typography>Discount</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography> - ₹ {data.itemDiscount}</Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Typography>Discount</Typography>
-              </Grid>
-              <Grid item>
-                <Typography> - ₹ {data.itemDiscount}</Typography>
-              </Grid>
-            </Grid>
+            )}
 
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Typography>Grand Total</Typography>
+            {+data["grandTotal"] > 0 && (
+              <Grid item xs={12} container>
+                <Grid item xs>
+                  <Typography>Grand Total</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography>₹ {data["grandTotal"]}</Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography>₹ {data.grandTotal}</Typography>
-              </Grid>
-            </Grid>
+            )}
           </Grid>
 
           <Divider />
           <Grid item xs={12} container alignItems="center" justify="center">
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               size="large"
+              style={{height: 56}}
               onClick={() => {
+                  
                 router.push("/checkout");
-             }}
+              }}
               fullWidth
             >
               {"Proceed to checkout"}

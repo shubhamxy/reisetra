@@ -3,12 +3,12 @@ import NextImage, { ImageProps } from "next/image";
 import { useTheme } from "@material-ui/core";
 
 export enum Icons {
-  logo = "logo",
-  payments = "payments",
+  logo = "logo.png",
+  payments = "payments.svg",
 };
 
 
-export const Icon = (icon: Icons, theme: "dark" | "light") => (`/icons/${icon}${theme === 'dark' ? '.dark' : ''}.svg`);
+export const Icon = (icon: Icons, theme: "dark" | "light") => (`/icons/${theme === 'dark' ? icon.replace(".", '.dark.') : icon}`);
 
 export enum Images {
   category1 = "/images/1.jpeg",

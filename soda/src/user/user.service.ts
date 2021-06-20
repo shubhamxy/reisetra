@@ -107,8 +107,11 @@ export class UserService {
 
   async delete(id: string): Promise<UserRO> {
     try {
-      const deleted = await this.db.user.delete({
+      const deleted = await this.db.user.update({
         where: { id },
+        data: {
+          active: false,
+        }
       });
       return deleted;
     } catch (error) {

@@ -7,7 +7,7 @@ export const mustBe = (type: string, feild?: string) =>
   `${feild || "feild"} must be ${type}`;
 
 export const mustBeValidEnum = (e: any, feild?: string) =>
-  `${feild || "feild"} must be ${Object.values(e).join(" | ")}`;
+  `${feild || "feild"} must be ${e ? Object.values(e).join(" | ") : ''}`;
 
 export const PASSWORD_MIN_LENGTH = "Password must be greater than 8 character.";
 export const PASSWORD_MAX_LENGTH = "Password must be less than 30 character.";
