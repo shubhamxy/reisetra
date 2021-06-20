@@ -148,74 +148,49 @@ export function CreateProduct() {
     categories: [],
     brand: "",
     ...{
-      title: "Apple IPhone XS",
+      title: "Big Peacock Wall Stand",
       description:
-        "Super Retina.\nThe custom OLED displays on iPhone XS deliver the most accurate color in the industry, HDR, and true blacks.\n\nExceptional Materials.\nThe most durable glass ever in a smartphone. A beautiful new gold finish, achieved with an atomic-level process. Precision-machined, surgical-grade stainless steel bands. And a new level of water and dust resistance.3\nSurgical-grade stainless steel. We used a special Apple-designed alloy that’s precisely machined to create structural bands in three finishes.\nWireless charging. The glass back allows iPhone XS to charge wirelessly.4 And it charges even faster than iPhone X.\nPVD color process. Gold and space gray finishes use an advanced physical vapor deposition process on the stainless steel bands for colors and reflectivity that beautifully complement the glass.\n\nAdvanced Face ID.\nSecurity is simple when your face is your password. You can unlock your iPhone, log in to apps, and pay for things with a glance. It’s the most secure facial authentication ever in a smartphone. And now it’s even faster.\n\nIntelligent A12 Bionic.\nThis is the smartest, most powerful chip in a smartphone, with our next generation Neural Engine. For amazing augmented reality experiences. Incredible portraits with Depth Control. And speed and fluidity in everything you do.\n\nBreakthrough dual-camera system.\nThe world’s most popular camera is defining a new era of photography. Where an innovative sensor works with the ISP and Neural Engine to help you create photos like never before.\nSmart HDR. New secondary frames, a faster sensor, and the powerful A12 Bionic chip bring more highlight and shadow detail to your photos.\nLarger and deeper pixels. A new sensor creates better image fidelity, greater color accuracy, and reduced noise in low-light shots.\nEnhanced bokeh effect. Portrait mode photos look even more professional thanks to a sophisticated background blur.\nAll-new Depth Control. Now you can adjust the depth of field in portraits after you shoot.\nDual 12MP rear cameras. With ƒ/1.8 wide-angle lens, ƒ/2.4 telephoto lens, 2x faster sensor for Smart HDR across your photos, Portrait mode with Depth Control, 4K video up to 60 fps.\nTrueDepth camera. With ƒ/2.2 wide-angle lens, Portrait mode with Depth Control, 1080p HD video up to 60 fps.\nAnd this. iPhone XS delivers Gigabit-class LTE for superfast download speeds.5And up to 512GB of storage, making this our highest-capacity iPhone yet.\nNo other phone is like iPhone. Every decision that goes into iPhone makes it stand apart. From the way it’s made, to the way we build in privacy and security from the start, to the innovative ways we recycle components.",
-      inventory: {
-        stockQuantity: 100,
-        sku: "APPLE-XS",
-      },
+        "This product is a big peacock wall stand which will look attractive and awesome when kept or hanged at any wall in your house. \n\nIt is one-of-a-kind of a product and when you will hang it on your wall it will increase the liking of your wall and plus will give a luxurious look which is ergonomic and elegant. \n\nWe are sure that you will be able to show-off by hanging this at your lovely wall and all the people coming to your house will ask you and plus it is such at an unbelievable price. What else do you need when you have all the things you need?",
+      inventory: { stockQuantity: 100, sku: "B07VXFMVCD" },
       images: [
         {
-          fileName: "refurb-iphone-xs-silver_AV1.jpeg",
-          fileType: "images",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckp99epp60002m6p85n26ae01/images/refurb-iphone-xs-silver_AV1.jpeg",
           contentType: "image/jpeg",
+          fileType: "images",
+          fileName: "1624151986235-81rmYy-6-pL._SL1500_.jpg",
+          url:
+            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg",
+        },
+        {
+          contentType: "image/jpeg",
+          fileType: "images",
+          fileName: "1624151986236-81U5C8sfZyL._SL1500_.jpg",
+          url:
+            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg",
+        },
+        {
+          contentType: "image/jpeg",
+          fileType: "images",
+          fileName: "1624151986236-818SUCoRFmL._SL1500_.jpg",
+          url:
+            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg",
         },
       ],
-      mrp: 30000,
+      mrp: 4000,
       tax: 18.5,
       taxCode: "1800",
-      price: 20000,
+      price: 2999,
       published: true,
-      sizes: ["XS"],
+      sizes: ["general"],
       details: [
-        {
-          label: "Capacity",
-          value: "64GB",
-        },
-        {
-          label: "Processor",
-          value: "A12 Bionic chip",
-        },
-        {
-          label: "Display",
-          value:
-            "Super Retina HD display  5.8-inch (diagonal) all-screen OLED Multi-Touch display  HDR display  2436-by-1125-pixel resolution at 458 ppi  1,000,000:1 contrast ratio (typical)  True Tone display  Wide color display (P3)  3D Touch  625 cd/m2 max brightness (typical)  Fingerprint-resistant oleophobic coating  Support for display of multiple languages and characters simultaneously  The iPhone XS display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 5.85 inches diagonally (actual viewable area is less).",
-        },
-        {
-          label: "Splash, Water, and Dust Resistant",
-          value:
-            "Rated IP68 (maximum depth of 2 meters up to 30 minutes) under IEC standard 60529 ³",
-        },
-        {
-          label: "Power and Battery",
-          value:
-            "Lasts up to 30 minutes longer than iPhone X¹³  Built-in rechargeable lithium-ion battery  Wireless charging (works with Qi-certified chargers)4  Charging via USB to computer system or power adapter",
-        },
-        {
-          label: "Talk time (wireless)",
-          value: "Up to 20 hours",
-        },
-        {
-          label: "Internet use",
-          value: "Up to 12 hours",
-        },
-        {
-          label: "Wireless video playback",
-          value: "Up to 14 hours",
-        },
-        {
-          label: "Wireless audio playback",
-          value: "Up to 60 hours",
-        },
+        { label: "Material", value: "Processed Wood" },
+        { label: "Weight", value: "1.2KG" },
+        { label: "Package Included", value: "Pack of 1 wall stand" },
       ],
-      colors: ["silver", "grey", "gold"],
-      dimensions: ["3", "2", "4"],
-      categories: ["smartphone"],
-      tags: ["iphone"],
-      brand: "Apple",
+      colors: ["multicolor"],
+      dimensions: ["7.5cm", "15cm", "11.5cm"],
+      categories: ["homedecor"],
+      brand: "Reisetra Crafts ",
+      tags: ["handicraft"],
     },
   };
   const createProduct = useCreateProduct();
