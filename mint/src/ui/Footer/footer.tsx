@@ -34,11 +34,18 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "row",
       padding: "40px 30px 40px 30px",
+      [theme.breakpoints.down("sm")]: {
+        flexDirection: "column",
+        padding: "24px 24px 24px 24px",
+      },
     },
     content: {
       display: "flex",
       flexDirection: "row",
       height: "100%",
+      [theme.breakpoints.down("sm")]: {
+        flexDirection: "column-reverse",
+      },
     },
     left: {
       flex: 1,
@@ -59,6 +66,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     footerNav: {
       paddingLeft: 24,
+      [theme.breakpoints.down("sm")]: {
+        paddingLeft: 0,
+      },
     },
     footerNavTitle: {
     },

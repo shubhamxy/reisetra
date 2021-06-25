@@ -7,7 +7,7 @@ import { UserModule } from "../user/user.module";
 import { LocalStrategy } from "./strategy/local.strategy";
 import { JwtRefreshStrategy } from "./strategy/refresh.strategy";
 import { AuthController } from "./auth.controller";
-import { RedisModule } from "../common/modules/redis/redis.module";
+import { CacheModule } from "../common/modules/cache/cache.module";
 import { auth } from "../config";
 import { GoogleStrategy } from "./strategy/google.strategy";
 
@@ -16,7 +16,7 @@ const config = auth();
   imports: [
     UserModule,
     PassportModule,
-    RedisModule,
+    CacheModule,
     JwtModule.register({
       secret: config.jwtAccessTokenOptions.secret,
       signOptions: {

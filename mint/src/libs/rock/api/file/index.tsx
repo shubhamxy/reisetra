@@ -7,7 +7,7 @@ export interface FileUploadSignedUrlResponse {
   contentType: string;
   fileName: string;
   fileType: string;
-  key: string;
+  id: string;
 }
 
 export interface fileUploadParams {

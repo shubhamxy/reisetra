@@ -36,4 +36,9 @@ export const useStyles = makeStyles(theme => ({
 		wordBreak: "break-all",
 		opacity: 0.8,
 	},
+  costContainer: {
+
+  },
+  cost: {
+  },
 }));

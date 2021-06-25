@@ -5,7 +5,7 @@ import { IsString } from "class-validator";
 import { AppEnv } from "./app";
 import { AuthEnv } from "./auth";
 import { DBEnv } from "./db";
-import { RedisEnv } from "./redis";
+import { CacheEnv } from "./cache";
 import { ServicesEnv } from "./services";
 import { SettingsEnv } from "./settings";
 
@@ -131,14 +131,14 @@ export function getConfig(configService: ConfigService) {
   const services = configService.get<ServicesEnv>("services");
   const auth = configService.get<AuthEnv>("auth");
   const db = configService.get<DBEnv>("db");
-  const redis = configService.get<RedisEnv>("redis");
+  const cache = configService.get<CacheEnv>("cache");
   const setting = configService.get<SettingsEnv>("settings");
   return {
     app,
     services,
     auth,
     db,
-    redis,
+    cache,
     setting,
   };
 }

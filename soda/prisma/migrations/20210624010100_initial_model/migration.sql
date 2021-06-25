@@ -20,22 +20,28 @@ CREATE TYPE "FileType" AS ENUM ('images', 'documents');
 CREATE TABLE "Secrets" (
     "id" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "File" (
-    "fileName" TEXT NOT NULL,
+    "id" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
     "fileType" "FileType" NOT NULL,
-    "userId" TEXT NOT NULL,
-    "url" TEXT,
-    "contentType" TEXT,
+    "contentType" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT,
     "productId" TEXT,
-    "reviewId" TEXT
+    "reviewId" TEXT,
+    "categoryId" TEXT,
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -62,9 +68,10 @@ CREATE TABLE "User" (
 CREATE TABLE "Cart" (
     "id" TEXT NOT NULL,
     "userId" TEXT,
+    "checkedOut" BOOLEAN NOT NULL DEFAULT false,
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "checkedOut" BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY ("id")
 );
@@ -106,6 +113,9 @@ CREATE TABLE "Address" (
 CREATE TABLE "Tag" (
     "label" TEXT NOT NULL,
     "value" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY ("value")
 );
@@ -114,8 +124,22 @@ CREATE TABLE "Tag" (
 CREATE TABLE "Category" (
     "label" TEXT NOT NULL,
     "value" TEXT NOT NULL,
+    "styles" TEXT[],
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY ("value")
+    PRIMARY KEY ("label")
+);
+
+-- CreateTable
+CREATE TABLE "Offer" (
+    "label" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "type" TEXT NOT NULL DEFAULT E'promo',
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
@@ -140,6 +164,7 @@ CREATE TABLE "Product" (
     "brand" TEXT NOT NULL DEFAULT E'Generic',
     "colors" TEXT[],
     "sizes" TEXT[],
+    "styles" TEXT[],
     "rating" INTEGER NOT NULL DEFAULT 5,
     "dimensions" TEXT[],
     "details" JSONB NOT NULL,
@@ -160,22 +185,12 @@ CREATE TABLE "Product" (
 CREATE TABLE "Inventory" (
     "id" TEXT NOT NULL,
     "stockQuantity" INTEGER NOT NULL DEFAULT 0,
+    "sku" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "sku" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Offer" (
-    "label" TEXT NOT NULL,
-    "value" TEXT NOT NULL,
-    "active" BOOLEAN NOT NULL DEFAULT true,
-    "type" TEXT NOT NULL DEFAULT E'promo',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL
 );
 
 -- CreateTable
@@ -193,7 +208,7 @@ CREATE TABLE "Order" (
     "addressId" TEXT NOT NULL,
     "cartId" TEXT NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT E'PENDING',
-    "active" BOOLEAN NOT NULL DEFAULT false,
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -235,9 +250,6 @@ CREATE TABLE "_CategoryToProduct" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "File.userId_fileName_fileType_unique" ON "File"("userId", "fileName", "fileType");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
@@ -253,13 +265,13 @@ CREATE UNIQUE INDEX "Cart_userId_unique" ON "Cart"("userId");
 CREATE UNIQUE INDEX "CartItem.productId_cartId_unique" ON "CartItem"("productId", "cartId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Offer.label_unique" ON "Offer"("label");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Product_inventoryId_unique" ON "Product"("inventoryId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Inventory.sku_unique" ON "Inventory"("sku");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Offer.label_unique" ON "Offer"("label");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ProductToTag_AB_unique" ON "_ProductToTag"("A", "B");
@@ -277,13 +289,16 @@ CREATE INDEX "_CategoryToProduct_B_index" ON "_CategoryToProduct"("B");
 ALTER TABLE "Secrets" ADD FOREIGN KEY ("id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "File" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "File" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "File" ADD FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "File" ADD FOREIGN KEY ("reviewId") REFERENCES "Review"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD FOREIGN KEY ("categoryId") REFERENCES "Category"("label") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Cart" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -328,7 +343,7 @@ ALTER TABLE "_ProductToTag" ADD FOREIGN KEY ("A") REFERENCES "Product"("id") ON 
 ALTER TABLE "_ProductToTag" ADD FOREIGN KEY ("B") REFERENCES "Tag"("value") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_CategoryToProduct" ADD FOREIGN KEY ("A") REFERENCES "Category"("value") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_CategoryToProduct" ADD FOREIGN KEY ("A") REFERENCES "Category"("label") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CategoryToProduct" ADD FOREIGN KEY ("B") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;

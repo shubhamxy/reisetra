@@ -57,7 +57,7 @@ export function List(props: ListProps) {
         {(data?.pages?.[0]?.data === undefined ||
           data?.pages?.[0]?.meta?.totalCount === 0) &&
           !isLoading && <Grid item>{ListEmptyComponent}</Grid>}
-        <Grid item>
+        <Grid item xs={12} style={{width: '100%'}}>
           <MaterialList className={clsx(classes.list, "scrollbar")} disablePadding>
             {data?.pages?.map((page: ISuccessResponse<any>, pageIndex: number) =>
               page.data?.map((item, index) => (
@@ -92,7 +92,7 @@ export function List(props: ListProps) {
         {isEmpty === true && !isLoading && (
           <Grid item>{ListEmptyComponent}</Grid>
         )}
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{width: '100%'}}>
           {Array.isArray(data) && data.length > 0 ? (
             <MaterialList className={classes.list}>
               {data.map((item, index) => (

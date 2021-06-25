@@ -17,9 +17,9 @@ import { AuthenticatedRequest } from "src/auth/auth.interface";
 @Controller()
 export class OrderController {
   constructor(private readonly order: OrderService) {}
-
-  @Get("orders")
+  @Get("orders/all")
   async getAllOrders(
+    @Req() request: AuthenticatedRequest,
     @Query() query: GetAllOrdersDto
   ): Promise<SuccessResponse> {
     try {
@@ -30,6 +30,22 @@ export class OrderController {
         error,
         HttpStatus.BAD_REQUEST,
         "OrderController.getAllOrders"
+      );
+    }
+  }
+  @Get("orders")
+  async getUserOrders(
+    @Req() request: AuthenticatedRequest,
+    @Query() query: GetAllOrdersDto
+  ): Promise<SuccessResponse> {
+    try {
+      const { results, ...meta } = await this.order.getUserOrders(request.user.id, query);
+      return { data: results || [], meta: meta };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "OrderController.getUserOrders"
       );
     }
   }
@@ -94,6 +110,22 @@ export class OrderController {
         error,
         HttpStatus.BAD_REQUEST,
         "OrderController.deleteOrder"
+      );
+    }
+  }
+
+  @Put("order/:orderId/cancel")
+  async cancelOrder(
+    @Param("orderId") orderId: string
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.order.cancelOrder(orderId);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "OrderController.cancelOrder"
       );
     }
   }

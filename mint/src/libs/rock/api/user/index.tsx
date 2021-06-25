@@ -67,3 +67,19 @@ export function deleteAddress(addressId: string) {
   return del<Partial<IAddress>>(`address/${addressId}`);
 }
 
+export function getOrders(params: PaginationParams) {
+  const qs = queryString.stringify(pickBy(params, identity));
+  return get<Partial<IAddress[]>>(`orders?${qs}`);
+}
+
+export function updateOrder({orderId, body}: {orderId: string, body: Partial<IAddress>}) {
+  return put<Partial<IAddress>, Partial<IAddress>>(`order/${orderId}`, body);
+}
+
+export function cancelOrder(orderId: string) {
+  return put<Partial<IAddress>>(`order/${orderId}/cancel`, {});
+}
+
+export function deleteOrder(orderId: string) {
+  return del<Partial<IAddress>>(`order/${orderId}`, {});
+}

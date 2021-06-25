@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       background: "transparent",
       boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.05)",
+      width: "100%",
     },
     heading: {
       fontSize: theme.typography.pxToRem(12),

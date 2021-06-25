@@ -1,6 +1,10 @@
 import { Prisma, Product as ProductModel, Category as CategoryModel, Tag as TagModel } from ".prisma/client";
 
 export class Product implements ProductModel {
+  constructor(partial: Partial<ProductModel>) {
+    Object.assign(this, partial);
+  }
+
   id: string;
   title: string;
   description: string;
@@ -22,10 +26,7 @@ export class Product implements ProductModel {
   createdAt: Date;
   updatedAt: Date;
   rating: number;
-
-  constructor(partial: Partial<ProductModel>) {
-    Object.assign(this, partial);
-  }
+  styles: string[];
 }
 
 export class Category implements CategoryModel {
@@ -34,12 +35,19 @@ export class Category implements CategoryModel {
   }
   label: string;
   value: string;
+  styles: string[];
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class Tag implements TagModel {
   constructor(partial: Partial<ProductModel>) {
     Object.assign(this, partial);
   }
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
   label: string;
   value: string;
 }

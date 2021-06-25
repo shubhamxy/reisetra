@@ -36,8 +36,10 @@
     "start:soda": "yarn workspace soda start:prod",
     "stop:soda": "yarn workspace soda stop:prod",
     "dev:soda": "yarn workspace soda dev",
+    "deploy:soda": "./scripts/deploy.sh",
     "build:mint": "yarn workspace mint build",
     "start:mint": "yarn workspace mint start",
-    "dev:mint": "yarn workspace mint dev"
+    "dev:mint": "yarn workspace mint dev",
+    "deploy:mint": ""
   }
 }

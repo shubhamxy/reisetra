@@ -164,6 +164,23 @@ export default function ProductDetails({
           />
         </Grid>
         <Grid item xs={12} sm={6}>
+          <TagsInput
+            onChange={(value) => {
+              setFieldValue("styles", value);
+            }}
+            value={values.styles}
+            fullWidth
+            variant="outlined"
+            id="styles"
+            name="styles"
+            placeholder="Css colors ex. #fff, #f00"
+            label="Styles (For Store UI)"
+            onBlur={handleBlur}
+            error={touched.styles ? !!errors.styles : false}
+            helperText={touched.styles ? errors.styles : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="price"

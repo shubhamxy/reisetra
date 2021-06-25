@@ -56,10 +56,10 @@ export function useFileUpload({
                 }
               });
               const data = response.data;
-							if (!data.key) {
+							if (!data.id) {
 								throw Error("Server error: data missing");
 							}
-              const {signedUrl, expiresIn, key, ...rest} = data;
+              const {signedUrl, expiresIn, ...rest} = data;
 							return rest;
 						} catch (error) {
 							_onError(error);

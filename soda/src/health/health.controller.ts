@@ -3,7 +3,7 @@ import { Controller, Get, HttpCode, HttpStatus, Req } from "@nestjs/common";
 import { PinoLogger } from "nestjs-pino";
 import { Public } from "src/auth/decorator/public.decorator";
 import { Exception, SuccessResponse } from "src/common/response";
-import { RedisService } from "src/common/modules/redis/redis.service";
+import { CacheService } from "src/common/modules/cache/cache.service";
 import { PrismaService } from "../common/modules/db/prisma.service";
 import { ConfigService } from "@nestjs/config";
 import { AppEnv } from "src/config";
@@ -30,7 +30,6 @@ function timeFn(sec_num: number) {
 export class HealthCheckController {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly redis: RedisService,
     private readonly logger: PinoLogger,
     private readonly config: ConfigService
   ) {
@@ -48,7 +47,6 @@ export class HealthCheckController {
         data: {
           server: "up",
           database: database ? "up" : "down",
-          // redis: redis ? 'up' : 'down',
           uptime: timeFn(process.uptime()),
         },
       };

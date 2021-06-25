@@ -17,29 +17,38 @@ const useStyles = makeStyles((theme) =>
       backgroundImage: `url("/images/hero.jpeg")`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
-      backgroundPosition: "bottom",
+      backgroundPosition: "center center",
       boxShadow: "2px 2px 7px rgba(0, 0, 0, 0.15)",
       display: "flex",
       flexDirection: "column",
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: "242px",
+      color: theme.palette.common.white,
+      [theme.breakpoints.down("sm")]: {
+        backgroundPosition: "center left",
+      }
     },
     content: {
       height: "100%",
       display: "flex",
-      maxWidth: '400px',
+      maxWidth: 400,
       textAlign: 'center',
       flexDirection: "column",
       justifyContent: 'center',
       alignItems: 'center',
-      color: theme.palette.common.white,
+      [theme.breakpoints.down("sm")]: {
+        ...theme.typography.h4,
+      }
     },
     description: {
       ...theme.typography.caption,
       fontSize: 16,
-      color: theme.palette.common.white,
-      textAlign: 'center'
+      textAlign: 'center',
+      [theme.breakpoints.down("sm")]: {
+        fontSize: 20,
+        ...theme.typography.subtitle2,
+      }
     },
     actionsContainer: {},
   })

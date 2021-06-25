@@ -280,6 +280,25 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.103775)",
         },
       },
+      MuiMenuItem: {
+        root: {
+          borderRadius: 8,
+        }
+      },
+      MuiIconButton: {
+        root: {
+          "&:disabled": {
+            opacity: 0.4,
+          },
+          "&:focus": {
+            boxShadow: `0px 0px 0px 4px ${primary.main}33`,
+          },
+          "&:hover": {
+            boxShadow: `0px 0px 0px 4px ${primary.main}33`,
+            backgroundColor: "unset",
+          },
+        },
+      },
       MuiButton: {
         text: {
           borderRadius: 8,

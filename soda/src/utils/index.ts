@@ -1,5 +1,5 @@
 export * from "./errorUtils";
-export * from "./redis";
+export * from "./cache";
 export * from "./aws";
 export * from "./statusText";
 export * from "./template";

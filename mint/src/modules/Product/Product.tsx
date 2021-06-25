@@ -587,7 +587,7 @@ export function Product({ id }) {
           <Typography variant="h4">{"Recommended"}</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ShowCase />
+          <ShowCase filters={{}} />
         </Grid>
       </Grid>
     </Grid>

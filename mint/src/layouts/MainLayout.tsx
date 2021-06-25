@@ -57,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: 'column',
     alignItems: 'flex-end',
-    padding: 24,
+    paddingTop: 24,
+    paddingLeft: 24,
     [theme.breakpoints.down('md')]: {
       flexBasis: '33%',
       maxWidth: '33%',

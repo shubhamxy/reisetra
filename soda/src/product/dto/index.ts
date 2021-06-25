@@ -40,6 +40,7 @@ export class GetAllProductsDto extends CursorPaginationDTO {
   tags: string[]
   category: string
   price: string[]
+  q: string
 }
 
 export class CreateProductDto implements Omit<Product, Excluded> {
@@ -96,6 +97,9 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   categories: string[];
   tags: string[]
   rating: number;
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "styles") })
+  styles: string[];
 }
 
 export class UpdateProductDto implements Omit<Product, Excluded> {
@@ -147,6 +151,10 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @Type(() => CreateInventoryDto)
   inventory?: CreateInventoryDto;
 
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "styles") })
+  styles: string[];
+
   images: Omit<File, "userId">[];
 
   categories: string[];
@@ -155,9 +163,20 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
 }
 
 
-export class CreateCategoryDto {
-  data: Omit<Category, Excluded>[]
+export class CreateCategoryDto implements Omit<Category, Excluded>{
+  label: string;
+  value: string;
+  styles: string[];
+  images: Omit<File, "userId">[];
 }
+
+export class UpdateCategoryDto implements Omit<Category, Excluded>{
+  label: string;
+  value: string;
+  styles: string[];
+  images: Omit<File, "userId">[];
+}
+
 
 export class CreateTagDto {
   data: Omit<Tag, Excluded>[]

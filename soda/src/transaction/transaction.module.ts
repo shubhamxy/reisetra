@@ -2,10 +2,10 @@ import { HttpModule, Module } from "@nestjs/common";
 import { TransactionController } from "./transaction.controller";
 import { PrismaService } from "../common/modules/db/prisma.service";
 import { TransactionService } from "./transaction.service";
-import { RedisModule } from "src/common/modules/redis/redis.module";
+import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [RedisModule, HttpModule],
+  imports: [CacheModule, HttpModule],
   controllers: [TransactionController],
   providers: [PrismaService, TransactionService],
   exports: [TransactionService],

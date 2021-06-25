@@ -2,7 +2,7 @@ import { CACHE_MANAGER, Inject, Injectable } from "@nestjs/common";
 import { Cache } from "cache-manager";
 
 @Injectable()
-export class RedisService {
+export class CacheService {
   constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
 
   async get(key: string): Promise<any> {
@@ -20,6 +20,4 @@ export class RedisService {
   async del(key: string) {
     await this.cache.del(key);
   }
-
-  async ping() {}
 }

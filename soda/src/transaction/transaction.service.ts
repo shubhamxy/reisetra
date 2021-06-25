@@ -8,7 +8,7 @@ import {
 } from "src/common/pagination";
 import { CustomError } from "src/common/response";
 import { PrismaService } from "src/common/modules/db/prisma.service";
-import { RedisService } from "src/common/modules/redis/redis.service";
+import { CacheService } from "src/common/modules/cache/cache.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
 import { CreateTransactionDto, UpdateTransactionDto } from "./dto";
 import { Transaction } from "./entity";
@@ -38,7 +38,7 @@ interface RazororpayOrderResponse {
 export class TransactionService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: CacheService,
     private httpService: HttpService,
     private config: ConfigService
   ) {}

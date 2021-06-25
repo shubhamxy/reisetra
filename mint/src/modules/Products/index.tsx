@@ -10,10 +10,11 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
-import { useProducts } from "../../libs";
+import { useInterval, useProducts } from "../../libs";
 import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
+import { Rating } from "@material-ui/lab";
 
 type TStyles = {
   background: string;
@@ -29,7 +30,10 @@ const styles: TStyles = [
     background: "#000000",
     color: "#ffffff",
   },
-  { background: "#906039", color: "#ffffff" },
+  {
+    background: "#906039",
+    color: "#ffffff"
+  },
   {
     background: "#d3b7a1",
     color: "#ffffff",
@@ -47,109 +51,135 @@ const styles: TStyles = [
     color: "#000000",
   },
 ];
-const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
-  (theme) => ({
-    root: ({ styleIndex }) => ({
-      display: "flex",
-      flex: 1,
-      position: "relative",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      cursor: "pointer",
-      height: 400,
-      mixBlendMode: "normal",
-      borderRadius: 8,
-      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
-      color: fade(styles[styleIndex].color, 0.8),
-      background: styles[styleIndex].background,
-    }),
-    card: {
-      margin: 0,
-      padding: "30px 30px 19px 24px",
-      width: "100%",
-      height: "100%",
-    },
+const useGridItemStyles = makeStyles<
+  Theme,
+  { styleIndex: number; colors: string[] }
+>((theme) => ({
+  root: ({ styleIndex, colors }) => ({
+    display: "flex",
+    flex: 1,
+    position: "relative",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    cursor: "pointer",
+    height: 320,
+    justifyContent: 'center',
+    mixBlendMode: "normal",
+    borderRadius: 8,
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
+    color:
+      colors && colors[0] ? colors[0] : fade(styles[styleIndex].color, 0.8),
+    background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: '100%',
+      height: 'unset',
+      alignItems: "center",
+    }
+  }),
+  card: {
+    margin: 0,
+    padding: "20px 24px 20px 24px",
+    width: "100%",
+    height: "100%",
+    justifyContent: "space-between",
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+  },
 
-    title: ({ styleIndex }) => ({
-      ...theme.typography.subtitle2,
-      display: "-webkit-box",
-      overflow: "hidden",
-      WebkitLineClamp: 2,
-      WebkitBoxOrient: "vertical",
-      wordBreak: "break-all",
-    }),
-    description: ({ styleIndex }) => ({
-      ...theme.typography.caption,
-      display: "-webkit-box",
-      overflow: "hidden",
-      WebkitLineClamp: 3,
-      WebkitBoxOrient: "vertical",
-      wordBreak: "break-all",
-    }),
-    banner: {},
-    cover: {},
-    group: {},
-    costContainer: {
-      position: "absolute",
-      bottom: "24px",
-      left: "24px",
+  title: ({ styleIndex }) => ({
+    ...theme.typography.subtitle2,
+    display: "-webkit-box",
+    overflow: "hidden",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    wordBreak: "break-all",
+  }),
+  description: {
+    ...theme.typography.caption,
+    display: "-webkit-box",
+    overflow: "hidden",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
+    wordBreak: "break-all",
+  },
+  banner: {},
+  cover: {},
+  group: {},
+  costContainer: {
+    display: "flex",
+    flexDirection: "column",
+    bottom: "24px",
+    left: "24px",
+  },
+  addToCartContainer: {
+    bottom: "24px",
+    right: "24px",
+  },
+  button: {
+    transition: "opacity ease-in 0.2s",
+  },
+  cost: {},
+  seeAllText: {
+    ...theme.typography.body2,
+    fontSize: "12px",
+    lineHeight: "14px",
+  },
+  imageContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    width: "100%",
+    height: "100%",
+  },
+  image: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundSize: "contain",
+    height: 0,
+    width: "100%",
+    paddingTop: "56.25%", // 16:9
+    "&:hover": {
+      transition:
+        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
-    addToCartContainer: {
-      position: "absolute",
-      bottom: "24px",
-      right: "24px",
-    },
-    button: {
-      transition: "opacity ease-in 0.2s",
-    },
-    cost: {},
-    seeAllText: ({ styleIndex }) => ({
-      ...theme.typography.body2,
-      fontSize: "12px",
-      lineHeight: "14px",
-    }),
-    imageContainer: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      width: "100%",
-      height: "100%",
-    },
-    image: {
-      backgroundColor: "#fff",
-      borderBottomLeftRadius: 8,
-      borderBottomRightRadius: 8,
-      backgroundSize: "contain",
-      height: 0,
-      width: "100%",
-      paddingTop: "56.25%", // 16:9
-      "&:hover": {
-        transition:
-          "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-      },
-    },
-  })
-);
+  },
+}));
 
 export function GridItem({
   styleIndex = 0,
   title,
   description,
+  numberOfReviews,
+  ratings,
   price,
+  mrp,
   images,
+  styles: colors,
   onClick,
 }: {
   styleIndex: number;
   title: string;
   description: string;
+  ratings: number | string;
+  numberOfReviews: number | string;
+  mrp: string;
   price: string;
   images: { url: string }[];
+  styles: string[];
   onClick: () => any;
 }) {
-  const classes = useGridItemStyles({ styleIndex });
+  const classes = useGridItemStyles({ styleIndex, colors });
   const [image, setImage] = useState(0);
   const [addToCartVisible, setAddToCartVisible] = useState(false);
+  useInterval(
+    () => {
+      setImage((image + 1) % images.length);
+    },
+    image > 0 ? 2000 : null
+  );
   return (
     <Card className={classes.root} onClick={onClick}>
       <CardMedia
@@ -164,26 +194,61 @@ export function GridItem({
         onMouseEnter={() => setAddToCartVisible(true)}
         onMouseLeave={() => setAddToCartVisible(false)}
       >
-        <Typography className={classes.title} variant="h5">
-          {title}
-        </Typography>
-        <Typography className={classes.description} variant="subtitle2">
+        <Box display={"flex"} flex={1}>
+          <Typography className={classes.title} variant="h4">
+            {title}
+          </Typography>
+          {/* <Typography className={classes.description} variant="subtitle2">
           {description}
-        </Typography>
-        <Box display="flex" flex={1}>
+        </Typography> */}
+        </Box>
+        <Box display="flex" flexDirection="column">
           <Box className={classes.costContainer}>
-            <Typography
-              className={classes.cost}
-              children={`₹ ${price}`}
-              variant="subtitle2"
-            />
+            <Box>
+              <Typography
+                className={classes.cost}
+                children={`₹ ${price}`}
+                variant="subtitle2"
+              />
+            </Box>
+            <Box>
+              <Typography
+                children={`MRP`}
+                variant="caption"
+                style={{ fontSize: 10 }}
+              />
+              <Typography
+                children={`₹${mrp}`}
+                variant="caption"
+                style={{
+                  fontSize: 10,
+                  marginLeft: 4,
+                  textDecoration: "line-through",
+                }}
+              />
+              <Typography
+                children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
+                variant="caption"
+                style={{ fontSize: 10, marginLeft: 4 }}
+              />
+            </Box>
+            <Box display="flex">
+              <Rating size="small" value={+ratings || 5} readOnly />
+              <Box>
+                <Typography
+                  children={`(${+numberOfReviews || 1} review${+numberOfReviews > 0 ? 's' : ''})`}
+                  variant="caption"
+                  style={{ fontSize: 12, marginLeft: 4 }}
+                />
+              </Box>
+            </Box>
           </Box>
-          <Box className={classes.addToCartContainer}>
+          <Box className={classes.addToCartContainer} mt={1.4}>
             <Button
               variant="contained"
               color="secondary"
               size="small"
-              style={{ opacity: addToCartVisible ? 1 : 0 }}
+              style={{ opacity: addToCartVisible ? 1 : 0.88 }}
               className={classes.button}
               startIcon={<ShoppingCart style={{ width: 14, height: 14 }} />}
             >

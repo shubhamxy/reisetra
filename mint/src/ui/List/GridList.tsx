@@ -13,18 +13,13 @@ const useStyles = makeStyles((theme) => ({
     gridGap: "10px",
     width: "100%",
     padding: theme.spacing(3, 2.4, 3, 2.4),
-  },
-  gridItem: {
-    display: "flex",
-    flexDirection: "column",
-    borderRadius: "4px",
-    cursor: "pointer",
-    height: "200px",
-    width: "180px",
-    "&:hover": {
-      transition:
-        "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "1fr 1fr",
     },
+    [theme.breakpoints.down("xs")]: {
+      gridTemplateColumns: "1fr",
+      alignItems: 'center',
+    }
   },
   imageContainer: {
     display: "flex",
@@ -136,7 +131,7 @@ export default function GridList({ emptyListCaption = "", query, renderItem }) {
   const { data, hasNextPage, isLoading, fetchNextPage } = query;
   const classes = useStyles();
   return (
-    <Container disableGutters style={{ flex: 1 }}>
+    <Container disableGutters style={{ flex: 1, width: '100%', height: '100%', display: 'flex' }}>
       <List
         variant="infinite"
         data={data}

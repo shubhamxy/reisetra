@@ -7,7 +7,7 @@ import {
 } from "src/common/pagination";
 import { CustomError } from "src/common/response";
 import { PrismaService } from "src/common/modules/db/prisma.service";
-import { RedisService } from "src/common/modules/redis/redis.service";
+import { CacheService } from "src/common/modules/cache/cache.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
 import {
   CreateProductDto,
@@ -17,13 +17,14 @@ import {
   CreateCategoryDto,
   CreateTagDto,
   UpdateTagDto,
+  UpdateCategoryDto,
 } from "./dto";
 import { OrderDirection } from "../common/dto";
 @Injectable()
 export class ProductService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService
+    private readonly cache: CacheService
   ) {}
 
   async getAllProducts(
@@ -40,6 +41,7 @@ export class ProductService {
         buttonNum = 10,
         orderBy = "createdAt",
         orderDirection = OrderDirection.asc,
+        q,
       } = options;
 
       switch (sort) {
@@ -84,6 +86,24 @@ export class ProductService {
                       : [{ value: tags }],
                   },
                 },
+              }
+            : {}),
+          ...(q
+            ? {
+                OR: [
+                  {
+                    title: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    description: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                ],
               }
             : {}),
         },
@@ -171,29 +191,49 @@ export class ProductService {
   async createProduct(userId: string, data: CreateProductDto): Promise<any> {
     try {
       const { inventory, images, categories, tags, ...productData } = data;
-      const product = await this.db.product.create({
-        data: {
-          ...productData,
-          inventory: {
-            create: inventory,
-          },
-          images: {
-            createMany: {
-              data: images.map((item) => ({ ...item, userId })),
-            },
-          },
-          tags: {
-            connect: tags.map((tag) => ({ value: tag })),
-          },
-          categories: {
-            connect: categories.map((category) => ({ value: category })),
-          },
+      const dataObj = {
+        ...productData,
+        inventory: {
+          create: inventory,
         },
+      };
+      if (images.length > 0) {
+        dataObj["images"] = {
+          createMany: {
+            data: images.map((item) => ({
+              id: item.id,
+              url: item.url,
+              userId,
+              contentType: item.contentType,
+              fileType: item.fileType,
+              active: true,
+            })),
+          },
+        };
+      }
+      if (tags.length > 0) {
+        dataObj["tags"] = {
+          connect: tags.map((tag) => ({ value: tag })),
+        };
+      }
+
+      if (categories.length > 0) {
+        dataObj["categories"] = {
+          connect: categories.map((category) => ({ label: category })),
+        };
+      }
+      const product = await this.db.product.create({
+        data: dataObj,
         include: {
           categories: true,
           tags: true,
           inventory: true,
-          images: true,
+          images: {
+            select: {
+              url: true,
+              contentType: true,
+            },
+          },
         },
       });
       return product;
@@ -277,7 +317,17 @@ export class ProductService {
   }
   async getCategories(): Promise<any> {
     try {
-      const categories = await this.db.category.findMany({});
+      const categories = await this.db.category.findMany({
+        include: {
+          images: {
+            select: {
+              url: true,
+              contentType: true,
+            },
+          },
+        },
+        take: 20,
+      });
       return categories;
     } catch (error) {
       throw new CustomError(
@@ -288,12 +338,42 @@ export class ProductService {
     }
   }
 
-  async createCategory(data: CreateCategoryDto): Promise<any> {
+  async createCategory(userId: string, data: CreateCategoryDto): Promise<any> {
     try {
-      const categories = await this.db.category.createMany({
-        data: data.data,
+      const { images, ...rest } = data;
+
+      const dataObj = {
+        label: rest.label,
+        value: rest.value,
+      };
+      if (images && images.length > 0) {
+        dataObj["images"] = {
+          createMany: {
+            data: images.map((item) => ({
+              fileType: item.fileType,
+              id: item.id,
+              contentType: item.contentType,
+              url: item.url,
+              userId,
+            })),
+          },
+        };
+      }
+      if (data.styles) {
+        dataObj["styles"] = rest.styles;
+      }
+      const category = await this.db.category.create({
+        data: dataObj,
+        include: {
+          images: {
+            select: {
+              url: true,
+              contentType: true,
+            },
+          },
+        },
       });
-      return categories;
+      return category;
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -303,20 +383,89 @@ export class ProductService {
     }
   }
 
-  async updateCategories(data: CreateCategoryDto): Promise<any> {
+  async createCategories(
+    userId: string,
+    data: CreateCategoryDto[]
+  ): Promise<any> {
     try {
-      // TODO: find beter way??
-      const update = await Promise.all(
-        data.data.map((category) => {
-          return this.db.category.update({
-            where: { value: category.value },
-            data: {
-              label: category.label,
-            },
-          });
-        })
+      const results = await Promise.all(
+        data.map((item) => this.createCategory(userId, item))
       );
-      return update;
+      return results;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.findAllOffset"
+      );
+    }
+  }
+
+  async updateCategory(userId: string, data: UpdateCategoryDto): Promise<any> {
+    try {
+      const { images, ...rest } = data;
+
+      const dataObj = {
+        label: rest.label,
+        value: rest.value,
+      };
+      if (images && images.length > 0) {
+        dataObj["images"] = {
+          createMany: {
+            data: images.map((item) => ({
+              fileType: item.fileType,
+              id: item.id,
+              contentType: item.contentType,
+              url: item.url,
+              userId,
+            })),
+          },
+        };
+      }
+      if (data.styles) {
+        dataObj["styles"] = rest.styles;
+      }
+      const category = await this.db.category.update({
+        where: {
+          label: data.label,
+        },
+        data: dataObj,
+        include: {
+          images: {
+            select: {
+              url: true,
+              contentType: true,
+            },
+          },
+        },
+      });
+      return category;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.findAllOffset"
+      );
+    }
+  }
+
+  async updateCategories(
+    userId: string,
+    data: UpdateCategoryDto
+  ): Promise<any> {
+    try {
+      const { images, ...rest } = data;
+      const imageData = images.map((item) => ({ ...item, userId }));
+      const categories = await this.db.category.update({
+        where: { label: data.label },
+        data: {
+          ...rest,
+          images: {
+            createMany: { data: imageData },
+          },
+        },
+      });
+      return categories;
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -326,11 +475,17 @@ export class ProductService {
     }
   }
 
-  async deleteCategories(data: UpdateTagDto): Promise<any> {
+  async deleteCategories(
+    userId: string,
+    data: CreateCategoryDto
+  ): Promise<any> {
     try {
-      const deleted = await this.db.category.deleteMany({
+      const deleted = await this.db.category.update({
         where: {
-          value: { in: data.data.map((item) => item.value) },
+          label: data.label,
+        },
+        data: {
+          active: false,
         },
       });
       return deleted;

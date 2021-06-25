@@ -5,8 +5,8 @@ import {
   getEmailVerificationTokenKey,
   getForgotPasswordKey,
   getRefreshTokenKey,
-} from "../utils/redis";
-import { RedisService } from "../common/modules/redis/redis.service";
+} from "../utils/cache";
+import { CacheService } from "../common/modules/cache/cache.service";
 import { CreateUserDto } from "../user/dto";
 import { User } from ".prisma/client";
 import { UserRO } from "../user/interfaces/user.interface";
@@ -43,7 +43,7 @@ export class AuthService {
   constructor(
     private user: UserService,
     private jwt: JwtService,
-    private cache: RedisService,
+    private cache: CacheService,
     configService: ConfigService
   ) {
     this.appConfig = configService.get<AppEnv>("app");

@@ -80,6 +80,7 @@ async function http<S, E = any>(
   const request = new Request(requestPath, config);
   const response = await fetch(request);
   const data = await response.json().catch(() => ({}));
+
   if (!response.ok) {
     if (response.status === 401 && withAPI && config.headers["Authorization"] && !config.headers['X-Refresh-Token']) {
       const response = await refreshAuthToken();

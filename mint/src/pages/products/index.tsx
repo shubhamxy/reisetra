@@ -21,6 +21,8 @@ import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { useCategories, useReviews, useTags } from "../../libs";
 import clsx from "clsx";
+import isEqual from 'lodash.isequal';
+import { useDebounce } from "use-debounce";
 
 export type FilterT = {
   type: string;
@@ -36,7 +38,6 @@ function useHelper() {
   const query = router.query;
   const tags = useTags();
   const categories = useCategories();
-
   const sortBy: FilterT = {
     type: "select",
     title: "Sort",
@@ -117,6 +118,7 @@ function useHelper() {
     // },
   };
 
+
   function setFieldValue(
     key: string,
     value: string | string[] | number | number[]
@@ -132,11 +134,11 @@ function useHelper() {
     style: string | string[];
     price: number[];
     tags: string[];
+    q: string;
   } = {
     sort: query.sort || sortBy.data[0].value,
-    category:
-      (query.category as string) ||
-      (filters?.category?.data ? filters.category?.data[0]?.value : ""),
+    category: (query.category as string) || "",
+    // (filters?.category?.data ? filters.category?.data[0]?.value : ""),
     style: query.style || [],
     price: Array.isArray(query.price)
       ? query.price.length > 0
@@ -150,13 +152,17 @@ function useHelper() {
       : query.tags
       ? [query.tags]
       : [],
+    q: query.q ? (query.q as string) : "",
   };
+
+  const [value] = useDebounce(values, 1000);
 
   return {
     sortBy,
     filters,
     setFieldValue,
     values,
+    debouncedValues: value,
   };
 }
 const useStyles = makeStyles((theme) => ({
@@ -212,6 +218,12 @@ const useStyles = makeStyles((theme) => ({
   sizeSelectContainer: {
     minWidth: 120,
   },
+  top: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
   left: {
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -226,22 +238,32 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductsPage = () => {
   const classes = useStyles();
-  const { sortBy, filters, setFieldValue, values } = useHelper();
+  const { sortBy, filters, setFieldValue, values, debouncedValues } = useHelper();
   return (
     <MainLayout
       classes={{
         left: classes.left,
         right: classes.right,
+        top: classes.top,
       }}
       header={<AppHeader />}
       right={
-        <Box style={{ minHeight: "400px" }}>
+        <Box style={{ minHeight: "400px", width: "100%" }}>
           <ProductFilters
             data={filters}
             values={values}
             setFieldValue={setFieldValue}
           />
           <ProductsFeed />
+        </Box>
+      }
+      top={
+        <Box style={{ width: "100%" }}>
+          <ProductFilters
+            data={filters}
+            values={values}
+            setFieldValue={setFieldValue}
+          />
         </Box>
       }
       footer={<Footer />}
@@ -364,7 +386,7 @@ const ProductsPage = () => {
         </Box>
 
         <Box className={classes.products}>
-          <Products filters={values} />
+          <Products filters={debouncedValues} />
         </Box>
       </Paper>
     </MainLayout>

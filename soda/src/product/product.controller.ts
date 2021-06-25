@@ -187,12 +187,13 @@ export class ProductController {
     }
   }
 
-  @Post("categories")
+  @Post("category")
   async createCategory(
+    @Req() request: AuthenticatedRequest,
     @Body() body: CreateCategoryDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.product.createCategory(body);
+      const data = await this.product.createCategory(request.user.id, body);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -203,12 +204,47 @@ export class ProductController {
     }
   }
 
-  @Put("categories")
-  async updateCategories(
+  @Put("category")
+  async updateCategory(
+    @Req() request: AuthenticatedRequest,
     @Body() body: CreateCategoryDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.product.updateCategories(body);
+      const data = await this.product.updateCategory(request.user.id, body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createCategory"
+      );
+    }
+  }
+
+  @Post("categories")
+  async createCategories(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateCategoryDto[]
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.createCategories(request.user.id, body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createCategories"
+      );
+    }
+  }
+
+  @Put("category")
+  async updateCategories(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateCategoryDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.updateCategories(request.user.id, body);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -219,12 +255,13 @@ export class ProductController {
     }
   }
 
-  @Delete("categories")
+  @Delete("category")
   async deleteCategories(
+    @Req() request: AuthenticatedRequest,
     @Body() body: CreateCategoryDto
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.product.deleteCategories(body);
+      const data = await this.product.deleteCategories(request.user.id, body);
       return { data };
     } catch (error) {
       throw new CustomException(

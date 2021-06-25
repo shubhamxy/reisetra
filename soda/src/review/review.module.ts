@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { ReviewController } from "./review.controller";
 import { PrismaService } from "../common/modules/db/prisma.service";
 import { ReviewService } from "./review.service";
-import { RedisModule } from "src/common/modules/redis/redis.module";
+import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [RedisModule],
+  imports: [CacheModule],
   controllers: [ReviewController],
   providers: [PrismaService, ReviewService],
   exports: [ReviewService],

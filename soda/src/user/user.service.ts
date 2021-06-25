@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import * as argon2 from "argon2";
 import { CustomError } from "src/common/response";
 import { PrismaService } from "src/common/modules/db/prisma.service";
-import { RedisService } from "src/common/modules/redis/redis.service";
+import { CacheService } from "src/common/modules/cache/cache.service";
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from "./dto";
 import { UserRO, UsersRO } from "./interfaces/user.interface";
 import {
@@ -18,7 +18,7 @@ import { prismaOffsetPagination } from "src/utils/prisma";
 export class UserService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService
+    private readonly cache: CacheService
   ) {}
 
   async allUsers(

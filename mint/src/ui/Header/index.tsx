@@ -4,7 +4,6 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  useTheme,
 } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,41 +12,24 @@ import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
-
-import Menu from "@material-ui/core/Menu";
 import { useDebouncedCallback } from "use-debounce";
+import Menu from "@material-ui/core/Menu";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import {
-  Backdrop,
-  Box,
-  Button,
-  CircularProgress,
-  Link,
-  Grid,
-} from "@material-ui/core";
-import { Image } from "../Image";
+import SearchIcon from "@material-ui/icons/Search";
+import { Button, Grid, InputBase } from "@material-ui/core";
+import Link from "next/link";
 import { logout, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
 import { Close, ShoppingCart } from "@material-ui/icons";
-import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import { useCartItems, useGlobalState } from "../../libs";
-import { Footer, List } from '../List';
-import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
 import { Cart } from "../Cart";
 import { Logo } from "../Logo";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -117,6 +99,11 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "transparent",
       overflow: "hidden",
     },
+    menuPaperItem: {
+      "&:hover": {
+        backgroundColor: "unset",
+      },
+    },
     list: {
       background: theme.palette.background.paper,
       minWidth: 100,
@@ -175,22 +162,86 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
     },
+    search: {
+      position: "relative",
+      borderRadius: 8,
+      backgroundColor: fade(theme.palette.common.white, 0.08),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.1),
+      },
+      transition:
+        "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+      marginLeft: 1.6,
+      marginRight: 1.6,
+      width: "auto",
+      color: theme.palette.text.primary,
+      ...theme.typography.caption,
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 1),
+      height: "100%",
+      width: "100%",
+      position: "absolute",
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-start",
+    },
+    inputRoot: {
+      color: "inherit",
+      ...theme.typography.caption,
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(3)}px)`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        width: "10ch",
+        "&:focus": {
+          width: "16ch",
+        },
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "24ch",
+        "&:focus": {
+          width: "28ch",
+        },
+      },
+    },
   })
 );
-
-const NavigationLinks = {};
 
 export function AppHeader() {
   const [open, setOpen] = React.useState(false);
   const [searchText, setSearchText] = useState("");
   const authState = useAuthState();
   const globalState = useGlobalState();
-  const {data: response} = useCartItems(authState?.user?.cart.id, globalState?.promo || null);
+  const router = useRouter();
+  const { data: response } = useCartItems(
+    authState?.user?.cart.id,
+    globalState?.promo || null
+  );
   const data = response.data;
   const authDispatch = useAuthDispatch();
+  useEffect(() => {
+    if(router.query['q'] && searchText === ''){
+      setSearchText(router.query['q'] ? router.query['q'] as string: '')
+    }
+  }, [router.query['q']])
+
   const debounced = useDebouncedCallback((value) => {
-    setSearchText(value);
-  }, 1000);
+    if(router.pathname !== 'products') {
+      router.pathname = 'products';
+    }
+    if(!value) {
+      delete router.query.q;
+    } else {
+      router.query["q"] = value;
+    }
+    router.push(router);
+  }, 2000);
 
   const isOpen = Boolean(searchText);
 
@@ -222,6 +273,39 @@ export function AppHeader() {
   };
 
   const menuId = "primary-search-account-menu";
+
+  const NavigationMenu = [
+    {
+      label: "Shop",
+      link: "/",
+    },
+    {
+      label: "Stories",
+      link: "/stories",
+    },
+    {
+      label: "About",
+      link: "/about",
+    },
+  ];
+
+  const ProfileMenu = [
+    {
+      label: "Account",
+      link: "/account",
+    },
+    {
+      label: "Orders",
+      link: "/orders",
+    },
+    {
+      label: "Logout",
+      link: "/",
+      onClick: () => {
+        authDispatch(logout());
+      },
+    },
+  ];
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -240,65 +324,103 @@ export function AppHeader() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link href="/account" underline={"none"} color="textPrimary">
-          <Typography variant="caption">Account</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link href="/orders" underline={"none"} color="textPrimary">
-          <Typography variant="caption">Orders</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          authDispatch(logout());
-        }}
-      >
-        <Typography variant="caption">Logout</Typography>
-      </MenuItem>
+      {ProfileMenu.map((item) => {
+        return (
+          <MenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleMenuClose();
+              item?.onClick?.();
+            }}
+            className={classes.menuPaperItem}
+          >
+            <Link href={item.link}>
+              <Typography variant="caption">{item.label}</Typography>
+            </Link>
+          </MenuItem>
+        );
+      })}
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = "account-menu-mobile";
+  const renderProfile = authState?.isAuthenticated ? (
+    <MenuItem
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isMobileMenuOpen) {
+          handleMobileMenuClose();
+        }
+        handleProfileMenuOpen(e);
+      }}
+    >
+      <IconButton>
+        {authState?.user?.avatar ? (
+          <Avatar
+            style={{ width: 20, height: 20 }}
+            src={authState?.user?.avatar}
+            alt="user avatar"
+          />
+        ) : (
+          <AccountCircle style={{ width: 20, height: 20 }} />
+        )}
+      </IconButton>
+    </MenuItem>
+  ) : (
+    <MenuItem>
+      <Link href="/login">
+        <Button variant="contained" color="primary">
+          Login
+        </Button>
+      </Link>
+    </MenuItem>
+  );
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
-      keepMounted
+      keepMounted={false}
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {NavigationMenu.map((item) => (
+        <MenuItem>
+          <Link href={item.link}>
+            <Button
+              variant="text"
+              color={item.link === router.pathname ? "primary" : "default"}
+            >
+              {item.label}
+            </Button>
+          </Link>
+        </MenuItem>
+      ))}
     </Menu>
+  );
+  const renderSearchBar = (
+    <div className={classes.search}>
+      <div className={classes.searchIcon}>
+        <SearchIcon style={{height: 16, width: 16}}  />
+      </div>
+      <InputBase
+        placeholder="Search"
+        autoFocus={true}
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        value={searchText}
+        onChange={(e) => {
+          setSearchText(e.target.value);
+          debounced(e.target.value);
+        }}
+        inputProps={{ "aria-label": "search" }}
+      />
+    </div>
   );
 
   const handleDrawerOpen = () => {
@@ -308,7 +430,6 @@ export function AppHeader() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
   return (
     <>
       <CssBaseline />
@@ -317,70 +438,51 @@ export function AppHeader() {
           <Toolbar>
             <Logo />
             <div className={classes.flex1} />
+            {renderSearchBar}
             <div className={classes.sectionDesktop}>
-              <Button href="/" variant="text" color={"primary"}>
-                Shop
-              </Button>
-              <Button href="/stories" variant="text">
-                Stories
-              </Button>
-              <Button href="/about" variant="text">
-                About
-              </Button>
-
-              <IconButton
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                color="inherit"
-                onClick={open ? handleDrawerClose : handleDrawerOpen}
-                centerRipple={false}
-              >
-                <Badge badgeContent={data['items']?.length} color="primary">
-                  <ShoppingCart style={{ width: 20, height: 20 }} />
-                </Badge>
-              </IconButton>
-              <Box
-                pl={0.8}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                {authState?.isAuthenticated ? (
-                  <IconButton
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    {authState?.user?.avatar ? (
-                      <Avatar
-                        style={{ width: 20, height: 20 }}
-                        src={authState?.user?.avatar}
-                        alt="user avatar"
-                      />
-                    ) : (
-                      <AccountCircle style={{ width: 20, height: 20 }} />
-                    )}
-                  </IconButton>
-                ) : (
-                  <Button href="/login" variant="contained" color="primary">
-                    Login
-                  </Button>
-                )}
-              </Box>
+              {NavigationMenu.map((item) => (
+                <MenuItem>
+                  <Link href={item.link}>
+                    <Button
+                      variant="text"
+                      color={
+                        item.link === router.pathname ? "primary" : "default"
+                      }
+                    >
+                      {item.label}
+                    </Button>
+                  </Link>
+                </MenuItem>
+              ))}
+              <MenuItem>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={open ? handleDrawerClose : handleDrawerOpen}
+                  centerRipple={false}
+                >
+                  <Badge badgeContent={data["items"]?.length} color="primary">
+                    <ShoppingCart style={{ width: 20, height: 20 }} />
+                  </Badge>
+                </IconButton>
+              </MenuItem>
+              {renderProfile}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
+              {renderProfile}
+              <MenuItem>
+                <IconButton
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+                </IconButton>
+              </MenuItem>
             </div>
           </Toolbar>
         </AppBar>

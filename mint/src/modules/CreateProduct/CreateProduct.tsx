@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
@@ -10,10 +10,16 @@ import Typography from "@material-ui/core/Typography";
 import ProductDetails from "./ProductDetails";
 import ProductImages from "./ProductImages";
 import Summary from "./Review";
-import { useCreateProduct, useUpdateProduct } from "../../libs";
+import {
+  updateSnackBar,
+  useCreateProduct,
+  useGlobalDispatch,
+  useUpdateProduct,
+} from "../../libs";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Container } from "@material-ui/core";
+import { Container, TextField } from "@material-ui/core";
+import { useQueryClient } from "react-query";
 
 const createProductSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -27,6 +33,7 @@ const createProductSchema = Yup.object().shape({
   categories: Yup.array(),
   tags: Yup.array(),
   dimensions: Yup.array(),
+  styles: Yup.array(),
   brand: Yup.string().required("Brand is required"),
   inventory: Yup.object().shape({
     stockQuantity: Yup.number().required("Stock Quantity is required"),
@@ -145,6 +152,7 @@ export function CreateProduct() {
     details: undefined,
     colors: [],
     dimensions: [],
+    styles: [],
     categories: [],
     brand: "",
     ...{
@@ -152,8 +160,10 @@ export function CreateProduct() {
       description:
         "This product is a big peacock wall stand which will look attractive and awesome when kept or hanged at any wall in your house. \n\nIt is one-of-a-kind of a product and when you will hang it on your wall it will increase the liking of your wall and plus will give a luxurious look which is ergonomic and elegant. \n\nWe are sure that you will be able to show-off by hanging this at your lovely wall and all the people coming to your house will ask you and plus it is such at an unbelievable price. What else do you need when you have all the things you need?",
       inventory: { stockQuantity: 100, sku: "B07VXFMVCD" },
+      styles: [],
       images: [
         {
+          id: 'ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg',
           contentType: "image/jpeg",
           fileType: "images",
           fileName: "1624151986235-81rmYy-6-pL._SL1500_.jpg",
@@ -161,6 +171,7 @@ export function CreateProduct() {
             "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg",
         },
         {
+          id: 'ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg',
           contentType: "image/jpeg",
           fileType: "images",
           fileName: "1624151986236-81U5C8sfZyL._SL1500_.jpg",
@@ -168,6 +179,7 @@ export function CreateProduct() {
             "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg",
         },
         {
+          id: 'ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg',
           contentType: "image/jpeg",
           fileType: "images",
           fileName: "1624151986236-818SUCoRFmL._SL1500_.jpg",
@@ -195,7 +207,9 @@ export function CreateProduct() {
   };
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
-
+  const queryClient = useQueryClient();
+  const globalDispatch = useGlobalDispatch();
+  const [serverError, setServerErrors] = useState();
   const {
     values,
     setFieldValue,
@@ -217,8 +231,19 @@ export function CreateProduct() {
       createProduct.mutate(data, {
         onSuccess: () => {
           setActiveStep(activeStep + 1);
+          setServerErrors(null);
+          queryClient.invalidateQueries("PRODUCTS")
         },
-        onError: () => {},
+        onError: (error) => {
+          globalDispatch(
+            updateSnackBar({
+              message: error["message"] || "Server Error",
+              type: "error",
+              open: true,
+            })
+          );
+          setServerErrors(error["errors"]);
+        },
       });
     },
   });
@@ -313,6 +338,7 @@ export function CreateProduct() {
           </React.Fragment>
         </Container>
       </main>
+      {serverError && <TextField inputProps={{style:{fontFamily: 'monospace', fontSize: 12}}} fullWidth multiline value={JSON.stringify(serverError, null, 4)} />}
     </React.Fragment>
   );
 }

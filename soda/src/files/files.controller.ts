@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Query,
   Req,
 } from "@nestjs/common";
@@ -43,7 +44,7 @@ export class FilesController {
     }
   }
 
-  @Post("file")
+  @Put("file")
   async addFile(
     @Req() request: AuthenticatedRequest,
     @Body() body: AddFileDTO
@@ -89,11 +90,11 @@ export class FilesController {
   @Delete("file")
   async deleteFile(
     @Req() request: AuthenticatedRequest,
-    @Body() body: { fileName: string; fileType: FileType }
+    @Body('id') id: string,
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.files.deleteFile(request.user.id, body.fileType, body.fileName);
-      this.logger.info("s3.deleteObject::" + data.key);
+      const data = await this.files.deleteFile(request.user.id, id);
+      this.logger.info("s3.deleteObject::" + data.id);
       return {
         data: data,
       };

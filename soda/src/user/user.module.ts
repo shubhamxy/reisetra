@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { UserController } from "./user.controller";
 import { PrismaService } from "../common/modules/db/prisma.service";
 import { UserService } from "./user.service";
-import { RedisModule } from "src/common/modules/redis/redis.module";
+import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [RedisModule],
+  imports: [CacheModule],
   controllers: [UserController],
   providers: [PrismaService, UserService],
   exports: [UserService],

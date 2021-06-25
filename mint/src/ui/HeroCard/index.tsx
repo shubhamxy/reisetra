@@ -15,34 +15,42 @@ import {
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      alignSelf: 'center',
-      margin: "0 auto",
-      overflow: 'hidden',
       width: "100%",
-      // background: "linear-gradient(0deg, #F0F0F0, #F0F0F0), #0B0C0C",
       backgroundImage: `url("/images/hero.jpeg")`,
       backgroundRepeat: "no-repeat",
-      backgroundSize: "contain",
+      backgroundSize: "cover",
       backgroundPosition: "center center",
-      boxShadow: `2px 2px 7px ${fade(theme.palette.common.black, 0.2)}`,
-      borderRadius: 8,
-      height: 360,
+      boxShadow: "2px 2px 7px rgba(0, 0, 0, 0.15)",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: 320,
+      [theme.breakpoints.down("sm")]: {
+        backgroundPosition: "center left",
+      }
     },
     content: {
       height: "100%",
       display: "flex",
-      maxWidth: "600px",
-      textAlign: "center",
+      textAlign: 'center',
+      maxWidth: 600,
       flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
+      [theme.breakpoints.down("sm")]: {
+        maxWidth: 400,
+        ...theme.typography.h4,
+      }
     },
     description: {
-      textAlign: "center",
+      ...theme.typography.caption,
+      fontSize: 16,
+      textAlign: 'center',
+      [theme.breakpoints.down("sm")]: {
+        fontSize: 20,
+        ...theme.typography.subtitle2,
+      }
     },
     actionsContainer: {},
   })
@@ -67,7 +75,7 @@ export default React.memo(function HeroCard(
   } = props.data || {};
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={backgroundImage ? {background: `url(${backgroundImage})`}: {}}>
       <CardContent className={classes.content}>
         <Typography style={{ textTransform: "uppercase" }} variant={"h3"}>
           {title}

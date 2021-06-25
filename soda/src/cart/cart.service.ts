@@ -5,7 +5,7 @@ import {
 } from "src/common/pagination";
 import { CustomError } from "src/common/response";
 import { PrismaService } from "src/common/modules/db/prisma.service";
-import { RedisService } from "src/common/modules/redis/redis.service";
+import { CacheService } from "src/common/modules/cache/cache.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
 import { CartItemRO } from "./interfaces";
 import {
@@ -60,7 +60,7 @@ function calculateBilling(
 export class CartService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService,
+    private readonly cache: CacheService,
     private readonly txn: TransactionService
   ) {}
   async getAllCarts(

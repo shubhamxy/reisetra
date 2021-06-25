@@ -37,6 +37,7 @@ export class Cart implements CartModel {
   createdAt: Date;
   updatedAt: Date;
   checkedOut: boolean;
+  active: boolean;
 }
 
 export class Offer implements OfferModel {

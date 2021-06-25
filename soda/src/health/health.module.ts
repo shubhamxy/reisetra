@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { HealthCheckController } from "./health.controller";
 import { PrismaService } from "../common/modules/db/prisma.service";
-import { RedisModule } from "src/common/modules/redis/redis.module";
+import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [RedisModule],
+  imports: [CacheModule],
   controllers: [HealthCheckController],
   providers: [PrismaService],
 })

@@ -7,7 +7,7 @@ import {
 } from "src/common/pagination";
 import { CustomError } from "src/common/response";
 import { PrismaService } from "src/common/modules/db/prisma.service";
-import { RedisService } from "src/common/modules/redis/redis.service";
+import { CacheService } from "src/common/modules/cache/cache.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
 import { CreateOrderDto } from "./dto";
 
@@ -15,9 +15,8 @@ import { CreateOrderDto } from "./dto";
 export class OrderService {
   constructor(
     private readonly db: PrismaService,
-    private readonly cache: RedisService
+    private readonly cache: CacheService
   ) {}
-
   async getAllOrders(
     options: CursorPagination
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
@@ -37,6 +36,58 @@ export class OrderService {
         orderDirection,
         model: "order",
         include: {
+          address: true,
+          user: true,
+          cart: {
+            include: {
+              items: true,
+            },
+          },
+        },
+        where: {
+          active: true,
+        },
+        prisma: this.db,
+      });
+      return result;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "OrderService.getAllOrders"
+      );
+    }
+  }
+
+  async getUserOrders(
+    userId: string,
+    options: CursorPagination
+  ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
+    try {
+      const {
+        cursor,
+        size = 10,
+        buttonNum = 10,
+        orderBy = "createdAt",
+        orderDirection = "desc",
+      } = options;
+      const result = await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: "order",
+        where: {
+          userId,
+          active: true,
+        },
+        include: {
+          cart: {
+            include: {
+              items: true,
+            },
+          },
           address: true,
           user: true,
         },
@@ -62,7 +113,6 @@ export class OrderService {
           },
         },
         address: true,
-        user: true,
       },
     });
     if (!product) {
@@ -118,12 +168,15 @@ export class OrderService {
 
   async deleteOrder(orderId: string): Promise<any> {
     try {
-      const data = await this.db.order.delete({
+      const data = await this.db.order.update({
         where: { id: orderId },
         include: {
           address: true,
           user: true,
         },
+        data: {
+          active: false,
+        }
       });
       return data;
     } catch (error) {
@@ -131,6 +184,28 @@ export class OrderService {
         error?.meta?.cause || error.message,
         error.code,
         "OrderService.deleteOrder"
+      );
+    }
+  }
+
+  async cancelOrder(orderId: string): Promise<any> {
+    try {
+      const data = await this.db.order.update({
+        where: { id: orderId },
+        include: {
+          address: true,
+          user: true,
+        },
+        data: {
+          status: "CANCELLED",
+        }
+      });
+      return data;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "OrderService.cancelOrder"
       );
     }
   }

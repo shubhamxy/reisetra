@@ -41,33 +41,40 @@ enum TransactionType {
   RAZORPAY
 }
 
-model Secrets {
-  id       String @id @default(cuid())
-  user     User   @relation(fields: [id], references: [id])
-  password String
-}
-
 enum FileType {
   images
   documents
 }
 
-model File {
-  fileName String
-  fileType FileType
-  user     User     @relation(fields: [userId], references: [id])
-  userId   String
+model Secrets {
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [id], references: [id])
+  password String
 
-  url         String?
-  contentType String?
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model File {
+  id         String @id
+  url         String
+
+  fileType    FileType
+  contentType String
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
   product     Product? @relation(fields: [productId], references: [id])
   productId   String?
   review      Review?  @relation(fields: [reviewId], references: [id])
   reviewId    String?
-  @@unique([userId, fileName, fileType])
+  category   Category? @relation(fields: [categoryId], references: [label])
+  categoryId String?
 }
 
 model User {
@@ -91,12 +98,12 @@ model User {
   cart    Cart? // active cart
   secrets Secrets?
 
+  transactions Transaction[]
+  files        File[]
+
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  transactions Transaction[]
-  files        File[]
 }
 
 model Cart {
@@ -105,11 +112,13 @@ model Cart {
   userId String?
 
   items      CartItem[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
   checkedOut Boolean    @default(false)
 
   order Order[]
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CartItem {
@@ -123,10 +132,10 @@ model CartItem {
   size     String?
   color    String?
 
+
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   @@unique([productId, cartId])
 }
 
@@ -148,7 +157,8 @@ model Address {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  orders    Order[]
+  orders Order[]
+
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -158,12 +168,32 @@ model Tag {
   label    String
   value    String    @id
   products Product[]
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Category {
-  label    String
-  value    String    @id
-  products Product[]
+  label     String @id
+  value     String
+  products  Product[]
+  images    File[]
+  styles    String[]
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+}
+
+model Offer {
+  label String @unique
+  value String
+  type  String @default("promo")
+
+  orders    Order[]
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Review {
@@ -183,19 +213,18 @@ model Review {
 }
 
 model Product {
-  id          String @id @default(cuid())
+  id          String     @id @default(cuid())
   title       String
   description String
-  brand       String @default("Generic")
+  brand       String     @default("Generic")
   images      File[]
-
-  colors     String[]
-  sizes      String[]
-  categories Category[]
-  tags       Tag[]
-
-  rating  Int      @default(5)
-  reviews Review[]
+  colors      String[]
+  sizes       String[]
+  categories  Category[]
+  tags        Tag[]
+  styles      String[]
+  rating      Int        @default(5)
+  reviews     Review[]
 
   dimensions String[]
   details    Json
@@ -213,31 +242,23 @@ model Product {
   inventory   Inventory @relation(fields: [inventoryId], references: [id])
   inventoryId String
 
-  active    Boolean    @default(true)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  cart      CartItem[]
+  cart CartItem[]
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Inventory {
   id      String   @id @default(cuid())
   product Product?
 
-  stockQuantity Int      @default(0)
-  active        Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  sku           String   @unique
-}
+  stockQuantity Int    @default(0)
+  sku           String @unique
 
-model Offer {
-  label  String  @unique
-  value  String
-  active        Boolean  @default(true)
-  type          String   @default("promo")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  orders Order[]
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
@@ -263,11 +284,12 @@ model Order {
   cartId String
 
   status      OrderStatus  @default(PENDING)
-  active      Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
   transaction Transaction?
   offer       Offer?       @relation(fields: [promo], references: [label])
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Transaction {
@@ -287,10 +309,11 @@ model Transaction {
   paymentSignature String?
   reference        String?
 
-  verified  Boolean           @default(false)
-  type      TransactionType
-  status    TransactionStatus
-  active    Boolean           @default(true)
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  verified Boolean           @default(false)
+  type     TransactionType
+  status   TransactionStatus
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

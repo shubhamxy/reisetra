@@ -1,8 +1,7 @@
-import { CacheModule, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import * as redisStore from "cache-manager-redis-store";
 import { LoggerModule } from "nestjs-pino";
 import { AddressModule } from "./address/address.module";
 import { AuthModule } from "./auth/auth.module";
@@ -19,6 +18,7 @@ import { TransactionModule } from "./transaction/transaction.module";
 import { UserModule } from "./user/user.module";
 import { FilesModule } from "./files/files.module";
 import { ReviewModule } from "./review/review.module";
+import { CacheModule } from "./common/modules/cache/cache.module";
 import settings from "./config/settings";
 const settingsEnv = settings();
 
@@ -39,16 +39,7 @@ const settingsEnv = settings();
       validate,
     }),
     ThrottlerModule.forRoot(settingsEnv.throttle),
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get("redis").host,
-        port: configService.get("redis").port,
-        ttl: configService.get("redis").cacheTTL,
-      }),
-    }),
+    CacheModule,
     HealthCheckModule,
     AuthModule,
     UserModule,

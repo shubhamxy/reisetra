@@ -3,6 +3,7 @@ import { Box, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Rating } from "@material-ui/lab";
 
 function useHelper({ id }) {
   const router = useRouter();
@@ -17,7 +18,16 @@ function useHelper({ id }) {
 }
 
 export function ProductCard({ data }) {
-  const { id, title, description, price, mrp, images} = data;
+  const {
+    id,
+    title,
+    description,
+    ratings,
+    numberOfReviews,
+    price,
+    mrp,
+    images,
+  } = data;
   const { handleClick } = useHelper({
     id,
   });
@@ -44,11 +54,7 @@ export function ProductCard({ data }) {
               className={classes.img}
             />
           ) : (
-            <Image
-              src="/icons/file.svg"
-              width={24}
-              height={24}
-            />
+            <Image src="/icons/file.svg" width={24} height={24} />
           )}
         </Box>
       </Box>
@@ -62,33 +68,56 @@ export function ProductCard({ data }) {
           {title}
         </Typography>
         <Box display="flex" flexDirection="column">
-          <Typography
+          {/* <Typography
             className={classes.subText}
             variant="body1"
             color="textPrimary"
             component="span"
           >
             {description}
-          </Typography>
+          </Typography> */}
+          <Box className={classes.costContainer}>
           <Box display="flex">
-            <Typography
-              className={classes.subText}
-              variant="body1"
-              color="textPrimary"
-              component="span"
-              style={{  paddingRight: 4, textDecoration: 'line-through' }}
-            >
-              {`₹ ${Math.ceil(mrp) || 1}`}
-            </Typography>
-            <Typography
-              className={classes.subText}
-              variant="body1"
-              color="textPrimary"
-              component="span"
-            >
-              {`₹ ${Math.ceil(price) || 1}`}
-            </Typography>
-          </Box>
+              <Rating size="small" value={+ratings || 5} readOnly />
+              <Box>
+                <Typography
+                  children={`(${+numberOfReviews || 1} review${
+                    +numberOfReviews > 0 ? "s" : ""
+                  })`}
+                  variant="caption"
+                  style={{ fontSize: 12, marginLeft: 4 }}
+                />
+              </Box>
+            </Box>
+            <Box>
+              <Typography
+                className={classes.cost}
+                children={`₹ ${price}`}
+                variant="subtitle2"
+              />
+            </Box>
+            <Box>
+              <Typography
+                children={`MRP`}
+                variant="caption"
+                style={{ fontSize: 10 }}
+              />
+              <Typography
+                children={`₹${mrp}`}
+                variant="caption"
+                style={{
+                  fontSize: 10,
+                  marginLeft: 4,
+                  textDecoration: "line-through",
+                }}
+              />
+              <Typography
+                children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
+                variant="caption"
+                style={{ fontSize: 10, marginLeft: 4 }}
+              />
+            </Box>
+         </Box>
         </Box>
       </Box>
     </Box>

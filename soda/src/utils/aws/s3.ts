@@ -1,4 +1,5 @@
 import { S3 } from "aws-sdk";
+import { nanoid } from "nanoid";
 import { services } from "src/config";
 import { File } from "src/files/entity";
 var url = require("url");
@@ -16,6 +17,7 @@ export interface UploadUrlProps {
   fileName: string;
   contentType: string;
 }
+const RE = /(?:\.([^.]+))?$/;
 
 export const getUploadURL = async function ({
   userId,
@@ -24,7 +26,7 @@ export const getUploadURL = async function ({
   contentType,
 }: UploadUrlProps): Promise<
   Partial<File> & {
-    key: string;
+    id: string;
     url: string;
     fileName: string;
     signedUrl: string;
@@ -32,7 +34,8 @@ export const getUploadURL = async function ({
     contentType: any;
   }
 > {
-  const key = `${userId}/${fileType}/${fileName}`;
+  const ext = RE.exec(fileName)[1] || '';
+  const key = `${userId}/${fileType}/${nanoid()}${ext ? `.${ext}` : ''}`;
   const s3Params = {
     Bucket: awsConfig.s3BucketName,
     Key: key,
@@ -42,7 +45,7 @@ export const getUploadURL = async function ({
   };
   const signedUrl = await s3.getSignedUrlPromise("putObject", s3Params);
   return {
-    key,
+    id: key,
     contentType,
     fileType,
     fileName,
