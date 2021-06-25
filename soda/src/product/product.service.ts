@@ -159,14 +159,14 @@ export class ProductService {
     const products = await this.db.product.findMany({
       where: {
         ...(price ? { price: { gte: +price[0], lte: +price[1] } } : {}),
-        ...(category ? { categories: { some: { value: category } } } : {}),
+        ...(category ? { categories: { some: { label: category } } } : {}),
         ...(tags
           ? {
               tags: {
                 some: {
                   OR: Array.isArray(tags)
-                    ? tags.map((t) => ({ value: t }))
-                    : [{ value: tags }],
+                    ? tags.map((t) => ({ label: t }))
+                    : [{ label: tags }],
                 },
               },
             }
@@ -213,13 +213,13 @@ export class ProductService {
       }
       if (tags.length > 0) {
         dataObj["tags"] = {
-          connect: tags.map((tag) => ({ value: tag })),
+          connect: tags.map((tag) => ({ label: tag })),
         };
       }
 
       if (categories.length > 0) {
         dataObj["categories"] = {
-          connect: categories.map((category) => ({ value: category })),
+          connect: categories.map((category) => ({ label: category })),
         };
       }
       const product = await this.db.product.create({
@@ -584,7 +584,7 @@ export class ProductService {
       const update = await Promise.all(
         data.map((tag) => {
           return this.db.tag.update({
-            where: { label: tag.value },
+            where: { label: tag.label },
             data: {
               label: tag.label,
               value: tag.value,

@@ -56,7 +56,7 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     borderRadius: 8,
     color: colors && colors[0] ? colors[0] : styles[styleIndex].color,
     background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
-    backgroundSize: "contain",
+    backgroundSize: colors && colors[2] ? colors[2] : "auto 100%",
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
     "&:hover": {
