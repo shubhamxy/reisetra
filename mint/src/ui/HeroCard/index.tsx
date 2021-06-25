@@ -34,13 +34,12 @@ const useStyles = makeStyles((theme) =>
       height: "100%",
       display: "flex",
       textAlign: 'center',
-      maxWidth: 600,
       flexDirection: "column",
       justifyContent: 'center',
       alignItems: 'center',
+      maxWidth: 620,
       [theme.breakpoints.down("sm")]: {
         maxWidth: 400,
-        ...theme.typography.h4,
       }
     },
     description: {
@@ -80,7 +79,7 @@ export default React.memo(function HeroCard(
         <Typography style={{ textTransform: "uppercase" }} variant={"h3"}>
           {title}
         </Typography>
-        <Typography className={classes.description} variant={"body2"}>
+        <Typography className={classes.description} variant={"caption"}>
           {subtitle}
         </Typography>
         {props.actions && <CardActions>{props.actions}</CardActions>}

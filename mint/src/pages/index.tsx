@@ -54,7 +54,7 @@ const IndexPage = () => {
           data={{
             title: "Indian Handcrafts",
             subtitle: "Unique products designed by independent artists.",
-            backgroundImage: "",
+            backgroundImage: "/images/hero-main.jpeg",
           }}
         />
       }

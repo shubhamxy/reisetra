@@ -327,10 +327,10 @@ export class CartService {
     }
   }
 
-  async createOffers(data: CreateOfferDto): Promise<any> {
+  async createOffers(data: CreateOfferDto[]): Promise<any> {
     try {
       const offers = await this.db.offer.createMany({
-        data: data.data,
+        data: data,
       });
       return offers;
     } catch (error) {
@@ -342,11 +342,11 @@ export class CartService {
     }
   }
 
-  async updateOffers(data: UpdateOfferDto): Promise<any> {
+  async updateOffers(data: UpdateOfferDto[]): Promise<any> {
     try {
       // TODO: find beter way??
       const update = await Promise.all(
-        data.data.map((offer) => {
+        data.map((offer) => {
           return this.db.offer.update({
             where: { label: offer.label },
             data: {
@@ -365,11 +365,11 @@ export class CartService {
     }
   }
 
-  async deleteOffers(data: DeleteOfferDto): Promise<any> {
+  async deleteOffers(data: DeleteOfferDto[]): Promise<any> {
     try {
       const deleted = await this.db.offer.updateMany({
         where: {
-          label: { in: data.data.map((item) => item.label) },
+          label: { in: data.map((item) => item.label) },
         },
         data: {
           active: false,

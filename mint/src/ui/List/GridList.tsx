@@ -133,7 +133,7 @@ export default function GridList({ emptyListCaption = "", query, renderItem }) {
   return (
     <Container disableGutters style={{ flex: 1, width: '100%', height: '100%', display: 'flex' }}>
       <List
-        variant="infinite"
+        variant={'infinite'}
         data={data}
         classes={{ list: classes.list }}
         isLoading={isLoading}

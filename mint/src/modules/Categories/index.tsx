@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Box, Card, CardContent, fade, Typography } from "@material-ui/core";
-import { useCategories } from "../../libs";
+import { useCategories, useInterval } from "../../libs";
 import { useRouter } from "next/router";
 
 const useGridStyles = makeStyles((theme) => ({
@@ -19,13 +19,16 @@ const useGridStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "1fr",
-      alignItems: 'center',
+      alignItems: "center",
     },
   },
 }));
 
 const colors = {
-  default: { background: "#ffffff", color: "#000000" },
+  default: {
+    background: "#ffffff",
+    color: "#000000"
+  },
   dark: {
     background: "#1A1A1A",
     color: "#fff",
@@ -44,11 +47,11 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     alignItems: "flex-start",
     padding: "30px 30px 19px 30px",
     cursor: "pointer",
-    width: "275px",
-    height: "352px",
+    width: 275,
+    height: 352,
     mixBlendMode: "normal",
-    boxShadow: "0px 3.79093px 11.3728px rgba(0, 0, 0, 0.103775)",
-    borderRadius: "8.52671px",
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
+    borderRadius: 8,
     color: styles && styles[0] ? styles[0] : colors[variant].color,
     background: styles && styles[1] ? styles[1] : colors[variant].background,
     objectFit: "cover",
@@ -57,12 +60,12 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     backgroundRepeat: "no-repeat",
     "&:hover": {
       transition:
-        "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
     [theme.breakpoints.down("sm")]: {
-      maxWidth: '100%',
+      maxWidth: "100%",
       margin: "0 auto",
-    }
+    },
   }),
   card: {
     padding: 0,
@@ -121,20 +124,29 @@ export function GridItem({
   description,
   descriptionImage,
   descriptionImage2,
-  image,
   illustration,
   illustrationImage,
   illustrationImageHeight,
   onClick,
   styles,
+  images,
   ...rest
 }) {
   const classes = useGridItemStyles({ variant, styles });
+  const [image, setImage] = useState(0);
+  useInterval(
+    () => {
+      setImage((image + 1) % images?.length);
+    },
+    image > 0 && images.length > 0 ? 2000 : null
+  );
   return (
     <Card
       elevation={0}
       className={classes.root}
-      style={{ backgroundImage: `url(${illustration})` }}
+      onMouseEnter={() => images?.length > 0 ? setImage((image + 1) % images.length) : ''}
+      onMouseLeave={() => setImage(0)}
+      style={{ backgroundImage: `url(${images?.[image]?.url || illustration})` }}
       onClick={onClick}
     >
       <CardContent className={classes.card}>
@@ -199,7 +211,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "24px",
   },
 }));
-const Categories = ({filters}) => {
+const Categories = ({ filters }) => {
   const classes = useStyles();
   const router = useRouter();
   const { data } = useCategories();
@@ -209,14 +221,28 @@ const Categories = ({filters}) => {
       variant: "dark",
       title: item.label,
       value: item.value,
-      illustration: item.images && item.images.length > 0 ? item.images[0].url : `/images/categories/${item.value}.jpeg`,
+      illustration: `/images/categories/${item.value}.jpeg`,
       styles: item.styles,
+      images: item.images,
     })) || [];
   return (
     <Grid>
       {categories.map((item, index) => (
         //@ts-ignore
-        <GridItem {...item} key={index} onClick={() => {router.push(`products?category=${item.value}`)}}></GridItem>
+        <GridItem
+          {...item}
+          key={index}
+          onClick={() => {
+            if (!item.title) {
+              delete router.query["category"];
+            } else {
+              // @ts-ignore
+              router.query["category"] = item.title;
+            }
+            router.pathname = "products";
+            router.push(router);
+          }}
+        ></GridItem>
       ))}
     </Grid>
   );

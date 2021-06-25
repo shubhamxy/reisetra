@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1,
     borderRadius: 4,
     width: "100%",
+    position: "relative",
   },
   circle: {
     marginBbottom: "0px",
@@ -76,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     flex: 1,
     width: "100%",
-    height: "100%",
     textAlign: "left",
     paddingTop: 24,
     background: "#9caf98",
@@ -95,8 +95,8 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     margin: "0",
     width: "100%",
-    height: "100%",
     padding: theme.spacing(2, 4, 2, 4),
+    position: "relative",
   },
   description: {
     padding: theme.spacing(0, 4.0, 4.5, 4.0),
@@ -144,7 +144,6 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     margin: "0",
     width: "100%",
-    height: "100%",
     padding: theme.spacing(2.1, 4.0, 4.5, 4.0),
     background: "#449ae0",
     minHeight: "200px",
@@ -203,7 +202,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ height: "100%" }}
+      // style={{ height: "100%" }}
       {...other}
     >
       {value === index && (
@@ -250,10 +249,6 @@ export default function DetailsTable({ rows, label }) {
     </TableContainer>
   );
 }
-
-function useHelper() {
-  return {};
-}
 export function Product({ id }) {
   const classes = useStyles();
   const router = useRouter();
@@ -291,8 +286,8 @@ export function Product({ id }) {
   }, [data]);
 
   function handleAddToCart() {
-    if(!user) {
-      router.push(`/login?ref=${encodeURIComponent(router.asPath)}`)
+    if (!user) {
+      router.push(`/login?ref=${encodeURIComponent(router.asPath)}`);
       return;
     }
     addCartItem.mutate(
@@ -313,7 +308,6 @@ export function Product({ id }) {
     handleAddToCart();
     router.push("/checkout");
   }
-  console.log({d: String(data?.["description"]).split("\n")})
   return (
     <Grid
       container
@@ -338,7 +332,7 @@ export function Product({ id }) {
             underline="none"
             href={`/products?category=${data?.["categories"][0]?.value}`}
           >
-            {data?.["categories"] ? data?.["categories"][0]?.label: ""}
+            {data?.["categories"] ? data?.["categories"][0]?.label : ""}
           </MaterialLink>{" "}
           /{" "}
           <MaterialLink
@@ -351,36 +345,55 @@ export function Product({ id }) {
         </Typography>
       </Grid>
       <Grid item container xs sm className={classes.content}>
-        <Grid item className={classes.images} xs={6}>
+        <Grid item container className={classes.images} xs={12} md={6}>
           <ImagePreview data={data?.["images"]} />
         </Grid>
-        <Grid item xs container className={classes.info} spacing={2}>
-          <Grid item xs>
-            <Typography variant="h3">{data?.["title"]}</Typography>
-          </Grid>
+        <Grid item container className={classes.info} xs={12} md={6} spacing={2}>
           <Grid item xs container>
-            <Grid item xs>
-              <Rating value={data?.["rating"] || 5} readOnly />
+            <Grid item xs={12}>
+              <Typography variant="h3">{data?.["title"]}</Typography>
             </Grid>
-            <Grid item xs>
-              <Typography variant="subtitle1">
-                {`(${data?.["numberOfRatings"] || "1"} rating${
-                  data?.["numberOfRatings"] > 0 ? "s" : ""
-                })`}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="h5">₹ {data?.["price"]}</Typography>
-          </Grid>
-          <Divider />
-          <Grid item xs container style={{ paddingTop: 24, paddingBottom: 24 }}>
-            <Grid item xs={12} className={classes.categoryContainer}>
+            <Grid item xs={12} container>
               <Grid item xs>
-                <Typography variant="caption">{"Category"}</Typography>
+                <Rating value={data?.["rating"] || 5} readOnly />
               </Grid>
               <Grid item xs>
-                <Typography variant="caption">{data?.["categories"]?.map(item => item.label).join(", ")}</Typography>
+                <Typography variant="subtitle1">
+                  {`(${data?.["numberOfRatings"] || "1"} rating${
+                    data?.["numberOfRatings"] > 0 ? "s" : ""
+                  })`}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} container direction="column">
+              <Grid item xs={12}>
+                <Typography
+                  variant="caption"
+                  style={{ fontSize: 12, textDecoration: "line-through" }}
+                >
+                  ₹ {data?.["mrp"]}
+                </Typography>
+                <Typography
+                  children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
+                  variant="caption"
+                  style={{ fontSize: 12, marginLeft: 4 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5">₹ {data?.["price"]}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Divider />
+          <Grid item xs container spacing={2} style={{ paddingTop: 24, paddingBottom: 24 }}>
+            <Grid item xs={12} className={classes.categoryContainer}>
+              <Grid item xs={12}>
+                <Typography variant="caption">{"Category"}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="caption">
+                  {data?.["categories"]?.map((item) => item.label).join(", ")}
+                </Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} className={classes.shippingContainer}>
@@ -434,8 +447,8 @@ export function Product({ id }) {
             </Grid>
           </Grid>
           <Divider />
-          <Grid item xs container style={{ paddingTop: 24, paddingBottom: 24 }}>
-            <Grid item xs>
+          <Grid item xs container>
+            <Grid item xs={12} md={6} style={{ paddingTop: 24, paddingBottom: 24 }}>
               <FormControl
                 variant="outlined"
                 className={classes.sizeSelectContainer}
@@ -463,7 +476,7 @@ export function Product({ id }) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs container alignItems="center" spacing={2}>
+            <Grid item xs={12} md={6} style={{ paddingTop: 24, paddingBottom: 24 }} spacing={2} container alignItems="center">
               <Grid item xs>
                 <TextField
                   variant="outlined"
@@ -510,7 +523,7 @@ export function Product({ id }) {
           <Divider />
           <Grid
             item
-            xs
+            xs={12}
             container
             style={{ paddingTop: 24, paddingBottom: 24 }}
             spacing={2}
@@ -538,7 +551,7 @@ export function Product({ id }) {
           </Grid>
         </Grid>
       </Grid>
-
+      <Divider />
       <Grid item xs container>
         <Grid item xs={12} justify={"center"}>
           <Tabs
@@ -556,18 +569,25 @@ export function Product({ id }) {
         </Grid>
         <Grid item xs={12} style={{ minHeight: 420 }}>
           <TabPanel value={tabIndex} index={0}>
-            {String(data?.["description"]).split("\n").map((item, index) => {
-              return <Typography component="p" key={index} variant="body1">{item}</Typography>
-            })}
+            {String(data?.["description"])
+              .split("\n")
+              .map((item, index) => {
+                return (
+                  <Typography component="p" key={index} variant="body1">
+                    {item}
+                  </Typography>
+                );
+              })}
           </TabPanel>
           <TabPanel value={tabIndex} index={1}>
             <Reviews id={id} />
           </TabPanel>
         </Grid>
       </Grid>
+
       <Divider />
-      <Grid item xs container style={{ paddingTop: 46, paddingBottom: 46 }}>
-        <Grid item xs={4} style={{ paddingRight: 46 }}>
+      <Grid item xs container spacing={4} style={{  width: "100%", paddingTop: 46, paddingBottom: 46  }}>
+        <Grid item xs={12} md={4} >
           <DetailsTable
             label={"Dimensions"}
             rows={[
@@ -577,12 +597,12 @@ export function Product({ id }) {
             ]}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           <DetailsTable label={"Details"} rows={data?.["details"]} />
         </Grid>
       </Grid>
       <Divider />
-      <Grid item xs container style={{ paddingTop: 46, paddingBottom: 46 }}>
+      <Grid item xs container style={{ width: "100%", paddingTop: 46, paddingBottom: 46 }}>
         <Grid item xs={12}>
           <Typography variant="h4">{"Recommended"}</Typography>
         </Grid>

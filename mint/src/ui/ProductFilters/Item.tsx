@@ -220,15 +220,15 @@ export function Filters({
             }}
             disablePadding
           >
-            {item.data.map((item: { value: string; label: string }, index) => {
+            {item.data.map((item: { label: string }, index) => {
               const value = values[filter] as string[];
-              const isSelected = value.includes(item.value);
+              const isSelected = value.includes(item.label);
               return (
                 <Chip
                   onClick={(e) => {
                     if (isSelected) {
                       setFieldValue(filter, [
-                        ...value.filter((i) => i !== item.value),
+                        ...value.filter((i) => i !== item.label),
                       ]);
                     } else {
                       setFieldValue(
@@ -237,12 +237,12 @@ export function Filters({
                         Array.isArray(values[filter]) &&
                           values[filter].length > 0
                           ? // @ts-ignore
-                            [...values[filter], item.value]
-                          : [item.value]
+                            [...values[filter], item.label]
+                          : [item.label]
                       );
                     }
                   }}
-                  key={item.value}
+                  key={item.label}
                   className={clsx(
                     classes.taglistitem,
                     isSelected ? classes.taglistitemSelected : ""
@@ -268,15 +268,22 @@ export function Filters({
             }}
             disablePadding
           >
-            {item.data.map((item) => (
+            {item.data.map((item) => {
+               const value = values[filter] as string[];
+               const isSelected = value.includes(item.label);
+              return (
               <Chip
                 onClick={(e) => {
-                  setFieldValue(filter, item.value);
+                  if(isSelected) {
+                    setFieldValue(filter, undefined);
+                  } else {
+                    setFieldValue(filter, item.label);
+                  }
                 }}
                 clickable
-                key={item.value}
+                key={item.label}
                 className={classes.taglistitem}
-                disabled={values[filter] === item.value}
+                // disabled={values[filter] === item.label}
                 label={
                   <Typography
                     style={{ fontSize: 14, color: "#2E2F2F", lineHeight: 1, }}
@@ -286,7 +293,7 @@ export function Filters({
                   </Typography>
                 }
               />
-            ))}
+              )})}
           </List>
         );
     }

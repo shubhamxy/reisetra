@@ -76,14 +76,14 @@ export class ProductService {
         model: "product",
         where: {
           ...(price ? { price: { gte: +price[0], lte: +price[1] } } : {}),
-          ...(category ? { categories: { some: { value: category } } } : {}),
+          ...(category ? { categories: { some: { label: category } } } : {}),
           ...(tags
             ? {
                 tags: {
                   some: {
                     OR: Array.isArray(tags)
-                      ? tags.map((t) => ({ value: t }))
-                      : [{ value: tags }],
+                      ? tags.map((t) => ({ label: t }))
+                      : [{ label: tags }],
                   },
                 },
               }
@@ -219,7 +219,7 @@ export class ProductService {
 
       if (categories.length > 0) {
         dataObj["categories"] = {
-          connect: categories.map((category) => ({ label: category })),
+          connect: categories.map((category) => ({ value: category })),
         };
       }
       const product = await this.db.product.create({
@@ -268,12 +268,12 @@ export class ProductService {
       }
       if (tags) {
         updateData["tags"] = {
-          set: tags?.map((tag) => ({ value: tag })),
+          set: tags?.map((tag) => ({ label: tag })),
         };
       }
       if (categories) {
         updateData["categories"] = {
-          set: categories?.map((category) => ({ value: category })),
+          set: categories?.map((category) => ({ label: category })),
         };
       }
 
@@ -498,9 +498,33 @@ export class ProductService {
     }
   }
 
-  async getTags(): Promise<any> {
+  async getTags(category?: string): Promise<any> {
     try {
-      const tags = await this.db.tag.findMany({});
+      const findObj = {
+        take: 20,
+        include: {
+          images: {
+            select: {
+              url: true,
+              contentType: true,
+            },
+          },
+        },
+      };
+      if (category) {
+        findObj["where"] = {
+          products: {
+            some: {
+              categories: {
+                some: {
+                  label: category,
+                },
+              },
+            },
+          },
+        };
+      }
+      const tags = await this.db.tag.findMany(findObj);
       return tags;
     } catch (error) {
       throw new CustomError(
@@ -511,30 +535,59 @@ export class ProductService {
     }
   }
 
-  async createTags(data: CreateTagDto): Promise<any> {
+  async createTag(userId, data: CreateTagDto): Promise<any> {
     try {
-      const tags = await this.db.tag.createMany({
-        data: data.data,
+      if (data.images) {
+        data['images'] = {
+          createMany: {
+            data: data.images.map((item) => ({
+              fileType: item.fileType,
+              id: item.id,
+              contentType: item.contentType,
+              url: item.url,
+              userId,
+            }))
+          },
+        } as any;
+      }
+      const tags = await this.db.tag.create({
+        data: data,
       });
       return tags;
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "ProductService.findAllOffset"
+        "ProductService.createTag"
       );
     }
   }
 
-  async updateTags(data: UpdateTagDto): Promise<any> {
+  async createTags(data: CreateTagDto[]): Promise<any> {
+    try {
+      const tags = await this.db.tag.createMany({
+        data: data,
+      });
+      return tags;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.createTags"
+      );
+    }
+  }
+
+  async updateTags(data: UpdateTagDto[]): Promise<any> {
     try {
       // TODO: find beter way??
       const update = await Promise.all(
-        data.data.map((tag) => {
+        data.map((tag) => {
           return this.db.tag.update({
-            where: { value: tag.value },
+            where: { label: tag.value },
             data: {
               label: tag.label,
+              value: tag.value,
             },
           });
         })
@@ -549,11 +602,11 @@ export class ProductService {
     }
   }
 
-  async deleteTags(data: UpdateTagDto): Promise<any> {
+  async deleteTags(data: UpdateTagDto[]): Promise<any> {
     try {
       const tags = await this.db.tag.deleteMany({
         where: {
-          value: { in: data.data.map((item) => item.value) },
+          label: { in: data.map((item) => item.label) },
         },
       });
       return tags;

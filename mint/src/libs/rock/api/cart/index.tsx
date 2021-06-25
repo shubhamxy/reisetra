@@ -2,7 +2,7 @@ import { del, get, post, put } from "../../utils/http";
 import pickBy from "lodash.pickby";
 import identity from "lodash.identity";
 
-export function getCartItem({ queryKey }: { queryKey: [string, string] }) {
+export function getCartItem({ queryKey }: { queryKey: [string, string, string] }) {
   return get(`cart/${queryKey[1]}`);
 }
 

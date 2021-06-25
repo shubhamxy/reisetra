@@ -22,6 +22,7 @@ import {
 } from "./dto";
 import { Public } from "src/auth/decorator/public.decorator";
 import { AuthenticatedRequest } from "src/auth/auth.interface";
+import { Roles } from "src/auth/decorator/roles.decorator";
 @Controller()
 export class ProductController {
   constructor(private readonly product: ProductService) {}
@@ -33,7 +34,7 @@ export class ProductController {
   ): Promise<SuccessResponse> {
     try {
       const { results, ...meta } = await this.product.getAllProducts(query);
-      return { data: results || [], meta: meta,};
+      return { data: results || [], meta: meta };
     } catch (error) {
       throw new CustomException(
         error,
@@ -60,6 +61,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Post("product")
   async createProduct(
     @Req() request: AuthenticatedRequest,
@@ -77,6 +79,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Put("product/:productId")
   async updateProduct(
     @Req() request: AuthenticatedRequest,
@@ -99,6 +102,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Delete("product/:productId")
   async deleteProduct(
     @Param("productId") productId: string
@@ -117,9 +121,9 @@ export class ProductController {
 
   @Public()
   @Get("tags")
-  async getTags(): Promise<SuccessResponse> {
+  async getTags(@Query("category") category: string): Promise<SuccessResponse> {
     try {
-      const data = await this.product.getTags();
+      const data = await this.product.getTags(category);
       return { data };
     } catch (error) {
       throw new CustomException(
@@ -130,8 +134,27 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
+  @Post("tag")
+  async createTag(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateTagDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.createTag(request.user.id, body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createTag"
+      );
+    }
+  }
+
+  @Roles("ADMIN")
   @Post("tags")
-  async createTags(@Body() body: CreateTagDto): Promise<SuccessResponse> {
+  async createTags(@Body() body: CreateTagDto[]): Promise<SuccessResponse> {
     try {
       const data = await this.product.createTags(body);
       return { data };
@@ -144,8 +167,9 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Put("tags")
-  async updateTags(@Body() body: UpdateTagDto): Promise<SuccessResponse> {
+  async updateTags(@Body() body: UpdateTagDto[]): Promise<SuccessResponse> {
     try {
       const data = await this.product.updateTags(body);
       return { data };
@@ -158,8 +182,9 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Put("tags")
-  async deleteTags(@Body() body: UpdateTagDto): Promise<SuccessResponse> {
+  async deleteTags(@Body() body: UpdateTagDto[]): Promise<SuccessResponse> {
     try {
       const data = await this.product.deleteTags(body);
       return { data };
@@ -187,6 +212,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Post("category")
   async createCategory(
     @Req() request: AuthenticatedRequest,
@@ -204,6 +230,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Put("category")
   async updateCategory(
     @Req() request: AuthenticatedRequest,
@@ -221,6 +248,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Post("categories")
   async createCategories(
     @Req() request: AuthenticatedRequest,
@@ -238,6 +266,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Put("category")
   async updateCategories(
     @Req() request: AuthenticatedRequest,
@@ -255,6 +284,7 @@ export class ProductController {
     }
   }
 
+  @Roles("ADMIN")
   @Delete("category")
   async deleteCategories(
     @Req() request: AuthenticatedRequest,

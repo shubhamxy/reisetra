@@ -45,6 +45,7 @@ export class Tag implements TagModel {
   constructor(partial: Partial<ProductModel>) {
     Object.assign(this, partial);
   }
+  styles: string[];
   active: boolean;
   createdAt: Date;
   updatedAt: Date;

@@ -32,15 +32,60 @@ export interface CreateProductDTO {
   }[];
 }
 
+export interface CreateCategoryDTO {
+  label: string;
+  value: string;
+  styles: string[];
+  images: {
+    fileType: string;
+    fileName: string;
+    url: string;
+    contentType: string;
+    id: string;
+  }[];
+}
+
+export interface CreateTagDTO {
+  label: string;
+  value: string;
+  styles: string[];
+  images: {
+    fileType: string;
+    fileName: string;
+    url: string;
+    contentType: string;
+    id: string;
+  }[];
+}
+
+export interface CreateOfferDTO {
+  label: string;
+  value: string;
+  type: string;
+}
+
+
 export function getProduct({ queryKey }: { queryKey: [string, string] }) {
   return get(`product/${queryKey[1]}`);
 }
-export function getTags() {
-  return get(`tags`);
+export function getTags({queryKey}) {
+  const qs = queryString.stringify(pickBy(queryKey[1], identity));
+  return get(`tags?${qs}`);
 }
 
 export function getCategories() {
   return get(`categories`);
+}
+
+export function createCategory(body: CreateCategoryDTO) {
+  return post("category", body);
+}
+
+export function createTag(body: CreateTagDTO) {
+  return post("tag", body);
+}
+export function createOffer(body: CreateOfferDTO[]) {
+  return post("offers", body);
 }
 
 export function createProduct(body: CreateProductDTO) {

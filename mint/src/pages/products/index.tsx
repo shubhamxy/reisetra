@@ -21,7 +21,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { useCategories, useReviews, useTags } from "../../libs";
 import clsx from "clsx";
-import isEqual from 'lodash.isequal';
+import isEqual from "lodash.isequal";
 import { useDebounce } from "use-debounce";
 
 export type FilterT = {
@@ -36,7 +36,13 @@ export type FilterT = {
 function useHelper() {
   const router = useRouter();
   const query = router.query;
-  const tags = useTags();
+  const tags = useTags(
+    query.category
+      ? {
+          category: query.category,
+        }
+      : {}
+  );
   const categories = useCategories();
   const sortBy: FilterT = {
     type: "select",
@@ -118,13 +124,16 @@ function useHelper() {
     // },
   };
 
-
   function setFieldValue(
     key: string,
     value: string | string[] | number | number[]
   ) {
-    // @ts-ignore
-    router.query[key] = value;
+    if(!value) {
+      delete router.query[key];
+    } else {
+      // @ts-ignore
+      router.query[key] = value;
+    }
     router.push(router);
   }
 
@@ -238,7 +247,13 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductsPage = () => {
   const classes = useStyles();
-  const { sortBy, filters, setFieldValue, values, debouncedValues } = useHelper();
+  const {
+    sortBy,
+    filters,
+    setFieldValue,
+    values,
+    debouncedValues,
+  } = useHelper();
   return (
     <MainLayout
       classes={{
@@ -301,21 +316,21 @@ const ProductsPage = () => {
           >
             {filters.tags.data.map((item, index) => {
               const value = values["tags"] as string[];
-              const isSelected = values.tags.includes(item.value);
+              const isSelected = values.tags.includes(item.label);
               return (
                 <Chip
                   onClick={(e) => {
                     if (isSelected) {
                       setFieldValue("tags", [
-                        ...value.filter((i) => i !== item.value),
+                        ...value.filter((i) => i !== item.label),
                       ]);
                       return;
                     }
                     setFieldValue(
                       "tags",
                       Array.isArray(value)
-                        ? [...value, item.value]
-                        : ([item.value] as string[])
+                        ? [...value, item.label]
+                        : ([item.label] as string[])
                     );
                   }}
                   key={index}

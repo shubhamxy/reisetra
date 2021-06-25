@@ -75,6 +75,8 @@ model File {
   reviewId    String?
   category   Category? @relation(fields: [categoryId], references: [label])
   categoryId String?
+  tag   Tag? @relation(fields: [tagId], references: [label])
+  tagId String?
 }
 
 model User {
@@ -165,9 +167,11 @@ model Address {
 }
 
 model Tag {
-  label    String
-  value    String    @id
+  label    String    @id
+  value    String
   products Product[]
+  images    File[]
+  styles    String[]
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())

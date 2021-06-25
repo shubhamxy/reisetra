@@ -7,14 +7,14 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import ProductDetails from "./ProductDetails";
-import ProductImages from "./ProductImages";
+import TagDetails from "./Details";
+import TagImages from "./Images";
 import Summary from "./Review";
 import {
   updateSnackBar,
-  useCreateProduct,
+  useCreateCategory,
+  useCreateTag,
   useGlobalDispatch,
-  useUpdateProduct,
 } from "../../libs";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -22,29 +22,16 @@ import { Container, TextField } from "@material-ui/core";
 import { useQueryClient } from "react-query";
 
 const createProductSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  description: Yup.string().required("Description is required"),
-  mrp: Yup.number().required("MRP is required"),
-  tax: Yup.string().required("Tax is required"),
-  taxCode: Yup.string().required("HSN/SAC code is required"),
-  price: Yup.number().required("Price is required"),
-  colors: Yup.array(),
-  sizes: Yup.array(),
-  categories: Yup.array(),
-  tags: Yup.array(),
-  dimensions: Yup.array(),
+  label: Yup.string().required("Title is required"),
+  value: Yup.string().required("Description is required"),
   styles: Yup.array(),
-  brand: Yup.string().required("Brand is required"),
-  inventory: Yup.object().shape({
-    stockQuantity: Yup.number().required("Stock Quantity is required"),
-    sku: Yup.string().required("SKU is required"),
-  }),
   images: Yup.array().of(
     Yup.object().shape({
       fileName: Yup.string().required("fileName is required"),
       fileType: Yup.string().required("fileType is required"),
       contentType: Yup.string().required("contentType is required"),
       url: Yup.string().required("url is required"),
+      id: Yup.string().required("id is required")
     })
   ),
 });
@@ -96,7 +83,7 @@ function StepContent({
   switch (step) {
     case 0:
       return (
-        <ProductDetails
+        <TagDetails
           values={values}
           touched={touched}
           errors={errors}
@@ -107,7 +94,7 @@ function StepContent({
       );
     case 1:
       return (
-        <ProductImages
+        <TagImages
           values={values}
           touched={touched}
           errors={errors}
@@ -120,10 +107,6 @@ function StepContent({
       return (
         <Summary
           values={values}
-          touched={touched}
-          errors={errors}
-          handleBlur={handleBlur}
-          handleChange={handleChange}
         />
       );
     default:
@@ -131,45 +114,18 @@ function StepContent({
   }
 }
 
-export function CreateProduct({update = {}, isUpdate}) {
+export function CreateTag() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  if(update) {
-    delete update['inventoryId'];
-    if(update['categories']){
-      update['categories'] = update['categories'].map(item => item?.label).filter(Boolean);
-    }
-    if(update['tags']){
-      update['tags'] = update['tags'].map(item => item?.label).filter(Boolean);
-    }
-  }
-
 
   const initialValues = {
-    title: "",
-    description: "",
-    inventory: {
-      stockQuantity: 0,
-      sku: "",
-    },
+    label: "",
+    value: "",
     images: [],
-    mrp: 0,
-    tax: 18.5,
-    taxCode: "",
-    price: 0,
-    published: true,
-    sizes: [],
-    details: undefined,
-    colors: [],
-    dimensions: [],
     styles: [],
-    categories: [],
-    brand: "",
     ...{
-      title: "Big Peacock Wall Stand",
-      description:
-        "This product is a big peacock wall stand which will look attractive and awesome when kept or hanged at any wall in your house. \n\nIt is one-of-a-kind of a product and when you will hang it on your wall it will increase the liking of your wall and plus will give a luxurious look which is ergonomic and elegant. \n\nWe are sure that you will be able to show-off by hanging this at your lovely wall and all the people coming to your house will ask you and plus it is such at an unbelievable price. What else do you need when you have all the things you need?",
-      inventory: { stockQuantity: 100, sku: "B07VXFMVCD" },
+      label: "Wall Art",
+      value: "wallart",
       styles: [],
       images: [
         {
@@ -197,27 +153,10 @@ export function CreateProduct({update = {}, isUpdate}) {
             "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg",
         },
       ],
-      mrp: 4000,
-      tax: 18.5,
-      taxCode: "1800",
-      price: 2999,
-      published: true,
-      sizes: ["general"],
-      details: [
-        { label: "Material", value: "Processed Wood" },
-        { label: "Weight", value: "1.2KG" },
-        { label: "Package Included", value: "Pack of 1 wall stand" },
-      ],
-      colors: ["multicolor"],
-      dimensions: ["7.5cm", "15cm", "11.5cm"],
-      categories: ["homedecor"],
-      brand: "Reisetra Crafts ",
-      tags: ["handicraft"],
     },
-    ...update,
   };
-  const createProduct = useCreateProduct();
-  const updateProduct = useUpdateProduct();
+  const createTag = useCreateTag();
+  // const updateProduct = useUpdateProduct();
   const queryClient = useQueryClient();
   const globalDispatch = useGlobalDispatch();
   const [serverError, setServerErrors] = useState();
@@ -239,35 +178,11 @@ export function CreateProduct({update = {}, isUpdate}) {
     enableReinitialize: true,
     validationSchema: createProductSchema,
     onSubmit: (data) => {
-      if(isUpdate) {
-        updateProduct.mutate({
-          productId: update['id'],
-          body: data,
-        }, {
-          onSuccess: () => {
-            setActiveStep(activeStep + 1);
-            setServerErrors(null);
-            queryClient.invalidateQueries("PRODUCTS")
-          },
-          onError: (error) => {
-            globalDispatch(
-              updateSnackBar({
-                message: error["message"] || "Server Error",
-                type: "error",
-                open: true,
-              })
-            );
-            setServerErrors(error["errors"]);
-          },
-        });
-        return;
-      }
-
-      createProduct.mutate(data, {
+      createTag.mutate(data, {
         onSuccess: () => {
           setActiveStep(activeStep + 1);
           setServerErrors(null);
-          queryClient.invalidateQueries("PRODUCTS")
+          queryClient.invalidateQueries("tags")
         },
         onError: (error) => {
           globalDispatch(
@@ -286,20 +201,8 @@ export function CreateProduct({update = {}, isUpdate}) {
   const handleNext = () => {
     if (activeStep === 0) {
       setTouched({
-        title: true,
-        description: true,
-        inventory: {
-          stockQuantity: true,
-          sku: true,
-        },
-        mrp: true,
-        tax: true,
-        taxCode: true,
-        price: true,
-        published: true,
-        sizes: true,
-        colors: true,
-        brand: true,
+        label: true,
+        value: true,
       });
     } else if (activeStep === 1) {
     }
@@ -322,7 +225,7 @@ export function CreateProduct({update = {}, isUpdate}) {
       <main className={classes.layout}>
         <Container className={classes.container}>
           <Typography component="h1" variant="h6" align="left">
-            Add Product
+           Add Tag
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (

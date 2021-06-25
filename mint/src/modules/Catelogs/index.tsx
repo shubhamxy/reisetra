@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Box, Card, CardContent, fade, Typography } from "@material-ui/core";
 import GridList from "../../ui/List/GridList";
-import { useInterval, useProducts } from "../../libs";
+import { useInterval, useProducts, useTags } from "../../libs";
+import { useRouter } from "next/router";
 
 type TStyles = {
   background: string;
@@ -63,9 +64,9 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
     [theme.breakpoints.down("sm")]: {
-      width: '100%',
+      width: "100%",
       margin: "0 auto",
-    }
+    },
   }),
   card: {
     padding: 0,
@@ -122,22 +123,24 @@ export function GridItem({
   description,
   styles: colors,
   images,
+  onClick,
 }) {
   const classes = useGridItemStyles({ styleIndex, colors });
-  const [image, setImage] = useState(images.length - 1);
+  const [image, setImage] = useState(0);
   useInterval(
     () => {
-      setImage((image + 1) % images.length);
+      setImage((image + 1) % images?.length);
     },
-    image > 0 ? 2000 : null
+    image > 0 && images.length > 0 ? 2000 : null
   );
   return (
     <Card
       elevation={0}
       className={classes.root}
-      onMouseEnter={() => setImage((image + 1) % images.length)}
+      onMouseEnter={() => images?.length > 0 ? setImage((image + 1) % images.length) : ''}
       onMouseLeave={() => setImage(0)}
       style={{ backgroundImage: `url(${images?.[image]?.url})` }}
+      onClick={onClick}
     >
       <CardContent className={classes.card}>
         <Typography className={classes.title} variant="subtitle2">
@@ -158,14 +161,74 @@ export function GridItem({
   );
 }
 
-export const Catelogs = ({ filters }) => {
-  const query = useProducts(filters);
+const useGridStyles = makeStyles((theme) => ({
+  root: {
+    display: "grid",
+    width: "100%",
+    height: "100%",
+    rowGap: 8,
+    columnGap: 8,
+    overflow: "hidden",
+    padding: theme.spacing(2.2, 2.2, 2.2, 2.2),
+    gridTemplateColumns: "repeat(3, 1fr)",
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    [theme.breakpoints.down("sm")]: {
+      gridTemplateColumns: "1fr",
+      alignItems: "center",
+    },
+  },
+}));
+
+// common responsive css grid variants
+export function Grid({ children, ...rest }) {
+  const classes = useGridStyles();
   return (
+    <Box className={classes.root} {...rest}>
+      {children}
+    </Box>
+  );
+}
+export const Catelogs = ({ filters, variant = "default" }) => {
+  const query = useTags({});
+  const router = useRouter();
+
+  return variant === "infinite" ? (
     <GridList
       query={query}
       renderItem={({ item, index }) => (
         <GridItem {...item} key={index} styleIndex={item.style || 0}></GridItem>
       )}
     />
+  ) : (
+    <Grid>
+      {(
+        // @ts-ignore
+        query?.data?.data?.map((item, index) => ({
+          variant: "dark",
+          title: item.label,
+          value: item.value,
+          styles: item.styles,
+          images: item.images,
+        })) || []
+      ).map((item, index) => (
+        //@ts-ignore
+        <GridItem
+          {...item}
+          key={index}
+          onClick={() => {
+            if (!item.title) {
+              delete router.query["tags"];
+            } else {
+              // @ts-ignore
+              router.query["tags"] = item.title;
+            }
+            router.pathname = "products";
+            router.push(router);
+          }}
+        ></GridItem>
+      ))}
+    </Grid>
   );
 };

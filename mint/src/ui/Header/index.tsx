@@ -210,6 +210,12 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    listitem : {
+      "&:hover": {
+        boxShadow: `0px 0px 0px 4px ${theme.palette.primary.main}33`,
+        backgroundColor: "unset",
+      },
+    }
   })
 );
 
@@ -333,7 +339,7 @@ export function AppHeader() {
               handleMenuClose();
               item?.onClick?.();
             }}
-            className={classes.menuPaperItem}
+            className={classes.listitem}
           >
             <Link href={item.link}>
               <Typography variant="caption">{item.label}</Typography>
@@ -355,6 +361,7 @@ export function AppHeader() {
         }
         handleProfileMenuOpen(e);
       }}
+      className={classes.menuPaperItem}
     >
       <IconButton>
         {authState?.user?.avatar ? (
@@ -388,7 +395,7 @@ export function AppHeader() {
       onClose={handleMobileMenuClose}
     >
       {NavigationMenu.map((item) => (
-        <MenuItem>
+        <MenuItem className={classes.menuPaperItem}>
           <Link href={item.link}>
             <Button
               variant="text"
@@ -441,7 +448,7 @@ export function AppHeader() {
             {renderSearchBar}
             <div className={classes.sectionDesktop}>
               {NavigationMenu.map((item) => (
-                <MenuItem>
+                <MenuItem className={classes.menuPaperItem}>
                   <Link href={item.link}>
                     <Button
                       variant="text"
@@ -454,7 +461,7 @@ export function AppHeader() {
                   </Link>
                 </MenuItem>
               ))}
-              <MenuItem>
+              <MenuItem className={classes.menuPaperItem}>
                 <IconButton
                   aria-label="account of current user"
                   aria-controls={menuId}

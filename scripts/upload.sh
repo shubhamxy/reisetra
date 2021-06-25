@@ -17,7 +17,6 @@ echo
 
 ssh -i "~/.ssh/aws/Soda.pem" -tt $_remote 'rm -rf server'
 
-
 echo
 echo "*** Uploading server to $_remote ***"
 echo

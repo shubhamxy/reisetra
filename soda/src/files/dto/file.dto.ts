@@ -96,8 +96,13 @@ export class AddFileDTO implements Omit<File, "userId" | "fileName"> {
   reviewId: string;
 
   @IsOptional()
-  @IsString({ message: mustBe("string", "reviewId") })
+  @IsString({ message: mustBe("string", "categoryId") })
   categoryId: string;
+
+  @IsOptional()
+  @IsString({ message: mustBe("string", "tagId") })
+  tagId: string;
+
   active: boolean;
   createdAt: Date;
   updatedAt: Date;

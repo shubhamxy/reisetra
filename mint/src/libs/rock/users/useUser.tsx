@@ -19,50 +19,99 @@ import {
 } from "../api/user";
 import { useAuthDispatch, setAuthState, logout } from "../auth";
 import { updateSnackBar, useGlobalDispatch } from "../global";
-import { DataT, IErrorResponse, ISuccessResponse, storage } from "../utils";
+import { DataT, IErrorResponse, ISuccessResponse, QueryKeys, storage } from "../utils";
 
 export const useUserProfile = () =>
   useMutation(getMe, {
-    mutationKey: ["user"],
+    mutationKey: [QueryKeys.user],
   });
 
 export const useUpdateUserProfile = () => {
   const dispatch = useAuthDispatch();
+  const dispatchGlobal = useGlobalDispatch();
   return useMutation(updateMe, {
     onSuccess: () => {
       dispatch(setAuthState({ user: null }));
+      dispatchGlobal(updateSnackBar({
+        message: 'User updated successfully',
+        type: "success",
+        open: true,
+      }));
     },
   });
 };
 
 export const useCreateAddress = () => {
   const queryClient = useQueryClient();
+  const dispatch = useGlobalDispatch();
   return useMutation(createAddress, {
     onSuccess: () => {
-      queryClient.invalidateQueries("ADDRESSES");
+      queryClient.invalidateQueries(QueryKeys.addresses);
+      dispatch(updateSnackBar({
+        message: 'Address created successfully',
+        type: "success",
+        open: true,
+      }));
     },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Failed to create address',
+        type: "error",
+        open: true,
+      }));
+    }
   });
 };
 export const useUpdateAddress = () => {
   const queryClient = useQueryClient();
+  const dispatch = useGlobalDispatch();
+
   return useMutation(updateAddress, {
     onSuccess: () => {
-      queryClient.invalidateQueries("ADDRESSES");
+      queryClient.invalidateQueries(QueryKeys.addresses);
+      dispatch(updateSnackBar({
+        message: 'Address created successfully',
+        type: "success",
+        open: true,
+      }));
     },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Failed to create address',
+        type: "error",
+        open: true,
+      }));
+    }
   });
 };
 export const useDeleteAddress = () => {
   const queryClient = useQueryClient();
+  const dispatch = useGlobalDispatch();
+
   return useMutation(deleteAddress, {
     onSuccess: () => {
-      queryClient.invalidateQueries("ADDRESSES");
+      queryClient.invalidateQueries(QueryKeys.addresses);
+      dispatch(updateSnackBar({
+        message: 'Address deleted successfully',
+        type: "success",
+        open: true,
+      }));
     },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Failed to delete address',
+        type: "error",
+        open: true,
+      }));
+    }
   });
 };
 
-export const useAddresses = (filters = {}) => {
+export const useAddresses = (filters = {}, {
+  onSuccess,
+}) => {
   return useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
-    ["ADDRESSES", filters],
+    [QueryKeys.addresses, filters],
     ({ queryKey, pageParam = undefined }) =>
       getAddreses({
         ...filters,
@@ -74,14 +123,14 @@ export const useAddresses = (filters = {}) => {
       getNextPageParam: (lastPage, _pages) => {
         return lastPage.meta.link?.next?.cursor;
       },
-      onSuccess: () => {},
+      onSuccess,
     }
   );
 };
 
 export const useOrders = (filters = {}) => {
   return useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
-    ["ORDERS", filters],
+    [QueryKeys.orders, filters],
     ({ queryKey, pageParam = undefined }) =>
       getOrders({
         ...filters,
@@ -103,7 +152,7 @@ export const useCancelOrder = () => {
   const dispatch = useGlobalDispatch();
   return useMutation(cancelOrder, {
     onSuccess: () => {
-      queryClient.invalidateQueries("ORDERS");
+      queryClient.invalidateQueries(QueryKeys.orders);
       dispatch(updateSnackBar({
         message: 'Order cancellation requested successfully',
         type: "success",
@@ -125,7 +174,7 @@ export const useUpdateOrder = () => {
   const dispatch = useGlobalDispatch();
   return useMutation(updateOrder, {
     onSuccess: () => {
-      queryClient.invalidateQueries("ORDERS");
+      queryClient.invalidateQueries(QueryKeys.orders);
       dispatch(updateSnackBar({
         message: 'Order cancellation requested successfully',
         type: "success",

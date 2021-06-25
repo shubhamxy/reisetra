@@ -20,13 +20,19 @@ export class UpdateCartItemDto implements Omit<CartItem, Excluded | "userId" | "
 }
 
 
-export class CreateOfferDto {
-  data: Omit<Offer, Excluded>[]
+export class CreateOfferDto implements Omit<Offer, Excluded>{
+  label: string;
+  value: string;
+  type: string;
 }
-export class UpdateOfferDto {
-  data: Omit<Offer, Excluded>[]
+export class UpdateOfferDto  implements Omit<Offer, Excluded>{
+  label: string;
+  value: string;
+  type: string;
 }
 
-export class DeleteOfferDto {
-  data: Omit<Offer, Excluded>[]
+export class DeleteOfferDto implements Omit<Offer, Excluded>{
+  label: string;
+  value: string;
+  type: string;
 }

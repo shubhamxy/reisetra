@@ -103,8 +103,11 @@ export class CreateProductDto implements Omit<Product, Excluded> {
 }
 
 export class UpdateProductDto implements Omit<Product, Excluded> {
+  @IsOptional()
   @IsString({ message: mustBeOfType("string", "string") })
   title: string;
+
+  @IsOptional()
   @IsString({ message: mustBeOfType("string", "description") })
   description: string;
 
@@ -116,9 +119,11 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsString({ message: mustBeOfType("string", "taxCode") })
   taxCode: string;
 
+  @IsOptional()
   @IsBoolean({ message: mustBeOfType("boolean", "published") })
   published: boolean;
 
+  @IsOptional()
   @IsNumber({}, { message: mustBeOfType("number", "price") })
   price: number;
 
@@ -130,6 +135,7 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsNumber({}, { message: mustBeOfType("number", "tax") })
   tax: number;
 
+  @IsOptional()
   @IsArray({ message: mustBeOfType("string[]", "color") })
   colors: string[];
 
@@ -145,6 +151,7 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsArray({ message: mustBeOfType("array", "details") })
   details: Prisma.JsonValue;
 
+  @IsOptional()
   @IsDefined()
   @IsNotEmptyObject({}, { message: mustBeOfType("object", "inventory") })
   @ValidateNested({ each: true, message: mustBeOfType("object", "inventory") })
@@ -155,10 +162,20 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsArray({ message: mustBeOfType("array", "styles") })
   styles: string[];
 
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "images") })
   images: Omit<File, "userId">[];
 
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "categories") })
   categories: string[];
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "tags") })
   tags: string[];
+
+  @IsOptional()
+  @IsNumber({}, { message: mustBeOfType("number", "rating") })
   rating: number;
 }
 
@@ -178,10 +195,16 @@ export class UpdateCategoryDto implements Omit<Category, Excluded>{
 }
 
 
-export class CreateTagDto {
-  data: Omit<Tag, Excluded>[]
+export class CreateTagDto implements Omit<Tag, Excluded> {
+  styles: string[];
+  label: string;
+  value: string;
+  images: Omit<File, "userId">[];
 }
 
-export class UpdateTagDto {
-  data: Omit<Tag, Excluded>[]
+export class UpdateTagDto implements Omit<Tag, Excluded> {
+  styles: string[];
+  label: string;
+  value: string;
+  images: Omit<File, "userId">[];
 }

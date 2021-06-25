@@ -11,17 +11,15 @@ import {
   getCartItem,
   cartCheckout,
 } from "../api/cart";
-import { setAuthState, useAuthDispatch } from "../auth";
 import { updateSnackBar, useGlobalDispatch } from "../global";
-import { DataT, IErrorResponse, ISuccessResponse } from "../utils";
-
+import { DataT, IErrorResponse, ISuccessResponse, QueryKeys } from "../utils";
 
 export const useAddCartItem = () => {
   const dispatch = useGlobalDispatch();
   const queryClient = useQueryClient();
   return useMutation(addCartItem, {
     onSuccess: () => {
-      queryClient.invalidateQueries("cart");
+      queryClient.invalidateQueries(QueryKeys.cart);
       dispatch(updateSnackBar({
         message: 'Product added to cart successfully',
         type: "success",
@@ -42,7 +40,7 @@ export const useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation(removeCartItem, {
     onSuccess: () => {
-      queryClient.invalidateQueries("cart");
+      queryClient.invalidateQueries(QueryKeys.cart);
     },
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -56,8 +54,8 @@ export const useDeleteCartItem = () => {
 
 export const useCartItem = (cartId: string, productId: string) => {
   const dispatch = useGlobalDispatch();
-  return useQuery(["cart", cartId, productId], getCartItem, {
-    enabled: !!cartId && !!productId,
+  return useQuery([QueryKeys.cart, cartId, productId], getCartItem, {
+    enabled: !!(cartId && productId),
     onSuccess: () => {},
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -68,9 +66,10 @@ export const useCartItem = (cartId: string, productId: string) => {
     }
   });
 }
+
 export const useCartItems = (cartId: string, promo: string) =>
   useQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
-    ["cart", cartId || '', promo || ''],
+    [QueryKeys.cart, {cartId, promo}],
     getCart,
     {
       initialData: {

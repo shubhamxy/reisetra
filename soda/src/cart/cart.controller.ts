@@ -146,7 +146,7 @@ export class CartController {
 
   @Post("offers")
   async createOffers(
-    @Body() body: CreateOfferDto
+    @Body() body: CreateOfferDto[]
   ): Promise<SuccessResponse> {
     try {
       const data = await this.cart.createOffers(body);
@@ -162,7 +162,7 @@ export class CartController {
 
   @Put("offers")
   async updateOffers(
-    @Body() body: UpdateOfferDto
+    @Body() body: UpdateOfferDto[]
   ): Promise<SuccessResponse> {
     try {
       const data = await this.cart.updateOffers(body);
@@ -178,7 +178,7 @@ export class CartController {
 
   @Delete("offers")
   async deleteOffers(
-    @Body() body: DeleteOfferDto
+    @Body() body: DeleteOfferDto[]
   ): Promise<SuccessResponse> {
     try {
       const data = await this.cart.deleteOffers(body);

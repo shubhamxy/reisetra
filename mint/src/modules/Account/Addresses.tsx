@@ -68,7 +68,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function Addresses({ title = "Addresses", defaultExpanded = true, selected, setSelected, header }) {
   const classes = useStyles();
-  const userAddresses = useAddresses();
+  const userAddresses = useAddresses({}, {
+    onSuccess: ({pages}) => {
+      if(defaultExpanded && !selected && (pages?.length > 0 && pages[0].data.length > 0)) {
+        setSelected(pages[0].data[0].id);
+      }
+    },
+  });
   const createAddress = useCreateAddress();
   const updateAddress = useUpdateAddress();
   const deleteAddress = useDeleteAddress();

@@ -15,6 +15,7 @@ export class File implements FileModel {
   productId: string;
   reviewId: string;
   categoryId: string;
+  tagId: string;
 }
 
 export { FileType };
