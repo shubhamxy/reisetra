@@ -39,7 +39,17 @@ export class ReviewService {
           productId,
         },
         include: {
-          images: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
         },
         prisma: this.db,
       });
@@ -58,7 +68,17 @@ export class ReviewService {
       const review = await this.db.review.findUnique({
         where: { id: reviewId },
         include: {
-          images: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
         },
       });
       if (!review) {
@@ -83,7 +103,17 @@ export class ReviewService {
         productId,
       },
       include: {
-        images: true,
+        images: {
+          select: {
+            url: true,
+          },
+        },
+        user: {
+          select: {
+            avatar: true,
+            name: true,
+          },
+        },
       },
     });
     if (!products) {
@@ -102,19 +132,53 @@ export class ReviewService {
         data: {
           images: {
             createMany: {
-              data: images.map((item) => ({ ...item, userId })),
+              data: images.map((item) => ({ ...item, userId })) || [],
             },
           },
-          title: title,
-          description: description,
+          userId,
+          title,
+          description,
           productId,
-          rating: rating,
+          rating,
         },
         include: {
-          images: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
         },
       });
+
+      const ratings = await this.db.review.aggregate({
+        avg: {
+          rating: true,
+        },
+        count: {
+          _all: true,
+        },
+        where: {
+          productId: productId
+        }
+      })
+
+      await this.db.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          rating: Math.round(ratings.avg.rating),
+          ratingsCount: ratings.count._all,
+        }
+      });
       return product;
+
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -144,7 +208,17 @@ export class ReviewService {
           description,
         },
         include: {
-          images: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
         },
       });
       return review;
@@ -162,7 +236,17 @@ export class ReviewService {
       const data = await this.db.review.delete({
         where: { id: reviewId },
         include: {
-          images: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
         },
       });
       return data;

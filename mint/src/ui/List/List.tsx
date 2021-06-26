@@ -64,6 +64,7 @@ export function List(props: ListProps) {
                 //@TODO fix the type ???
                 <MaterialListItem
                   disableGutters
+                  className={classes.listItem}
                   key={keyExtractor(item, pageIndex + "-" + index)}
                 >
                   {renderItem({ item, index })}
@@ -90,13 +91,13 @@ export function List(props: ListProps) {
       <Grid container className={classes.root}>
         {ListHeaderComponent && <Grid item>{ListHeaderComponent}</Grid>}
         {isEmpty === true && !isLoading && (
-          <Grid item>{ListEmptyComponent}</Grid>
+          <Grid item xs={12}>{ListEmptyComponent}</Grid>
         )}
         <Grid item xs={12} style={{width: '100%'}}>
           {Array.isArray(data) && data.length > 0 ? (
             <MaterialList className={classes.list}>
               {data.map((item, index) => (
-                <MaterialListItem key={keyExtractor(item, index)} divider={false} disableGutters>
+                <MaterialListItem className={classes.listItem} key={keyExtractor(item, index)} divider={false} disableGutters>
                   {renderItem({ item, index })}
                   {!(index === data.length - 1) &&
                     ItemSeparatorComponent && ItemSeparatorComponent}

@@ -45,10 +45,10 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     position: "relative",
     flexDirection: "column",
     alignItems: "flex-start",
-    padding: "30px 30px 19px 30px",
+    padding: "30px 16px 30px 16px",
     cursor: "pointer",
-    width: 275,
-    height: 352,
+    height: 372,
+    maxWidth: 320,
     mixBlendMode: "normal",
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
     borderRadius: 8,
@@ -62,7 +62,7 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
     [theme.breakpoints.down("sm")]: {
-      maxWidth: "100%",
+      width: "100%",
       margin: "0 auto",
     },
   }),
@@ -70,10 +70,14 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     padding: 0,
     margin: 0,
   },
-  title: ({ variant }) => ({
+  title: {
     ...theme.typography.caption,
-    fontSize: "12px",
-  }),
+    display: "-webkit-box",
+    overflow: "hidden",
+    WebkitLineClamp: 1,
+    WebkitBoxOrient: "vertical",
+    wordBreak: "break-all",
+  },
   description: ({ variant, styles }) => ({
     ...theme.typography.body2,
     color: styles && styles[0] ? styles[0] : fade(colors[variant].color, 0.9),
@@ -84,17 +88,29 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
   banner: {},
   cover: {},
   group: {},
+  titleContainer: {
+    padding: '14px',
+    paddingTop: '2px',
+    paddingBottom: '2px',
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: '6px'
+  },
   seeAll: {
     position: "absolute",
     bottom: "24px",
-    left: "24px",
+    left: "16px",
+    padding: '14px',
+    paddingTop: '2px',
+    paddingBottom: '2px',
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: '6px'
   },
-  seeAllText: ({ variant }) => ({
+  seeAllText: {
     ...theme.typography.body2,
-    color: fade(colors[variant].color, 0.8),
     fontSize: "12px",
-    lineHeight: "14px",
-  }),
+  },
   illustration: {
     position: "absolute",
     left: 0,
@@ -149,11 +165,13 @@ export function GridItem({
       onClick={onClick}
     >
       <CardContent className={classes.card}>
-        <Typography className={classes.title} variant="subtitle2">
-          {title}{" "}
-        </Typography>
+        <Box className={classes.titleContainer}>
+          <Typography className={classes.title} variant="subtitle2">
+            {title}
+          </Typography>
+        </Box>
         <Typography className={classes.description} variant="body2">
-          {description}{" "}
+          {description}
         </Typography>
         {descriptionImage && (
           <Box className={classes.group}>
@@ -173,16 +191,6 @@ export function GridItem({
           children={"See All"}
           variant="caption"
         />
-        {/* <img
-					alt=""
-					src={
-						variant === "default"
-							? "/icons/seealldark.svg"
-							: "/icons/seeall.svg"
-					}
-					width={8}
-					height={9}
-				/> */}
       </Box>
       {/* <Box
 				className={classes.illustration}
@@ -238,7 +246,7 @@ const Categories = ({ filters }) => {
               // @ts-ignore
               router.query["category"] = item.title;
             }
-            router.pathname = "products";
+            router.pathname = "/products";
             router.push(router);
           }}
         ></GridItem>

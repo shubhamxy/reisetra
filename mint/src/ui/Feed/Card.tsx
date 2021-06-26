@@ -22,8 +22,8 @@ export function ProductCard({ data }) {
     id,
     title,
     description,
-    ratings,
-    numberOfReviews,
+    rating,
+    ratingsCount,
     price,
     mrp,
     images,
@@ -78,11 +78,11 @@ export function ProductCard({ data }) {
           </Typography> */}
           <Box className={classes.costContainer}>
           <Box display="flex">
-              <Rating size="small" value={+ratings || 5} readOnly />
+              <Rating size="small" value={+rating || 5} readOnly />
               <Box>
                 <Typography
-                  children={`(${+numberOfReviews || 1} review${
-                    +numberOfReviews > 0 ? "s" : ""
+                  children={`(${+ratingsCount || 1} review${
+                    +ratingsCount > 0 ? "s" : ""
                   })`}
                   variant="caption"
                   style={{ fontSize: 12, marginLeft: 4 }}

@@ -348,44 +348,66 @@ export function Product({ id }) {
         <Grid item container className={classes.images} xs={12} md={6}>
           <ImagePreview data={data?.["images"]} />
         </Grid>
-        <Grid item container className={classes.info} xs={12} md={6} spacing={2}>
-          <Grid item xs container>
+        <Grid
+          item
+          container
+          className={classes.info}
+          xs={12}
+          md={6}
+          spacing={2}
+        >
+          <Grid item xs container
+            spacing={1}
+          >
             <Grid item xs={12}>
-              <Typography variant="h3">{data?.["title"]}</Typography>
+              <Typography variant="h4">{data?.["title"]}</Typography>
             </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs>
-                <Rating value={data?.["rating"] || 5} readOnly />
-              </Grid>
-              <Grid item xs>
-                <Typography variant="subtitle1">
-                  {`(${data?.["numberOfRatings"] || "1"} rating${
-                    data?.["numberOfRatings"] > 0 ? "s" : ""
-                  })`}
-                </Typography>
-              </Grid>
+            <Grid
+              item
+              xs={12}
+              container
+              alignItems="center"
+              justify="flex-start"
+              alignContent="center"
+              style={{ display: "flex" }}
+            >
+              <Rating value={data?.["rating"] || 5} readOnly />
+              <Typography
+                variant="caption"
+                style={{ fontSize: 14, lineHeight: 1, marginLeft: 8 }}
+              >
+                {`(${data?.["ratingsCount"] || "1"} review${
+                  data?.["ratingsCount"] > 0 ? "s" : ""
+                })`}
+              </Typography>
             </Grid>
             <Grid item xs={12} container direction="column">
               <Grid item xs={12}>
                 <Typography
                   variant="caption"
-                  style={{ fontSize: 12, textDecoration: "line-through" }}
+                  style={{ fontSize: 14, textDecoration: "line-through" }}
                 >
                   ₹ {data?.["mrp"]}
                 </Typography>
                 <Typography
                   children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
                   variant="caption"
-                  style={{ fontSize: 12, marginLeft: 4 }}
+                  style={{ fontSize: 14, marginLeft: 4 }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="h5">₹ {data?.["price"]}</Typography>
+                <Typography variant="h6">₹ {data?.["price"]}</Typography>
               </Grid>
             </Grid>
           </Grid>
           <Divider />
-          <Grid item xs container spacing={2} style={{ paddingTop: 24, paddingBottom: 24 }}>
+          <Grid
+            item
+            xs
+            container
+            spacing={2}
+            style={{ paddingTop: 24, paddingBottom: 24 }}
+          >
             <Grid item xs={12} className={classes.categoryContainer}>
               <Grid item xs={12}>
                 <Typography variant="caption">{"Category"}</Typography>
@@ -448,7 +470,12 @@ export function Product({ id }) {
           </Grid>
           <Divider />
           <Grid item xs container>
-            <Grid item xs={12} md={6} style={{ paddingTop: 24, paddingBottom: 24 }}>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              style={{ paddingTop: 24, paddingBottom: 24 }}
+            >
               <FormControl
                 variant="outlined"
                 className={classes.sizeSelectContainer}
@@ -476,7 +503,15 @@ export function Product({ id }) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6} style={{ paddingTop: 24, paddingBottom: 24 }} spacing={2} container alignItems="center">
+            <Grid
+              item
+              xs={12}
+              md={6}
+              style={{ paddingTop: 24, paddingBottom: 24 }}
+              spacing={2}
+              container
+              alignItems="center"
+            >
               <Grid item xs>
                 <TextField
                   variant="outlined"
@@ -553,7 +588,7 @@ export function Product({ id }) {
       </Grid>
       <Divider />
       <Grid item xs container>
-        <Grid item xs={12} justify={"center"}>
+        <Grid item xs={12}>
           <Tabs
             value={tabIndex}
             centered
@@ -586,8 +621,14 @@ export function Product({ id }) {
       </Grid>
 
       <Divider />
-      <Grid item xs container spacing={4} style={{  width: "100%", paddingTop: 46, paddingBottom: 46  }}>
-        <Grid item xs={12} md={4} >
+      <Grid
+        item
+        xs
+        container
+        spacing={4}
+        style={{ width: "100%", paddingTop: 46, paddingBottom: 46 }}
+      >
+        <Grid item xs={12} md={4}>
           <DetailsTable
             label={"Dimensions"}
             rows={[
@@ -602,7 +643,12 @@ export function Product({ id }) {
         </Grid>
       </Grid>
       <Divider />
-      <Grid item xs container style={{ width: "100%", paddingTop: 46, paddingBottom: 46 }}>
+      <Grid
+        item
+        xs
+        container
+        style={{ width: "100%", paddingTop: 46, paddingBottom: 46 }}
+      >
         <Grid item xs={12}>
           <Typography variant="h4">{"Recommended"}</Typography>
         </Grid>

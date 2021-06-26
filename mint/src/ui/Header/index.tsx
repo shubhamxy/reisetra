@@ -4,6 +4,7 @@ import {
   makeStyles,
   Theme,
   createStyles,
+  useTheme,
 } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -66,6 +67,10 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      [theme.breakpoints.down("sm")]: {
+        paddingLeft: 12,
+        paddingRight: 12,
+      },
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -210,12 +215,12 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
-    listitem : {
+    listitem: {
       "&:hover": {
         boxShadow: `0px 0px 0px 4px ${theme.palette.primary.main}33`,
         backgroundColor: "unset",
       },
-    }
+    },
   })
 );
 
@@ -232,21 +237,25 @@ export function AppHeader() {
   const data = response.data;
   const authDispatch = useAuthDispatch();
   useEffect(() => {
-    if(router.query['q'] && searchText === ''){
-      setSearchText(router.query['q'] ? router.query['q'] as string: '')
+    if (router.query["q"] && searchText === "") {
+      setSearchText(router.query["q"] ? (router.query["q"] as string) : "");
     }
-  }, [router.query['q']])
+  }, [router.query["q"]]);
 
   const debounced = useDebouncedCallback((value) => {
-    if(router.pathname !== 'products') {
-      router.pathname = 'products';
-    }
-    if(!value) {
-      delete router.query.q;
+    const routerObj = {};
+    if (router.pathname !== "/products") {
+      routerObj['query'] = {};
+      routerObj['pathname'] = "/products"
     } else {
-      router.query["q"] = value;
+      routerObj['query'] = router.query;
     }
-    router.push(router);
+    if (!value) {
+      delete routerObj['query']['q'];
+    } else {
+      routerObj['query']['q'] = value;
+    }
+    router.push(routerObj);
   }, 2000);
 
   const isOpen = Boolean(searchText);
@@ -257,7 +266,7 @@ export function AppHeader() {
     mobileMoreAnchorEl,
     setMobileMoreAnchorEl,
   ] = useState<null | HTMLElement>(null);
-
+  const theme = useTheme();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -317,7 +326,7 @@ export function AppHeader() {
       anchorEl={anchorEl}
       getContentAnchorEl={null}
       id={menuId}
-      keepMounted
+      keepMounted={false}
       classes={{ paper: classes.menuPaper, list: classes.list }}
       anchorOrigin={{
         vertical: "bottom",
@@ -339,10 +348,15 @@ export function AppHeader() {
               handleMenuClose();
               item?.onClick?.();
             }}
-            className={classes.listitem}
+            className={classes.menuPaperItem}
           >
             <Link href={item.link}>
-              <Typography variant="caption">{item.label}</Typography>
+              <Button
+                variant="text"
+                color={item.link === router.pathname ? "primary" : "default"}
+              >
+                {item.label}
+              </Button>
             </Link>
           </MenuItem>
         );
@@ -364,19 +378,19 @@ export function AppHeader() {
       className={classes.menuPaperItem}
     >
       <IconButton>
-        {authState?.user?.avatar ? (
-          <Avatar
-            style={{ width: 20, height: 20 }}
-            src={authState?.user?.avatar}
-            alt="user avatar"
-          />
-        ) : (
-          <AccountCircle style={{ width: 20, height: 20 }} />
-        )}
+        <Avatar
+          style={{ width: 20, height: 20, backgroundColor: theme.palette.primary.dark }}
+          src={authState?.user?.avatar}
+          alt="user avatar"
+        >
+          <Typography variant="caption" style={{ lineHeight: 1, color: theme.palette.common.white}}>
+            {authState?.user?.name?.[0]}
+          </Typography>
+        </Avatar>
       </IconButton>
     </MenuItem>
   ) : (
-    <MenuItem>
+    <MenuItem className={classes.menuPaperItem}>
       <Link href="/login">
         <Button variant="contained" color="primary">
           Login
@@ -387,10 +401,18 @@ export function AppHeader() {
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      getContentAnchorEl={null}
       id={mobileMenuId}
-      keepMounted={false}
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      keepMounted={true}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+      classes={{ paper: classes.menuPaper, list: classes.list }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -411,11 +433,11 @@ export function AppHeader() {
   const renderSearchBar = (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
-        <SearchIcon style={{height: 16, width: 16}}  />
+        <SearchIcon style={{ height: 16, width: 16 }} />
       </div>
       <InputBase
         placeholder="Search"
-        autoFocus={true}
+        autoFocus={false}
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput,
@@ -479,16 +501,11 @@ export function AppHeader() {
             </div>
             <div className={classes.sectionMobile}>
               {renderProfile}
-              <MenuItem>
-                <IconButton
-                  aria-label="show more"
-                  aria-controls={mobileMenuId}
-                  aria-haspopup="true"
-                  onClick={handleMobileMenuOpen}
-                  color="inherit"
-                >
-                  <MoreIcon />
-                </IconButton>
+              <MenuItem
+                onClick={handleMobileMenuOpen}
+                className={classes.menuPaperItem}
+              >
+                <MoreIcon color="action" style={{ height: 20, width: 20 }} />
               </MenuItem>
             </div>
           </Toolbar>

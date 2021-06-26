@@ -83,15 +83,19 @@ async function http<S, E = any>(
 
   if (!response.ok) {
     if (response.status === 401 && withAPI && config.headers["Authorization"] && !config.headers['X-Refresh-Token']) {
-      const response = await refreshAuthToken();
-      if (response.data.access_token && response.data.refresh_token) {
-        storage.put.access_token(response.data.access_token);
-        storage.put.refresh_token(response.data.refresh_token);
-        return http(path, config, withAPI);
+      try {
+        const response = await refreshAuthToken();
+        if (response.data.access_token && response.data.refresh_token) {
+          storage.put.access_token(response.data.access_token);
+          storage.put.refresh_token(response.data.refresh_token);
+          return http(path, config, withAPI);
+        }
+      } catch(error) {
+        storage.clear();
+        window.location.reload();
+        throw new HTTPError<E>(error);
       }
-      storage.clear();
     }
-
     throw new HTTPError<E>(data);
   }
   return data as S;

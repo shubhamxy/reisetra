@@ -23,8 +23,8 @@ interface PaginationParams {
   orderDirection?: "desc" | "asc";
 }
 
-export function getCart({ queryKey }: {queryKey: [string, string, string]}) {
-  return get(`cart/${queryKey[1]}${queryKey[2] ? `?promo=${queryKey[2]}`: ''}`);
+export function getCart({ queryKey }: {queryKey: [string, {cartId: string, promo: string}]}) {
+  return get(`cart/${queryKey[1].cartId}${queryKey[1].promo ? `?promo=${queryKey[1]}`: ''}`);
 }
 
 export function cartCheckout(body) {

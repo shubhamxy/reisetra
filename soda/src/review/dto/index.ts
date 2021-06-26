@@ -24,6 +24,7 @@ type Excluded =
   | "id"
   | "active"
   | "createdAt"
+  | "userId"
   | "updatedAt"
   | "extra"
   | "inventoryId";
@@ -45,7 +46,6 @@ export class CreateReviewDto implements Omit<Review, Excluded> {
   description: string;
   @IsString({ message: mustBeOfType("string", "productId") })
   productId: string;
-
   images: Omit<File, "userId">[];
   tags: string[];
   rating: number;

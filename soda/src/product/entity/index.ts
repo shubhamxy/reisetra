@@ -27,6 +27,7 @@ export class Product implements ProductModel {
   updatedAt: Date;
   rating: number;
   styles: string[];
+  ratingsCount: number;
 }
 
 export class Category implements CategoryModel {

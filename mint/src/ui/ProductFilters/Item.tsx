@@ -301,6 +301,7 @@ export function Filters({
 
   return Object.entries(data).map(([filter, item], index) => (
     <Accordion
+      key={index}
       classes={{ root: classes.root }}
       expanded={expanded === index}
       onChange={handleChange(index)}

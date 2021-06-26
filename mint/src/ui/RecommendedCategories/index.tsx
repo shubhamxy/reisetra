@@ -116,7 +116,9 @@ export default function RecommendedCategories() {
           {data?.data?.map((item, index) => (
             <Chip
               onClick={(e) => {
-                router.push(`/products?category=${item.value}`)
+                router.query['category'] = item.label;
+                router.pathname = "/products";
+                router.push(router);
               }}
               key={index}
               className={classes.taglistitem}

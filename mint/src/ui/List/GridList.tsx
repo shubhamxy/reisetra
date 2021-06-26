@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'center',
     }
   },
+  listItem: {
+    justifyContent: 'center',
+  },
   imageContainer: {
     display: "flex",
     flexDirection: "column",
@@ -135,7 +138,7 @@ export default function GridList({ emptyListCaption = "", query, renderItem }) {
       <List
         variant={'infinite'}
         data={data}
-        classes={{ list: classes.list }}
+        classes={{ list: classes.list, listItem: classes.listItem }}
         isLoading={isLoading}
         ListEmptyComponent={
           <Box

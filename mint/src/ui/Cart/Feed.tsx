@@ -57,12 +57,14 @@ export function Cart({ data }) {
             }}
             ItemSeparatorComponent={<Divider />}
             data={data.items}
+            isEmpty={!data.items || data.items.length === 0}
             ListEmptyComponent={
               <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
                 height="320px"
+                flex={1}
               >
                 <Typography align="center" variant="subtitle2">
                   Cart is empty
@@ -216,8 +218,9 @@ export function Cart({ data }) {
               size="large"
               style={{height: 56}}
               onClick={() => {
-                  
-                router.push("/checkout");
+                if(data["grandTotal"] > 0) {
+                  router.push("/checkout");
+                }
               }}
               fullWidth
             >

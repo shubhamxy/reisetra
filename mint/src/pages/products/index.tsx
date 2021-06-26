@@ -128,13 +128,15 @@ function useHelper() {
     key: string,
     value: string | string[] | number | number[]
   ) {
+    const routerObj = {
+      query: router.query,
+    };
     if(!value) {
-      delete router.query[key];
+      delete routerObj.query[key];
     } else {
-      // @ts-ignore
-      router.query[key] = value;
+      routerObj.query[key] = value as any;
     }
-    router.push(router);
+    router.push(routerObj);
   }
 
   const values: {
@@ -367,7 +369,7 @@ const ProductsPage = () => {
             <Box pt={0.6} pb={0.6}>
               <Typography variant={"h5"} style={{ color: "#fff" }}>
                 {filters.category.data.find(
-                  (item) => item.value === values.category
+                  (item) => item.label === values.category
                 )?.label || ""}
               </Typography>
             </Box>

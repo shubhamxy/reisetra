@@ -47,10 +47,10 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     position: "relative",
     flexDirection: "column",
     alignItems: "flex-start",
-    padding: "30px 30px 19px 30px",
+    padding: "30px 16px 30px 16px",
     cursor: "pointer",
-    maxWidth: 275,
-    height: 352,
+    height: 372,
+    maxWidth: 320,
     mixBlendMode: "normal",
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.103775)",
     borderRadius: 8,
@@ -74,8 +74,6 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
   },
   title: {
     ...theme.typography.caption,
-    fontSize: "12px",
-    lineHeight: "16px",
     display: "-webkit-box",
     overflow: "hidden",
     WebkitLineClamp: 1,
@@ -95,16 +93,29 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
   banner: {},
   cover: {},
   group: {},
+  titleContainer: {
+    padding: '14px',
+    paddingTop: '2px',
+    paddingBottom: '2px',
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: '6px'
+  },
   seeAll: {
     position: "absolute",
     bottom: "24px",
-    left: "24px",
+    left: "16px",
+    padding: '14px',
+    paddingTop: '2px',
+    paddingBottom: '2px',
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: '6px'
   },
-  seeAllText: ({}) => ({
+  seeAllText: {
     ...theme.typography.body2,
     fontSize: "12px",
-    lineHeight: "14px",
-  }),
+  },
   illustration: {
     position: "absolute",
     left: 0,
@@ -143,9 +154,12 @@ export function GridItem({
       onClick={onClick}
     >
       <CardContent className={classes.card}>
-        <Typography className={classes.title} variant="subtitle2">
-          {title}
-        </Typography>
+        <Box className={classes.titleContainer}>
+          <Typography className={classes.title} variant="subtitle2">
+            {title}
+          </Typography>
+        </Box>
+
         {/* <Typography className={classes.description} variant="body2">
           {description}
         </Typography> */}
@@ -224,7 +238,7 @@ export const Catelogs = ({ filters, variant = "default" }) => {
               // @ts-ignore
               router.query["tags"] = item.title;
             }
-            router.pathname = "products";
+            router.pathname = "/products";
             router.push(router);
           }}
         ></GridItem>

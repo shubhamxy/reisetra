@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     padding: 24,
     flex: 1,
+    [theme.breakpoints.down('sm')]: {
+      padding: 12,
+    }
   },
   top: {
     display: "flex",
@@ -49,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     flexWrap: "wrap",
     padding: 24,
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    }
   },
   right: {
     position: "sticky",

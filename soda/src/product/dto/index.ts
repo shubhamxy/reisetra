@@ -96,10 +96,16 @@ export class CreateProductDto implements Omit<Product, Excluded> {
 
   categories: string[];
   tags: string[]
-  rating: number;
   @IsOptional()
   @IsArray({ message: mustBeOfType("array", "styles") })
   styles: string[];
+
+  @IsOptional()
+  @IsNumber({}, { message: mustBeOfType("number", "rating") })
+  rating: number;
+  @IsOptional()
+  @IsNumber({}, { message: mustBeOfType("number", "ratingsCount") })
+  ratingsCount: number;
 }
 
 export class UpdateProductDto implements Omit<Product, Excluded> {
@@ -177,6 +183,7 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   @IsOptional()
   @IsNumber({}, { message: mustBeOfType("number", "rating") })
   rating: number;
+  ratingsCount: number;
 }
 
 

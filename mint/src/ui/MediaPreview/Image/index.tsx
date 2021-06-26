@@ -54,7 +54,7 @@ const useStyles = makeStyles<
     gridRow: length === 3 ? "span 3" : "span 1",
     height: "100%",
     maxHeight: length <= 2 ? "304px" : length === 3 ? "150px" : "100px",
-    // minHeight: length === 2 ? "300px" : "100px",
+    minHeight: length === 2 ? "300px" : "100px",
     "&:nth-child(1)": {
       gridColumn: length === 2 ? "span 1" : length === 3 ? "span 3" : "span 4",
       gridRow: length === 2 ? "span 1" : length === 3 ? "span 6" : "span 3",
@@ -245,6 +245,7 @@ const useStyles = makeStyles<
     maxWidth: "100%",
     maxHeight: "100%",
     flex: 1,
+    borderRadius: 8
   },
 }));
 
@@ -386,7 +387,8 @@ function GridView({
             width="100%"
             height="100%"
             position="absolute"
-            bgcolor="rgba(46, 46, 46, 0.8)"
+            bgcolor="rgba(46, 46, 46, 0.6)"
+            // style={{backdropFilter: "blur(4px)"}}
             justifyContent="center"
             alignItems="center"
             zIndex={1}

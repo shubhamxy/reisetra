@@ -20,19 +20,23 @@ export const useAddCartItem = () => {
   return useMutation(addCartItem, {
     onSuccess: () => {
       queryClient.invalidateQueries(QueryKeys.cart);
-      dispatch(updateSnackBar({
-        message: 'Product added to cart successfully',
-        type: "success",
-        open: true,
-      }));
+      dispatch(
+        updateSnackBar({
+          message: "Product added to cart successfully",
+          type: "success",
+          open: true,
+        })
+      );
     },
     onError: (error) => {
-      dispatch(updateSnackBar({
-        message: error['message'] || 'Server Error',
-        type: "error",
-        open: true,
-      }));
-    }
+      dispatch(
+        updateSnackBar({
+          message: error["message"] || "Server Error",
+          type: "error",
+          open: true,
+        })
+      );
+    },
   });
 };
 export const useDeleteCartItem = () => {
@@ -43,12 +47,14 @@ export const useDeleteCartItem = () => {
       queryClient.invalidateQueries(QueryKeys.cart);
     },
     onError: (error) => {
-      dispatch(updateSnackBar({
-        message: error['message'] || 'Server Error',
-        type: "error",
-        open: true,
-      }));
-    }
+      dispatch(
+        updateSnackBar({
+          message: error["message"] || "Server Error",
+          type: "error",
+          open: true,
+        })
+      );
+    },
   });
 };
 
@@ -58,18 +64,21 @@ export const useCartItem = (cartId: string, productId: string) => {
     enabled: !!(cartId && productId),
     onSuccess: () => {},
     onError: (error) => {
-      dispatch(updateSnackBar({
-        message: error['message'] || 'Server Error',
-        type: "error",
-        open: true,
-      }));
-    }
+      dispatch(
+        updateSnackBar({
+          message: error["message"] || "Server Error",
+          type: "error",
+          open: true,
+        })
+      );
+    },
   });
-}
+};
 
-export const useCartItems = (cartId: string, promo: string) =>
-  useQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
-    [QueryKeys.cart, {cartId, promo}],
+export const useCartItems = (cartId: string, promo: string) => {
+  const dispatch = useGlobalDispatch();
+  return useQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
+    [QueryKeys.cart, { cartId, promo }],
     getCart,
     {
       initialData: {
@@ -81,26 +90,47 @@ export const useCartItems = (cartId: string, promo: string) =>
       getNextPageParam: (lastPage, _pages) => {
         return lastPage.meta.link?.next?.cursor;
       },
-      onSuccess: () => {},
+      onSuccess: () => {
+        dispatch(
+          updateSnackBar({
+            message: "Cart Refetched",
+            type: "success",
+            open: true,
+          })
+        );
+      },
+      onError: (error) => {
+        dispatch(
+          updateSnackBar({
+            message: error["message"] || "Server Error",
+            type: "error",
+            open: true,
+          })
+        );
+      },
     }
   );
-
+};
 export const useCartCheckout = () => {
   const dispatch = useGlobalDispatch();
   return useMutation(cartCheckout, {
     onSuccess: () => {
-      dispatch(updateSnackBar({
-        message: 'Cart Successfully checked out',
-        type: "success",
-        open: true,
-      }));
+      dispatch(
+        updateSnackBar({
+          message: "Cart Successfully checked out",
+          type: "success",
+          open: true,
+        })
+      );
     },
     onError: (error) => {
-      dispatch(updateSnackBar({
-        message: error['message'] || 'Server Error',
-        type: "error",
-        open: true,
-      }));
-    }
+      dispatch(
+        updateSnackBar({
+          message: error["message"] || "Server Error",
+          type: "error",
+          open: true,
+        })
+      );
+    },
   });
 };

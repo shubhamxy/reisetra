@@ -10,7 +10,7 @@ export class Review implements ReviewModal {
   constructor(partial: Partial<ReviewModal>) {
     Object.assign(this, partial);
   }
-
+  userId: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;

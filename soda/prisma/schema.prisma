@@ -102,6 +102,7 @@ model User {
 
   transactions Transaction[]
   files        File[]
+  reviews   Review[]
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -211,6 +212,9 @@ model Review {
   product   Product? @relation(fields: [productId], references: [id])
   productId String?
 
+  user   User? @relation(fields: [userId], references: [id])
+  userId String?
+
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -229,6 +233,7 @@ model Product {
   styles      String[]
   rating      Int        @default(5)
   reviews     Review[]
+  ratingsCount Int       @default(0)
 
   dimensions String[]
   details    Json

@@ -62,7 +62,8 @@ const useGridItemStyles = makeStyles<
     flexDirection: "column",
     alignItems: "flex-start",
     cursor: "pointer",
-    height: 320,
+    height: 372,
+    maxWidth: 320,
     justifyContent: 'center',
     mixBlendMode: "normal",
     borderRadius: 8,
@@ -152,8 +153,8 @@ export function GridItem({
   styleIndex = 0,
   title,
   description,
-  numberOfReviews,
-  ratings,
+  ratingsCount,
+  rating,
   price,
   mrp,
   images,
@@ -163,8 +164,8 @@ export function GridItem({
   styleIndex: number;
   title: string;
   description: string;
-  ratings: number | string;
-  numberOfReviews: number | string;
+  rating: number | string;
+  ratingsCount: number | string;
   mrp: string;
   price: string;
   images: { url: string }[];
@@ -233,10 +234,10 @@ export function GridItem({
               />
             </Box>
             <Box display="flex">
-              <Rating size="small" value={+ratings || 5} readOnly />
+              <Rating size="small" value={+rating || 5} readOnly />
               <Box>
                 <Typography
-                  children={`(${+numberOfReviews || 1} review${+numberOfReviews > 0 ? 's' : ''})`}
+                  children={`(${+ratingsCount || 1} review${+ratingsCount > 0 ? 's' : ''})`}
                   variant="caption"
                   style={{ fontSize: 12, marginLeft: 4 }}
                 />

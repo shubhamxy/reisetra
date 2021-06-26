@@ -3,19 +3,19 @@ export const footerLinks = [
     headerTitle: "Shopping",
     nav: [
       {
-        to: "/blogs",
+        to: "/products?sort=bestselling",
         title: "Top Selling",
       },
       {
-        to: "/security",
+        to: "/products?sort=new",
         title: "New Arrivals",
       },
       {
-        to: "/newsletter",
-        title: "On Sale",
+        to: "/products?sort=trending",
+        title: "Trending",
       },
       {
-        to: "/faqs",
+        to: "/products?sort=relevant",
         title: "Most Popular",
       },
     ],
@@ -24,7 +24,7 @@ export const footerLinks = [
     headerTitle: "Resources",
     nav: [
       {
-        to: "/about-us",
+        to: "/about",
         title: "About us",
       },
       {
@@ -45,15 +45,15 @@ export const footerLinks = [
     headerTitle: "Quick Links",
     nav: [
       {
-        to: "/blogs",
+        to: "/terms",
         title: "Terms of Service",
       },
       {
-        to: "/security",
+        to: "/shipping",
         title: "Shipping",
       },
       {
-        to: "/security",
+        to: "/privacy",
         title: "Privacy Policy",
       },
     ],

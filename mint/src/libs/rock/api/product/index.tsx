@@ -112,7 +112,6 @@ interface PaginationParams {
 
 export function getProducts(params: PaginationParams) {
   const qs = queryString.stringify(pickBy(params, identity));
-  console.log({qs});
   return get(`products?${qs}`);
 }
 
