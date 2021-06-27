@@ -84,7 +84,7 @@ model CartItem {
   updatedAt DateTime @updatedAt
   cart      Cart     @relation(fields: [cartId], references: [id])
   product   Product  @relation(fields: [productId], references: [id])
-  @@unique([productId, cartId], name: "CartItem.productId_cartId_unique")
+  @@unique([productId, cartId])
 }
 
 model Address {

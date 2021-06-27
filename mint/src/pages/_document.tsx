@@ -5,7 +5,7 @@ import { Theme } from "@material-ui/core";
 import { ServerStyleSheets } from "@material-ui/styles";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import * as React from "react";
-import { config, WithTheme } from "../libs";
+import { config, GoogleSignInScript, GTagNoscript, GTagScript, WithTheme } from "../libs";
 
 const getCache = () => {
   const cache = createCache({ key: "css", prepend: true });
@@ -21,7 +21,6 @@ export default class MyDocument extends Document {
         {(theme: Theme) => (
           <Html lang="en">
             <Head>
-              {/* PWA primary color */}
               <link
                 rel="apple-touch-icon"
                 sizes="180x180"
@@ -46,20 +45,18 @@ export default class MyDocument extends Document {
               />
               <meta name="apple-mobile-web-app-title" content={config.name} />
               <meta name="application-name" content={config.name} />
-              <meta name="msapplication-TileColor" content={theme.palette.primary.main} />
+              <meta
+                name="msapplication-TileColor"
+                content={theme.palette.primary.main}
+              />
               <meta name="theme-color" content={theme.palette.primary.main} />
-
               <link rel="apple-touch-icon" href="/static/logo.png" />
               <link rel="manifest" href="/static/manifest.json" />
-              {/* Google Login Script */}
-              <script
-                src="https://accounts.google.com/gsi/client"
-                async
-                defer
-              />
-
+              <GoogleSignInScript />
+              <GTagScript />
             </Head>
             <body>
+              <GTagNoscript />
               <Main />
               <NextScript />
             </body>

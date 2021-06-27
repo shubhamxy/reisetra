@@ -11,6 +11,8 @@ import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
 import { config } from "../libs/rock/config";
+import { useEffect } from "react";
+import { analytics } from "../libs";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -32,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
 
 const AboutPage = () => {
   const classes = useStyles();
+  useEffect(() => {
+    setTimeout(() => {
+      analytics.login();
+
+    }, 10000)
+  }, []);
   return (
     <MainLayout
       classes={{

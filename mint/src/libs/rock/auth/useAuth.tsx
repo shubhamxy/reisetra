@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 import { refreshAuthToken, loginEmailForgotPassword, oauthGoogleVerify, loginEmail, signupEmail, loginEmailResetPassword } from "../api/auth";
 import { updateSnackBar, useGlobalDispatch } from "../global";
+import { analytics } from "../utils";
 
 export const useRefreshAuth = () => {
   const dispatch = useGlobalDispatch();
@@ -11,6 +12,7 @@ export const useRefreshAuth = () => {
         type: "success",
         open: true,
       }));
+      analytics.login();
     },
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -30,6 +32,7 @@ export const useVerifyGoogleLogin = () => {
         type: "success",
         open: true,
       }));
+      analytics.login();
     },
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -49,6 +52,7 @@ export const useUserEmailLogin = () => {
         type: "success",
         open: true,
       }));
+      analytics.login();
     },
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -83,10 +87,11 @@ export const useUserEmailResetPassword = () => {
   return useMutation(loginEmailResetPassword, {
     onSuccess: () => {
       dispatch(updateSnackBar({
-        message: 'Success',
+        message: 'Password Reset Successfull',
         type: "success",
         open: true,
       }));
+      analytics.login();
     },
     onError: (error) => {
       dispatch(updateSnackBar({
@@ -108,6 +113,7 @@ export const useUserEmailSignUp = () => {
         type: "success",
         open: true,
       }));
+      analytics.login();
     },
     onError: (error) => {
       dispatch(updateSnackBar({

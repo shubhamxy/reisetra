@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Link from "next/link";
 import { footerLinks } from "./data";
 import { Icons, Image } from "../Image";
-
 import {
   Container,
   List,
@@ -13,11 +12,16 @@ import {
   Grid,
   Paper,
   makeStyles,
+  IconButton,
   Theme,
   Box,
 } from "@material-ui/core";
 import { config } from "../../libs";
 import { Logo } from "../Logo";
+import { Facebook, Instagram, WhatsApp } from "@material-ui/icons";
+import { ButtonGroup } from "@material-ui/core";
+const {version} = require("../../../package.json")
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     footer: {
@@ -44,11 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "row",
       height: "100%",
+      width: "100%",
       [theme.breakpoints.down("sm")]: {
         flexDirection: "column-reverse",
       },
     },
-    left: {
+    info: {
       flex: 1,
       display: "flex",
       flexDirection: "column",
@@ -56,31 +61,53 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "flex-start",
       height: "100%",
     },
-    right: {
-      display: "flex",
+    links: {
       flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      position: "relative",
+    },
+    footerlinks: {
+      display: "flex",
       height: "100%",
       width: "100%",
-      justifyContent: "space-around",
-      alignItems: 'flex-start',
-      textAlign: 'left'
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      textAlign: "left",
     },
     footerNav: {
-      paddingLeft: 24,
-      [theme.breakpoints.down("sm")]: {
-        paddingLeft: 0,
+      paddingRight: 24,
+      "&:nth-child(1)": {
+        paddingRight: 0,
       },
     },
     footerNavTitle: {
+      fontSize: 18,
     },
     footerNavList: {},
     footerListItem: {
-      cursor: 'pointer',
+      cursor: "pointer",
     },
     payments: {
       borderRadius: "4px",
       display: "flex",
       padding: "20px 0px",
+      marginLeft: "-8px",
+    },
+    socials: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      alignItems: "center",
+    },
+    socialsicon: {
+      borderRadius: 0,
+      "&:hover": {
+        borderRadius: 0,
+      },
+      "&:focus": {
+        borderRadius: 0,
+      }
     },
   })
 );
@@ -90,14 +117,17 @@ function Footer() {
   return (
     <footer className={classes.footer}>
       <Container className={classes.container}>
-        <Grid container className={classes.content}>
-          <Box className={classes.left}>
+        <Box className={classes.content}>
+          <Box className={classes.info}>
             <Box display="flex" flex={1}>
               <Logo />
             </Box>
             <Box display="flex" flex={1} maxWidth={"400px"}>
               <Typography variant="caption">
-                {config.name} has achieved a remarkable reputation in the manufacturing & exporting of premium quality wooden products and we are here to satisfy your design needs.</Typography>
+                {config.name} has achieved a remarkable reputation in the
+                manufacturing & exporting of premium quality wooden products and
+                we are here to satisfy your design needs.
+              </Typography>
             </Box>
             <Box className={classes.payments}>
               <Image
@@ -109,42 +139,57 @@ function Footer() {
               />
             </Box>
             <Box>
-            <Typography color="textPrimary"  variant="caption">
-              &copy; 2021 {config.name}.
-            </Typography>
-
+              <Typography color="textPrimary" variant="caption" title={version}>
+                &copy; 2021 {config.name}.
+              </Typography>
             </Box>
           </Box>
-
-          <Box className={classes.right}>
-            {footerLinks.map((item, index) => {
-              return (
-                <Box className={classes.footerNav} key={index}>
-                  <Typography color="textPrimary" variant="h6" className={classes.footerNavTitle}>
-                    {item.headerTitle}
-                  </Typography>
-                  <List className={classes.footerNavList}>
-                    {item.nav.map((ele, indx) => {
-                      return (
-                        <ListItem
-                          key={indx}
-                          className={classes.footerListItem}
-                          disableGutters
-                        >
-                          <Link href={ele.to}>
-                            <Typography align="left" variant="caption">
-                              {ele.title}
-                            </Typography>
-                          </Link>
-                        </ListItem>
-                      );
-                    })}
-                  </List>
-                </Box>
-              );
-            })}
+          <Box className={classes.links}>
+            <Box className={classes.footerlinks}>
+              {footerLinks.map((item, index) => {
+                return (
+                  <Box className={classes.footerNav} key={index}>
+                    <Typography
+                      color="textPrimary"
+                      variant="subtitle2"
+                      className={classes.footerNavTitle}
+                    >
+                      {item.headerTitle}
+                    </Typography>
+                    <List className={classes.footerNavList}>
+                      {item.nav.map((ele, indx) => {
+                        return (
+                          <ListItem
+                            key={indx}
+                            className={classes.footerListItem}
+                            disableGutters
+                          >
+                            <Link href={ele.to}>
+                              <Typography align="left" variant="caption">
+                                {ele.title}
+                              </Typography>
+                            </Link>
+                          </ListItem>
+                        );
+                      })}
+                    </List>
+                  </Box>
+                );
+              })}
+            </Box>
+            <ButtonGroup className={classes.socials} variant="outlined">
+              <IconButton target="_blank" title="Reisetra facebook" href={config.socials.facebook}  disableRipple disableFocusRipple disableTouchRipple className={classes.socialsicon}>
+                <Facebook />
+              </IconButton>
+              <IconButton target="_blank" title="Reisetra instagram" href={config.socials.instagram} disableRipple disableFocusRipple disableTouchRipple className={classes.socialsicon}>
+                <Instagram />
+              </IconButton>
+              <IconButton target="_blank" title="Reisetra whatsapp" href={config.socials.whatsapp}  disableRipple disableFocusRipple disableTouchRipple className={classes.socialsicon}>
+                <WhatsApp />
+              </IconButton>
+            </ButtonGroup>
           </Box>
-        </Grid>
+        </Box>
       </Container>
     </footer>
   );

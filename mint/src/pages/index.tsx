@@ -69,7 +69,7 @@ const IndexPage = () => {
     >
       <Paper className={classes.container}>
         <Grid container item xs={12} className={classes.content}>
-          <Grid item xs={12} alignItems="center" justify="flex-start">
+          <Grid item xs={12} justify="flex-start">
             <Box className={classes.titleContainer}>
               <Typography variant="h4">{"Recommended"}</Typography>
             </Box>
@@ -86,7 +86,7 @@ const IndexPage = () => {
         </Grid>
 
         <Grid container item xs={12} className={classes.content}>
-          <Grid item xs={12} alignItems="center" justify="flex-start">
+          <Grid item xs={12} justify="flex-start">
             <Box className={classes.titleContainer}>
               <Typography variant="h4">{"New Arrivals"}</Typography>
             </Box>
@@ -97,7 +97,7 @@ const IndexPage = () => {
         </Grid>
 
         <Grid container item xs={12} className={classes.content}>
-          <Grid item xs={12} alignItems="center" justify="flex-start">
+          <Grid item xs={12} justify="flex-start">
             <Box className={classes.titleContainer}>
               <Typography variant="h4">{"Collections"}</Typography>
             </Box>
@@ -108,7 +108,7 @@ const IndexPage = () => {
         </Grid>
 
         <Grid container item xs={12} className={classes.content}>
-          <Grid item xs={12} alignItems="center" justify="flex-start">
+          <Grid item xs={12} justify="flex-start">
             <Box className={classes.titleContainer}>
               <Typography variant="h4">{"Recommended Categories"}</Typography>
             </Box>

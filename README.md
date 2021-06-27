@@ -4,13 +4,13 @@
 | :------------- | :--------------: |
 | [soda](./soda) |    NodeJS API    |
 | [mint](./mint) | Next.js frontend |
-| [maze](./maze) |   Next.js cms    |
-| [rock](./rock) |    API Client    |
+| [maze](./mint) |   Next.js cms    |
+| [rock](./mint/src/libs/rock) |    API Client    |
 
 ---
 
 | Branch Name  |    Description     |
 | :----------- | :----------------: |
-| [prod](prod) | production version |
-| [dev](dev)   |   Staging branch   |
+| [main](main) | production version |
+| [develop](develop) |   Staging branch   |
 

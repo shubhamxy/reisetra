@@ -108,6 +108,10 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         backgroundColor: "unset",
       },
+      [theme.breakpoints.down("sm")]: {
+        paddingLeft: 8,
+        paddingRight: 8,
+      },
     },
     list: {
       background: theme.palette.background.paper,
@@ -176,8 +180,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       transition:
         "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-      marginLeft: 1.6,
-      marginRight: 1.6,
+      marginLeft: 16,
+      marginRight: 16,
       width: "auto",
       color: theme.palette.text.primary,
       ...theme.typography.caption,
@@ -502,6 +506,20 @@ export function AppHeader() {
             </div>
             <div className={classes.sectionMobile}>
               {renderProfile}
+              <MenuItem className={classes.menuPaperItem}>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={open ? handleDrawerClose : handleDrawerOpen}
+                  centerRipple={false}
+                >
+                  <Badge badgeContent={data["items"]?.length} color="primary">
+                    <ShoppingCart style={{ width: 20, height: 20 }} />
+                  </Badge>
+                </IconButton>
+              </MenuItem>
               <MenuItem
                 onClick={handleMobileMenuOpen}
                 className={classes.menuPaperItem}

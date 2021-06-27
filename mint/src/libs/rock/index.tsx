@@ -4,8 +4,10 @@ import { Hydrate } from "react-query/hydration";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { queryClient } from "./api";
 import { GlobalProvider } from "./global";
+import { useRouteAnalytics } from "./utils";
 
-export function RocksProvider({ children, pageProps,}) {
+export function RocksProvider({ children, pageProps }) {
+  useRouteAnalytics();
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps?.dehydratedState}>
@@ -31,4 +33,3 @@ export * from "./products";
 export * from "./transactions";
 export * from "./users";
 export * from "./theme";
-

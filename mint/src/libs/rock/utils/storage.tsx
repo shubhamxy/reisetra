@@ -1,4 +1,5 @@
 import { isBrowser } from "../config";
+import { analytics } from "./analytics";
 /**
  * @description LocalStorage keys
  */
@@ -95,6 +96,7 @@ export const storage = {
     if (isBrowser) {
       window?.sessionStorage?.clear();
       window?.localStorage?.clear();
+      analytics.logout();
     }
   },
 };

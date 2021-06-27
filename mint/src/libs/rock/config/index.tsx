@@ -15,9 +15,22 @@ export interface Config {
   apiUrl: string;
   clientUrl: string;
   googleOAuthOptions: {
+    enableGoogleSignIn: boolean;
     clientID: string;
     callbackUrl: string;
   };
+  analytics: {
+    enableGTag: boolean;
+    gtmId: string;
+    gaMeasurementId: string;
+    enableMixpanel: boolean;
+    mixpanelToken: string;
+  },
+  socials: {
+    instagram: string;
+    facebook: string;
+    whatsapp: string;
+  }
 }
 
 export const isBrowser = typeof window !== undefined;
@@ -35,10 +48,25 @@ export const config: Config = {
 
   // API
   apiUrl: process.env.NEXT_PUBLIC_API_URL || "",
-
   // GOOGLE Login
   googleOAuthOptions: {
+    enableGoogleSignIn: !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
     clientID: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '',
     callbackUrl: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_CALLBACK_URL || '',
   },
+  analytics: {
+    enableGTag: !!process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID && !! process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID,
+    // ref: https://tagmanager.google.com/#/container/accounts
+    gtmId: process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID,
+    // ref: https://analytics.google.com/analytics/web/
+    gaMeasurementId: process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID,
+    enableMixpanel: !!process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
+    // ref https://mixpanel.com/report/2463627/view/3006479/live
+    mixpanelToken: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
+  },
+  socials: {
+    facebook: process.env.NEXT_PUBLIC_SOCIALS_FACEBOOK || "https://www.facebook.com/",
+    instagram: process.env.NEXT_PUBLIC_SOCIALS_INSTAGRAM || "https://www.instagram.com/",
+    whatsapp: process.env.NEXT_PUBLIC_SOCIALS_WHATSAPP || "https://api.whatsapp.com/send?phone=919999999999",
+  }
 };

@@ -11,6 +11,7 @@ import { useRefreshAuth, useVerifyGoogleLogin } from "./useAuth";
 import { useUserProfile } from "../users";
 import { useRouter } from "next/router";
 import { UserProfile } from "../api/user";
+import { analytics } from "../utils";
 
 const AuthStateContext = createContext(null);
 const AuthDispatchContext = createContext(null);
@@ -113,10 +114,12 @@ const authReducer = (state: State, action: Action): State => {
 
     case ActionKind.setAuthState:
       try {
-        return {
+        const update = {
           ...state,
           ...action.payload,
         };
+        analytics.identify(update.user);
+        return update;
       } catch (error) {
         return state;
       }

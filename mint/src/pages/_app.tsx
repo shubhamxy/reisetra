@@ -7,17 +7,19 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { RocksProvider } from "../libs";
 import { config } from "../libs/rock/config";
-
-
 import "nprogress/nprogress.css";
 import "../assets/styles/main.css";
-
+import { analytics } from "../libs/rock/utils";
 
 Router.events.on("routeChangeStart", () => {
   NProgress.start();
 });
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
+
+// export function reportWebVitals(metrics) {
+// 		analytics.metrics(metrics);
+// }
 
 export const cache = createCache({ key: "css", prepend: true });
 export default function MyApp(props: { Component: any; pageProps: any }) {
@@ -28,7 +30,6 @@ export default function MyApp(props: { Component: any; pageProps: any }) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
-
   return (
     <CacheProvider value={cache}>
       <Head>
