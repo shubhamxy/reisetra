@@ -225,13 +225,11 @@ export function LogIn() {
               onSubmit={handleSubmit}
             >
               <input
-                id="email"
                 style={{ display: "none" }}
                 type="email"
                 name="fakeusernameremembered"
               />
               <input
-                id="password"
                 style={{ display: "none" }}
                 type="password"
                 name="fakepasswordremembered"

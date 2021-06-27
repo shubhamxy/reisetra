@@ -67,14 +67,14 @@ async function http<S, E = any>(
   withAPI = true
 ): Promise<S> {
   const requestPath = withAPI ? apiConfig.apiUrl + path : path;
-  if (withAPI) {
+  config = config || {};
+  config.headers = config.headers || {};
+  config.headers["Content-Type"] = config.headers["Content-Type"] || "application/json";
+  if (withAPI && !config.headers['X-Refresh-Token']) {
     const access_token = storage.get.access_token();
-    config = config || {};
-    config.headers = config.headers || {};
     if(access_token) {
       config.headers["Authorization"] = `Bearer ${access_token}`
     }
-    config.headers["Content-Type"] = "application/json";
   }
 
   const request = new Request(requestPath, config);
@@ -92,7 +92,9 @@ async function http<S, E = any>(
         }
       } catch(error) {
         storage.clear();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         throw new HTTPError<E>(error);
       }
     }
