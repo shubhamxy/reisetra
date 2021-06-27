@@ -199,7 +199,7 @@ export function GridItem({
         onMouseLeave={() => setAddToCartVisible(false)}
       >
         <Box display={"flex"} flex={1}>
-          <Typography className={classes.title} variant="h4">
+          <Typography className={classes.title} variant="h4" title={title}>
             {title}
           </Typography>
           {/* <Typography className={classes.description} variant="subtitle2">

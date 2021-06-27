@@ -192,6 +192,7 @@ export class CreateCategoryDto implements Omit<Category, Excluded>{
   label: string;
   value: string;
   styles: string[];
+  description: string;
   images: Omit<File, "userId">[];
 }
 
@@ -199,6 +200,7 @@ export class UpdateCategoryDto implements Omit<Category, Excluded>{
   label: string;
   value: string;
   styles: string[];
+  description: string;
   images: Omit<File, "userId">[];
 }
 
@@ -207,6 +209,7 @@ export class CreateTagDto implements Omit<Tag, Excluded> {
   styles: string[];
   label: string;
   value: string;
+  description: string;
   images: Omit<File, "userId">[];
 }
 
@@ -214,5 +217,6 @@ export class UpdateTagDto implements Omit<Tag, Excluded> {
   styles: string[];
   label: string;
   value: string;
+  description: string;
   images: Omit<File, "userId">[];
 }

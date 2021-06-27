@@ -8,6 +8,239 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Secrets {
+  id        String   @id @default(cuid())
+  password  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  user      User     @relation(fields: [id], references: [id])
+}
+
+model File {
+  id          String    @id
+  url         String
+  fileType    FileType
+  contentType String
+  userId      String?
+  productId   String?
+  reviewId    String?
+  categoryId  String?
+  tagId       String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  category    Category? @relation(fields: [categoryId], references: [label])
+  product     Product?  @relation(fields: [productId], references: [id])
+  review      Review?   @relation(fields: [reviewId], references: [id])
+  tag         Tag?      @relation(fields: [tagId], references: [label])
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  emailVerified Boolean        @default(false)
+  name          String
+  avatar        String?
+  dateOfBirth   DateTime?
+  phone         String?        @unique
+  bio           String?
+  oauthId       String?        @unique
+  oauthProvider OAuthProvider?
+  role          Role           @default(USER)
+  active        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  addresses     Address[]
+  cart          Cart?
+  files         File[]
+  orders        Order[]
+  reviews       Review[]
+  secrets       Secrets?
+  transactions  Transaction[]
+}
+
+model Cart {
+  id         String     @id @default(cuid())
+  userId     String?    @unique
+  checkedOut Boolean    @default(false)
+  active     Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  user       User?      @relation(fields: [userId], references: [id])
+  items      CartItem[]
+  order      Order[]
+}
+
+model CartItem {
+  productId String
+  cartId    String
+  quantity  Int
+  size      String?
+  color     String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  @@unique([productId, cartId], name: "CartItem.productId_cartId_unique")
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  fullname  String
+  address   String
+  region    String?
+  nearby    String?
+  zipcode   String
+  city      String
+  state     String
+  country   String
+  phone     String
+  email     String
+  userId    String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  orders    Order[]
+}
+
+model Tag {
+  label       String    @id
+  value       String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  styles      String[]
+  description String?
+  images      File[]
+  products    Product[]
+}
+
+model Category {
+  label       String    @id
+  value       String?
+  styles      String[]
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  description String?
+  images      File[]
+  products    Product[]
+}
+
+model Offer {
+  label       String   @unique
+  value       String?
+  description String?
+  type        String   @default("promo")
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  orders      Order[]
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  rating      Int      @default(0)
+  title       String
+  description String
+  productId   String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String?
+  product     Product? @relation(fields: [productId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+  images      File[]
+}
+
+model Product {
+  id           String     @id @default(cuid())
+  title        String
+  description  String
+  brand        String     @default("Generic")
+  colors       String[]
+  sizes        String[]
+  styles       String[]
+  rating       Int        @default(5)
+  dimensions   String[]
+  details      Json
+  published    Boolean    @default(false)
+  mrp          Float
+  price        Float
+  tax          Float
+  taxCode      String?
+  inventoryId  String     @unique
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  ratingsCount Int        @default(0)
+  inventory    Inventory  @relation(fields: [inventoryId], references: [id])
+  cart         CartItem[]
+  images       File[]
+  reviews      Review[]
+  categories   Category[]
+  tags         Tag[]
+}
+
+model Inventory {
+  id            String   @id @default(cuid())
+  stockQuantity Int      @default(0)
+  sku           String   @unique
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  product       Product?
+}
+
+model Order {
+  id           String       @id @default(cuid())
+  subTotal     Float        @default(0)
+  itemDiscount Float        @default(0)
+  tax          Float        @default(0)
+  shipping     Float        @default(0)
+  total        Float        @default(0)
+  discount     Float        @default(0)
+  grandTotal   Float
+  promo        String?
+  userId       String
+  addressId    String
+  cartId       String
+  status       OrderStatus  @default(PENDING)
+  active       Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  address      Address      @relation(fields: [addressId], references: [id])
+  cart         Cart         @relation(fields: [cartId], references: [id])
+  offer        Offer?       @relation(fields: [promo], references: [label])
+  user         User         @relation(fields: [userId], references: [id])
+  transaction  Transaction?
+}
+
+model Transaction {
+  id               String            @id @default(cuid())
+  userId           String
+  notes            Json?
+  amount           Float
+  currency         String            @default("INR")
+  receipt          String?
+  paymentId        String?
+  paymentOrderId   String?
+  paymentSignature String?
+  reference        String?
+  verified         Boolean           @default(false)
+  type             TransactionType
+  status           TransactionStatus
+  active           Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  order            Order             @relation(fields: [id], references: [id])
+  user             User              @relation(fields: [userId], references: [id])
+}
+
 enum OAuthProvider {
   GOOGLE
   FACEBOOK
@@ -44,285 +277,4 @@ enum TransactionType {
 enum FileType {
   images
   documents
-}
-
-model Secrets {
-  id       String @id @default(cuid())
-  user     User   @relation(fields: [id], references: [id])
-  password String
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model File {
-  id         String @id
-  url         String
-
-  fileType    FileType
-  contentType String
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user        User?    @relation(fields: [userId], references: [id])
-  userId      String?
-  product     Product? @relation(fields: [productId], references: [id])
-  productId   String?
-  review      Review?  @relation(fields: [reviewId], references: [id])
-  reviewId    String?
-  category   Category? @relation(fields: [categoryId], references: [label])
-  categoryId String?
-  tag   Tag? @relation(fields: [tagId], references: [label])
-  tagId String?
-}
-
-model User {
-  id String @id @default(cuid())
-
-  email         String  @unique
-  emailVerified Boolean @default(false)
-  name          String
-
-  avatar      String?
-  dateOfBirth DateTime?
-  phone       String?   @unique
-  bio         String?
-
-  orders        Order[]
-  addresses     Address[]
-  oauthId       String?        @unique
-  oauthProvider OAuthProvider?
-  role          Role           @default(USER)
-
-  cart    Cart? // active cart
-  secrets Secrets?
-
-  transactions Transaction[]
-  files        File[]
-  reviews   Review[]
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Cart {
-  id     String  @id @default(cuid())
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
-
-  items      CartItem[]
-  checkedOut Boolean    @default(false)
-
-  order Order[]
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model CartItem {
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
-
-  cart   Cart   @relation(fields: [cartId], references: [id])
-  cartId String
-
-  quantity Int
-  size     String?
-  color    String?
-
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@unique([productId, cartId])
-}
-
-model Address {
-  id       String @id @default(cuid())
-  fullname String
-
-  address String // full address
-  region  String?
-  nearby  String?
-  zipcode String
-  city    String
-  state   String
-  country String
-
-  phone String
-  email String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  orders Order[]
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Tag {
-  label    String    @id
-  value    String
-  products Product[]
-  images    File[]
-  styles    String[]
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model Category {
-  label     String @id
-  value     String
-  products  Product[]
-  images    File[]
-  styles    String[]
-  active    Boolean   @default(true)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-}
-
-model Offer {
-  label String @unique
-  value String
-  type  String @default("promo")
-
-  orders    Order[]
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model Review {
-  id     String @id @default(cuid())
-  rating Int    @default(0)
-
-  title       String
-  description String
-  images      File[]
-
-  product   Product? @relation(fields: [productId], references: [id])
-  productId String?
-
-  user   User? @relation(fields: [userId], references: [id])
-  userId String?
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Product {
-  id          String     @id @default(cuid())
-  title       String
-  description String
-  brand       String     @default("Generic")
-  images      File[]
-  colors      String[]
-  sizes       String[]
-  categories  Category[]
-  tags        Tag[]
-  styles      String[]
-  rating      Int        @default(5)
-  reviews     Review[]
-  ratingsCount Int       @default(0)
-
-  dimensions String[]
-  details    Json
-
-  published Boolean @default(false)
-
-
-  mrp   Float
-  price Float // mrp - discount
-  tax   Float // total = price + tax
-
-  // hsn/sac code
-  taxCode String?
-
-  inventory   Inventory @relation(fields: [inventoryId], references: [id])
-  inventoryId String
-
-  cart CartItem[]
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Inventory {
-  id      String   @id @default(cuid())
-  product Product?
-
-  stockQuantity Int    @default(0)
-  sku           String @unique
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Order {
-  id String @id @default(cuid())
-
-  subTotal     Float   @default(0) // The total price of the Order Items.
-  itemDiscount Float   @default(0) // The total discount of the Order Items.
-  tax          Float   @default(0) // The tax on the Order Items.
-  shipping     Float   @default(0) // The shipping charges of the Order Items.
-  total        Float   @default(0) // The total price of the Order including tax and shipping. It excludes the items discount.
-  discount     Float   @default(0) // The total discount of the Order based on the promo code or store discount.
-  grandTotal   Float // The grand total of the order to be paid by the buyer.
-  promo        String? // The promo code of the Order.
-
-  // relations
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  address   Address @relation(fields: [addressId], references: [id])
-  addressId String
-
-  cart   Cart   @relation(fields: [cartId], references: [id])
-  cartId String
-
-  status      OrderStatus  @default(PENDING)
-  transaction Transaction?
-  offer       Offer?       @relation(fields: [promo], references: [label])
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Transaction {
-  id     String @id @default(cuid())
-  order  Order  @relation(fields: [id], references: [id])
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  notes Json?
-
-  amount   Float // transaction amount passed to the gateway
-  currency String  @default("INR")
-  receipt  String? // reciept Id passsed to the payment gateway
-
-  paymentId        String? // paymentId given by payment gateway
-  paymentOrderId   String? // orderId given by payment gateway
-  paymentSignature String?
-  reference        String?
-
-  verified Boolean           @default(false)
-  type     TransactionType
-  status   TransactionStatus
-
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

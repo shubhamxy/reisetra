@@ -103,9 +103,13 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
   },
   description: {
     ...theme.typography.body2,
-    fontSize: "24px",
+    fontSize: "18px",
     lineHeight: "32px",
-    paddingBottom: "24px",
+    overflow: "hidden",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    wordBreak: "break-all",
   },
   group: {},
   illustration: {},
@@ -180,13 +184,13 @@ export function GridItem({
         layout="fill"
       />
       <Box className={classes.titleContainer}>
-        <Typography className={classes.title} variant="subtitle2">
+        <Typography className={classes.title} variant="subtitle2" title={title}>
           {title}
         </Typography>
       </Box>
       {description && (
         <CardContent className={classes.card}>
-          <Typography className={classes.description} variant="body2">
+          <Typography className={classes.description} variant="body2" title={description}>
             {description}
           </Typography>
           {descriptionImage1 && (

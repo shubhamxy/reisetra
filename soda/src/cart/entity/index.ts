@@ -47,6 +47,7 @@ export class Offer implements OfferModel {
   label: string;
   value: string;
   type: string;
+  description: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;

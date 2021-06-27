@@ -40,6 +40,7 @@ export class Category implements CategoryModel {
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
+  description: string;
 }
 
 export class Tag implements TagModel {
@@ -52,4 +53,5 @@ export class Tag implements TagModel {
   updatedAt: Date;
   label: string;
   value: string;
+  description: string;
 }

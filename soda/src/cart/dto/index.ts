@@ -24,14 +24,16 @@ export class CreateOfferDto implements Omit<Offer, Excluded>{
   label: string;
   value: string;
   type: string;
+  description: string;
 }
 export class UpdateOfferDto  implements Omit<Offer, Excluded>{
   label: string;
   value: string;
   type: string;
+  description: string;
 }
 
-export class DeleteOfferDto implements Omit<Offer, Excluded>{
+export class DeleteOfferDto implements Omit<Offer, Excluded | 'description'>{
   label: string;
   value: string;
   type: string;

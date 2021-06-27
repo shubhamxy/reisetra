@@ -157,24 +157,19 @@ export function GridItem({
         layout="fill"
       />
       <Box className={classes.titleContainer}>
-        <Typography className={classes.title} variant="subtitle2">
+        <Typography className={classes.title} variant="subtitle2" title={title}>
           {title}
         </Typography>
       </Box>
       {description && (
         <CardContent className={classes.card}>
-          <Box className={classes.descriptionContainer}>
-            <Typography className={classes.description} variant="body2">
-              {description}
-            </Typography>
-          </Box>
+          <Typography className={classes.description} variant="body2" title={description}>
+            {description}
+          </Typography>
         </CardContent>
       )}
       <Box className={classes.seeAll}>
-        <Typography
-          children={"View"}
-          variant="caption"
-        />
+        <Typography children={"View"} variant="caption" />
       </Box>
     </Card>
   );

@@ -165,7 +165,7 @@ export function GridItem({
         onMouseEnter={() => setAddToCartVisible(true)}
         onMouseLeave={() => setAddToCartVisible(false)}
       >
-        <Typography className={classes.title} variant="h5">
+        <Typography className={classes.title} variant="h4" title={title}>
           {title}
         </Typography>
         <Typography className={classes.description} variant="subtitle2">

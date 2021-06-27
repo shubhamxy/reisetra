@@ -18,7 +18,6 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    width: "290px",
     marginTop: "16px",
     overflow: "hidden",
   },
