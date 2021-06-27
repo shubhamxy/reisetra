@@ -210,7 +210,7 @@ export function Grid({ children, ...rest }) {
   );
 }
 
-export const Catelogs = ({ variant = "default" }) => {
+export const Catelogs = ({ filters = {}, variant = "default" }) => {
   const query = useTags({});
   const router = useRouter();
   if (variant === "infinite") {

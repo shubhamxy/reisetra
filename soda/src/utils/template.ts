@@ -66,7 +66,7 @@ export function emailVerificationEmail(user: {
   id: string;
 }) {
   const config = app();
-  const emailVerifyLink = `${config.apiUrl}/auth/email/verify/${user.id}/${user.token}`;
+  const emailVerifyLink = `${config.clientUrl}/login/verify?id=${user.id}&token=${user.token}`;
   return createParams(
     options(user.email, {
       messageSubject: "Confirm your email address",

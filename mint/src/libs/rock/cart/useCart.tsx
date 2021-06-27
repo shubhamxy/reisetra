@@ -1,5 +1,4 @@
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -91,13 +90,7 @@ export const useCartItems = (cartId: string, promo: string) => {
         return lastPage.meta.link?.next?.cursor;
       },
       onSuccess: () => {
-        dispatch(
-          updateSnackBar({
-            message: "Cart Refetched",
-            type: "success",
-            open: true,
-          })
-        );
+
       },
       onError: (error) => {
         dispatch(
@@ -115,13 +108,7 @@ export const useCartCheckout = () => {
   const dispatch = useGlobalDispatch();
   return useMutation(cartCheckout, {
     onSuccess: () => {
-      dispatch(
-        updateSnackBar({
-          message: "Cart Successfully checked out",
-          type: "success",
-          open: true,
-        })
-      );
+
     },
     onError: (error) => {
       dispatch(

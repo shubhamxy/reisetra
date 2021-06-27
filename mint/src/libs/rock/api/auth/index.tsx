@@ -54,6 +54,10 @@ export function oauthGoogleVerify(body) {
   return post<LoginT, AuthResponse>(`auth/login/oauth/google/verify`, body);
 }
 
+export function emailVerify({id, token}) {
+  return get(`/auth/email/verify/${id}/${token}`);
+}
+
 export function refreshAuthToken(config?: RequestInit) {
   const refresh_token = storage.get.refresh_token();
   config = config || {};
