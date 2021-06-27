@@ -49,10 +49,11 @@ export function ProductCard({ data }) {
           height="62px"
         >
           {images?.length > 0 ? (
-            <img
+            <Image
               src={images[0].url}
               alt={""}
               height={62}
+              width={62}
               className={classes.img}
             />
           ) : (

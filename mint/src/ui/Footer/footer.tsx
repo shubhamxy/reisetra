@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme: Theme) =>
     footer: {
       display: "flex",
       width: "100%",
-      background: theme.palette.background.paper,
+      backgroundColor: fade(theme.palette.background.paper, 0.4),
+      backdropFilter: "blur(50px)",
       position: "relative",
       [theme.breakpoints.down("sm")]: {
         padding: "40px 0 0",

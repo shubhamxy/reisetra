@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Box, Card, CardContent, fade, Typography } from "@material-ui/core";
+import Image from "next/image";
 import { useCategories, useInterval } from "../../libs";
 import { useRouter } from "next/router";
+import GridList from "../../ui/List/GridList";
 
 const useGridStyles = makeStyles((theme) => ({
   root: {
@@ -23,23 +25,39 @@ const useGridStyles = makeStyles((theme) => ({
     },
   },
 }));
+type TStyles = {
+  background: string;
+  color: string;
+}[];
 
-const colors = {
-  default: {
-    background: "#ffffff",
-    color: "#000000"
+const colors: TStyles = [
+  {
+    background: "#000000",
+    color: "#ffffff",
   },
-  dark: {
-    background: "#1A1A1A",
-    color: "#fff",
+  {
+    background: "#906039",
+    color: "#ffffff",
   },
-  primary: {
+  {
+    background: "#d3b7a1",
+    color: "#ffffff",
+  },
+  {
+    background: "#d88ea3",
+    color: "#ffffff",
+  },
+  {
+    background: "#286dc1",
+    color: "#ffffff",
+  },
+  {
     background: "#74D125",
-    color: "#fff",
+    color: "#ffffff",
   },
-};
+];
 const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
-  root: ({ variant, styles }) => ({
+  root: ({ styles, colorIndex }) => ({
     display: "flex",
     flex: 1,
     position: "relative",
@@ -52,14 +70,11 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     mixBlendMode: "normal",
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
     borderRadius: 8,
-    color: styles && styles[0] ? styles[0] : colors[variant].color,
-    background: styles && styles[1] ? styles[1] : colors[variant].background,
-    backgroundSize: colors && colors[2] ? colors[2] : "auto 100%",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
+    color: styles && styles[0] ? styles[0] : colors[colorIndex].color,
+    background: styles && styles[1] ? styles[1] : colors[colorIndex].background,
     "&:hover": {
       transition:
-        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        "background 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -67,8 +82,16 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     },
   }),
   card: {
-    padding: 0,
     margin: 0,
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 24,
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: "6px",
+    padding: "14px",
+    paddingTop: "2px",
+    paddingBottom: "2px",
   },
   title: {
     ...theme.typography.caption,
@@ -78,47 +101,35 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     WebkitBoxOrient: "vertical",
     wordBreak: "break-all",
   },
-  description: ({ variant, styles }) => ({
+  description: {
     ...theme.typography.body2,
-    color: styles && styles[0] ? styles[0] : fade(colors[variant].color, 0.9),
     fontSize: "24px",
     lineHeight: "32px",
     paddingBottom: "24px",
-  }),
-  banner: {},
-  cover: {},
+  },
   group: {},
+  illustration: {},
   titleContainer: {
-    padding: '14px',
-    paddingTop: '2px',
-    paddingBottom: '2px',
+    padding: "14px",
+    paddingTop: "2px",
+    paddingBottom: "2px",
     background: "#00000010",
     backdropFilter: "blur(4px)",
-    borderRadius: '6px'
+    borderRadius: "6px",
   },
   seeAll: {
     position: "absolute",
     bottom: "24px",
     left: "16px",
-    padding: '14px',
-    paddingTop: '2px',
-    paddingBottom: '2px',
+    padding: "14px",
+    paddingTop: "2px",
+    paddingBottom: "2px",
     background: "#00000010",
     backdropFilter: "blur(4px)",
-    borderRadius: '6px'
+    borderRadius: "6px",
   },
-  seeAllText: {
-    ...theme.typography.body2,
-    fontSize: "12px",
-  },
-  illustration: {
-    position: "absolute",
-    left: 0,
-    bottom: 0,
-    right: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
+  image: {
+    transition: "all ease-in 2s",
   },
 }));
 
@@ -133,21 +144,17 @@ export function Grid({ children, ...rest }) {
 }
 
 export function GridItem({
-  children,
-  variant = "default",
   title,
   description,
-  descriptionImage,
+  descriptionImage1,
   descriptionImage2,
   illustration,
-  illustrationImage,
-  illustrationImageHeight,
+  colorIndex,
   onClick,
   styles,
   images,
-  ...rest
 }) {
-  const classes = useGridItemStyles({ variant, styles });
+  const classes = useGridItemStyles({ styles, colorIndex });
   const [image, setImage] = useState(0);
   useInterval(
     () => {
@@ -159,52 +166,64 @@ export function GridItem({
     <Card
       elevation={0}
       className={classes.root}
-      onMouseEnter={() => images?.length > 0 ? setImage((image + 1) % images.length) : ''}
+      onMouseEnter={() =>
+        images?.length > 0 ? setImage((image + 1) % images.length) : ""
+      }
       onMouseLeave={() => setImage(0)}
-      style={{ backgroundImage: `url(${images?.[image]?.url || illustration})` }}
       onClick={onClick}
     >
-      <CardContent className={classes.card}>
-        <Box className={classes.titleContainer}>
-          <Typography className={classes.title} variant="subtitle2">
-            {title}
-          </Typography>
-        </Box>
-        <Typography className={classes.description} variant="body2">
-          {description}
+      <Image
+        objectPosition="center"
+        objectFit={styles && styles[2] ? styles[2] : "cover"}
+        className={classes.image}
+        src={images?.[image % images.length]?.url}
+        layout="fill"
+      />
+      <Box className={classes.titleContainer}>
+        <Typography className={classes.title} variant="subtitle2">
+          {title}
         </Typography>
-        {descriptionImage && (
-          <Box className={classes.group}>
-            <img alt="" src={descriptionImage} height={"40px"} />
-          </Box>
-        )}
+      </Box>
+      {description && (
+        <CardContent className={classes.card}>
+          <Typography className={classes.description} variant="body2">
+            {description}
+          </Typography>
+          {descriptionImage1 && (
+            <Box className={classes.group}>
+              <Image
+                alt=""
+                src={descriptionImage1}
+                height={"40px"}
+                width={"40px"}
+              />
+            </Box>
+          )}
+          {descriptionImage2 && (
+            <Box className={classes.group}>
+              <Image
+                alt=""
+                src={descriptionImage2}
+                height={"40px"}
+                width={"40px"}
+              />
+            </Box>
+          )}
 
-        {descriptionImage2 && (
-          <Box className={classes.group}>
-            <img alt="" src={descriptionImage2} height={"40px"} />
-          </Box>
-        )}
-      </CardContent>
+          {illustration && (
+            <Box className={classes.illustration}>
+              <Image alt="" src={illustration} height={"40px"} width={"40px"} />
+            </Box>
+          )}
+        </CardContent>
+      )}
+
       <Box className={classes.seeAll}>
         <Typography
-          className={classes.seeAllText}
           children={"See All"}
           variant="caption"
         />
       </Box>
-      {/* <Box
-				className={classes.illustration}
-			>
-				{illustration && (
-					<img
-						alt=""
-						src={illustration}
-            height={'100%'}
-						objectFit={"cover"}
-					/>
-				)}
-
-			</Box> */}
     </Card>
   );
 }
@@ -218,27 +237,41 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "24px",
   },
 }));
-const Categories = ({ filters }) => {
+const Categories = ({ filters, variant = "default" }) => {
   const classes = useStyles();
   const router = useRouter();
-  const { data } = useCategories();
-  const categories =
+  const categories = useCategories();
+  if (variant === "infinite") {
+    return (
+      <GridList
+        query={categories}
+        renderItem={({ item, index }) => (
+          <GridItem
+            {...item}
+            key={index}
+            colorIndex={index % colors.length}
+          ></GridItem>
+        )}
+      />
+    );
+  }
+  const categoriesData =
     // @ts-ignore
-    data?.data?.map((item, index) => ({
-      variant: "dark",
+    categories["data"]?.["data"]?.map((item) => ({
+      ...item,
       title: item.label,
-      value: item.value,
-      illustration: `/images/categories/${item.value}.jpeg`,
+      // illustration: `/images/categories/${item.value}.jpeg`,
       styles: item.styles,
       images: item.images,
     })) || [];
+
   return (
     <Grid>
-      {categories.map((item, index) => (
-        //@ts-ignore
+      {categoriesData.map((item, index) => (
         <GridItem
           {...item}
           key={index}
+          colorIndex={index % colors.length}
           onClick={() => {
             if (!item.title) {
               delete router.query["category"];
@@ -249,7 +282,7 @@ const Categories = ({ filters }) => {
             router.pathname = "/products";
             router.push(router);
           }}
-        ></GridItem>
+        />
       ))}
     </Grid>
   );

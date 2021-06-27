@@ -18,7 +18,7 @@ import { Filters } from "./Item";
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      backgroundColor: theme.colors.golden.main,
+      background: `linear-gradient(to right, ${theme.colors.golden.dark}, ${theme.colors.golden.light})`,
       margin: 0,
     },
   })

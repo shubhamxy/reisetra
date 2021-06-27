@@ -18,7 +18,7 @@ import { useCategories } from "../../libs";
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      backgroundColor: "#d3b7a1",
+      backgroundColor: "#c4a289",
       padding: 24,
     },
     badge: {
@@ -116,9 +116,7 @@ export default function RecommendedCategories() {
           {data?.data?.map((item, index) => (
             <Chip
               onClick={(e) => {
-                router.query['category'] = item.label;
-                router.pathname = "/products";
-                router.push(router);
+                router.push(`/products?category=${item.value}`)
               }}
               key={index}
               className={classes.taglistitem}

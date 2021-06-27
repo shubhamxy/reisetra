@@ -31,6 +31,7 @@ export class ProductService {
     options: GetAllProductsDto
   ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
     try {
+      const whereObj = {};
       let {
         price,
         category,
@@ -42,6 +43,7 @@ export class ProductService {
         orderBy = "createdAt",
         orderDirection = OrderDirection.asc,
         q,
+        rating,
       } = options;
 
       switch (sort) {
@@ -67,6 +69,49 @@ export class ProductService {
         }
       }
 
+      if (price) {
+        whereObj["price"] = { gte: +price[0], lte: +price[1] };
+      }
+
+      if (tags) {
+        whereObj["tags"] = {
+          tags: {
+            some: {
+              OR: Array.isArray(tags)
+                ? tags.map((t) => ({ label: t }))
+                : [{ label: tags }],
+            },
+          },
+        };
+      }
+
+      if (category) {
+        whereObj["categories"] = { some: { label: category } };
+      }
+
+      if (q) {
+        whereObj["OR"] = [
+          {
+            title: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            description: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+        ];
+      }
+
+      if(rating) {
+        whereObj['rating'] = {
+          gte: +rating,
+        };
+      }
+
       const result = await prismaOffsetPagination({
         cursor,
         size: Number(size),
@@ -74,39 +119,7 @@ export class ProductService {
         orderBy,
         orderDirection,
         model: "product",
-        where: {
-          ...(price ? { price: { gte: +price[0], lte: +price[1] } } : {}),
-          ...(category ? { categories: { some: { label: category } } } : {}),
-          ...(tags
-            ? {
-                tags: {
-                  some: {
-                    OR: Array.isArray(tags)
-                      ? tags.map((t) => ({ label: t }))
-                      : [{ label: tags }],
-                  },
-                },
-              }
-            : {}),
-          ...(q
-            ? {
-                OR: [
-                  {
-                    title: {
-                      contains: q,
-                      mode: "insensitive",
-                    },
-                  },
-                  {
-                    description: {
-                      contains: q,
-                      mode: "insensitive",
-                    },
-                  },
-                ],
-              }
-            : {}),
-        },
+        where: whereObj,
         include: {
           categories: true,
           tags: true,
@@ -155,22 +168,57 @@ export class ProductService {
       buttonNum = 10,
       orderBy = "createdAt",
       orderDirection = OrderDirection.asc,
+      rating,
+      q,
     } = options;
+
+    const whereObj = {};
+    if (price) {
+      whereObj["price"] = { gte: +price[0], lte: +price[1] };
+    }
+
+    if (tags) {
+      whereObj["tags"] = {
+        tags: {
+          some: {
+            OR: Array.isArray(tags)
+              ? tags.map((t) => ({ label: t }))
+              : [{ label: tags }],
+          },
+        },
+      };
+    }
+
+    if (category) {
+      whereObj["categories"] = { some: { label: category } };
+    }
+
+    if (q) {
+      whereObj["OR"] = [
+        {
+          title: {
+            contains: q,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: q,
+            mode: "insensitive",
+          },
+        },
+      ];
+    }
+
+    if(rating) {
+      whereObj['rating'] = {
+        gt: +rating,
+      };
+    }
+
     const products = await this.db.product.findMany({
       where: {
-        ...(price ? { price: { gte: +price[0], lte: +price[1] } } : {}),
-        ...(category ? { categories: { some: { label: category } } } : {}),
-        ...(tags
-          ? {
-              tags: {
-                some: {
-                  OR: Array.isArray(tags)
-                    ? tags.map((t) => ({ label: t }))
-                    : [{ label: tags }],
-                },
-              },
-            }
-          : {}),
+       ...whereObj,
       },
       include: {
         tags: true,
@@ -538,7 +586,7 @@ export class ProductService {
   async createTag(userId, data: CreateTagDto): Promise<any> {
     try {
       if (data.images) {
-        data['images'] = {
+        data["images"] = {
           createMany: {
             data: data.images.map((item) => ({
               fileType: item.fileType,
@@ -546,7 +594,7 @@ export class ProductService {
               contentType: item.contentType,
               url: item.url,
               userId,
-            }))
+            })),
           },
         } as any;
       }

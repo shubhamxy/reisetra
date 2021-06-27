@@ -15,6 +15,7 @@ import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
+import Image from 'next/image';
 
 type TStyles = {
   background: string;
@@ -32,7 +33,7 @@ const styles: TStyles = [
   },
   {
     background: "#906039",
-    color: "#ffffff"
+    color: "#ffffff",
   },
   {
     background: "#d3b7a1",
@@ -64,7 +65,7 @@ const useGridItemStyles = makeStyles<
     cursor: "pointer",
     height: 372,
     maxWidth: 320,
-    justifyContent: 'center',
+    justifyContent: "center",
     mixBlendMode: "normal",
     borderRadius: 8,
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.10)",
@@ -72,10 +73,10 @@ const useGridItemStyles = makeStyles<
       colors && colors[0] ? colors[0] : fade(styles[styleIndex].color, 0.8),
     background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
     [theme.breakpoints.down("sm")]: {
-      maxWidth: '100%',
-      height: 'unset',
+      maxWidth: "100%",
+      height: "unset",
       alignItems: "center",
-    }
+    },
   }),
   card: {
     margin: 0,
@@ -88,19 +89,19 @@ const useGridItemStyles = makeStyles<
     flex: 1,
   },
 
-  title: ({ styleIndex }) => ({
+  title: {
     ...theme.typography.subtitle2,
     display: "-webkit-box",
     overflow: "hidden",
     WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
     wordBreak: "break-all",
-  }),
+  },
   description: {
     ...theme.typography.caption,
     display: "-webkit-box",
     overflow: "hidden",
-    WebkitLineClamp: 3,
+    WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
     wordBreak: "break-all",
   },
@@ -134,7 +135,8 @@ const useGridItemStyles = makeStyles<
     width: "100%",
     height: "100%",
   },
-  image: {
+  media: {
+    position: "relative",
     backgroundColor: "#fff",
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -142,11 +144,10 @@ const useGridItemStyles = makeStyles<
     height: 0,
     width: "100%",
     paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      transition:
-        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-    },
   },
+  image: {
+    transition: "all ease-in 2s",
+  }
 }));
 
 export function GridItem({
@@ -160,6 +161,7 @@ export function GridItem({
   images,
   styles: colors,
   onClick,
+  showDescription = false,
 }: {
   styleIndex: number;
   title: string;
@@ -171,6 +173,7 @@ export function GridItem({
   images: { url: string }[];
   styles: string[];
   onClick: () => any;
+  showDescription: boolean
 }) {
   const classes = useGridItemStyles({ styleIndex, colors });
   const [image, setImage] = useState(0);
@@ -179,29 +182,36 @@ export function GridItem({
     () => {
       setImage((image + 1) % images.length);
     },
-    image > 0 ? 2000 : null
+    image > 0 ? 4000 : null
   );
   return (
     <Card className={classes.root} onClick={onClick}>
       <CardMedia
-        className={classes.image}
+        className={classes.media}
         onMouseEnter={() => setImage(image + 1)}
         onMouseLeave={() => setImage(0)}
-        image={images?.[image % images.length]?.url}
         title={title}
-      />
+      >
+        <Image objectFit="contain" className={classes.image}  src={images?.[image % images.length]?.url} layout="fill" />
+      </CardMedia>
       <CardContent
         className={classes.card}
         onMouseEnter={() => setAddToCartVisible(true)}
         onMouseLeave={() => setAddToCartVisible(false)}
       >
-        <Box display={"flex"} flex={1}>
-          <Typography className={classes.title} variant="h4">
+        <Box display={"flex"} flexDirection="column">
+          <Typography className={classes.title} variant="h4" title={title}>
             {title}
           </Typography>
-          {/* <Typography className={classes.description} variant="subtitle2">
-          {description}
-        </Typography> */}
+          {description && showDescription && (
+            <Typography
+              className={classes.description}
+              variant="subtitle2"
+              title={description}
+            >
+              {description}
+            </Typography>
+          )}
         </Box>
         <Box display="flex" flexDirection="column">
           <Box className={classes.costContainer}>
@@ -237,7 +247,9 @@ export function GridItem({
               <Rating size="small" value={+rating || 5} readOnly />
               <Box>
                 <Typography
-                  children={`(${+ratingsCount || 1} review${+ratingsCount > 0 ? 's' : ''})`}
+                  children={`(${+ratingsCount || 1} review${
+                    +ratingsCount > 0 ? "s" : ""
+                  })`}
                   variant="caption"
                   style={{ fontSize: 12, marginLeft: 4 }}
                 />
@@ -262,8 +274,8 @@ export function GridItem({
   );
 }
 
-export function Products({ filters }) {
-  const query = useProducts(filters);
+export function Products({ filters, enabled = true }) {
+  const query = useProducts(filters, enabled);
   const router = useRouter();
   return (
     <GridList

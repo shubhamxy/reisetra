@@ -184,15 +184,17 @@ export default function Success({
 			</button>
 
 			<Box className={classes.illustration}>
-				<img
+				<Image
 					className={classes.illustrationmain}
 					alt=""
 					src="/icons/illustration-success.png"
+          layout="fill"
 				/>
-				<img
+				<Image
 					className={classes.illustrationmain}
 					alt=""
 					src="/icons/illustration-front.png"
+          layout="fill"
 				/>
 			</Box>
 

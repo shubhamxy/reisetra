@@ -42,19 +42,27 @@ export function ProductCard({ data }) {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          bgcolor="#F0F3F6"
+          bgcolor="#ffffff"
           width="62px"
           height="62px"
         >
           {images?.length > 0 ? (
-            <img
+            <Image
               src={images[0].url}
               alt={""}
               height={62}
+              width={62}
               className={classes.img}
+              objectFit="contain"
             />
           ) : (
-            <Image src="/icons/file.svg" width={24} height={24} />
+            <Image
+              src="/images/fallback.png"
+              className={classes.img}
+              height={62}
+              width={62}
+              objectFit="contain"
+            />
           )}
         </Box>
       </Box>
@@ -77,7 +85,7 @@ export function ProductCard({ data }) {
             {description}
           </Typography> */}
           <Box className={classes.costContainer}>
-          <Box display="flex">
+            <Box display="flex">
               <Rating size="small" value={+rating || 5} readOnly />
               <Box>
                 <Typography
@@ -117,7 +125,7 @@ export function ProductCard({ data }) {
                 style={{ fontSize: 10, marginLeft: 4 }}
               />
             </Box>
-         </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

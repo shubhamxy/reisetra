@@ -1,9 +1,15 @@
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid, makeStyles, Theme } from "@material-ui/core";
 import * as React from "react";
 import clsx from "clsx";
 import { ClassNameMap } from "@material-ui/styles";
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
+const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((theme) => ({
+  wrapper: ({hasHeader, hasFooter}) => ({
+    ...(hasHeader && hasFooter ? {
+      backgroundImage: `linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
+      backgroundPosition: "top, bottom",
+      backgroundSize: "100% 14px, 100% 14px",
+      backgroundRepeat: "no-repeat",
+    } : {}),
     display: "flex",
     flex: 1,
     flexDirection: "column",
@@ -12,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     width: "100%",
     height: "100%",
-  },
+  }),
   container: {
     width: "100%",
     height: "100%",
@@ -104,7 +110,7 @@ export function MainLayout({
   top,
   classes: cls,
 }: ILayout) {
-  const classes = useStyles();
+  const classes = useStyles({hasHeader: !!header, hasFooter: !!footer});
   return (
     <Grid
       className={clsx(cls?.wrapper, classes.wrapper)}

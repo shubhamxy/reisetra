@@ -22,7 +22,7 @@ export const useProduct = (id: string) =>
 
 export const useUpdateProduct = () => useMutation(updateProduct);
 export const useDeleteProduct = () => useMutation(createProduct);
-export const useProducts = (filters = {}) =>
+export const useProducts = (filters = {}, enabled = true) =>
   useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
     [QueryKeys.products, filters],
     ({ queryKey, pageParam = undefined }) =>
@@ -33,10 +33,10 @@ export const useProducts = (filters = {}) =>
         cursor: pageParam,
       }),
     {
+      enabled,
       getNextPageParam: (lastPage, _pages) => {
         return lastPage.meta.link?.next?.cursor;
       },
-      onSuccess: () => {},
     }
   );
 

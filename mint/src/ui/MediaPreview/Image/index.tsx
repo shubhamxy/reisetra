@@ -3,6 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Box, Dialog, Typography } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import Image from 'next/image';
 
 const useStyles = makeStyles<
   Theme,
@@ -19,6 +20,7 @@ const useStyles = makeStyles<
     padding: 0,
     margin: 0,
     overflow: "hidden",
+    width: "100%",
   },
   gridList: ({ length, selected }) => ({
     display: "grid",
@@ -147,6 +149,36 @@ const useStyles = makeStyles<
     },
     transition: "opacity ease 0.4s",
   },
+
+  paper: {
+    borderRadius: "12px",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    height: "480px",
+    width: "720px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "visible",
+    backgroundColor: "rgba(0,0,0,.9)",
+  },
+  previewContainer: {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    position: "relative",
+  },
+  previewimage: {
+    objectFit: "contain",
+    display: "flex",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    flex: 1,
+    borderRadius: 8
+  },
   closePreviewBtn: {
     height: 26,
     width: 26,
@@ -194,6 +226,9 @@ const useStyles = makeStyles<
       opacity: 0.3,
     },
     transition: "opacity ease 0.5s",
+    [theme.breakpoints.down("sm")] : {
+      left: "12px",
+    },
   },
   next: {
     height: 40,
@@ -217,35 +252,9 @@ const useStyles = makeStyles<
       opacity: 0.3,
     },
     transition: "opacity ease 0.5s",
-  },
-  paper: {
-    borderRadius: "12px",
-    maxWidth: "100%",
-    maxHeight: "100%",
-    height: "480px",
-    width: "720px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "visible",
-    backgroundColor: "rgba(0,0,0,.9)",
-  },
-  previewContainer: {
-    backgroundColor: "transparent",
-    boxShadow: "none",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-    position: "relative",
-  },
-  previewimage: {
-    objectFit: "contain",
-    display: "flex",
-    maxWidth: "100%",
-    maxHeight: "100%",
-    flex: 1,
-    borderRadius: 8
+    [theme.breakpoints.down("sm")] : {
+      right: "12px",
+    },
   },
 }));
 
@@ -329,7 +338,7 @@ function GridView({
     <Box className={classes.gridList}>
       {data.slice(0, 3).map((tile, index) => (
         <Box
-          key={index}
+          key={tile.url}
           className={classes.gridItem}
           position="relative"
           onClick={(e) => {
@@ -338,11 +347,14 @@ function GridView({
             setOpenIndex(index);
           }}
         >
-          <img
+          <Image
             className={classes.image}
             src={tile.url}
             alt={tile.title}
             key={tile.url}
+            layout="fill"
+            // width="300px"
+            // height="300px"
           />
           {showRemoveIcon && (
             <button
@@ -376,11 +388,12 @@ function GridView({
             setOpenIndex(3);
           }}
         >
-          <img
+          <Image
             className={classes.imageback}
             src={data[3].url}
             alt={data[3].title}
             key={data[3].url}
+            layout="fill"
           />
           <Box
             display="flex"
@@ -404,6 +417,7 @@ function GridView({
     </Box>
   );
 }
+
 interface DataT {
   url: string;
   title?: string;
@@ -497,6 +511,15 @@ export default function ImagePreview({
         scroll="paper"
         style={{ backgroundColor: "transparent" }}
       >
+        {openIndex > -1 && data[openIndex]?.url && (
+          <Image
+            layout="fill"
+            className={classes.previewimage}
+            src={data[openIndex]?.url}
+            alt={`${data[openIndex]?.url}`}
+            key={data[openIndex]?.url}
+          />
+        )}
         <button
           onClick={() => setOpenIndex(openIndex - 1)}
           className={classes.prev}
@@ -504,15 +527,6 @@ export default function ImagePreview({
         >
           <NavigateBeforeIcon />
         </button>
-
-        {openIndex > -1 && data[openIndex]?.url && (
-          <img
-            className={classes.previewimage}
-            src={data[openIndex]?.url}
-            alt={`${data[openIndex]?.url}`}
-            key={data[openIndex]?.url}
-          />
-        )}
 
         <button
           onClick={() => setOpenIndex(openIndex + 1)}

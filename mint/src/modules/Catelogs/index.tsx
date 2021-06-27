@@ -4,17 +4,14 @@ import { Box, Card, CardContent, fade, Typography } from "@material-ui/core";
 import GridList from "../../ui/List/GridList";
 import { useInterval, useProducts, useTags } from "../../libs";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 type TStyles = {
   background: string;
   color: string;
 }[];
 
-const styles: TStyles = [
-  {
-    background: "#ffffff",
-    color: "#000000",
-  },
+const colors: TStyles = [
   {
     background: "#000000",
     color: "#ffffff",
@@ -33,15 +30,15 @@ const styles: TStyles = [
   },
   {
     background: "#286dc1",
-    color: "#000000",
+    color: "#ffffff",
   },
   {
     background: "#74D125",
-    color: "#000000",
+    color: "#ffffff",
   },
 ];
 const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
-  root: ({ styleIndex, colors }) => ({
+  root: ({ colorIndex, styles }) => ({
     display: "flex",
     flex: 1,
     position: "relative",
@@ -54,23 +51,26 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     mixBlendMode: "normal",
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.103775)",
     borderRadius: 8,
-    color: colors && colors[0] ? colors[0] : styles[styleIndex].color,
-    background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
-    backgroundSize: colors && colors[2] ? colors[2] : "auto 100%",
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
+    color: styles && styles[0] ? styles[0] : colors[colorIndex].color,
+    background: styles && styles[1] ? styles[1] : colors[colorIndex].background,
     "&:hover": {
       transition:
-        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        "background 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       margin: "0 auto",
     },
   }),
-  card: {
-    padding: 0,
-    margin: 0,
+
+  titleContainer: {
+    padding: "14px",
+    paddingTop: "2px",
+    paddingBottom: "2px",
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: "6px",
+    width: "auto",
   },
   title: {
     ...theme.typography.caption,
@@ -80,6 +80,19 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     WebkitBoxOrient: "vertical",
     wordBreak: "break-all",
   },
+  card: {
+    margin: 0,
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 24,
+    background: "#00000010",
+    backdropFilter: "blur(4px)",
+    borderRadius: "6px",
+    padding: "14px",
+    paddingTop: "2px",
+    paddingBottom: "2px",
+  },
+  descriptionContainer: {},
   description: {
     ...theme.typography.body2,
     fontSize: "18px",
@@ -93,50 +106,32 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
   banner: {},
   cover: {},
   group: {},
-  titleContainer: {
-    padding: '14px',
-    paddingTop: '2px',
-    paddingBottom: '2px',
-    background: "#00000010",
-    backdropFilter: "blur(4px)",
-    borderRadius: '6px'
-  },
   seeAll: {
     position: "absolute",
     bottom: "24px",
     left: "16px",
-    padding: '14px',
-    paddingTop: '2px',
-    paddingBottom: '2px',
+    padding: "14px",
+    paddingTop: "2px",
+    paddingBottom: "2px",
     background: "#00000010",
     backdropFilter: "blur(4px)",
-    borderRadius: '6px'
+    borderRadius: "6px",
   },
-  seeAllText: {
-    ...theme.typography.body2,
-    fontSize: "12px",
-  },
-  illustration: {
-    position: "absolute",
-    left: 0,
-    bottom: 0,
-    right: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
+  image: {
+    transition: "all ease-in 2s",
   },
 }));
 
 export function GridItem({
   children,
-  styleIndex = 0,
+  colorIndex = 0,
   title,
   description,
-  styles: colors,
+  styles,
   images,
   onClick,
 }) {
-  const classes = useGridItemStyles({ styleIndex, colors });
+  const classes = useGridItemStyles({ colorIndex, styles });
   const [image, setImage] = useState(0);
   useInterval(
     () => {
@@ -148,25 +143,35 @@ export function GridItem({
     <Card
       elevation={0}
       className={classes.root}
-      onMouseEnter={() => images?.length > 0 ? setImage((image + 1) % images.length) : ''}
+      onMouseEnter={() =>
+        images?.length > 0 ? setImage((image + 1) % images.length) : ""
+      }
       onMouseLeave={() => setImage(0)}
-      style={{ backgroundImage: `url(${images?.[image]?.url})` }}
       onClick={onClick}
     >
-      <CardContent className={classes.card}>
-        <Box className={classes.titleContainer}>
-          <Typography className={classes.title} variant="subtitle2">
-            {title}
-          </Typography>
-        </Box>
-
-        {/* <Typography className={classes.description} variant="body2">
-          {description}
-        </Typography> */}
-      </CardContent>
+      <Image
+        objectPosition="center"
+        objectFit={styles && styles[2] ? styles[2] : "cover"}
+        className={classes.image}
+        src={images?.[image % images.length]?.url}
+        layout="fill"
+      />
+      <Box className={classes.titleContainer}>
+        <Typography className={classes.title} variant="subtitle2">
+          {title}
+        </Typography>
+      </Box>
+      {description && (
+        <CardContent className={classes.card}>
+          <Box className={classes.descriptionContainer}>
+            <Typography className={classes.description} variant="body2">
+              {description}
+            </Typography>
+          </Box>
+        </CardContent>
+      )}
       <Box className={classes.seeAll}>
         <Typography
-          className={classes.seeAllText}
           children={"View"}
           variant="caption"
         />
@@ -177,6 +182,7 @@ export function GridItem({
 
 const useGridStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     display: "grid",
     width: "100%",
     height: "100%",
@@ -195,7 +201,6 @@ const useGridStyles = makeStyles((theme) => ({
   },
 }));
 
-// common responsive css grid variants
 export function Grid({ children, ...rest }) {
   const classes = useGridStyles();
   return (
@@ -204,33 +209,37 @@ export function Grid({ children, ...rest }) {
     </Box>
   );
 }
-export const Catelogs = ({ filters, variant = "default" }) => {
+
+export const Catelogs = ({ variant = "default" }) => {
   const query = useTags({});
   const router = useRouter();
-
-  return variant === "infinite" ? (
-    <GridList
-      query={query}
-      renderItem={({ item, index }) => (
-        <GridItem {...item} key={index} styleIndex={item.style || 0}></GridItem>
-      )}
-    />
-  ) : (
+  if (variant === "infinite") {
+    return (
+      <GridList
+        query={query}
+        renderItem={({ item, index }) => (
+          <GridItem {...item} key={index} colorIndex={index % colors.length} />
+        )}
+      />
+    );
+  }
+  const catelogs =
+    // @ts-ignore
+    query.data?.data?.map((item, index) => ({
+      ...item,
+      // illustration: `/images/tags/${item.value}.jpeg`,
+      variant: "dark",
+      title: item.label,
+      styles: item.styles,
+      images: item.images,
+    })) || [];
+  return (
     <Grid>
-      {(
-        // @ts-ignore
-        query?.data?.data?.map((item, index) => ({
-          variant: "dark",
-          title: item.label,
-          value: item.value,
-          styles: item.styles,
-          images: item.images,
-        })) || []
-      ).map((item, index) => (
-        //@ts-ignore
+      {catelogs.map((item, index) => (
         <GridItem
           {...item}
           key={index}
+          colorIndex={index % colors.length}
           onClick={() => {
             if (!item.title) {
               delete router.query["tags"];
@@ -241,7 +250,7 @@ export const Catelogs = ({ filters, variant = "default" }) => {
             router.pathname = "/products";
             router.push(router);
           }}
-        ></GridItem>
+        />
       ))}
     </Grid>
   );

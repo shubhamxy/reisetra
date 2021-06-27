@@ -339,9 +339,10 @@ export function AppHeader() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {ProfileMenu.map((item) => {
+      {ProfileMenu.map((item, index) => {
         return (
           <MenuItem
+            key={item.label}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -417,7 +418,7 @@ export function AppHeader() {
       onClose={handleMobileMenuClose}
     >
       {NavigationMenu.map((item) => (
-        <MenuItem className={classes.menuPaperItem}>
+        <MenuItem className={classes.menuPaperItem} key={item.label}>
           <Link href={item.link}>
             <Button
               variant="text"

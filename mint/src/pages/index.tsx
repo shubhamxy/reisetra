@@ -54,7 +54,7 @@ const IndexPage = () => {
           data={{
             title: "Indian Handcrafts",
             subtitle: "Unique products designed by independent artists.",
-            backgroundImage: "/images/hero-main.jpeg",
+            backgroundImage: "/images/cover2.jpg",
           }}
         />
       }
@@ -75,7 +75,7 @@ const IndexPage = () => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <ShowCase filters={{}} />
+            <ShowCase filters={{sortBy: "relevant"}}/>
           </Grid>
         </Grid>
 
@@ -92,7 +92,7 @@ const IndexPage = () => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <Products filters={{}} />
+            <Products filters={{sortBy: "new"}} />
           </Grid>
         </Grid>
 

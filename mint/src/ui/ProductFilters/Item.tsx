@@ -10,9 +10,17 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Box, Chip, TextField, List, Slider } from "@material-ui/core";
+import {
+  Box,
+  Chip,
+  TextField,
+  List,
+  Slider,
+  ListItem,
+} from "@material-ui/core";
 import { FilterT } from "../../pages/products";
 import clsx from "clsx";
+import { Rating } from "@material-ui/lab";
 const intlFormat = (num) => {
   return new Intl.NumberFormat().format(Math.round(num * 10) / 10);
 };
@@ -26,8 +34,15 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       background: "transparent",
+      // backdropFilter: "blur(50px)",
       boxShadow: "0px 4px 50px rgba(0, 0, 0, 0.05)",
       width: "100%",
+      color: theme.palette.common.white,
+      paddingRight: 6,
+    },
+    icon: {
+      color: theme.palette.common.white,
+      cursor: "pointer",
     },
     heading: {
       fontSize: theme.typography.pxToRem(12),
@@ -36,7 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     secondaryHeading: {
       fontSize: theme.typography.pxToRem(12),
-      color: theme.palette.text.secondary,
     },
     badge: {
       top: "-10px !important",
@@ -71,34 +85,47 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
     },
     taglistitem: {
-      background: "#ffffff",
       borderRadius: "48px",
       justifyContent: "center",
-      textAlign: 'center',
-      textTransform: 'capitalize',
+      textAlign: "center",
+      textTransform: "capitalize",
       alignItems: "center",
-      boxShadow: "0px -28px 100px rgba(0, 0, 0, 0.0666248)",
+      boxShadow: "0px -28px 100px rgba(0, 0, 0, 0.1)",
       marginRight: "8px",
       marginBottom: "8px",
+      background: theme.palette.text.primary,
+      color: theme.palette.background.paper,
       "&:hover": {
-        backgroundColor: "#ffffff",
+        backgroundColor: fade(theme.palette.text.primary, 0.8),
       },
       "&:focus": {
-        backgroundColor: "#ffffff",
+        backgroundColor: theme.palette.text.primary,
         boxShadow: `0px 0px 0px 4px#d0f20f33`,
       },
       "&.Mui-disabled": {
-        backgroundColor: "#ffffff",
+        backgroundColor: theme.palette.text.primary,
         opacity: 0.7,
         boxShadow: `0px 0px 0px 4px#d0f20f33`,
       },
     },
     taglistitemSelected: {
-      backgroundColor: "#ffffff",
-      opacity: 0.7,
+      backgroundColor: fade(theme.palette.text.primary, 0.8),
       boxShadow: `0px 0px 0px 4px#d0f20f33`,
     },
     listPrimaryText: {},
+    ratingsList: {
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+    },
+    ratingsListItem: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      textAlign: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+    },
     action: {
       top: "35%",
       padding: "1px 6px 1px 6px",
@@ -212,6 +239,56 @@ export function Filters({
           </div>
         );
       }
+      case "rating": {
+        return (
+          <List
+            classes={{
+              root: classes.ratingsList,
+            }}
+            disablePadding
+          >
+            {item.data.map((item) => {
+              const value = values[filter] as string;
+              const isSelected = value === item.value;
+              return (
+                <ListItem
+                  disableGutters
+                  title={`${item.value} stars and up`}
+                  onClick={(e) => {
+                    if (isSelected) {
+                      setFieldValue(filter, undefined);
+                    } else {
+                      setFieldValue(filter, item.value);
+                    }
+                  }}
+                  className={classes.ratingsListItem}
+                >
+                  <Box display="flex" alignItems="center">
+                    <Rating
+                      readOnly
+                      value={item.value}
+                      key={item.value}
+                      size="medium"
+                    />
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Typography
+                      variant={"caption"}
+                      style={isSelected ? { lineHeight: 1, fontWeight: "bold" } : {lineHeight: 1}}
+                    >
+                      {item.label}
+                    </Typography>
+                  </Box>
+                </ListItem>
+              );
+            })}
+          </List>
+        );
+      }
       case "multiselect":
         return (
           <List
@@ -249,7 +326,7 @@ export function Filters({
                   )}
                   label={
                     <Typography
-                      style={{ fontSize: 14, color: "#2E2F2F", lineHeight: 1, }}
+                      style={{ fontSize: 14, lineHeight: 1 }}
                       variant="subtitle2"
                     >
                       {item.label}
@@ -269,31 +346,32 @@ export function Filters({
             disablePadding
           >
             {item.data.map((item) => {
-               const value = values[filter] as string[];
-               const isSelected = value.includes(item.label);
+              const value = values[filter] as string[];
+              const isSelected = value.includes(item.label);
               return (
-              <Chip
-                onClick={(e) => {
-                  if(isSelected) {
-                    setFieldValue(filter, undefined);
-                  } else {
-                    setFieldValue(filter, item.label);
+                <Chip
+                  onClick={(e) => {
+                    if (isSelected) {
+                      setFieldValue(filter, undefined);
+                    } else {
+                      setFieldValue(filter, item.label);
+                    }
+                  }}
+                  clickable
+                  key={item.label}
+                  className={classes.taglistitem}
+                  // disabled={values[filter] === item.label}
+                  label={
+                    <Typography
+                      style={{ fontSize: 14,lineHeight: 1 }}
+                      variant="subtitle2"
+                    >
+                      {item.label}
+                    </Typography>
                   }
-                }}
-                clickable
-                key={item.label}
-                className={classes.taglistitem}
-                // disabled={values[filter] === item.label}
-                label={
-                  <Typography
-                    style={{ fontSize: 14, color: "#2E2F2F", lineHeight: 1, }}
-                    variant="subtitle2"
-                  >
-                    {item.label}
-                  </Typography>
-                }
-              />
-              )})}
+                />
+              );
+            })}
           </List>
         );
     }
@@ -307,20 +385,18 @@ export function Filters({
       onChange={handleChange(index)}
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1bh-content"
-        id="panel1bh-header"
+        expandIcon={<ExpandMoreIcon className={classes.icon} />}
       >
         <Box display={"flex"} flexDirection="column" alignItems={"flex-start"}>
-          <Box pt={0.6} pb={0.4}>
-            <Typography variant={"h6"} style={{ color: "#ffffff" }}>
+          <Box pt={0.6}>
+            <Typography variant={"h6"}>
               {item.title}
             </Typography>
           </Box>
           {item.subtitle && expanded === index && (
             <Typography
               variant={"caption"}
-              style={{ color: "#ffffff", opacity: 0.8}}
+              style={{ opacity: 0.9 }}
             >
               {item.subtitle}
             </Typography>

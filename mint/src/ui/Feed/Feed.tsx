@@ -33,14 +33,14 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ProductsFeed() {
+export function ProductsFeed({title = "Popular"}) {
   const classes = useStyles();
   const { data, hasNextPage, isLoading, fetchNextPage } = useProducts();
   return (
     <Paper className={classes.root}>
       <Box p={2} className={classes.header}>
         <Typography variant="h6" className={classes.title}>
-          Popular
+          {title}
         </Typography>
       </Box>
       <Box overflow="auto" maxHeight={"600px"} className="scrollbar">

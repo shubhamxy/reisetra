@@ -1,6 +1,7 @@
 import {
   Box,
   Chip,
+  fade,
   FormControl,
   InputLabel,
   List,
@@ -24,6 +25,80 @@ import clsx from "clsx";
 import isEqual from "lodash.isequal";
 import { useDebounce } from "use-debounce";
 
+
+
+const useStyles = makeStyles((theme) => ({
+  content: {
+    marginBottom: 48,
+    display: "flex",
+    flexDirection: "column",
+  },
+  tagListContainer: {
+    padding: 20,
+  },
+  tagList: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+  tagListItem: {
+    borderRadius: "48px",
+    textAlign: "center",
+    textTransform: "capitalize",
+    justifyContent: "center",
+    alignItems: "center",
+    boxShadow: "0px -28px 100px rgba(0, 0, 0, 0.1)",
+    marginRight: "8px",
+    marginBottom: "8px",
+    background: theme.palette.text.primary,
+    color: theme.palette.background.paper,
+    "&:hover": {
+      backgroundColor: fade(theme.palette.text.primary, 0.8),
+    },
+    "&:focus": {
+      backgroundColor: theme.palette.text.primary,
+      boxShadow: `0px 0px 0px 4px#d0f20f33`,
+    },
+    "&.Mui-disabled": {
+      backgroundColor: theme.palette.text.primary,
+      opacity: 0.7,
+      boxShadow: `0px 0px 0px 4px#d0f20f33`,
+    },
+  },
+  tagListItemSelected: {
+    backgroundColor: theme.palette.text.primary,
+    opacity: 0.7,
+    boxShadow: `0px 0px 0px 4px#d0f20f33`,
+  },
+  products: {
+    marginBottom: 48,
+    display: "flex",
+    flexDirection: "column",
+  },
+  productsFilter: {
+    padding: 20,
+  },
+  sizeSelectContainer: {
+    minWidth: 120,
+  },
+  top: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+  left: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  right: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+}));
+
 export type FilterT = {
   type: string;
   title: string;
@@ -33,6 +108,7 @@ export type FilterT = {
     value: string;
   }[];
 };
+
 function useHelper() {
   const router = useRouter();
   const query = router.query;
@@ -91,6 +167,17 @@ function useHelper() {
       subtitle: "Filter by price range",
       data: [],
     },
+    rating: {
+      type: "rating",
+      title: "Ratings",
+      subtitle: "Filter by ratings range",
+      data: [
+        { value: "4", label: "& up" },
+        { value: "3", label: "& up" },
+        { value: "2", label: "& up" },
+        { value: "1", label: "& up" },
+      ],
+    },
     // style: {
     //   type: "select",
     //   title: "Style",
@@ -131,7 +218,7 @@ function useHelper() {
     const routerObj = {
       query: router.query,
     };
-    if(!value) {
+    if (!value) {
       delete routerObj.query[key];
     } else {
       routerObj.query[key] = value as any;
@@ -146,6 +233,7 @@ function useHelper() {
     price: number[];
     tags: string[];
     q: string;
+    rating: string;
   } = {
     sort: query.sort || sortBy.data[0].value,
     category: (query.category as string) || "",
@@ -164,92 +252,26 @@ function useHelper() {
       ? [query.tags]
       : [],
     q: query.q ? (query.q as string) : "",
+    rating: query.rating ? query.rating as string : undefined,
   };
 
-  const [value] = useDebounce(values, 1000);
+  const [debouncedValues, {isPending}] = useDebounce(values, 1000);
 
   return {
     sortBy,
     filters,
     setFieldValue,
     values,
-    debouncedValues: value,
+    debouncedValues,
+    isLoading: isPending() || !router.isReady || categories.isLoading || tags.isLoading,
   };
 }
-const useStyles = makeStyles((theme) => ({
-  content: {
-    marginBottom: 48,
-    display: "flex",
-    flexDirection: "column",
-  },
-  tagListContainer: {
-    padding: 20,
-  },
-  tagList: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  tagListItem: {
-    background: theme.palette.common.white,
-    borderRadius: "48px",
-    textAlign: "center",
-    textTransform: "capitalize",
-    justifyContent: "center",
-    alignItems: "center",
-    boxShadow: "0px -28px 100px rgba(0, 0, 0, 0.1)",
-    marginRight: "8px",
-    marginBottom: "8px",
-    "&:hover": {
-      backgroundColor: theme.palette.common.white,
-    },
-    "&:focus": {
-      backgroundColor: theme.palette.common.white,
-      boxShadow: `0px 0px 0px 4px#d0f20f33`,
-    },
-    "&.Mui-disabled": {
-      backgroundColor: "#ffffff",
-      opacity: 0.7,
-      boxShadow: `0px 0px 0px 4px#d0f20f33`,
-    },
-  },
-  tagListItemSelected: {
-    backgroundColor: "#ffffff",
-    opacity: 0.7,
-    boxShadow: `0px 0px 0px 4px#d0f20f33`,
-  },
-  products: {
-    marginBottom: 48,
-    display: "flex",
-    flexDirection: "column",
-  },
-  productsFilter: {
-    padding: 20,
-  },
-  sizeSelectContainer: {
-    minWidth: 120,
-  },
-  top: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
-  left: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-  right: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-}));
+
 
 const ProductsPage = () => {
   const classes = useStyles();
   const {
+    isLoading,
     sortBy,
     filters,
     setFieldValue,
@@ -298,14 +320,14 @@ const ProductsPage = () => {
             pb={2.6}
           >
             <Box pt={0.6} pb={0.6}>
-              <Typography variant={"h5"} style={{ color: "#fff" }}>
+              <Typography variant={"h5"}>
                 Recommended Tags
               </Typography>
             </Box>
 
             <Typography
               variant={"subtitle2"}
-              style={{ color: "#ffffff", maxWidth: "90%", opacity: 0.6 }}
+              style={{ maxWidth: "90%", opacity: 0.6 }}
             >
               Some recommended tags we think you may be interested in.
             </Typography>
@@ -342,7 +364,7 @@ const ProductsPage = () => {
                   )}
                   label={
                     <Typography
-                      style={{ fontSize: 14, color: "#2E2F2F", lineHeight: 1 }}
+                      style={{ fontSize: 14, lineHeight: 1 }}
                       variant="subtitle2"
                     >
                       {item.label}
@@ -367,7 +389,7 @@ const ProductsPage = () => {
             pb={2.6}
           >
             <Box pt={0.6} pb={0.6}>
-              <Typography variant={"h5"} style={{ color: "#fff" }}>
+              <Typography variant={"h5"}>
                 {filters.category.data.find(
                   (item) => item.label === values.category
                 )?.label || ""}
@@ -403,7 +425,7 @@ const ProductsPage = () => {
         </Box>
 
         <Box className={classes.products}>
-          <Products filters={debouncedValues} />
+          <Products filters={debouncedValues} enabled={!isLoading} />
         </Box>
       </Paper>
     </MainLayout>

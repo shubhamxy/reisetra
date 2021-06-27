@@ -41,6 +41,7 @@ export class GetAllProductsDto extends CursorPaginationDTO {
   category: string
   price: string[]
   q: string
+  rating: number | string
 }
 
 export class CreateProductDto implements Omit<Product, Excluded> {

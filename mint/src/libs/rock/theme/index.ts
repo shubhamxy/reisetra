@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import {
   createMuiTheme,
-  PaletteColorOptions,
   responsiveFontSizes,
   Color,
   SimplePaletteColorOptions,
@@ -38,9 +37,9 @@ export const link: SimplePaletteColorOptions = {
 };
 
 export const golden: SimplePaletteColorOptions = {
-  main: "#d1b39b",
-  dark: "#6ad1e0",
-  light: "#6ad1e0",
+  main: "#B96607",
+  dark: "#B96607",
+  light: "#f5931b",
   contrastText: "#1c1c1c",
 };
 
@@ -274,10 +273,10 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           borderRadius: 12,
         },
         elevation1: {
-          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.103775)",
+          boxShadow: "0px 2px 6px  rgba(0, 0, 0, 0.10)",
         },
         elevation8: {
-          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.103775)",
+          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.10)",
         },
       },
       MuiMenuItem: {
@@ -291,12 +290,15 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
             opacity: 0.4,
           },
           "&:focus": {
-            boxShadow: `0px 0px 0px 4px ${primary.main}33`,
+            // boxShadow: `0px 0px 0px 4px ${primary.main}33`,
           },
           "&:hover": {
-            boxShadow: `0px 0px 0px 4px ${primary.main}33`,
-            backgroundColor: "unset",
+            // boxShadow: `0px 0px 0px 4px ${primary.main}33`,
+            transform: 'scale(1.03)',
           },
+          "&:active": {
+            transform: 'scale(.98)'
+          }
         },
       },
       MuiButton: {
@@ -348,7 +350,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           ],
           body: {
             fontFamily: "Gibson-Regular",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: type === "dark" ? "#000000" :"#ffffff",
           },
         },
       },
@@ -363,7 +365,7 @@ export const useTheme = () => {
   return useMemo(
     () =>
       responsiveFontSizes(
-        createMuiTheme(themeOptions(prefersDarkMode ? "dark" : "light"))
+        createMuiTheme(themeOptions(!prefersDarkMode ? "dark" : "light"))
       ),
     [prefersDarkMode]
   );

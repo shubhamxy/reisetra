@@ -26,7 +26,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    backdropFilter: "blur(50px)",
+  },
   header: {},
   paper: {
     display: "flex",

@@ -15,6 +15,7 @@ import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
+import Image from 'next/image';
 
 type TStyles = {
   background: string;
@@ -134,7 +135,8 @@ const useGridItemStyles = makeStyles<
     width: "100%",
     height: "100%",
   },
-  image: {
+  media: {
+    position: "relative",
     backgroundColor: "#fff",
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -142,11 +144,11 @@ const useGridItemStyles = makeStyles<
     height: 0,
     width: "100%",
     paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      transition:
-        "background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-    },
+
   },
+  image: {
+    transition: "all ease-in 2s",
+  }
 }));
 
 export function GridItem({
@@ -184,12 +186,13 @@ export function GridItem({
   return (
     <Card className={classes.root} onClick={onClick}>
       <CardMedia
-        className={classes.image}
+        className={classes.media}
         onMouseEnter={() => setImage(image + 1)}
         onMouseLeave={() => setImage(0)}
-        image={images?.[image % images.length]?.url}
         title={title}
-      />
+      >
+        <Image objectFit="contain" className={classes.image}  src={images?.[image % images.length]?.url} layout="fill" />
+      </CardMedia>
       <CardContent
         className={classes.card}
         onMouseEnter={() => setAddToCartVisible(true)}
