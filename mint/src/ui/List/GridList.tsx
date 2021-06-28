@@ -130,7 +130,7 @@ function Footer({
   ) : null;
 }
 
-export default function GridList({ emptyListCaption = "No results", query, renderItem }) {
+export default function GridList({ emptyListCaption = "No results", query, renderItem, ...rest }) {
   const { data, hasNextPage, isLoading, fetchNextPage } = query;
   const classes = useStyles();
   return (
@@ -162,6 +162,7 @@ export default function GridList({ emptyListCaption = "No results", query, rende
           />
         }
         renderItem={renderItem}
+        {...rest}
       />
     </Container>
   );

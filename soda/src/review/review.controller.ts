@@ -91,10 +91,10 @@ export class ReviewController {
 
   @Delete("review/:reviewId")
   async deleteReview(
-    @Param("productId") productId: string
+    @Param("reviewId") reviewId: string
   ): Promise<SuccessResponse> {
     try {
-      const data = await this.review.deleteReview(productId);
+      const data = await this.review.deleteReview(reviewId);
       return { data };
     } catch (error) {
       throw new CustomException(

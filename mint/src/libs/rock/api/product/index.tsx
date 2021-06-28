@@ -1,7 +1,7 @@
-import { get, post, put } from "../../utils/http";
+import { del, get, post, put } from "../../utils/http";
 import pickBy from "lodash.pickby";
 import identity from "lodash.identity";
-const queryString = require('query-string');
+const queryString = require("query-string");
 
 export interface CreateProductDTO {
   mrp: number;
@@ -64,11 +64,10 @@ export interface CreateOfferDTO {
   type: string;
 }
 
-
 export function getProduct({ queryKey }: { queryKey: [string, string] }) {
   return get(`product/${queryKey[1]}`);
 }
-export function getTags({queryKey}) {
+export function getTags({ queryKey }) {
   const qs = queryString.stringify(pickBy(queryKey[1], identity));
   return get(`tags?${qs}`);
 }
@@ -124,4 +123,35 @@ export function getReviews({
 }) {
   const qs = queryString.stringify(pickBy(params, identity));
   return get(`reviews/${id}?${qs}`);
+}
+
+interface CreateReviewDTO {
+  title: string;
+  description: string;
+  productId: string;
+  images: {
+    fileType: string;
+    fileName: string;
+    url: string;
+    contentType: string;
+  }[];
+  tags: string[];
+  rating: number;
+}
+export function createReview(body: CreateReviewDTO) {
+  return post("review", body);
+}
+
+export function updateReview({
+  id,
+  body,
+}: {
+  id: string;
+  body: CreateReviewDTO;
+}) {
+  return put(`review/${id}`, body);
+}
+
+export function deleteReview(id: string) {
+  return del(`review/${id}`);
 }

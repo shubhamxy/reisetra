@@ -174,7 +174,7 @@ export class TransactionService {
             prefill: {
               name: user.name,
               email: user.email,
-              contact: user.phone,
+              contact: user.phone || order.address.phone || '',
             },
             notes: [
               ...razorpayData.notes,

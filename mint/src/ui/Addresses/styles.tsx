@@ -9,10 +9,7 @@ export const useStyles = makeStyles(theme => ({
 		objectFit: "cover",
 	},
 	content: {
-		display: "flex",
-    flex: 1,
-		flexDirection: "column",
-		justifyContent: "space-between",
+
 	},
 	contentText: {
 		...theme.typography.body2,

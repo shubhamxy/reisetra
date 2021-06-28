@@ -37,6 +37,8 @@ export class ReviewService {
         model: "review",
         where: {
           productId,
+          active: true,
+          published: true,
         },
         include: {
           images: {
@@ -101,6 +103,7 @@ export class ReviewService {
     const products = await this.db.review.findMany({
       where: {
         productId,
+        active: true,
       },
       include: {
         images: {
@@ -127,19 +130,30 @@ export class ReviewService {
 
   async createReview(userId: string, data: CreateReviewDto): Promise<any> {
     try {
-      const { productId, images, title, description, rating } = data;
+      const { productId, images, title, description, rating, published} = data;
+      const dataObj = {};
+      if(images) {
+        dataObj['images'] = {
+          createMany: {
+            data: images.map((item) => ({
+                id: item.id,
+                contentType: item.contentType,
+                url: item.url,
+                fileType: item.fileType,
+                userId,
+              })),
+          },
+        };
+      }
       const product = await this.db.review.create({
         data: {
-          images: {
-            createMany: {
-              data: images.map((item) => ({ ...item, userId })) || [],
-            },
-          },
+          ...dataObj,
           userId,
           title,
           description,
           productId,
-          rating,
+          rating: +rating,
+          published,
         },
         include: {
           images: {
@@ -164,9 +178,9 @@ export class ReviewService {
           _all: true,
         },
         where: {
-          productId: productId
-        }
-      })
+          productId: productId,
+        },
+      });
 
       await this.db.product.update({
         where: {
@@ -175,10 +189,9 @@ export class ReviewService {
         data: {
           rating: Math.round(ratings.avg.rating),
           ratingsCount: ratings.count._all,
-        }
+        },
       });
       return product;
-
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
@@ -194,18 +207,31 @@ export class ReviewService {
     data: UpdateReviewDto
   ): Promise<any> {
     try {
-      const { productId, images, title, description, rating } = data;
-      const review = await this.db.review.update({
-        where: { id: reviewId },
-        data: {
-          images: {
-            createMany: {
-              data: images.map((item) => ({ ...item, userId })),
-            },
+
+      const { productId, images, title, description, rating, published } = data;
+      const dataObj = {};
+      if(images) {
+        dataObj['images'] = {
+          createMany: {
+            data: images.map((item) => ({
+                id: item.id,
+                contentType: item.contentType,
+                url: item.url,
+                fileType: item.fileType,
+                userId,
+              })),
           },
+        };
+      }
+      const review = await this.db.review.update({
+        where: { id: reviewId, },
+        data: {
+          ...dataObj,
+          rating: +rating,
           productId,
           title,
           description,
+          published,
         },
         include: {
           images: {
@@ -221,6 +247,27 @@ export class ReviewService {
           },
         },
       });
+      const ratings = await this.db.review.aggregate({
+        avg: {
+          rating: true,
+        },
+        count: {
+          _all: true,
+        },
+        where: {
+          productId: productId,
+        },
+      });
+
+      await this.db.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          rating: Math.round(ratings.avg.rating),
+          ratingsCount: ratings.count._all,
+        },
+      });
       return review;
     } catch (error) {
       throw new CustomError(
@@ -233,8 +280,11 @@ export class ReviewService {
 
   async deleteReview(reviewId: string): Promise<any> {
     try {
-      const data = await this.db.review.delete({
+      const data = await this.db.review.update({
         where: { id: reviewId },
+        data: {
+          active: false,
+        },
         include: {
           images: {
             select: {

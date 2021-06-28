@@ -49,6 +49,7 @@ export class CreateReviewDto implements Omit<Review, Excluded> {
   images: Omit<File, "userId">[];
   tags: string[];
   rating: number;
+  published: boolean;
 }
 
 export class UpdateReviewDto implements Omit<Review, Excluded> {
@@ -61,4 +62,5 @@ export class UpdateReviewDto implements Omit<Review, Excluded> {
   images: Omit<File, "userId">[];
   tags: string[];
   rating: number;
+  published: boolean;
 }

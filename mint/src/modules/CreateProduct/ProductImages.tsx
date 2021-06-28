@@ -8,7 +8,7 @@ import { useFileUpload } from "../../libs/rock/file";
 import { ImagePreview } from "../../ui/MediaPreview";
 import { Box, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 const useStyles = makeStyles((theme) => ({
   dropzone: {
     position: "relative",
@@ -25,23 +25,33 @@ const useStyles = makeStyles((theme) => ({
     border: `2px dashed ${theme.palette.primary.main}88`,
   },
 }));
-export default function ProductImages({ values, errors, touched, handleBlur, setFieldValue, handleChange }) {
+export default function ProductImages({
+  values,
+  errors,
+  touched,
+  handleBlur,
+  setFieldValue,
+  handleChange,
+}) {
   const upload = useFileUpload({
     fileType: "images",
     multiple: true,
     onSuccess: (files) => {
-      setFieldValue("images", [...values.images, ...files])
+      setFieldValue("images", [...values.images, ...files]);
     },
   });
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item>
-          <ImagePreview variant="list" data={values.images}
+          <ImagePreview
+            variant="list"
+            data={values.images}
             showRemoveIcon
+            borderRadius="12px"
             handleRemoveItem={(e, index, item) => {
-              const val = [...values.images]
+              const val = [...values.images];
               val.splice(index, 1);
               setFieldValue("images", val);
             }}
@@ -60,12 +70,12 @@ export default function ProductImages({ values, errors, touched, handleBlur, set
           <Box display="flex" flexDirection="column" alignItems="center">
             <CloudUploadIcon />
             {upload.isDragActive ? (
-              <Typography>Drop your image here</Typography>
+              <Typography variant="caption">Drop your image here</Typography>
             ) : (
               <>
-                <Typography> Drag your image here</Typography>
-                <Typography>or</Typography>
-                <Typography>browse</Typography>
+                <Typography variant="caption">Drag your image here</Typography>
+                <Typography variant="caption">or</Typography>
+                <Typography variant="caption">browse</Typography>
               </>
             )}
           </Box>

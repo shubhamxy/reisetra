@@ -32,6 +32,7 @@ import Close from "@material-ui/icons/Close";
 export const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
+    alignItems: "flex-start",
   },
   header: {
     backgroundColor: theme.palette.background.paper,
@@ -41,19 +42,25 @@ export const useStyles = makeStyles((theme) => ({
   list: {
     overflowY: "scroll",
     transition: theme.transitions.create("height", {
-      easing: theme.transitions.easing.sharp,
+      easing: theme.transitions.easing.easeIn,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   listItem: {
-    backgroundColor: theme.palette.background.paper,
+    cursor: "pointer",
     "&:hover": {
-      opacity: 0.8,
+      boxShadow: `0px 0px 0px 4px ${theme.palette.primary.main}33`,
     },
-    transition: theme.transitions.create("opacity", {
+    transition: theme.transitions.create(["box-shadow"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    marginBottom: "8px",
+    ":nth-child": {
+      marginBottom: 0,
+    }
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -94,7 +101,6 @@ export function Cart({ data, handleClose }) {
       // }}
       // ItemSeparatorComponent={<Divider />}
       data={data.items}
-      isEmpty={!data.items || data.items.length === 0}
       ListEmptyComponent={
         <Box
           display="flex"

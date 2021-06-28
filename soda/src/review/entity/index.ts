@@ -12,6 +12,7 @@ export class Review implements ReviewModal {
   }
   userId: string;
   active: boolean;
+  published: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

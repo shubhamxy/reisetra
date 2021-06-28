@@ -5,6 +5,7 @@ import {
   updatePromo,
   useAuthState,
   useCartCheckout,
+  useCartItems,
   useCreateAddress,
   useGlobalDispatch,
   useGlobalState,
@@ -68,6 +69,10 @@ export function Checkout() {
   const ref = useRef(null);
   const authState = useAuthState();
   const globalState = useGlobalState();
+  const { data: response } = useCartItems(
+    authState?.user?.cart.id,
+    globalState?.promo || null
+  );
   const dispatch = useGlobalDispatch();
   const { user } = authState;
   const { cart = {} } = user || {};
@@ -183,7 +188,7 @@ export function Checkout() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          color="secondary"
+                          color="primary"
                           name="isBillingAddressSame"
                           checked={values.isBillingAddressSame}
                           onChange={(e) => {
@@ -242,6 +247,11 @@ export function Checkout() {
             >
               Apply
             </Button>
+            <Box display="flex" alignItems="center" justifyContent="center" pl={1.6} pr={1.6}>
+              <Typography variant="caption">
+                {response?.['data']?.['promo'] ? `${response?.['data']?.['promo']} applied` : ''}
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Grid>

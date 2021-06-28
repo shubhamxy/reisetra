@@ -271,9 +271,8 @@ export class CartService {
         );
       }
 
-      const offer = checkout.promo ? await  this.db.offer.findFirst({where: {AND: {label: checkout.promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
+      const offer = checkout.promo ? await this.db.offer.findFirst({where: {AND: {label: checkout.promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
       const billing = calculateBilling(userCart.items, offer);
-      console.log({billing});
 
       const user = await this.db.user.update({
         where: { id: userId },

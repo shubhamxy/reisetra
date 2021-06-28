@@ -1,10 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import {useTheme } from "@material-ui/core/styles";
-import {
-  ButtonGroup,
-} from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
+import { Box, ButtonGroup } from "@material-ui/core";
 import { useCancelOrder, useOrders, useUpdateOrder } from "../../libs";
 import { useState } from "react";
 import { OrderList } from "../../ui/Orders";
@@ -18,51 +16,31 @@ export function Orders() {
   return (
     <Grid container alignContent="center" justify="center" direction="column">
       <Grid container item xs={12}>
-        <Grid item xs={12} style={{ display: "flex" }}>
-          <ButtonGroup>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              size="medium"
-              onClick={() => {
-                setSelected(null);
-              }}
-            >
-              Add
-            </Button> */}
-          </ButtonGroup>
-          {selected && (
+        <Grid
+          item
+          container
+          xs={12}
+          style={{ display: "flex", minHeight: 100 }}
+          justify="flex-end"
+        >
+          <Box>
             <ButtonGroup>
-              <Button
-                disabled={true}
-                size="medium"
-                variant="text"
-                color="primary"
-                onClick={() => {
-                  updateOrder.mutate({
-                    orderId: selected,
-                    body: {
-
-                    }
-                  });
-                }}
-              >
-                Edit
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="medium"
-                style={{backgroundColor: theme.palette.error.main}}
-                disabled={!selected}
-                onClick={() => {
-                  cancelOrder.mutate(selected);
-                }}
-              >
-                Cancel
-              </Button>
+              {selected && (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="medium"
+                  style={{ backgroundColor: theme.palette.error.main }}
+                  disabled={!selected}
+                  onClick={() => {
+                    cancelOrder.mutate(selected);
+                  }}
+                >
+                  Cancel
+                </Button>
+              )}
             </ButtonGroup>
-          )}
+          </Box>
         </Grid>
       </Grid>
       <Grid container item xs={12}>

@@ -521,7 +521,7 @@ export function Product({ id }) {
                     setQty(
                       Math.min(
                         Math.max(parseInt(e.target.value), 1),
-                        data?.["inventory"]["stockQuantity"] || 99
+                        data?.["inventory"]["stockQuantity"] || 0
                       )
                     );
                   }}
@@ -603,19 +603,19 @@ export function Product({ id }) {
           </Tabs>
         </Grid>
         <Grid item xs={12} style={{ minHeight: 420 }}>
-          <TabPanel value={tabIndex} index={0}>
+          <TabPanel key={id} value={tabIndex} index={0}>
             {String(data?.["description"])
               .split("\n")
               .map((item, index) => {
                 return (
                   <Typography component="p" key={index} variant="body1">
-                    {item}
+                    {item || ''}
                   </Typography>
                 );
               })}
           </TabPanel>
           <TabPanel value={tabIndex} index={1}>
-            <Reviews id={id} />
+            <Reviews key={id} id={id} />
           </TabPanel>
         </Grid>
       </Grid>

@@ -44,7 +44,7 @@ const initialState: GlobalState = {
   snackbar: {
     open: false,
     message: null,
-    duration: 5000,
+    duration: 6000,
     type: "info",
     onClick: null,
   },

@@ -4,6 +4,7 @@ import {
   Box,
   Checkbox,
   FormControlLabel,
+  Grid,
   Typography,
 } from "@material-ui/core";
 import { useStyles } from "./styles";
@@ -52,10 +53,9 @@ export function ProductCard({ data, selected, setSelected }) {
           aria-label="Acknowledge"
           onClick={(event) => {
             event.stopPropagation();
-            if(selected === id) {
+            if (selected === id) {
               setSelected(null);
             } else {
-
               setSelected(id);
             }
           }}
@@ -73,69 +73,138 @@ export function ProductCard({ data, selected, setSelected }) {
           }
         />
       </AccordionSummary>
-      <AccordionDetails>
-        <Box className={classes.content}>
-          <Typography
-            className={classes.contentText}
-            variant="body1"
-            color="textPrimary"
-            component="p"
-          >
-            {address}
-          </Typography>
-          <Box display="flex" flexDirection="column">
-            <Box display="flex" justifyContent="space-between" flex={1}>
-              {city && (
-                <Typography
-                  className={classes.subText}
-                  variant="body1"
-                  color="textPrimary"
-                  component="span"
-                >
-                  {city}
-                </Typography>
-              )}
-
-              {state && (
-                <Typography
-                  className={classes.subText}
-                  variant="body1"
-                  color="textPrimary"
-                  component="span"
-                >
-                  {state}
-                </Typography>
-              )}
-
-              {zipcode && (
-                <Typography
-                  className={classes.subText}
-                  variant="body1"
-                  color="textPrimary"
-                  component="span"
-                >
-                  {zipcode}
-                </Typography>
-              )}
-            </Box>
-
-            <Box display="flex">
+      <AccordionDetails style={{ paddingBottom: 24 }}>
+        <Grid container spacing={2}>
+          <Grid container item xs={12}>
+            <Grid container item xs={12}>
               <Typography
-                className={classes.subText}
+                className={classes.contentText}
                 variant="body1"
                 color="textPrimary"
-                component="span"
-                style={{ paddingRight: 4, textDecoration: "line-through" }}
-              ></Typography>
-              <Typography
-                className={classes.subText}
-                variant="body1"
-                color="textPrimary"
-                component="span"
-              ></Typography>
-            </Box>
-          </Box>
-        </Box>
+                component="p"
+              >
+                {address}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item xs={12} justify="space-between" spacing={2}>
+            <Grid
+              container
+              item
+              xs={12}
+              md={6}
+              justify="space-between"
+              spacing={2}
+            >
+              <Grid item xs={6}>
+                {region && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {region}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {nearby && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    Near {nearby}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {city && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {city}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {state && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {state}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {country && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {country}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {zipcode && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {zipcode}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              item
+              xs={12}
+              md={6}
+              justify="space-between"
+              style={{textAlign: "right"}}
+              spacing={2}
+            >
+              <Grid item xs={12}>
+                {email && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {email}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                {phone && (
+                  <Typography
+                    className={classes.subText}
+                    variant="body1"
+                    color="textPrimary"
+                    component="span"
+                  >
+                    {phone}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </AccordionDetails>
     </Accordion>
   );

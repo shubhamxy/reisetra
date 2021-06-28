@@ -147,15 +147,15 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
 
   return (
     <Grid className={classes.root}>
-      <Accordion defaultExpanded={defaultExpanded} variant="outlined" >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <Accordion color="primary"  defaultExpanded={defaultExpanded} variant="outlined" >
+        <AccordionSummary color="primary" expandIcon={<ExpandMoreIcon />}>
           <Typography
             variant="subtitle2"
           >
             {title}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails color="primary">
           <Grid container>
             {header && (
               <Grid

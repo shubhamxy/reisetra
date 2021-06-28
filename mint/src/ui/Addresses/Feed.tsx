@@ -19,7 +19,9 @@ export const useStyles = makeStyles((theme) => ({
   content: {},
   title: {},
   listRoot: {},
-  list: {},
+  list: {
+    overflowX: "hidden",
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -29,39 +31,42 @@ export const useStyles = makeStyles((theme) => ({
 export function AddressList({ data, selected, setSelected }) {
   const classes = useStyles();
   return (
-    <Box overflow="auto" className="scrollbar">
-      <List
-        classes={{ list: classes.list }}
-        data={data}
-        ListEmptyComponent={
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="320px"
-          >
-            <Typography align="center" variant="subtitle2">
-              Cart is empty
-            </Typography>
-          </Box>
-        }
-        renderItem={({ item, index }) => (
-          <ProductCard key={index} data={item} selected={selected} setSelected={setSelected} />
-        )}
-        variant="default"
-        ListLoadingComponent={
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            pt={2}
-            pb={2}
-          >
-            <CircularProgress size={24} />
-          </Box>
-        }
-      />
-    </Box>
+    <List
+      classes={{ list: classes.list }}
+      data={data}
+      ListEmptyComponent={
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="320px"
+        >
+          <Typography align="center" variant="subtitle2">
+            Cart is empty
+          </Typography>
+        </Box>
+      }
+      renderItem={({ item, index }) => (
+        <ProductCard
+          key={index}
+          data={item}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      )}
+      variant="default"
+      ListLoadingComponent={
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          pt={2}
+          pb={2}
+        >
+          <CircularProgress size={24} />
+        </Box>
+      }
+    />
   );
 }

@@ -8,6 +8,7 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import { formatDistance, subDays } from "date-fns";
 import { useStyles } from "./styles";
 import { useRouter } from "next/router";
 import Accordion from "@material-ui/core/Accordion";
@@ -42,6 +43,7 @@ export function OrderCard({ data, selected, setSelected }) {
     status,
     active,
     createdAt,
+    cart,
     updatedAt,
     address: {
       fullname,
@@ -60,10 +62,22 @@ export function OrderCard({ data, selected, setSelected }) {
     id,
   });
 
-  const classes = useStyles({status});
+  const classes = useStyles({ status });
   const OrderSummary = (
     <Grid item xs={6}>
       <Grid item xs={12} container alignItems="center" justify="center">
+      {cart && (
+          <Grid item xs={12} container>
+            <Grid item xs>
+              <Typography className={classes.subtext}>Cart Items</Typography>
+            </Grid>
+            <Grid item>
+              <Typography className={classes.subtext}>
+                {cart?.items?.length || '1'}
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
         <Grid item xs={12} container>
           <Grid item xs>
             <Typography className={classes.subtext}>Subtotal</Typography>
@@ -132,10 +146,13 @@ export function OrderCard({ data, selected, setSelected }) {
               <Typography className={classes.subtext}>Grand Total</Typography>
             </Grid>
             <Grid item>
-              <Typography className={classes.subtext}>₹{grandTotal || 0}</Typography>
+              <Typography className={classes.subtext}>
+                ₹{grandTotal || 0}
+              </Typography>
             </Grid>
           </Grid>
         )}
+
       </Grid>
     </Grid>
   );
@@ -162,18 +179,23 @@ export function OrderCard({ data, selected, setSelected }) {
             </Typography>
           </Grid>
         </Grid>
-        <Grid item xs={12} container >
+        <Grid item xs={12} container>
           <Grid item xs>
             <Typography className={classes.subtext}>Order Status</Typography>
           </Grid>
-          <Grid item style={{paddingTop: 8.4}}>
+          <Grid item style={{ paddingTop: 8.4 }}>
             <Chip
               variant="default"
               color="primary"
               className={classes.chip}
               clickable
               label={
-                <Typography className={classes.subtext} style={{textTransform: "capitalize"}}>{String(status).toLowerCase()}</Typography>
+                <Typography
+                  className={classes.subtext}
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {String(status).toLowerCase()}
+                </Typography>
               }
             ></Chip>
           </Grid>
@@ -203,7 +225,9 @@ export function OrderCard({ data, selected, setSelected }) {
               color="textPrimary"
               component="p"
             >
-              Order on {new Date(createdAt).toLocaleString()}
+              Ordered {formatDistance(new Date(createdAt), new Date(), {
+            addSuffix: true,
+          })}
             </Typography>
           }
         />

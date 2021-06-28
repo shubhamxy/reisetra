@@ -148,6 +148,7 @@ model Review {
   title       String
   description String
   productId   String?
+  published   Boolean  @default(false)
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

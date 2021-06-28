@@ -7,14 +7,49 @@ import {
   CardContent,
   fade,
   Typography,
-  IconButton,
   Button,
+  Grid,
+  ButtonGroup,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  InputLabel,
+  DialogActions,
 } from "@material-ui/core";
-import { useProducts, useReviews } from "../../libs";
+import {
+  useAuthState,
+  useCreateReview,
+  useDeleteReview,
+  useOrders,
+  useReviews,
+  useUpdateReview,
+} from "../../libs";
 import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
 import ReviewCard from "./review";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import ProductImages from "../CreateProduct/ProductImages";
+import { Rating } from "@material-ui/lab";
+import { useEffect } from "react";
+
+const reviewSchema = Yup.object().shape({
+  productId: Yup.string().required("Product is required"),
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().min(4).required("Description is required"),
+  images: Yup.array().of(
+    Yup.object().shape({
+      fileType: Yup.string().required("fileType is required"),
+      contentType: Yup.string().required("contentType is required"),
+      url: Yup.string().required("url is required"),
+    })
+  ),
+  tags: Yup.array(),
+  rating: Yup.number().required("Rating is required"),
+  published: Yup.boolean().required(),
+});
 
 type TStyles = {
   background: string;
@@ -197,23 +232,242 @@ export function GridItem({
   );
 }
 
-export function Reviews({id}: {id: string}) {
+export function Reviews({ id }: { id: string }) {
   const query = useReviews(id);
+  const createReview = useCreateReview();
+  const updateReview = useUpdateReview();
+  const deleteReview = useDeleteReview();
+  const [selected, setSelected] = useState(null);
   const router = useRouter();
+  const authState = useAuthState();
+  const orders = useOrders();
+  const { user } = authState;
+  const [hasOrdered, setHasOrdered] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const hasOrdered =
+      orders?.data?.pages?.some((page) => {
+        const pageData = page?.data as any[];
+        return !!pageData?.some((order) => {
+          if (order.status === "SHIPPED") {
+            return order.cart.items.some((item) => item["productId"] === id);
+          }
+          return false;
+        });
+      }) || false;
+    setHasOrdered(hasOrdered);
+  }, [orders]);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    resetForm();
+    setOpen(false);
+  };
+  const initialValues = {
+    productId: id,
+    title: "",
+    description: "",
+    images: [],
+    tags: [],
+    rating: 5,
+    published: true,
+  };
+  const {
+    values,
+    setFieldValue,
+    isValid,
+    touched,
+    errors,
+    handleChange,
+    setValues,
+    handleSubmit,
+    validateForm,
+    setTouched,
+    handleBlur,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    validateOnMount: true,
+    enableReinitialize: true,
+    validationSchema: reviewSchema,
+    onSubmit: (data) => {
+      if (selected) {
+        updateReview.mutate(
+          {
+            id: selected,
+            body: data,
+          },
+          {
+            onSuccess: ({ data }) => {
+              handleClose();
+            },
+          }
+        );
+      } else {
+        createReview.mutate(data, {
+          onSuccess: ({ data }) => {
+            handleClose();
+          },
+        });
+      }
+    },
+  });
+
   return (
-    <GridList
-      query={query}
-      emptyListCaption="No Reviews Yet"
-      renderItem={({ item, index }) => (
-        <ReviewCard
-          {...item}
-          onClick={() => {
-            router.push(`/product/${item.id}`);
-          }}
-          key={item.id}
-          styleIndex={index % styles.length}
+    <>
+      <Grid container xs={12}>
+        <GridList
+          query={query}
+          emptyListCaption="No Reviews Yet"
+          renderItem={({ item, index }) => (
+            <ReviewCard
+              editable={item.userId === authState["user"]["id"]}
+              {...item}
+              onEdit={() => {
+                setSelected(item.id);
+                setValues({ ...item });
+                handleClickOpen();
+              }}
+              onDelete={() => {
+                deleteReview.mutate(item.id, {
+                  onSettled: () => {
+                    setSelected(null);
+                  },
+                });
+              }}
+              selected
+              key={item.id}
+            />
+          )}
+          ListHeaderComponent={
+            hasOrdered ? (
+              <Grid
+                container
+                item
+                xs={12}
+                justify="flex-end"
+                style={{ display: "flex" }}
+              >
+                <ButtonGroup>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    onClick={() => {
+                      handleClickOpen();
+                    }}
+                  >
+                    Add
+                  </Button>
+                </ButtonGroup>
+              </Grid>
+            ) : null
+          }
         />
-      )}
-    />
+      </Grid>
+      <Dialog open={open} onClose={handleClose} scroll="body" fullWidth>
+        <DialogTitle>{selected ? "Edit" : "Add"} Review</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="title"
+                name="title"
+                label="Title"
+                placeholder="Eg. Awesome build quality"
+                fullWidth
+                autoComplete="off"
+                value={values.title}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.title ? !!errors.title : false}
+                helperText={touched.title ? errors.title : ""}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="description"
+                name="description"
+                label="Description"
+                fullWidth
+                multiline
+                rows={6}
+                placeholder="Eg. Great deal at 44,900.00 thank you reisetra. This was the best deal just like the Black Friday sale or say the Boxing day sale"
+                autoComplete="off"
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.description ? !!errors.description : false}
+                helperText={touched.description ? errors.description : ""}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel
+                required
+                error={touched.rating ? !!errors.rating : false}
+                style={{ paddingLeft: 24, paddingBottom: 12 }}
+                children="Rating"
+                shrink={true}
+                margin="dense"
+              />
+              <Rating
+                size="large"
+                id="rating"
+                name="rating"
+                value={values.rating}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ProductImages
+                errors={errors}
+                values={values}
+                touched={touched}
+                handleBlur={handleBlur}
+                setFieldValue={setFieldValue}
+                handleChange={handleChange}
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Box
+            display="flex"
+            flex={1}
+            width={"100%"}
+            justifyContent="flex-end"
+            pt={1.6}
+            pb={1.6}
+          >
+            <Button
+              onClick={handleClose}
+              color="primary"
+              variant="text"
+              size="medium"
+              style={{ marginRight: 16 }}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              onClick={(e) => {
+                if (!isValid) {
+                }
+                handleSubmit();
+              }}
+              size="medium"
+              color="primary"
+              variant="contained"
+            >
+              Save
+            </Button>
+          </Box>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
