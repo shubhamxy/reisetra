@@ -241,7 +241,10 @@ export function Account() {
                 alignItems="center"
                 {...avatarUpload.getRootProps()}
               >
-                <Avatar  src={values.avatar} style={{ cursor: "pointer", height: 46, width: 46 }} />
+                <Avatar
+                  src={values.avatar}
+                  style={{ cursor: "pointer", height: 46, width: 46 }}
+                />
                 <input {...avatarUpload.getInputProps()} />
               </Box>
               <TextField
@@ -332,7 +335,13 @@ export function Account() {
               </Box>
 
               <Box mt={4.6}>
-                <Addresses defaultExpanded={false} header selected={selected} setSelected={setSelected} />
+                <Addresses
+                  children={null}
+                  defaultExpanded={false}
+                  header
+                  selected={selected}
+                  setSelected={setSelected}
+                />
               </Box>
 
               <Box mt={4.6}>

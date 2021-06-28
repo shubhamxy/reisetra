@@ -1,4 +1,4 @@
-import mixpanel from "mixpanel-browser";
+import mixpanel, { Dict } from "mixpanel-browser";
 import { UserProfile } from "../../../api/user";
 import { config, isBrowser } from "../../../config";
 import {
@@ -15,25 +15,27 @@ export function initialize() {
       debug: !config.isProduction,
       autotrack: true,
       ignore_dnt: true,
+      batch_requests: true,
+      batch_flush_interval_ms: 1000
     });
   }
 }
 
-export function pageView(pathName) {
+export function pageView(pathName: string) {
   mixpanel.track(Events.page_loaded, {
     [Properties.page_viewed]: pathName,
   });
 }
 
 export async function login() {
-  mixpanel.people.set({ [User.user_state]: UserState.logged_in }, () => {
+  mixpanel.people.set({[User.user_state]: UserState.logged_in }, function(){
     mixpanel.track(Events.login);
   });
 }
 
 export function logout() {
-  mixpanel.people.set({ [User.user_state]: UserState.logged_out }, () => {
-    mixpanel.track(Events.logout, {}, () => {
+  mixpanel.people.set({ [User.user_state]: UserState.logged_out }, function(){
+    mixpanel.track(Events.logout, {}, function() {
       mixpanel.reset();
     });
   });
@@ -46,6 +48,6 @@ export function identify(user: Partial<UserProfile>) {
   }
 }
 
-export function metrics(data) {
+export function metrics(data: Dict) {
   mixpanel.track(Events.metrics, data);
 }
