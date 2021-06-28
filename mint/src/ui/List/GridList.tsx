@@ -130,7 +130,7 @@ function Footer({
   ) : null;
 }
 
-export default function GridList({ emptyListCaption = "", query, renderItem }) {
+export default function GridList({ emptyListCaption = "No results", query, renderItem }) {
   const { data, hasNextPage, isLoading, fetchNextPage } = query;
   const classes = useStyles();
   return (
@@ -145,6 +145,7 @@ export default function GridList({ emptyListCaption = "", query, renderItem }) {
             display="flex"
             alignItems="center"
             justifyContent="center"
+            minHeight="240px"
             flex={1}
           >
             <Typography variant="caption">{emptyListCaption}</Typography>

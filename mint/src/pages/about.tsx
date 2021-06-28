@@ -19,6 +19,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 48,
     display: "flex",
     flexDirection: "column",
+    paddingLeft: 48,
+    paddingRight: 48,
+    [theme.breakpoints.down("sm")]: {
+      paddingLeft: 16,
+      paddingRight: 16,
+    },
   },
   left: {
     [theme.breakpoints.down("sm")]: {
@@ -34,12 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AboutPage = () => {
   const classes = useStyles();
-  useEffect(() => {
-    setTimeout(() => {
-      analytics.login();
-
-    }, 10000)
-  }, []);
   return (
     <MainLayout
       classes={{
@@ -50,8 +50,8 @@ const AboutPage = () => {
         <HeroCard
           data={{
             title: "About Us",
-            subtitle: "REISETRA ENTERPRISES",
-            backgroundImage: "",
+            description: "We are reisetra",
+            backgroundImage: "/images/cover.jpg",
           }}
         />
       }
@@ -64,8 +64,6 @@ const AboutPage = () => {
             <Box
               pt={6.4}
               pb={6.4}
-              pl={6.4}
-              pr={6.4}
               display="flex"
               flexDirection="column"
               justifyContent="center"

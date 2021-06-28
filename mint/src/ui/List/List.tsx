@@ -25,6 +25,9 @@ interface ListProps {
   ListEmptyComponent?: any;
   ListEmptyComponentProps?: any;
   keyExtractor?: Function;
+  listItemDivider?: boolean;
+  listProps?: any;
+  listItemProps?: any;
 }
 
 export function List(props: ListProps) {
@@ -39,10 +42,13 @@ export function List(props: ListProps) {
     ItemSeparatorComponent,
     data,
     renderItem,
+    listItemDivider = false,
     ListEmptyComponent,
     keyExtractor = (data, index) => {
       return data.id || data.key || index;
     },
+    listProps = {},
+    listItemProps = {},
   } = props;
 
   if (variant === "infinite") {
@@ -53,61 +59,121 @@ export function List(props: ListProps) {
         justify="center"
         direction="column"
       >
-        {ListHeaderComponent && <Grid item>{ListHeaderComponent}</Grid>}
+        {ListHeaderComponent && (
+          <Grid item xs={12} className={classes.header}>
+            {ListHeaderComponent}
+          </Grid>
+        )}
         {(data?.pages?.[0]?.data === undefined ||
           data?.pages?.[0]?.meta?.totalCount === 0) &&
-          !isLoading && <Grid item>{ListEmptyComponent}</Grid>}
-        <Grid item xs={12} style={{width: '100%'}}>
-          <MaterialList className={clsx(classes.list, "scrollbar")} disablePadding>
-            {data?.pages?.map((page: ISuccessResponse<any>, pageIndex: number) =>
-              page.data?.map((item, index) => (
-                //@TODO fix the type ???
-                <MaterialListItem
-                  disableGutters
-                  className={classes.listItem}
-                  key={keyExtractor(item, pageIndex + "-" + index)}
-                >
-                  {renderItem({ item, index })}
-                  {!(
-                    pageIndex === data.pages.length - 1 &&
-                    index === page.data.length - 1
-                  ) &&
-                    ItemSeparatorComponent && ItemSeparatorComponent}
-                </MaterialListItem>
-              ))
+          !isLoading && (
+            <Grid item className={classes.empty}>
+              {ListEmptyComponent}
+            </Grid>
+          )}
+        <Grid item xs={12}>
+          <MaterialList
+            className={clsx(classes.list, "scrollbar")}
+            disablePadding
+            {...listProps}
+          >
+            {data?.pages?.map(
+              (page: ISuccessResponse<any>, pageIndex: number) =>
+                page.data?.map((item, index) => (
+                  //@TODO fix the type ???
+                  <MaterialListItem
+                    disableGutters
+                    className={classes.listItem}
+                    key={keyExtractor(item, pageIndex + "-" + index)}
+                    divider={listItemDivider}
+                    {...listItemProps}
+                  >
+                    {renderItem({ item, index })}
+                    {!(
+                      pageIndex === data.pages.length - 1 &&
+                      index === page.data.length - 1
+                    ) &&
+                      ItemSeparatorComponent &&
+                      ItemSeparatorComponent}
+                  </MaterialListItem>
+                ))
             )}
           </MaterialList>
         </Grid>
+
         {isLoading && ListLoadingComponent && (
-          <Grid item>{ListLoadingComponent}</Grid>
+          <Grid item xs={12}>
+            {ListLoadingComponent}
+          </Grid>
         )}
         {!isLoading && ListFooterComponent && (
-          <Grid item>{ListFooterComponent}</Grid>
+          <Grid item xs={12}>
+            {ListFooterComponent}
+          </Grid>
         )}
       </Grid>
     );
   } else {
     return (
-      <Grid container className={classes.root}>
-        {ListHeaderComponent && <Grid item>{ListHeaderComponent}</Grid>}
-        {isEmpty === true && !isLoading && (
-          <Grid item xs={12}>{ListEmptyComponent}</Grid>
+      <Grid container className={classes.root} justify="flex-start">
+        {ListHeaderComponent && (
+          <Grid
+            item
+            xs={12}
+            className={classes.header}
+            style={{
+              alignSelf: "flex-start",
+              position: "sticky",
+              top: -1,
+              zIndex: 1000,
+            }}
+          >
+            {ListHeaderComponent}
+          </Grid>
         )}
-        <Grid item xs={12} style={{width: '100%'}}>
+        <Grid item xs={12}>
+          {ListEmptyComponent && !isLoading && data && data["length"] === 0 && (
+            <Grid item xs={12} className={classes.empty}>
+              {ListEmptyComponent}
+            </Grid>
+          )}
           {Array.isArray(data) && data.length > 0 ? (
-            <MaterialList className={classes.list}>
-              {data.map((item, index) => (
-                <MaterialListItem className={classes.listItem} key={keyExtractor(item, index)} divider={false} disableGutters>
+            <MaterialList
+              className={clsx(classes.list, "scrollbar")}
+              {...listProps}
+            >
+              {[...data, ...data, ...data].map((item, index) => (
+                <MaterialListItem
+                  className={classes.listItem}
+                  key={keyExtractor(item, index)}
+                  divider={listItemDivider}
+                  disableGutters
+                  {...listItemProps}
+                >
                   {renderItem({ item, index })}
                   {!(index === data.length - 1) &&
-                    ItemSeparatorComponent && ItemSeparatorComponent}
+                    ItemSeparatorComponent &&
+                    ItemSeparatorComponent}
                 </MaterialListItem>
               ))}
             </MaterialList>
           ) : null}
         </Grid>
-        {isLoading && ListLoadingComponent && ListLoadingComponent}
-        {!isLoading && ListFooterComponent && ListFooterComponent}
+        {isLoading && ListLoadingComponent && (
+          <Grid item xs={12} style={{ alignSelf: "flex-end" }}>
+            {ListLoadingComponent}
+          </Grid>
+        )}
+        {!isLoading && ListFooterComponent && (
+          <Grid
+            item
+            xs={12}
+            className={classes.footer}
+            style={{ alignSelf: "flex-end", position: "sticky", bottom: 0 }}
+          >
+            {ListFooterComponent}
+          </Grid>
+        )}
       </Grid>
     );
   }

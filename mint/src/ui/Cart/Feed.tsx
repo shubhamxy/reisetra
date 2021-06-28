@@ -9,6 +9,8 @@ import {
   Button,
   Grid,
   TextField,
+  fade,
+  IconButton,
 } from "@material-ui/core";
 import { List } from "../List/List";
 import { Footer } from "../List";
@@ -25,94 +27,112 @@ import { ProductCard } from "./Card";
 import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
 import clsx from "clsx";
 import { useRouter } from "next/router";
+import Close from "@material-ui/icons/Close";
 
 export const useStyles = makeStyles((theme) => ({
-  root: { height: "100%", display: "flex", flexDirection: "column", flex: 1 },
-  header: {},
-  content: {},
-  title: {},
-  listRoot: {},
-  list: {},
+  root: {
+    flex: 1,
+  },
+  header: {
+    backgroundColor: theme.palette.background.paper,
+    padding: 12,
+    borderBottom: "1px solid " + theme.palette.divider,
+  },
+  list: {
+    overflowY: "scroll",
+    transition: theme.transitions.create("height", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  listItem: {
+    backgroundColor: theme.palette.background.paper,
+    "&:hover": {
+      opacity: 0.8,
+    },
+    transition: theme.transitions.create("opacity", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    paddingLeft: 24,
+    paddingRight: 24,
+  },
 }));
 
-export function Cart({ data }) {
+export function Cart({ data, handleClose }) {
   const classes = useStyles();
   const router = useRouter();
   const globalState = useGlobalState();
   const [promo, setPromo] = useState(globalState.promo);
   const dispatch = useGlobalDispatch();
+
   return (
-    <Paper className={classes.root}>
-      <Grid item xs={12}>
-        <Box p={2} className={classes.header}>
-          <Typography variant="h6" className={classes.title}>
-            Cart
+    <List
+      ListHeaderComponent={
+        <Grid container item xs={12} alignItems="center" justify="flex-start">
+          <IconButton onClick={handleClose}>
+            <Close />
+          </IconButton>
+          <Box pl={4.6}>
+            <Typography variant="h6">Cart</Typography>
+          </Box>
+        </Grid>
+      }
+      listItemDivider={true}
+      classes={{
+        root: classes.root,
+        header: classes.header,
+        list: classes.list,
+        listItem: classes.listItem,
+        footer: classes.footer,
+      }}
+      // ItemSeparatorComponentProps={{
+      //   height: 2,
+      // }}
+      // ItemSeparatorComponent={<Divider />}
+      data={data.items}
+      isEmpty={!data.items || data.items.length === 0}
+      ListEmptyComponent={
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="200px"
+          flex={1}
+        >
+          <Typography align="center" variant="subtitle2">
+            Cart is empty
           </Typography>
         </Box>
-        <Box overflow="auto" className="scrollbar">
-          <List
-            classes={{ list: classes.list }}
-            ItemSeparatorComponentProps={{
-              height: 2,
-            }}
-            ItemSeparatorComponent={<Divider />}
-            data={data.items}
-            isEmpty={!data.items || data.items.length === 0}
-            ListEmptyComponent={
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height="320px"
-                flex={1}
-              >
-                <Typography align="center" variant="subtitle2">
-                  Cart is empty
-                </Typography>
-              </Box>
-            }
-            renderItem={({ item, index }) => (
-              <ProductCard key={index} data={item} />
-            )}
-            variant="default"
-            ListLoadingComponent={
-              <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                pt={2}
-                pb={2}
-              >
-                <CircularProgress size={24} />
-              </Box>
-            }
-          />
-        </Box>
-      </Grid>
-      <Divider />
-      <Grid item xs={12} container>
-        <Grid
-          item
-          xs={12}
-          container
-          style={{
-            paddingLeft: 46,
-            paddingRight: 46,
-            width: "100%",
-          }}
+      }
+      renderItem={({ item, index }) => <ProductCard key={index} data={item} />}
+      variant="default"
+      ListLoadingComponent={
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
           alignItems="center"
-          justify="center"
+          pt={2}
+          pb={2}
         >
+          <CircularProgress size={24} />
+        </Box>
+      }
+      ListFooterComponent={
+        <>
           <Grid
-            container
             item
+            container
             xs={12}
-            direction="row"
+            wrap="wrap"
+            style={{ marginTop: 16 }}
             justify="space-between"
-            style={{ paddingTop: 16, }}
           >
-            <Grid item>
+            <Grid item style={{ paddingTop: 16, paddingBottom: 16 }}>
               <TextField
                 id="promo"
                 name="promo"
@@ -124,7 +144,7 @@ export function Cart({ data }) {
                 }}
               />
             </Grid>
-            <Grid item>
+            <Grid item style={{ paddingTop: 16, paddingBottom: 16 }}>
               <Button
                 variant="contained"
                 size="large"
@@ -210,15 +230,23 @@ export function Cart({ data }) {
             )}
           </Grid>
 
-          <Divider />
-          <Grid item xs={12} container alignItems="center" justify="center">
+          <Divider style={{ marginTop: 16, marginBottom: 16 }} />
+
+          <Grid
+            item
+            xs={12}
+            container
+            alignItems="center"
+            justify="center"
+            style={{ paddingBottom: 16 }}
+          >
             <Button
               variant="contained"
               color="primary"
               size="large"
-              style={{height: 56}}
+              style={{ height: 56, marginTop: 16, marginBottom: 16 }}
               onClick={() => {
-                if(data["grandTotal"] > 0) {
+                if (data["grandTotal"] > 0) {
                   router.push("/checkout");
                 }
               }}
@@ -227,8 +255,8 @@ export function Cart({ data }) {
               {"Proceed to checkout"}
             </Button>
           </Grid>
-        </Grid>
-      </Grid>
-    </Paper>
+        </>
+      }
+    />
   );
 }

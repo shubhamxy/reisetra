@@ -6,9 +6,10 @@ export const useStyles = makeStyles(theme => ({
 		flex: 1,
 		flexDirection: "row",
 		margin: 0,
-		padding: theme.spacing(0.8, 2.0, 0.8, 2.0),
+		padding: theme.spacing(1.2, 2.4, 1.2, 2.4),
 		width: "100%",
 		cursor: "pointer",
+    alignItems: "center",
 	},
 	cover: {},
 	img: {
@@ -24,6 +25,7 @@ export const useStyles = makeStyles(theme => ({
 		WebkitLineClamp: 2,
 		WebkitBoxOrient: "vertical",
 		wordBreak: "break-all",
+    maxWidth: "70%",
 	},
 	subText: {
 		...theme.typography.caption,

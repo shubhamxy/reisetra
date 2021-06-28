@@ -12,6 +12,7 @@ import {
 mixpanel.init(config.analytics.mixpanelToken, {
   debug: !config.isProduction,
   autotrack: true,
+  ignore_dnt: true,
 });
 
 export function pageView(pathName) {

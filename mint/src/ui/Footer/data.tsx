@@ -45,16 +45,16 @@ export const footerLinks = [
     headerTitle: "Quick Links",
     nav: [
       {
-        to: "/terms",
-        title: "Terms of Service",
-      },
-      {
         to: "/shipping",
         title: "Shipping",
       },
       {
+        to: "/terms",
+        title: "Terms",
+      },
+      {
         to: "/privacy",
-        title: "Privacy Policy",
+        title: "Privacy",
       },
     ],
   },

@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
         paddingLeft: 12,
         paddingRight: 12,
       },
+      overflow: "hidden",
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -149,19 +150,21 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerPaper: {
       maxWidth: "30%",
       [theme.breakpoints.down("md")]: {
-        maxWidth: "40%",
+        maxWidth: "80%",
       },
       [theme.breakpoints.down("sm")]: {
-        maxWidth: "50%",
+        maxWidth: "94%",
       },
     },
     drawerHeader: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-start",
+      position: "sticky",
+      top: -1,
+      backgroundColor: theme.palette.background.paper,
+      transition: theme.transitions.create("height", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      zIndex: 1000,
     },
     content: {
       flexGrow: 1,
@@ -174,10 +177,6 @@ const useStyles = makeStyles((theme: Theme) =>
     search: {
       position: "relative",
       borderRadius: 8,
-      backgroundColor: fade(theme.palette.common.white, 0.08),
-      "&:hover": {
-        backgroundColor: fade(theme.palette.common.white, 0.1),
-      },
       transition:
         "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
       marginLeft: 16,
@@ -185,37 +184,59 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "auto",
       color: theme.palette.text.primary,
       ...theme.typography.caption,
+      backgroundColor: fade(theme.palette.common.white, 0.08),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.1),
+      },
+      [theme.breakpoints.down("sm")]: {
+        backgroundColor: fade(theme.palette.common.white, 0.08),
+        "&:hover": {
+          backgroundColor: fade(theme.palette.common.white, 0.1),
+        },
+      },
     },
     searchIcon: {
       padding: theme.spacing(0, 1),
       height: "100%",
-      width: "100%",
       position: "absolute",
       pointerEvents: "none",
       display: "flex",
       alignItems: "center",
-      justifyContent: "flex-start",
+      left: "8px",
+      justifyContent: "center",
     },
     inputRoot: {
       color: "inherit",
       ...theme.typography.caption,
     },
     inputInput: {
+      transition: theme.transitions.create(["width", "opacity"]),
       padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(3)}px)`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
+      paddingLeft: `calc(1em + ${theme.spacing(3.6)}px)`,
+      width: "24ch",
+      "&:focus": {
+        width: "28ch",
+      },
+      [theme.breakpoints.down("md")]: {
         width: "10ch",
         "&:focus": {
           width: "16ch",
         },
       },
-      [theme.breakpoints.up("md")]: {
-        width: "24ch",
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
         "&:focus": {
-          width: "28ch",
+          width: "100%",
+          maxWidth: "50vw",
+        },
+      },
+      [theme.breakpoints.down("xs")]: {
+        width: 0,
+        opacity: 0,
+        "&:focus": {
+          opacity: 1,
+          width: "100%",
+          minWidth: "50vw",
         },
       },
     },
@@ -249,15 +270,15 @@ export function AppHeader() {
   const debounced = useDebouncedCallback((value) => {
     const routerObj = {};
     if (router.pathname !== "/products") {
-      routerObj['query'] = {};
-      routerObj['pathname'] = "/products"
+      routerObj["query"] = {};
+      routerObj["pathname"] = "/products";
     } else {
-      routerObj['query'] = router.query;
+      routerObj["query"] = router.query;
     }
     if (!value) {
-      delete routerObj['query']['q'];
+      delete routerObj["query"]["q"];
     } else {
-      routerObj['query']['q'] = value;
+      routerObj["query"]["q"] = value;
     }
     router.push(routerObj);
   }, 2000);
@@ -384,11 +405,18 @@ export function AppHeader() {
     >
       <IconButton>
         <Avatar
-          style={{ width: 20, height: 20, backgroundColor: theme.palette.primary.dark }}
+          style={{
+            width: 20,
+            height: 20,
+            backgroundColor: theme.palette.primary.dark,
+          }}
           src={authState?.user?.avatar}
           alt="user avatar"
         >
-          <Typography variant="caption" style={{ lineHeight: 1, color: theme.palette.common.white}}>
+          <Typography
+            variant="caption"
+            style={{ lineHeight: 1, color: theme.palette.common.white }}
+          >
             {authState?.user?.name?.[0]}
           </Typography>
         </Avatar>
@@ -545,13 +573,7 @@ export function AppHeader() {
           paper: classes.drawerPaper,
         }}
       >
-        <Grid item className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            <Close />
-          </IconButton>
-        </Grid>
-        <Divider />
-        <Cart data={data} />
+        <Cart handleClose={handleDrawerClose} data={data} />
       </Drawer>
     </>
   );

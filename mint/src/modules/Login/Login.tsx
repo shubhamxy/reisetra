@@ -124,8 +124,6 @@ const useStyles = makeStyles((theme) => ({
 export function LogIn() {
   const classes = useStyles();
   const emailLogin = useUserEmailLogin();
-  const authDispatch = useAuthDispatch();
-  const globalDispatch = useGlobalDispatch();
   const {
     values,
     isValid,
@@ -148,31 +146,7 @@ export function LogIn() {
           password: data.password,
         },
         {
-          onSuccess: (response) => {
-            globalDispatch(
-              updateSnackBar({
-                message: "Logged In Successfully",
-                type: "success",
-                open: true,
-              })
-            );
-
-            authDispatch(
-              login({
-                access_token: response.data.access_token,
-                refresh_token: response.data.refresh_token,
-              })
-            );
-          },
           onError: (error: IErrorResponse<any>) => {
-            globalDispatch(
-              updateSnackBar({
-                message: error.message,
-                type: "error",
-                open: true,
-              })
-            );
-
             setErrors({
               password: error.message,
             });

@@ -20,7 +20,7 @@ import { config } from "../../libs";
 import { Logo } from "../Logo";
 import { Facebook, Instagram, WhatsApp } from "@material-ui/icons";
 import { ButtonGroup } from "@material-ui/core";
-const {version} = require("../../../package.json")
+const { version } = require("../../../package.json");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,11 +73,15 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       justifyContent: "space-between",
       alignItems: "flex-start",
+      alignContent: "center",
       textAlign: "left",
     },
     footerNav: {
       paddingRight: 24,
       "&:nth-child(1)": {
+        paddingLeft: 0,
+      },
+      "&:last-child": {
         paddingRight: 0,
       },
     },
@@ -107,7 +111,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "&:focus": {
         borderRadius: 0,
-      }
+      },
     },
   })
 );
@@ -177,17 +181,51 @@ function Footer() {
                 );
               })}
             </Box>
-            <ButtonGroup className={classes.socials} variant="outlined">
-              <IconButton target="_blank" title="Reisetra facebook" href={config.socials.facebook}  disableRipple disableFocusRipple disableTouchRipple className={classes.socialsicon}>
-                <Facebook />
-              </IconButton>
-              <IconButton target="_blank" title="Reisetra instagram" href={config.socials.instagram} disableRipple disableFocusRipple disableTouchRipple className={classes.socialsicon}>
-                <Instagram />
-              </IconButton>
-              <IconButton target="_blank" title="Reisetra whatsapp" href={config.socials.whatsapp}  disableRipple disableFocusRipple disableTouchRipple className={classes.socialsicon}>
-                <WhatsApp />
-              </IconButton>
-            </ButtonGroup>
+            <Box display="flex" alignItems="center" justifyContent="flex-end">
+              <Box display="flex" alignItems="center" pr={2.4} justifyContent="center">
+                <Typography
+                  color="textPrimary"
+                  variant="caption"
+                >
+                  Follow Us
+                </Typography>
+              </Box>
+              <ButtonGroup className={classes.socials} variant="outlined">
+                <IconButton
+                  target="_blank"
+                  title="Reisetra facebook"
+                  href={config.socials.facebook}
+                  disableRipple
+                  disableFocusRipple
+                  disableTouchRipple
+                  className={classes.socialsicon}
+                >
+                  <Facebook />
+                </IconButton>
+                <IconButton
+                  target="_blank"
+                  title="Reisetra instagram"
+                  href={config.socials.instagram}
+                  disableRipple
+                  disableFocusRipple
+                  disableTouchRipple
+                  className={classes.socialsicon}
+                >
+                  <Instagram />
+                </IconButton>
+                <IconButton
+                  target="_blank"
+                  title="Reisetra whatsapp"
+                  href={config.socials.whatsapp}
+                  disableRipple
+                  disableFocusRipple
+                  disableTouchRipple
+                  className={classes.socialsicon}
+                >
+                  <WhatsApp />
+                </IconButton>
+              </ButtonGroup>
+            </Box>
           </Box>
         </Box>
       </Container>

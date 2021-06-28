@@ -1,4 +1,5 @@
 import { useMutation } from "react-query";
+import { login, useAuthDispatch } from ".";
 import { refreshAuthToken, loginEmailForgotPassword, oauthGoogleVerify, loginEmail, signupEmail, loginEmailResetPassword } from "../api/auth";
 import { updateSnackBar, useGlobalDispatch } from "../global";
 import { analytics } from "../utils";
@@ -45,13 +46,20 @@ export const useVerifyGoogleLogin = () => {
 };
 export const useUserEmailLogin = () => {
   const dispatch = useGlobalDispatch();
+  const authDispatch = useAuthDispatch();
   return useMutation(loginEmail, {
-    onSuccess: () => {
+    onSuccess: ({data}) => {
       dispatch(updateSnackBar({
-        message: 'Email login success',
+        message: 'Logged In Successfully',
         type: "success",
         open: true,
       }));
+      authDispatch(
+        login({
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+        })
+      );
       analytics.login();
     },
     onError: (error) => {
