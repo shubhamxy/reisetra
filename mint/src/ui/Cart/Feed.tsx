@@ -165,7 +165,7 @@ export function Cart({ data, handleClose }) {
                 <Typography>Subtotal</Typography>
               </Grid>
               <Grid item>
-                <Typography>₹ {String(data.subTotal)}</Typography>
+                <Typography>₹ {String(data.subTotal || 0)}</Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} container>
@@ -173,7 +173,7 @@ export function Cart({ data, handleClose }) {
                 <Typography>Taxes</Typography>
               </Grid>
               <Grid item>
-                <Typography>₹ {data.tax}</Typography>
+                <Typography>₹ {data.tax || 0}</Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} container>
@@ -182,7 +182,7 @@ export function Cart({ data, handleClose }) {
               </Grid>
               <Grid item>
                 <Typography>
-                  {data.shipping === 0 ? "Free" : `₹ ${data.shipping}`}
+                  {data.shipping === 0 ? "Free" : `₹ ${data.shipping || 0}`}
                 </Typography>
               </Grid>
             </Grid>
@@ -191,7 +191,7 @@ export function Cart({ data, handleClose }) {
                 <Typography>Total</Typography>
               </Grid>
               <Grid item>
-                <Typography>₹ {data.total}</Typography>
+                <Typography>₹ {data.total || 0}</Typography>
               </Grid>
             </Grid>
             {data["promo"] && (
@@ -213,7 +213,7 @@ export function Cart({ data, handleClose }) {
                   <Typography>Discount</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography> - ₹ {data.itemDiscount}</Typography>
+                  <Typography> - ₹ {data.itemDiscount || 0}</Typography>
                 </Grid>
               </Grid>
             )}
@@ -224,7 +224,7 @@ export function Cart({ data, handleClose }) {
                   <Typography>Grand Total</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography>₹ {data["grandTotal"]}</Typography>
+                  <Typography>₹ {data["grandTotal"] || 0}</Typography>
                 </Grid>
               </Grid>
             )}

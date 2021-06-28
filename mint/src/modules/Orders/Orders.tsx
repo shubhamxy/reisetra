@@ -18,7 +18,7 @@ export function Orders() {
   return (
     <Grid container alignContent="center" justify="center" direction="column">
       <Grid container item xs={12}>
-        <Grid item xs={12} justify="space-between" style={{ display: "flex" }}>
+        <Grid item xs={12} style={{ display: "flex" }}>
           <ButtonGroup>
             {/* <Button
               variant="contained"

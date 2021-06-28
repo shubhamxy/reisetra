@@ -252,6 +252,7 @@ export function Filters({
               const isSelected = value === item.value;
               return (
                 <ListItem
+                  key={item.value}
                   disableGutters
                   title={`${item.value} stars and up`}
                   onClick={(e) => {
@@ -302,6 +303,7 @@ export function Filters({
               const isSelected = value.includes(item.label);
               return (
                 <Chip
+                  key={item.label}
                   onClick={(e) => {
                     if (isSelected) {
                       setFieldValue(filter, [
@@ -319,7 +321,6 @@ export function Filters({
                       );
                     }
                   }}
-                  key={item.label}
                   className={clsx(
                     classes.taglistitem,
                     isSelected ? classes.taglistitemSelected : ""
@@ -350,6 +351,7 @@ export function Filters({
               const isSelected = value.includes(item.label);
               return (
                 <Chip
+                  key={item.label}
                   onClick={(e) => {
                     if (isSelected) {
                       setFieldValue(filter, undefined);
@@ -358,7 +360,6 @@ export function Filters({
                     }
                   }}
                   clickable
-                  key={item.label}
                   className={classes.taglistitem}
                   // disabled={values[filter] === item.label}
                   label={

@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function Addresses({ title = "Addresses", defaultExpanded = true, selected, setSelected, header }) {
+export function Addresses({ title = "Addresses", defaultExpanded = true, selected, setSelected, header, children }) {
   const classes = useStyles();
   const userAddresses = useAddresses({}, {
     onSuccess: ({pages}) => {
@@ -237,6 +237,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
             </Grid>
           </Grid>
         </AccordionDetails>
+        {children}
       </Accordion>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle>{selected ? 'Edit' : 'Add'} Address</DialogTitle>

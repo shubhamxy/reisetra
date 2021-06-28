@@ -76,7 +76,7 @@ export function ProductCard({ data }) {
           </IconButton>
         </Grid>
         <Grid container item xs direction="column">
-          <Grid item xs={12} style={{display: 'flex'}} justify="space-between" direction="row">
+          <Grid item xs={12} style={{display: 'flex'}} direction="row">
             {data.quantity && (
               <Typography
                 className={classes.subText}
@@ -111,7 +111,7 @@ export function ProductCard({ data }) {
             )}
           </Grid>
 
-          <Grid item xs={12} style={{display: 'flex'}} justify="space-between" direction="row">
+          <Grid item xs={12} style={{display: 'flex'}} direction="row">
             <Typography
               className={classes.subText}
               variant="body1"

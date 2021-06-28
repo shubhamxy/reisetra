@@ -142,7 +142,7 @@ export function List(props: ListProps) {
               className={clsx(classes.list, "scrollbar")}
               {...listProps}
             >
-              {[...data, ...data, ...data].map((item, index) => (
+              {data.map((item, index) => (
                 <MaterialListItem
                   className={classes.listItem}
                   key={keyExtractor(item, index)}

@@ -176,43 +176,48 @@ export function Checkout() {
               setSelected={(value) => {
                 setFieldValue("address", value);
               }}
+              children={
+                <>
+                <Grid container item xs={12}>
+                  <Grid item xs={12} style={{ padding: 16 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="secondary"
+                          name="isBillingAddressSame"
+                          checked={values.isBillingAddressSame}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setFieldValue("isBillingAddressSame", true);
+                            } else {
+                              setFieldValue("isBillingAddressSame", false);
+                            }
+                          }}
+                        />
+                      }
+                      label="Billing address is same as shipping"
+                    />
+                  </Grid>
+                </Grid>
+                {!values.isBillingAddressSame && (
+                  <Grid item xs={12}>
+                    <Addresses
+                      children={null}
+                      title="Billing Address"
+                      header={false}
+                      selected={values.billingAddress}
+                      setSelected={(value) => {
+                        setFieldValue("billingAddress", value);
+                      }}
+                    />
+                  </Grid>
+                )}
+                </>
+              }
             />
           </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={12} style={{ paddingTop: 16, paddingBottom: 16 }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="secondary"
-                    name="isBillingAddressSame"
-                    checked={values.isBillingAddressSame}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFieldValue("isBillingAddressSame", true);
-                      } else {
-                        setFieldValue("isBillingAddressSame", false);
-                      }
-                    }}
-                  />
-                }
-                label="Billing address is same as shipping"
-              />
-            </Grid>
-          </Grid>
-          {!values.isBillingAddressSame && (
-            <Grid item xs={12}>
-              <Addresses
-                title="Billing Address"
-                header={false}
-                selected={values.billingAddress}
-                setSelected={(value) => {
-                  setFieldValue("billingAddress", value);
-                }}
-              />
-            </Grid>
-          )}
         </Grid>
-        <Grid container item xs={12} direction="row" spacing={2} alignItems="center" alignContent="center">
+        <Grid container style={{marginTop: 24}} item xs={12} direction="row" spacing={2} alignItems="center" alignContent="center">
           <Grid item>
             <TextField
               id="promo"

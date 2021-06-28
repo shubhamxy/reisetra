@@ -503,7 +503,7 @@ export function AppHeader() {
             {renderSearchBar}
             <div className={classes.sectionDesktop}>
               {NavigationMenu.map((item) => (
-                <MenuItem className={classes.menuPaperItem}>
+                <MenuItem className={classes.menuPaperItem} key={item.link}>
                   <Link href={item.link}>
                     <Button
                       variant="text"

@@ -25,6 +25,7 @@ export interface Config {
     gaMeasurementId: string;
     enableMixpanel: boolean;
     mixpanelToken: string;
+    logrocketToken: string;
   },
   socials: {
     instagram: string;
@@ -63,6 +64,7 @@ export const config: Config = {
     enableMixpanel: !!process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
     // ref https://mixpanel.com/report/2463627/view/3006479/live
     mixpanelToken: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
+    logrocketToken: process.env.NEXT_PUBLIC_LOGROCKET_TOKEN,
   },
   socials: {
     facebook: process.env.NEXT_PUBLIC_SOCIALS_FACEBOOK || "https://www.facebook.com/",

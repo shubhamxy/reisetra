@@ -10,6 +10,7 @@ import { config } from "../libs/rock/config";
 import "nprogress/nprogress.css";
 import "../assets/styles/main.css";
 import { analytics } from "../libs/rock/utils";
+analytics.initialize();
 
 Router.events.on("routeChangeStart", () => {
   NProgress.start();

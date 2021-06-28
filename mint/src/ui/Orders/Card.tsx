@@ -88,7 +88,7 @@ export function OrderCard({ data, selected, setSelected }) {
           </Grid>
           <Grid item>
             <Typography className={classes.subtext}>
-              {shipping === 0 ? "Free" : `₹${shipping}`}
+              {shipping === 0 ? "Free" : `₹${shipping || 0}`}
             </Typography>
           </Grid>
         </Grid>
@@ -97,7 +97,7 @@ export function OrderCard({ data, selected, setSelected }) {
             <Typography className={classes.subtext}>Total</Typography>
           </Grid>
           <Grid item>
-            <Typography className={classes.subtext}>₹{total}</Typography>
+            <Typography className={classes.subtext}>₹{total || 0}</Typography>
           </Grid>
         </Grid>
         {promo && (
@@ -120,7 +120,7 @@ export function OrderCard({ data, selected, setSelected }) {
             </Grid>
             <Grid item>
               <Typography className={classes.subtext}>
-                -₹{itemDiscount}
+                -₹{itemDiscount || 0}
               </Typography>
             </Grid>
           </Grid>
@@ -132,7 +132,7 @@ export function OrderCard({ data, selected, setSelected }) {
               <Typography className={classes.subtext}>Grand Total</Typography>
             </Grid>
             <Grid item>
-              <Typography className={classes.subtext}>₹{grandTotal}</Typography>
+              <Typography className={classes.subtext}>₹{grandTotal || 0}</Typography>
             </Grid>
           </Grid>
         )}

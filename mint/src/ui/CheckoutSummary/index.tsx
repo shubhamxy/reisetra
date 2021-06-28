@@ -125,7 +125,7 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  ₹{String(data["subTotal"])}
+                  ₹{String(data["subTotal"] || 0)}
                 </Typography>
               </Grid>
             </Grid>
@@ -135,7 +135,7 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  ₹{data["tax"]}
+                  ₹{data["tax"] || 0}
                 </Typography>
               </Grid>
             </Grid>
@@ -147,7 +147,7 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  {data["shipping"] === 0 ? "Free" : `₹${data["shipping"]}`}
+                  {data["shipping"] === 0 ? "Free" : `₹${data["shipping"] || 0}`}
                 </Typography>
               </Grid>
             </Grid>
@@ -157,7 +157,7 @@ export function CheckoutSummary() {
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  ₹{data["total"]}
+                  ₹{data["total"] || 0}
                 </Typography>
               </Grid>
             </Grid>
@@ -181,7 +181,7 @@ export function CheckoutSummary() {
                 </Grid>
                 <Grid item>
                   <Typography className={classes.subtext}>
-                    -₹{data["itemDiscount"]}
+                    -₹{data["itemDiscount"] || 0}
                   </Typography>
                 </Grid>
               </Grid>
@@ -196,7 +196,7 @@ export function CheckoutSummary() {
                 </Grid>
                 <Grid item>
                   <Typography className={classes.subtext}>
-                    ₹{data["grandTotal"]}
+                    ₹{data["grandTotal"] || 0}
                   </Typography>
                 </Grid>
               </Grid>

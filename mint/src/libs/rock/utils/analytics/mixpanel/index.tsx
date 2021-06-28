@@ -1,19 +1,23 @@
 import mixpanel from "mixpanel-browser";
-import { UserProfile } from "../../api/user";
-import { config } from "../../config";
+import { UserProfile } from "../../../api/user";
+import { config, isBrowser } from "../../../config";
 import {
   Events,
   mapUserProperties,
   User,
   UserState,
   Properties,
-} from "./types";
+} from "../types";
 
-mixpanel.init(config.analytics.mixpanelToken, {
-  debug: !config.isProduction,
-  autotrack: true,
-  ignore_dnt: true,
-});
+export function initialize() {
+  if (isBrowser && config.analytics.enableMixpanel) {
+    mixpanel.init(config.analytics.mixpanelToken, {
+      debug: !config.isProduction,
+      autotrack: true,
+      ignore_dnt: true,
+    });
+  }
+}
 
 export function pageView(pathName) {
   mixpanel.track(Events.page_loaded, {

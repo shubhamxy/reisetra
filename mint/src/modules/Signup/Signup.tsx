@@ -305,12 +305,11 @@ export function SignUp() {
                 helperText={touched.password ? errors.password : ""}
                 placeholder="e.g. ••••••••"
               />
-              <Grid item direction="column" justify="center">
+              <Grid item direction="column">
                 <Grid
                   item
                   alignItems="center"
                   alignContent="center"
-                  justify="center"
                 >
                   <FormControlLabel
                     control={

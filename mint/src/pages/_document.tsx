@@ -10,7 +10,6 @@ import { config, GoogleSignInScript, GTagNoscript, GTagScript, WithTheme } from 
 const getCache = () => {
   const cache = createCache({ key: "css", prepend: true });
   cache.compat = true;
-
   return cache;
 };
 

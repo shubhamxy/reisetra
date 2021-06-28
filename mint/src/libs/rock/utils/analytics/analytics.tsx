@@ -2,9 +2,19 @@ import { NextWebVitalsMetric } from "next/dist/next-server/lib/utils";
 import { MetricsName, Metrics } from "./types";
 import * as mixpanel from "./mixpanel";
 import * as gtag from "./gtag";
+import * as logrocket from './logrocket';
 import { UserProfile } from "../../api/user";
 
-export function pageView(pathName: string) {
+export async function initialize() {
+  try {
+    mixpanel.initialize();
+    logrocket.initialize();
+  } catch (error) {
+    console.log("analytics ->", error);
+  }
+}
+
+export async function pageView(pathName: string) {
   if (!pathName) {
     return;
   }
@@ -25,7 +35,7 @@ export async function login() {
   }
 }
 
-export function logout() {
+export async function logout() {
   try {
     mixpanel.logout();
     gtag.logout();
@@ -34,19 +44,20 @@ export function logout() {
   }
 }
 
-export function identify(user: Partial<UserProfile>) {
+export async function identify(user: Partial<UserProfile>) {
   if (!user) {
     return;
   }
   try {
     mixpanel.identify(user);
     gtag.identify(user);
+    logrocket.identify(user);
   } catch (error) {
     console.log("analytics ->", error);
   }
 }
 
-export function metrics(metric: NextWebVitalsMetric) {
+export async function metrics(metric: NextWebVitalsMetric) {
   if (!metric) {
     return;
   }
@@ -60,7 +71,6 @@ export function metrics(metric: NextWebVitalsMetric) {
       [Metrics.metric_name]: MetricsName[metric.name],
       [Metrics.metric_value]: metricValue,
     };
-
     mixpanel.metrics(data);
     gtag.metrics(data);
   } catch (error) {

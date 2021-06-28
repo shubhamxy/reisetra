@@ -218,7 +218,7 @@ export function ResetPassword() {
       <Grid
         item
         className={classes.header}
-        alignContent="center"
+        // alignContent="center"
         justify="center"
         direction="column"
       >

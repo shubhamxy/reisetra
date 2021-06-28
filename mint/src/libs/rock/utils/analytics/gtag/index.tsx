@@ -1,18 +1,18 @@
-import { UserProfile } from "../../api/user";
-import { config, isBrowser } from "../../config";
+import { UserProfile } from "../../../api/user";
+import { config, isBrowser } from "../../../config";
 import {
   Events,
   initial_props,
   mapUserProperties,
   User,
   UserState,
-} from "./types";
+} from "../types";
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageView = (pathName: string) => {
   if (isBrowser && typeof window["gtag"] === "function") {
     // @ts-ignore
-    window.gtag("config", config.analytics.gaMeasurementId , {
+    window.gtag("config", config.analytics.gaMeasurementId, {
       ...initial_props,
       page_path: pathName,
     });
@@ -59,14 +59,12 @@ export function logout() {
 }
 
 export function identify(user: Partial<UserProfile>) {
-  if (user.id) {
-    if (isBrowser && typeof window["gtag"] === "function") {
-      // @ts-ignore
-      window.gtag("config", config.analytics.gaMeasurementId, {
-        ...mapUserProperties(user),
-        "user_id": user.id,
-      });
-    }
+  if (isBrowser && typeof window["gtag"] === "function" && user.id) {
+    // @ts-ignore
+    window.gtag("config", config.analytics.gaMeasurementId, {
+      ...mapUserProperties(user),
+      user_id: user.id,
+    });
   }
 }
 

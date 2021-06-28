@@ -38,10 +38,10 @@ export const mapUserProperties = (user: Partial<UserProfile>) => ({
   [User.email]: user.email,
   [User.name]: user.name,
   [User.phone]: user.phone,
-  [User.date_of_birth]: user.dateOfBirth,
+  [User.date_of_birth]: user.dateOfBirth ? user.dateOfBirth.toString() : '',
   [User.active]: true,
-  [User.created_at]: user.createdAt,
-  [User.updated_at]: user.updatedAt,
+  [User.created_at]: user.createdAt ? user.createdAt.toString() : '',
+  [User.updated_at]: user.updatedAt ? user.updatedAt.toString() : '',
 });
 
 export const initial_props = {
