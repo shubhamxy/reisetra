@@ -1,19 +1,21 @@
 import { Params } from "nestjs-pino";
-import { createLogger } from "logzio-nodejs";
+import { createLogger, ILogzioLogger } from "logzio-nodejs";
 import { statusText } from "../utils/statusText";
 import { app } from "./app";
-import {services} from "./services";
+import { services } from "./services";
 const serviceEnv = services();
 const appEnv = app();
-const logger = createLogger({
-  supressErrors: true,
-  token: serviceEnv.logzio.token,
-  host: serviceEnv.logzio.host,
-  protocol: "https",
-  port: "8071",
-  type: "nodejs",
-});
-
+let logger: ILogzioLogger;
+if (serviceEnv.logzio.enable) {
+  logger = createLogger({
+    supressErrors: true,
+    token: serviceEnv.logzio.token,
+    host: serviceEnv.logzio.host,
+    protocol: "https",
+    port: "8071",
+    type: "nodejs",
+  });
+}
 const icons = {
   10: "🔵",
   20: "🔵",
@@ -53,8 +55,13 @@ export const pinoConfig: Params = {
       translateTime: "dd-mm-yyyy HH:MM:ss.l",
       messageFormat: function (log) {
         let suffix = "";
-        if(log['req']) {
-          log["ip"] = (log["req"]['ip'] || log["req"]["headers"]["x-forwarded-for"] || (log["req"]["socket"] ? log["req"]["socket"]["remoteAddress"] : log["req"]["remoteAddress"]));
+        if (log["req"]) {
+          log["ip"] =
+            log["req"]["ip"] ||
+            log["req"]["headers"]["x-forwarded-for"] ||
+            (log["req"]["socket"]
+              ? log["req"]["socket"]["remoteAddress"]
+              : log["req"]["remoteAddress"]);
         }
         if (log["req"] && log["req"]["id"]) suffix = `| 👨‍💻 ${log["req"]["id"]}`;
         if (log["responseTime"])
