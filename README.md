@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="http://reisetra.com">
-    <img src='./mint/public/icons/logo.dark.png' alt="Reisetra Logo" width="30%" />
+    <img src='./packages/mint/public/icons/logo.dark.png' alt="Reisetra Logo" width="30%" />
   </a>
 </p>
 <p align="center">
