@@ -3,8 +3,9 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "mint",
-      "soda"
+      "packages/mint",
+      "packages/soda",
+      "packages/rocks"
     ],
     "nohoist": [
       "**"
@@ -16,11 +17,9 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "@types/jest": "^26.0.22",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^6.0.0",
-    "ts-jest": "^26.5.4"
+    "husky": "^6.0.0"
   },
   "config": {
     "commitizen": {
@@ -32,14 +31,14 @@
     "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
-    "build:soda": "yarn workspace soda build",
-    "start:soda": "yarn workspace soda start:prod",
-    "stop:soda": "yarn workspace soda stop:prod",
-    "dev:soda": "yarn workspace soda dev",
     "deploy:soda": "./scripts/deploy.sh",
-    "build:mint": "yarn workspace mint build",
-    "start:mint": "yarn workspace mint start",
-    "dev:mint": "yarn workspace mint dev",
-    "deploy:mint": ""
+    "build:soda": "yarn workspace @reisetra/soda build",
+    "start:soda": "yarn workspace @reisetra/soda start:prod",
+    "stop:soda": "yarn workspace @reisetra/soda stop:prod",
+    "dev:soda": "yarn workspace @reisetra/soda dev",
+    "deploy:mint": "",
+    "build:mint": "yarn workspace @reisetra/mint build",
+    "start:mint": "yarn workspace @reisetra/mint start",
+    "dev:mint": "yarn workspace @reisetra/mint dev"
   }
 }

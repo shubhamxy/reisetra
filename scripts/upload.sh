@@ -21,7 +21,7 @@ echo
 echo "*** Uploading server to $_remote ***"
 echo
 
-rsync -avz -e "ssh -i ~/.ssh/aws/Soda.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --exclude-from './scripts/exclude-list' --progress soda ubuntu@api.reisetra.com:~/server
+rsync -avz -e "ssh -i ~/.ssh/aws/Soda.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --exclude-from './scripts/exclude-list' --progress packages/soda ubuntu@api.reisetra.com:~/server
 
 echo
 echo "*** Deploying server on $_remote ***"
