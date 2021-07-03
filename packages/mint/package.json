@@ -39,8 +39,7 @@
     "slate-history": "^0.62.0",
     "slate-react": "^0.63.0",
     "use-debounce": "^6.0.1",
-    "yup": "^0.32.9",
-    "@reisetra/rocks": "^1.0.0"
+    "yup": "^0.32.9"
   },
   "scripts": {
     "dev": "next",
