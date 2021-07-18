@@ -132,8 +132,12 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       primary,
       secondary,
       background: {
-        default: type === "dark" ? "#000000" : "#ffffff",
-        paper: type === "dark" ? "#121212" : "#fcfcfc",
+        default: type === "dark" ? "#070708" : "#f7f9fc",
+        paper: type === "dark" ? "#121212" : "#f6f7f8",
+      },
+      text: {
+        primary: type === "dark" ?  "#eeeeee" : "#1c1c1c",
+        secondary: type === "dark" ? "#f6f7f8" : "#202020",
       },
       error,
       warning,
@@ -141,7 +145,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       success,
       grey,
       contrastThreshold: 3,
-      tonalOffset: 0.2,
+      tonalOffset: 0.4,
       action: {
         disabledBackground: primary.main,
         disabled: "#fafafa",
@@ -377,12 +381,21 @@ export function useTheme(){
     storage.put.dark_mode(!dark_mode);
   }
   useEffect(() => {
-    const btn = document.getElementById("dark_mode_button");
-    if(!btn) {
-      return;
+    let btn;
+    // !!fixme
+    const timer = setTimeout(() => {
+      btn = document.getElementById("dark_mode_button");
+      if(btn){
+        btn.addEventListener("click", update);
+      }
+    }, 500)
+
+    return () => {
+      clearTimeout(timer)
+      if(btn){
+        btn?.removeEventListener?.("click", update);
+      }
     }
-    btn.addEventListener("click", update);
-    return () => btn.removeEventListener("click", update);
   }, []);
   return useMemo(
     () =>

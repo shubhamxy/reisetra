@@ -70,7 +70,7 @@ const IndexPage = () => {
         <Grid container item xs={12} className={classes.content}>
           <Grid item xs={12}>
             <Box className={classes.titleContainer}>
-              <Typography variant="h4">{"Recommended"}</Typography>
+              <Typography variant="h5">{"Recommended"}</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -94,7 +94,7 @@ const IndexPage = () => {
         <Grid container item xs={12} className={classes.content}>
           <Grid item xs={12}>
             <Box className={classes.titleContainer}>
-              <Typography variant="h4">{"New Arrivals"}</Typography>
+              <Typography variant="h5">{"New Arrivals"}</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -105,7 +105,7 @@ const IndexPage = () => {
         <Grid container item xs={12} className={classes.content}>
           <Grid item xs={12}>
             <Box className={classes.titleContainer}>
-              <Typography variant="h4">{"Collections"}</Typography>
+              <Typography variant="h5">{"Collections"}</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -116,7 +116,7 @@ const IndexPage = () => {
         <Grid container item xs={12} className={classes.content}>
           <Grid item xs={12}>
             <Box className={classes.titleContainer}>
-              <Typography variant="h4">{"Recommended Categories"}</Typography>
+              <Typography variant="h5">{"Recommended Categories"}</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>

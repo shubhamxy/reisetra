@@ -4,12 +4,14 @@ import clsx from "clsx";
 import { ClassNameMap } from "@material-ui/styles";
 const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((theme) => ({
   wrapper: ({hasHeader, hasFooter}) => ({
-    ...(hasHeader && hasFooter ? {
-      backgroundImage: `linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
-      backgroundPosition: "top, bottom",
-      backgroundSize: "100% 14px, 100% 14px",
-      backgroundRepeat: "no-repeat",
-    } : {}),
+    "@supports (backdrop-filter: none)": {
+      ...(hasHeader && hasFooter ? {
+        backgroundImage: `linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
+        backgroundPosition: "top, bottom",
+        backgroundSize: "100% 8px, 100% 8px",
+        backgroundRepeat: "no-repeat",
+      } : {}),
+    },
     display: "flex",
     flex: 1,
     flexDirection: "column",
@@ -36,7 +38,8 @@ const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((t
     display: "flex",
     alignItems: "center",
     width: '100%',
-    padding: 24,
+    padding: 8,
+    paddingBottom: 24,
   },
   // middle part
   content: {},
@@ -57,7 +60,7 @@ const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((t
     flexDirection: "column",
     overflow: "hidden",
     flexWrap: "wrap",
-    padding: 24,
+    padding: 8,
     [theme.breakpoints.down('sm')]: {
       padding: 0,
     }

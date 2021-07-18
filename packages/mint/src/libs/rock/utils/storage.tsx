@@ -54,7 +54,7 @@ export const storage = {
     dark_mode: function dark_mode(darkmode: boolean) {
       if (isBrowser) {
         try {
-          window?.sessionStorage?.setItem?.(
+          window?.localStorage?.setItem?.(
             LS_KEY.dark_mode,
             darkmode ? "1" : "0"
           );
@@ -93,7 +93,7 @@ export const storage = {
     dark_mode: function dark_mode(): boolean | undefined {
       if (isBrowser) {
         try {
-          const data = window?.sessionStorage?.getItem?.(LS_KEY.dark_mode);
+          const data = window?.localStorage?.getItem?.(LS_KEY.dark_mode);
           return data === '0' ? false : data === '1' ? true : undefined;
         } catch (error) {
           console.error("storage", error);
@@ -121,7 +121,7 @@ export const storage = {
     },
     dark_mode: function dark_Mode() {
       if (isBrowser) {
-        window?.sessionStorage?.removeItem?.(LS_KEY.dark_mode);
+        window?.localStorage?.removeItem?.(LS_KEY.dark_mode);
       }
     },
   },

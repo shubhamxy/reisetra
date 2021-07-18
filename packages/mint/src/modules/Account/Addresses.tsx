@@ -147,7 +147,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
 
   return (
     <Grid className={classes.root}>
-      <Accordion color="primary"  defaultExpanded={defaultExpanded} variant="outlined" >
+      <Accordion color="primary"  defaultExpanded={defaultExpanded} variant="outlined" style={{border: 'none'}} >
         <AccordionSummary color="primary" expandIcon={<ExpandMoreIcon />}>
           <Typography
             variant="subtitle2"

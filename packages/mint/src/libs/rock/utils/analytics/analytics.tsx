@@ -6,7 +6,7 @@ import * as logrocket from './logrocket';
 import { UserProfile } from "../../api/user";
 import { config, isBrowser } from "../../config";
 function caller(fnName: string, ...params) {
-  if(!isBrowser) {return}
+  if(!isBrowser || !config.isProduction) {return}
   if (config.analytics.enableMixpanel) {
     mixpanel[fnName]?.(...params);
   }
@@ -77,7 +77,7 @@ export async function metrics(metric: NextWebVitalsMetric) {
       [Metrics.metric_name]: MetricsName[metric.name],
       [Metrics.metric_value]: metricValue,
     };
-    caller('metrics', metric);
+    caller('metrics', data);
   } catch (error) {
     console.error("analytics", error);
   }

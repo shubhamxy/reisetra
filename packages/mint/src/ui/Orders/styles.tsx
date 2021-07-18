@@ -55,4 +55,7 @@ export const useStyles = makeStyles(theme => ({
       boxShadow: `0px 0px 0px 4px#d0f20f33`,
     },
   }),
+  statusOverlay: {
+    position: 'absolute',
+  }
 }));
