@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Paper,
   Box,
@@ -9,11 +9,13 @@ import {
   Button,
   Grid,
   ButtonGroup,
+  useTheme,
 } from "@material-ui/core";
 import { List } from "../List/List";
 import { OrderCard } from "./Card";
 import { Footer } from "../List";
 import { getTotalCount, getTotalDataCount } from "../../libs/rock/utils/data";
+import { useCancelOrder, useOrders, useUpdateOrder } from "../../libs";
 
 export const useStyles = makeStyles((theme) => ({
   root: { height: "100%", display: "flex", flexDirection: "column", flex: 1 },
@@ -28,14 +30,20 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function OrderList({ data, hasNextPage, fetchNextPage, selected, setSelected }) {
+export function OrderList() {
   const classes = useStyles();
+  const [selected, setSelected] = useState();
+  const userOrders = useOrders();
+  const cancelOrder = useCancelOrder();
+  const updateOrder = useUpdateOrder();
+  const theme = useTheme();
   return (
     <Box overflow="auto" className="scrollbar">
       <List
         classes={{ list: classes.list }}
-        data={data}
+        data={userOrders.data}
         variant="infinite"
+
         ListEmptyComponent={
           <Box
             display="flex"
@@ -49,7 +57,12 @@ export function OrderList({ data, hasNextPage, fetchNextPage, selected, setSelec
           </Box>
         }
         renderItem={({ item, index }) => (
-          <OrderCard key={index} data={item} selected={selected} setSelected={setSelected} />
+          <OrderCard
+            key={index}
+            data={item}
+            selected={selected}
+            setSelected={setSelected}
+          />
         )}
         ListLoadingComponent={
           <Box
@@ -65,10 +78,10 @@ export function OrderList({ data, hasNextPage, fetchNextPage, selected, setSelec
         }
         ListFooterComponent={
           <Footer
-            hasNextPage={hasNextPage}
-            fetchNextPage={fetchNextPage}
-            totalDataCount={getTotalDataCount(data)}
-            totalCount={getTotalCount(data)}
+            hasNextPage={userOrders?.hasNextPage}
+            fetchNextPage={userOrders?.fetchNextPage}
+            totalDataCount={getTotalDataCount(userOrders?.data)}
+            totalCount={getTotalCount(userOrders?.data)}
             // isLoading={isLoading}
           />
         }

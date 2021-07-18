@@ -45,6 +45,9 @@ export class OrderService {
           },
         },
         where: {
+          transaction: {
+            status: 'SUCCESS',
+          },
           active: true,
         },
         prisma: this.db,
@@ -79,6 +82,9 @@ export class OrderService {
         orderDirection,
         model: "order",
         where: {
+          transaction: {
+            status: 'SUCCESS',
+          },
           userId,
           active: true,
         },

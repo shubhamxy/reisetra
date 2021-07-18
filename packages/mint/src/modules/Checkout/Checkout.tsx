@@ -60,29 +60,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Checkout() {
+export function Checkout({cart, promo, data}) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const classes = useStyles();
   const updateTransaction = useUpdateTransaction();
-  const queryClient = useQueryClient();
   const cartCheckout = useCartCheckout();
   const ref = useRef(null);
-  const authState = useAuthState();
-  const globalState = useGlobalState();
-  const { data: response } = useCartItems(
-    authState?.user?.cart.id,
-    globalState?.promo || null
-  );
   const dispatch = useGlobalDispatch();
-  const { user, isHydrated } = authState;
-  const { cart = {} } = user || {};
-  const router = useRouter();
-  useEffect(() => {
-    if (isHydrated && !cart.id) {
-      router.push(`/login?ref=${encodeURIComponent(router.asPath)}`);
-      return;
-    }
-  }, [cart, isHydrated]);
   useEffect(() => {
     const razorpay = window.document.createElement("script");
     razorpay.async = false;
@@ -96,7 +81,7 @@ export function Checkout() {
     address: "",
     billingAddress: "",
     isBillingAddressSame: true,
-    promo: globalState.promo || "",
+    promo: promo || "",
   };
   const {
     values,
@@ -121,7 +106,7 @@ export function Checkout() {
         {
           cartId: cart.id,
           addressId: data["address"],
-          promo: globalState.promo,
+          promo: promo,
         },
         {
           onSuccess: ({ data }) => {
@@ -163,6 +148,7 @@ export function Checkout() {
     // @ts-ignore
     ref.current = new window.Razorpay({
       handler: onSuccess,
+      image: 'https://www.reisetra.com/icons/logo.png',
       ...data.razorpayOptions,
     });
     ref.current.on("payment.failed", onError);
@@ -172,9 +158,9 @@ export function Checkout() {
   return (
     <Grid container className={classes.layout}>
       <Grid container item xs={12}>
-        <Grid item xs={12} style={{ paddingBottom: 46 }}>
-          <Typography variant="h6" gutterBottom>
-            Shipping Information
+        <Grid item xs={12} style={{ paddingBottom: 12 }}>
+          <Typography variant="h6">
+            Shipping
           </Typography>
         </Grid>
         <Grid container item xs={12}>
@@ -186,6 +172,7 @@ export function Checkout() {
               setSelected={(value) => {
                 setFieldValue("address", value);
               }}
+              defaultExpanded
               children={
                 <>
                 <Grid container item xs={12}>
@@ -241,10 +228,10 @@ export function Checkout() {
               helperText={touched.promo ? errors.promo : ""}
             />
           </Grid>
-          <Grid item>
+          <Grid item container direction="row" xs>
             <Button
               variant="contained"
-              size="large"
+              size="medium"
               color="secondary"
               onClick={(e) => {
                 dispatch(updatePromo(values.promo));
@@ -252,9 +239,9 @@ export function Checkout() {
             >
               Apply
             </Button>
-            <Box display="flex" alignItems="center" justifyContent="center" pl={1.6} pr={1.6}>
+            <Box display="flex" alignItems="center" justifyContent="center" pl={1.6}>
               <Typography variant="caption">
-                {response?.['data']?.['promo'] ? `${response?.['data']?.['promo']} applied` : ''}
+                {data?.['promo'] ? `${data['promo']} applied!` : ''}
               </Typography>
             </Box>
           </Grid>

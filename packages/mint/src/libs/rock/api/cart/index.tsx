@@ -24,7 +24,7 @@ interface PaginationParams {
 }
 
 export function getCart({ queryKey }: {queryKey: [string, {cartId: string, promo: string}]}) {
-  return get(`cart/${queryKey[1].cartId}${queryKey[1].promo ? `?promo=${queryKey[1]}`: ''}`);
+  return get(`cart/${queryKey[1].cartId}${queryKey[1].promo ? `?promo=${queryKey[1].promo}`: ''}`);
 }
 
 export function cartCheckout(body) {

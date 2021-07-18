@@ -2,6 +2,8 @@ import { registerAs } from "@nestjs/config";
 
 export interface ServicesEnv {
   razorpay: {
+    name: string,
+    description: string,
     razorpayKeyId: string;
     razorpaySecretKey: string;
   };
@@ -27,6 +29,8 @@ export interface ServicesEnv {
 
 export const services = (): ServicesEnv => ({
   razorpay: {
+    name: 'Reisetra',
+    description: 'Reisetra description',
     razorpayKeyId: process.env.RAZORPAY_KEY_ID,
     razorpaySecretKey: process.env.RAZORPAY_SECRET_KEY,
   },

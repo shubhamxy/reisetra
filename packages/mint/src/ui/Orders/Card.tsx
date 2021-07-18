@@ -2,6 +2,8 @@ import React from "react";
 import {
   AccordionSummary,
   Box,
+  Button,
+  ButtonGroup,
   Checkbox,
   Chip,
   FormControlLabel,
@@ -13,7 +15,9 @@ import { useStyles } from "./styles";
 import { useRouter } from "next/router";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { ExpandMore, Edit, Delete, Cancel } from "@material-ui/icons";
+import { OrderTimeline } from "./Timeline";
+import { useCancelOrder, useUpdateOrder } from "../../libs";
 function useHelper({ id }) {
   const router = useRouter();
   function handleClick(e) {
@@ -61,19 +65,21 @@ export function OrderCard({ data, selected, setSelected }) {
   const { handleClick } = useHelper({
     id,
   });
+  const cancelOrder = useCancelOrder();
+  const updateOrder = useUpdateOrder();
 
   const classes = useStyles({ status });
   const OrderSummary = (
-    <Grid item xs={6}>
+    <Grid item xs={6} style={{ position: "relative" }}>
       <Grid item xs={12} container alignItems="center" justify="center">
-      {cart && (
+        {cart && (
           <Grid item xs={12} container>
             <Grid item xs>
               <Typography className={classes.subtext}>Cart Items</Typography>
             </Grid>
             <Grid item>
               <Typography className={classes.subtext}>
-                {cart?.items?.length || '1'}
+                {cart?.items?.length || "1"}
               </Typography>
             </Grid>
           </Grid>
@@ -152,13 +158,8 @@ export function OrderCard({ data, selected, setSelected }) {
             </Grid>
           </Grid>
         )}
-
       </Grid>
-    </Grid>
-  );
 
-  const Address = (
-    <Grid item xs={6}>
       <Grid item xs={12} container alignItems="center" justify="center">
         <Grid item xs={12} container>
           <Grid item xs>
@@ -185,10 +186,7 @@ export function OrderCard({ data, selected, setSelected }) {
           </Grid>
           <Grid item style={{ paddingTop: 8.4 }}>
             <Chip
-              variant="default"
-              color="primary"
-              className={classes.chip}
-              clickable
+              variant="outlined"
               label={
                 <Typography
                   className={classes.subtext}
@@ -197,16 +195,22 @@ export function OrderCard({ data, selected, setSelected }) {
                   {String(status).toLowerCase()}
                 </Typography>
               }
-            ></Chip>
+            />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
+
+  const TimeLine = (
+    <Grid item xs={6} container alignItems="center" justify="center">
+      <OrderTimeline status={status} />
+    </Grid>
+  );
   return (
     <Accordion className={classes.root} variant="outlined">
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <FormControlLabel
+      <AccordionSummary expandIcon={<ExpandMore />}>
+        {/* <FormControlLabel
           aria-label="Acknowledge"
           onClick={(event) => {
             event.stopPropagation();
@@ -217,7 +221,7 @@ export function OrderCard({ data, selected, setSelected }) {
             }
           }}
           onFocus={(event) => event.stopPropagation()}
-          control={<Checkbox checked={id === selected} />}
+          control={<Checkbox color="primary" checked={id === selected} />}
           label={
             <Typography
               className={classes.heading}
@@ -225,17 +229,61 @@ export function OrderCard({ data, selected, setSelected }) {
               color="textPrimary"
               component="p"
             >
-              Ordered {formatDistance(new Date(createdAt), new Date(), {
-            addSuffix: true,
-          })}
+              Ordered
+              {formatDistance(new Date(createdAt), new Date(), {
+                addSuffix: true,
+              })}
             </Typography>
           }
-        />
+        /> */}
+        <Typography
+          className={classes.heading}
+          variant="body2"
+          color="textPrimary"
+          component="p"
+        >
+          Ordered{" "}
+          {formatDistance(new Date(createdAt), new Date(), {
+            addSuffix: true,
+          })}
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Grid container spacing={4}>
+          <Grid container item xs={12} justify="flex-end">
+            {status === "PENDING" && (
+              <ButtonGroup>
+                <Button
+                  size="medium"
+                  variant="text"
+                  color="primary"
+                  disabled
+                  onClick={() => {
+                    updateOrder.mutate({
+                      orderId: id,
+                      body: {
+                        ...data,
+                      },
+                    });
+                  }}
+                >
+                  <Edit style={{ height: 14, width: 14 }} />
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="medium"
+                  onClick={() => {
+                    cancelOrder.mutate(id);
+                  }}
+                >
+                  <Cancel style={{ height: 14, width: 14 }} />
+                </Button>
+              </ButtonGroup>
+            )}
+          </Grid>
           {OrderSummary}
-          {Address}
+          {TimeLine}
         </Grid>
       </AccordionDetails>
     </Accordion>

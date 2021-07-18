@@ -168,8 +168,8 @@ export class TransactionService {
             key: razorpayKeyId,
             amount: product.transaction.amount,
             currency: product.transaction.currency,
-            name: this.config.get<string>("app.name"),
-            description: this.config.get<string>("app.description"),
+            name: this.config.get<string>("services.razorpay.name"),
+            description: this.config.get<string>("services.razorpay.description"),
             order_id: product.transaction.paymentOrderId,
             prefill: {
               name: user.name,

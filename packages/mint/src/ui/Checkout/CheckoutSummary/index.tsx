@@ -13,12 +13,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as React from "react";
-import { useAuthState, useCartItems, useGlobalState } from "../../libs";
+import { useAuthState, useCartItems, useGlobalState } from "../../../libs";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      backgroundColor: "#1c2927",
+      backgroundColor: theme.palette.type === 'dark' ? "#21312e": '#09f1c6',
       padding: "24px 32px 24px 32px",
     },
     badge: {
@@ -79,20 +79,12 @@ const useStyles = makeStyles((theme) =>
     },
     subtext: {
       ...theme.typography.caption,
-      color: "#ffffff",
     },
   })
 );
 
-export function CheckoutSummary() {
+export function CheckoutSummary({data, title = "Order Summary", caption = "Grand total of your purchase"}) {
   const classes = useStyles();
-  const authState = useAuthState();
-  const globalState = useGlobalState();
-  const { data: response } = useCartItems(
-    authState?.user?.cart.id,
-    globalState?.promo || null
-  );
-  const data = response.data;
   return (
     <Paper className={classes.root}>
       <Box
@@ -103,12 +95,12 @@ export function CheckoutSummary() {
       >
         <Box pt={0.6} pb={0.6}>
           <Typography variant={"h5"}>
-            Order Summary
+            {title}
           </Typography>
         </Box>
 
         <Typography variant={"caption"} >
-          Grand total of your purchase
+         {caption}
         </Typography>
       </Box>
       <Box display={"flex"} flexDirection={"column"}>

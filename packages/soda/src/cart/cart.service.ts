@@ -39,7 +39,7 @@ function calculateBilling(
   cartItemsWithProduct.forEach((item) => {
     let itemPrice = item.quantity * item.product.price;
     subTotal += itemPrice;
-    tax += (Number(itemPrice) * Number(item.product.tax || 18.5)) / 100;
+    tax += Math.ceil(+itemPrice * (+item.product.tax || 0.185));
   });
   let total = subTotal + tax + shipping;
   let itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0;
@@ -47,10 +47,10 @@ function calculateBilling(
 
   return {
     subTotal,
-    tax,
+    tax: tax,
     shipping,
     itemDiscount,
-    total,
+    total: tax,
     promo: offer ? offer.label : null,
     discount: (total - grandTotal) / total * 100,
     grandTotal,
