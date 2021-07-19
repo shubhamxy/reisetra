@@ -8,6 +8,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import {
+  config,
   useAddresses,
   useAuthState,
   useCreateAddress,
@@ -90,16 +91,28 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
   const authState = useAuthState();
   const { user } = authState;
   const initialValues = {
-    fullname: "Shubham Jain",
-    address: "H 116, A-1 Sector 6, Rohini",
-    region: "Rohini",
-    nearby: "Aggarwal sweets",
-    zipcode: "110085",
-    city: "Delhi",
-    state: "Delhi",
+    fullname: "",
+    address: "",
+    region: "",
+    nearby: "",
+    zipcode: "",
+    city: "",
+    state: "",
     country: "India",
     email: user?.email || "",
-    phone: user?.phone || "+918123456789",
+    phone: user?.phone || "",
+    ...(config.isProduction ? {} : {
+      fullname: "Shubham Jain",
+      address: "H 116, A-1 Sector 6, Rohini",
+      region: "Rohini",
+      nearby: "Aggarwal sweets",
+      zipcode: "110085",
+      city: "Delhi",
+      state: "Delhi",
+      country: "India",
+      email: user?.email || "",
+      phone: user?.phone || "+918123456789",
+    }),
   };
 
   const {
@@ -239,7 +252,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
         </AccordionDetails>
         {children}
       </Accordion>
-      <Dialog open={open} onClose={handleClose} scroll="body">
+      <Dialog fullWidth open={open} onClose={handleClose} scroll="body">
         <DialogTitle>{selected ? 'Edit' : 'Add'} Address</DialogTitle>
         <DialogContent>
           <Grid container item xs={12} spacing={3}>

@@ -502,13 +502,13 @@ export default function ImagePreview({
       )}
 
       <Dialog
+        scroll="body"
         maxWidth="lg"
         keepMounted={false}
         open={openIndex > -1}
         fullWidth
         classes={{ paper: classes.paper, container: classes.previewContainer }}
         onClose={() => setOpenIndex(-1)}
-        scroll="paper"
         style={{ backgroundColor: "transparent" }}
       >
         {openIndex > -1 && data[openIndex]?.url && (

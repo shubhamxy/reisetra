@@ -176,6 +176,7 @@ export default function DocsPreview({
 	return (
 		<Box className={`${className ? className + " " : ""}${classes.root}`}>
 			<Dialog
+        scroll="body"
 				maxWidth="lg"
 				keepMounted={false}
 				open={isOpen}

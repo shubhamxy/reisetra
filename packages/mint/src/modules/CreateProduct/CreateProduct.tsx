@@ -11,6 +11,7 @@ import ProductDetails from "./ProductDetails";
 import ProductImages from "./ProductImages";
 import Summary from "./Review";
 import {
+  config,
   updateSnackBar,
   useCreateProduct,
   useGlobalDispatch,
@@ -165,7 +166,7 @@ export function CreateProduct({update = {}, isUpdate}) {
     styles: [],
     categories: [],
     brand: "",
-    ...{
+    ...(config.isProduction ? {} : {
       title: "Big Peacock Wall Stand",
       description:
         "This product is a big peacock wall stand which will look attractive and awesome when kept or hanged at any wall in your house. \n\nIt is one-of-a-kind of a product and when you will hang it on your wall it will increase the liking of your wall and plus will give a luxurious look which is ergonomic and elegant. \n\nWe are sure that you will be able to show-off by hanging this at your lovely wall and all the people coming to your house will ask you and plus it is such at an unbelievable price. What else do you need when you have all the things you need?",
@@ -213,7 +214,7 @@ export function CreateProduct({update = {}, isUpdate}) {
       categories: ["homedecor"],
       brand: "Reisetra Crafts ",
       tags: ["handicraft"],
-    },
+    }),
     ...update,
   };
   const createProduct = useCreateProduct();
