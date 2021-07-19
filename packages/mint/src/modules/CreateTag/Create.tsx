@@ -11,6 +11,7 @@ import TagDetails from "./Details";
 import TagImages from "./Images";
 import Summary from "./Review";
 import {
+  config,
   updateSnackBar,
   useCreateCategory,
   useCreateTag,
@@ -123,7 +124,7 @@ export function CreateTag() {
     value: "",
     images: [],
     styles: [],
-    ...{
+    ...(config.isProduction ? {} : {
       label: "Wall Art",
       value: "wallart",
       styles: [],
@@ -153,7 +154,7 @@ export function CreateTag() {
             "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg",
         },
       ],
-    },
+    }),
   };
   const createTag = useCreateTag();
   // const updateProduct = useUpdateProduct();

@@ -236,6 +236,7 @@ export default function VideoPreview({
 				</Box>
 			))}
 			<Dialog
+        scroll="paper"
 				maxWidth="lg"
 				keepMounted={false}
 				open={isOpen}
@@ -250,7 +251,6 @@ export default function VideoPreview({
 					setOpenDoc({});
 				}}
 				style={{backgroundColor: "transparent"}}
-				scroll="paper"
 			>
 				<video controls className={classes.video} autoPlay>
           {/* @ts-ignore */}

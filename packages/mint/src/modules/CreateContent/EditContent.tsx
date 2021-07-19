@@ -364,6 +364,7 @@ function Actions({
         keepMounted={false}
         fullWidth
         onClose={handleClose}
+        scroll="body"
         aria-labelledby="form-dialog-title"
       >
         <Box pt={2} pb={2} pl={1} pr={1}>

@@ -270,6 +270,7 @@ export function Checkout({cart, promo, data}) {
         }}
         aria-labelledby="simple-dialog-title"
         open={open}
+        scroll="body"
         fullWidth
       >
         <Success

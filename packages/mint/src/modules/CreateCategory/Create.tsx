@@ -11,6 +11,7 @@ import ProductDetails from "./Details";
 import ProductImages from "./Images";
 import Summary from "./Review";
 import {
+  config,
   updateSnackBar,
   useCreateCategory,
   useCreateProduct,
@@ -124,7 +125,7 @@ export function CreateCategory() {
     value: "",
     images: [],
     styles: [],
-    ...{
+    ...(config.isProduction ? {} : {
       label: "Wall Art",
       value: "wallart",
       styles: [],
@@ -154,7 +155,7 @@ export function CreateCategory() {
             "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg",
         },
       ],
-    },
+    }),
   };
   const createCategory = useCreateCategory();
   // const updateProduct = useUpdateProduct();
