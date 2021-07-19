@@ -17,7 +17,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx", "src/ui/TextEditor/utils.js", "src/ui/TextEditor/textEditor.js", "src/ui/TextEditor/styles.js", "src/ui/TextEditor/index.js",
   ],
   "exclude": ["node_modules"]
 }

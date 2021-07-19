@@ -16,7 +16,7 @@ function useHelper({
 	step,
 	data,
 }) {
-	const {_id, isPublished, title, description, tags, type, images, docs} =
+	const {id, isPublished, title, description, tags, type, images, docs} =
 		data || {};
 	const initialValues = {
 		step: step || 0,
@@ -70,6 +70,7 @@ function useHelper({
 
 		},
 	});
+
 	return {
 		isLoading,
 		onError,
@@ -84,16 +85,16 @@ function useHelper({
 	};
 }
 
-export default function CreateReview({
+export function CreateContent({
 	onCloseHandler,
 	step,
 	isUpdate,
-	setFieldError,
 	data,
 }) {
 	const {
 		values,
 		setFieldValue,
+    setFieldError,
 		isValid,
 		resetForm,
 		handleSubmit,
@@ -122,18 +123,18 @@ export default function CreateReview({
 					}}
 					text={{
 						header: {
-							title: "Share your review",
+							title: "Share your story",
 						},
 						title: {
 							id: "title",
-							placeholder: "Title of your review",
+							placeholder: "Title of your story",
 						},
 						content: {
 							id: "content",
 							placeholder: "Start writing here",
 						},
 						toolbar: {
-							text: "Add to your review",
+							text: "Add to your story",
 						},
 					}}
 				/>
@@ -146,14 +147,15 @@ export default function CreateReview({
 					values={values}
 					setFieldValue={setFieldValue}
 					isValid={isValid}
+          handleGoBack={e => {
+            setFieldValue("step", 0);
+          }}
 					handleNext={async e => {
+            handleSubmit();
 					}}
 					handleSaveAsDraft={async e => {
-
+            setFieldValue("step", 1);
 					}}
-					handleGoBack={e => {
-
-          }}
 				/>
 			);
 		case 2:
@@ -162,11 +164,11 @@ export default function CreateReview({
 					academics={[]}
 					onCloseHandler={onCloseHandler}
 					handleSkipForNow={() => {
-
+            resetForm();
 					}}
 					hasNext={false}
 					handleNext={() => {
-
+            resetForm();
 					}}
 				/>
 			);

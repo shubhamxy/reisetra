@@ -1,6 +1,15 @@
 {
-  "name": "reisetra",
+  "name": "@reisetra/mono",
   "private": true,
+  "homepage": "https://github.com/shubhamxy/reisetra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shubhamxy/reisetra"
+  },
+  "author": {
+    "name": "Shubham Jain",
+    "url": "https://github.com/shubhamxy"
+  },
   "workspaces": {
     "packages": [
       "packages/mint",
@@ -28,17 +37,22 @@
     }
   },
   "scripts": {
+    "clean": "yarn workspaces foreach -ptv run clean",
+    "lint": "yarn workspaces foreach -ptv run lint",
+
     "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
-    "deploy:soda": "./scripts/deploy.sh",
-    "build:soda": "yarn workspace @reisetra/soda build",
-    "start:soda": "yarn workspace @reisetra/soda start:prod",
-    "stop:soda": "yarn workspace @reisetra/soda stop:prod",
-    "dev:soda": "yarn workspace @reisetra/soda dev",
-    "deploy:mint": "",
-    "build:mint": "yarn workspace @reisetra/mint build",
-    "start:mint": "yarn workspace @reisetra/mint start",
-    "dev:mint": "yarn workspace @reisetra/mint dev"
+    "deploy:server": "./scripts/deploy.sh",
+    "build:server": "yarn workspace @reisetra/soda build",
+    "start:server": "yarn workspace @reisetra/soda start:prod",
+    "stop:server": "yarn workspace @reisetra/soda stop:prod",
+    "dev:server": "yarn workspace @reisetra/soda dev",
+
+    "deploy": "",
+    "prebuild": "yarn workspace @reisetra/rocks build",
+    "build": "yarn workspace @reisetra/mint build",
+    "start": "yarn workspace @reisetra/mint start",
+    "dev": "yarn workspace @reisetra/mint dev"
   }
 }

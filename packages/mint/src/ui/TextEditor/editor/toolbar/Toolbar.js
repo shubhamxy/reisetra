@@ -14,6 +14,7 @@ import {
 	CardContent,
 	CardActions,
 	Box,
+  TextField,
 } from "@material-ui/core";
 import FormatClearIcon from "@material-ui/icons/FormatClear";
 import TitleIcon from "@material-ui/icons/Title";
@@ -76,64 +77,30 @@ function H3Icon({color}) {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		background: "#0b3827",
+		background: "#050b1e",
 		borderRadius: "8px",
 		boxShadow: "0 2px 4px 0 rgb(0 0 0 / 9%)",
 		height: "52px",
 		display: "flex",
 	},
 	button: {
-		color: theme.palette.common.white,
 		opacity: 0.75,
 		"&:hover": {
 			opacity: 1,
 		},
 		paddingTop: 8,
 		paddingBottom: 8,
-		borderRightColor: "#ccc",
 	},
 	input: {
 		...theme.typography.subtitle2,
-		background: "#FAFAFA",
 		display: "flex",
 		flex: 1,
 		width: "100%",
-		fontSize: "14px",
-		lineHeight: "20px",
-		border: "none",
-		color: "#131415",
-		resize: "none",
-		caretColor: "#18B765",
 		margin: 0,
-		padding: 10,
-		paddingRight: 20,
-		paddingLeft: 20,
 		borderRadius: "8px",
-		"&::placeholder": {
-			...theme.typography.subtitle2,
-			fontSize: "14px",
-			lineHeight: "20px",
-			fontWeight: 500,
-			color: "#292c2e",
-			// font-family: $regularFont,
-			opacity: 0.5,
-		},
 	},
 	addbtn: {
-		backgroundColor: "#0f0f0f",
-		minWidth: "120px",
-		borderRadius: "25px",
-		color: "#fff",
-		boxShadow: "none",
-		"&:hover": {
-			backgroundColor: fade("#0f0f0f", 0.8),
-			boxShadow: "none",
-		},
-		"&:disabled": {
-			color: "#fff",
-			boxShadow: "none",
-			backgroundColor: "rgba(5, 5, 5, 0.735)",
-		},
+
 	},
 	cardActions: {
 		width: "100%",
@@ -143,11 +110,7 @@ const useStyles = makeStyles(theme => ({
 		flex: 1,
 	},
 	cancellbtn: {
-		boxShadow: "none",
-		backgroundColor: "#fff",
-		color: "#0f0f0f",
-		minWidth: "120px",
-		borderRadius: "25px",
+
 	},
 	close: {
 		opacity: 0.75,
@@ -293,55 +256,43 @@ export function Toolbar({open, ...otherProps}) {
 							</ButtonGroup>
 						) : (
 							<Dialog open={true} fullWidth onClose={() => setLink(null)}>
-								<Card style={{padding: 20, paddingTop: 10, paddingBottom: 10}}>
-									<CardHeader
-										title={<Typography variant="h5">Add Link</Typography>}
-									/>
-									<CardContent>
-										<TextareaAutosize
-											rowsMin={1}
+								<Card>
+									<CardContent style={{marginTop: 20}}>
+										<TextField
 											variant="outlined"
 											className={s.input}
 											value={link}
+                      multiline
 											rowsMax={4}
-											placeholder="Add a link ex. https://wikipedia.org"
+											placeholder="ex. https://wikipedia.org"
 											onChange={e => setLink(e.target.value)}
 											autoFocus
-											margin="dense"
 											id="name"
 											type="text"
+                      label="Add Link"
 											fullWidth
 										/>
 									</CardContent>
-
-									<CardActions>
-										<Box classes={s.cardActions}>
+									<CardActions style={{justifyContent: "flex-end"}}>
+										<ButtonGroup>
 											<Button
-												className={s.cancellbtn}
 												variant="text"
 												style={{textTransform: "capitalize"}}
 												onClick={() => setLink(null)}
 											>
-												<Typography variant="caption">Cancel</Typography>
+											  Cancel
 											</Button>
 											<Button
 												disabled={!isURL(link)}
-												className={s.addbtn}
 												variant="contained"
 												onClick={e => {
 													e.preventDefault();
 													handleInsertLink();
 												}}
 											>
-												<Typography
-													component="span"
-													style={{textTransform: "capitalize"}}
-													variant="caption"
-												>
-													Add
-												</Typography>
+												Add
 											</Button>
-										</Box>
+										</ButtonGroup>
 									</CardActions>
 								</Card>
 							</Dialog>
