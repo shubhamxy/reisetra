@@ -14,7 +14,7 @@ function isURL(url) {
 
 export const insertVideo = (editor, data) => {
 	const validData = data.filter(media =>
-		Boolean(media?.mediaUrl && isURL(media.mediaUrl)),
+		Boolean(media?.url && isURL(media.url)),
 	);
 	const video = [
 		{type: "video", data: validData, children: [{text: ""}]},

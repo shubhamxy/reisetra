@@ -12,6 +12,7 @@ import { ProductsFeed } from "../ui/Feed/Feed";
 import { Products } from "../modules/Products";
 import { Catelogs } from "../modules/Catelogs";
 import { Grid, Typography } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: 24,

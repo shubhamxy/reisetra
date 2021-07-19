@@ -13,6 +13,7 @@ import {
   TextareaAutosize,
   Button,
   TextField,
+  ButtonGroup,
 } from "@material-ui/core";
 import { useFileUpload } from "../../libs/rock/file/useFileUpload";
 import TextEditor, {
@@ -25,11 +26,12 @@ import TextEditor, {
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
+import { LocalOffer, Image as ImageIcon, VideoLibrary } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxHeight: 700,
-    minHeight: 700,
+    width: "100%",
+    height: "100%",
     display: "flex",
     flexDirection: "column",
     position: "relative",
@@ -68,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "30px",
     lineHeight: "41px",
     border: "none",
-    color: "#131415",
     resize: "none",
     caretColor: theme.palette.primary.main,
     padding: 0,
@@ -297,6 +298,11 @@ const useStyles = makeStyles((theme) => ({
   toolbarText: {
     fontSize: 15,
   },
+  textEditor: {
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+    padding: "14px",
+  },
   badgeContainer: {
     ...theme.typography.body1,
     top: "10%",
@@ -421,8 +427,8 @@ function Actions({
           display={"flex"}
           justifyContent="flex-start"
           alignItems="center"
-          border="2px solid #efefef"
-          borderRadius="100px"
+          border="1px solid #ccc"
+          borderRadius="8px"
           height="50px"
           pl={2.2}
           pr={0.8}
@@ -433,22 +439,17 @@ function Actions({
             </Typography>
           </Box>
 
-          <Box>
+          <ButtonGroup>
             <Badge
               badgeContent={values.tags?.length || 0}
               classes={{ badge: classes.badgeContainer }}
             >
               <Button
-                className="gradient-btn-tags"
+                color="primary"
                 onClick={handleTagsClick}
                 style={{ width: "36px", height: "36px" }}
               >
-                <Image
-                  src={"/icons/tag.svg"}
-                  quality={1}
-                  height={18}
-                  width={18}
-                />
+                <LocalOffer />
               </Button>
             </Badge>
             <Badge
@@ -456,18 +457,13 @@ function Actions({
               classes={{ badge: classes.badgeContainer }}
             >
               <Button
-                className="gradient-btn-media"
+                color="primary"
                 onClick={imageUpload.open}
                 {...imageUpload.getRootProps}
                 style={{ width: "36px", height: "36px" }}
               >
                 <input {...imageUpload.getInputProps()} />
-                <Image
-                  src={"/icons/img.svg"}
-                  quality={1}
-                  height={18}
-                  width={18}
-                />
+                <ImageIcon />
               </Button>
             </Badge>
             <Badge
@@ -475,21 +471,16 @@ function Actions({
               classes={{ badge: classes.badgeContainer }}
             >
               <Button
-                className="gradient-btn-video"
-                style={{ width: "36px", height: "36px", paddingLeft: "2px" }}
+                color="primary"
+                style={{width: "36px", height: "36px"}}
                 onClick={videoUpload.open}
                 {...videoUpload.getRootProps}
               >
                 <input {...videoUpload.getInputProps()} />
-                <Image
-                  src={"/icons/video.svg"}
-                  quality={1}
-                  height={18}
-                  width={18}
-                />
+                <VideoLibrary />
               </Button>
             </Badge>
-          </Box>
+          </ButtonGroup>
         </Box>
         <Box
           ml={2}
@@ -501,11 +492,12 @@ function Actions({
           <Button
             variant="contained"
             // disabled={!isValid}
+            color="primary"
             className={classes.nextbtn}
             onClick={handleNext}
-            size="medium"
+            size="large"
           >
-            <Typography variant={"caption"}>Next</Typography>
+            Next
           </Button>
         </Box>
       </Box>
@@ -579,7 +571,7 @@ export default function CreateContent({
             placeholder={text.title.placeholder}
           />
         </Box>
-        <Box display="flex" width="100%" height="100%">
+        <Box display="flex" width="100%" height="100%" className={classes.textEditor}>
           <TextEditor
             ref={editorRef}
             key={text.content.id}

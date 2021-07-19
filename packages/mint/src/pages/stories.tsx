@@ -1,10 +1,13 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
+  Grid,
   makeStyles,
   Paper,
   Typography,
+  Dialog,
 } from "@material-ui/core";
 import React from "react";
 import { MainLayout } from "../layouts/MainLayout";
@@ -12,15 +15,14 @@ import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
 import { config } from "../libs";
+import { CreateContent } from "../modules/CreateContent";
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    minHeight: "80vh",
+    padding: 24,
     marginBottom: 48,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
   },
   left: {
     [theme.breakpoints.down("sm")]: {
@@ -41,7 +43,13 @@ const ErrorPage = () => {
     description: "",
     url: `${config.clientUrl}/stories`,
   };
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <MainLayout
       classes={{
@@ -68,7 +76,32 @@ const ErrorPage = () => {
       footer={<Footer />}
     >
       <Paper className={classes.content}>
-        <Typography variant="subtitle2">coming soon</Typography>
+        <Grid container item xs={12} spacing={2} justify="flex-end">
+          <ButtonGroup>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              onClick={handleOpen}
+            >
+              Add
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        <Dialog
+          scroll="body"
+          fullWidth
+          maxWidth="md"
+          open={!!open}
+          onClose={handleClose}
+        >
+          {/* @ts-ignore */}
+          <CreateContent onCloseHandler={handleClose} />
+        </Dialog>
+
+        <Box display="flex" justifyContent="center" alignItems="center">
+          Coming Soon
+        </Box>
       </Paper>
     </MainLayout>
   );

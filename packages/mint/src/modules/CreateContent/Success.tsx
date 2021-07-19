@@ -13,8 +13,8 @@ import Image from "next/image";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		maxHeight: "430px",
-		minHeight: "330px",
+    width: "100%",
+    height: "100%",
 		display: "flex",
 		flexDirection: "column",
 		background: "#f0f0f0",

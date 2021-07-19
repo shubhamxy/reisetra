@@ -14,7 +14,7 @@ function isURL(url) {
 export const insertImage = (editor, data) => {
 	const text = {text: ""};
 	const validData = data.filter(media =>
-		Boolean(media?.mediaUrl && isURL(media.mediaUrl)),
+		Boolean(media?.url && isURL(media.url)),
 	);
 	const image = [
 		{type: "image", data: validData, children: [text]},

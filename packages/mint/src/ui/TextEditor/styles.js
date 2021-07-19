@@ -22,41 +22,31 @@ export const useStyles = makeStyles(theme => ({
 		display: "flex",
 		flexDirection: "column",
 		position: "relative",
-		caretColor: "#18B765",
+		caretColor: "#6016ff",
 		padding: 0,
 		margin: 0,
 		boxShadow: "none",
-		color: "#0f0f0f",
-		...theme.typography.caption,
-		fontSize: "16px",
-		lineHeight: "24px",
+		...theme.typography.body1,
 		"& p": {
-			...theme.typography.caption,
-			fontSize: "16px",
-			lineHeight: "24px",
+			...theme.typography.body1,
 		},
 		"& ::selection": {
-			background: "#18b765",
+			background: "#6016ff",
 		},
 		"& h1": {
-			...theme.typography.h1,
+			...theme.typography.h3,
 		},
 		"& h2": {
-			...theme.typography.h2,
-			fontSize: "24px",
-			lineHeight: "28px",
+			...theme.typography.h4,
 		},
 		"& h3": {
-			...theme.typography.h3,
-			fontSize: "20px",
-			lineHeight: "24px",
+			...theme.typography.h5,
 		},
 		"& a": {
 			color: "#0061ff",
 			fontStyle: "italic",
 		},
 		"& blockquote": {
-			borderLeft: "2px solid #ddd",
 			marginLeft: 0,
 			marginRight: 0,
 			paddingLeft: "10px",
@@ -68,6 +58,8 @@ export const useStyles = makeStyles(theme => ({
 		"& strong": {
 			fontWeight: "bold",
 		},
-		"& u": {},
+		"& u": {
+      fontStyle: "underline"
+    },
 	},
 }));
