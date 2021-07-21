@@ -22,9 +22,9 @@ export interface CreateProductDTO {
     stockQuantity: number;
     sku: string;
   };
-  categories: string[];
-  tags: string[];
-  images: {
+  categories?: string[];
+  tags?: string[];
+  images?: {
     fileType: string;
     fileName: string;
     url: string;
