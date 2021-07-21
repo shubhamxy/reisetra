@@ -109,6 +109,7 @@ const authReducer = (state: State, action: Action): State => {
         storage.clear();
         return {
           ...initialState,
+          isHydrated: true,
         };
       } catch (error) {
         console.error("authReducer.logout", error);

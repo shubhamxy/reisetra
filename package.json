@@ -50,7 +50,7 @@
     "dev:server": "yarn workspace @reisetra/soda dev",
 
     "deploy": "",
-    "prebuild": "yarn workspace @reisetra/rocks build",
+    "?prebuild": "yarn workspace @reisetra/rocks build",
     "build": "yarn workspace @reisetra/mint build",
     "start": "yarn workspace @reisetra/mint start",
     "dev": "yarn workspace @reisetra/mint dev"
