@@ -151,25 +151,19 @@ const useStyles = makeStyles<
   },
 
   paper: {
-    borderRadius: "12px",
-    maxWidth: "100%",
-    maxHeight: "100%",
-    height: "480px",
-    width: "720px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "visible",
-    backgroundColor: "rgba(0,0,0,.9)",
+    background: "transparent",
+    boxShadow: "none",
+    backgroundColor: theme.palette.common.black,
+    height: "100%",
+    width: "100%",
+    padding: 0,
+    margin: 0,
+    borderRadius: 24,
   },
   previewContainer: {
-    backgroundColor: "transparent",
-    boxShadow: "none",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-    position: "relative",
+    backgroundColor: "rgba(0,0,0,0.02)",
+    backdropFilter: "blur(4px)",
+    padding: "64px",
   },
   previewimage: {
     objectFit: "contain",
@@ -177,7 +171,9 @@ const useStyles = makeStyles<
     maxWidth: "100%",
     maxHeight: "100%",
     flex: 1,
-    borderRadius: 8
+    borderRadius: 24,
+    overflow: "hidden",
+    transition: theme.transitions.create(["width", "opacity"]),
   },
   closePreviewBtn: {
     height: 26,
@@ -197,7 +193,7 @@ const useStyles = makeStyles<
     position: "absolute",
     top: "10px",
     right: "10px",
-    opacity: 0.9,
+    opacity: 1,
     "&:hover": {
       opacity: 1,
     },
@@ -211,7 +207,7 @@ const useStyles = makeStyles<
     alignItems: "center",
     fontSize: 30,
     borderRadius: "50%",
-    background: "#ffffff",
+    background: "#ffffff77",
     lineHeight: 0,
     color: "#0f0f0f",
     border: "none",
@@ -219,16 +215,13 @@ const useStyles = makeStyles<
     margin: 0,
     padding: 0,
     position: "absolute",
-    left: "-62px",
     top: "calc(50% - 21px)",
-    opacity: 0.9,
+    opacity: 1,
     "&:disabled": {
       opacity: 0.3,
     },
     transition: "opacity ease 0.5s",
-    [theme.breakpoints.down("sm")] : {
-      left: "12px",
-    },
+    left: "12px",
   },
   next: {
     height: 40,
@@ -238,23 +231,20 @@ const useStyles = makeStyles<
     alignItems: "center",
     lineHeight: 0,
     borderRadius: "50%",
-    background: "#ffffff",
+    background: "#ffffff77",
     color: "#0f0f0f",
     border: "none",
     cursor: "pointer",
     margin: 0,
     padding: 0,
     position: "absolute",
-    right: "-62px",
     top: "calc(50% - 21px)",
-    opacity: 0.9,
+    opacity: 0.7,
     "&:disabled": {
       opacity: 0.3,
     },
+    right: "12px",
     transition: "opacity ease 0.5s",
-    [theme.breakpoints.down("sm")] : {
-      right: "12px",
-    },
   },
 }));
 
@@ -503,13 +493,13 @@ export default function ImagePreview({
 
       <Dialog
         scroll="body"
-        maxWidth="lg"
+        maxWidth="md"
         keepMounted={false}
         open={openIndex > -1}
         fullWidth
         classes={{ paper: classes.paper, container: classes.previewContainer }}
         onClose={() => setOpenIndex(-1)}
-        style={{ backgroundColor: "transparent" }}
+        // style={{ backgroundColor: "transparent" }}
       >
         {openIndex > -1 && data[openIndex]?.url && (
           <Image
