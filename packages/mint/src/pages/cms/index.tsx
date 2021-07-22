@@ -117,6 +117,7 @@ const CMSPage = () => {
         </Grid>
         <Box flex={1} width={"100%"} mt={2.4}>
           <DataGrid
+            // @ts-ignore
             onRowSelected={({data}) => {
               setSelected(data);
             }}
