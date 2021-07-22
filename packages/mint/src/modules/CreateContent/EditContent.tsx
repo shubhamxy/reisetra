@@ -31,11 +31,11 @@ import { LocalOffer, Image as ImageIcon, VideoLibrary } from "@material-ui/icons
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
     position: "relative",
     flex: 1,
+    padding: theme.spacing(5.6, 2.4, 5.6, 2.4),
   },
   textInput: {
     cursor: "text",
@@ -53,8 +53,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flex: 1,
     flexDirection: "column",
-    padding: theme.spacing(0, 5.6, 0, 5.6),
-    overflow: "auto",
   },
   actions: {
     margin: 0,
@@ -79,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     ...theme.typography.body1,
     fontSize: "16px",
+    overflow: "auto",
   },
 
   embedInputTitle: {
@@ -89,13 +88,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     lineHeight: "20px",
     border: "none",
-    color: "#131415",
     resize: "none",
     margin: 0,
     padding: 0,
     "&::placeholder": {
-      color: "#292c2e",
-      // font-family: $regularFont,
       opacity: 0.5,
     },
   },
@@ -107,12 +103,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     lineHeight: "20px",
     border: "none",
-    color: "#131415",
     resize: "none",
     margin: 0,
     padding: 0,
     "&::placeholder": {
-      color: "#292c2e",
       // font-family: $regularFont,
       opacity: 0.5,
     },
@@ -148,7 +142,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontSize: "12px",
     lineHeight: "16px",
-    color: fade("#131415", 0.5),
   },
   subtext: {
     fontFamily: "GalanoGrotesque-Regular, Arial",
@@ -156,7 +149,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontSize: "14px",
     lineHeight: "19px",
-    color: "#ADADAD",
   },
   contentTitle: {
     padding: theme.spacing(0.6, 0, 0.6, 0),
@@ -164,7 +156,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontSize: "22px",
     lineHeight: "30px",
-    color: "#131415",
   },
   contentMedia: {},
   contentDescriptionWrap: {
@@ -177,7 +168,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "-0.271429px",
-    color: fade("#131415", 0.5),
   },
   actionsWrap: {
     borderTop: "1px solid #F0F3F6",
@@ -367,7 +357,7 @@ function Actions({
         scroll="body"
         aria-labelledby="form-dialog-title"
       >
-        <Box pt={2} pb={2} pl={1} pr={1}>
+        <Box pl={1} pr={1}>
           <DialogContent>
             <Box pt={2} pb={2}>
               <TextField
@@ -538,14 +528,6 @@ export default function CreateContent({
   return (
     <Card classes={{ root: classes.root }}>
       <CardHeader
-        classes={{
-          root: classes.header,
-          avatar: classes.avatarWrap,
-          content: classes.headercontent,
-          title: classes.titleWrap,
-          subheader: classes.subtitle,
-          action: classes.headActionsWrap,
-        }}
         title={
           <Typography
             component="span"
@@ -554,7 +536,7 @@ export default function CreateContent({
           />
         }
       />
-      <CardContent className={classes.content}>
+      <CardContent>
         <Box display="flex" width="100%" pt={2.4}>
           <TextField
             multiline
@@ -572,14 +554,13 @@ export default function CreateContent({
             placeholder={text.title.placeholder}
           />
         </Box>
-        <Box display="flex" width="100%" height="100%" className={classes.textEditor}>
+        <Box className={classes.textEditor}>
           <TextEditor
             ref={editorRef}
             key={text.content.id}
             aria-label={text.content.placeholder}
             // @ts-ignore
             placeholder={text?.content?.placeholder || ''}
-            className={classes.contentInput}
             onChange={(value) => {
               setFieldValue("content", value);
             }}
@@ -587,7 +568,7 @@ export default function CreateContent({
           />
         </Box>
       </CardContent>
-      <CardActions className={classes.actions}>
+      <CardActions>
         <Actions
           editor={editorRef.current}
           values={values}

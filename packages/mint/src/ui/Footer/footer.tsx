@@ -152,7 +152,7 @@ function Footer() {
               />
             </Box>
             <Box>
-              <Typography color="textPrimary" variant="caption" title={version}>
+              <Typography color="textPrimary" variant="caption" title={`Copyright ${config.name} ${version}`}>
                 &copy; 2021 {config.name}.
               </Typography>
             </Box>

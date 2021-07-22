@@ -20,7 +20,6 @@ import { CreateContent } from "../modules/CreateContent";
 const useStyles = makeStyles((theme) => ({
   content: {
     padding: 24,
-    marginBottom: 48,
     display: "flex",
     flexDirection: "column",
   },
@@ -94,6 +93,7 @@ const ErrorPage = () => {
           maxWidth="md"
           open={!!open}
           onClose={handleClose}
+          className={classes.content}
         >
           {/* @ts-ignore */}
           <CreateContent onCloseHandler={handleClose} />

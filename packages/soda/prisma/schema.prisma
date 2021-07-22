@@ -258,6 +258,7 @@ enum OrderStatus {
   UNSHIPPED
   CONFIRMED
   SHIPPED
+  DELIVERED
   CANCELLED
 }
 

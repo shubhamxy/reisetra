@@ -50,9 +50,9 @@ function calculateBilling(
     tax: tax,
     shipping,
     itemDiscount,
-    total: tax,
+    total,
     promo: offer ? offer.label : null,
-    discount: (total - grandTotal) / total * 100,
+    discount: ((total - grandTotal) / total * 100) | 0,
     grandTotal,
   };
 }
