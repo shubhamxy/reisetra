@@ -211,7 +211,8 @@ export default function ProductDetails({
             id="categories"
             options={
               categories.data && categories.data.data
-                ? categories.data.data.map((item) => item.label)
+                // @ts-ignore
+                ? categories?.data?.data?.map((item) => item.label)
                 : []
             }
             getOptionLabel={(option) => option}
@@ -271,6 +272,7 @@ export default function ProductDetails({
             id="tags"
             options={
               tags.data && tags.data.data
+                // @ts-ignore
                 ? tags.data.data?.map((item) => item.label)
                 : []
             }
@@ -367,7 +369,7 @@ export default function ProductDetails({
                   setShowPicker(!showPicker);
                 }}
               >
-                <FormatPaint style={{height: 14, width: 14}} />
+                <FormatPaint style={{ height: 14, width: 14 }} />
               </IconButton>
             }
           />
@@ -405,7 +407,7 @@ export default function ProductDetails({
           <DialogActions>
             <Button
               onClick={() => {
-                if(hex){
+                if (hex) {
                   setFieldValue("styles", [...values.styles, hex]);
                 }
                 setHex("");
