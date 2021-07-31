@@ -483,7 +483,7 @@ export default function ImagePreview({
     selected,
   });
   const [openIndex, setOpenIndex] = useState(-1);
-  const [zoom, setZoom] = useState(false);
+  const [zoom, setZoom] = useState(true);
   if (!data || data.length === 0) {
     return null;
   }
