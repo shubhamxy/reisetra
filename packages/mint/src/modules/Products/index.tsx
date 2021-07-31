@@ -15,7 +15,7 @@ import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
-import Image from 'next/image';
+import Image from "next/image";
 
 type TStyles = {
   background: string;
@@ -147,7 +147,7 @@ const useGridItemStyles = makeStyles<
   },
   image: {
     transition: "all ease-in 2s",
-  }
+  },
 }));
 
 export function GridItem({
@@ -173,7 +173,7 @@ export function GridItem({
   images: { url: string }[];
   styles: string[];
   onClick: () => any;
-  showDescription: boolean
+  showDescription: boolean;
 }) {
   const classes = useGridItemStyles({ styleIndex, colors });
   const [image, setImage] = useState(0);
@@ -192,7 +192,12 @@ export function GridItem({
         onMouseLeave={() => setImage(0)}
         title={title}
       >
-        <Image objectFit="contain" className={classes.image}  src={images?.[image % images.length]?.url} layout="fill" />
+        <Image
+          objectFit="contain"
+          className={classes.image}
+          src={images?.[image % images.length]?.url || "/images/fallback.png"}
+          layout="fill"
+        />
       </CardMedia>
       <CardContent
         className={classes.card}
@@ -244,16 +249,23 @@ export function GridItem({
               />
             </Box>
             <Box display="flex">
-              <Rating size="small" value={+rating || 5} readOnly />
-              <Box>
-                <Typography
-                  children={`(${+ratingsCount || 1} review${
-                    +ratingsCount > 0 ? "s" : ""
-                  })`}
-                  variant="caption"
-                  style={{ fontSize: 12, marginLeft: 4 }}
-                />
-              </Box>
+              <Rating
+                size="small"
+                value={+rating || 5}
+                disabled={!ratingsCount}
+                readOnly
+              />
+              {+ratingsCount > 0 && (
+                <Box>
+                  <Typography
+                    children={`(${+ratingsCount || 1} review${
+                      +ratingsCount > 1 ? "s" : ""
+                    })`}
+                    variant="caption"
+                    style={{ fontSize: 12, marginLeft: 4 }}
+                  />
+                </Box>
+              )}
             </Box>
           </Box>
           <Box className={classes.addToCartContainer} mt={1.4}>

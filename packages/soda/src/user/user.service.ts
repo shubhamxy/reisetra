@@ -183,7 +183,7 @@ export class UserService {
     } catch (error) {
       let message: string = error?.meta?.cause || error.message;
       if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = "Account already present";
+        message = "Account already present, please login with user credentials.";
       }
       throw new CustomError(
         message,
@@ -209,7 +209,7 @@ export class UserService {
       }
       let message: string = error?.meta?.cause || error.message;
       if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = "Account already present";
+        message = "Account already present, please login with user credentials.";
       }
       throw new CustomError(
         message,

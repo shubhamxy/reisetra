@@ -267,6 +267,7 @@ export function Filters({
                   <Box display="flex" alignItems="center">
                     <Rating
                       readOnly
+                      disabled={!isSelected}
                       value={item.value}
                       key={item.value}
                       size="medium"

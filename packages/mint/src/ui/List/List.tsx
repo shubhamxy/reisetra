@@ -57,7 +57,6 @@ export function List(props: ListProps) {
         container
         className={classes.root}
         justify="center"
-        direction="column"
       >
         {ListHeaderComponent && (
           <Grid item xs={12} className={classes.header}>
@@ -67,7 +66,7 @@ export function List(props: ListProps) {
         {(data?.pages?.[0]?.data === undefined ||
           data?.pages?.[0]?.meta?.totalCount === 0) &&
           !isLoading && (
-            <Grid item className={classes.empty}>
+            <Grid item className={classes.empty} xs={12}>
               {ListEmptyComponent}
             </Grid>
           )}

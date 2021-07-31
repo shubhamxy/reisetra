@@ -60,23 +60,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Checkout({cart, promo, data}) {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
+export function Checkout({cart, promo, data, handleTransaction}) {
   const classes = useStyles();
-  const updateTransaction = useUpdateTransaction();
   const cartCheckout = useCartCheckout();
-  const ref = useRef(null);
   const dispatch = useGlobalDispatch();
-  useEffect(() => {
-    const razorpay = window.document.createElement("script");
-    razorpay.async = false;
-    razorpay.src = "https://checkout.razorpay.com/v1/checkout.js";
-    const body = document.getElementsByTagName("body")[
-      document.getElementsByTagName("body").length - 1
-    ];
-    body.appendChild(razorpay);
-  }, []);
   const initialValues = {
     address: "",
     billingAddress: "",
@@ -116,45 +103,6 @@ export function Checkout({cart, promo, data}) {
       );
     },
   });
-
-  function handleTransaction(data) {
-    if (!data || !data.razorpayOptions) {
-      return;
-    }
-
-    function onSuccess(response) {
-      updateTransaction.mutate(
-        {
-          id: data.id,
-          body: {
-            paymentOrderId: response.razorpay_order_id,
-            paymentSignature: response.razorpay_signature,
-            paymentId: response.razorpay_payment_id,
-          },
-        },
-        {
-          onSuccess: ({ data }) => {
-            setOpen(true);
-          },
-        }
-      );
-    }
-
-    function onError(response) {
-      console.error('handleTransaction.onError', response);
-    }
-
-    // eslint-disable-next-line no-undef
-    // @ts-ignore
-    ref.current = new window.Razorpay({
-      handler: onSuccess,
-      image: 'https://www.reisetra.com/icons/logo.png',
-      ...data.razorpayOptions,
-    });
-    ref.current.on("payment.failed", onError);
-    ref.current.open();
-  }
-
   return (
     <Grid container className={classes.layout}>
       <Grid container item xs={12}>
@@ -263,25 +211,6 @@ export function Checkout({cart, promo, data}) {
           </Button>
         </Grid>
       </Grid>
-      <Dialog
-        onClose={() => {
-          router.replace("/");
-          setOpen(false);
-        }}
-        aria-labelledby="simple-dialog-title"
-        open={open}
-        scroll="body"
-        fullWidth
-      >
-        <Success
-          handleNext={() => {
-            router.replace("/");
-          }}
-          onCloseHandler={() => {
-            router.replace("/");
-          }}
-        />
-      </Dialog>
     </Grid>
   );
 }

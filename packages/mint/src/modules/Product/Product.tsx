@@ -233,19 +233,20 @@ export default function DetailsTable({ rows, label }) {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="Product Details table">
         <Typography
-          variant="caption"
           component="caption"
-          style={{ fontSize: 16 }}
+          style={{ fontSize: 22, textAlign: "right" }}
         >
           {label}
         </Typography>
         <TableBody>
           {rows?.map?.((row) => (
             <TableRow key={row.label}>
-              <TableCell component="th" scope="row">
+              <TableCell align="left" component="th" scope="row">
                 {row.label}
               </TableCell>
-              <TableCell align="right">{row.value}</TableCell>
+              <TableCell width="60%" align="right">
+                {row.value}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -268,10 +269,10 @@ export function Product({ data, isLoading }) {
     mrp = 0,
     tax = 0,
     price = 0,
-    published = true,
     sizes = [],
     dimensions = [],
-    details = {},
+    details,
+    faqs,
     colors = [],
     brand = "",
     title = "",
@@ -361,6 +362,21 @@ export function Product({ data, isLoading }) {
         <Grid item xs container spacing={1}>
           <Grid item xs={12}>
             <Typography variant="h4">{title}</Typography>
+            <Box style={{ cursor: "pointer" }}>
+              <Typography
+                onClick={() => {
+                  router.push({
+                    pathname: "/products",
+                    query: {
+                      brands: [brand],
+                    },
+                  });
+                }}
+                variant="subtitle2"
+              >
+                {brand}
+              </Typography>
+            </Box>
           </Grid>
           <Grid
             item
@@ -371,12 +387,14 @@ export function Product({ data, isLoading }) {
             alignContent="center"
             style={{ display: "flex" }}
           >
-            <Rating value={rating || 5} readOnly />
+            <Rating value={rating || 5} disabled={!ratingsCount} readOnly />
             <Typography
               variant="caption"
               style={{ fontSize: 14, lineHeight: 1, marginLeft: 8 }}
             >
-              {`(${ratingsCount || "1"} review${ratingsCount > 0 ? "s" : ""})`}
+              {ratingsCount
+                ? `(${ratingsCount} rating${ratingsCount > 1 ? "s" : ""})`
+                : ""}
             </Typography>
           </Grid>
           <Grid item xs={12} container direction="column">
@@ -622,21 +640,31 @@ export function Product({ data, isLoading }) {
       spacing={4}
       style={{ width: "100%", paddingTop: 46, paddingBottom: 46 }}
     >
-      <Grid item xs={12} md={4}>
-        <DetailsTable
-          label={"Dimensions"}
-          rows={[
-            createData("Width", dimensions[0]),
-            createData("Height", dimensions[1]),
-            createData("Depth", dimensions[2]),
-          ]}
-        />
-      </Grid>
-      <Grid item xs={12} md={8}>
-        <DetailsTable label={"Details"} rows={details} />
-      </Grid>
+      {dimensions && (
+        <Grid item xs={12} md={4}>
+          <DetailsTable
+            label={"Dimensions"}
+            rows={[
+              createData("Width", dimensions[0]),
+              createData("Height", dimensions[1]),
+              createData("Depth", dimensions[2]),
+            ]}
+          />
+        </Grid>
+      )}
+      {details && (
+        <Grid item xs={12} md={8}>
+          <DetailsTable label={"Details"} rows={details} />
+        </Grid>
+      )}
+      {faqs && (
+        <Grid item xs={12} md={8}>
+          <DetailsTable label={"FAQs"} rows={faqs} />
+        </Grid>
+      )}
     </Grid>
   );
+
   const Bottom = (
     <Grid item xs container className={classes.bottom}>
       <Grid item xs={12}>

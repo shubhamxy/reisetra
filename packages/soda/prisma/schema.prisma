@@ -84,6 +84,7 @@ model CartItem {
   updatedAt DateTime @updatedAt
   cart      Cart     @relation(fields: [cartId], references: [id])
   product   Product  @relation(fields: [productId], references: [id])
+
   @@unique([productId, cartId])
 }
 
@@ -158,17 +159,24 @@ model Review {
   images      File[]
 }
 
+model Company {
+  name    String    @id
+  products Product[]
+}
+
 model Product {
   id           String     @id @default(cuid())
   title        String
   description  String
+  company      Company    @relation(fields: [brand], references: [name])
   brand        String     @default("Generic")
   colors       String[]
   sizes        String[]
   styles       String[]
-  rating       Int        @default(5)
+  rating       Int
   dimensions   String[]
   details      Json
+  faqs         Json       @default("{}")
   published    Boolean    @default(false)
   mrp          Float
   price        Float

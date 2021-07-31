@@ -10,7 +10,11 @@ export const useStyles = makeStyles(theme => ({
 		width: "100%",
 		cursor: "pointer",
 	},
-	cover: {},
+	cover: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 	img: {
 		objectFit: "cover",
 	},
@@ -25,7 +29,6 @@ export const useStyles = makeStyles(theme => ({
 		overflow: "hidden",
 		WebkitLineClamp: 2,
 		WebkitBoxOrient: "vertical",
-		wordBreak: "break-all",
 	},
 	subText: {
 		...theme.typography.caption,

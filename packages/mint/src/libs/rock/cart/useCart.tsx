@@ -38,6 +38,7 @@ export const useAddCartItem = () => {
     },
   });
 };
+
 export const useDeleteCartItem = () => {
   const dispatch = useGlobalDispatch();
   const queryClient = useQueryClient();

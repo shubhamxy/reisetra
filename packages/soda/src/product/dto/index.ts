@@ -18,7 +18,7 @@ import { CursorPaginationOptionsInterface } from "src/common/pagination";
 import { isRequired, mustBeOfType } from "src/constants";
 import { File } from "src/files/entity";
 import { CreateInventoryDto } from "src/inventory/dto";
-import { Category, Product, Tag } from "../entity";
+import { Category, Product, Tag, Company } from "../entity";
 
 type Excluded =
   | "id"
@@ -37,11 +37,12 @@ export enum ProductSort {
 
 export class GetAllProductsDto extends CursorPaginationDTO {
   sort: ProductSort;
-  tags: string[]
-  category: string
-  price: string[]
-  q: string
-  rating: number | string
+  tags: string[];
+  brands: string[];
+  category: string;
+  price: string[];
+  q: string;
+  rating: number | string;
 }
 
 export class CreateProductDto implements Omit<Product, Excluded> {
@@ -86,6 +87,10 @@ export class CreateProductDto implements Omit<Product, Excluded> {
   @IsOptional()
   @IsArray({ message: mustBeOfType("array", "details") })
   details: Prisma.JsonValue;
+
+  @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "faqs") })
+  faqs: Prisma.JsonValue;
 
   @IsDefined()
   @IsNotEmptyObject({}, { message: mustBeOfType("object", "inventory") })
@@ -159,6 +164,10 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
   details: Prisma.JsonValue;
 
   @IsOptional()
+  @IsArray({ message: mustBeOfType("array", "faqs") })
+  faqs: Prisma.JsonValue;
+
+  @IsOptional()
   @IsDefined()
   @IsNotEmptyObject({}, { message: mustBeOfType("object", "inventory") })
   @ValidateNested({ each: true, message: mustBeOfType("object", "inventory") })
@@ -219,4 +228,8 @@ export class UpdateTagDto implements Omit<Tag, Excluded> {
   value: string;
   description: string;
   images: Omit<File, "userId">[];
+}
+
+export class CreateCompanyDto implements Omit<Company, Excluded> {
+  name: string
 }

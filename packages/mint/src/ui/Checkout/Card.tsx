@@ -53,7 +53,7 @@ export function ProductCard({ data }) {
         >
           {images?.length > 0 ? (
             <Image
-              src={images[0].url}
+              src={images[0]?.url || "/images/fallback.png"}
               alt={""}
               height={62}
               width={62}
