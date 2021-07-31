@@ -20,7 +20,7 @@ import { Products } from "../../modules/Products";
 import { ProductFilters } from "../../ui/ProductFilters";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
-import { useCategories, useReviews, useTags } from "../../libs";
+import { useBrands, useCategories, useReviews, useTags } from "../../libs";
 import clsx from "clsx";
 import isEqual from "lodash.isequal";
 import { useDebounce } from "use-debounce";
@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 48,
     display: "flex",
     flexDirection: "column",
+    minHeight: "60vh"
   },
   productsFilter: {
     padding: 20,
@@ -112,6 +113,7 @@ export type FilterT = {
 function useHelper() {
   const router = useRouter();
   const query = router.query;
+  const categories = useCategories();
   const tags = useTags(
     query.category
       ? {
@@ -119,7 +121,13 @@ function useHelper() {
         }
       : {}
   );
-  const categories = useCategories();
+  const brands = useBrands(
+    query.category
+      ? {
+          category: query.category,
+        }
+      : {}
+  );
   const sortBy: FilterT = {
     type: "select",
     title: "Sort",
@@ -154,6 +162,18 @@ function useHelper() {
       // @ts-ignore
       data: categories?.data?.["data"] || [],
     },
+    brands: {
+      type: "multiselect",
+      title: "Brands",
+      subtitle: "Select multiple brands",
+      // @ts-ignore
+      data: brands?.data?.["data"] ? [...brands?.data?.["data"].map(item => {
+        return {
+          label: item.name,
+          value: item.name,
+        }
+      })] : [],
+    },
     tags: {
       type: "multiselect",
       title: "Tags",
@@ -178,37 +198,6 @@ function useHelper() {
         { value: "1", label: "& up" },
       ],
     },
-    // style: {
-    //   type: "select",
-    //   title: "Style",
-    //   subtitle: "Select a style",
-    //   data: [
-    //     {
-    //       label: "Wall Art",
-    //       value: "wall-art",
-    //     },
-    //     {
-    //       label: "Gifts",
-    //       value: "gifts",
-    //     },
-    //     {
-    //       label: "Stationary",
-    //       value: "stationary",
-    //     },
-    //     {
-    //       label: "Stickers",
-    //       value: "stickers",
-    //     },
-    //     {
-    //       label: "Home Decor",
-    //       value: "home-decor",
-    //     },
-    //     {
-    //       label: "Furniture",
-    //       value: "furniture",
-    //     },
-    //   ],
-    // },
   };
 
   function setFieldValue(
@@ -229,7 +218,7 @@ function useHelper() {
   const values: {
     sort: string | string[];
     category: string;
-    style: string | string[];
+    brands: string[];
     price: number[];
     tags: string[];
     q: string;
@@ -238,7 +227,13 @@ function useHelper() {
     sort: query.sort || sortBy.data[0].value,
     category: (query.category as string) || "",
     // (filters?.category?.data ? filters.category?.data[0]?.value : ""),
-    style: query.style || [],
+    brands: Array.isArray(query.brands)
+      ? query.brands.length > 0
+        ? query.brands
+        : []
+      : query.brands
+      ? [query.brands]
+      : [],
     price: Array.isArray(query.price)
       ? query.price.length > 0
         ? [+query.price[0], +query.price[1]]

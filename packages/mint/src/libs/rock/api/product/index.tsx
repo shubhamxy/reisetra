@@ -72,6 +72,11 @@ export function getTags({ queryKey }) {
   return get(`tags?${qs}`);
 }
 
+export function getBrands({ queryKey }) {
+  const qs = queryString.stringify(pickBy(queryKey[1], identity));
+  return get(`brands?${qs}`);
+}
+
 export function getCategories() {
   return get(`categories`);
 }

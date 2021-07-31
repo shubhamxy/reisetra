@@ -180,7 +180,7 @@ export function GridItem({
         objectPosition="center"
         objectFit={styles && styles[2] ? styles[2] : "cover"}
         className={classes.image}
-        src={images?.[image % images.length]?.url}
+        src={images?.[image % images.length]?.url || "/images/fallback.png"}
         layout="fill"
       />
       <Box className={classes.titleContainer}>

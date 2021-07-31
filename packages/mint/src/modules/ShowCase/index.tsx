@@ -15,7 +15,7 @@ import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
-import Image from 'next/image';
+import Image from "next/image";
 
 type TStyles = {
   background: string;
@@ -33,7 +33,7 @@ const styles: TStyles = [
   },
   {
     background: "#906039",
-    color: "#ffffff"
+    color: "#ffffff",
   },
   {
     background: "#d3b7a1",
@@ -65,7 +65,7 @@ const useGridItemStyles = makeStyles<
     cursor: "pointer",
     height: 372,
     maxWidth: 320,
-    justifyContent: 'center',
+    justifyContent: "center",
     mixBlendMode: "normal",
     borderRadius: 8,
     boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.10)",
@@ -73,10 +73,10 @@ const useGridItemStyles = makeStyles<
       colors && colors[0] ? colors[0] : fade(styles[styleIndex].color, 0.8),
     background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
     [theme.breakpoints.down("sm")]: {
-      maxWidth: '100%',
-      height: 'unset',
+      maxWidth: "100%",
+      height: "unset",
       alignItems: "center",
-    }
+    },
   }),
   card: {
     margin: 0,
@@ -144,11 +144,10 @@ const useGridItemStyles = makeStyles<
     height: 0,
     width: "100%",
     paddingTop: "56.25%", // 16:9
-
   },
   image: {
     transition: "all ease-in 2s",
-  }
+  },
 }));
 
 export function GridItem({
@@ -191,7 +190,12 @@ export function GridItem({
         onMouseLeave={() => setImage(0)}
         title={title}
       >
-        <Image objectFit="contain" className={classes.image}  src={images?.[image % images.length]?.url} layout="fill" />
+        <Image
+          objectFit="contain"
+          className={classes.image}
+          src={images?.[image % images.length]?.url || "/images/fallback.png"}
+          layout="fill"
+        />
       </CardMedia>
       <CardContent
         className={classes.card}
@@ -237,14 +241,18 @@ export function GridItem({
               />
             </Box>
             <Box display="flex">
-              <Rating size="small" value={+rating || 5} readOnly />
-              <Box>
-                <Typography
-                  children={`(${+ratingsCount || 1} review${+ratingsCount > 0 ? 's' : ''})`}
-                  variant="caption"
-                  style={{ fontSize: 12, marginLeft: 4 }}
-                />
-              </Box>
+              <Rating size="small" value={+rating || 5} disabled={!ratingsCount} readOnly />
+              {+ratingsCount > 0 && (
+                <Box>
+                  <Typography
+                    children={`(${+ratingsCount || 1} review${
+                      +ratingsCount > 1 ? "s" : ""
+                    })`}
+                    variant="caption"
+                    style={{ fontSize: 12, marginLeft: 4 }}
+                  />
+                </Box>
+              )}
             </Box>
           </Box>
           <Box className={classes.addToCartContainer} mt={1.4}>

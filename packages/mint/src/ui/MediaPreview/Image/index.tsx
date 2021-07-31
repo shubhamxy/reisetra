@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Box, Dialog, Typography } from "@material-ui/core";
+import {
+  Box,
+  Dialog,
+  FormControlLabel,
+  Switch,
+  Typography,
+} from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import Image from 'next/image';
+import Image from "next/image";
+import { ImageWithZoom } from "./ZoomableImage";
 
 const useStyles = makeStyles<
   Theme,
@@ -163,7 +170,8 @@ const useStyles = makeStyles<
   previewContainer: {
     backgroundColor: "rgba(0,0,0,0.02)",
     backdropFilter: "blur(4px)",
-    padding: "64px",
+    paddingTop: "64px",
+    paddingBottom: "64px",
   },
   previewimage: {
     objectFit: "contain",
@@ -192,6 +200,21 @@ const useStyles = makeStyles<
     padding: 0,
     position: "absolute",
     top: "10px",
+    right: "10px",
+    opacity: 1,
+    "&:hover": {
+      opacity: 1,
+    },
+    transition: "opacity ease 0.8s",
+  },
+  enableZoom: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 0,
+    padding: 0,
+    position: "absolute",
+    bottom: "10px",
     right: "10px",
     opacity: 1,
     "&:hover": {
@@ -460,6 +483,7 @@ export default function ImagePreview({
     selected,
   });
   const [openIndex, setOpenIndex] = useState(-1);
+  const [zoom, setZoom] = useState(false);
   if (!data || data.length === 0) {
     return null;
   }
@@ -501,15 +525,25 @@ export default function ImagePreview({
         onClose={() => setOpenIndex(-1)}
         // style={{ backgroundColor: "transparent" }}
       >
-        {openIndex > -1 && data[openIndex]?.url && (
-          <Image
-            layout="fill"
-            className={classes.previewimage}
-            src={data[openIndex]?.url}
-            alt={`${data[openIndex]?.url}`}
-            key={data[openIndex]?.url}
-          />
-        )}
+        {openIndex > -1 &&
+          data[openIndex]?.url &&
+          (zoom ? (
+            <ImageWithZoom
+              onDoubleClick={() => setZoom(!zoom)}
+              key={data[openIndex]?.url}
+              alt={`${data[openIndex]?.url}`}
+              src={data[openIndex]?.url}
+            />
+          ) : (
+            <Image
+              onDoubleClick={() => setZoom(!zoom)}
+              layout="fill"
+              className={classes.previewimage}
+              src={data[openIndex]?.url}
+              alt={`${data[openIndex]?.url}`}
+              key={data[openIndex]?.url}
+            />
+          ))}
         <button
           onClick={() => setOpenIndex(openIndex - 1)}
           className={classes.prev}
@@ -534,6 +568,23 @@ export default function ImagePreview({
             &#xd7;
           </button>
         )}
+        {/* {openIndex > -1 && (
+          <FormControlLabel
+            className={classes.enableZoom}
+            control={
+              <Switch
+                checked={zoom}
+                onChange={(e, checked) => {
+                  setZoom(checked);
+                }}
+                name="Zoom"
+                color="primary"
+              />
+            }
+            labelPlacement="start"
+            label="Zoom"
+          />
+        )} */}
       </Dialog>
     </div>
   );

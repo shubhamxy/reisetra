@@ -1,4 +1,4 @@
-import { Prisma, Product as ProductModel, Category as CategoryModel, Tag as TagModel } from ".prisma/client";
+import { Prisma, Company as CompanyModel,  Product as ProductModel, Category as CategoryModel, Tag as TagModel } from ".prisma/client";
 
 export class Product implements ProductModel {
   constructor(partial: Partial<ProductModel>) {
@@ -14,6 +14,7 @@ export class Product implements ProductModel {
 
   dimensions: string[];
   details: Prisma.JsonValue;
+  faqs: Prisma.JsonValue;
   published: boolean;
   price: number;
 
@@ -54,4 +55,11 @@ export class Tag implements TagModel {
   label: string;
   value: string;
   description: string;
+}
+
+export class Company implements CompanyModel {
+  constructor(partial: Partial<ProductModel>) {
+    Object.assign(this, partial);
+  }
+  name: string;
 }

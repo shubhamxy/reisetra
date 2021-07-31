@@ -174,7 +174,7 @@ export default function ReviewCard({
         <DialogContent>
 
           <CardContent>
-            <Rating size={"large"} value={rating || 5} readOnly />
+            <Rating size={"large"} value={rating || 5}  readOnly />
             <Typography variant="h5" color="textSecondary" component="p">
               {title}
             </Typography>

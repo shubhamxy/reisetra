@@ -6,6 +6,7 @@ enum QueryKeys {
   product = "product",
   products = "products",
   tags = "tags",
+  brands = "brands",
   tag = "tag",
   category = "category",
   categories = "categories",

@@ -18,6 +18,7 @@ import {
   CreateTagDto,
   UpdateTagDto,
   UpdateCategoryDto,
+  CreateCompanyDto,
 } from "./dto";
 import { OrderDirection } from "../common/dto";
 @Injectable()
@@ -36,6 +37,7 @@ export class ProductService {
         price,
         category,
         tags,
+        brands,
         sort,
         cursor,
         size = 10,
@@ -100,6 +102,12 @@ export class ProductService {
         };
       }
 
+      if (brands) {
+        whereObj["brand"] = {
+          in: brands,
+        };
+      }
+
       if (category) {
         whereObj["categories"] = { some: { label: category } };
       }
@@ -125,7 +133,7 @@ export class ProductService {
           images: {
             select: {
               url: true,
-            }
+            },
           },
         },
         prisma: this.db,
@@ -151,7 +159,7 @@ export class ProductService {
         images: {
           select: {
             url: true,
-          }
+          },
         },
       },
     });
@@ -234,7 +242,7 @@ export class ProductService {
         images: {
           select: {
             url: true,
-          }
+          },
         },
       },
     });
@@ -249,13 +257,34 @@ export class ProductService {
 
   async createProduct(userId: string, data: CreateProductDto): Promise<any> {
     try {
-      const { inventory, images, categories, tags, ...productData } = data;
+      const {
+        inventory,
+        brand,
+        images,
+        categories,
+        tags,
+        ...productData
+      } = data;
       const dataObj = {
         ...productData,
         inventory: {
           create: inventory,
         },
       };
+
+      if (brand) {
+        dataObj["company"] = {
+          connectOrCreate: {
+            create: {
+              name: brand,
+            },
+            where: {
+              name: brand,
+            },
+          },
+        };
+      }
+
       if (images.length > 0) {
         dataObj["images"] = {
           createMany: {
@@ -270,6 +299,7 @@ export class ProductService {
           },
         };
       }
+
       if (tags.length > 0) {
         dataObj["tags"] = {
           connect: tags.map((tag) => ({ label: tag })),
@@ -346,7 +376,7 @@ export class ProductService {
           images: {
             select: {
               url: true,
-            }
+            },
           },
         },
       });
@@ -369,7 +399,7 @@ export class ProductService {
           images: {
             select: {
               url: true,
-            }
+            },
           },
         },
       });
@@ -682,6 +712,85 @@ export class ProductService {
         error?.meta?.cause || error.message,
         error.code,
         "ProductService.deleteTags"
+      );
+    }
+  }
+
+  async getBrands(category?: string): Promise<any> {
+    try {
+      const findObj = {
+        take: 10,
+      };
+      if (category) {
+        findObj["where"] = {
+          products: {
+            some: {
+              categories: {
+                some: {
+                  label: category
+                }
+              }
+            }
+          }
+        };
+      }
+      const companies = await this.db.company.findMany(findObj);
+      return companies;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.getCategories"
+      );
+    }
+  }
+
+  async createBrand(data: CreateCompanyDto): Promise<any> {
+    try {
+      const brand = await this.db.company.create({
+        data: data,
+      });
+      return brand;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.createBrand"
+      );
+    }
+  }
+
+  async updateBrand(data: CreateCompanyDto): Promise<any> {
+    try {
+      const brand = await this.db.company.update({
+        where: {
+          name: data.name
+        },
+        data: data,
+      });
+      return brand;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.createBrand"
+      );
+    }
+  }
+
+  async deleteBrand(data: CreateCompanyDto): Promise<any> {
+    try {
+      const brand = await this.db.company.delete({
+        where: {
+          name: data.name,
+        },
+      });
+      return brand;
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        "ProductService.deleteBrand"
       );
     }
   }

@@ -43,12 +43,12 @@ export function ProductCard({ data }) {
           justifyContent="center"
           alignItems="center"
           bgcolor="#ffffff"
-          width="62px"
-          height="62px"
+          width="72px"
+          height="72px"
         >
           {images?.length > 0 ? (
             <Image
-              src={images[0].url}
+              src={images[0]?.url || "/images/fallback.png"}
               alt={""}
               height={62}
               width={62}
@@ -86,22 +86,35 @@ export function ProductCard({ data }) {
           </Typography> */}
           <Box className={classes.costContainer}>
             <Box display="flex">
-              <Rating size="small" value={+rating || 5} readOnly />
-              <Box>
-                <Typography
-                  children={`(${+ratingsCount || 1} review${
-                    +ratingsCount > 0 ? "s" : ""
-                  })`}
-                  variant="caption"
-                  style={{ fontSize: 12, marginLeft: 4 }}
-                />
-              </Box>
+              <Rating
+                size="small"
+                value={+rating || 5}
+                disabled={!ratingsCount}
+                readOnly
+              />
+              {+ratingsCount > 0 && (
+                <Box>
+                  <Typography
+                    children={`(${+ratingsCount || 1} review${
+                      +ratingsCount > 1 ? "s" : ""
+                    })`}
+                    variant="caption"
+                    style={{ fontSize: 12, marginLeft: 4 }}
+                  />
+                </Box>
+              )}
             </Box>
-            <Box>
+            <Box display="flex" alignItems="center">
               <Typography
                 className={classes.cost}
                 children={`₹ ${price}`}
                 variant="subtitle2"
+              />
+              <Typography
+                className={classes.cost}
+                children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
+                variant="subtitle2"
+                style={{marginLeft: 6 }}
               />
             </Box>
             <Box>
@@ -118,11 +131,6 @@ export function ProductCard({ data }) {
                   marginLeft: 4,
                   textDecoration: "line-through",
                 }}
-              />
-              <Typography
-                children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
-                variant="caption"
-                style={{ fontSize: 10, marginLeft: 4 }}
               />
             </Box>
           </Box>

@@ -7,11 +7,13 @@ import { CreateProduct } from "../../modules/CreateProduct";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { DataGrid, GridRowData } from "@material-ui/data-grid";
-import { useProducts } from "../../libs";
+import { useAuthState, useProducts } from "../../libs";
 import { Grid } from "@material-ui/core";
 import { CreateCategory } from "../../modules/CreateCategory";
 import { CreateTag } from "../../modules/CreateTag";
 import { CreateOffer } from "../../modules/CreateOffer";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 const columns = [
   { field: "title", headerName: "Title", width: 200},
   { field: "description", headerName: "Description", width: 240},
@@ -43,13 +45,20 @@ const useStyles = makeStyles((theme) => ({
 
 const CMSPage = () => {
   const classes = useStyles();
+  const authState = useAuthState();
+  const router = useRouter();
+  useEffect(() => {
+    if(authState.user == null || authState.user && authState.user.role === "ADMIN") {
+      router.push("/");
+    }
+  }, [authState])
   const {
     data,
     isLoading,
     hasNextPage,
     fetchPreviousPage,
     fetchNextPage,
-  } = useProducts();
+  } = useProducts({}, !!authState.user);
   const [open, setOpen] = React.useState(null);
   const [page, setPage] = useState(0);
   const [selected, setSelected] = useState(null);

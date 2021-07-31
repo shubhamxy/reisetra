@@ -14,7 +14,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
-import { config } from "../libs";
+import { config, useAuthState } from "../libs";
 import { CreateContent } from "../modules/CreateContent";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ErrorPage = () => {
   const classes = useStyles();
+  const authState = useAuthState();
   const pageMeta = {
     title: "Stories",
     description: "",
@@ -76,16 +77,18 @@ const ErrorPage = () => {
     >
       <Paper className={classes.content}>
         <Grid container item xs={12} spacing={2} justify="flex-end">
-          <ButtonGroup>
-            <Button
-              variant="contained"
-              color="primary"
-              size="medium"
-              onClick={handleOpen}
-            >
-              Add
-            </Button>
-          </ButtonGroup>
+          {authState.user && authState.user.role === "ADMIN" && (
+            <ButtonGroup>
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                onClick={handleOpen}
+              >
+                Add
+              </Button>
+            </ButtonGroup>
+          )}
         </Grid>
         <Dialog
           scroll="body"
@@ -99,7 +102,7 @@ const ErrorPage = () => {
           <CreateContent onCloseHandler={handleClose} />
         </Dialog>
 
-        <Box display="flex" justifyContent="center" alignItems="center">
+        <Box display="flex" justifyContent="center" minHeight="100vh" alignItems="center">
           Coming Soon
         </Box>
       </Paper>

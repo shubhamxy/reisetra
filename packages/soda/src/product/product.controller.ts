@@ -13,6 +13,7 @@ import {
 import { ProductService } from "./product.service";
 import { CustomException, SuccessResponse } from "src/common/response";
 import {
+  CreateCompanyDto,
   CreateCategoryDto,
   CreateProductDto,
   CreateTagDto,
@@ -23,10 +24,11 @@ import {
 import { Public } from "src/auth/decorator/public.decorator";
 import { AuthenticatedRequest } from "src/auth/auth.interface";
 import { Roles } from "src/auth/decorator/roles.decorator";
+import { Throttle } from "@nestjs/throttler";
 @Controller()
 export class ProductController {
   constructor(private readonly product: ProductService) {}
-
+  @Throttle(60, 120)
   @Public()
   @Get("products")
   async getAllProducts(
@@ -298,6 +300,71 @@ export class ProductController {
         error,
         HttpStatus.BAD_REQUEST,
         "ProductController.deleteCategories"
+      );
+    }
+  }
+
+  @Public()
+  @Get("brands")
+  async getBrands(@Query("category") category: string): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.getBrands(category);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.getBrands"
+      );
+    }
+  }
+
+  @Roles("ADMIN")
+  @Post("brand")
+  async createBrand(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateCompanyDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.createBrand(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.createBrand"
+      );
+    }
+  }
+
+  @Put("brand")
+  async updateBrand(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateCompanyDto
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.updateBrand(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.updateBrand"
+      );
+    }
+  }
+
+  @Roles("ADMIN")
+  @Delete("brand")
+  async deleteBrand(@Body() body: CreateCompanyDto): Promise<SuccessResponse> {
+    try {
+      const data = await this.product.deleteBrand(body);
+      return { data };
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        "ProductController.deleteBrand"
       );
     }
   }

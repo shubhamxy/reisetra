@@ -6,6 +6,7 @@ import {
   createReview,
   createTag,
   deleteReview,
+  getBrands,
   getCategories,
   getProduct,
   getProducts,
@@ -47,6 +48,12 @@ export const useProducts = (filters = {}, enabled = true) =>
 export const useTags = (params = {}) =>
   useQuery([QueryKeys.tags, params], getTags, {
     onSuccess: () => {},
+  });
+
+  export const useBrands = (params = {}) =>
+  useQuery([QueryKeys.brands, params], getBrands, {
+    onSuccess: () => {},
+
   });
 
 export const useCategories = (params = {}) =>
