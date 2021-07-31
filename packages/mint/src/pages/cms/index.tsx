@@ -15,14 +15,19 @@ import { CreateOffer } from "../../modules/CreateOffer";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 const columns = [
-  { field: "title", headerName: "Title", width: 200},
-  { field: "description", headerName: "Description", width: 240},
-  { field: "brand", headerName: "Brand", width: 140, },
+  { field: "title", headerName: "Title", width: 200 },
+  { field: "description", headerName: "Description", width: 240 },
+  { field: "brand", headerName: "Brand", width: 140 },
   { field: "mrp", headerName: "MRP", width: 120 },
   { field: "price", headerName: "Price", width: 120 },
   { field: "tax", headerName: "Tax", width: 120 },
   // { field: "createdAt", headerName: "Created At", width: 200, valueFormatter: ({value}) => new Date(value).toLocaleString() },
-  { field: "updatedAt", headerName: "Updated At", width: 240, valueFormatter: ({value}) => new Date(value).toLocaleString()},
+  {
+    field: "updatedAt",
+    headerName: "Updated At",
+    width: 240,
+    valueFormatter: ({ value }) => new Date(value).toLocaleString(),
+  },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -46,12 +51,15 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
   const classes = useStyles();
   const authState = useAuthState();
+  const {} = authState;
   const router = useRouter();
   useEffect(() => {
-    if(authState.user == null || authState.user && authState.user.role === "ADMIN") {
+    if (
+      authState.isHydrated === true && (authState.isAuthenticated === false || (authState.user && authState.user.role !== "ADMIN"))
+    ) {
       router.push("/");
     }
-  }, [authState])
+  }, [authState]);
   const {
     data,
     isLoading,
@@ -127,7 +135,7 @@ const CMSPage = () => {
         <Box flex={1} width={"100%"} mt={2.4}>
           <DataGrid
             // @ts-ignore
-            onRowSelected={({data}) => {
+            onRowSelected={({ data }) => {
               setSelected(data);
             }}
             rows={(data?.pages?.[page]?.data || []) as GridRowData[]}
@@ -158,17 +166,15 @@ const CMSPage = () => {
           onClose={handleClose}
           aria-labelledby="form-dialog-title"
         >
-          {
-            open === "product" ? (
-              <CreateProduct update={selected} isUpdate={selected !== null} />
-            ) : open === 'category' ? (
-              <CreateCategory />
-            ) : open === 'tag' ? (
-              <CreateTag />
-            ) : open === 'offer' ? (
-              <CreateOffer />
-            ) : null
-          }
+          {open === "product" ? (
+            <CreateProduct update={selected} isUpdate={selected !== null} />
+          ) : open === "category" ? (
+            <CreateCategory />
+          ) : open === "tag" ? (
+            <CreateTag />
+          ) : open === "offer" ? (
+            <CreateOffer />
+          ) : null}
         </Dialog>
       </Box>
     </MainLayout>

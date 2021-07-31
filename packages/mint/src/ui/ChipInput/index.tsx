@@ -10,12 +10,20 @@ const useStyles = makeStyles((theme) => ({
   chipContainer: {
     display: "flex",
     flexWrap: "wrap",
+    width: "100%",
+    padding: theme.spacing(2, 0, 2, 0),
     alignItems: "center",
-    paddingTop: 8,
+    justifyContent: "flex-start",
   },
   chip: {
     overflow: 'hidden',
-    maxWidth: '100%'
+    maxWidth: '100%',
+    marginRight: 9,
+    marginBottom: 9,
+    "&:nth-child": {
+      marginRight: 0,
+      marginBottom: 0,
+    }
   },
   label: {
     display: 'flex',
@@ -27,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TagsInput({ ...props }) {
   const classes = useStyles();
-  const { value, onChange, placeholder, ...other } = props;
+  const { value, onChange, placeholder, endAdornment, ...other } = props;
   const [inputValue, setInputValue] = useState("");
 
   function handleKeyDown(event) {
@@ -93,6 +101,7 @@ export default function TagsInput({ ...props }) {
                     onChange(event);
                   },
                   onFocus,
+                  endAdornment,
                 }}
                 {...other}
                 {...inputProps}

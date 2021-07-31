@@ -10,12 +10,20 @@ const useStyles = makeStyles((theme) => ({
   chipContainer: {
     display: "flex",
     flexWrap: "wrap",
+    width: "100%",
+    padding: theme.spacing(2, 0, 2, 0),
     alignItems: "center",
-    paddingTop: 8,
+    justifyContent: "flex-start",
   },
   chip: {
     overflow: 'hidden',
-    maxWidth: '100%'
+    maxWidth: '100%',
+    marginRight: 9,
+    marginBottom: 9,
+    "&:nth-child": {
+      marginRight: 0,
+      marginBottom: 0,
+    }
   },
   label: {
     display: 'flex',
@@ -43,7 +51,18 @@ export default function TagsInput({ ...props }) {
       }
       if (!event.target.value.replace(/\s/g, "").length) return;
       if (!key) {
-        setKey(event.target.value.trim());
+        const inputValue = event.target.value.trim();
+        if(inputValue.indexOf(":") > -1) {
+          const k = inputValue.split(":");
+          newSelectedItem.push({
+            label: k[0],
+            value: k[1],
+          });
+          setKey("");
+          onChange(newSelectedItem);
+        } else {
+          setKey(inputValue);
+        }
       } else {
         newSelectedItem.push({
           label: key,
@@ -110,7 +129,7 @@ export default function TagsInput({ ...props }) {
                 }}
                 disablePadding
               >
-                {value.map((item) => (
+                {value?.map((item) => (
                   <Chip
                     variant="outlined"
                     color="primary"

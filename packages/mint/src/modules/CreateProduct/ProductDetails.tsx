@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -6,6 +6,22 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import TagsInput from "../../ui/ChipInput";
 import MapInput from "../../ui/MultiInput";
+import { HexColorPicker } from "react-colorful";
+import FormatPaint from "@material-ui/icons/FormatPaint";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
+import { useBrands, useCategories, useTags } from "../../libs";
+import {
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+} from "@material-ui/core";
+import { Box } from "@material-ui/core";
+const filter = createFilterOptions<{ name: string }>();
 
 export default function ProductDetails({
   values,
@@ -15,6 +31,11 @@ export default function ProductDetails({
   handleChange,
   setFieldValue,
 }) {
+  const tags = useTags();
+  const categories = useCategories();
+  const brands = useBrands();
+  const [showPicker, setShowPicker] = useState(false);
+  const [hex, setHex] = useState("");
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -48,7 +69,7 @@ export default function ProductDetails({
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
+          {/* <TextField
             required
             id="brand"
             name="brand"
@@ -59,6 +80,62 @@ export default function ProductDetails({
             onBlur={handleBlur}
             error={touched.brand ? !!errors.brand : false}
             helperText={touched.brand ? errors.brand : ""}
+          /> */}
+          <Autocomplete
+            value={values.brand}
+            onChange={(event, newValue) => {
+              if (newValue && newValue.value) {
+                setFieldValue("brand", newValue.value);
+              } else if (newValue && newValue.name) {
+                setFieldValue("brand", newValue.name);
+              } else {
+                setFieldValue("brand", newValue || "");
+              }
+            }}
+            filterOptions={(options, params) => {
+              const filtered = filter(options, params) as { name: string }[];
+              if (params.inputValue !== "") {
+                filtered.push({
+                  name: `Add "${params.inputValue}"`,
+                  // @ts-ignore
+                  value: params.inputValue,
+                });
+              }
+              return filtered;
+            }}
+            id="brand"
+            options={
+              brands.data && brands.data.data
+                ? (brands.data.data as { name: string }[])
+                : []
+            }
+            getOptionLabel={(option) => {
+              // e.g value selected with enter, right from the input
+              if (typeof option === "string") {
+                return option;
+              }
+              return option.name;
+            }}
+            selectOnFocus
+            clearOnBlur
+            handleHomeEndKeys
+            renderOption={(option) => option.name}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                required
+                id="brand"
+                name="brand"
+                label="Brand"
+                fullWidth
+                value={values.brand}
+                onBlur={handleBlur}
+                error={touched.brand ? !!errors.brand : false}
+                helperText={touched.brand ? errors.brand : ""}
+                InputLabelProps={{ shrink: true }}
+                variant="outlined"
+              />
+            )}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -66,7 +143,7 @@ export default function ProductDetails({
             onChange={(value) => {
               setFieldValue("colors", value);
             }}
-            value={values.colors}
+            value={values?.colors}
             fullWidth
             variant="outlined"
             id="colors"
@@ -95,25 +172,25 @@ export default function ProductDetails({
             helperText={touched.details ? errors.details : ""}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TagsInput
+        <Grid item xs={12}>
+          <MapInput
             onChange={(value) => {
-              setFieldValue("sizes", value);
+              setFieldValue("faqs", value);
             }}
-            value={values.sizes}
+            value={values.faqs}
             fullWidth
             variant="outlined"
-            id="sizes"
-            name="sizes"
-            placeholder="eg. xl, xxl"
-            label="Sizes"
+            id="faqs"
+            name="faqs"
+            placeholder="eg. does it require assembly: yes"
+            label="FAQs"
             onBlur={handleBlur}
-            error={touched.sizes ? !!errors.sizes : false}
-            helperText={touched.sizes ? errors.sizes : ""}
+            error={touched.faqs ? !!errors.faqs : false}
+            helperText={touched.faqs ? errors.faqs : ""}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TagsInput
+          {/* <TagsInput
             onChange={(value) => {
               setFieldValue("categories", value);
             }}
@@ -127,10 +204,54 @@ export default function ProductDetails({
             onBlur={handleBlur}
             error={touched.categories ? !!errors.categories : false}
             helperText={touched.categories ? errors.categories : ""}
+          /> */}
+
+          <Autocomplete
+            multiple
+            id="categories"
+            options={
+              categories.data && categories.data.data
+                ? categories.data.data.map((item) => item.label)
+                : []
+            }
+            getOptionLabel={(option) => option}
+            value={values.categories}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                label="Categories"
+                onBlur={handleBlur}
+                helperText={touched.categories ? errors.categories : ""}
+                error={touched.categories ? !!errors.categories : false}
+                placeholder="eg. Home Decor"
+              />
+            )}
+            renderTags={(value: string[], getTagProps) =>
+              value?.map((option: string, index: number) => (
+                <Chip
+                  color="primary"
+                  variant="outlined"
+                  label={
+                    <Typography component="p" variant="subtitle2">
+                      {option}
+                    </Typography>
+                  }
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            onChange={(_, value) => {
+              setFieldValue("categories", value);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TagsInput
+          {/* <TagsInput
             onChange={(value) => {
               setFieldValue("tags", value);
             }}
@@ -144,14 +265,75 @@ export default function ProductDetails({
             onBlur={handleBlur}
             error={touched.tags ? !!errors.tags : false}
             helperText={touched.tags ? errors.tags : ""}
+          /> */}
+          <Autocomplete
+            multiple
+            id="tags"
+            options={
+              tags.data && tags.data.data
+                ? tags.data.data?.map((item) => item.label)
+                : []
+            }
+            getOptionLabel={(option) => option}
+            value={values.tags}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                label="Tags"
+                onBlur={handleBlur}
+                helperText={touched.tags ? errors.tags : ""}
+                error={touched.tags ? !!errors.tags : false}
+                placeholder="eg. exclusive"
+              />
+            )}
+            renderTags={(value, getTagProps) =>
+              value?.map((option: string, index: number) => (
+                <Chip
+                  color="primary"
+                  variant="outlined"
+                  label={
+                    <Typography component="p" variant="subtitle2">
+                      {option}
+                    </Typography>
+                  }
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            onChange={(_, value) => {
+              setFieldValue("tags", value);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TagsInput
             onChange={(value) => {
+              setFieldValue("sizes", value);
+            }}
+            value={values?.sizes || []}
+            fullWidth
+            variant="outlined"
+            id="sizes"
+            name="sizes"
+            placeholder="eg. xl, xxl"
+            label="Sizes"
+            onBlur={handleBlur}
+            error={touched.sizes ? !!errors.sizes : false}
+            helperText={touched.sizes ? errors.sizes : ""}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TagsInput
+            onChange={(value) => {
               setFieldValue("dimensions", value);
             }}
-            value={values.dimensions}
+            value={values?.dimensions || []}
             fullWidth
             variant="outlined"
             id="dimensions"
@@ -163,23 +345,78 @@ export default function ProductDetails({
             helperText={touched.dimensions ? errors.dimensions : ""}
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TagsInput
             onChange={(value) => {
               setFieldValue("styles", value);
             }}
-            value={values.styles}
+            value={values?.styles || []}
             fullWidth
             variant="outlined"
             id="styles"
             name="styles"
-            placeholder="Css colors ex. #fff, #f00"
+            placeholder="[forground, background] color for card"
             label="Styles (For Store UI)"
             onBlur={handleBlur}
             error={touched.styles ? !!errors.styles : false}
             helperText={touched.styles ? errors.styles : ""}
+            endAdornment={
+              <IconButton
+                onClick={() => {
+                  setShowPicker(!showPicker);
+                }}
+              >
+                <FormatPaint style={{height: 14, width: 14}} />
+              </IconButton>
+            }
           />
         </Grid>
+        <Dialog
+          PaperProps={{
+            style:
+              values?.styles?.length === 0
+                ? { color: hex }
+                : { background: hex },
+          }}
+          open={showPicker}
+          onClose={() => setShowPicker(!showPicker)}
+        >
+          <DialogContent>
+            <HexColorPicker
+              color={hex}
+              onChange={(value) => {
+                setHex(value);
+              }}
+            />
+            <Box
+              style={
+                values?.styles?.length === 0
+                  ? { color: hex }
+                  : { color: values.styles[0], background: hex }
+              }
+              children={
+                <Typography component="p" variant="subtitle2">
+                  {hex}
+                </Typography>
+              }
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                if(hex){
+                  setFieldValue("styles", [...values.styles, hex]);
+                }
+                setHex("");
+                setShowPicker(false);
+              }}
+            >
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <Grid item xs={12} sm={6}>
           <TextField
             required
