@@ -161,60 +161,67 @@ export function CreateProduct({update = {}, isUpdate}) {
     published: true,
     sizes: [],
     details: undefined,
+    faqs: undefined,
     colors: [],
     dimensions: [],
     styles: [],
     categories: [],
     brand: "",
-    ...(config.isProduction ? {} : {
-      title: "Big Peacock Wall Stand",
-      description:
-        "This product is a big peacock wall stand which will look attractive and awesome when kept or hanged at any wall in your house. \n\nIt is one-of-a-kind of a product and when you will hang it on your wall it will increase the liking of your wall and plus will give a luxurious look which is ergonomic and elegant. \n\nWe are sure that you will be able to show-off by hanging this at your lovely wall and all the people coming to your house will ask you and plus it is such at an unbelievable price. What else do you need when you have all the things you need?",
-      inventory: { stockQuantity: 100, sku: "B07VXFMVCD" },
-      styles: [],
-      images: [
-        {
-          id: 'ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg',
-          contentType: "image/jpeg",
-          fileType: "images",
-          fileName: "1624151986235-81rmYy-6-pL._SL1500_.jpg",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg",
-        },
-        {
-          id: 'ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg',
-          contentType: "image/jpeg",
-          fileType: "images",
-          fileName: "1624151986236-81U5C8sfZyL._SL1500_.jpg",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg",
-        },
-        {
-          id: 'ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg',
-          contentType: "image/jpeg",
-          fileType: "images",
-          fileName: "1624151986236-818SUCoRFmL._SL1500_.jpg",
-          url:
-            "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg",
-        },
-      ],
-      mrp: 4000,
-      tax: 18.5,
-      taxCode: "1800",
-      price: 2999,
-      published: true,
-      sizes: ["general"],
-      details: [
-        { label: "Material", value: "Processed Wood" },
-        { label: "Weight", value: "1.2KG" },
-        { label: "Package Included", value: "Pack of 1 wall stand" },
-      ],
-      colors: ["multicolor"],
-      dimensions: ["7.5cm", "15cm", "11.5cm"],
-      categories: ["homedecor"],
-      brand: "Reisetra Crafts ",
-      tags: ["handicraft"],
-    }),
+      ...(config.isProduction ? {} : {
+        title: "Big Peacock Wall Stand",
+        description:
+          "This product is a big peacock wall stand which will look attractive and awesome when kept or hanged at any wall in your house. \n\nIt is one-of-a-kind of a product and when you will hang it on your wall it will increase the liking of your wall and plus will give a luxurious look which is ergonomic and elegant. \n\nWe are sure that you will be able to show-off by hanging this at your lovely wall and all the people coming to your house will ask you and plus it is such at an unbelievable price. What else do you need when you have all the things you need?",
+        inventory: { stockQuantity: 100, sku: "B07VXFMVCD" },
+        styles: [],
+        images: [
+          {
+            id: 'ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg',
+            contentType: "image/jpeg",
+            fileType: "images",
+            fileName: "1624151986235-81rmYy-6-pL._SL1500_.jpg",
+            url:
+              "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986235-81rmYy-6-pL._SL1500_.jpg",
+          },
+          {
+            id: 'ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg',
+            contentType: "image/jpeg",
+            fileType: "images",
+            fileName: "1624151986236-81U5C8sfZyL._SL1500_.jpg",
+            url:
+              "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-81U5C8sfZyL._SL1500_.jpg",
+          },
+          {
+            id: 'ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg',
+            contentType: "image/jpeg",
+            fileType: "images",
+            fileName: "1624151986236-818SUCoRFmL._SL1500_.jpg",
+            url:
+              "https://raw-soda.s3.ap-south-1.amazonaws.com/ckq4hab850002m9p8kczxmi58/images/1624151986236-818SUCoRFmL._SL1500_.jpg",
+          },
+        ],
+        mrp: 4000,
+        tax: 18.5,
+        taxCode: "1800",
+        price: 2999,
+        published: true,
+        sizes: ["general"],
+        details: [
+          { label: "Material", value: "Processed Wood" },
+          { label: "Weight", value: "1.2KG" },
+          { label: "Package Included", value: "Pack of 1 wall stand" },
+        ],
+        faqs: [
+          {
+            label: "How much time it take for delivery.",
+            value: "we usually dispatch within 1-2 days and shipping may take upto 1 week.",
+          }
+        ],
+        colors: ["multicolor"],
+        dimensions: ["7.5cm", "15cm", "11.5cm"],
+        categories: ["Home Decor"],
+        brand: "Reisetra Crafts ",
+        tags: ["Handicraft"],
+      }),
     ...update,
   };
   const createProduct = useCreateProduct();
