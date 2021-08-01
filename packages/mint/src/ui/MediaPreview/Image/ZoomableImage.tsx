@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
   },
   container: {
     display: "flex",
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     maxHeight: "100%",
     overflow: "hidden",
+    cursor: "crosshair",
   },
   image: {
     objectFit: "contain",
@@ -26,17 +28,22 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     maxHeight: "100%",
     flex: 1,
-    borderRadius: 8,
-    transition: theme.transitions.create(["width", "opacity"]),
+    transition: theme.transitions.create(["width", "height", "opacity"]),
   },
   previewContainer: {
     position: "absolute",
-    bottom: 0,
+    width: "100%",
+    height: "100%",
+
+    top: 0,
+    right: '-100%',
     display: "flex",
-    borderRadius: 8,
-    [theme.breakpoints.up("sm")]: {
-      right: 0,
+    [theme.breakpoints.down("sm")]: {
+      top: 'unset',
+      bottom: '-100%',
+      right: 'unset'
     },
+    transition: theme.transitions.create(["width", "opacity"]),
   },
   previewImage: {
     display: "flex",
@@ -45,12 +52,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function ImageWithZoom({ alt, src, ...rest }) {
-  const classes = useStyles();
-  const imgHeight = 416;
+  const imgHeight = 320;
 
-  const imgWidth = 376;
+  const imgWidth = 460;
 
-  const lensHeight = 100;
+  const lensHeight = 50;
 
   const lensWidth = 100;
 
@@ -84,6 +90,8 @@ export function ImageWithZoom({ alt, src, ...rest }) {
     previewImg: src,
   });
   const [showPreview, setShowPreview] = useState(false);
+  const classes = useStyles();
+
   return (
     <div className={classes.root} {...rest}>
       <div
@@ -92,6 +100,8 @@ export function ImageWithZoom({ alt, src, ...rest }) {
         // style={{
         //   ...imgContainerDimesions,
         // }}
+        onMouseEnter={() => setShowPreview(true)}
+        onMouseLeave={() => setShowPreview(false)}
       >
         <div
           ref={meshRefCallback}
@@ -99,6 +109,7 @@ export function ImageWithZoom({ alt, src, ...rest }) {
           // @ts-ignore
           style={{
             ...lensDimensions,
+            ...(!showPreview ? {opacity: 0} : {}),
           }}
         />
 
@@ -111,23 +122,23 @@ export function ImageWithZoom({ alt, src, ...rest }) {
         />
       </div>
       <div
-          className={classes.previewContainer}
+        className={classes.previewContainer}
+        style={{
+          ...previewLensDimensions,
+          opacity: showPreview ? 1 : 0,
+          zIndex: showPreview ? 100 : -100,
+        }}
+      >
+        <img
+          className={classes.previewImage}
+          ref={imagePreviewRefCallback}
+          alt={alt}
+          src={src}
           style={{
-            ...previewLensDimensions,
+            ...previewImgDimensions,
           }}
-        >
-
-          <img
-            className={classes.previewImage}
-            ref={imagePreviewRefCallback}
-            alt={alt}
-            src={src}
-            style={{
-              ...previewImgDimensions,
-            }}
-          />
-        </div>
-
+        />
+      </div>
     </div>
   );
 }

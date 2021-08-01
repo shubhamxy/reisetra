@@ -657,8 +657,8 @@ export function Product({ data, isLoading }) {
           <DetailsTable label={"Details"} rows={details} />
         </Grid>
       )}
-      {faqs && (
-        <Grid item xs={12} md={8}>
+      {faqs && Object.keys(faqs).length > 0 && (
+        <Grid item xs={12} md={12}>
           <DetailsTable label={"FAQs"} rows={faqs} />
         </Grid>
       )}

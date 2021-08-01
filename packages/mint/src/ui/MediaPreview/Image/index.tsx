@@ -26,21 +26,12 @@ const useStyles = makeStyles<
   root: {
     padding: 0,
     margin: 0,
-    overflow: "hidden",
     width: "100%",
   },
   gridList: ({ length, selected }) => ({
     display: "grid",
-    gridTemplateColumns:
-      length === 1
-        ? "1fr"
-        : length === 2
-        ? "1fr 1fr"
-        : length === 3
-        ? "repeat(5, 1fr)"
-        : "repeat(5, 1fr)",
-    gridTemplateRows:
-      length === 2 ? "1fr" : length === 3 ? "repeat(6, 1fr)" : "repeat(3, 1fr)",
+    gridTemplateColumns: "repeat(12, 1fr)",
+    gridTemplateRows: "repeat(12, 1fr)",
     gridGap: "4px",
     alignItems: "stretch",
     justifyItems: "center",
@@ -54,30 +45,38 @@ const useStyles = makeStyles<
       : {}),
   }),
   gridItem: ({ length, borderRadius }) => ({
-    overflow: "hidden",
     borderRadius: borderRadius || "2px",
     display: "flex",
     cursor: "pointer",
     width: "100%",
-    gridColumn: length === 3 ? "span 2" : "span 1",
-    gridRow: length === 3 ? "span 3" : "span 1",
+    gridColumn: "span 3",
+    gridRow: "span 4",
     height: "100%",
-    maxHeight: length <= 2 ? "304px" : length === 3 ? "150px" : "100px",
-    minHeight: length === 2 ? "300px" : "100px",
-    "&:nth-child(1)": {
-      gridColumn: length === 2 ? "span 1" : length === 3 ? "span 3" : "span 4",
-      gridRow: length === 2 ? "span 1" : length === 3 ? "span 6" : "span 3",
-      height: "100%",
-      maxHeight: length === 2 ? "304px" : "308px",
-      minHeight: "300px",
-      alignItems: "center",
-    },
-    justifyContent: "center",
+    maxHeight: "100px",
+    minHeight: "100px",
+    border: `1px solid transparent`,
     "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
       "& .closebtn": {
         opacity: 1,
       },
     },
+    "&:nth-child(1)": {
+      gridColumn: "span 12",
+      gridRow: "span 8",
+      height: "100%",
+      maxHeight: "320px",
+      minHeight: "320px",
+      alignItems: "center",
+      "&:hover": {
+        border: `1px solid transparent`,
+        "& .closebtn": {
+          opacity: 1,
+        },
+      },
+    },
+    justifyContent: "center",
+
   }),
 
   list: {
@@ -347,13 +346,31 @@ function GridView({
   handleRemoveItem,
   showTitleBar,
 }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
   return (
     <Box className={classes.gridList}>
+      <Box
+        className={classes.gridItem}
+        position="relative"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        <ImageWithZoom
+          // onDoubleClick={() => setZoom(!zoom)}
+          key={data[selectedIndex].url}
+          alt={`${data[selectedIndex].url}`}
+          src={data[selectedIndex].url}
+        />
+      </Box>
       {data.slice(0, 3).map((tile, index) => (
         <Box
           key={tile.url}
           className={classes.gridItem}
           position="relative"
+          onMouseEnter={() => setSelectedIndex(index)}
+          onTouchEnd={() => setSelectedIndex(index)}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -527,15 +544,7 @@ export default function ImagePreview({
       >
         {openIndex > -1 &&
           data[openIndex]?.url &&
-          (zoom ? (
-            <ImageWithZoom
-              onDoubleClick={() => setZoom(!zoom)}
-              key={data[openIndex]?.url}
-              alt={`${data[openIndex]?.url}`}
-              src={data[openIndex]?.url}
-            />
-          ) : (
-            <Image
+            (<Image
               onDoubleClick={() => setZoom(!zoom)}
               layout="fill"
               className={classes.previewimage}
@@ -543,7 +552,7 @@ export default function ImagePreview({
               alt={`${data[openIndex]?.url}`}
               key={data[openIndex]?.url}
             />
-          ))}
+          )}
         <button
           onClick={() => setOpenIndex(openIndex - 1)}
           className={classes.prev}
