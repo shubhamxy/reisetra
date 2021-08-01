@@ -13,8 +13,8 @@
   "workspaces": {
     "packages": [
       "packages/mint",
-      "packages/soda",
-      "packages/rocks"
+      "packages/maze",
+      "packages/soda"
     ],
     "nohoist": [
       "**"
@@ -43,11 +43,16 @@
     "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
+
     "deploy:server": "./scripts/deploy.sh",
     "build:server": "yarn workspace @reisetra/soda build",
     "start:server": "yarn workspace @reisetra/soda start:prod",
     "stop:server": "yarn workspace @reisetra/soda stop:prod",
     "dev:server": "yarn workspace @reisetra/soda dev",
+
+    "build:cms": "yarn workspace @reisetra/maze build",
+    "start:cms": "yarn workspace @reisetra/maze start",
+    "dev:cms": "yarn workspace @reisetra/maze dev",
 
     "deploy": "",
     "?prebuild": "yarn workspace @reisetra/rocks build",

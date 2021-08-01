@@ -31,7 +31,7 @@ import { ShoppingCart } from "@material-ui/icons";
 import ReviewCard from "./review";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import ProductImages from "../CreateProduct/ProductImages";
+import ProductImages from "../../ui/ProductImages";
 import { Rating } from "@material-ui/lab";
 import { useEffect } from "react";
 

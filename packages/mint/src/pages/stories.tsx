@@ -1,13 +1,7 @@
 import {
   Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Grid,
   makeStyles,
   Paper,
-  Typography,
-  Dialog,
 } from "@material-ui/core";
 import React from "react";
 import { MainLayout } from "../layouts/MainLayout";
@@ -15,7 +9,6 @@ import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
 import { config, useAuthState } from "../libs";
-import { CreateContent } from "../modules/CreateContent";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -35,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ErrorPage = () => {
+const StoriesPage = () => {
   const classes = useStyles();
   const authState = useAuthState();
   const pageMeta = {
@@ -76,32 +69,6 @@ const ErrorPage = () => {
       footer={<Footer />}
     >
       <Paper className={classes.content}>
-        <Grid container item xs={12} spacing={2} justify="flex-end">
-          {authState.user && authState.user.role === "ADMIN" && (
-            <ButtonGroup>
-              <Button
-                variant="contained"
-                color="primary"
-                size="medium"
-                onClick={handleOpen}
-              >
-                Add
-              </Button>
-            </ButtonGroup>
-          )}
-        </Grid>
-        <Dialog
-          scroll="body"
-          fullWidth
-          maxWidth="md"
-          open={!!open}
-          onClose={handleClose}
-          className={classes.content}
-        >
-          {/* @ts-ignore */}
-          <CreateContent onCloseHandler={handleClose} />
-        </Dialog>
-
         <Box display="flex" justifyContent="center" minHeight="100vh" alignItems="center">
           Coming Soon
         </Box>
@@ -110,4 +77,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default StoriesPage;

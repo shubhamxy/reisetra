@@ -176,7 +176,7 @@ model Product {
   rating       Int
   dimensions   String[]
   details      Json
-  faqs         Json       @default("{}")
+  faqs         Json       @default("[]")
   published    Boolean    @default(false)
   mrp          Float
   price        Float

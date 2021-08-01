@@ -21,10 +21,10 @@
 
 | Codebase                     |   Description    |
 | :--------------------------- | :--------------: |
-| [soda](./soda)               |    NodeJS API    |
-| [mint](./mint)               | Next.js frontend |
-| [maze](./mint)               |   Next.js cms    |
-| [rock](./mint/src/libs/rock) |    API Client    |
+| [soda](./packages/soda)               |    NodeJS API    |
+| [mint](./packages/mint)               | Next.js frontend |
+| [maze](./packages/maze)               |   Next.js cms    |
+| [rock](./packages/mint/src/libs/rock) |    API Client    |
 
 ---
 

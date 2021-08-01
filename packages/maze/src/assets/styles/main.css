@@ -1,0 +1,167 @@
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Light.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Regular.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Medium.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "NeueHaasUnicaPro";
+  src: url("./font/NeueHaasUnicaPro/NeueHaasUnicaPro-Bold.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-SemiBold-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Gibson";
+  src: url("./font/Gibson/Gibson-Bold-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: bold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+body {
+  font-family: "Gibson", "NeueHaasUnicaPro", "SF Pro Text", "SF Pro Icons",
+    "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+#nprogress .bar {
+  height: 4px;
+}
+
+#container {
+  padding: 40px;
+  background-color: grey;
+  color: white;
+}
+
+#nprogress .bar {
+  background: linear-gradient(to right, #4f44e0 0%, #0f0f0f 50%, #4f44e0 100%);
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #4f44e0;
+  border-left-color: #0f0f0f;
+}
+
+:root {
+  color-scheme: light;
+  background: #ffffff;
+}
+
+/* width */
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f109;
+}
+
+/* Handle */
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(225, 224, 224);
+  border-radius: 48px;
+}
+
+/* Handle on hover */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(199, 199, 199);
+  border-radius: 48px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    background: #000000;
+  }
+
+  /* width */
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  .scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f109;
+  }
+
+  /* Handle */
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 48px;
+  }
+
+  /* Handle on hover */
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgb(129, 134, 140);
+    border-radius: 48px;
+  }
+}
