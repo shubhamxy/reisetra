@@ -51,7 +51,7 @@ export const getUploadURL = async function ({
     fileName,
     expiresIn: URL_EXPIRATION_SECONDS,
     signedUrl,
-    url: signedUrl.split("?").shift(),
+    url: awsConfig.s3Url + '/' + key,
   };
 };
 

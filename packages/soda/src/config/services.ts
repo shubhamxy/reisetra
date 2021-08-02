@@ -16,6 +16,7 @@ export interface ServicesEnv {
     region: string;
     s3BucketName: string;
     s3Region: string;
+    s3Url: string;
     sesEndpoint: string;
     sesEmailSender: string;
     sesRegion: string;
@@ -44,6 +45,7 @@ export const services = (): ServicesEnv => ({
     // S3
     s3BucketName: process.env.AWS_S3_BUCKET_NAME,
     s3Region: process.env.AWS_S3_REGION,
+    s3Url: process.env.AWS_S3_URL,
     // SES
     sesEndpoint: process.env.AWS_SES_ENDPOINT,
     sesEmailSender: process.env.AWS_SES_DEFAULT_EMAIL_SENDER,
