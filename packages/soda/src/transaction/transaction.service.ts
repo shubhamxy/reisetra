@@ -19,6 +19,7 @@ import { nanoid } from "nanoid";
 import { Order } from "src/order/entity";
 import { Address } from "src/address/entity";
 import { User } from "src/user/entity";
+import { sendEmail, transactionEmail } from "src/utils";
 
 interface RazororpayOrderResponse {
   id: string;
@@ -126,7 +127,10 @@ export class TransactionService {
         .toPromise();
 
       const razorpayData = response.data;
-      console.log("createTransaction::razorpay::data", JSON.stringify(razorpayData, null, 4));
+      console.log(
+        "createTransaction::razorpay::data",
+        JSON.stringify(razorpayData, null, 4)
+      );
       if (razorpayData?.status === "created") {
         try {
           const product = await this.db.order.update({
@@ -163,18 +167,23 @@ export class TransactionService {
               },
             },
           });
-          console.log("createTransaction::razorpay::order.update", JSON.stringify(product, null, 4));
+          console.log(
+            "createTransaction::razorpay::order.update",
+            JSON.stringify(product, null, 4)
+          );
           const razorpayOptions = {
             key: razorpayKeyId,
             amount: product.transaction.amount,
             currency: product.transaction.currency,
             name: this.config.get<string>("services.razorpay.name"),
-            description: this.config.get<string>("services.razorpay.description"),
+            description: this.config.get<string>(
+              "services.razorpay.description"
+            ),
             order_id: product.transaction.paymentOrderId,
             prefill: {
               name: user.name,
               email: user.email,
-              contact: order.address.phone || user.phone || '',
+              contact: order.address.phone || user.phone || "",
             },
             notes: [
               ...razorpayData.notes,
@@ -186,7 +195,10 @@ export class TransactionService {
           };
           return { ...product, razorpayOptions };
         } catch (error) {
-          console.log("createTransaction::razorpay::order.update::error", JSON.stringify(error, null, 4));
+          console.log(
+            "createTransaction::razorpay::order.update::error",
+            JSON.stringify(error, null, 4)
+          );
           throw new CustomError(
             error?.meta?.cause || error.message,
             error.code,
@@ -202,7 +214,10 @@ export class TransactionService {
         );
       }
     } catch (error) {
-      console.log("createTransaction::transaction::data", JSON.stringify(error, null, 4));
+      console.log(
+        "createTransaction::transaction::data",
+        JSON.stringify(error, null, 4)
+      );
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
@@ -377,16 +392,16 @@ export class TransactionService {
                 cart: {
                   update: {
                     checkedOut: true,
-                  }
+                  },
                 },
                 user: {
                   update: {
                     cart: {
-                      create: {}
-                    }
-                  }
-                }
-              }
+                      create: {},
+                    },
+                  },
+                },
+              },
             },
             paymentId: update.paymentId,
             paymentSignature: update.paymentSignature,
@@ -394,8 +409,67 @@ export class TransactionService {
             type: "RAZORPAY",
             status: "SUCCESS",
           },
+          include: {
+            user: {
+              select: {
+                email: true,
+                id: true,
+              },
+            },
+            order: {
+              include: {
+                address: true,
+                cart: {
+                  select: {
+                    items: {
+                      select: {
+                        color: true,
+                        size: true,
+                        quantity: true,
+                        product: {
+                          include: {
+                            inventory: {
+                              select: {
+                                sku: true,
+                              }
+                            }
+                          }
+                        },
+                      }
+                    },
+                  },
+                },
+              },
+            },
+          },
         });
-
+        try {
+          const response = await sendEmail(transactionEmail({
+            id: updatedData.user.id,
+            subject: `Your Reisetra.com order #${updatedData.order.id} received for ${updatedData.order.cart.items.length} item${updatedData.order.cart.items.length > 1 ? 's' : ''}`,
+            description: `Thank you for shopping with us. We'd like to let you know that we have received your order, and is preparing it for shipment. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
+            orderId: updatedData.order.id,
+            address: `${updatedData.order.address.address}, ${updatedData.order.address.region}, ${updatedData.order.address.nearby},  ${updatedData.order.address.city}, ${updatedData.order.address.state},   ${updatedData.order.address.country}, ${updatedData.order.address.zipcode}`,
+            email: updatedData.order.address.email,
+            phone: updatedData.order.address.phone,
+            status: `Your Reisetra.com order #${updatedData.order.id} received for ${updatedData.order.cart.items.length} item${updatedData.order.cart.items.length > 1 ? 's' : ''}.`,
+            transaction: {
+              id: updatedData.id,
+              grandTotal: updatedData.order.grandTotal,
+              shipping: updatedData.order.shipping,
+              subTotal: updatedData.order.subTotal,
+              taxes: updatedData.order.tax,
+            },
+            orderItems: updatedData.order.cart.items.map(item => ({
+              sku: item.product.inventory.sku,
+              title: item.product.title,
+              options: item.size + " - " + item.color,
+              qty: item.quantity,
+            })),
+          }));
+        } catch (error) {
+          console.log(error);
+        }
         return updatedData;
       } else {
         const updatedData = await this.db.transaction.update({

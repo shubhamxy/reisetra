@@ -133,11 +133,11 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       secondary,
       background: {
         default: type === "dark" ? "#070708" : "#f7f9fc",
-        paper: type === "dark" ? "#121212" : "#f6f7f8",
+        paper: type === "dark" ? "#121212" : "#f5f8f9",
       },
       text: {
-        primary: type === "dark" ?  "#eeeeee" : "#1c1c1c",
-        secondary: type === "dark" ? "#f6f7f8" : "#202020",
+        primary: type === "dark" ?  "#eeeeee" : "#535b62",
+        secondary: type === "dark" ? "#f6f7f8" : "#57565d",
       },
       error,
       warning,
@@ -278,10 +278,10 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           borderRadius: 12,
         },
         elevation1: {
-          boxShadow: "0px 2px 6px  rgba(15, 15, 15, 0.10)",
+          boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
         },
         elevation8: {
-          boxShadow: "0px 2px 6px rgba(15, 15, 15, 0.10)",
+          boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
         },
       },
       MuiMenuItem: {
@@ -324,7 +324,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
         },
         disabled: {},
         contained: {
-          borderRadius: 8,
+          borderRadius: 6,
           "&:disabled": {
             opacity: 0.8,
           },

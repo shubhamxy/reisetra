@@ -6,9 +6,9 @@ const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((t
   wrapper: ({hasHeader, hasFooter}) => ({
     "@supports (backdrop-filter: none)": {
       ...(hasHeader && hasFooter ? {
-        backgroundImage: `linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
+        backgroundImage: `linear-gradient(to right, #d88ea3 0%, #453dbb 33%, #453dbb 66%, #d88ea3), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
         backgroundPosition: "top, bottom",
-        backgroundSize: "100% 8px, 100% 8px",
+        backgroundSize: "100% 1px, 100% 1px",
         backgroundRepeat: "no-repeat",
       } : {}),
     },
@@ -39,6 +39,12 @@ const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((t
     alignItems: "center",
     width: '100%',
     padding: 8,
+    paddingBottom: 24,
+  },
+  hero: {
+    display: "flex",
+    alignItems: "center",
+    width: '100%',
     paddingBottom: 24,
   },
   // middle part
@@ -87,6 +93,7 @@ interface ILayout {
   footer?: React.ReactChild;
   left?: React.ReactChild;
   right?: React.ReactChild;
+  hero?: React.ReactChild;
   top?: React.ReactChild;
   bottom?: React.ReactChild;
   classes?: Partial<
@@ -97,6 +104,7 @@ interface ILayout {
       | "left"
       | "right"
       | "top"
+      | "hero"
       | "wrapper"
       | "main"
     >
@@ -111,6 +119,7 @@ export function MainLayout({
   right,
   bottom,
   top,
+  hero,
   classes: cls,
 }: ILayout) {
   const classes = useStyles({hasHeader: !!header, hasFooter: !!footer});
@@ -121,7 +130,16 @@ export function MainLayout({
       component="main"
     >
       {header ? header : null}
-
+      {hero && (
+          <Grid
+            className={clsx(cls?.hero, classes.hero)}
+            component="section"
+            xs={12}
+            item
+          >
+            {hero}
+          </Grid>
+        )}
       <Container className={clsx(cls?.container, classes.container)}>
         {top && (
           <Grid

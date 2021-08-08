@@ -84,13 +84,19 @@ function useHelper({
 		handleSubmit,
 	};
 }
+interface ContentProps {
+  onCloseHandler: any;
+  step?: any;
+  isUpdate?: any;
+  data?: any;
+}
 
 export function CreateContent({
 	onCloseHandler,
 	step,
 	isUpdate,
 	data,
-}) {
+}: ContentProps) {
 	const {
 		values,
 		setFieldValue,

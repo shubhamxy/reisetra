@@ -20,6 +20,7 @@ import { FilesModule } from "./files/files.module";
 import { ReviewModule } from "./review/review.module";
 import { CacheModule } from "./common/modules/cache/cache.module";
 import settings from "./config/settings";
+import { SupportModule } from "./support/support.module";
 const settingsEnv = settings();
 
 @Module({
@@ -51,6 +52,7 @@ const settingsEnv = settings();
     TransactionModule,
     FilesModule,
     ReviewModule,
+    SupportModule,
   ],
   controllers: [],
   providers: [

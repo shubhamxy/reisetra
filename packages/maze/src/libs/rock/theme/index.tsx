@@ -278,10 +278,11 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           borderRadius: 12,
         },
         elevation1: {
-          boxShadow: "0px 2px 6px  rgba(15, 15, 15, 0.10)",
+          boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%);",
+
         },
         elevation8: {
-          boxShadow: "0px 2px 6px rgba(15, 15, 15, 0.10)",
+          boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%);",
         },
       },
       MuiMenuItem: {
@@ -324,7 +325,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
         },
         disabled: {},
         contained: {
-          borderRadius: 8,
+          borderRadius: 6,
           "&:disabled": {
             opacity: 0.8,
           },

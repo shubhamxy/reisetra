@@ -52,9 +52,10 @@ const IndexPage = () => {
       top={
         <HeroCard
           data={{
+            objectFit: "contain",
             title: "Indian Handcrafts",
             subtitle: "Unique products designed by independent artists.",
-            backgroundImage: "/images/cover2.jpg",
+            backgroundImage: "/images/hero2.jpeg",
           }}
         />
       }

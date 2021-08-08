@@ -23,6 +23,7 @@ const useGridStyles = makeStyles((theme) => ({
       gridTemplateColumns: "1fr",
       alignItems: "center",
     },
+
   },
 }));
 type TStyles = {
@@ -68,18 +69,19 @@ const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
     height: 372,
     maxWidth: 320,
     mixBlendMode: "normal",
-    boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.10)",
-    borderRadius: 8,
     color: styles && styles[0] ? styles[0] : colors[colorIndex].color,
     background: styles && styles[1] ? styles[1] : colors[colorIndex].background,
-    "&:hover": {
-      transition:
-        "background 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-    },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       margin: "0 auto",
     },
+    borderRadius: 4,
+    border: `1px solid ${theme.palette.text.primary}33`,
+    "&:hover": {
+      transition:
+      "background 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+      boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.2)",
+    }
   }),
   card: {
     margin: 0,

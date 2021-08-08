@@ -18,17 +18,6 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import { ExpandMore, Edit, Delete, Cancel } from "@material-ui/icons";
 import { OrderTimeline } from "./Timeline";
 import { useCancelOrder, useUpdateOrder } from "../../libs";
-function useHelper({ id }) {
-  const router = useRouter();
-  function handleClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    router.push(`/product/${id}?ref=${encodeURIComponent(router.asPath)}`);
-  }
-  return {
-    handleClick,
-  };
-}
 
 export function OrderCard({ data, selected, setSelected }) {
   const {
@@ -62,9 +51,6 @@ export function OrderCard({ data, selected, setSelected }) {
       email,
     },
   } = data;
-  const { handleClick } = useHelper({
-    id,
-  });
   const cancelOrder = useCancelOrder();
   const updateOrder = useUpdateOrder();
 

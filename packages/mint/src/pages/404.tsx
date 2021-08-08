@@ -53,7 +53,7 @@ const ErrorPage = () => {
           }}
           actions={
             <Box pt={2.4}>
-              <Button href="/" color="primary" variant="contained">
+              <Button href="/" color="secondary" size="medium" variant="contained">
                 Go Back
               </Button>
             </Box>

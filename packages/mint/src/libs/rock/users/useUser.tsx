@@ -8,6 +8,7 @@ import {
 import {
   cancelOrder,
   createAddress,
+  createSupportTicket,
   deleteAddress,
   getAddreses,
   getMe,
@@ -188,5 +189,26 @@ export const useUpdateOrder = () => {
         open: true,
       }));
     },
+  });
+};
+
+export const useCreateSupportTicket = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useGlobalDispatch();
+  return useMutation(createSupportTicket, {
+    onSuccess: () => {
+      dispatch(updateSnackBar({
+        message:'Support ticket created',
+        type: "success",
+        open: true,
+      }));
+    },
+    onError: (error) => {
+      dispatch(updateSnackBar({
+        message: error['message'] || 'Failed to create support ticket',
+        type: "error",
+        open: true,
+      }));
+    }
   });
 };

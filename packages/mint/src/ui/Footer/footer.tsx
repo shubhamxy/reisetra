@@ -27,7 +27,6 @@ import {
   WbSunny,
 } from "@material-ui/icons";
 import { ButtonGroup } from "@material-ui/core";
-import { Button } from "@material-ui/core";
 const { version } = require("../../../package.json");
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,12 +35,13 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       width: "100%",
       backgroundColor: fade(theme.palette.background.paper, 0.4),
-      backdropFilter: "blur(50px)",
+      backdropFilter: "blur(30px)",
       position: "relative",
       [theme.breakpoints.down("sm")]: {
         padding: "40px 0 0",
       },
-      boxShadow: "0 -2px 8px rgb(0 0 0 / 15%)",
+      boxShadow: "0 -1px 4px 0 rgb(0 0 0 / 10%);",
+
     },
     container: {
       display: "flex",
@@ -99,6 +99,8 @@ const useStyles = makeStyles((theme: Theme) =>
     footerNavList: {},
     footerListItem: {
       cursor: "pointer",
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     payments: {
       borderRadius: "4px",
@@ -109,8 +111,9 @@ const useStyles = makeStyles((theme: Theme) =>
     socials: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "flex-end",
+      // justifyContent: "flex-start",
       alignItems: "center",
+      marginLeft: -14,
     },
     socialsicon: {
       borderRadius: 0,
@@ -190,15 +193,14 @@ function Footer() {
                 );
               })}
             </Box>
-            <Box display="flex" alignItems="center" justifyContent="flex-end">
+            <Box display="flex" flexDirection="column"  alignItems="flex-start" justifyContent="flex-start">
               <Box
                 display="flex"
                 alignItems="center"
-                pr={2.4}
                 justifyContent="center"
               >
                 <Typography color="textPrimary" variant="caption">
-                  Follow Us
+                  Find us on:
                 </Typography>
               </Box>
               <ButtonGroup className={classes.socials} variant="outlined">

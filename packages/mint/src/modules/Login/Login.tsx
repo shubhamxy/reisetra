@@ -252,7 +252,7 @@ export function LogIn() {
               >
                 <Grid item>
                   <Typography variant="caption" align="center">
-                    <Link href="/login/forgot" variant="caption" underline={"none"}>
+                    <Link href="/login/forgot-password" variant="caption" underline={"none"}>
                       Forgot password?
                     </Link>
                   </Typography>

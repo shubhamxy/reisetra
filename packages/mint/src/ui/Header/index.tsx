@@ -52,9 +52,9 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: fade(theme.palette.background.paper, 0.4),
-      backdropFilter: "blur(50px)",
+      backdropFilter: "blur(30px)",
       "@supports (backdrop-filter: none)": {
-        boxShadow: "0 2px 8px rgb(0 0 0 / 15%)",
+        boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
       },
       maxHeight: "100px",
       transition: "all ease 0.2s",
@@ -433,7 +433,7 @@ export function AppHeader() {
   ) : (
     <MenuItem className={classes.menuPaperItem}>
       <Link href="/login">
-        <Button variant="contained" color="primary">
+        <Button variant="contained" size="medium" color="primary">
           Login
         </Button>
       </Link>

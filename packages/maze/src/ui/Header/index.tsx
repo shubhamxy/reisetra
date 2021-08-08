@@ -17,7 +17,7 @@ import { useDebouncedCallback } from "use-debounce";
 import Menu from "@material-ui/core/Menu";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import SearchIcon from "@material-ui/icons/Search";
-import { Box, Button, Grid, InputBase } from "@material-ui/core";
+import { Box, Button, InputBase } from "@material-ui/core";
 import Link from "next/link";
 import { logout, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
 import { ShoppingCart } from "@material-ui/icons";
@@ -262,26 +262,19 @@ export function AppHeader() {
   );
   const data = response.data;
   const authDispatch = useAuthDispatch();
-  useEffect(() => {
-    if (router.query["q"] && searchText === "") {
-      setSearchText(router.query["q"] ? (router.query["q"] as string) : "");
-    }
-  }, [router.query["q"]]);
-
   const debounced = useDebouncedCallback((value) => {
-    const routerObj = {};
-    routerObj["query"] = router.query;
-    if (!value) {
-      delete routerObj["query"]["q"];
-    } else {
-      routerObj["query"]["q"] = value;
+    const routerObj = {
+      pathname: router.pathname,
+      query: router.query,
+    }
+    routerObj.query.q = value;
+    if(routerObj.query.q === '') {
+      delete routerObj.query.q;
     }
     router.push(routerObj);
   }, 2000);
 
-  const isOpen = Boolean(searchText);
-
-  const classes = useStyles({ isOpen });
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [
     mobileMoreAnchorEl,

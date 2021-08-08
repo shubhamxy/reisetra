@@ -11,8 +11,6 @@ import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
 import { config } from "../libs/rock/config";
-import { useEffect } from "react";
-import { analytics } from "../libs";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -50,9 +48,10 @@ const AboutPage = () => {
       top={
         <HeroCard
           data={{
-            title: "About Us",
-            description: "We are reisetra",
-            backgroundImage: "/images/cover.jpg",
+            objectFit: "cover",
+            title: "We are reisetra",
+            subtitle: "About Us",
+            backgroundImage: "/images/hero.jpeg",
           }}
         />
       }

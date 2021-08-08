@@ -21,7 +21,9 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Box } from "@material-ui/core";
+import { useEffect } from "react";
 const filter = createFilterOptions<{ name: string }>();
+
 
 export default function ProductDetails({
   values,

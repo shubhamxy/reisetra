@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     flex: 1,
     maxWidth: 364,
-    boxShadow: "0 4px 16px rgb(0 0 0 / 15%)",
+    boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
   },
   footer: {
     minHeight: "60px",

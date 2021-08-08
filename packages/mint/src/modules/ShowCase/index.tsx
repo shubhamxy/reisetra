@@ -67,8 +67,7 @@ const useGridItemStyles = makeStyles<
     maxWidth: 320,
     justifyContent: "center",
     mixBlendMode: "normal",
-    borderRadius: 8,
-    boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.10)",
+    boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
     color:
       colors && colors[0] ? colors[0] : fade(styles[styleIndex].color, 0.8),
     background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
@@ -77,6 +76,11 @@ const useGridItemStyles = makeStyles<
       height: "unset",
       alignItems: "center",
     },
+    borderRadius: 4,
+    border: `1px solid ${theme.palette.text.primary}33`,
+    "&:hover": {
+      boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.2)",
+    }
   }),
   card: {
     margin: 0,
@@ -138,8 +142,6 @@ const useGridItemStyles = makeStyles<
   media: {
     position: "relative",
     backgroundColor: "#fff",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
     backgroundSize: "contain",
     height: 0,
     width: "100%",

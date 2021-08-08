@@ -8,7 +8,7 @@ const useStyles = makeStyles<Theme, {hasHeader: boolean, hasFooter: boolean}>((t
       ...(hasHeader && hasFooter ? {
         backgroundImage: `linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
         backgroundPosition: "top, bottom",
-        backgroundSize: "100% 8px, 100% 8px",
+        backgroundSize: "100% 8px, 100% 1px",
         backgroundRepeat: "no-repeat",
       } : {}),
     },

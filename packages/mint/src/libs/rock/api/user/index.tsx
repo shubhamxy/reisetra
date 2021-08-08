@@ -83,3 +83,22 @@ export function cancelOrder(orderId: string) {
 export function deleteOrder(orderId: string) {
   return del<Partial<IAddress>>(`order/${orderId}`, {});
 }
+
+export function createSupportTicket(body: Partial<{
+  subject: string;
+  description: string;
+  orderId?: string;
+  ticketId?: string;
+}>) {
+  return post<Partial<{
+    subject: string;
+    description: string;
+    orderId?: string;
+    ticketId?: string;
+  }>, Partial<{
+    subject: string;
+    description: string;
+    orderId?: string;
+    ticketId?: string;
+  }>>("support", body);
+}

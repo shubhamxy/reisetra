@@ -10,6 +10,7 @@ import { PrismaService } from "src/common/modules/db/prisma.service";
 import { CacheService } from "src/common/modules/cache/cache.service";
 import { prismaOffsetPagination } from "src/utils/prisma";
 import { CreateOrderDto } from "./dto";
+import { sendEmail, transactionEmail } from "src/utils";
 
 @Injectable()
 export class OrderService {
@@ -158,10 +159,57 @@ export class OrderService {
         where: { id: orderId },
         data: update,
         include: {
+          cart: {
+            select: {
+              items: {
+                select: {
+                  color: true,
+                  size: true,
+                  quantity: true,
+                  product: {
+                    include: {
+                      inventory: {
+                        select: {
+                          sku: true,
+                        }
+                      }
+                    }
+                  },
+                }
+              },
+            },
+          },
           address: true,
           user: true,
         },
       });
+      try {
+        const response = await sendEmail(transactionEmail({
+          id: data.user.id,
+          subject: `Your Reisetra.com order #${data.id} ${data.status.toLowerCase()} for ${data.cart.items.length} item${data.cart.items.length > 1 ? 's' : ''}`,
+          description: `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
+          orderId: data.id,
+          address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
+          email: data.address.email,
+          phone: data.address.phone,
+          status: `Your Reisetra.com order #${data.id} ${data.status.toLowerCase()} for ${data.cart.items.length} item${data.cart.items.length > 1 ? 's' : ''}.`,
+          transaction: {
+            id: data.id,
+            grandTotal: data.grandTotal,
+            shipping: data.shipping,
+            subTotal: data.subTotal,
+            taxes: data.tax,
+          },
+          orderItems: data.cart.items.map(item => ({
+            sku: item.product.inventory.sku,
+            title: item.product.title,
+            options: item.size + " - " + item.color,
+            qty: item.quantity,
+          })),
+        }));
+      } catch (error) {
+        console.log(error);
+      }
       return data;
     } catch (error) {
       throw new CustomError(
@@ -199,6 +247,26 @@ export class OrderService {
       const data = await this.db.order.update({
         where: { id: orderId },
         include: {
+          cart: {
+            select: {
+              items: {
+                select: {
+                  color: true,
+                  size: true,
+                  quantity: true,
+                  product: {
+                    include: {
+                      inventory: {
+                        select: {
+                          sku: true,
+                        }
+                      }
+                    }
+                  },
+                }
+              },
+            },
+          },
           address: true,
           user: true,
         },
@@ -206,6 +274,33 @@ export class OrderService {
           status: "CANCELLED",
         }
       });
+      try {
+        const response = await sendEmail(transactionEmail({
+          id: data.user.id,
+          subject: `Your Reisetra.com order #${data.id} ${data.status.toLowerCase()} for ${data.cart.items.length} item${data.cart.items.length > 1 ? 's' : ''}`,
+          description: `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. we will initiate refund in 1-2 business days. please visit your orders on reisetra.com to check status.`,
+          orderId: data.id,
+          address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
+          email: data.address.email,
+          phone: data.address.phone,
+          status: `Your Reisetra.com order #${data.id} ${data.status.toLowerCase()} for ${data.cart.items.length} item${data.cart.items.length > 1 ? 's' : ''}.`,
+          transaction: {
+            id: data.id,
+            grandTotal: data.grandTotal,
+            shipping: data.shipping,
+            subTotal: data.subTotal,
+            taxes: data.tax,
+          },
+          orderItems: data.cart.items.map(item => ({
+            sku: item.product.inventory.sku,
+            title: item.product.title,
+            options: item.size + " - " + item.color,
+            qty: item.quantity,
+          })),
+        }));
+      } catch (error) {
+        console.log(error);
+      }
       return data;
     } catch (error) {
       throw new CustomError(

@@ -234,7 +234,7 @@ export default function DetailsTable({ rows, label }) {
       <Table className={classes.table} aria-label="Product Details table">
         <Typography
           component="caption"
-          style={{ fontSize: 22, textAlign: "right" }}
+          style={{ fontSize: 20, textAlign: "right" }}
         >
           {label}
         </Typography>
