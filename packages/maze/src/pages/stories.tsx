@@ -114,7 +114,7 @@ const CMSPage = () => {
           aria-labelledby="form-dialog-title"
         >
           {open === "story" ? (
-            <CreateContent />
+            <CreateContent onCloseHandler={handleClose} />
           ) : open === "category" ? (
             <CreateCategory />
           ) : open === "tag" ? (
