@@ -39,21 +39,17 @@
   "scripts": {
     "clean": "yarn workspaces foreach -ptv run clean",
     "lint": "yarn workspaces foreach -ptv run lint",
-
     "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
-
     "deploy:server": "./scripts/deploy.sh",
     "build:server": "yarn workspace @reisetra/soda build",
     "start:server": "yarn workspace @reisetra/soda start:prod",
     "stop:server": "yarn workspace @reisetra/soda stop:prod",
     "dev:server": "yarn workspace @reisetra/soda dev",
-
     "build:cms": "yarn workspace @reisetra/maze build",
     "start:cms": "yarn workspace @reisetra/maze start",
     "dev:cms": "yarn workspace @reisetra/maze dev",
-
     "deploy": "",
     "?prebuild": "yarn workspace @reisetra/rocks build",
     "build": "yarn workspace @reisetra/mint build",

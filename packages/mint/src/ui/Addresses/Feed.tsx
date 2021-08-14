@@ -42,7 +42,7 @@ export function AddressList({ data, selected, setSelected }) {
           height="320px"
         >
           <Typography align="center" variant="subtitle2">
-            Cart is empty
+            Please add an address.
           </Typography>
         </Box>
       }

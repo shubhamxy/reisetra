@@ -12,6 +12,7 @@ import { ProductsFeed } from "../ui/Feed/Feed";
 import { Products } from "../modules/Products";
 import { Catelogs } from "../modules/Catelogs";
 import { Grid, Typography } from "@material-ui/core";
+import HelpDesk from "../ui/HelpDesk";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -125,6 +126,7 @@ const IndexPage = () => {
             <Categories filters={{}} />
           </Grid>
         </Grid>
+        <HelpDesk />
       </Paper>
     </MainLayout>
   );

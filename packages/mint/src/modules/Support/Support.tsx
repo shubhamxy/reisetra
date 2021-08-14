@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     flex: 1,
     boxShadow: "0 4px 16px rgb(0 0 0 / 15%)",
+    margin: '16px',
   },
   footer: {
     display: "flex",
@@ -90,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     textAlign: "left",
-    paddingTop: 24,
   },
   content: {
     display: "flex",
@@ -101,11 +101,11 @@ const useStyles = makeStyles((theme) => ({
     margin: "0",
     width: "100%",
     height: "100%",
-    padding: theme.spacing(2.1, 4.0, 4.5, 4.0),
+    padding: theme.spacing(2, 4.0, 2, 4.0),
   },
   title: {
     textAlign: "left",
-    marginBottom: 24,
+    marginBottom: 12,
   },
   divider: {
     marginTop: 24,
@@ -206,7 +206,7 @@ export function Support() {
         <Box className={classes.container}>
           <Box className={classes.content}>
             <Typography className={classes.title} variant="h6">
-              Get Help & Support
+              Support
             </Typography>
             <Box
               display="flex"
@@ -215,15 +215,7 @@ export function Support() {
               justifyContent="center"
             >
               <Typography variant="caption">
-                email us at{" "}
-                <Link underline={"none"} href={`mailto:${config.contactEmail}`}>
-                  {config.contactEmail}
-                </Link>
-              </Typography>
-
-              <Typography variant="caption">Or</Typography>
-              <Typography variant="caption">
-                submit your query and we will get back at you.
+                Submit your query and we will get back at you.
               </Typography>
             </Box>
 
@@ -275,7 +267,7 @@ export function Support() {
                     placeholder="eg. description of the issue"
                   />
                 </Grid>
-                <Grid item xs={12} style={{paddingTop: 12}}>
+                <Grid item xs={12} style={{ paddingTop: 12 }}>
                   <Autocomplete
                     value={values.order}
                     onChange={(event, newValue) => {
@@ -303,27 +295,29 @@ export function Support() {
                     )}
                   />
                 </Grid>
-                {values.ticketId && <Grid item xs={12}>
-                  <TextField
-                    label="Ticket Id"
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    disabled
-                    fullWidth
-                    multiline
-                    name="ticketId"
-                    type="string"
-                    id="ticketId"
-                    value={values.ticketId}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.ticketId ? !!errors.ticketId : false}
-                    helperText={touched.ticketId ? errors.ticketId : ""}
-                    placeholder="eg. 123456789"
-                  />
-                </Grid>}
-                <Grid item xs={12} style={{marginTop: 24}}>
+                {values.ticketId && (
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Ticket Id"
+                      size="small"
+                      variant="outlined"
+                      margin="normal"
+                      disabled
+                      fullWidth
+                      multiline
+                      name="ticketId"
+                      type="string"
+                      id="ticketId"
+                      value={values.ticketId}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.ticketId ? !!errors.ticketId : false}
+                      helperText={touched.ticketId ? errors.ticketId : ""}
+                      placeholder="eg. 123456789"
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={12} style={{ marginTop: 24 }}>
                   <Button
                     type="submit"
                     fullWidth
@@ -338,6 +332,22 @@ export function Support() {
                 </Grid>
               </Grid>
             </form>
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              p={2}
+            >
+              <Typography variant="subtitle2">Or</Typography>
+              <Typography variant="subtitle2">
+                Email us at{" "}
+                <Link underline={"none"} href={`mailto:${config.contactEmail}`}>
+                  {config.contactEmail}
+                </Link>
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Paper>

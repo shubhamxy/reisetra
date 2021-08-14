@@ -9,25 +9,20 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
 import {
-  Checkbox,
-  FormControlLabel,
-  FormHelperText,
   Paper,
 } from "@material-ui/core";
 import { useFormik } from "formik";
-import { useUserEmailSignUp } from "../../libs/rock/auth/useAuth";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
-import { login, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
+import { useAuthState } from "../../libs/rock/auth";
 import { useUpdateUserProfile } from "../../libs";
 import { useFileUpload } from "../../libs/rock/file";
 import { Logo } from "../../ui/Logo";
 import { Addresses } from "./Addresses";
 import { useState } from "react";
 
-const SignUpSchema = Yup.object().shape({
+const AccountSchema = Yup.object().shape({
   name: Yup.string()
     .required("Full name is required.")
     .min(3, "Name is too short - should be 3 chars minimum."),
@@ -163,7 +158,7 @@ export function Account() {
     validateOnMount: true,
     enableReinitialize: true,
     initialValues,
-    validationSchema: SignUpSchema,
+    validationSchema: AccountSchema,
     onSubmit: function (data) {
       updateUserProfile.mutate(data, {
         onSuccess: (response) => {

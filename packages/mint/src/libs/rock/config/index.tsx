@@ -20,6 +20,11 @@ export interface Config {
     clientID: string;
     callbackUrl: string;
   };
+  freshchat: {
+    enableFreshChat: boolean;
+    host: string;
+    token: string;
+  };
   analytics: {
     enableGTag: boolean;
     gtmId: string;
@@ -57,6 +62,11 @@ export const config: Config = {
     enableGoogleSignIn: !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
     clientID: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '',
     callbackUrl: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_CALLBACK_URL || '',
+  },
+  freshchat: {
+    enableFreshChat: !!process.env.NEXT_PUBLIC_FRESHCHAT_TOKEN,
+    host: process.env.NEXT_PUBLIC_FRESHCHAT_HOST,
+    token: process.env.NEXT_PUBLIC_FRESHCHAT_TOKEN,
   },
   analytics: {
     enableGTag: !!process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID && !! process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID,

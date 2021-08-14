@@ -1,27 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, {  } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {
   updatePromo,
-  useAuthState,
+  updateSnackBar,
   useCartCheckout,
-  useCartItems,
-  useCreateAddress,
   useGlobalDispatch,
-  useGlobalState,
-  useUpdateTransaction,
 } from "../../libs";
-import { Box, Dialog, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import Success from "./Success";
-import { useRouter } from "next/router";
 import { Addresses } from "../Account/Addresses";
-import { useEffect } from "react";
-import { useQueryClient } from "react-query";
 
 const addressSchema = Yup.object().shape({
   address: Yup.string().min(4).required("Address is required"),
@@ -202,9 +194,16 @@ export function Checkout({cart, promo, data, handleTransaction}) {
             size="large"
             color="primary"
             onClick={(e) => {
+              if(!isValid){
+                dispatch(updateSnackBar({
+                  message: 'Please select an address to continue.',
+                  type: "error",
+                  open: true,
+                }));
+                return;
+              }
               handleSubmit();
             }}
-            disabled={!isValid}
             className={classes.button}
           >
             Place order
