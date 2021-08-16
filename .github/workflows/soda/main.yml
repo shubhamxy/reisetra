@@ -2,26 +2,25 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [14.17.0]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: "14.17.0"
 
       - name: Install dependencies
         run: yarn install
-      - run: yarn ci
-      - run: yarn run build --if-present
-      - run: yarn test
+      - run: yarn run ci:soda
+      - run: yarn run build:soda --if-present
+      - run: yarn run test:soda --if-present

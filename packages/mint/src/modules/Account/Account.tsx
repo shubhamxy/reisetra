@@ -1,33 +1,26 @@
-import React from "react";
-import * as Yup from "yup";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { InputAdornment, Paper } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
-import {
-  Checkbox,
-  FormControlLabel,
-  FormHelperText,
-  Paper,
-} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { VerifiedUser } from "@material-ui/icons";
 import { useFormik } from "formik";
-import { useUserEmailSignUp } from "../../libs/rock/auth/useAuth";
+import React, { useState } from "react";
+import * as Yup from "yup";
+import { useUpdateUserProfile, useUserEmailResendVerification } from "../../libs";
+import { useAuthState } from "../../libs/rock/auth";
+import { useFileUpload } from "../../libs/rock/file";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
-import { login, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
-import { useUpdateUserProfile } from "../../libs";
-import { useFileUpload } from "../../libs/rock/file";
 import { Logo } from "../../ui/Logo";
 import { Addresses } from "./Addresses";
-import { useState } from "react";
 
-const SignUpSchema = Yup.object().shape({
+
+const AccountSchema = Yup.object().shape({
   name: Yup.string()
     .required("Full name is required.")
     .min(3, "Name is too short - should be 3 chars minimum."),
@@ -43,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     height: "100%",
     width: "100%",
-    maxWidth: 400,
     display: "flex",
     flexDirection: "column",
     flex: 1,
     boxShadow: "0 4px 16px rgb(0 0 0 / 15%)",
+    alignItems: "center",
+    maxWidth: 420,
   },
   footer: {
     display: "flex",
@@ -57,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   logo: {
-    margin: "77px auto 32px",
     textAlign: "center",
     justifyContent: "center",
   },
@@ -136,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
 export function Account() {
   const classes = useStyles();
   const updateUserProfile = useUpdateUserProfile();
+  const emailVerificationResend = useUserEmailResendVerification();
   const authState = useAuthState();
   const globalDispatch = useGlobalDispatch();
   const [selected, setSelected] = useState();
@@ -147,6 +141,7 @@ export function Account() {
     bio: authState.user?.bio,
     dateOfBirth: authState.user?.dateOfBirth,
     phone: authState.user?.phone,
+    oauthId: authState.oauthId,
   };
 
   const {
@@ -163,7 +158,7 @@ export function Account() {
     validateOnMount: true,
     enableReinitialize: true,
     initialValues,
-    validationSchema: SignUpSchema,
+    validationSchema: AccountSchema,
     onSubmit: function (data) {
       updateUserProfile.mutate(data, {
         onSuccess: (response) => {
@@ -197,21 +192,21 @@ export function Account() {
   });
   return (
     <Grid container alignContent="center" justify="center" direction="column">
-      <Grid
-        item
-        className={classes.header}
-        alignContent="center"
-        justify="center"
-        direction="column"
-      >
-        <Box display="flex" className={classes.logo}>
-          <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Logo />
-          </Link>
-        </Box>
-      </Grid>
       <Paper className={classes.paper} component="section">
         <Box className={classes.container}>
+          <Grid
+            item
+            className={classes.header}
+            alignContent="center"
+            justify="center"
+            direction="column"
+          >
+            <Box display="flex" className={classes.logo}>
+              <Link href={"/"} color="textSecondary" underline={"none"}>
+                <Logo />
+              </Link>
+            </Box>
+          </Grid>
           <Box className={classes.content}>
             <Typography className={classes.title} variant="h6">
               Account
@@ -283,7 +278,37 @@ export function Account() {
                 error={touched.email ? !!errors.email : false}
                 helperText={touched.email ? errors.email : ""}
                 placeholder="e.g. email@address.com"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      {values.emailVerified ? <VerifiedUser titleAccess="Email Verified" style={{ fontSize: 16 }} /> : (
+                        <Button
+                          size="small"
+                          aria-label='Verify email'
+                          onClick={() => {
+                            emailVerificationResend.mutate();
+                          }}
+                       >
+                          {"Verify"}
+                        </Button>
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
               />
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="end"
+                margin={1}
+              >
+                <Button  variant="text" href="/account/update-password">
+                  <Typography variant="caption">
+                    Update Password?
+                  </Typography>
+                </Button>
+              </Box>
               <TextField
                 label="Bio"
                 size="small"
@@ -334,15 +359,14 @@ export function Account() {
                 />
               </Box>
 
-              <Box mt={4.6}>
-                <Addresses
-                  children={null}
-                  defaultExpanded={false}
-                  header
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              </Box>
+              <Addresses
+                mt={4.6}
+                children={null}
+                defaultExpanded={false}
+                header
+                selected={selected}
+                setSelected={setSelected}
+              />
 
               <Box mt={4.6}>
                 <Button

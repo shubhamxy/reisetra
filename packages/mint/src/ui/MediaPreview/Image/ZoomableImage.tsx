@@ -36,14 +36,13 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
 
     top: 0,
-    right: '-100%',
+    left: "106%",
     display: "flex",
     [theme.breakpoints.down("sm")]: {
-      top: 'unset',
-      bottom: '-100%',
-      right: 'unset'
+      top: "106%",
+      left: "unset",
     },
-    transition: theme.transitions.create(["width", "opacity"]),
+    transition: theme.transitions.create(["width", "height", "opacity"]),
   },
   previewImage: {
     display: "flex",
@@ -109,7 +108,7 @@ export function ImageWithZoom({ alt, src, ...rest }) {
           // @ts-ignore
           style={{
             ...lensDimensions,
-            ...(!showPreview ? {opacity: 0} : {}),
+            ...(!showPreview ? { opacity: 0 } : {}),
           }}
         />
 

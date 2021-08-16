@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
   },
   circle: {
-    marginBbottom: "0px",
     marginRight: "16px",
+    marginLeft: "16px",
     width: "24px",
     marginTop: "6px",
     height: "24px",
@@ -234,7 +234,7 @@ export default function DetailsTable({ rows, label }) {
       <Table className={classes.table} aria-label="Product Details table">
         <Typography
           component="caption"
-          style={{ fontSize: 22, textAlign: "right" }}
+          style={{ fontSize: 20, textAlign: "right" }}
         >
           {label}
         </Typography>
@@ -280,6 +280,7 @@ export function Product({ data, isLoading }) {
     inventory = { stockQuantity: 0, sku: 0 },
     images = [],
     id,
+    slug,
     categories,
     rating,
     ratingsCount,
@@ -294,7 +295,7 @@ export function Product({ data, isLoading }) {
 
   function handleAddToCart() {
     if (!user) {
-      router.push(`/login?ref=${encodeURIComponent(router.asPath)}`);
+      router.push(`/login?redirect_route=${encodeURIComponent(router.asPath)}`);
       return;
     }
     addCartItem.mutate(
@@ -313,7 +314,7 @@ export function Product({ data, isLoading }) {
 
   function handleBuyNow() {
     if (!user) {
-      router.push(`/login?ref=${encodeURIComponent(router.asPath)}`);
+      router.push(`/login?redirect_route=${encodeURIComponent(router.asPath)}`);
       return;
     }
     handleAddToCart();
@@ -322,7 +323,7 @@ export function Product({ data, isLoading }) {
   const Top = (
     <Grid item className={classes.top}>
       <Box className={classes.circle} />
-      <Box display="flex">
+      <Box display="flex" flexWrap="wrap">
         <Box display="flex">
           <Link href="/">
             <Typography variant="caption" className={classes.link}>
@@ -334,7 +335,7 @@ export function Product({ data, isLoading }) {
           <Typography variant="caption">/</Typography>
         </Box>
         <Box display="flex">
-          <Link href={`/products?category=${categories?.[0]?.value || ""}`}>
+          <Link href={`/products?category=${categories?.[0]?.label || ""}`}>
             <Typography variant="caption" className={classes.link}>
               {categories ? categories[0]?.label : ""}
             </Typography>
@@ -344,7 +345,7 @@ export function Product({ data, isLoading }) {
           <Typography variant="caption">/</Typography>
         </Box>
         <Box display="flex">
-          <Link href={`/product/${id}`}>
+          <Link href={`/product/${slug}`}>
             <Typography variant="caption" className={classes.link}>
               {title ? String(title).trim() : ""}
             </Typography>
@@ -452,6 +453,7 @@ export function Product({ data, isLoading }) {
                   <Grid
                     item
                     xs
+                    key={color}
                     onClick={() => {
                       setSelectedColor(color);
                     }}

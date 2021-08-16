@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/link-passhref */
 import React, { useState } from "react";
 import {
   fade,
@@ -15,26 +16,20 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
 import { useDebouncedCallback } from "use-debounce";
 import Menu from "@material-ui/core/Menu";
-
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import NightsStay from "@material-ui/icons/NightsStay";
-import WbSunny from "@material-ui/icons/WbSunny";
-
-
 import SearchIcon from "@material-ui/icons/Search";
-import { Box, Button, Grid, InputBase } from "@material-ui/core";
+import { Button, InputBase } from "@material-ui/core";
 import Link from "next/link";
 import { logout, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
-import { Close, ShoppingCart } from "@material-ui/icons";
+import { ShoppingCart } from "@material-ui/icons";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import { useCartItems, useGlobalState } from "../../libs";
+import { config, useCartItems, useGlobalState } from "../../libs";
 import { Cart } from "../Cart";
 import { Logo } from "../Logo";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -52,9 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: fade(theme.palette.background.paper, 0.4),
-      backdropFilter: "blur(50px)",
+      backdropFilter: "blur(30px)",
       "@supports (backdrop-filter: none)": {
-        boxShadow: "0 2px 8px rgb(0 0 0 / 15%)",
+        boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
       },
       maxHeight: "100px",
       transition: "all ease 0.2s",
@@ -273,6 +268,7 @@ export function AppHeader() {
     if (router.query["q"] && searchText === "") {
       setSearchText(router.query["q"] ? (router.query["q"] as string) : "");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query["q"]]);
 
   const debounced = useDebouncedCallback((value) => {
@@ -295,10 +291,8 @@ export function AppHeader() {
 
   const classes = useStyles({ isOpen });
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [
-    mobileMoreAnchorEl,
-    setMobileMoreAnchorEl,
-  ] = useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -348,12 +342,13 @@ export function AppHeader() {
     },
     {
       label: "Logout",
-      link: "/",
-      onClick: () => {
+      link: `/`,
+      onClick: function() {
         authDispatch(logout());
-      },
+      }
     },
   ];
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -372,15 +367,17 @@ export function AppHeader() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {ProfileMenu.map((item, index) => {
+      {ProfileMenu.map((item) => {
         return (
           <MenuItem
             key={item.label}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
+              if(item.onClick) {
+                item.onClick();
+              }
               handleMenuClose();
-              item?.onClick?.();
             }}
             className={classes.menuPaperItem}
           >
@@ -432,11 +429,11 @@ export function AppHeader() {
     </MenuItem>
   ) : (
     <MenuItem className={classes.menuPaperItem}>
-      <Link href="/login">
-        <Button variant="contained" color="primary">
-          Login
-        </Button>
-      </Link>
+        <Link href={`/login?redirect_route=${encodeURIComponent(router.asPath)}`} passHref>
+          <Button variant="contained" size="medium" color="primary">
+            Login
+          </Button>
+        </Link>
     </MenuItem>
   );
   const renderMobileMenu = (

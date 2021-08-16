@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   addCartItem,
   removeCartItem,
@@ -90,9 +86,7 @@ export const useCartItems = (cartId: string, promo: string) => {
       getNextPageParam: (lastPage, _pages) => {
         return lastPage.meta.link?.next?.cursor;
       },
-      onSuccess: () => {
-
-      },
+      onSuccess: () => {},
       onError: (error) => {
         dispatch(
           updateSnackBar({
@@ -108,9 +102,7 @@ export const useCartItems = (cartId: string, promo: string) => {
 export const useCartCheckout = () => {
   const dispatch = useGlobalDispatch();
   return useMutation(cartCheckout, {
-    onSuccess: () => {
-
-    },
+    onSuccess: () => {},
     onError: (error) => {
       dispatch(
         updateSnackBar({

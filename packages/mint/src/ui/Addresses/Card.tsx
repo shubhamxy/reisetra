@@ -12,12 +12,12 @@ import { useRouter } from "next/router";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-function useHelper({ id }) {
+function useHelper({ slug }) {
   const router = useRouter();
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    router.push(`/product/${id}?ref=${encodeURIComponent(router.asPath)}`);
+    router.push(`/product/${slug}`);
   }
   return {
     handleClick,
@@ -33,6 +33,7 @@ export function ProductCard({ data, selected, setSelected }) {
     email,
     fullname,
     id,
+    slug,
     nearby,
     phone,
     region,
@@ -42,7 +43,7 @@ export function ProductCard({ data, selected, setSelected }) {
     zipcode,
   } = data;
   const { handleClick } = useHelper({
-    id,
+    slug,
   });
 
   const classes = useStyles();
@@ -93,6 +94,7 @@ export function ProductCard({ data, selected, setSelected }) {
               item
               xs={12}
               md={6}
+              sm={12}
               justify="space-between"
               spacing={2}
             >
@@ -173,9 +175,10 @@ export function ProductCard({ data, selected, setSelected }) {
               container
               item
               xs={12}
+              sm={12}
               md={6}
               justify="space-between"
-              style={{textAlign: "right"}}
+              style={{ textAlign: "right" }}
               spacing={2}
             >
               <Grid item xs={12}>

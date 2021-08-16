@@ -157,12 +157,10 @@ export function Filters({
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState<number>(0);
 
-  const handleChange = (panel: number) => (
-    event: React.ChangeEvent<{}>,
-    isExpanded: boolean
-  ) => {
-    setExpanded(isExpanded ? panel : -1);
-  };
+  const handleChange =
+    (panel: number) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : -1);
+    };
   function valuetext(value: number) {
     return `₹${formatHumanFriendly(value)}`;
   }
@@ -280,7 +278,11 @@ export function Filters({
                   >
                     <Typography
                       variant={"caption"}
-                      style={isSelected ? { lineHeight: 1, fontWeight: "bold" } : {lineHeight: 1}}
+                      style={
+                        isSelected
+                          ? { lineHeight: 1, fontWeight: "bold" }
+                          : { lineHeight: 1 }
+                      }
                     >
                       {item.label}
                     </Typography>
@@ -365,7 +367,7 @@ export function Filters({
                   // disabled={values[filter] === item.label}
                   label={
                     <Typography
-                      style={{ fontSize: 14,lineHeight: 1 }}
+                      style={{ fontSize: 14, lineHeight: 1 }}
                       variant="subtitle2"
                     >
                       {item.label}
@@ -391,15 +393,10 @@ export function Filters({
       >
         <Box display={"flex"} flexDirection="column" alignItems={"flex-start"}>
           <Box pt={0.6}>
-            <Typography variant={"h6"}>
-              {item.title}
-            </Typography>
+            <Typography variant={"h6"}>{item.title}</Typography>
           </Box>
           {item.subtitle && expanded === index && (
-            <Typography
-              variant={"caption"}
-              style={{ opacity: 0.9 }}
-            >
+            <Typography variant={"caption"} style={{ opacity: 0.9 }}>
               {item.subtitle}
             </Typography>
           )}

@@ -39,21 +39,26 @@ const ProductPage = () => {
       }}
       top={
         <NextSeo
-          title={(data?.data?.["title"] ? (data?.data?.["title"] + " - ") : "") + config.name}
+          title={
+            (data?.data?.["title"] ? data?.data?.["title"] + " - " : "") +
+            config.name
+          }
           description={data?.data?.["description"] || ""}
           openGraph={{
             type: "website",
             locale: "en_IE",
             url: router.asPath,
-            title: (data?.data?.["title"] ? (data?.data?.["title"] + " - ") : "") + config.name,
+            title:
+              (data?.data?.["title"] ? data?.data?.["title"] + " - " : "") +
+              config.name,
             description: config.description,
-            images: data?.data?.['images'].map(image => {
+            images: data?.data?.["images"].map((image) => {
               return {
                 url: image.url,
                 width: 800,
                 height: 600,
                 alt: config.title,
-              }
+              };
             }),
             site_name: config.name,
           }}

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import * as Yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
+import NextLink from "next/link";
+
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
 import {
   Checkbox,
   FormControlLabel,
@@ -18,8 +19,14 @@ import { useFormik } from "formik";
 import { useUserEmailSignUp } from "../../libs/rock/auth/useAuth";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
-import { login, useAuthDispatch } from "../../libs/rock/auth";
 import { Logo } from "../../ui/Logo";
+import {
+  login,
+  logout,
+  useAuthDispatch,
+  useVerifyGoogleLogin,
+} from "../../libs/rock/auth";
+import { config } from "../../libs";
 
 const SignUpSchema = Yup.object().shape({
   tos: Yup.boolean().isTrue("Agreement is required for signup."),
@@ -32,12 +39,26 @@ const SignUpSchema = Yup.object().shape({
       "Password is required. Password has to be at least 8 characters and less than 64 characters."
     )
     .min(8, "Password is too short - should be 8 chars minimum.")
-    .max(64, "Password is too short - should be 8 chars minimum.")
-    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+    .max(64, "Password is too Long - should be 64 chars maximum."),
 });
-
+const footerLinks = [
+  {
+    to: "/terms",
+    label: "Terms",
+  },
+  {
+    to: "/privacy",
+    label: "Privacy",
+  },
+  {
+    to: "/resources",
+    label: "Resources",
+  },
+];
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    backdropFilter: "blur(50px)",
+  },
   header: {},
   paper: {
     height: "100%",
@@ -49,14 +70,15 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0 4px 16px rgb(0 0 0 / 15%)",
   },
   footer: {
+    maxWidth: 400,
+    padding: "12px 0 24px 0",
+    width: "100%",
     display: "flex",
-    minHeight: "60px",
-    flexWrap: "wrap",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    margin: "77px auto 32px",
     textAlign: "center",
     justifyContent: "center",
   },
@@ -88,11 +110,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "0",
     width: "100%",
     height: "100%",
-    padding: theme.spacing(2.1, 4.0, 4.5, 4.0),
+    padding: theme.spacing(2, 4.0, 4, 4.0),
   },
   title: {
-    textAlign: "left",
-    paddingBottom: 24,
+    textAlign: "center",
   },
   divider: {
     marginTop: 12,
@@ -137,6 +158,9 @@ export function SignUp() {
   const emailSignup = useUserEmailSignUp();
   const authDispatch = useAuthDispatch();
   const globalDispatch = useGlobalDispatch();
+  const verifyGoogleLogin = useVerifyGoogleLogin();
+  const googleBtnRef = useRef();
+
   const {
     values,
     isValid,
@@ -197,6 +221,39 @@ export function SignUp() {
     },
   });
 
+  useEffect(() => {
+    function initializeGoogleLogin() {
+      const google = window["google"];
+      google.accounts.id.initialize({
+        client_id: config.googleOAuthOptions.clientID,
+        ux_mode: "popup",
+        callback: function handleCredentialResponse(response) {
+          verifyGoogleLogin
+            .mutateAsync(response)
+            .then((response) => {
+              authDispatch(
+                login({
+                  access_token: response.data["access_token"],
+                  refresh_token: response.data["refresh_token"],
+                })
+              );
+            })
+            .catch(console.error);
+        },
+      });
+      google.accounts.id.renderButton(googleBtnRef.current, {
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+      });
+      google.accounts.id.prompt();
+    }
+
+    if (window["google"]) {
+      initializeGoogleLogin();
+    }
+  }, [googleBtnRef.current]);
+
   const footerLinks = [
     {
       to: "/terms",
@@ -213,171 +270,182 @@ export function SignUp() {
   ];
 
   return (
-    <Grid container alignContent="center" justify="center" direction="column">
-      <Grid
-        item
-        className={classes.header}
-        alignContent="center"
-        justify="center"
-        direction="column"
-      >
-        <Box display="flex" className={classes.logo}>
-          <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Logo />
-          </Link>
-        </Box>
-      </Grid>
-      <Paper className={classes.paper} component="section">
-        <Box className={classes.container}>
-          <Box className={classes.content}>
-            <Typography className={classes.title} variant="h6">
-              Let's get you set up
-            </Typography>
-            <form
-              className={classes.form}
-              noValidate
-              autoComplete="pleaseturnoff"
-              onSubmit={handleSubmit}
-            >
-              <input
-                id="fakeemail"
-                style={{ display: "none" }}
-                type="text"
-                name="fakeusernameremembered"
-              />
-              <input
-                id="fakepassword"
-                style={{ display: "none" }}
-                type="password"
-                name="fakepasswordremembered"
-              />
-              <TextField
-                label="Your name"
-                size="small"
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                name="name"
-                type="text"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
-                autoComplete="pleaseturnoff"
-                error={touched.name ? !!errors.name : false}
-                helperText={touched.name ? errors.name : ""}
-                placeholder="First & Last Name"
-              />
-              <TextField
-                label="Email Address"
-                size="small"
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                name="email"
-                type="text"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                autoComplete="pleaseturnoff"
-                value={values.email}
-                error={touched.email ? !!errors.email : false}
-                helperText={touched.email ? errors.email : ""}
-                placeholder="e.g. email@address.com"
-              />
-              <TextField
-                label="Password"
-                size="small"
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                type="password"
-                id="password"
-                value={values.password}
-                autoComplete="new-password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.password ? !!errors.password : false}
-                helperText={touched.password ? errors.password : ""}
-                placeholder="e.g. ••••••••"
-              />
-              <Grid item direction="column">
-                <Grid
-                  item
-                  alignItems="center"
-                  alignContent="center"
+    <Grid container alignContent="center" justify="center">
+      <Grid container item alignContent="center" justify="center">
+        <Paper className={classes.paper} component="section">
+          <Box className={classes.container}>
+            <Grid item className={classes.header}>
+              <Box display="flex" className={classes.logo}>
+                <Link
+                  component={NextLink}
+                  href={"/"}
+                  color="textSecondary"
+                  underline={"none"}
                 >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        size="small"
-                        name="tos"
-                        checked={values.tos}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFieldValue("tos", true);
-                          } else {
-                            setFieldValue("tos", false);
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={
-                      <Typography variant="caption">
-                        Agreed to terms of use and privacy policy.
+                  <Logo />
+                </Link>
+              </Box>
+            </Grid>
+            <Box className={classes.content}>
+              <Typography className={classes.title} variant="h6">
+                Let's get you set up
+              </Typography>
+              <form
+                className={classes.form}
+                noValidate
+                autoComplete="pleaseturnoff"
+                onSubmit={handleSubmit}
+              >
+                <input
+                  id="fakeemail"
+                  style={{ display: "none" }}
+                  type="text"
+                  name="fakeusernameremembered"
+                />
+                <input
+                  id="fakepassword"
+                  style={{ display: "none" }}
+                  type="password"
+                  name="fakepasswordremembered"
+                />
+                <TextField
+                  label="Your name"
+                  size="small"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  name="name"
+                  type="text"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.name}
+                  autoComplete="pleaseturnoff"
+                  error={touched.name ? !!errors.name : false}
+                  helperText={touched.name ? errors.name : ""}
+                  placeholder="First & Last Name"
+                />
+                <TextField
+                  label="Email Address"
+                  size="small"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  name="email"
+                  type="text"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  autoComplete="pleaseturnoff"
+                  value={values.email}
+                  error={touched.email ? !!errors.email : false}
+                  helperText={touched.email ? errors.email : ""}
+                  placeholder="e.g. email@address.com"
+                />
+                <TextField
+                  label="Password"
+                  size="small"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  type="password"
+                  id="password"
+                  value={values.password}
+                  autoComplete="new-password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.password ? !!errors.password : false}
+                  helperText={touched.password ? errors.password : ""}
+                  placeholder="e.g. ••••••••"
+                />
+                <Grid item direction="column">
+                  <Grid item alignItems="center" alignContent="center">
+                    <Checkbox
+                      size="small"
+                      name="tos"
+                      checked={values.tos}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFieldValue("tos", true);
+                        } else {
+                          setFieldValue("tos", false);
+                        }
+                      }}
+                      color="primary"
+                    />
+                    <Typography style={{ marginLeft: 2 }} variant="caption">
+                      Agreed to{" "}
+                      <Link
+                        href={"/terms"}
+                        variant="caption"
+                        underline={"none"}
+                      >
+                        terms of use
+                      </Link>{" "}
+                      and{" "}
+                      <Link
+                        href={"/privacy"}
+                        variant="caption"
+                        underline={"none"}
+                      >
+                        privacy policy
+                      </Link>
+                      .
+                    </Typography>
+                    <FormHelperText variant="outlined">
+                      <Typography variant="caption" color="error">
+                        {errors.tos}
                       </Typography>
-                    }
-                  />
-                  <FormHelperText variant="outlined">
-                    <Typography variant="caption" color="error">{errors.tos}</Typography>
-                  </FormHelperText>
+                    </FormHelperText>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  disabled={!isValid || emailSignup.isLoading}
+                  className={classes.submit}
+                >
+                  Get Started
+                </Button>
+              </form>
+              <Grid container className={classes.authProviders}>
+                <Typography
+                  variant="caption"
+                  color="textSecondary"
+                  className={classes.divider}
+                >
+                  Or
+                </Typography>
+                <Grid item>
+                  <div id="google-button" ref={googleBtnRef} />
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                disabled={!isValid || emailSignup.isLoading}
-                className={classes.submit}
-              >
-                Get Started
-              </Button>
-            </form>
-            <Grid container className={classes.authProviders}>
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                className={classes.divider}
-              >
-                Or
-              </Typography>
-              <Grid item>
-                <div id="google-button" />
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Paper>
-      <Grid
-        item
-        className={classes.footer}
-        justify="center"
-        alignContent="center"
-        alignItems="center"
-      >
-        <Grid item>
-          <Typography variant="caption" align="center">
-            Already a user?{" "}
-            <Link href="/login" variant="caption" underline={"none"}>
-              {"Log In"}
-            </Link>
-          </Typography>
+        </Paper>
+      </Grid>
+      <Grid item container className={classes.footer} alignContent="center">
+        <Grid item style={{ width: "100%" }}>
+          <Box className={classes.links}>
+            {footerLinks.map((link) => (
+              <Link
+                key={link.to}
+                className={classes.link}
+                color="textSecondary"
+                href={link.to}
+                underline={"none"}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </Box>
         </Grid>
       </Grid>
     </Grid>

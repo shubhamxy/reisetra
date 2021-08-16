@@ -3,107 +3,94 @@ import { IsEnum, IsOptional, IsString } from "class-validator";
 import { CursorPaginationDTO } from "src/common/dto";
 import { UploadUrlProps } from "src/utils";
 import { mustBeValidEnum, mustBe } from "../../constants/validation";
-export class PublicFile {
-  public id: number;
-  public url: string;
-  public key: string;
-}
+import { Prisma } from "@prisma/client";
 
 enum ContentTypeEnum {
-  jpeg = "image/jpeg",
-  jpg = "image/jpg",
-  png = "image/png",
-  svg = "image/svg",
-}
-export class GetAllFilesDto extends CursorPaginationDTO {
-  @IsOptional()
-  @IsString({ message: mustBe("string", "id") })
-  id: string;
-
-  @IsOptional()
-  @IsEnum(FileType, {
-    message: mustBeValidEnum(FileType, "fileType"),
-  })
-  fileType: FileType;
-
-  @IsOptional()
-  @IsEnum(ContentTypeEnum, {
-    message: mustBeValidEnum(ContentTypeEnum, "contentType"),
-  })
-  contentType: ContentTypeEnum;
-  @IsOptional()
-  @IsString({ message: mustBe("string", "url") })
-  url: string;
-
-  @IsOptional()
-  @IsString({ message: mustBe("string", "productId") })
-  productId: string;
-
-  @IsOptional()
-  @IsString({ message: mustBe("string", "reviewId") })
-  reviewId: string;
-
-  @IsOptional()
-  @IsString({ message: mustBe("string", "categoryId") })
-  categoryId: string;
-
-  @IsOptional()
-  @IsString({ message: mustBe("string", "userId") })
-  userId: string;
-
-  active: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+    jpeg = "image/jpeg",
+    jpg = "image/jpg",
+    png = "image/png",
+    svg = "image/svg",
 }
 
-export class UploadFileDTO implements Omit<UploadUrlProps, "userId"> {
-  @IsEnum(FileType, {
-    message: mustBeValidEnum(FileType, "fileType"),
-  })
-  fileType: FileType;
+export class FilesDTO extends CursorPaginationDTO {
+    @IsOptional()
+    @IsEnum(FileType, {
+        message: mustBeValidEnum(FileType, "fileType"),
+    })
+    fileType: FileType;
 
-  @IsString({ message: mustBe("string", "fileName") })
-  fileName: string;
-  @IsEnum(ContentTypeEnum, {
-    message: mustBeValidEnum(ContentTypeEnum, "fileType"),
-  })
-  contentType: ContentTypeEnum;
+    @IsOptional()
+    @IsString({ message: mustBe("string", "url") })
+    url: string;
+
+    @IsOptional()
+    @IsString({ message: mustBe("string", "productId") })
+    productId: string;
+
+    @IsOptional()
+    @IsString({ message: mustBe("string", "reviewId") })
+    reviewId: string;
+
+    @IsOptional()
+    @IsString({ message: mustBe("string", "categoryId") })
+    categoryId: string;
+
+    @IsOptional()
+    @IsString({ message: mustBe("string", "userId") })
+    userId: string;
+
+    active: boolean;
 }
 
-export class AddFileDTO implements Omit<File, "userId" | "fileName"> {
-  @IsString({ message: mustBe("string", "id") })
-  id: string;
+export class FileUploadDTO implements Omit<UploadUrlProps, "userId"> {
+    @IsEnum(FileType, {
+        message: mustBeValidEnum(FileType, "fileType"),
+    })
+    fileType: FileType;
 
-  @IsEnum(FileType, {
-    message: mustBeValidEnum(FileType, "fileType"),
-  })
-  fileType: FileType;
+    @IsString({ message: mustBe("string", "fileName") })
+    fileName: string;
 
-  @IsEnum(ContentTypeEnum, {
-    message: mustBeValidEnum(ContentTypeEnum, "fileType"),
-  })
-  contentType: ContentTypeEnum;
+    contentType: ContentTypeEnum;
+}
 
-  @IsString({ message: mustBe("string", "url") })
-  url: string;
+export class FileDTO
+    implements Omit<File, "userId" | "fileName" | "createdAt" | "updatedAt"> {
+    @IsString({ message: mustBe("string", "url") })
+    url: string;
 
-  @IsOptional()
-  @IsString({ message: mustBe("string", "productId") })
-  productId: string;
+    @IsOptional()
+    @IsEnum(FileType, {
+        message: mustBeValidEnum(FileType, "fileType"),
+    })
+    fileType: FileType;
 
-  @IsOptional()
-  @IsString({ message: mustBe("string", "reviewId") })
-  reviewId: string;
+    @IsOptional()
+    @IsString({ message: mustBe("string", "productId") })
+    productId: string;
 
-  @IsOptional()
-  @IsString({ message: mustBe("string", "categoryId") })
-  categoryId: string;
+    @IsOptional()
+    @IsString({ message: mustBe("string", "reviewId") })
+    reviewId: string;
 
-  @IsOptional()
-  @IsString({ message: mustBe("string", "tagId") })
-  tagId: string;
+    @IsOptional()
+    @IsString({ message: mustBe("string", "categoryId") })
+    categoryId: string;
 
-  active: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+    @IsOptional()
+    @IsString({ message: mustBe("string", "storyId") })
+    storyId: string;
+
+    @IsOptional()
+    @IsString({ message: mustBe("string", "tagId") })
+    tagId: string;
+
+    @IsOptional()
+    @IsString({ message: mustBe("string", "orderId") })
+    orderId: string;
+
+    @IsOptional()
+    meta: Prisma.JsonValue;
+
+    active: boolean;
 }

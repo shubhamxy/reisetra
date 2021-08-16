@@ -1,11 +1,11 @@
 #!/bin/bash
 
 cd ~/server/soda
-nvm use default
+nvm use v14.17.0
 yarn install
 mv .env.production .env
-yarn run migrate:prod
-yarn run deploy:prod
+yarn run migrate
+yarn run deploy
 cd
 
 exit

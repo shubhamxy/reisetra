@@ -1,27 +1,19 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {
   updatePromo,
-  useAuthState,
+  updateSnackBar,
   useCartCheckout,
-  useCartItems,
-  useCreateAddress,
   useGlobalDispatch,
-  useGlobalState,
-  useUpdateTransaction,
 } from "../../libs";
-import { Box, Dialog, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import Success from "./Success";
-import { useRouter } from "next/router";
 import { Addresses } from "../Account/Addresses";
-import { useEffect } from "react";
-import { useQueryClient } from "react-query";
 
 const addressSchema = Yup.object().shape({
   address: Yup.string().min(4).required("Address is required"),
@@ -60,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Checkout({cart, promo, data, handleTransaction}) {
+export function Checkout({ cart, promo, data, handleTransaction }) {
   const classes = useStyles();
   const cartCheckout = useCartCheckout();
   const dispatch = useGlobalDispatch();
@@ -107,9 +99,7 @@ export function Checkout({cart, promo, data, handleTransaction}) {
     <Grid container className={classes.layout}>
       <Grid container item xs={12}>
         <Grid item xs={12} style={{ paddingBottom: 12 }}>
-          <Typography variant="h6">
-            Shipping
-          </Typography>
+          <Typography variant="h6">Shipping</Typography>
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={12}>
@@ -123,46 +113,55 @@ export function Checkout({cart, promo, data, handleTransaction}) {
               defaultExpanded
               children={
                 <>
-                <Grid container item xs={12}>
-                  <Grid item xs={12} style={{ padding: 16 }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          color="primary"
-                          name="isBillingAddressSame"
-                          checked={values.isBillingAddressSame}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setFieldValue("isBillingAddressSame", true);
-                            } else {
-                              setFieldValue("isBillingAddressSame", false);
-                            }
-                          }}
-                        />
-                      }
-                      label="Billing address is same as shipping"
-                    />
+                  <Grid container item xs={12}>
+                    <Grid item xs={12} style={{ padding: 16 }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            name="isBillingAddressSame"
+                            checked={values.isBillingAddressSame}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setFieldValue("isBillingAddressSame", true);
+                              } else {
+                                setFieldValue("isBillingAddressSame", false);
+                              }
+                            }}
+                          />
+                        }
+                        label="Billing address is same as shipping"
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-                {!values.isBillingAddressSame && (
-                  <Grid item xs={12}>
-                    <Addresses
-                      children={null}
-                      title="Billing Address"
-                      header={false}
-                      selected={values.billingAddress}
-                      setSelected={(value) => {
-                        setFieldValue("billingAddress", value);
-                      }}
-                    />
-                  </Grid>
-                )}
+                  {!values.isBillingAddressSame && (
+                    <Grid item xs={12}>
+                      <Addresses
+                        children={null}
+                        title="Billing Address"
+                        header={false}
+                        selected={values.billingAddress}
+                        setSelected={(value) => {
+                          setFieldValue("billingAddress", value);
+                        }}
+                      />
+                    </Grid>
+                  )}
                 </>
               }
             />
           </Grid>
         </Grid>
-        <Grid container style={{marginTop: 24}} item xs={12} direction="row" spacing={2} alignItems="center" alignContent="center">
+        <Grid
+          container
+          style={{ marginTop: 24 }}
+          item
+          xs={12}
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          alignContent="center"
+        >
           <Grid item>
             <TextField
               id="promo"
@@ -187,9 +186,14 @@ export function Checkout({cart, promo, data, handleTransaction}) {
             >
               Apply
             </Button>
-            <Box display="flex" alignItems="center" justifyContent="center" pl={1.6}>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              pl={1.6}
+            >
               <Typography variant="caption">
-                {data?.['promo'] ? `${data['promo']} applied!` : ''}
+                {data?.["promo"] ? `${data["promo"]} applied!` : ""}
               </Typography>
             </Box>
           </Grid>
@@ -202,9 +206,18 @@ export function Checkout({cart, promo, data, handleTransaction}) {
             size="large"
             color="primary"
             onClick={(e) => {
+              if (!isValid) {
+                dispatch(
+                  updateSnackBar({
+                    message: "Please select an address to continue.",
+                    type: "error",
+                    open: true,
+                  })
+                );
+                return;
+              }
               handleSubmit();
             }}
-            disabled={!isValid}
             className={classes.button}
           >
             Place order

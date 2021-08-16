@@ -52,4 +52,4 @@ export const ProductsProvider = ({ children }) => {
   );
 };
 
-export * from './useProducts';
+export * from "./useProducts";

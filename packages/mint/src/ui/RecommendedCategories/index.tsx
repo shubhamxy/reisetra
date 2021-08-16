@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) =>
 
 export default function RecommendedCategories() {
   const classes = useStyles();
-  const {data} = useCategories();
+  const { data } = useCategories();
   const router = useRouter();
   return (
     <Paper className={classes.root}>
@@ -117,11 +117,11 @@ export default function RecommendedCategories() {
             <Chip
               onClick={(e) => {
                 router.push({
-                  pathname: '/products',
+                  pathname: "/products",
                   query: {
                     category: item.label,
-                  }
-                })
+                  },
+                });
               }}
               key={index}
               className={classes.taglistitem}

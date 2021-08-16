@@ -60,7 +60,7 @@ export const useStyles = makeStyles((theme) => ({
     marginBottom: "8px",
     ":nth-child": {
       marginBottom: 0,
-    }
+    },
   },
   footer: {
     backgroundColor: theme.palette.background.paper,

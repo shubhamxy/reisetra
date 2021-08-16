@@ -24,14 +24,18 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export function ProductFilters({data, values, setFieldValue}: {
+export function ProductFilters({
+  data,
+  values,
+  setFieldValue,
+}: {
   data: {
-    [key: string]: FilterT,
-  },
+    [key: string]: FilterT;
+  };
   values: {
-    [key: string]: string | string[] | number[]
-  },
-  setFieldValue: (key: string, value: string | string[] | number[]) => void
+    [key: string]: string | string[] | number[];
+  };
+  setFieldValue: (key: string, value: string | string[] | number[]) => void;
 }) {
   const classes = useStyles();
 

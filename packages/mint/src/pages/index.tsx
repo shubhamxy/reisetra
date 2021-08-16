@@ -12,6 +12,7 @@ import { ProductsFeed } from "../ui/Feed/Feed";
 import { Products } from "../modules/Products";
 import { Catelogs } from "../modules/Catelogs";
 import { Grid, Typography } from "@material-ui/core";
+import HelpDesk from "../ui/HelpDesk";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,9 +53,10 @@ const IndexPage = () => {
       top={
         <HeroCard
           data={{
+            objectFit: "contain",
             title: "Indian Handcrafts",
             subtitle: "Unique products designed by independent artists.",
-            backgroundImage: "/images/cover2.jpg",
+            backgroundImage: "/images/hero2.jpeg",
           }}
         />
       }
@@ -75,7 +77,7 @@ const IndexPage = () => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <ShowCase filters={{ sortBy: "relevant" }} />
+            <ShowCase filters={{ sort: "bestselling", size: 3 }} />
           </Grid>
         </Grid>
 
@@ -99,7 +101,7 @@ const IndexPage = () => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <Products filters={{ sortBy: "new" }} />
+            <Products filters={{ sort: "new", size: 3 }} />
           </Grid>
         </Grid>
 
@@ -124,6 +126,7 @@ const IndexPage = () => {
             <Categories filters={{}} />
           </Grid>
         </Grid>
+        <HelpDesk />
       </Paper>
     </MainLayout>
   );

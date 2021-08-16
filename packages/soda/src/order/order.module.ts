@@ -5,9 +5,9 @@ import { OrderService } from "./order.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule],
-  controllers: [OrderController],
-  providers: [PrismaService, OrderService],
-  exports: [OrderService],
+    imports: [CacheModule],
+    controllers: [OrderController],
+    providers: [PrismaService, OrderService],
+    exports: [OrderService],
 })
 export class OrderModule {}

@@ -7,14 +7,13 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
 import { Paper } from "@material-ui/core";
 import { useFormik } from "formik";
 import { useUserEmailResetPassword } from "../../libs/rock/auth/useAuth";
 import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
-import { login, useAuthDispatch } from "../../libs/rock/auth";
 import { useRouter } from "next/router";
+import { Logo } from "../../ui/Logo";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -123,8 +122,7 @@ const useStyles = makeStyles((theme) => ({
 export function ResetPassword() {
   const classes = useStyles();
   const emailResetPassword = useUserEmailResetPassword();
-  const { query, replace } = useRouter();
-  const authDispatch = useAuthDispatch();
+  const { query, replace, asPath } = useRouter();
   const globalDispatch = useGlobalDispatch();
   const [fromQuery, setFromQuery] = useState(false);
   const {
@@ -159,7 +157,7 @@ export function ResetPassword() {
                 open: true,
               })
             );
-            replace("/login");
+            replace(`/login`);
           },
           onError: (error: IErrorResponse<any>) => {
             globalDispatch(
@@ -170,7 +168,7 @@ export function ResetPassword() {
                 duration: 10000,
               })
             );
-            if(error.errors[0].type === 'ResetPasswordTokenInvalid'){
+            if (error.errors[0].type === "ResetPasswordTokenInvalid") {
               setErrors({
                 token: error.errors[0].message,
               });
@@ -218,13 +216,13 @@ export function ResetPassword() {
       <Grid
         item
         className={classes.header}
-        // alignContent="center"
+        alignContent="center"
         justify="center"
         direction="column"
       >
         <Box display="flex" className={classes.logo}>
           <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Image src="/images/logo.svg" height="30px" width="30px" />
+            <Logo />
           </Link>
         </Box>
       </Grid>
@@ -313,6 +311,7 @@ export function ResetPassword() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                size="medium"
                 color="primary"
                 disabled={emailResetPassword.isLoading}
                 className={classes.submit}
@@ -327,7 +326,7 @@ export function ResetPassword() {
               >
                 <Grid item>
                   <Typography variant="caption" align="center">
-                    <Link href="/login" variant="caption" underline={"none"}>
+                    <Link href={`/login`} variant="caption" underline={"none"}>
                       {"Back to Login"}
                     </Link>
                   </Typography>

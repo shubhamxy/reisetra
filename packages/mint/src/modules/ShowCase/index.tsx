@@ -10,7 +10,7 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
-import { useInterval, useProducts } from "../../libs";
+import { useInterval, useProducts, useRecommendations } from "../../libs";
 import GridList from "../../ui/List/GridList";
 import { useRouter } from "next/router";
 import { ShoppingCart } from "@material-ui/icons";
@@ -67,8 +67,7 @@ const useGridItemStyles = makeStyles<
     maxWidth: 320,
     justifyContent: "center",
     mixBlendMode: "normal",
-    borderRadius: 8,
-    boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.10)",
+    boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
     color:
       colors && colors[0] ? colors[0] : fade(styles[styleIndex].color, 0.8),
     background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
@@ -76,6 +75,11 @@ const useGridItemStyles = makeStyles<
       maxWidth: "100%",
       height: "unset",
       alignItems: "center",
+    },
+    borderRadius: 4,
+    border: `1px solid ${theme.palette.text.primary}33`,
+    "&:hover": {
+      boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.2)",
     },
   }),
   card: {
@@ -138,8 +142,6 @@ const useGridItemStyles = makeStyles<
   media: {
     position: "relative",
     backgroundColor: "#fff",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
     backgroundSize: "contain",
     height: 0,
     width: "100%",
@@ -154,6 +156,7 @@ export function GridItem({
   styleIndex = 0,
   title,
   description,
+  showDescription = false,
   ratingsCount,
   rating,
   price,
@@ -164,6 +167,7 @@ export function GridItem({
 }: {
   styleIndex: number;
   title: string;
+  showDescription: boolean;
   description: string;
   rating: number | string;
   ratingsCount: number | string;
@@ -202,13 +206,19 @@ export function GridItem({
         onMouseEnter={() => setAddToCartVisible(true)}
         onMouseLeave={() => setAddToCartVisible(false)}
       >
-        <Box display={"flex"} flex={1}>
+        <Box display={"flex"} flexDirection="column">
           <Typography className={classes.title} variant="h4" title={title}>
             {title}
           </Typography>
-          {/* <Typography className={classes.description} variant="subtitle2">
-          {description}
-        </Typography> */}
+          {description && showDescription && (
+            <Typography
+              className={classes.description}
+              variant="subtitle2"
+              title={description}
+            >
+              {description}
+            </Typography>
+          )}
         </Box>
         <Box display="flex" flexDirection="column">
           <Box className={classes.costContainer}>
@@ -241,7 +251,12 @@ export function GridItem({
               />
             </Box>
             <Box display="flex">
-              <Rating size="small" value={+rating || 5} disabled={!ratingsCount} readOnly />
+              <Rating
+                size="small"
+                value={+rating || 5}
+                disabled={!ratingsCount}
+                readOnly
+              />
               {+ratingsCount > 0 && (
                 <Box>
                   <Typography
@@ -274,16 +289,17 @@ export function GridItem({
 }
 
 export function ShowCase({ filters }) {
-  const query = useProducts(filters);
+  const query = useRecommendations(filters);
   const router = useRouter();
   return (
     <GridList
       query={query}
+      emptyListCaption="No recommendations right now."
       renderItem={({ item, index }) => (
         <GridItem
           {...item}
           onClick={() => {
-            router.push(`/product/${item.id}`);
+            router.push(`/product/${item.slug}`);
           }}
           key={item.id}
           styleIndex={index % styles.length}

@@ -1,4 +1,6 @@
-import React from "react";
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef } from "react";
 import * as Yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -7,15 +9,14 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
 import { Paper } from "@material-ui/core";
 import { useFormik } from "formik";
-import { useUserEmailLogin } from "../../libs/rock/auth/useAuth";
-import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
-import { login, useAuthDispatch } from "../../libs/rock/auth";
-import { Icon } from "../../ui/Image";
+import { login, useVerifyGoogleLogin } from "../../libs/rock/auth";
+import { config } from "../../libs";
+import { useUserEmailLogin, useAuthDispatch } from "../../libs/rock/auth";
 import { Logo } from "../../ui/Logo";
+import { useRouter } from "next/router";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -36,15 +37,19 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     flex: 1,
-    maxWidth: 364,
+    maxWidth: 400,
     boxShadow: "0 4px 16px rgb(0 0 0 / 15%)",
   },
   footer: {
-    minHeight: "60px",
-    flexWrap: "wrap",
+    maxWidth: 400,
+    padding: "12px 0 0 0",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
-    margin: "77px auto 32px",
     textAlign: "center",
     justifyContent: "center",
   },
@@ -79,8 +84,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2.1, 4.0, 4.5, 4.0),
   },
   title: {
-    textAlign: "left",
-    paddingBottom: 24,
+    paddingBottom: 8,
   },
   divider: {
     marginTop: 24,
@@ -124,6 +128,10 @@ const useStyles = makeStyles((theme) => ({
 export function LogIn() {
   const classes = useStyles();
   const emailLogin = useUserEmailLogin();
+  const verifyGoogleLogin = useVerifyGoogleLogin();
+  const authDispatch = useAuthDispatch();
+  const googleBtnRef = useRef();
+  const {asPath} = useRouter();
   const {
     values,
     isValid,
@@ -156,6 +164,39 @@ export function LogIn() {
     },
   });
 
+  useEffect(() => {
+    function initializeGoogleLogin() {
+      const google = window["google"];
+      google.accounts.id.initialize({
+        client_id: config.googleOAuthOptions.clientID,
+        ux_mode: "popup",
+        callback: function handleCredentialResponse(response) {
+          verifyGoogleLogin
+            .mutateAsync(response)
+            .then((response) => {
+              authDispatch(
+                login({
+                  access_token: response.data["access_token"],
+                  refresh_token: response.data["refresh_token"],
+                })
+              );
+            })
+            .catch(console.error);
+        },
+      });
+      google.accounts.id.renderButton(googleBtnRef.current, {
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+      });
+      google.accounts.id.prompt();
+    }
+
+    if (window["google"]) {
+      initializeGoogleLogin();
+    }
+  }, [googleBtnRef.current]);
+
   const footerLinks = [
     {
       to: "/terms",
@@ -172,150 +213,164 @@ export function LogIn() {
   ];
 
   return (
-    <Grid container alignContent="center" justify="center" direction="column">
-      <Grid
-        item
-        className={classes.header}
-        // alignContent="center"
-        justify="center"
-        direction="column"
-      >
-        <Box display="flex" className={classes.logo}>
-          <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Logo />
-          </Link>
-        </Box>
-      </Grid>
-      <Paper className={classes.paper} component="section">
-        <Box className={classes.container}>
-          <Box className={classes.content}>
-            <Typography className={classes.title} variant="h6">
-              Log in to your account
-            </Typography>
-            <form
-              className={classes.form}
-              noValidate
-              autoComplete="pweeeseturnoff"
-              onSubmit={handleSubmit}
-            >
-              <input
-                style={{ display: "none" }}
-                type="email"
-                name="fakeusernameremembered"
-              />
-              <input
-                style={{ display: "none" }}
-                type="password"
-                name="fakepasswordremembered"
-              />
-
-              <TextField
-                label="Email Address"
-                size="small"
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                name="email"
-                type="text"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                error={touched.email ? !!errors.email : false}
-                helperText={touched.email ? errors.email : ""}
-                placeholder="e.g. email@address.com"
-              />
-              <TextField
-                label="Password"
-                size="small"
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                type="password"
-                id="password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.password}
-                error={touched.password ? !!errors.password : false}
-                helperText={touched.password ? errors.password : ""}
-                placeholder="e.g. ••••••••"
-              />
-              <Grid
-                container
-                direction="column"
-                justify="center"
-                alignItems="flex-end"
-                style={{ textAlign: "center" }}
-              >
-                <Grid item>
-                  <Typography variant="caption" align="center">
-                    <Link href="/login/forgot" variant="caption" underline={"none"}>
-                      Forgot password?
-                    </Link>
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                disabled={emailLogin.isLoading}
-                className={classes.submit}
-              >
-                Login
-              </Button>
-              <Grid
-                container
-                direction="column"
-                justify="center"
-                style={{ textAlign: "center" }}
-              >
-                <Grid item>
-                  <Typography variant="caption" align="center">
-                    Don't have an account?{" "}
-                    <Link href="/signup" variant="caption" underline={"none"}>
-                      {"Sign Up"}
-                    </Link>
-                  </Typography>
-                </Grid>
-              </Grid>
-            </form>
+    <Grid container alignContent="center" justify="center">
+      <Grid item container alignContent="center" justify="center">
+        <Paper className={classes.paper} component="section">
+          <Box className={classes.container}>
             <Grid
-              container
-              className={classes.authProviders}
+              item
+              className={classes.header}
+              alignContent="center"
+              justify="center"
+              direction="column"
             >
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                className={classes.divider}
-              >
-                Or
-              </Typography>
-              <Grid item>
-                <div id="google-button" />
-              </Grid>
+              <Box display="flex" className={classes.logo}>
+                <Link href={"/"} color="textSecondary" underline={"none"}>
+                  <Logo />
+                </Link>
+              </Box>
             </Grid>
+            <Box className={classes.content}>
+              <Typography className={classes.title} variant="h6">
+                Log in to your account
+              </Typography>
+              <form
+                className={classes.form}
+                noValidate
+                autoComplete="pweeeseturnoff"
+                onSubmit={handleSubmit}
+              >
+                <input
+                  style={{ display: "none" }}
+                  type="email"
+                  name="fakeusernameremembered"
+                />
+                <input
+                  style={{ display: "none" }}
+                  type="password"
+                  name="fakepasswordremembered"
+                />
+
+                <TextField
+                  label="Email Address"
+                  size="small"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  name="email"
+                  type="text"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.email}
+                  error={touched.email ? !!errors.email : false}
+                  helperText={touched.email ? errors.email : ""}
+                  placeholder="e.g. email@address.com"
+                />
+                <TextField
+                  label="Password"
+                  size="small"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  type="password"
+                  id="password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.password}
+                  error={touched.password ? !!errors.password : false}
+                  helperText={touched.password ? errors.password : ""}
+                  placeholder="e.g. ••••••••"
+                />
+                <Grid
+                  container
+                  direction="column"
+                  justify="center"
+                  alignItems="flex-end"
+                  style={{ textAlign: "center" }}
+                >
+                  <Grid item>
+                    <Typography variant="caption" align="center">
+                      <Link
+                        href="/login/forgot-password"
+                        variant="caption"
+                        underline={"none"}
+                      >
+                        Forgot password?
+                      </Link>
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  disabled={emailLogin.isLoading}
+                  className={classes.submit}
+                >
+                  Login
+                </Button>
+                <Grid
+                  container
+                  direction="column"
+                  justify="center"
+                  style={{ textAlign: "center" }}
+                >
+                  <Grid item>
+                    <Typography variant="caption" align="center">
+                      Don't have an account?{" "}
+                      <Link href={`/signup`} variant="caption" underline={"none"}>
+                        {"Sign Up"}
+                      </Link>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </form>
+              <Grid container className={classes.authProviders}>
+                <Typography
+                  variant="caption"
+                  color="textSecondary"
+                  className={classes.divider}
+                >
+                  Or
+                </Typography>
+                <Grid item>
+                  <div id="google-button" ref={googleBtnRef} />
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Paper>
-      <Grid className={classes.footer}>
-        <Box className={classes.links}>
-          {footerLinks.map((link) => (
-            <Link
-              key={link.to}
-              className={classes.link}
-              color="textSecondary"
-              href={link.to}
-              underline={"none"}
-            >
-              {link.label}
+        </Paper>
+      </Grid>
+      <Grid item container className={classes.footer} alignContent="center">
+        <Grid item>
+          <Typography variant="caption" align="center">
+            Already a user?{" "}
+            <Link href={`/login`} variant="caption" underline={"none"}>
+              {"Log In"}
             </Link>
-          ))}
-        </Box>
+          </Typography>
+        </Grid>
+        <Grid item style={{ width: "100%" }}>
+          <Box className={classes.links}>
+            {footerLinks.map((link) => (
+              <Link
+                key={link.to}
+                className={classes.link}
+                color="textSecondary"
+                href={link.to}
+                underline={"none"}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </Box>
+        </Grid>
       </Grid>
     </Grid>
   );

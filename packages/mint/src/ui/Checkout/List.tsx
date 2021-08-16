@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     marginTop: "16px",
     overflow: "hidden",
-    backgroundColor: theme.palette.type === 'dark' ? "#2d2131": '#e8e8e8',
+    backgroundColor: theme.palette.type === "dark" ? "#2d2131" : "#e8e8e8",
   },
   header: {},
   title: {},
@@ -33,7 +33,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function CheckoutCartList({title = "Cart", data}) {
+export function CheckoutCartList({ title = "Cart", data }) {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>

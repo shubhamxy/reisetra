@@ -16,70 +16,76 @@ import { config } from "../../libs";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       width: "100%",
       position: "relative",
-      boxShadow: "2px 2px 7px rgba(15, 15, 15, 0.15)",
+      overflow: "hidden",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      minHeight: 320,
-
-      // [theme.breakpoints.down("sm")]: {
-      //   // backgroundPosition: "center",
-      // },
+      borderRadius: 8,
+      boxShadow: "0 1px 4px 0 rgb(0 0 0 / 10%)",
+      background: "#d8dbdf",
     },
     content: {
       display: "flex",
-      textAlign: "center",
+      textAlign: "left",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      maxWidth: 620,
-      color: theme.palette.common.white,
       [theme.breakpoints.down("sm")]: {
         maxWidth: 400,
       },
+      height: 320,
       zIndex: 10,
     },
     title: {
-      color: theme.palette.common.white,
+      width: "100%",
+      color: "#303336",
       ...theme.typography.h3,
-      textAlign: "center",
-      [theme.breakpoints.down("sm")]: {
-        // ...theme.typography.h4,
-      },
+      fontSize: 22,
+      textAlign: "left",
     },
     subtitle: {
-      color: theme.palette.common.white,
+      width: "100%",
+      color: "#535b62",
       ...theme.typography.caption,
-      fontSize: 16,
-      textAlign: "center",
+      fontSize: 14,
+      textAlign: "left",
     },
     description: {
-      color: theme.palette.common.white,
+      width: "100%",
+      color: "#535b62",
       ...theme.typography.body1,
       textAlign: "center",
-      [theme.breakpoints.down("sm")]: {
-        ...theme.typography.body1,
-      },
     },
-    actionsContainer: {},
+    actionsContainer: {
+      width: "100%",
+    },
     imageContainer: {
       width: "100%",
-      height: '100%',
-      background: "#0f0f0f4f",
-      backdropFilter: "blur(2px)",
+      height: "100%",
+      // background: "#0f0f0f4f",
+      // backdropFilter: "blur(2px)",
       zIndex: 4,
       top: 0,
       bottom: 0,
       position: "absolute",
     },
     image: {
+      zIndex: 1,
+      transition: "all ease-in 2s",
+    },
+    illustration1: {
+      maxWidth: 200,
+      zIndex: 1,
+      transition: "all ease-in 2s",
+    },
+    illustration2: {
+      maxWidth: 200,
       zIndex: 1,
       transition: "all ease-in 2s",
     },
@@ -94,33 +100,49 @@ export default React.memo(function HeroCard(
       subtitle?: string;
       description?: string;
       backgroundImage?: string;
+      objectFit?: string;
     };
   }>
 ) {
   const router = useRouter();
   const classes = useStyles();
-  const [showModal, setShowModal] = useState(false);
-  const [activeQuizIndex, setActiveQuizIndex] = useState(0);
-  const quizStep = () => {
-    setActiveQuizIndex(activeQuizIndex + 1);
-  };
   const {
     title = "Get better recommendations",
     subtitle = "",
     description = "",
-    backgroundImage,
+    backgroundImage = "/images/hero.jpeg",
+    objectFit = "cover",
   } = props.data || {};
 
   return (
     <Card className={classes.root}>
       <Box className={classes.imageContainer} />
-      <Image
+      {backgroundImage && (
+        <Image
           objectPosition="center"
-          objectFit={"cover"}
+          objectFit={objectFit as any}
           className={classes.image}
-          src={backgroundImage || '/images/hero.jpeg'}
+          src={backgroundImage}
           layout="fill"
         />
+      )}
+
+      {/* <Image
+          objectPosition="right"
+          objectFit={"contain"}
+          className={classes.illustration1}
+          src={'/images/illustration1.svg'}
+          layout="fill"
+        />
+
+        <Image
+          objectPosition="left"
+          objectFit={"contain"}
+          className={classes.illustration2}
+          src={'/images/illustration2.svg'}
+          layout="fill"
+        /> */}
+
       <NextSeo
         description={description}
         openGraph={{
@@ -141,6 +163,11 @@ export default React.memo(function HeroCard(
         }}
       />
       <CardContent className={classes.content}>
+        {subtitle && (
+          <Typography className={classes.subtitle} variant={"caption"}>
+            {subtitle}
+          </Typography>
+        )}
         {title && (
           <Typography
             style={{ textTransform: "uppercase" }}
@@ -149,17 +176,17 @@ export default React.memo(function HeroCard(
             {title}
           </Typography>
         )}
-        {subtitle && (
-          <Typography className={classes.subtitle} variant={"caption"}>
-            {subtitle}
-          </Typography>
-        )}
+
         {description && (
           <Typography className={classes.description} variant={"body1"}>
             {description}
           </Typography>
         )}
-        {props.actions && <CardActions>{props.actions}</CardActions>}
+        {props.actions && (
+          <CardActions className={classes.actionsContainer}>
+            {props.actions}
+          </CardActions>
+        )}
       </CardContent>
     </Card>
   );

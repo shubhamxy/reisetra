@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { formatDistance, subDays } from "date-fns";
+import { formatDistance } from "date-fns";
 import { Rating } from "@material-ui/lab";
 import { ImagePreview } from "../../ui/MediaPreview";
 import {
@@ -21,11 +14,11 @@ import {
   ButtonGroup,
   Dialog,
   DialogTitle,
-  DialogActions,
   DialogContent,
 } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import { Button } from "@material-ui/core";
+
 const useStyles = makeStyles<any, any>((theme: Theme) =>
   createStyles({
     root: ({ selected }) => ({
@@ -127,7 +120,7 @@ export default function ReviewCard({
       </Card>
       <Dialog open={open} onClose={handleClose} scroll="body" fullWidth>
         <DialogTitle>
-        <CardHeader
+          <CardHeader
             avatar={
               <Avatar
                 src={user?.avatar}
@@ -149,7 +142,7 @@ export default function ReviewCard({
                       onEdit();
                     }}
                   >
-                    <Edit style={{height: 14, width: 14}} />
+                    <Edit style={{ height: 14, width: 14 }} />
                   </Button>
                   <Button
                     variant="contained"
@@ -160,7 +153,7 @@ export default function ReviewCard({
                       onDelete();
                     }}
                   >
-                    <Delete style={{height: 14, width: 14}} />
+                    <Delete style={{ height: 14, width: 14 }} />
                   </Button>
                 </ButtonGroup>
               ) : null
@@ -172,9 +165,8 @@ export default function ReviewCard({
           />
         </DialogTitle>
         <DialogContent>
-
           <CardContent>
-            <Rating size={"large"} value={rating || 5}  readOnly />
+            <Rating size={"large"} value={rating || 5} readOnly />
             <Typography variant="h5" color="textSecondary" component="p">
               {title}
             </Typography>

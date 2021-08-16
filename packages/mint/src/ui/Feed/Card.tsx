@@ -5,12 +5,12 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Rating } from "@material-ui/lab";
 
-function useHelper({ id }) {
+function useHelper({ slug }) {
   const router = useRouter();
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    router.push(`/product/${id}?ref=${encodeURIComponent(router.asPath)}`);
+    router.push(`/product/${slug}`);
   }
   return {
     handleClick,
@@ -18,18 +18,10 @@ function useHelper({ id }) {
 }
 
 export function ProductCard({ data }) {
-  const {
-    id,
-    title,
-    description,
-    rating,
-    ratingsCount,
-    price,
-    mrp,
-    images,
-  } = data;
+  const { id, slug, title, description, rating, ratingsCount, price, mrp, images } =
+    data;
   const { handleClick } = useHelper({
-    id,
+    slug,
   });
 
   const classes = useStyles();
@@ -114,7 +106,7 @@ export function ProductCard({ data }) {
                 className={classes.cost}
                 children={`(${(((+mrp - +price) / +mrp) * 100) | 0}% off)`}
                 variant="subtitle2"
-                style={{marginLeft: 6 }}
+                style={{ marginLeft: 6 }}
               />
             </Box>
             <Box>

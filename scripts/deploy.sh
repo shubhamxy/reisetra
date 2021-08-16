@@ -1,4 +1,4 @@
 #!/bin/bash
 
-npm run build:server
+npm run build:soda
 source ./scripts/upload.sh

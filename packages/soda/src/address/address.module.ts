@@ -5,9 +5,9 @@ import { AddressService } from "./address.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule],
-  controllers: [AddressController],
-  providers: [PrismaService, AddressService],
-  exports: [AddressService],
+    imports: [CacheModule],
+    controllers: [AddressController],
+    providers: [PrismaService, AddressService],
+    exports: [],
 })
 export class AddressModule {}

@@ -67,8 +67,7 @@ const useGridItemStyles = makeStyles<
     maxWidth: 320,
     justifyContent: "center",
     mixBlendMode: "normal",
-    borderRadius: 8,
-    boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.10)",
+    borderRadius: 4,
     color:
       colors && colors[0] ? colors[0] : fade(styles[styleIndex].color, 0.8),
     background: colors && colors[1] ? colors[1] : styles[styleIndex].background,
@@ -76,6 +75,10 @@ const useGridItemStyles = makeStyles<
       maxWidth: "100%",
       height: "unset",
       alignItems: "center",
+    },
+    border: `1px solid ${theme.palette.text.primary}33`,
+    "&:hover": {
+      boxShadow: "0px 4px 12px rgba(15, 15, 15, 0.2)",
     },
   }),
   card: {
@@ -138,8 +141,6 @@ const useGridItemStyles = makeStyles<
   media: {
     position: "relative",
     backgroundColor: "#fff",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
     backgroundSize: "contain",
     height: 0,
     width: "100%",
@@ -292,11 +293,12 @@ export function Products({ filters, enabled = true }) {
   return (
     <GridList
       query={query}
+      emptyListCaption={`No products found in this category / filters. please check again later or select a different category / filters.`}
       renderItem={({ item, index }) => (
         <GridItem
           {...item}
           onClick={() => {
-            router.push(`/product/${item.id}`);
+            router.push(`/product/${item.slug}`);
           }}
           key={item.id}
           styleIndex={index % styles.length}

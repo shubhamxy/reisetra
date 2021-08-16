@@ -32,9 +32,11 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ProductsFeed({title = "Popular"}) {
+export function ProductsFeed({ title = "Popular" }) {
   const classes = useStyles();
-  const { data, hasNextPage, isLoading, fetchNextPage } = useProducts();
+  const { data, hasNextPage, isLoading, fetchNextPage } = useProducts({
+    sort: "trending",
+  });
   return (
     <Paper className={classes.root}>
       <Box p={2} className={classes.header}>

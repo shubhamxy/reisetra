@@ -13,22 +13,23 @@
   "workspaces": {
     "packages": [
       "packages/mint",
-      "packages/soda",
-      "packages/rocks"
+      "packages/maze",
+      "packages/moon",
+      "packages/soda"
     ],
     "nohoist": [
       "**"
     ]
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
-    "commitizen": "^4.2.3",
+    "@commitlint/cli": "^16.0.2",
+    "@commitlint/config-conventional": "^16.0.0",
+    "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^6.0.0"
+    "husky": "^7.0.4"
   },
   "config": {
     "commitizen": {
@@ -37,22 +38,30 @@
     }
   },
   "scripts": {
-    "clean": "yarn workspaces foreach -ptv run clean",
-    "lint": "yarn workspaces foreach -ptv run lint",
-
-    "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
-    "deploy:server": "./scripts/deploy.sh",
-    "build:server": "yarn workspace @reisetra/soda build",
-    "start:server": "yarn workspace @reisetra/soda start:prod",
-    "stop:server": "yarn workspace @reisetra/soda stop:prod",
-    "dev:server": "yarn workspace @reisetra/soda dev",
-
-    "deploy": "",
-    "?prebuild": "yarn workspace @reisetra/rocks build",
-    "build": "yarn workspace @reisetra/mint build",
-    "start": "yarn workspace @reisetra/mint start",
-    "dev": "yarn workspace @reisetra/mint dev"
+    "clean": "yarn workspaces run clean",
+    "lint": "yarn workspaces run lint",
+    "prettier": "yarn workspaces run prettier",
+    "prepare": "husky install",
+    "build": "yarn workspaces run build",
+    "start": "yarn workspaces run start",
+    "stop": "yarn workspaces run stop",
+    "dev": "yarn workspaces run dev",
+    "deploy:soda": "./scripts/deploy.sh",
+    "build:soda": "yarn workspace @reisetra/soda build",
+    "start:soda": "yarn workspace @reisetra/soda start",
+    "stop:soda": "yarn workspace @reisetra/soda stop",
+    "dev:soda": "yarn workspace @reisetra/soda dev",
+    "build:docs": "yarn workspace @reisetra/soda build:docs",
+    "build:maze": "yarn workspace @reisetra/maze build",
+    "start:maze": "yarn workspace @reisetra/maze start",
+    "dev:maze": "yarn workspace @reisetra/maze dev",
+    "build:mint": "yarn workspace @reisetra/mint build",
+    "start:mint": "yarn workspace @reisetra/mint start",
+    "dev:mint": "yarn workspace @reisetra/mint dev",
+    "build:moon": "yarn workspace @reisetra/moon build",
+    "start:moon": "yarn workspace @reisetra/moon start",
+    "dev:moon": "yarn workspace @reisetra/moon dev"
   }
 }
