@@ -9,28 +9,28 @@ import { AppEnv } from "src/config";
 import { NestExpressApplication } from "@nestjs/platform-express";
 
 describe("AppController (e2e)", () => {
-  let app: INestApplication;
-  let config: AppEnv;
-  let api: string;
-  let moduleFixture: TestingModule;
-  beforeAll(async () => {
-    moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    let app: INestApplication;
+    let config: AppEnv;
+    let api: string;
+    let moduleFixture: TestingModule;
+    beforeAll(async () => {
+        moduleFixture = await Test.createTestingModule({
+            imports: [AppModule],
+        }).compile();
 
-    app = moduleFixture.createNestApplication<NestExpressApplication>();
-    config = setupNestApp(app as NestExpressApplication);
-    api = config.apiPrefix;
-    await app.init();
-  });
+        app = moduleFixture.createNestApplication<NestExpressApplication>();
+        config = setupNestApp(app as NestExpressApplication);
+        api = config.apiPrefix;
+        await app.init();
+    });
 
-  it(`/healthz (GET)`, () => {
-    return request(app.getHttpServer()).get(`/${api}/healthz`).expect(200);
-  });
+    it(`/healthz (GET)`, () => {
+        return request(app.getHttpServer()).get(`/${api}/healthz`).expect(200);
+    });
 
-  afterAll(async () => {
-    const prisma = app.get(PrismaService);
-    await prisma.$disconnect();
-    await app.close();
-  });
+    afterAll(async () => {
+        const prisma = app.get(PrismaService);
+        await prisma.$disconnect();
+        await app.close();
+    });
 });

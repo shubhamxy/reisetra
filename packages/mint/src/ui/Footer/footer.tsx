@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import Link from "next/link";
 import { footerLinks } from "./data";
 import { Icons, Image } from "../Image";
@@ -27,7 +27,6 @@ import {
   WbSunny,
 } from "@material-ui/icons";
 import { ButtonGroup } from "@material-ui/core";
-import { Button } from "@material-ui/core";
 const { version } = require("../../../package.json");
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,12 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       width: "100%",
       backgroundColor: fade(theme.palette.background.paper, 0.4),
-      backdropFilter: "blur(50px)",
+      backdropFilter: "blur(30px)",
       position: "relative",
       [theme.breakpoints.down("sm")]: {
         padding: "40px 0 0",
       },
-      boxShadow: "0 -2px 8px rgb(0 0 0 / 15%)",
+      boxShadow: "0 -1px 4px 0 rgb(0 0 0 / 10%);",
     },
     container: {
       display: "flex",
@@ -99,6 +98,8 @@ const useStyles = makeStyles((theme: Theme) =>
     footerNavList: {},
     footerListItem: {
       cursor: "pointer",
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     payments: {
       borderRadius: "4px",
@@ -109,8 +110,9 @@ const useStyles = makeStyles((theme: Theme) =>
     socials: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "flex-end",
+      // justifyContent: "flex-start",
       alignItems: "center",
+      marginLeft: -14,
     },
     socialsicon: {
       borderRadius: 0,
@@ -127,6 +129,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function Footer() {
   const classes = useStyles();
   const theme = useTheme();
+
   return (
     <footer className={classes.footer}>
       <Container className={classes.container}>
@@ -152,7 +155,11 @@ function Footer() {
               />
             </Box>
             <Box>
-              <Typography color="textPrimary" variant="caption" title={`Copyright ${config.name} ${version}`}>
+              <Typography
+                color="textPrimary"
+                variant="caption"
+                title={`Copyright ${config.name} ${version}`}
+              >
                 &copy; 2021 {config.name}.
               </Typography>
             </Box>
@@ -190,15 +197,15 @@ function Footer() {
                 );
               })}
             </Box>
-            <Box display="flex" alignItems="center" justifyContent="flex-end">
-              <Box
-                display="flex"
-                alignItems="center"
-                pr={2.4}
-                justifyContent="center"
-              >
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              justifyContent="flex-start"
+            >
+              <Box display="flex" alignItems="center" justifyContent="center">
                 <Typography color="textPrimary" variant="caption">
-                  Follow Us
+                  Find us on:
                 </Typography>
               </Box>
               <ButtonGroup className={classes.socials} variant="outlined">
@@ -247,6 +254,10 @@ function Footer() {
         <IconButton
           title="Enable / Disable dark mode"
           id="dark_mode_button"
+          onClick={() => {
+            const event = new CustomEvent("toggle_dark_mode");
+            document.dispatchEvent(event);
+          }}
           style={{
             backgroundColor: theme.palette.background.paper,
           }}

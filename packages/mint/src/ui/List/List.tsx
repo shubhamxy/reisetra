@@ -53,11 +53,7 @@ export function List(props: ListProps) {
 
   if (variant === "infinite") {
     return (
-      <Grid
-        container
-        className={classes.root}
-        justify="center"
-      >
+      <Grid container className={classes.root} justify="center">
         {ListHeaderComponent && (
           <Grid item xs={12} className={classes.header}>
             {ListHeaderComponent}
@@ -83,6 +79,7 @@ export function List(props: ListProps) {
                   <MaterialListItem
                     disableGutters
                     className={classes.listItem}
+                    id={item.id || pageIndex + "-" + index}
                     key={keyExtractor(item, pageIndex + "-" + index)}
                     divider={listItemDivider}
                     {...listItemProps}

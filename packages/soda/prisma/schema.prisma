@@ -1,5 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
+  previewFeatures = ["filterJson"]
   binaryTargets = ["linux-musl", "native"]
 }
 
@@ -18,23 +19,26 @@ model Secrets {
 }
 
 model File {
-  id          String    @id
-  url         String
-  fileType    FileType
-  contentType String
+  url         String     @id
+  meta        Json       @default("{}")
+  fileType    FileType?
   userId      String?
   productId   String?
   reviewId    String?
   categoryId  String?
   tagId       String?
+  storyId     String?
+  orderId     String?
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   category    Category? @relation(fields: [categoryId], references: [label])
+  story       Story?    @relation(fields: [storyId], references: [id])
   product     Product?  @relation(fields: [productId], references: [id])
   review      Review?   @relation(fields: [reviewId], references: [id])
   tag         Tag?      @relation(fields: [tagId], references: [label])
   user        User?     @relation(fields: [userId], references: [id])
+  order       Order?    @relation(fields: [orderId], references: [id])
 }
 
 model User {
@@ -57,6 +61,7 @@ model User {
   files         File[]
   orders        Order[]
   reviews       Review[]
+  stories       Story[]
   secrets       Secrets?
   transactions  Transaction[]
 }
@@ -166,6 +171,7 @@ model Company {
 
 model Product {
   id           String     @id @default(cuid())
+  slug         String?    @unique @default(cuid())
   title        String
   description  String
   company      Company    @relation(fields: [brand], references: [name])
@@ -176,7 +182,7 @@ model Product {
   rating       Int
   dimensions   String[]
   details      Json
-  faqs         Json       @default("{}")
+  faqs         Json       @default("[]")
   published    Boolean    @default(false)
   mrp          Float
   price        Float
@@ -227,6 +233,7 @@ model Order {
   offer        Offer?       @relation(fields: [promo], references: [label])
   user         User         @relation(fields: [userId], references: [id])
   transaction  Transaction?
+  documents    File[]
 }
 
 model Transaction {
@@ -248,6 +255,51 @@ model Transaction {
   updatedAt        DateTime          @updatedAt
   order            Order             @relation(fields: [id], references: [id])
   user             User              @relation(fields: [userId], references: [id])
+}
+
+model Story {
+  id           String     @id @default(cuid())
+  slug         String?     @unique
+  title        String
+  subtitle     String?
+  styles       String[]
+
+  description  String?
+
+  body         Json       @default("{}")
+  published    Boolean    @default(false)
+
+  userId       String?
+
+  files         File[]
+
+  tags         String[]
+
+  user         User?              @relation(fields: [userId], references: [id])
+
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Form {
+  id           String     @id @default(cuid())
+  data         Json       @default("{}")
+
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  formResponses       FormResponse[]
+}
+
+model FormResponse {
+  id           String     @id @default(cuid())
+  data         Json       @default("{}")
+  formId       String 
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  form         Form?  @relation(fields: [formId], references: [id])
 }
 
 enum OAuthProvider {

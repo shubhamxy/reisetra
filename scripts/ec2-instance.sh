@@ -3,8 +3,8 @@
 echo "# Install nvm"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-echo "# Install Node v 14.16.1 ie. same as local"
-nvm install v14.16.1
+echo "# Install Node v 14.17.0 ie. same as local"
+nvm install v14.17.0
 
 echo "# Insall pm2"
 npm install pm2 -g

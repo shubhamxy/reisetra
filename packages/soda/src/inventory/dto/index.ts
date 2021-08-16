@@ -8,18 +8,20 @@ type Excluded = "id" | "active" | "createdAt" | "updatedAt";
 export class GetAllInventoryDto extends CursorPaginationDTO {}
 
 export class CreateInventoryDto implements Omit<Inventory, Excluded> {
-  @IsNotEmpty()
-  @IsNumber({}, { message: mustBeOfType("number", "stockQuantity") })
-  stockQuantity: number;
-  @IsNotEmpty()
-  @IsString({ message: mustBeOfType("string", "sku") })
-  sku: string;
+    @IsNotEmpty()
+    @IsNumber({}, { message: mustBeOfType("number", "stockQuantity") })
+    stockQuantity: number;
+
+    @IsNotEmpty()
+    @IsString({ message: mustBeOfType("string", "sku") })
+    sku: string;
 }
 
 export class UpdateInventoryDto implements Omit<Inventory, Excluded> {
-  @IsNumber({}, { message: mustBeOfType("number", "stockQuantity") })
-  stockQuantity: number;
-  @IsOptional()
-  @IsString({ message: mustBeOfType("string", "sku") })
-  sku: string;
+    @IsNumber({}, { message: mustBeOfType("number", "stockQuantity") })
+    stockQuantity: number;
+
+    @IsOptional()
+    @IsString({ message: mustBeOfType("string", "sku") })
+    sku: string;
 }

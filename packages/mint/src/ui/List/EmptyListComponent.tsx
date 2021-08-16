@@ -1,25 +1,20 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  makeStyles
-} from "@material-ui/core";
+import { Box, Typography, Button, makeStyles } from "@material-ui/core";
 import Image from "next/image";
 
-export const useStyles = makeStyles(theme => ({
-	root: {
-		display: "flex",
-		flex: 1,
-		padding: "10px 10px 10px 10px",
-	},
-	button: {},
-	text: {
+export const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flex: 1,
+    padding: "10px 10px 10px 10px",
+  },
+  button: {},
+  text: {
     color: theme.palette.text.primary,
-		fontWeight: 500,
-		fontSize: "14px",
-		lineHeight: "19px",
-	},
+    fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: "19px",
+  },
 }));
 
 export function EmptyListComponent(props) {
@@ -57,28 +52,22 @@ export function EmptyListComponent(props) {
             height={180}
             width={180}
             objectFit={"contain"}
-            {...imgProps} />
+            {...imgProps}
+          />
         ) : (
           <Image
             src={"/icons/folder.svg"}
             height={180}
             width={180}
             objectFit={"contain"}
-            {...imgProps} />
+            {...imgProps}
+          />
         )}
 
-        <Typography
-          variant={"h4"}
-          className={classes.text}
-          {...titleProps}
-        >
+        <Typography variant={"h4"} className={classes.text} {...titleProps}>
           {title}
         </Typography>
-        <Typography
-          variant="body2"
-          className={classes.text}
-          {...subtextProps}
-        >
+        <Typography variant="body2" className={classes.text} {...subtextProps}>
           {subtext}
         </Typography>
         {buttonText && (

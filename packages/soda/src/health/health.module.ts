@@ -4,8 +4,8 @@ import { PrismaService } from "../common/modules/db/prisma.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule],
-  controllers: [HealthCheckController],
-  providers: [PrismaService],
+    imports: [CacheModule],
+    controllers: [HealthCheckController],
+    providers: [PrismaService],
 })
 export class HealthCheckModule {}

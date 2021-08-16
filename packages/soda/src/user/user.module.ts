@@ -5,9 +5,9 @@ import { UserService } from "./user.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule],
-  controllers: [UserController],
-  providers: [PrismaService, UserService],
-  exports: [UserService],
+    imports: [CacheModule],
+    controllers: [UserController],
+    providers: [PrismaService, UserService],
+    exports: [UserService],
 })
 export class UserModule {}

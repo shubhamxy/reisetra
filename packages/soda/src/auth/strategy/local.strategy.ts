@@ -8,30 +8,33 @@ import { User } from "../../user/entity";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private authService: AuthService) {
-    super({
-      usernameField: "email",
-      passwordField: "password",
-    });
-  }
-
-  async validate(email: string, password: string): Promise<Partial<User>> {
-    try {
-      const userOrNull = await this.authService.validateUser(email, password);
-      if (userOrNull === null) {
-        throw new CustomError(
-          "Username and password does not match",
-          errorCodes.LocalAuthFailed,
-          "LocalStrategy.validate"
-        );
-      }
-      return userOrNull;
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.UNAUTHORIZED,
-        "LocalStrategy.validate"
-      );
+    constructor(private authService: AuthService) {
+        super({
+            usernameField: "email",
+            passwordField: "password",
+        });
     }
-  }
+
+    async validate(email: string, password: string): Promise<Partial<User>> {
+        try {
+            const userOrNull = await this.authService.validateUser(
+                email,
+                password
+            );
+            if (userOrNull === null) {
+                throw new CustomError(
+                    "Username and password does not match",
+                    errorCodes.LocalAuthFailed,
+                    "LocalStrategy.validate"
+                );
+            }
+            return userOrNull;
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.UNAUTHORIZED,
+                "LocalStrategy.validate"
+            );
+        }
+    }
 }

@@ -5,9 +5,9 @@ import { TransactionService } from "./transaction.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule, HttpModule],
-  controllers: [TransactionController],
-  providers: [PrismaService, TransactionService],
-  exports: [TransactionService],
+    imports: [CacheModule, HttpModule],
+    controllers: [TransactionController],
+    providers: [PrismaService, TransactionService],
+    exports: [TransactionService],
 })
 export class TransactionModule {}

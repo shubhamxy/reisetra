@@ -15,6 +15,7 @@ import { updateSnackBar, useGlobalDispatch } from "../../libs/rock/global";
 import { IErrorResponse } from "../../libs/rock/utils/http";
 import { login, useAuthDispatch } from "../../libs/rock/auth";
 import { useRouter } from "next/router";
+import { Logo } from "../../ui/Logo";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "0",
     width: "100%",
     height: "100%",
-    padding: theme.spacing(2.1, 4.0, 4.5, 4.0),
+    padding: theme.spacing(2.1, 4.0, 2.1, 4.0),
   },
   title: {
     textAlign: "left",
@@ -111,14 +112,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 0, 2.4, 0),
   },
   submit: {
-    margin: theme.spacing(2.4, 0, 2.4, 0),
+    margin: theme.spacing(10, 0, 2.4, 0),
   },
 }));
 
 export function ForgotPassword() {
   const classes = useStyles();
   const emailForgotPassword = useUserEmailForgotPassword();
-  const {replace} = useRouter();
+  const { replace, asPath } = useRouter();
   const authDispatch = useAuthDispatch();
   const globalDispatch = useGlobalDispatch();
   const {
@@ -136,30 +137,28 @@ export function ForgotPassword() {
     },
     validationSchema: LoginSchema,
     onSubmit: function (data) {
-      emailForgotPassword.mutate(data.email,
-        {
-          onSuccess: (response) => {
-            globalDispatch(
-              updateSnackBar({
-                message: "Email Sent Successfully",
-                type: "success",
-                open: true,
-              })
-            );
-            replace('/login')
-          },
-          onError: (error: IErrorResponse<any>) => {
-            globalDispatch(
-              updateSnackBar({
-                message: error.message,
-                type: "error",
-                open: true,
-                duration: 10000
-              })
-            );
-          },
-        }
-      );
+      emailForgotPassword.mutate(data.email, {
+        onSuccess: (response) => {
+          globalDispatch(
+            updateSnackBar({
+              message: "Email Sent Successfully",
+              type: "success",
+              open: true,
+            })
+          );
+          replace(`/login`);
+        },
+        onError: (error: IErrorResponse<any>) => {
+          globalDispatch(
+            updateSnackBar({
+              message: error.message,
+              type: "error",
+              open: true,
+              duration: 10000,
+            })
+          );
+        },
+      });
     },
   });
 
@@ -183,13 +182,13 @@ export function ForgotPassword() {
       <Grid
         item
         className={classes.header}
-        // alignContent="center"
+        alignContent="center"
         justify="center"
         direction="column"
       >
         <Box display="flex" className={classes.logo}>
           <Link href={"/"} color="textSecondary" underline={"none"}>
-            <Image src="/images/logo.svg" height="30px" width="30px" />
+            <Logo />
           </Link>
         </Box>
       </Grid>
@@ -244,6 +243,7 @@ export function ForgotPassword() {
                 fullWidth
                 variant="contained"
                 color="primary"
+                size="medium"
                 disabled={emailForgotPassword.isLoading}
                 className={classes.submit}
               >
@@ -253,11 +253,11 @@ export function ForgotPassword() {
                 container
                 direction="column"
                 justify="center"
-                style={{ textAlign: "center" }}
+                style={{ textAlign: "center", marginTop: 8 }}
               >
                 <Grid item>
                   <Typography variant="caption" align="center">
-                    <Link href="/login" variant="caption" underline={"none"}>
+                    <Link href={`/login` }variant="caption" underline={"none"}>
                       {"Back to Login"}
                     </Link>
                   </Typography>

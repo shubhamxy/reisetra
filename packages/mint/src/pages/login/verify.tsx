@@ -1,43 +1,63 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { updateSnackBar, useGlobalDispatch } from "../../libs";
-import { emailVerify } from "../../libs/rock/api/auth";
+import {
+  Box,
+  makeStyles,
+  CircularProgress,
+} from "@material-ui/core";
+import React from "react";
+import { MainLayout } from "../../layouts/MainLayout";
+import { AppHeader } from "../../ui/Header";
+import { Footer } from "../../ui/Footer";
+import HeroCard from "../../ui/HeroCard";
 
-function VerifyCallbackPage() {
-  const { query, replace } = useRouter();
-  const dispatch = useGlobalDispatch();
-  useEffect(() => {
-    if (
-      query.id &&
-      query.token &&
-      typeof query.id === "string" &&
-      typeof query.token === "string"
-    ) {
-      emailVerify({id: query.id, token: query.token}).then(result => {
-        dispatch(
-          updateSnackBar({
-            message: "Email Verified",
-            type: "success",
-            open: true,
-          })
-        );
-      }).catch(error => {
-        dispatch(
-          updateSnackBar({
-            message: "Email Verification Failed",
-            type: "error",
-            open: true,
-          })
-        );
-      });
-      replace("/login");
-    }
-  }, [query]);
+const useStyles = makeStyles((theme) => ({
+  content: {
+    marginBottom: 48,
+    display: "flex",
+    flexDirection: "column",
+  },
+  left: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  right: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+}));
+
+function Page() {
+  const classes = useStyles();
+  const pageMeta = {
+    title: "",
+    description: "",
+    url: '/',
+  };
+
   return (
-    <h1>
-      This is the auth callback page, you should be redirected immediately!
-    </h1>
+    <MainLayout
+      classes={{
+        left: classes.left,
+        right: classes.right,
+      }}
+      top={
+        <HeroCard
+          data={{
+            title: pageMeta.title,
+            subtitle: pageMeta.description,
+          }}
+          actions={
+            <Box pt={2.4}>
+              <CircularProgress />
+            </Box>
+          }
+        />
+      }
+      header={<AppHeader />}
+      footer={<Footer />}
+    />
   );
 }
 
-export default VerifyCallbackPage;
+export default Page;

@@ -1,4 +1,9 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import {
   createCategory,
   createOffer,
@@ -10,6 +15,7 @@ import {
   getCategories,
   getProduct,
   getProducts,
+  getRecommendations,
   getReviews,
   getTags,
   updateProduct,
@@ -25,6 +31,9 @@ export const useProduct = (id: string) =>
     onSuccess: () => {},
   });
 
+export const useProductMutation = () =>
+  useMutation(getProduct);
+
 export const useUpdateProduct = () => useMutation(updateProduct);
 export const useDeleteProduct = () => useMutation(createProduct);
 export const useProducts = (filters = {}, enabled = true) =>
@@ -32,10 +41,28 @@ export const useProducts = (filters = {}, enabled = true) =>
     [QueryKeys.products, filters],
     ({ queryKey, pageParam = undefined }) =>
       getProducts({
-        ...filters,
         buttonNum: "4",
         size: "10",
         cursor: pageParam,
+        ...filters,
+      }),
+    {
+      enabled,
+      getNextPageParam: (lastPage, _pages) => {
+        return lastPage.meta.link?.next?.cursor;
+      },
+    }
+  );
+
+export const useRecommendations = (filters = {}, enabled = true) =>
+  useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
+    [QueryKeys.recommendations, filters],
+    ({ queryKey, pageParam = undefined }) =>
+      getRecommendations({
+        buttonNum: "4",
+        size: "10",
+        cursor: pageParam,
+        ...filters,
       }),
     {
       enabled,
@@ -50,10 +77,9 @@ export const useTags = (params = {}) =>
     onSuccess: () => {},
   });
 
-  export const useBrands = (params = {}) =>
+export const useBrands = (params = {}) =>
   useQuery([QueryKeys.brands, params], getBrands, {
     onSuccess: () => {},
-
   });
 
 export const useCategories = (params = {}) =>
@@ -91,7 +117,7 @@ export const useCreateReview = () => {
   const queryClient = useQueryClient();
   return useMutation(createReview, {
     onSuccess: () => {
-      queryClient.invalidateQueries("reviews")
+      queryClient.invalidateQueries("reviews");
     },
     onError: (error) => {
       globalDispatch(
@@ -110,7 +136,7 @@ export const useUpdateReview = () => {
   const queryClient = useQueryClient();
   return useMutation(updateReview, {
     onSuccess: () => {
-      queryClient.invalidateQueries("reviews")
+      queryClient.invalidateQueries("reviews");
     },
     onError: (error) => {
       globalDispatch(
@@ -129,7 +155,7 @@ export const useDeleteReview = () => {
   const queryClient = useQueryClient();
   return useMutation(deleteReview, {
     onSuccess: () => {
-      queryClient.invalidateQueries("reviews")
+      queryClient.invalidateQueries("reviews");
     },
     onError: (error) => {
       globalDispatch(

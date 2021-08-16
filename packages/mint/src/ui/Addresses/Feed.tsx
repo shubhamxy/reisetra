@@ -13,7 +13,7 @@ import {
 import { List } from "../List/List";
 import { ProductCard } from "./Card";
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles<any>((theme) => ({
   root: { height: "100%", display: "flex", flexDirection: "column", flex: 1 },
   header: {},
   content: {},
@@ -42,7 +42,7 @@ export function AddressList({ data, selected, setSelected }) {
           height="320px"
         >
           <Typography align="center" variant="subtitle2">
-            Cart is empty
+            Please add an address.
           </Typography>
         </Box>
       }

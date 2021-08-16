@@ -5,9 +5,9 @@ import { ReviewService } from "./review.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule],
-  controllers: [ReviewController],
-  providers: [PrismaService, ReviewService],
-  exports: [ReviewService],
+    imports: [CacheModule],
+    controllers: [ReviewController],
+    providers: [PrismaService, ReviewService],
+    exports: [ReviewService],
 })
 export class ReviewModule {}

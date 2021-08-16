@@ -1,17 +1,12 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { storage } from "../utils/storage";
-import { config, isBrowser } from "../config";
-import { useRefreshAuth, useVerifyGoogleLogin } from "./useAuth";
+import { config } from "../config";
+import { useRefreshAuth } from "./useAuth";
 import { useUserProfile } from "../users";
 import { useRouter } from "next/router";
 import { UserProfile } from "../api/user";
 import { analytics } from "../utils";
+import qs from 'query-string';
 
 const AuthStateContext = createContext(null);
 const AuthDispatchContext = createContext(null);
@@ -75,88 +70,116 @@ export const hydrate = (payload) => ({
   payload,
 });
 
-const authReducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case ActionKind.hydrate:
-      try {
-        return {
-          ...state,
-          ...action.payload,
-          isHydrated: true,
-        };
-      } catch (error) {
-        console.error("authReducer.hydrate", error);
-        return state;
-      }
-    case ActionKind.login:
-      try {
-        const hasPutAccessToken = storage.put.access_token(
-          action.payload.access_token
-        );
-        const hasPutRefreshToken = storage.put.refresh_token(
-          action.payload.refresh_token
-        );
-        return {
-          ...state,
-          isAuthenticated: Boolean(hasPutAccessToken && hasPutRefreshToken),
-        };
-      } catch (error) {
-        console.error("authReducer.login", error);
-        return state;
-      }
-    case ActionKind.logout:
-      try {
-        storage.clear();
-        return {
-          ...initialState,
-          isHydrated: true,
-        };
-      } catch (error) {
-        console.error("authReducer.logout", error);
-        return state;
-      }
 
-    case ActionKind.setAuthState:
-      try {
-        const update = {
-          ...state,
-          ...action.payload,
-        };
-        analytics.identify(update.user);
-        return update;
-      } catch (error) {
-        console.error("authReducer.setAuthState", logout);
-        return state;
-      }
-    default:
-      return state;
-  }
-};
 const privateRoutes = new Set(["/cart", "/orders"]);
 // Provider hook that creates auth object and handles state
+const authenticationRoutes = new Set([
+  "/forgot-password",
+  "/login",
+  "/reset-password",
+  "/signup",
+  "/verify",
+])
+
 function useAuth() {
+  const { route, query, isReady, replace, asPath } = useRouter()
+
+  const fetchUserProfile = useUserProfile();
+  const fetchRefreshToken = useRefreshAuth();
+
+  const authReducer = (state: State, action: Action): State => {
+    switch (action.type) {
+      case ActionKind.hydrate:
+        try {
+          return {
+            ...state,
+            ...action.payload,
+            isHydrated: true,
+          };
+        } catch (error) {
+          console.error("authReducer.hydrate", error);
+          return state;
+        }
+      case ActionKind.login:
+        try {
+          const hasPutAccessToken = storage.put.access_token(
+            action.payload.access_token
+          );
+          const hasPutRefreshToken = storage.put.refresh_token(
+            action.payload.refresh_token
+          );
+          return {
+            ...state,
+            isAuthenticated: Boolean(hasPutAccessToken && hasPutRefreshToken),
+          };
+        } catch (error) {
+          console.error("authReducer.login", error);
+          return state;
+        }
+      case ActionKind.logout:
+        try {
+          storage.clear();
+          return {
+            ...initialState,
+            isHydrated: true,
+          };
+        } catch (error) {
+          console.error("authReducer.logout", error);
+          return state;
+        }
+
+      case ActionKind.setAuthState:
+        try {
+          const update = {
+            ...state,
+            ...action.payload,
+          };
+          analytics.identify(update.user);
+          return update;
+        } catch (error) {
+          console.error("authReducer.setAuthState", error);
+          return state;
+        }
+      default:
+        return state;
+    }
+  };
+
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const [isGoogleLibLoaded, setIsGoogleLibLoaded] = useState(false);
-  const getUserProfile = useUserProfile();
-  const refreshAuthToken = useRefreshAuth();
-  const verifyGoogleLogin = useVerifyGoogleLogin();
-  const router = useRouter();
 
   useEffect(() => {
+    if (!isReady || !state.isHydrated) return;
     if (state.isAuthenticated) {
-      if (router.route === "/login" || router.route === "/signup") {
-        if(router.query.ref) {
-          router.replace(router.query.ref as string);
-        } else {
-          router.replace("/");
-        }
+      if (authenticationRoutes.has(route) || route === "/login/callback" ) {
+        replace(query.redirect_route as string || '/');
       }
     } else {
-      if (privateRoutes.has(router.route)) {
-        router.replace("/login");
+       if (authenticationRoutes.has(route)) {
+        const redirectTo = qs.stringifyUrl({
+          url: config.callbackUrl,
+          query
+        })
+        replace({
+          pathname: config.authUrl,
+          query: {
+            redirect_uri: redirectTo,
+          }
+        });
+      } else if (privateRoutes.has(route)) {
+        const redirectTo = qs.stringifyUrl({
+          url: config.callbackUrl,
+          query
+        });
+        console.log(redirectTo);
+        replace({
+          pathname: config.authUrl,
+          query: {
+            redirect_uri: redirectTo,
+          }
+        });
       }
     }
-  }, [router.route, state]);
+  }, [route, isReady, state.isAuthenticated, state.isHydrated, query, asPath, replace])
 
   useEffect(() => {
     async function hydrateAsync() {
@@ -169,7 +192,9 @@ function useAuth() {
           const hasRefreshToken = storage.get.refresh_token();
           if (hasRefreshToken) {
             try {
-              const response = await refreshAuthToken.mutateAsync({});
+              const response = await fetchRefreshToken.mutateAsync({
+                token: hasRefreshToken
+              });
               dispatch(
                 login({
                   access_token: response.data.access_token,
@@ -186,7 +211,7 @@ function useAuth() {
           }
         }
       } catch (error) {
-        console.error('hydrateAsync', error);
+        console.error("hydrateAsync", error);
       } finally {
         dispatch(setAuthState({ isHydrated: true }));
       }
@@ -194,12 +219,13 @@ function useAuth() {
     if (state.isHydrated === false) {
       hydrateAsync();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     async function getProfileAsync() {
       try {
-        const response = await getUserProfile.mutateAsync();
+        const response = await fetchUserProfile.mutateAsync();
         storage.put.user_profile(response.data);
         dispatch(setAuthState({ user: response.data }));
       } catch (error) {
@@ -212,57 +238,8 @@ function useAuth() {
       getProfileAsync();
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isAuthenticated, state.isHydrated, state.user]);
-
-  useEffect(() => {
-    if (
-      isGoogleLibLoaded &&
-      state.isHydrated &&
-      state.isAuthenticated === false
-    ) {
-      const google = window["google"];
-      if (google) {
-        google.accounts.id.prompt();
-      }
-    }
-  }, [state.isAuthenticated, state.isHydrated, isGoogleLibLoaded]);
-
-  useEffect(() => {
-    function initializeGoogleLogin() {
-      const google = window["google"];
-      if (!google) {
-        return;
-      }
-      google.accounts.id.initialize({
-        client_id: config.googleOAuthOptions.clientID,
-        ux_mode: "popup",
-        callback: function handleCredentialResponse(response) {
-          verifyGoogleLogin
-            .mutateAsync(response)
-            .then((response) => {
-              dispatch(
-                login({
-                  access_token: response.data["access_token"],
-                  refresh_token: response.data["refresh_token"],
-                })
-              );
-            })
-            .catch(console.error);
-        },
-      });
-      const divBtn = window.document.getElementById("google-button");
-      if (divBtn) {
-        google.accounts.id.renderButton(divBtn, {
-          theme: "outline",
-          size: "large",
-          text: "continue_with",
-        });
-      }
-      setIsGoogleLibLoaded(true);
-    }
-    window.addEventListener("load", initializeGoogleLogin);
-    return () => window.removeEventListener("load", initializeGoogleLogin);
-  }, []);
 
   return {
     state,

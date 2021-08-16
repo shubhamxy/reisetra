@@ -13,27 +13,27 @@ import { GoogleStrategy } from "./strategy/google.strategy";
 
 const config = auth();
 @Module({
-  imports: [
-    UserModule,
-    PassportModule,
-    CacheModule,
-    JwtModule.register({
-      secret: config.jwtAccessTokenOptions.secret,
-      signOptions: {
-        expiresIn: config.jwtAccessTokenOptions.expiresIn,
-        audience: config.jwtAccessTokenOptions.audience,
-        issuer: config.jwtAccessTokenOptions.issuer,
-      },
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-    JwtRefreshStrategy,
-    GoogleStrategy,
-  ],
-  exports: [],
+    imports: [
+        UserModule,
+        PassportModule,
+        CacheModule,
+        JwtModule.register({
+            secret: config.jwtAccessTokenOptions.secret,
+            signOptions: {
+                expiresIn: config.jwtAccessTokenOptions.expiresIn,
+                audience: config.jwtAccessTokenOptions.audience,
+                issuer: config.jwtAccessTokenOptions.issuer,
+            },
+        }),
+    ],
+    controllers: [AuthController],
+    providers: [
+        AuthService,
+        LocalStrategy,
+        JwtStrategy,
+        JwtRefreshStrategy,
+        GoogleStrategy,
+    ],
+    exports: [],
 })
 export class AuthModule {}

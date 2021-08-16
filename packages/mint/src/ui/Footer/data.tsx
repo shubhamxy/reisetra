@@ -28,12 +28,8 @@ export const footerLinks = [
         title: "About us",
       },
       {
-        to: "/blogs",
-        title: "Blogs",
-      },
-      {
-        to: "/faqs",
-        title: "FAQs",
+        to: "/stories",
+        title: "Stories",
       },
       {
         to: "/support",

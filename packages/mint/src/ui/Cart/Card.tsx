@@ -4,21 +4,21 @@ import { useStyles } from "./styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Grid } from "@material-ui/core";
-import {CloseOutlined} from '@material-ui/icons'
+import { CloseOutlined } from "@material-ui/icons";
 import { useCartItem, useDeleteCartItem } from "../../libs";
-function useHelper({ id, data }) {
+function useHelper({ slug, data }) {
   const router = useRouter();
-  const removeCartItem = useDeleteCartItem()
+  const removeCartItem = useDeleteCartItem();
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    router.push(`/product/${id}?ref=${encodeURIComponent(router.asPath)}`);
+    router.push(`/product/${slug}`);
   }
 
   function handleRemove(e) {
     e.preventDefault();
     e.stopPropagation();
-    removeCartItem.mutate({cartId: data.cartId, productId: data.productId})
+    removeCartItem.mutate({ cartId: data.cartId, productId: data.productId });
   }
 
   return {
@@ -28,15 +28,22 @@ function useHelper({ id, data }) {
 }
 
 export function ProductCard({ data }) {
-  const { id, title, description, price, mrp, images } = data.product;
+  const { id, slug, title, description, price, mrp, images } = data.product;
   const { handleClick, handleRemove } = useHelper({
-    id,
+    slug,
     data,
   });
 
   const classes = useStyles();
   return (
-    <Grid container item xs={12} className={classes.root} onClick={handleClick} direction="row">
+    <Grid
+      container
+      item
+      xs={12}
+      className={classes.root}
+      onClick={handleClick}
+      direction="row"
+    >
       <Grid item className={classes.cover}>
         <Box
           borderRadius="12px"
@@ -62,7 +69,14 @@ export function ProductCard({ data }) {
         </Box>
       </Grid>
       <Grid container item xs className={classes.content} direction="column">
-        <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
+        <Grid
+          container
+          item
+          xs={12}
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
           <Typography
             className={classes.title}
             variant="body1"
@@ -76,7 +90,7 @@ export function ProductCard({ data }) {
           </IconButton>
         </Grid>
         <Grid container item xs direction="column">
-          <Grid item xs={12} style={{display: 'flex'}} direction="row">
+          <Grid item xs={12} style={{ display: "flex" }} direction="row">
             {data.quantity && (
               <Typography
                 className={classes.subText}
@@ -111,7 +125,7 @@ export function ProductCard({ data }) {
             )}
           </Grid>
 
-          <Grid item xs={12} style={{display: 'flex'}} direction="row">
+          <Grid item xs={12} style={{ display: "flex" }} direction="row">
             <Typography
               className={classes.subText}
               variant="body1"
@@ -130,7 +144,6 @@ export function ProductCard({ data }) {
               {`₹ ${Math.ceil(price) || 1}`}
             </Typography>
           </Grid>
-
         </Grid>
       </Grid>
     </Grid>

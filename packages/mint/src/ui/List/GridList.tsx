@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("xs")]: {
       gridTemplateColumns: "1fr",
-      alignItems: 'center',
-    }
+      alignItems: "center",
+    },
   },
   listItem: {
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   imageContainer: {
     display: "flex",
@@ -130,13 +130,21 @@ function Footer({
   ) : null;
 }
 
-export default function GridList({ emptyListCaption = "No results", query, renderItem, ...rest }) {
+export default function GridList({
+  emptyListCaption = "No results",
+  query,
+  renderItem,
+  ...rest
+}) {
   const { data, hasNextPage, isLoading, fetchNextPage } = query;
   const classes = useStyles();
   return (
-    <Container disableGutters style={{ flex: 1, width: '100%', height: '100%', display: 'flex' }}>
+    <Container
+      disableGutters
+      style={{ flex: 1, width: "100%", height: "100%", display: "flex" }}
+    >
       <List
-        variant={'infinite'}
+        variant={"infinite"}
         data={data}
         classes={{ list: classes.list, listItem: classes.listItem }}
         isLoading={isLoading}

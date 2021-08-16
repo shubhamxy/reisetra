@@ -13,7 +13,9 @@ export function useTransactionsState(): TransactionsState {
 }
 
 export function useTransactionsDispatch(): React.Dispatch<Action> {
-  const context = useContext<React.Dispatch<Action>>(TransactionsDispatchContext);
+  const context = useContext<React.Dispatch<Action>>(
+    TransactionsDispatchContext
+  );
   if (context === undefined) {
     throw new Error(
       "useTransactionsDispatch must be used within a TransactionsDispatchContext"
@@ -52,4 +54,4 @@ export const TransactionsProvider = ({ children }) => {
   );
 };
 
-export * from './useTransaction';
+export * from "./useTransaction";

@@ -76,7 +76,6 @@ const useStyles = makeStyles<
       },
     },
     justifyContent: "center",
-
   }),
 
   list: {
@@ -155,22 +154,25 @@ const useStyles = makeStyles<
     },
     transition: "opacity ease 0.4s",
   },
-
   paper: {
     background: "transparent",
     boxShadow: "none",
     backgroundColor: theme.palette.common.black,
     height: "100%",
     width: "100%",
-    padding: 0,
     margin: 0,
-    borderRadius: 24,
+    padding: 0,
+    borderRadius: 0,
+  },
+  scrollPaper: {
+    borderRadius: 0,
   },
   previewContainer: {
     backgroundColor: "rgba(0,0,0,0.02)",
-    backdropFilter: "blur(4px)",
-    paddingTop: "64px",
-    paddingBottom: "64px",
+    backdropFilter: "blur(2px)",
+  },
+  dialogRoot: {
+    borderRadius: 0,
   },
   previewimage: {
     objectFit: "contain",
@@ -178,9 +180,8 @@ const useStyles = makeStyles<
     maxWidth: "100%",
     maxHeight: "100%",
     flex: 1,
-    borderRadius: 24,
+    borderRadius: 4,
     overflow: "hidden",
-    transition: theme.transitions.create(["width", "opacity"]),
   },
   closePreviewBtn: {
     height: 26,
@@ -533,26 +534,24 @@ export default function ImagePreview({
       )}
 
       <Dialog
-        scroll="body"
-        maxWidth="md"
+        maxWidth="lg"
         keepMounted={false}
         open={openIndex > -1}
         fullWidth
-        classes={{ paper: classes.paper, container: classes.previewContainer }}
+        classes={{ root: classes.dialogRoot, scrollPaper: classes.scrollPaper, paper: classes.paper, container: classes.previewContainer }}
         onClose={() => setOpenIndex(-1)}
-        // style={{ backgroundColor: "transparent" }}
+        style={{ backgroundColor: "transparent", borderRadius: 0 }}
       >
-        {openIndex > -1 &&
-          data[openIndex]?.url &&
-            (<Image
-              onDoubleClick={() => setZoom(!zoom)}
-              layout="fill"
-              className={classes.previewimage}
-              src={data[openIndex]?.url}
-              alt={`${data[openIndex]?.url}`}
-              key={data[openIndex]?.url}
-            />
-          )}
+        {openIndex > -1 && data[openIndex]?.url && (
+          <Image
+            onDoubleClick={() => setZoom(!zoom)}
+            layout="fill"
+            className={classes.previewimage}
+            src={data[openIndex]?.url}
+            alt={`${data[openIndex]?.url}`}
+            key={data[openIndex]?.url}
+          />
+        )}
         <button
           onClick={() => setOpenIndex(openIndex - 1)}
           className={classes.prev}

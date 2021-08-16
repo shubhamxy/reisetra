@@ -3,22 +3,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { MainLayout } from "../../layouts/MainLayout";
 import { AppHeader } from "../../ui/Header";
 import { Footer } from "../../ui/Footer";
-import { ProductsFeed } from "../../ui/Feed/Feed";
 import { Checkout } from "../../modules/Checkout";
 import { CheckoutSummary } from "../../ui/Checkout/CheckoutSummary";
 import {
-  updatePromo,
   useAuthState,
-  useCartCheckout,
   useCartItems,
-  useCreateAddress,
-  useGlobalDispatch,
   useGlobalState,
   useUpdateTransaction,
 } from "../../libs";
 import { useRouter } from "next/router";
 import { CheckoutCartList } from "../../ui/Checkout";
 import Success from "../../modules/Checkout/Success";
+
 const useStyles = makeStyles((theme) => ({
   content: {
     display: "flex",
@@ -55,15 +51,15 @@ const CheckoutPage = () => {
     const razorpay = window.document.createElement("script");
     razorpay.async = false;
     razorpay.src = "https://checkout.razorpay.com/v1/checkout.js";
-    const body = document.getElementsByTagName("body")[
-      document.getElementsByTagName("body").length - 1
-    ];
+    const body =
+      document.getElementsByTagName("body")[
+        document.getElementsByTagName("body").length - 1
+      ];
     const child = body.appendChild(razorpay);
     return () => {
       body.removeChild(child);
     };
   }, []);
-
 
   function handleTransaction(data) {
     if (!data || !data.razorpayOptions) {

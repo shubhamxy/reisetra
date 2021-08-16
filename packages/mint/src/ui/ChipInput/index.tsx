@@ -16,20 +16,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   chip: {
-    overflow: 'hidden',
-    maxWidth: '100%',
+    overflow: "hidden",
+    maxWidth: "100%",
     marginRight: 9,
     marginBottom: 9,
     "&:nth-child": {
       marginRight: 0,
       marginBottom: 0,
-    }
+    },
   },
   label: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: 'auto',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexDirection: "column",
+    height: "auto",
+    flexWrap: "wrap",
   },
 }));
 

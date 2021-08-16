@@ -5,9 +5,9 @@ import { InventoryService } from "./inventory.service";
 import { CacheModule } from "src/common/modules/cache/cache.module";
 
 @Module({
-  imports: [CacheModule],
-  controllers: [InventoryController],
-  providers: [PrismaService, InventoryService],
-  exports: [InventoryService],
+    imports: [CacheModule],
+    controllers: [InventoryController],
+    providers: [PrismaService, InventoryService],
+    exports: [InventoryService],
 })
 export class InventoryModule {}

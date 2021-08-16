@@ -31,7 +31,7 @@ import { ShoppingCart } from "@material-ui/icons";
 import ReviewCard from "./review";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import ProductImages from "../CreateProduct/ProductImages";
+import ProductImages from "../../ui/ProductImages";
 import { Rating } from "@material-ui/lab";
 import { useEffect } from "react";
 
@@ -396,7 +396,7 @@ export function Reviews({ id }: { id: string }) {
                 fullWidth
                 multiline
                 rows={6}
-                placeholder="Eg. Great deal at 44,900.00 thank you reisetra. This was the best deal just like the Black Friday sale or say the Boxing day sale"
+                placeholder="Eg. Great deal at 44,900.00 thank you. This was the best deal just like the Black Friday sale or say the Boxing day sale"
                 autoComplete="off"
                 value={values.description}
                 onChange={handleChange}

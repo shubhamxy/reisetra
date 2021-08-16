@@ -1,21 +1,14 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-  Dialog,
-} from "@material-ui/core";
-import React from "react";
+import { Box, makeStyles, Paper } from "@material-ui/core";
+import React, { useEffect } from "react";
 import { MainLayout } from "../layouts/MainLayout";
 import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
 import HeroCard from "../ui/HeroCard";
 import { config, useAuthState } from "../libs";
-import { CreateContent } from "../modules/CreateContent";
+import { useStories } from "../libs/rock/stories";
+import { useRouter } from "next/router";
+import { GridItem } from "../modules/Stories";
+import GridList from "../ui/List/GridList";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -35,21 +28,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ErrorPage = () => {
-  const classes = useStyles();
-  const authState = useAuthState();
+const StoriesPage = () => {
   const pageMeta = {
     title: "Stories",
     description: "",
     url: `${config.clientUrl}/stories`,
   };
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const classes = useStyles();
+  const authState = useAuthState();
+  const {} = authState;
+
+  const router = useRouter();
+  const query = useStories(router.query, true);
+
   return (
     <MainLayout
       classes={{
@@ -61,7 +52,7 @@ const ErrorPage = () => {
           data={{
             title: pageMeta.title,
             subtitle: pageMeta.description,
-            backgroundImage: "",
+            backgroundImage: "/images/hero.jpeg",
           }}
           // actions={
           //   <Box>
@@ -75,39 +66,22 @@ const ErrorPage = () => {
       header={<AppHeader />}
       footer={<Footer />}
     >
-      <Paper className={classes.content}>
-        <Grid container item xs={12} spacing={2} justify="flex-end">
-          {authState.user && authState.user.role === "ADMIN" && (
-            <ButtonGroup>
-              <Button
-                variant="contained"
-                color="primary"
-                size="medium"
-                onClick={handleOpen}
-              >
-                Add
-              </Button>
-            </ButtonGroup>
-          )}
-        </Grid>
-        <Dialog
-          scroll="body"
-          fullWidth
-          maxWidth="md"
-          open={!!open}
-          onClose={handleClose}
-          className={classes.content}
-        >
-          {/* @ts-ignore */}
-          <CreateContent onCloseHandler={handleClose} />
-        </Dialog>
-
-        <Box display="flex" justifyContent="center" minHeight="100vh" alignItems="center">
-          Coming Soon
-        </Box>
-      </Paper>
+      <GridList
+        query={query}
+        renderItem={({ item, index }) => (
+          <GridItem
+            {...item}
+            showDescription
+            onClick={() => {
+              router.push(`/story/${item.slug}`);
+            }}
+            key={item.id}
+            styleIndex={index}
+          />
+        )}
+      />
     </MainLayout>
   );
 };
 
-export default ErrorPage;
+export default StoriesPage;

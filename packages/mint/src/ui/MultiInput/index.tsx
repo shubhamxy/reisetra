@@ -16,20 +16,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   chip: {
-    overflow: 'hidden',
-    maxWidth: '100%',
+    overflow: "hidden",
+    maxWidth: "100%",
     marginRight: 9,
     marginBottom: 9,
     "&:nth-child": {
       marginRight: 0,
       marginBottom: 0,
-    }
+    },
   },
   label: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: 'auto',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexDirection: "column",
+    height: "auto",
+    flexWrap: "wrap",
   },
 }));
 
@@ -52,7 +52,7 @@ export default function TagsInput({ ...props }) {
       if (!event.target.value.replace(/\s/g, "").length) return;
       if (!key) {
         const inputValue = event.target.value.trim();
-        if(inputValue.indexOf(":") > -1) {
+        if (inputValue.indexOf(":") > -1) {
           const k = inputValue.split(":");
           newSelectedItem.push({
             label: k[0],
@@ -136,7 +136,11 @@ export default function TagsInput({ ...props }) {
                     key={item}
                     tabIndex={-1}
                     label={
-                      <Typography component="p" className={classes.label} variant="subtitle2">
+                      <Typography
+                        component="p"
+                        className={classes.label}
+                        variant="subtitle2"
+                      >
                         {item.label}: {item.value}
                       </Typography>
                     }
@@ -151,7 +155,11 @@ export default function TagsInput({ ...props }) {
                     key={key}
                     tabIndex={-1}
                     label={
-                      <Typography component="p" className={classes.label} variant="subtitle2">
+                      <Typography
+                        component="p"
+                        className={classes.label}
+                        variant="subtitle2"
+                      >
                         {key}
                       </Typography>
                     }

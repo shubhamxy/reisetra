@@ -18,7 +18,7 @@ import { useAuthState, useCartItems, useGlobalState } from "../../../libs";
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      backgroundColor: theme.palette.type === 'dark' ? "#21312e": '#09f1c6',
+      backgroundColor: theme.palette.type === "dark" ? "#21312e" : "#09f1c6",
       padding: "24px 32px 24px 32px",
     },
     badge: {
@@ -83,7 +83,11 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export function CheckoutSummary({data, title = "Order Summary", caption = "Grand total of your purchase"}) {
+export function CheckoutSummary({
+  data,
+  title = "Order Summary",
+  caption = "Grand total of your purchase",
+}) {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -94,14 +98,10 @@ export function CheckoutSummary({data, title = "Order Summary", caption = "Grand
         pb={2.6}
       >
         <Box pt={0.6} pb={0.6}>
-          <Typography variant={"h5"}>
-            {title}
-          </Typography>
+          <Typography variant={"h5"}>{title}</Typography>
         </Box>
 
-        <Typography variant={"caption"} >
-         {caption}
-        </Typography>
+        <Typography variant={"caption"}>{caption}</Typography>
       </Box>
       <Box display={"flex"} flexDirection={"column"}>
         <List
@@ -139,7 +139,9 @@ export function CheckoutSummary({data, title = "Order Summary", caption = "Grand
               </Grid>
               <Grid item>
                 <Typography className={classes.subtext}>
-                  {data["shipping"] === 0 ? "Free" : `₹${data["shipping"] || 0}`}
+                  {data["shipping"] === 0
+                    ? "Free"
+                    : `₹${data["shipping"] || 0}`}
                 </Typography>
               </Grid>
             </Grid>

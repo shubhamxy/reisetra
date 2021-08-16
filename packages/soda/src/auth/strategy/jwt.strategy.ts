@@ -6,18 +6,18 @@ import { UserAuthPayload } from "../auth.interface";
 const config = auth();
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.jwtAccessTokenOptions.secret,
-      issuer: config.jwtAccessTokenOptions.issuer,
-      audience: config.jwtAccessTokenOptions.audience,
-      ignoreExpiration: false,
-      passReqToCallback: true,
-    });
-  }
+    constructor() {
+        super({
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: config.jwtAccessTokenOptions.secret,
+            issuer: config.jwtAccessTokenOptions.issuer,
+            audience: config.jwtAccessTokenOptions.audience,
+            ignoreExpiration: false,
+            passReqToCallback: true,
+        });
+    }
 
-  async validate(request: Request, payload): Promise<UserAuthPayload> {
-    return { id: payload.sub, email: payload.email, role: payload.role };
-  }
+    async validate(request: Request, payload): Promise<UserAuthPayload> {
+        return { id: payload.sub, email: payload.email, role: payload.role };
+    }
 }

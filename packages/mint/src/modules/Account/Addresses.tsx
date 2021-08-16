@@ -62,20 +62,37 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
+      // @ts-ignore
       fontWeight: theme.typography.fontWeightRegular,
     },
   })
 );
 
-export function Addresses({ title = "Addresses", defaultExpanded = true, selected, setSelected, header, children }) {
+export function Addresses({
+  title = "Addresses",
+  defaultExpanded = true,
+  selected,
+  setSelected,
+  header,
+  children,
+  ...rest
+}) {
   const classes = useStyles();
-  const userAddresses = useAddresses({}, {
-    onSuccess: ({pages}) => {
-      if(defaultExpanded && !selected && (pages?.length > 0 && pages[0].data.length > 0)) {
-        setSelected(pages[0].data[0].id);
-      }
-    },
-  });
+  const userAddresses = useAddresses(
+    {},
+    {
+      onSuccess: ({ pages }) => {
+        if (
+          defaultExpanded &&
+          !selected &&
+          pages?.length > 0 &&
+          pages[0].data.length > 0
+        ) {
+          setSelected(pages[0].data[0].id);
+        }
+      },
+    }
+  );
   const createAddress = useCreateAddress();
   const updateAddress = useUpdateAddress();
   const deleteAddress = useDeleteAddress();
@@ -101,18 +118,20 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
     country: "India",
     email: user?.email || "",
     phone: user?.phone || "",
-    ...(config.isProduction ? {} : {
-      fullname: "Shubham Jain",
-      address: "H 116, A-1 Sector 6, Rohini",
-      region: "Rohini",
-      nearby: "Aggarwal sweets",
-      zipcode: "110085",
-      city: "Delhi",
-      state: "Delhi",
-      country: "India",
-      email: user?.email || "",
-      phone: user?.phone || "+918123456789",
-    }),
+    ...(config.isProduction
+      ? {}
+      : {
+          fullname: "Shubham Jain",
+          address: "H 116, A-1 Sector 6, Rohini",
+          region: "Rohini",
+          nearby: "Aggarwal sweets",
+          zipcode: "110085",
+          city: "Delhi",
+          state: "Delhi",
+          country: "India",
+          email: user?.email || "",
+          phone: user?.phone || "+918123456789",
+        }),
   };
 
   const {
@@ -159,101 +178,108 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
   });
 
   return (
-    <Grid className={classes.root}>
-      <Accordion color="primary"  defaultExpanded={defaultExpanded} variant="outlined" style={{border: 'none'}} >
-        <AccordionSummary color="primary" expandIcon={<ExpandMoreIcon />}>
-          <Typography
-            variant="subtitle2"
-          >
-            {title}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails color="primary">
-          <Grid container>
-            {header && (
-              <Grid
-                item
-                xs={12}
-                justify="space-between"
-                style={{ display: "flex" }}
-              >
-                <ButtonGroup>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    onClick={() => {
-                      resetForm();
-                      setSelected(null);
-                      handleClickOpen();
-                    }}
-                  >
-                    Add
-                  </Button>
-                </ButtonGroup>
-                {
-                  selected && (
-                <ButtonGroup >
-                  <Button
-                    disabled={!selected}
-                    size="medium"
-                    variant="text"
-                    color="primary"
-                    onClick={async () => {
-                      let address = null;
-                      for (
-                        let i = 0;
-                        i < userAddresses.data.pages.length;
-                        i++
-                      ) {
-                        const pageData = userAddresses.data.pages[i]
-                          .data as any[];
-                        address = pageData.find(
-                          (item: any) => item.id === selected
-                        );
-                      }
-                      if (address) {
-                        await setValues(address as any);
-                      }
-                      handleClickOpen();
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    style={{backgroundColor: theme.palette.error.main}}
-                    size="medium"
-                    disabled={!selected}
-                    onClick={() => {
-                      deleteAddress.mutate(selected, {
-                        onSuccess: () => {
-                          setSelected(null);
-                        },
-                      });
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </ButtonGroup>
-                )
-              }
+    <>
+      <Box className={classes.root} {...rest}>
+        <Accordion
+          color="primary"
+          defaultExpanded={defaultExpanded}
+          variant="outlined"
+          style={{ border: "none" }}
+        >
+          <AccordionSummary color="primary" expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle2">{title}</Typography>
+          </AccordionSummary>
+          <AccordionDetails color="primary">
+            <Grid container>
+              {header && (
+                <Grid
+                  item
+                  xs={12}
+                  justify="space-between"
+                  style={{ display: "flex" }}
+                >
+                  <ButtonGroup>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="medium"
+                      onClick={() => {
+                        resetForm();
+                        setSelected(null);
+                        handleClickOpen();
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </ButtonGroup>
+                  {selected && (
+                    <ButtonGroup>
+                      <Button
+                        disabled={!selected}
+                        size="medium"
+                        variant="text"
+                        color="primary"
+                        onClick={async () => {
+                          let address = null;
+                          for (
+                            let i = 0;
+                            i < userAddresses.data.pages.length;
+                            i++
+                          ) {
+                            const pageData = userAddresses.data.pages[i]
+                              .data as any[];
+                            address = pageData.find(
+                              (item: any) => item.id === selected
+                            );
+                          }
+                          if (address) {
+                            await setValues(address as any);
+                          }
+                          handleClickOpen();
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        style={{ backgroundColor: theme.palette.error.main }}
+                        size="medium"
+                        disabled={!selected}
+                        onClick={() => {
+                          deleteAddress.mutate(selected, {
+                            onSuccess: () => {
+                              setSelected(null);
+                            },
+                          });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </ButtonGroup>
+                  )}
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <AddressList
+                  data={userAddresses.data?.pages[0].data}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
               </Grid>
-            )}
-            <Grid item xs={12}>
-              <AddressList
-                data={userAddresses.data?.pages[0].data}
-                selected={selected}
-                setSelected={setSelected}
-              />
             </Grid>
-          </Grid>
-        </AccordionDetails>
-        {children}
-      </Accordion>
-      <Dialog fullWidth open={open} onClose={handleClose} scroll="body">
-        <DialogTitle>{selected ? 'Edit' : 'Add'} Address</DialogTitle>
+          </AccordionDetails>
+          {children}
+        </Accordion>
+      </Box>
+      <Dialog
+        fullWidth
+        open={open}
+        onClose={handleClose}
+        scroll="body"
+        keepMounted={false}
+      >
+        <DialogTitle>{selected ? "Edit" : "Add"} Address</DialogTitle>
         <DialogContent>
           <Grid container item xs={12} spacing={3}>
             <Grid item xs={12}>
@@ -289,7 +315,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
                 helperText={touched.address ? errors.address : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 id="region"
                 name="region"
@@ -304,7 +330,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
                 helperText={touched.region ? errors.region : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 id="city"
@@ -335,7 +361,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
                 helperText={touched.state ? errors.state : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 id="zipcode"
@@ -351,7 +377,7 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
                 helperText={touched.zipcode ? errors.zipcode : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 id="nearby"
                 name="nearby"
@@ -451,6 +477,6 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
           </Box>
         </DialogActions>
       </Dialog>
-    </Grid>
+    </>
   );
 }

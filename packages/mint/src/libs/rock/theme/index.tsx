@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  createMuiTheme,
   responsiveFontSizes,
   Color,
   SimplePaletteColorOptions,
 } from "@material-ui/core";
-import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
+import { createTheme, ThemeOptions } from "@material-ui/core/styles";
+
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { storage } from "../utils";
 
@@ -100,25 +100,26 @@ export const blue: Partial<Color> = {
   A400: "#2979ff",
   A700: "#2962ff",
 };
-declare module '@material-ui/core/styles/createMuiTheme' {
+
+declare module "@material-ui/core/styles" {
   interface Theme {
     colors: {
-      tertiary: SimplePaletteColorOptions,
-      golden: SimplePaletteColorOptions,
-      link: SimplePaletteColorOptions,
+      tertiary: SimplePaletteColorOptions;
+      golden: SimplePaletteColorOptions;
+      link: SimplePaletteColorOptions;
       blue: Partial<Color>;
     };
   }
-  // allow configuration using `createMuiTheme`
   interface ThemeOptions {
     colors?: {
-      golden: SimplePaletteColorOptions,
-      tertiary: SimplePaletteColorOptions,
-      link: SimplePaletteColorOptions,
+      golden: SimplePaletteColorOptions;
+      tertiary: SimplePaletteColorOptions;
+      link: SimplePaletteColorOptions;
       blue?: Partial<Color>;
     };
   }
 }
+
 export function themeOptions(type: "light" | "dark"): ThemeOptions {
   return {
     colors: {
@@ -132,12 +133,12 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       primary,
       secondary,
       background: {
-        default: type === "dark" ? "#070708" : "#f7f9fc",
-        paper: type === "dark" ? "#121212" : "#f6f7f8",
+        default: type === "dark" ? "#020202" : "#ffffff",
+        paper: type === "dark" ? "#090909" : "#efeff1",
       },
       text: {
-        primary: type === "dark" ?  "#eeeeee" : "#1c1c1c",
-        secondary: type === "dark" ? "#f6f7f8" : "#202020",
+        primary: type === "dark" ? "#eeeeee" : "#535b62",
+        secondary: type === "dark" ? "#f6f7f8" : "#57565d",
       },
       error,
       warning,
@@ -275,19 +276,19 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
     overrides: {
       MuiPaper: {
         rounded: {
-          borderRadius: 12,
+          borderRadius: 4,
         },
         elevation1: {
-          boxShadow: "0px 2px 6px  rgba(15, 15, 15, 0.10)",
+          boxShadow: type === 'dark' ? `0 1px 4px 0 ${primary.main}33`: "0 1px 4px 0 rgb(0 0 0 / 10%)",
         },
         elevation8: {
-          boxShadow: "0px 2px 6px rgba(15, 15, 15, 0.10)",
+          boxShadow: type === 'dark' ? `0 1px 4px 0 ${primary.main}33` :  "0 1px 4px 0 rgb(0 0 0 / 10%)",
         },
       },
       MuiMenuItem: {
         root: {
-          borderRadius: 8,
-        }
+          borderRadius: 0,
+        },
       },
       MuiIconButton: {
         root: {
@@ -299,16 +300,21 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           },
           "&:hover": {
             // boxShadow: `0px 0px 0px 4px ${primary.main}33`,
-            transform: 'scale(1.03)',
+            transform: "scale(1.03)",
           },
           "&:active": {
-            transform: 'scale(.98)'
-          }
+            transform: "scale(.98)",
+          },
         },
+      },
+      MuiChip: {
+        root: {
+          borderRadius: "12px"
+        }
       },
       MuiButton: {
         text: {
-          borderRadius: 8,
+          borderRadius: 4,
           paddingLeft: 16,
           paddingRight: 16,
           "&:disabled": {
@@ -324,7 +330,7 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
         },
         disabled: {},
         contained: {
-          borderRadius: 8,
+          borderRadius: 4,
           "&:disabled": {
             opacity: 0.8,
           },
@@ -338,10 +344,10 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
       },
       MuiOutlinedInput: {
         root: {
-          borderRadius: 8,
+          borderRadius: 4,
         },
         input: {
-          borderRadius: 8,
+          borderRadius: 4,
         },
       },
       MuiCssBaseline: {
@@ -355,7 +361,55 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
           ],
           body: {
             fontFamily: "Gibson-Regular",
-            backgroundColor: type === "dark" ? "#0f0f0f" :"#ffffff",
+            backgroundColor: type === "dark" ? "#020202" : "#ffffff",
+          },
+          h1: {
+            fontFamily:
+              "Gibson-Light, NeueHaasUnicaPro, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontWeight: "lighter",
+            fontSize: "66px",
+            letterSpacing: "-0.5px",
+          },
+          h2: {
+            fontFamily:
+              "Gibson-Regular, NeueHaasUnicaPro, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontWeight: "normal",
+            fontSize: "52px",
+            letterSpacing: "0px",
+          },
+          h3: {
+            fontFamily:
+              "Gibson-SemiBold, NeueHaasUnicaPro, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontWeight: "bold",
+            fontSize: "37px",
+            letterSpacing: "0.25px",
+          },
+          h4: {
+            fontFamily:
+              "Gibson-SemiBold, NeueHaasUnicaPro, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontWeight: "bold",
+            fontSize: "26px",
+            letterSpacing: "0px",
+          },
+          h5: {
+            fontFamily:
+              "Gibson-SemiBold, NeueHaasUnicaPro, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontWeight: "bold",
+            fontSize: "22px",
+            letterSpacing: "0.15px",
+          },
+          p: {
+            fontFamily:
+              "NeueHaasUnicaPro-Regular, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontWeight: "normal",
+            fontSize: "16px",
+            letterSpacing: "0.5px",
+          },
+          caption: {
+            fontFamily:
+              "NeueHaasUnicaPro-Regular, SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica",
+            fontSize: "12px",
+            letterSpacing: "0.4px",
           },
         },
       },
@@ -364,47 +418,35 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
 }
 
 // Create a theme instance.
-export function useTheme(){
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+export function useTheme() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
-  useEffect(() => {
-    const darkModefromls = storage.get.dark_mode();
-    if(darkModefromls === undefined) {
-      setDarkMode(prefersDarkMode);
-    } else {
-      setDarkMode(darkModefromls);
-    }
-  }, [prefersDarkMode])
+
+  // const prefersLightMode = useMediaQuery("(prefers-color-scheme: light)");
+  // console.log({prefersLightMode})
+  // useEffect(() => {
+  //   setDarkMode(!prefersLightMode);
+  // }, [prefersLightMode]);
+
+
   function update() {
     const dark_mode = storage.get.dark_mode();
     setDarkMode(!dark_mode);
     storage.put.dark_mode(!dark_mode);
   }
   useEffect(() => {
-    let btn;
-    // !!fixme
-    const timer = setTimeout(() => {
-      btn = document.getElementById("dark_mode_button");
-      if(btn){
-        btn.addEventListener("click", update);
-      }
-    }, 500)
-
+    document?.addEventListener?.("toggle_dark_mode", update);
     return () => {
-      clearTimeout(timer)
-      if(btn){
-        btn?.removeEventListener?.("click", update);
-      }
-    }
+      document?.removeEventListener?.("toggle_dark_mode", update);
+    };
   }, []);
   return useMemo(
     () =>
       responsiveFontSizes(
-        createMuiTheme(themeOptions(darkMode ? "dark" : "light"))
+        createTheme(themeOptions(darkMode ? "dark" : "light"))
       ),
     [darkMode]
   );
-};
+}
 
 export function WithTheme({ children }) {
   const theme = useTheme();

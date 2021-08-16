@@ -4,9 +4,9 @@ import { PrismaService } from "../common/modules/db/prisma.service";
 import { FilesService } from "./files.service";
 
 @Module({
-  imports: [],
-  controllers: [FilesController],
-  providers: [PrismaService, FilesService],
-  exports: [FilesService],
+    imports: [],
+    controllers: [FilesController],
+    providers: [PrismaService, FilesService],
+    exports: [FilesService],
 })
 export class FilesModule {}

@@ -3,6 +3,7 @@ import {
   Chip,
   fade,
   FormControl,
+  Grid,
   InputLabel,
   List,
   makeStyles,
@@ -22,24 +23,27 @@ import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { useBrands, useCategories, useReviews, useTags } from "../../libs";
 import clsx from "clsx";
-import isEqual from "lodash.isequal";
 import { useDebounce } from "use-debounce";
-
-
+import { ShowCase } from "../../modules/ShowCase";
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    marginBottom: 48,
+    paddingTop: 24,
     display: "flex",
     flexDirection: "column",
   },
   tagListContainer: {
     padding: 20,
+    minHeight: "300px",
   },
   tagList: {
     display: "flex",
     flexWrap: "wrap",
     alignItems: "center",
+  },
+  bottom: {
+    width: "100%",
+    paddingTop: 24,
   },
   tagListItem: {
     borderRadius: "48px",
@@ -71,10 +75,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: `0px 0px 0px 4px#d0f20f33`,
   },
   products: {
-    marginBottom: 48,
+    marginBottom: 12,
     display: "flex",
     flexDirection: "column",
-    minHeight: "60vh"
+    minHeight: "300px",
   },
   productsFilter: {
     padding: 20,
@@ -166,13 +170,17 @@ function useHelper() {
       type: "multiselect",
       title: "Brands",
       subtitle: "Select multiple brands",
-      // @ts-ignore
-      data: brands?.data?.["data"] ? [...brands?.data?.["data"].map(item => {
-        return {
-          label: item.name,
-          value: item.name,
-        }
-      })] : [],
+      data: brands?.data?.["data"]
+        ? [
+            // @ts-ignore
+            ...brands?.data?.["data"]?.map((item) => {
+              return {
+                label: item.name,
+                value: item.name,
+              };
+            }),
+          ]
+        : [],
     },
     tags: {
       type: "multiselect",
@@ -247,10 +255,10 @@ function useHelper() {
       ? [query.tags]
       : [],
     q: query.q ? (query.q as string) : "",
-    rating: query.rating ? query.rating as string : undefined,
+    rating: query.rating ? (query.rating as string) : undefined,
   };
 
-  const [debouncedValues, {isPending}] = useDebounce(values, 1000);
+  const [debouncedValues, { isPending }] = useDebounce(values, 1000);
 
   return {
     sortBy,
@@ -258,21 +266,27 @@ function useHelper() {
     setFieldValue,
     values,
     debouncedValues,
-    isLoading: isPending() || !router.isReady || categories.isLoading || tags.isLoading,
+    isLoading:
+      isPending() || !router.isReady || categories.isLoading || tags.isLoading,
   };
 }
 
-
 const ProductsPage = () => {
   const classes = useStyles();
-  const {
-    isLoading,
-    sortBy,
-    filters,
-    setFieldValue,
-    values,
-    debouncedValues,
-  } = useHelper();
+  const { isLoading, sortBy, filters, setFieldValue, values, debouncedValues } =
+    useHelper();
+
+  const Bottom = (
+    <Grid item xs container className={classes.bottom}>
+      <Grid item xs={12}>
+        <Typography variant="h6">{"Recommended"}</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <ShowCase filters={{ size: 3 }} />
+      </Grid>
+    </Grid>
+  );
+
   return (
     <MainLayout
       classes={{
@@ -302,127 +316,129 @@ const ProductsPage = () => {
       }
       footer={<Footer />}
     >
-      <Paper className={classes.content}>
-        <Box
-          display={"flex"}
-          flexDirection={"column"}
-          className={classes.tagListContainer}
-        >
+      <>
+        <Paper className={classes.content}>
           <Box
             display={"flex"}
-            flexDirection="column"
-            alignItems={"flex-start"}
-            pb={2.6}
+            flexDirection={"column"}
+            className={classes.productsFilter}
           >
-            <Box pt={0.6} pb={0.6}>
-              <Typography variant={"h5"}>
-                Recommended Tags
-              </Typography>
-            </Box>
-
-            <Typography
-              variant={"subtitle2"}
-              style={{ maxWidth: "90%", opacity: 0.6 }}
+            <Box
+              display={"flex"}
+              flexDirection="row"
+              alignItems={"center"}
+              justifyContent="space-between"
+              pb={2.6}
             >
-              Some recommended tags we think you may be interested in.
-            </Typography>
-          </Box>
-          <List
-            classes={{
-              root: classes.tagList,
-            }}
-            disablePadding
-          >
-            {filters.tags.data.map((item, index) => {
-              const value = values["tags"] as string[];
-              const isSelected = values.tags.includes(item.label);
-              return (
-                <Chip
-                  onClick={(e) => {
-                    if (isSelected) {
-                      setFieldValue("tags", [
-                        ...value.filter((i) => i !== item.label),
-                      ]);
-                      return;
-                    }
-                    setFieldValue(
-                      "tags",
-                      Array.isArray(value)
-                        ? [...value, item.label]
-                        : ([item.label] as string[])
-                    );
-                  }}
-                  key={index}
-                  className={clsx(
-                    classes.tagListItem,
-                    isSelected ? classes.tagListItemSelected : ""
-                  )}
-                  label={
-                    <Typography
-                      style={{ fontSize: 14, lineHeight: 1 }}
-                      variant="subtitle2"
-                    >
-                      {item.label}
-                    </Typography>
-                  }
-                />
-              );
-            })}
-          </List>
-        </Box>
-
-        <Box
-          display={"flex"}
-          flexDirection={"column"}
-          className={classes.productsFilter}
-        >
-          <Box
-            display={"flex"}
-            flexDirection="row"
-            alignItems={"center"}
-            justifyContent="space-between"
-            pb={2.6}
-          >
-            <Box pt={0.6} pb={0.6}>
-              <Typography variant={"h5"}>
-                {filters.category.data.find(
-                  (item) => item.label === values.category
-                )?.label || ""}
-              </Typography>
-            </Box>
-            <FormControl
-              variant="outlined"
-              className={classes.sizeSelectContainer}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Sort
-              </InputLabel>
-              <Select
+              <Box pt={0.6} pb={0.6}>
+                <Typography variant={"h5"}>
+                  {filters.category.data.find(
+                    (item) => item.label === values.category
+                  )?.label || ""}
+                </Typography>
+              </Box>
+              <FormControl
                 variant="outlined"
-                style={{ height: 40, overflow: "hidden" }}
-                fullWidth
-                labelId="Sort"
-                value={values.sort}
-                onChange={(e) => {
-                  // setSortIndex(+e.target.value);
-                  setFieldValue("sort", e.target.value as string);
-                }}
-                label="Sort"
+                className={classes.sizeSelectContainer}
               >
-                {sortBy.data?.map((item, index) => (
-                  <MenuItem key={item.label} value={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Sort
+                </InputLabel>
+                <Select
+                  variant="outlined"
+                  style={{ height: 40, overflow: "hidden" }}
+                  fullWidth
+                  labelId="Sort"
+                  value={values.sort}
+                  onChange={(e) => {
+                    // setSortIndex(+e.target.value);
+                    setFieldValue("sort", e.target.value as string);
+                  }}
+                  label="Sort"
+                >
+                  {sortBy.data?.map((item, index) => (
+                    <MenuItem key={item.label} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
-        </Box>
 
-        <Box className={classes.products}>
-          <Products filters={debouncedValues} enabled={!isLoading} />
-        </Box>
-      </Paper>
+          <Box className={classes.products}>
+            <Products filters={debouncedValues} enabled={!isLoading} />
+          </Box>
+          {filters.tags.data.length > 0 && (
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              className={classes.tagListContainer}
+            >
+              <Box
+                display={"flex"}
+                flexDirection="column"
+                alignItems={"flex-start"}
+                pb={2.6}
+              >
+                <Box pt={0.6} pb={0.6}>
+                  <Typography variant={"h5"}>Recommended Tags</Typography>
+                </Box>
+
+                <Typography
+                  variant={"subtitle2"}
+                  style={{ maxWidth: "90%", opacity: 0.6 }}
+                >
+                  Some recommended tags we think you may be interested in.
+                </Typography>
+              </Box>
+              <List
+                classes={{
+                  root: classes.tagList,
+                }}
+                disablePadding
+              >
+                {filters.tags.data.map((item, index) => {
+                  const value = values["tags"] as string[];
+                  const isSelected = values.tags.includes(item.label);
+                  return (
+                    <Chip
+                      onClick={(e) => {
+                        if (isSelected) {
+                          setFieldValue("tags", [
+                            ...value.filter((i) => i !== item.label),
+                          ]);
+                          return;
+                        }
+                        setFieldValue(
+                          "tags",
+                          Array.isArray(value)
+                            ? [...value, item.label]
+                            : ([item.label] as string[])
+                        );
+                      }}
+                      key={index}
+                      className={clsx(
+                        classes.tagListItem,
+                        isSelected ? classes.tagListItemSelected : ""
+                      )}
+                      label={
+                        <Typography
+                          style={{ fontSize: 14, lineHeight: 1 }}
+                          variant="subtitle2"
+                        >
+                          {item.label}
+                        </Typography>
+                      }
+                    />
+                  );
+                })}
+              </List>
+            </Box>
+          )}
+        </Paper>
+        {Bottom}
+      </>
     </MainLayout>
   );
 };

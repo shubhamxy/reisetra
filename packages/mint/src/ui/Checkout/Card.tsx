@@ -5,16 +5,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Rating } from "@material-ui/lab";
 
-function useHelper({ id }) {
+function useHelper({ slug }) {
   const router = useRouter();
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
     router.push({
-      pathname: `/product/${id}`,
+      pathname: `/product/${slug}`,
       query: {
         ref: router.asPath,
-      }
+      },
     });
   }
   return {
@@ -23,18 +23,10 @@ function useHelper({ id }) {
 }
 
 export function ProductCard({ data }) {
-  const {
-    id,
-    title,
-    description,
-    rating,
-    ratingsCount,
-    price,
-    mrp,
-    images,
-  } = data.product;
+  const { id, slug, title, description, rating, ratingsCount, price, mrp, images } =
+    data.product;
   const { handleClick } = useHelper({
-    id,
+    slug,
   });
 
   const classes = useStyles();
