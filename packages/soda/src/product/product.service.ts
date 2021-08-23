@@ -480,32 +480,32 @@ export class ProductService {
 
             const updateData: any = productData;
 
-                        if (images && images.length > 0) {
-                            updateData.images = {
-                                connectOrCreate: images.map((item) => ({
-                                    create: {
-                                        url: item.url,
-                                        fileType: item.fileType,
-                                        meta: item.meta,
-                                        userId,
-                                    },
-                                    where: {
-                                        url: item.url,
-                                    },
-                                })),
-                                update: images.map((item) => ({
-                                    data: {
-                                        url: item.url,
-                                        fileType: item.fileType,
-                                        meta: item.meta,
-                                        userId,
-                                    },
-                                    where: {
-                                        url: item.url,
-                                    },
-                                })),
-                            };
-                        }
+            if (images && images.length > 0) {
+                updateData.images = {
+                    connectOrCreate: images.map((item) => ({
+                        create: {
+                            url: item.url,
+                            fileType: item.fileType,
+                            meta: item.meta,
+                            userId,
+                        },
+                        where: {
+                            url: item.url,
+                        },
+                    })),
+                    update: images.map((item) => ({
+                        data: {
+                            url: item.url,
+                            fileType: item.fileType,
+                            meta: item.meta,
+                            userId,
+                        },
+                        where: {
+                            url: item.url,
+                        },
+                    })),
+                };
+            }
 
             if (inventory) {
                 updateData.inventory = {
@@ -523,7 +523,6 @@ export class ProductService {
                 };
             }
 
-            
             const productUpdate: Prisma.XOR<
                 Prisma.ProductUpdateArgs,
                 Prisma.ProductUncheckedUpdateInput

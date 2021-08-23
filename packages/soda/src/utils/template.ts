@@ -101,7 +101,7 @@ const transactionOptions = (
 };
 export function passwordResetEmail(user: { email: string; token: string }) {
     const config = app();
-    const passwordResetLink = `${config.clientUrl}/login/reset-password?email=${user.email}&token=${user.token}`;
+    const passwordResetLink = `${config.authUrl}/reset-password?email=${user.email}&token=${user.token}`;
     return createParams(
         commonOptions(user.email, {
             ...commonData,
@@ -124,7 +124,7 @@ export function emailVerificationEmail(user: {
     token: string;
     id: string;
 }) {
-    const emailVerifyLink = `${config.clientUrl}/login/verify?id=${user.id}&token=${user.token}`;
+    const emailVerifyLink = `${config.authUrl}/verify?id=${user.id}&token=${user.token}`;
     return createParams(
         commonOptions(user.email, {
             ...commonData,

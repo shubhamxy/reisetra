@@ -356,7 +356,7 @@ export class OrderService {
                         select: {
                             url: true,
                             fileType: true,
-                        }
+                        },
                     },
                 },
             });

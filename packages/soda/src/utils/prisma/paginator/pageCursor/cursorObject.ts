@@ -24,8 +24,8 @@ export async function pageToCursorObject({
     model,
     findManyArgs,
     prisma,
-    id = 'id'
-}: Props<typeof model> & {id: string}): Promise<PageCursorType> {
+    id = "id",
+}: Props<typeof model> & { id: string }): Promise<PageCursorType> {
     const { currentPage, size, totalCount, totalPages } = pageInfo;
     let cursorId: number | string;
     const prismaModel = prisma[model];

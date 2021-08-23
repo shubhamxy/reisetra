@@ -22,7 +22,7 @@ export class FilesService {
                 orderBy = "createdAt",
                 orderDirection = "desc",
             } = options;
-            
+
             const whereObj: Prisma.FileWhereInput = {
                 active: true,
             };

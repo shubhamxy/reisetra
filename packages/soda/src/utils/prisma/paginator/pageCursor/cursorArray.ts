@@ -23,8 +23,8 @@ export async function pageCursorsToArray({
     model,
     findManyArgs,
     prisma,
-    id = 'id',
-}: Props<typeof model> & {id: string}): Promise<PageCursorType[]> {
+    id = "id",
+}: Props<typeof model> & { id: string }): Promise<PageCursorType[]> {
     const cursors = [];
     for (let page = start; page <= end; page++) {
         const cursorResult = await pageToCursorObject({
@@ -47,8 +47,8 @@ export async function pageCursorsToArrayNearTheBeginning({
     model,
     findManyArgs,
     prisma,
-    id = 'id',
-}: Props<typeof model> & {id: string}): Promise<PageCursorType[]> {
+    id = "id",
+}: Props<typeof model> & { id: string }): Promise<PageCursorType[]> {
     const cursors = [];
     const { currentPage, size } = pageInfo;
     const prismaModel = prisma[model];
@@ -93,8 +93,8 @@ export async function pageCursorsToArrayNearTheEnd({
     model,
     findManyArgs,
     prisma,
-    id = 'id'
-}: Props<typeof model> & {id: string}): Promise<PageCursorType[]> {
+    id = "id",
+}: Props<typeof model> & { id: string }): Promise<PageCursorType[]> {
     const cursors = [];
     const { currentPage, size, totalCount } = pageInfo;
     const prismaModel = prisma[model];
@@ -152,8 +152,8 @@ export async function pageCursorsToArrayInTheMiddle({
     model,
     findManyArgs,
     prisma,
-    id = 'id',
-}: Props<typeof model> & {id: string}): Promise<PageCursorType[]> {
+    id = "id",
+}: Props<typeof model> & { id: string }): Promise<PageCursorType[]> {
     const cursors = [];
     const { currentPage, size } = pageInfo;
     const prismaModel = prisma[model];
