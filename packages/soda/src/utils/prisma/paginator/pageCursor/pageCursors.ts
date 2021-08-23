@@ -35,8 +35,8 @@ export async function createPageCursors({
     model,
     findManyArgs,
     prisma,
-    id = 'id',
-}: Props<typeof model> & {id: string}): Promise<PageCursorsType> {
+    id = "id",
+}: Props<typeof model> & { id: string }): Promise<PageCursorsType> {
     // If buttonNum is even, bump it up by 1, and log out a warning.
     if (buttonNum % 2 === 0) {
         // eslint-disable-next-line

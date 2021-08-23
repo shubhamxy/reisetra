@@ -158,7 +158,7 @@ export function ResetPassword() {
               })
             );
             replace({
-              pathname: '/login',
+              pathname: '/',
               query,
             });
           },

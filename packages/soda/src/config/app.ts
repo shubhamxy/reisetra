@@ -20,6 +20,10 @@ export interface AppEnv {
     host: string;
     apiUrl: string;
     clientUrl: string;
+    callbackUrl: string;
+    authUrl: string;
+    cmsUrl: string;
+    cdnUrl: string;
     contactEmail: string;
     protocol: string;
     swagger: boolean;
@@ -52,7 +56,12 @@ export const app = (): AppEnv => ({
     protocol: process.env.API_PROTOCOL || "http",
     contactEmail: process.env.CONTACT_EMAIL || "contact@reisetra.com",
     apiUrl: process.env.API_URL || "http://localhost:8080/api/v1",
-    clientUrl: process.env.CLIENT_URL,
+    clientUrl: process.env.CLIENT_URL || "https://next.reisetra.com",
+    cmsUrl: process.env.CMS_CLIENT_URL || "https://cms.reisetra.com",
+    callbackUrl:
+        process.env.CALLBACK_URL || "https://next.reisetra.com/login/callback",
+    authUrl: process.env.AUTH_CLIENT_URL || "https://auth.reisetra.com",
+    cdnUrl: process.env.CDN_URL || "https://d38bp8dgh2l2dc.cloudfront.net",
     swagger: +process.env.ENABLE_SWAGGER === 1,
     cors: {
         allowedHeaders: String(
@@ -67,14 +76,13 @@ export const app = (): AppEnv => ({
     },
     socials: {
         facebook:
-            process.env.NEXT_PUBLIC_SOCIALS_FACEBOOK ||
-            "https://www.facebook.com/reisetra",
+            process.env.SOCIALS_FACEBOOK || "https://www.facebook.com/reisetra",
         instagram:
-            process.env.NEXT_PUBLIC_SOCIALS_INSTAGRAM ||
-            "https://www.instagram.com/reisetra",
+            process.env.SOCIALS_INSTAGRAM ||
+            "https://www.instagram.com/reisetra_crafts",
         whatsapp:
-            process.env.NEXT_PUBLIC_SOCIALS_WHATSAPP ||
-            "https://api.whatsapp.com/send?phone=91",
+            process.env.SOCIALS_WHATSAPP ||
+            "https://api.whatsapp.com/send?phone=",
     },
 });
 
