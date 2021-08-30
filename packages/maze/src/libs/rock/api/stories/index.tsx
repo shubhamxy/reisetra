@@ -4,7 +4,7 @@ import identity from 'lodash.identity'
 const queryString = require('query-string')
 
 export interface CreateStoryDTO {
-    slug: string;
+    slug: string
     title: string
     description: string
     body: any

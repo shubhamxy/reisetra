@@ -231,25 +231,25 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PassportStrategy } from &quot;@nestjs/passport&quot;;
-import { Strategy, VerifyCallback } from &quot;passport-google-oauth20&quot;;
-import { Injectable } from &quot;@nestjs/common&quot;;
-import { auth } from &quot;../../config&quot;;
-const config &#x3D; auth();
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
+import { Strategy, VerifyCallback } from &#x27;passport-google-oauth20&#x27;
+import { Injectable } from &#x27;@nestjs/common&#x27;
+import { auth } from &#x27;../../config&#x27;
+const config &#x3D; auth()
 export interface GoogleUser {
-    oauthId: string;
-    email: string;
-    emailVerified: boolean;
-    name: string;
-    avatar?: string;
-    accessToken?: string;
-    refreshToken?: string;
-    oauthProvider: string;
+    oauthId: string
+    email: string
+    emailVerified: boolean
+    name: string
+    avatar?: string
+    accessToken?: string
+    refreshToken?: string
+    oauthProvider: string
 }
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, &quot;google&quot;) {
+export class GoogleStrategy extends PassportStrategy(Strategy, &#x27;google&#x27;) {
     constructor() {
-        super(config.googleOAuthOptions);
+        super(config.googleOAuthOptions)
     }
 
     async validate(
@@ -258,7 +258,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, &quot;google&quot
         profile: any,
         done: VerifyCallback
     ): Promise&lt;any&gt; {
-        const { id, displayName, name, emails, photos, provider } &#x3D; profile;
+        const { id, displayName, name, emails, photos, provider } &#x3D; profile
         const user: GoogleUser &#x3D; {
             oauthId: id,
             email: emails[0].value,
@@ -268,8 +268,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, &quot;google&quot
             accessToken,
             refreshToken,
             oauthProvider: String(provider).toUpperCase(),
-        };
-        done(null, user);
+        }
+        done(null, user)
     }
 }
 </code></pre>

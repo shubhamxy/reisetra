@@ -1,4 +1,4 @@
-import { User } from "../entity";
+import { User } from '../entity'
 
-export type UserRO = Partial<User>;
-export type UsersRO = Partial<User>[];
+export type UserRO = Partial<User>
+export type UsersRO = Partial<User>[]

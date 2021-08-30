@@ -1,14 +1,12 @@
-import React from "react";
-import { MainLayout } from "../../layouts/MainLayout";
-import { Account } from "../../modules/Account";
+import React from 'react'
+import { MainLayout } from '../../layouts/MainLayout'
+import { Account } from '../../modules/Account'
 const AccountPage = () => {
-  return (
-    <MainLayout
-      containerProps={{ style: { justifyContent: "center" } }}
-    >
-      <Account />
-    </MainLayout>
-  );
-};
+    return (
+        <MainLayout containerProps={{ style: { justifyContent: 'center' } }}>
+            <Account />
+        </MainLayout>
+    )
+}
 
-export default AccountPage;
+export default AccountPage

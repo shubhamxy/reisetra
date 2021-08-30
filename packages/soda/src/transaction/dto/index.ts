@@ -1,4 +1,4 @@
-import { Prisma, TransactionStatus } from ".prisma/client";
+import { Prisma, TransactionStatus } from '.prisma/client'
 import {
     Allow,
     IsEnum,
@@ -6,114 +6,114 @@ import {
     IsOptional,
     IsString,
     Min,
-} from "class-validator";
-import { CursorPaginationDTO } from "src/common/dto";
-import { mustBeValidEnum } from "src/constants";
-import { Transaction } from "../entity";
+} from 'class-validator'
+import { CursorPaginationDTO } from 'src/common/dto'
+import { mustBeValidEnum } from 'src/constants'
+import { Transaction } from '../entity'
 
 type Excluded =
-    | "id"
-    | "active"
-    | "createdAt"
-    | "updatedAt"
-    | "userId"
-    | "verified";
+    | 'id'
+    | 'active'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'userId'
+    | 'verified'
 
 export class GetAllTransactionsDto extends CursorPaginationDTO {}
 
 export class CreateTransactionDto implements Omit<Transaction, Excluded> {
     @Allow()
-    notes: Prisma.JsonValue;
+    notes: Prisma.JsonValue
 
     @IsOptional()
     @IsNumber()
     @Min(0)
-    amount: number;
+    amount: number
 
     @IsOptional()
     @IsString()
-    currency: string;
+    currency: string
 
     @IsOptional()
     @IsString()
-    receipt: string;
+    receipt: string
 
     @IsOptional()
     @IsString()
-    paymentId: string;
+    paymentId: string
 
     @IsOptional()
     @IsString()
-    paymentOrderId: string;
+    paymentOrderId: string
 
     @IsOptional()
     @IsString()
-    paymentSignature: string;
+    paymentSignature: string
 
     @IsOptional()
     @IsString()
-    orderId: string;
+    orderId: string
 
     @IsOptional()
     @IsString()
-    reference: string;
+    reference: string
 
     @IsOptional()
     @IsEnum(TransactionStatus, {
-        message: mustBeValidEnum(TransactionStatus, "status"),
+        message: mustBeValidEnum(TransactionStatus, 'status'),
     })
-    status: TransactionStatus;
+    status: TransactionStatus
 
     @IsOptional()
-    @IsEnum(["RAZORPAY"], { message: mustBeValidEnum(["RAZORPAY"], "type") })
-    type: "RAZORPAY";
+    @IsEnum(['RAZORPAY'], { message: mustBeValidEnum(['RAZORPAY'], 'type') })
+    type: 'RAZORPAY'
 }
 
 export class UpdateTransactionDto
-    implements Omit<Transaction, Excluded | "orderId"> {
+    implements Omit<Transaction, Excluded | 'orderId'> {
     @Allow()
-    notes: Prisma.JsonValue;
+    notes: Prisma.JsonValue
 
     @IsOptional()
     @IsNumber()
     @Min(0)
-    amount: number;
+    amount: number
 
     @IsOptional()
     @IsString()
-    currency: string;
+    currency: string
 
     @IsOptional()
     @IsString()
-    receipt: string;
+    receipt: string
 
     @IsOptional()
     @IsString()
-    paymentId: string;
+    paymentId: string
 
     @IsOptional()
     @IsString()
-    paymentOrderId: string;
+    paymentOrderId: string
 
     @IsOptional()
     @IsString()
-    paymentSignature: string;
+    paymentSignature: string
 
     @IsOptional()
     @IsString()
-    verified: boolean;
+    verified: boolean
 
     @IsOptional()
     @IsString()
-    reference: string;
+    reference: string
 
     @IsOptional()
     @IsEnum(TransactionStatus, {
-        message: mustBeValidEnum(TransactionStatus, "status"),
+        message: mustBeValidEnum(TransactionStatus, 'status'),
     })
-    status: TransactionStatus;
+    status: TransactionStatus
 
     @IsOptional()
-    @IsEnum(["RAZORPAY"], { message: mustBeValidEnum(["RAZORPAY"], "type") })
-    type: "RAZORPAY";
+    @IsEnum(['RAZORPAY'], { message: mustBeValidEnum(['RAZORPAY'], 'type') })
+    type: 'RAZORPAY'
 }

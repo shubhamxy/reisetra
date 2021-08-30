@@ -1,15 +1,15 @@
-import { Product } from ".prisma/client";
-import { Injectable } from "@nestjs/common";
-import { errorCodes } from "src/common/codes/error";
+import { Product } from '.prisma/client'
+import { Injectable } from '@nestjs/common'
+import { errorCodes } from 'src/common/codes/error'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import { CreateAddressDto } from "./dto";
+} from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import { CreateAddressDto } from './dto'
 
 @Injectable()
 export class AddressService {
@@ -27,29 +27,29 @@ export class AddressService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "address",
+                model: 'address',
                 prisma: this.db,
                 where: {
                     userId,
                     active: true,
                 },
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "AddressService.getAddresses"
-            );
+                'AddressService.getAddresses'
+            )
         }
     }
 
@@ -61,42 +61,42 @@ export class AddressService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "address",
+                model: 'address',
                 prisma: this.db,
                 where: {
                     active: true,
                 },
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "AddressService.getAllAddresss"
-            );
+                'AddressService.getAllAddresss'
+            )
         }
     }
 
     async getAddress(id: string): Promise<any> {
         const product = await this.db.address.findUnique({
             where: { id },
-        });
+        })
         if (!product) {
             throw new CustomError(
-                "Address does not exist",
+                'Address does not exist',
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return product;
+        return product
     }
 
     async createAddress(userId: string, data: CreateAddressDto): Promise<any> {
@@ -106,14 +106,14 @@ export class AddressService {
                     ...data,
                     userId: userId,
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "AddressService.createAddress"
-            );
+                'AddressService.createAddress'
+            )
         }
     }
 
@@ -122,14 +122,14 @@ export class AddressService {
             const data = await this.db.address.update({
                 where: { id: addressId },
                 data: update,
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "AddressService.updateAddress"
-            );
+                'AddressService.updateAddress'
+            )
         }
     }
 
@@ -140,14 +140,14 @@ export class AddressService {
                 data: {
                     active: false,
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "AddressService.deleteAddress"
-            );
+                'AddressService.deleteAddress'
+            )
         }
     }
 }

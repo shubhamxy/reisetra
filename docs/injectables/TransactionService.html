@@ -364,8 +364,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="233"
-                            class="link-to-prism">src/transaction/transaction.service.ts:233</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">src/transaction/transaction.service.ts:230</a></div>
                 </td>
             </tr>
 
@@ -447,8 +447,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="522"
-                            class="link-to-prism">src/transaction/transaction.service.ts:522</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="516"
+                            class="link-to-prism">src/transaction/transaction.service.ts:516</a></div>
                 </td>
             </tr>
 
@@ -589,8 +589,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="379"
-                            class="link-to-prism">src/transaction/transaction.service.ts:379</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="373"
+                            class="link-to-prism">src/transaction/transaction.service.ts:373</a></div>
                 </td>
             </tr>
 
@@ -656,42 +656,42 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpService, Injectable } from &quot;@nestjs/common&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpService, Injectable } from &#x27;@nestjs/common&#x27;
 
-import { AxiosResponse } from &quot;axios&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
+import { AxiosResponse } from &#x27;axios&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &quot;src/common/pagination&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
-import { CacheService } from &quot;src/common/modules/cache/cache.service&quot;;
-import { prismaOffsetPagination } from &quot;src/utils/prisma&quot;;
-import { UpdateTransactionDto } from &quot;./dto&quot;;
-import { Transaction } from &quot;./entity&quot;;
-import { createHmac } from &quot;crypto&quot;;
-import { ConfigService } from &quot;@nestjs/config&quot;;
-import { ServicesEnv } from &quot;src/config&quot;;
-import { nanoid } from &quot;nanoid&quot;;
-import { Order } from &quot;src/order/entity&quot;;
-import { Address } from &quot;src/address/entity&quot;;
-import { User } from &quot;src/user/entity&quot;;
-import { sendEmail, transactionEmail } from &quot;src/utils&quot;;
+} from &#x27;src/common/pagination&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { UpdateTransactionDto } from &#x27;./dto&#x27;
+import { Transaction } from &#x27;./entity&#x27;
+import { createHmac } from &#x27;crypto&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
+import { ServicesEnv } from &#x27;src/config&#x27;
+import { nanoid } from &#x27;nanoid&#x27;
+import { Order } from &#x27;src/order/entity&#x27;
+import { Address } from &#x27;src/address/entity&#x27;
+import { User } from &#x27;src/user/entity&#x27;
+import { sendEmail, transactionEmail } from &#x27;src/utils&#x27;
 
 interface RazororpayOrderResponse {
-    id: string;
-    entity: string;
-    amount: number;
-    amount_paid: 0;
-    amount_due: number;
-    currency: string;
-    receipt: string;
-    offer_id: string;
-    status: string;
-    attempts: number;
-    notes: any;
-    created_at: number;
+    id: string
+    entity: string
+    amount: number
+    amount_paid: 0
+    amount_due: number
+    currency: string
+    receipt: string
+    offer_id: string
+    status: string
+    attempts: number
+    notes: any
+    created_at: number
 }
 @Injectable()
 export class TransactionService {
@@ -710,73 +710,70 @@ export class TransactionService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;transaction&quot;,
+                model: &#x27;transaction&#x27;,
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;TransactionService.allTransactions&quot;
-            );
+                &#x27;TransactionService.allTransactions&#x27;
+            )
         }
     }
 
     async transaction(transactionId: string): Promise&lt;Transaction&gt; {
         const product &#x3D; await this.db.transaction.findUnique({
             where: { id: transactionId },
-        });
+        })
         if (!product) {
             throw new CustomError(
-                &quot;Transaction does not exist&quot;,
+                &#x27;Transaction does not exist&#x27;,
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return product;
+        return product
     }
 
     async createTransaction(
         user: User &amp; {
             orders: (Order &amp; {
-                transaction: Transaction;
-                address: Address;
-            })[];
+                transaction: Transaction
+                address: Address
+            })[]
         }
     ): Promise&lt;Order &amp; { razorpayOptions: Record&lt;string, any&gt; }&gt; {
         try {
-            console.log(&quot;createTransaction::started&quot;);
-            const order &#x3D; user.orders[0];
+            console.log(&#x27;createTransaction::started&#x27;)
+            const order &#x3D; user.orders[0]
             if (!order.grandTotal) {
                 throw new CustomError(
-                    &quot;Calculation error please try again&quot;,
+                    &#x27;Calculation error please try again&#x27;,
                     errorCodes.BillingCalculationError,
-                    &quot;TransactionService.createTransaction&quot;
-                );
+                    &#x27;TransactionService.createTransaction&#x27;
+                )
             }
 
-            const servicesConfig &#x3D; this.config.get&lt;ServicesEnv&gt;(&quot;services&quot;);
-            const {
-                razorpayKeyId,
-                razorpaySecretKey,
-            } &#x3D; servicesConfig.razorpay;
-            console.log(&quot;createTransaction::razorpay::started&quot;, razorpayKeyId);
+            const servicesConfig &#x3D; this.config.get&lt;ServicesEnv&gt;(&#x27;services&#x27;)
+            const { razorpayKeyId, razorpaySecretKey } &#x3D; servicesConfig.razorpay
+            console.log(&#x27;createTransaction::razorpay::started&#x27;, razorpayKeyId)
             const response: AxiosResponse&lt;RazororpayOrderResponse&gt; &#x3D; await this.httpService
                 .post&lt;RazororpayOrderResponse&gt;(
-                    &quot;https://api.razorpay.com/v1/orders&quot;,
+                    &#x27;https://api.razorpay.com/v1/orders&#x27;,
                     {
                         amount: order.grandTotal * 100,
-                        currency: &quot;INR&quot;,
-                        receipt: &quot;rcpt_&quot; + nanoid(10),
+                        currency: &#x27;INR&#x27;,
+                        receipt: &#x27;rcpt_&#x27; + nanoid(10),
                     },
                     {
                         auth: {
@@ -785,14 +782,14 @@ export class TransactionService {
                         },
                     }
                 )
-                .toPromise();
+                .toPromise()
 
-            const razorpayData &#x3D; response.data;
+            const razorpayData &#x3D; response.data
             console.log(
-                &quot;createTransaction::razorpay::data&quot;,
+                &#x27;createTransaction::razorpay::data&#x27;,
                 JSON.stringify(razorpayData, null, 4)
-            );
-            if (razorpayData?.status &#x3D;&#x3D;&#x3D; &quot;created&quot;) {
+            )
+            if (razorpayData?.status &#x3D;&#x3D;&#x3D; &#x27;created&#x27;) {
                 try {
                     const product &#x3D; await this.db.order.update({
                         where: {
@@ -810,8 +807,8 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: &quot;RAZORPAY&quot;,
-                                        status: &quot;PENDING&quot;,
+                                        type: &#x27;RAZORPAY&#x27;,
+                                        status: &#x27;PENDING&#x27;,
                                         userId: user.id,
                                     },
                                     update: {
@@ -820,70 +817,70 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: &quot;RAZORPAY&quot;,
-                                        status: &quot;PENDING&quot;,
+                                        type: &#x27;RAZORPAY&#x27;,
+                                        status: &#x27;PENDING&#x27;,
                                         userId: user.id,
                                     },
                                 },
                             },
                         },
-                    });
+                    })
                     console.log(
-                        &quot;createTransaction::razorpay::order.update&quot;,
+                        &#x27;createTransaction::razorpay::order.update&#x27;,
                         JSON.stringify(product, null, 4)
-                    );
+                    )
                     const razorpayOptions &#x3D; {
                         key: razorpayKeyId,
                         amount: product.transaction.amount,
                         currency: product.transaction.currency,
-                        name: this.config.get&lt;string&gt;(&quot;services.razorpay.name&quot;),
+                        name: this.config.get&lt;string&gt;(&#x27;services.razorpay.name&#x27;),
                         description: this.config.get&lt;string&gt;(
-                            &quot;services.razorpay.description&quot;
+                            &#x27;services.razorpay.description&#x27;
                         ),
                         order_id: product.transaction.paymentOrderId,
                         prefill: {
                             name: user.name,
                             email: user.email,
-                            contact: order.address.phone || user.phone || &quot;&quot;,
+                            contact: order.address.phone || user.phone || &#x27;&#x27;,
                         },
                         notes: [
                             ...razorpayData.notes,
                             { userId: user.id, addressId: order.address.id },
                         ],
                         theme: {
-                            color: &quot;#000000&quot;,
+                            color: &#x27;#000000&#x27;,
                         },
-                    };
-                    return { ...product, razorpayOptions };
+                    }
+                    return { ...product, razorpayOptions }
                 } catch (error) {
                     console.log(
-                        &quot;createTransaction::razorpay::order.update::error&quot;,
+                        &#x27;createTransaction::razorpay::order.update::error&#x27;,
                         JSON.stringify(error, null, 4)
-                    );
+                    )
                     throw new CustomError(
                         error?.meta?.cause || error.message,
                         error.code,
-                        &quot;TransactionService.createTransaction.database&quot;
-                    );
+                        &#x27;TransactionService.createTransaction.database&#x27;
+                    )
                 }
             } else {
-                console.log(&quot;createTransaction::razorpay::data::error&quot;);
+                console.log(&#x27;createTransaction::razorpay::data::error&#x27;)
                 throw new CustomError(
-                    &quot;Razorpay failed, please try again&quot;,
+                    &#x27;Razorpay failed, please try again&#x27;,
                     errorCodes.RazorPayFailure,
-                    &quot;TransactionService.createTransaction.razorpay&quot;
-                );
+                    &#x27;TransactionService.createTransaction.razorpay&#x27;
+                )
             }
         } catch (error) {
             console.log(
-                &quot;createTransaction::transaction::data&quot;,
+                &#x27;createTransaction::transaction::data&#x27;,
                 JSON.stringify(error, null, 4)
-            );
+            )
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;TransactionService.createTransaction.razorpay&quot;
-            );
+                &#x27;TransactionService.createTransaction.razorpay&#x27;
+            )
         }
     }
 
@@ -904,47 +901,44 @@ export class TransactionService {
                     },
                 },
             },
-        });
+        })
 
         if (!user) {
             throw new CustomError(
-                &quot;User does not exist&quot;,
+                &#x27;User does not exist&#x27;,
                 errorCodes.UserNotFound,
-                &quot;TransactionService.createTransaction&quot;
-            );
+                &#x27;TransactionService.createTransaction&#x27;
+            )
         }
 
         if (!user.orders[0]?.id) {
             throw new CustomError(
-                &quot;Order does not exist with user&quot;,
+                &#x27;Order does not exist with user&#x27;,
                 errorCodes.OrderDoesNotExistWithUser,
-                &quot;TransactionService.createTransaction&quot;
-            );
+                &#x27;TransactionService.createTransaction&#x27;
+            )
         }
 
-        const order &#x3D; user.orders[0];
+        const order &#x3D; user.orders[0]
 
-        if (order.transaction.status &#x3D;&#x3D;&#x3D; &quot;SUCCESS&quot;) {
+        if (order.transaction.status &#x3D;&#x3D;&#x3D; &#x27;SUCCESS&#x27;) {
             throw new CustomError(
-                &quot;Transaction already Succeded&quot;,
+                &#x27;Transaction already Succeded&#x27;,
                 errorCodes.TransactionAlreadySucceded,
-                &quot;TransactionService.createTransaction&quot;
-            );
+                &#x27;TransactionService.createTransaction&#x27;
+            )
         }
 
         try {
-            const servicesConfig &#x3D; this.config.get&lt;ServicesEnv&gt;(&quot;services&quot;);
-            const {
-                razorpayKeyId,
-                razorpaySecretKey,
-            } &#x3D; servicesConfig.razorpay;
+            const servicesConfig &#x3D; this.config.get&lt;ServicesEnv&gt;(&#x27;services&#x27;)
+            const { razorpayKeyId, razorpaySecretKey } &#x3D; servicesConfig.razorpay
             const response: AxiosResponse&lt;RazororpayOrderResponse&gt; &#x3D; await this.httpService
                 .post&lt;RazororpayOrderResponse&gt;(
-                    &quot;https://api.razorpay.com/v1/orders&quot;,
+                    &#x27;https://api.razorpay.com/v1/orders&#x27;,
                     {
                         amount: order.grandTotal,
-                        currency: &quot;INR&quot;,
-                        receipt: &quot;rcpt_&quot; + nanoid(10),
+                        currency: &#x27;INR&#x27;,
+                        receipt: &#x27;rcpt_&#x27; + nanoid(10),
                     },
                     {
                         auth: {
@@ -953,10 +947,10 @@ export class TransactionService {
                         },
                     }
                 )
-                .toPromise();
+                .toPromise()
 
-            const razorpayData &#x3D; response.data;
-            if (razorpayData.status &#x3D;&#x3D;&#x3D; &quot;created&quot;) {
+            const razorpayData &#x3D; response.data
+            if (razorpayData.status &#x3D;&#x3D;&#x3D; &#x27;created&#x27;) {
                 try {
                     const product &#x3D; await this.db.order.update({
                         where: {
@@ -974,8 +968,8 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: &quot;RAZORPAY&quot;,
-                                        status: &quot;PENDING&quot;,
+                                        type: &#x27;RAZORPAY&#x27;,
+                                        status: &#x27;PENDING&#x27;,
                                         userId,
                                     },
                                     update: {
@@ -984,20 +978,20 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: &quot;RAZORPAY&quot;,
-                                        status: &quot;PENDING&quot;,
+                                        type: &#x27;RAZORPAY&#x27;,
+                                        status: &#x27;PENDING&#x27;,
                                         userId,
                                     },
                                 },
                             },
                         },
-                    });
+                    })
                     const razorpayOptions &#x3D; {
                         key: razorpayKeyId,
                         amount: product.transaction.amount,
                         currency: product.transaction.currency,
-                        name: this.config.get&lt;string&gt;(&quot;app.name&quot;),
-                        description: this.config.get&lt;string&gt;(&quot;app.description&quot;),
+                        name: this.config.get&lt;string&gt;(&#x27;app.name&#x27;),
+                        description: this.config.get&lt;string&gt;(&#x27;app.description&#x27;),
                         order_id: product.transaction.paymentOrderId,
                         prefill: {
                             name: user.name,
@@ -1006,30 +1000,30 @@ export class TransactionService {
                         },
                         notes: [...razorpayData.notes, { userId }],
                         theme: {
-                            color: &quot;#3399cc&quot;,
+                            color: &#x27;#3399cc&#x27;,
                         },
-                    };
-                    return { ...product, razorpayOptions };
+                    }
+                    return { ...product, razorpayOptions }
                 } catch (error) {
                     throw new CustomError(
                         error?.meta?.cause || error.message,
                         error.code,
-                        &quot;TransactionService.createTransaction.database&quot;
-                    );
+                        &#x27;TransactionService.createTransaction.database&#x27;
+                    )
                 }
             } else {
                 throw new CustomError(
-                    &quot;Razorpay failed, please try again&quot;,
+                    &#x27;Razorpay failed, please try again&#x27;,
                     errorCodes.RazorPayFailure,
-                    &quot;TransactionService.createTransaction.razorpay&quot;
-                );
+                    &#x27;TransactionService.createTransaction.razorpay&#x27;
+                )
             }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;TransactionService.createTransaction.razorpay&quot;
-            );
+                &#x27;TransactionService.createTransaction.razorpay&#x27;
+            )
         }
     }
 
@@ -1039,14 +1033,14 @@ export class TransactionService {
     ): Promise&lt;Transaction&gt; {
         try {
             const { razorpaySecretKey } &#x3D; this.config.get&lt;ServicesEnv&gt;(
-                &quot;services&quot;
-            ).razorpay;
+                &#x27;services&#x27;
+            ).razorpay
             const data &#x3D; await this.db.transaction.findUnique({
                 where: { id: transactionId },
-            });
-            const generatedSignature &#x3D; createHmac(&quot;sha256&quot;, razorpaySecretKey)
-                .update(data.paymentOrderId + &quot;|&quot; + update.paymentId)
-                .digest(&quot;hex&quot;);
+            })
+            const generatedSignature &#x3D; createHmac(&#x27;sha256&#x27;, razorpaySecretKey)
+                .update(data.paymentOrderId + &#x27;|&#x27; + update.paymentId)
+                .digest(&#x27;hex&#x27;)
             if (generatedSignature &#x3D;&#x3D;&#x3D; update.paymentSignature) {
                 const updatedData &#x3D; await this.db.transaction.update({
                     where: { id: transactionId },
@@ -1070,8 +1064,8 @@ export class TransactionService {
                         paymentId: update.paymentId,
                         paymentSignature: update.paymentSignature,
                         verified: true,
-                        type: &quot;RAZORPAY&quot;,
-                        status: &quot;SUCCESS&quot;,
+                        type: &#x27;RAZORPAY&#x27;,
+                        status: &#x27;SUCCESS&#x27;,
                     },
                     include: {
                         user: {
@@ -1106,7 +1100,7 @@ export class TransactionService {
                             },
                         },
                     },
-                });
+                })
                 try {
                     const response &#x3D; await sendEmail(
                         transactionEmail({
@@ -1117,8 +1111,8 @@ export class TransactionService {
                                 updatedData.order.cart.items.length
                             } item${
                                 updatedData.order.cart.items.length &gt; 1
-                                    ? &quot;s&quot;
-                                    : &quot;&quot;
+                                    ? &#x27;s&#x27;
+                                    : &#x27;&#x27;
                             }&#x60;,
                             description: &#x60;Thank you for shopping with us. We&#x27;d like to let you know that we have received your order, and is preparing it for shipment. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.&#x60;,
                             orderId: updatedData.order.id,
@@ -1131,8 +1125,8 @@ export class TransactionService {
                                 updatedData.order.cart.items.length
                             } item${
                                 updatedData.order.cart.items.length &gt; 1
-                                    ? &quot;s&quot;
-                                    : &quot;&quot;
+                                    ? &#x27;s&#x27;
+                                    : &#x27;&#x27;
                             }.&#x60;,
                             transaction: {
                                 id: updatedData.id,
@@ -1145,34 +1139,34 @@ export class TransactionService {
                                 (item) &#x3D;&gt; ({
                                     sku: item.product.inventory.sku,
                                     title: item.product.title,
-                                    options: item.size + &quot; - &quot; + item.color,
+                                    options: item.size + &#x27; - &#x27; + item.color,
                                     qty: item.quantity,
                                 })
                             ),
                         })
-                    );
+                    )
                 } catch (error) {
-                    console.log(error);
+                    console.log(error)
                 }
-                return updatedData;
+                return updatedData
             } else {
                 const updatedData &#x3D; await this.db.transaction.update({
                     where: { id: transactionId },
                     data: {
                         paymentId: update.paymentId,
                         paymentSignature: update.paymentSignature,
-                        type: &quot;RAZORPAY&quot;,
-                        status: &quot;FAILED&quot;,
+                        type: &#x27;RAZORPAY&#x27;,
+                        status: &#x27;FAILED&#x27;,
                     },
-                });
-                return updatedData;
+                })
+                return updatedData
             }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;TransactionService.updateTransaction&quot;
-            );
+                &#x27;TransactionService.updateTransaction&#x27;
+            )
         }
     }
 
@@ -1180,14 +1174,14 @@ export class TransactionService {
         try {
             const data &#x3D; await this.db.transaction.delete({
                 where: { id: transactionId },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;TransactionService.deleteTransaction&quot;
-            );
+                &#x27;TransactionService.deleteTransaction&#x27;
+            )
         }
     }
 }

@@ -32,7 +32,7 @@ export default function ProductDetails({
     setFieldValue,
     isUpdate,
 }) {
-    const tags = useTags({size: 1000})
+    const tags = useTags({ size: 1000 })
     const categories = useCategories({ size: 1000 })
     const brands = useBrands({ size: 1000 })
     let brandsData = []
@@ -409,9 +409,9 @@ export default function ProductDetails({
                                 values?.styles?.length === 0
                                     ? { color: hex }
                                     : {
-                                        color: values.styles[0],
-                                        background: hex,
-                                    }
+                                          color: values.styles[0],
+                                          background: hex,
+                                      }
                             }
                         >
                             <Typography component="p" variant="subtitle2">

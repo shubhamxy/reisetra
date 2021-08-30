@@ -1,1 +1,1 @@
-export * from "./exeption.filter";
+export * from './exeption.filter'

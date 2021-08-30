@@ -1,3 +1,3 @@
-import * as analytics from "./analytics";
-export { analytics };
-export * from "./useAnalytics";
+import * as analytics from './analytics'
+export { analytics }
+export * from './useAnalytics'

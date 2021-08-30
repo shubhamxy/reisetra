@@ -450,28 +450,28 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SES } from &quot;aws-sdk&quot;;
-import { services } from &quot;src/config&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SES } from &#x27;aws-sdk&#x27;
+import { services } from &#x27;src/config&#x27;
 
-const config &#x3D; services();
+const config &#x3D; services()
 
 const ses &#x3D; new SES({
     region: config.aws.sesRegion,
     endpoint: config.aws.sesEndpoint,
     accessKeyId: config.aws.accessKeyId,
     secretAccessKey: config.aws.secretAccessKey,
-});
+})
 
 export interface IParams {
-    subject: string;
-    text: string;
-    html: string;
-    source: string;
-    to: string[];
-    cc: string[];
-    bcc: string[];
-    replyTo: any[];
-    tags: any[];
+    subject: string
+    text: string
+    html: string
+    source: string
+    to: string[]
+    cc: string[]
+    bcc: string[]
+    replyTo: any[]
+    tags: any[]
 }
 
 export const createParams &#x3D; ({
@@ -492,37 +492,37 @@ export const createParams &#x3D; ({
     Message: {
         Body: {
             Html: {
-                Charset: &quot;UTF-8&quot;,
+                Charset: &#x27;UTF-8&#x27;,
                 Data: html,
             },
             Text: {
-                Charset: &quot;UTF-8&quot;,
+                Charset: &#x27;UTF-8&#x27;,
                 Data: text,
             },
         },
         Subject: {
-            Charset: &quot;UTF-8&quot;,
+            Charset: &#x27;UTF-8&#x27;,
             Data: subject,
         },
     },
     Source: source,
     Tags: tags,
-});
+})
 
 export interface IData {
-    MessageId: string;
+    MessageId: string
 }
 
 export function sendEmail(params: SES.SendEmailRequest): Promise&lt;IData&gt; {
     return new Promise((resolve, reject) &#x3D;&gt; {
         ses.sendEmail(params, function (error, data) {
             if (error) {
-                reject(error);
+                reject(error)
             } else {
-                resolve(data);
+                resolve(data)
             }
-        });
-    });
+        })
+    })
 }
 </code></pre>
     </div>

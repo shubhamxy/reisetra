@@ -344,80 +344,104 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrderStatus } from &quot;.prisma/client&quot;;
-import { Allow } from &quot;class-validator&quot;;
-import { CursorPaginationDTO } from &quot;src/common/dto&quot;;
-import { Order } from &quot;../entity&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrderStatus } from &#x27;.prisma/client&#x27;
+import { Allow, IsArray, IsOptional } from &#x27;class-validator&#x27;
+import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
+import { mustBeOfType } from &#x27;src/constants&#x27;
+import { File } from &#x27;src/files/entity&#x27;
+import { Order } from &#x27;../entity&#x27;
 
-type Excluded &#x3D; &quot;id&quot; | &quot;active&quot; | &quot;createdAt&quot; | &quot;updatedAt&quot; | &quot;userId&quot;;
+type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;userId&#x27;
 
 export class GetAllOrdersDto extends CursorPaginationDTO {}
 
+export class GetAllOrdersDocumentsDto extends CursorPaginationDTO {}
+
 export class CreateOrderDto implements Omit&lt;Order, Excluded&gt; {
     @Allow()
-    subTotal: number;
+    subTotal: number
 
     @Allow()
-    itemDiscount: number;
+    itemDiscount: number
 
     @Allow()
-    tax: number;
+    tax: number
 
     @Allow()
-    shipping: number;
+    shipping: number
 
     @Allow()
-    total: number;
+    total: number
 
     @Allow()
-    promo: string;
+    promo: string
 
     @Allow()
-    discount: number;
+    discount: number
 
     @Allow()
-    grandTotal: number;
+    grandTotal: number
 
     @Allow()
-    addressId: string;
+    addressId: string
 
     @Allow()
-    status: OrderStatus;
+    status: OrderStatus
 
-    cartId: string;
+    cartId: string
+
+    @Allow()
+    note: string
+
+    @IsOptional()
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;documents&#x27;) })
+    documents: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 
 export class UpdateOrderDto implements Omit&lt;Order, Excluded&gt; {
-    cartId: string;
+    cartId: string
     @Allow()
-    subTotal: number;
+    subTotal: number
 
     @Allow()
-    itemDiscount: number;
+    itemDiscount: number
 
     @Allow()
-    tax: number;
+    tax: number
 
     @Allow()
-    shipping: number;
+    shipping: number
 
     @Allow()
-    total: number;
+    total: number
 
     @Allow()
-    promo: string;
+    promo: string
 
     @Allow()
-    discount: number;
+    discount: number
 
     @Allow()
-    grandTotal: number;
+    grandTotal: number
 
     @Allow()
-    addressId: string;
+    addressId: string
 
     @Allow()
-    status: OrderStatus;
+    status: OrderStatus
+
+    @Allow()
+    title: string
+
+    @Allow()
+    description: string
+
+    @Allow()
+    sendUpdate: boolean
+
+    @IsOptional()
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;documents&#x27;) })
+    documents: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 </code></pre>
     </div>

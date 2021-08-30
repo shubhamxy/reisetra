@@ -59,15 +59,16 @@ export function emailVerify({ id, token }) {
 }
 
 export function refreshAuthToken({
-    token, config
+    token,
+    config,
 }: {
-    token?: string,
+    token?: string
     config?: RequestInit
 }) {
-    const refresh_token = token || storage.get.refresh_token();
-    config = config || {};
-    config.headers = config.headers || {};
-    config.headers["X-Refresh-Token"] =
-        config.headers["X-Refresh-Token"] || refresh_token;
-    return get<AuthResponse>(`auth/refresh`, config);
+    const refresh_token = token || storage.get.refresh_token()
+    config = config || {}
+    config.headers = config.headers || {}
+    config.headers['X-Refresh-Token'] =
+        config.headers['X-Refresh-Token'] || refresh_token
+    return get<AuthResponse>(`auth/refresh`, config)
 }

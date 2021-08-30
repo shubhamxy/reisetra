@@ -647,18 +647,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &quot;.prisma/client&quot;;
-import { Injectable } from &quot;@nestjs/common&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &#x27;.prisma/client&#x27;
+import { Injectable } from &#x27;@nestjs/common&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &quot;src/common/pagination&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
-import { CacheService } from &quot;src/common/modules/cache/cache.service&quot;;
-import { prismaOffsetPagination } from &quot;src/utils/prisma&quot;;
-import { CreateAddressDto } from &quot;./dto&quot;;
+} from &#x27;src/common/pagination&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { CreateAddressDto } from &#x27;./dto&#x27;
 
 @Injectable()
 export class AddressService {
@@ -676,29 +676,29 @@ export class AddressService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;address&quot;,
+                model: &#x27;address&#x27;,
                 prisma: this.db,
                 where: {
                     userId,
                     active: true,
                 },
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;AddressService.getAddresses&quot;
-            );
+                &#x27;AddressService.getAddresses&#x27;
+            )
         }
     }
 
@@ -710,42 +710,42 @@ export class AddressService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;address&quot;,
+                model: &#x27;address&#x27;,
                 prisma: this.db,
                 where: {
                     active: true,
                 },
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;AddressService.getAllAddresss&quot;
-            );
+                &#x27;AddressService.getAllAddresss&#x27;
+            )
         }
     }
 
     async getAddress(id: string): Promise&lt;any&gt; {
         const product &#x3D; await this.db.address.findUnique({
             where: { id },
-        });
+        })
         if (!product) {
             throw new CustomError(
-                &quot;Address does not exist&quot;,
+                &#x27;Address does not exist&#x27;,
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return product;
+        return product
     }
 
     async createAddress(userId: string, data: CreateAddressDto): Promise&lt;any&gt; {
@@ -755,14 +755,14 @@ export class AddressService {
                     ...data,
                     userId: userId,
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;AddressService.createAddress&quot;
-            );
+                &#x27;AddressService.createAddress&#x27;
+            )
         }
     }
 
@@ -771,14 +771,14 @@ export class AddressService {
             const data &#x3D; await this.db.address.update({
                 where: { id: addressId },
                 data: update,
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;AddressService.updateAddress&quot;
-            );
+                &#x27;AddressService.updateAddress&#x27;
+            )
         }
     }
 
@@ -789,14 +789,14 @@ export class AddressService {
                 data: {
                     active: false,
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;AddressService.deleteAddress&quot;
-            );
+                &#x27;AddressService.deleteAddress&#x27;
+            )
         }
     }
 }

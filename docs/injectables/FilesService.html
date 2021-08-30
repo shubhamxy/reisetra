@@ -175,15 +175,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addFile(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="../classes/File.html" target="_self">Partial&lt;File&gt;</a>)</code>
+                    <code>addFile(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: Partial<FileDTO>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/files/files.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/files/files.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -218,7 +218,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="../classes/File.html" target="_self" >Partial&lt;File&gt;</a></code>
+                                            <code>Partial&lt;FileDTO&gt;</code>
                                     </td>
 
                                     <td>
@@ -265,8 +265,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">src/files/files.service.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/files/files.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -341,7 +341,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllFiles(options: <a href="../classes/GetAllFilesDto.html" target="_self">GetAllFilesDto</a>)</code>
+                    <code>getAllFiles(options: <a href="../classes/FilesDTO.html" target="_self">FilesDTO</a>)</code>
                 </td>
             </tr>
 
@@ -372,7 +372,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="../classes/GetAllFilesDto.html" target="_self" >GetAllFilesDto</a></code>
+                                                <code><a href="../classes/FilesDTO.html" target="_self" >FilesDTO</a></code>
                                     </td>
 
                                     <td>
@@ -419,8 +419,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/files/files.service.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">src/files/files.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -474,134 +474,125 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@nestjs/common&quot;;
-import { Prisma } from &quot;@prisma/client&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
-import { CursorPaginationResultInterface } from &quot;src/common/pagination&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { getUploadURL, UploadUrlProps, deleteObject } from &quot;src/utils&quot;;
-import { prismaOffsetPagination } from &quot;src/utils/prisma&quot;;
-import { GetAllFilesDto } from &quot;./dto/file.dto&quot;;
-import { File } from &quot;./entity&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
+import { Prisma } from &#x27;@prisma/client&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { CursorPaginationResultInterface } from &#x27;src/common/pagination&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { getUploadURL, UploadUrlProps, deleteObject } from &#x27;src/utils&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { FilesDTO, FileDTO } from &#x27;./dto/file.dto&#x27;
+import { File } from &#x27;./entity&#x27;
 @Injectable()
 export class FilesService {
     constructor(private readonly db: PrismaService) {}
     async getAllFiles(
-        options: GetAllFilesDto
+        options: FilesDTO
     ): Promise&lt;CursorPaginationResultInterface&lt;File&gt;&gt; {
         try {
             const {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
+
             const whereObj: Prisma.FileWhereInput &#x3D; {
                 active: true,
-            };
-            if (options.userId) {
-                whereObj.userId &#x3D; options.userId;
             }
-            if (options.contentType) {
-                whereObj.contentType &#x3D; options.contentType;
+
+            if (options.userId) {
+                whereObj.userId &#x3D; options.userId
             }
             if (options.fileType) {
-                whereObj.fileType &#x3D; options.fileType;
+                whereObj.fileType &#x3D; options.fileType
             }
             if (options.productId) {
-                whereObj.productId &#x3D; options.productId;
+                whereObj.productId &#x3D; options.productId
             }
             if (options.reviewId) {
-                whereObj.reviewId &#x3D; options.reviewId;
+                whereObj.reviewId &#x3D; options.reviewId
             }
             const result &#x3D; await prismaOffsetPagination({
-                id: &quot;url&quot;,
+                id: &#x27;url&#x27;,
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;file&quot;,
+                model: &#x27;file&#x27;,
                 prisma: this.db,
                 where: whereObj,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;FilesService.getAllFiles&quot;
-            );
+                &#x27;FilesService.getAllFiles&#x27;
+            )
         }
     }
 
-    async addFile(userId: string, options: Partial&lt;File&gt;) {
+    async addFile(userId: string, options: Partial&lt;FileDTO&gt;) {
         try {
+            const { url, ...other } &#x3D; options
             const result &#x3D; await this.db.file.upsert({
                 create: {
-                    userId,
                     url: options.url,
-                    fileType: options.fileType,
-                    contentType: options.contentType,
-                    productId: options.productId,
-                    reviewId: options.reviewId,
-                    categoryId: options.categoryId,
+                    ...other,
+                    userId,
                 },
                 update: {
+                    ...other,
                     userId,
-                    url: options.url,
-                    fileType: options.fileType,
-                    contentType: options.contentType,
-                    productId: options.productId,
-                    reviewId: options.reviewId,
-                    categoryId: options.categoryId,
                 },
                 where: {
-                    url: options.url,
+                    url: url,
                 },
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;FilesService.addFile&quot;
-            );
+                &#x27;FilesService.addFile&#x27;
+            )
         }
     }
 
     async uploadFile(params: UploadUrlProps) {
-        return getUploadURL(params);
+        return getUploadURL(params)
     }
 
     async deleteFile(userId: string, url: string) {
         try {
-            let deleted &#x3D; {};
+            let deleted &#x3D; {}
             try {
                 deleted &#x3D; await this.db.file.delete({
                     where: {
                         url,
                     },
-                });
+                })
             } catch (error) {
-                console.log(error);
-                throw error;
+                console.log(error)
+                throw error
             }
-            const key &#x3D; new URL(url).pathname;
+            const key &#x3D; new URL(url).pathname
             if (key) {
-                const s3 &#x3D; await deleteObject(key);
+                const s3 &#x3D; await deleteObject(key)
             }
             return {
                 ...deleted,
                 id: key,
-            };
+            }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;FilesService.deleteFile&quot;
-            );
+                &#x27;FilesService.deleteFile&#x27;
+            )
         }
     }
 }

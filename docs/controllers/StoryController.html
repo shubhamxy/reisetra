@@ -147,8 +147,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">src/story/story.controller.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/story/story.controller.ts:83</a></div>
                 </td>
             </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">src/story/story.controller.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">src/story/story.controller.ts:119</a></div>
                 </td>
             </tr>
 
@@ -469,7 +469,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getStory(storyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -477,7 +477,7 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;story/:storyId&#x27;)<br /></code>
+                    <code>@Public()<br />@Get(&#x27;story/:slug&#x27;)<br /></code>
                 </td>
             </tr>
 
@@ -505,7 +505,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>storyId</td>
+                                    <td>slug</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -561,8 +561,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">src/story/story.controller.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/story/story.controller.ts:101</a></div>
                 </td>
             </tr>
 
@@ -637,41 +637,41 @@
     Put,
     Query,
     Req,
-} from &quot;@nestjs/common&quot;;
-import { StoryService } from &quot;./story.service&quot;;
-import { CustomException, SuccessResponse } from &quot;src/common/response&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { StoryService } from &#x27;./story.service&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
 import {
     CreateStoryDto,
     GetStoriesDto,
     GetAllStoriesDto,
     UpdateStoryDto,
-} from &quot;./dto&quot;;
-import { AuthenticatedRequest } from &quot;src/auth/auth.interface&quot;;
-import { Public } from &quot;src/auth/decorator/public.decorator&quot;;
-import { Roles } from &quot;src/auth/decorator/roles.decorator&quot;;
+} from &#x27;./dto&#x27;
+import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
+import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
+import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
 
 @Controller()
 export class StoryController {
     constructor(private readonly story: StoryService) {}
 
     @Public()
-    @Get(&quot;stories/all&quot;)
+    @Get(&#x27;stories/all&#x27;)
     async getAllStories(
         @Query() query: GetAllStoriesDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const { results, ...meta } &#x3D; await this.story.getAllStories(query);
-            return { data: results || [], meta: meta };
+            const { results, ...meta } &#x3D; await this.story.getAllStories(query)
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;StoryController.getAllStories&quot;
-            );
+                &#x27;StoryController.getAllStories&#x27;
+            )
         }
     }
 
-    @Get(&quot;stories&quot;)
+    @Get(&#x27;stories&#x27;)
     async getStories(
         @Req() req: AuthenticatedRequest,
         @Query() query: GetStoriesDto
@@ -680,84 +680,82 @@ export class StoryController {
             const { results, ...meta } &#x3D; await this.story.getStories(
                 query,
                 req.user.id
-            );
-            return { data: results || [], meta: meta };
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;StoryController.getStories&quot;
-            );
+                &#x27;StoryController.getStories&#x27;
+            )
         }
     }
 
     @Public()
-    @Get(&quot;story/:storyId&quot;)
-    async getStory(
-        @Param(&quot;storyId&quot;) storyId: string
-    ): Promise&lt;SuccessResponse&gt; {
+    @Get(&#x27;story/:slug&#x27;)
+    async getStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.story.getStory(storyId);
-            return { data };
+            const data &#x3D; await this.story.getStory(slug)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;StoryController.getStory&quot;
-            );
+                &#x27;StoryController.getStory&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Post(&quot;story&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Post(&#x27;story&#x27;)
     async createStory(
         @Req() request: AuthenticatedRequest,
         @Body() body: CreateStoryDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.story.createStory(request.user.id, body);
-            return { data };
+            const data &#x3D; await this.story.createStory(request.user.id, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;StoryController.createStory&quot;
-            );
+                &#x27;StoryController.createStory&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Put(&quot;story/:storyId&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Put(&#x27;story/:storyId&#x27;)
     async updateStory(
-        @Param(&quot;storyId&quot;) storyId: string,
+        @Param(&#x27;storyId&#x27;) storyId: string,
         @Body() body: UpdateStoryDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.story.updateStory(storyId, body);
-            return { data };
+            const data &#x3D; await this.story.updateStory(storyId, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;StoryController.updateStory&quot;
-            );
+                &#x27;StoryController.updateStory&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Delete(&quot;story/:storyId&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Delete(&#x27;story/:storyId&#x27;)
     async deleteStory(
-        @Param(&quot;storyId&quot;) storyId: string
+        @Param(&#x27;storyId&#x27;) storyId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.story.deleteStory(storyId);
-            return { data };
+            const data &#x3D; await this.story.deleteStory(storyId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;StoryController.deleteStory&quot;
-            );
+                &#x27;StoryController.deleteStory&#x27;
+            )
         }
     }
 }

@@ -1,22 +1,22 @@
-import { Allow } from "class-validator";
+import { Allow } from 'class-validator'
 
 export class CreateSupportTicketDto {
     @Allow()
-    subject: string;
+    subject: string
 
     @Allow()
-    description: string;
+    description: string
 
     @Allow()
-    orderId?: string;
+    orderId?: string
 
     @Allow()
-    ticketId?: string;
+    ticketId?: string
 }
 
 export class GetFormDataDto {
     @Allow()
-    formId: string;
+    formId: string
 }
 
 export class CreateFormDataDto {}

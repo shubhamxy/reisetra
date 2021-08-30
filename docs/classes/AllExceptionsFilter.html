@@ -208,67 +208,67 @@
     ArgumentsHost,
     HttpException,
     HttpStatus,
-} from &quot;@nestjs/common&quot;;
-import { app } from &quot;src/config&quot;;
-import { ErrorResponse } from &quot;../response&quot;;
-import { stackObj } from &quot;../../utils/errorUtils&quot;;
-const config &#x3D; app();
+} from &#x27;@nestjs/common&#x27;
+import { app } from &#x27;src/config&#x27;
+import { ErrorResponse } from &#x27;../response&#x27;
+import { stackObj } from &#x27;../../utils/errorUtils&#x27;
+const config &#x3D; app()
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
     catch(exception: any, host: ArgumentsHost) {
-        const ctx &#x3D; host.switchToHttp();
-        const response &#x3D; ctx.getResponse();
+        const ctx &#x3D; host.switchToHttp()
+        const response &#x3D; ctx.getResponse()
         // const request &#x3D; ctx.getRequest();
         if (exception instanceof HttpException) {
-            const status &#x3D; exception.getStatus();
+            const status &#x3D; exception.getStatus()
             const responseObj: ErrorResponse &#x3D; {
-                message: &quot;Internal Server Error&quot;,
+                message: &#x27;Internal Server Error&#x27;,
                 meta: {},
-            };
+            }
 
-            const exeptionResponse &#x3D; exception.getResponse() as any;
+            const exeptionResponse &#x3D; exception.getResponse() as any
 
-            if (typeof exeptionResponse &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-                responseObj.message &#x3D; exeptionResponse;
+            if (typeof exeptionResponse &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+                responseObj.message &#x3D; exeptionResponse
             } else {
                 // obj
                 responseObj.message &#x3D;
-                    exception.message || exeptionResponse.error;
-                responseObj.errors &#x3D; exeptionResponse.errors || [];
+                    exception.message || exeptionResponse.error
+                responseObj.errors &#x3D; exeptionResponse.errors || []
             }
 
             if (!config.isProduction &amp;&amp; exception) {
                 // @ts-ignore
-                responseObj.meta &#x3D; exception.meta || {};
+                responseObj.meta &#x3D; exception.meta || {}
                 responseObj.meta &#x3D; {
                     // @ts-ignore
                     context: exception.context,
                     stack: stackObj(exception.stack),
-                };
+                }
             }
 
-            responseObj.success &#x3D; false;
-            response.status(status).json(responseObj);
+            responseObj.success &#x3D; false
+            response.status(status).json(responseObj)
         } else {
-            const status &#x3D; HttpStatus.INTERNAL_SERVER_ERROR;
+            const status &#x3D; HttpStatus.INTERNAL_SERVER_ERROR
 
             const responseObj: ErrorResponse &#x3D; {
-                message: &quot;Internal Server Error&quot;,
-            };
+                message: &#x27;Internal Server Error&#x27;,
+            }
             if (exception &amp;&amp; exception.message) {
-                responseObj.message &#x3D; exception.message;
+                responseObj.message &#x3D; exception.message
             }
             if (!config.isProduction &amp;&amp; exception) {
-                responseObj.meta &#x3D; exception.meta || {};
+                responseObj.meta &#x3D; exception.meta || {}
                 responseObj.meta &#x3D; {
                     context: exception.context,
                     stack: stackObj(exception.stack),
-                };
+                }
             }
-            responseObj.error &#x3D; undefined;
-            responseObj.success &#x3D; false;
-            response.status(status).json(responseObj);
+            responseObj.error &#x3D; undefined
+            responseObj.success &#x3D; false
+            response.status(status).json(responseObj)
         }
     }
 }

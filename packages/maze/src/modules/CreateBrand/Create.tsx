@@ -1,23 +1,18 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Paper from '@material-ui/core/Paper'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import ProductDetails from './Details'
-import ProductImages from './Images'
 import Summary from './Review'
 import {
     config,
     updateSnackBar,
     useCreateBrand,
-    useCreateCategory,
-    useCreateProduct,
     useGlobalDispatch,
-    useUpdateProduct,
 } from '../../libs'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -111,7 +106,7 @@ function StepContent({
     }
 }
 
-export function CreateBrand() {
+export function CreateBrand({ id = null }) {
     const classes = useStyles()
     const [activeStep, setActiveStep] = React.useState(0)
 
@@ -121,6 +116,7 @@ export function CreateBrand() {
         ...(config.isProduction
             ? {}
             : {
+                  name: id,
               }),
     }
     const createBrand = useCreateBrand()
@@ -154,11 +150,13 @@ export function CreateBrand() {
                 onError: (error) => {
                     globalDispatch(
                         updateSnackBar({
+                            // eslint-disable-next-line dot-notation
                             message: error['message'] || 'Server Error',
                             type: 'error',
                             open: true,
                         })
                     )
+                    // eslint-disable-next-line dot-notation
                     setServerErrors(error['errors'])
                 },
             })
@@ -170,7 +168,6 @@ export function CreateBrand() {
             setTouched({
                 name: true,
             })
-        } else if (activeStep === 1) {
         }
         if (activeStep === steps.length - 1) {
             handleSubmit()
@@ -178,7 +175,6 @@ export function CreateBrand() {
         }
         if (isValid) {
             setActiveStep(activeStep + 1)
-            return
         }
     }
 

@@ -1,22 +1,22 @@
-import { PassportStrategy } from "@nestjs/passport";
-import { Strategy, VerifyCallback } from "passport-google-oauth20";
-import { Injectable } from "@nestjs/common";
-import { auth } from "../../config";
-const config = auth();
+import { PassportStrategy } from '@nestjs/passport'
+import { Strategy, VerifyCallback } from 'passport-google-oauth20'
+import { Injectable } from '@nestjs/common'
+import { auth } from '../../config'
+const config = auth()
 export interface GoogleUser {
-    oauthId: string;
-    email: string;
-    emailVerified: boolean;
-    name: string;
-    avatar?: string;
-    accessToken?: string;
-    refreshToken?: string;
-    oauthProvider: string;
+    oauthId: string
+    email: string
+    emailVerified: boolean
+    name: string
+    avatar?: string
+    accessToken?: string
+    refreshToken?: string
+    oauthProvider: string
 }
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
+export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     constructor() {
-        super(config.googleOAuthOptions);
+        super(config.googleOAuthOptions)
     }
 
     async validate(
@@ -25,7 +25,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
         profile: any,
         done: VerifyCallback
     ): Promise<any> {
-        const { id, displayName, name, emails, photos, provider } = profile;
+        const { id, displayName, name, emails, photos, provider } = profile
         const user: GoogleUser = {
             oauthId: id,
             email: emails[0].value,
@@ -35,7 +35,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
             accessToken,
             refreshToken,
             oauthProvider: String(provider).toUpperCase(),
-        };
-        done(null, user);
+        }
+        done(null, user)
     }
 }

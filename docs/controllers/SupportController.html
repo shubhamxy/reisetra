@@ -365,50 +365,50 @@
     Param,
     Post,
     Req,
-} from &quot;@nestjs/common&quot;;
-import { SupportService } from &quot;./support.service&quot;;
-import { CustomException, SuccessResponse } from &quot;src/common/response&quot;;
-import { CreateSupportTicketDto } from &quot;./dto&quot;;
-import { AuthenticatedRequest } from &quot;src/auth/auth.interface&quot;;
-import { Public } from &quot;src/auth/decorator/public.decorator&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { SupportService } from &#x27;./support.service&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
+import { CreateSupportTicketDto } from &#x27;./dto&#x27;
+import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
+import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
 
 @Controller()
 export class SupportController {
     constructor(private readonly support: SupportService) {}
     @Public()
-    @Get(&quot;form/:formId&quot;)
-    async getFormData(@Param(&quot;formId&quot;) formId): Promise&lt;SuccessResponse&gt; {
+    @Get(&#x27;form/:formId&#x27;)
+    async getFormData(@Param(&#x27;formId&#x27;) formId): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.support.getFormData(formId);
-            return { data };
+            const data &#x3D; await this.support.getFormData(formId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;SupportController.getFormData&quot;
-            );
+                &#x27;SupportController.getFormData&#x27;
+            )
         }
     }
 
     @Public()
-    @Post(&quot;form/:formId&quot;)
+    @Post(&#x27;form/:formId&#x27;)
     async createFormData(
-        @Param(&quot;formId&quot;) formId,
+        @Param(&#x27;formId&#x27;) formId,
         @Body() body
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.support.createFormData(formId, body);
-            return { data };
+            const data &#x3D; await this.support.createFormData(formId, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;SupportController.createFormData&quot;
-            );
+                &#x27;SupportController.createFormData&#x27;
+            )
         }
     }
 
-    @Post(&quot;support&quot;)
+    @Post(&#x27;support&#x27;)
     async createTicket(
         @Req() request: AuthenticatedRequest,
         @Body() body: CreateSupportTicketDto
@@ -418,14 +418,14 @@ export class SupportController {
                 request.user.id,
                 request.user.email,
                 body
-            );
-            return { data };
+            )
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;SupportController.createTicket&quot;
-            );
+                &#x27;SupportController.createTicket&#x27;
+            )
         }
     }
 }

@@ -215,11 +215,11 @@ export function GridItem({
     id: string
     styleIndex: number
     tags: string[]
-    slug: string;
+    slug: string
     title: string
     description: string
     body: any[]
-    images: any,
+    images: any
     files: { url: string }[]
     styles: string[]
     onClick: () => any

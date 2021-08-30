@@ -1,13 +1,13 @@
-import { Inventory as InventoryModel } from ".prisma/client";
+import { Inventory as InventoryModel } from '.prisma/client'
 
 export class Inventory implements InventoryModel {
-    id: string;
-    stockQuantity: number;
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    sku: string;
+    id: string
+    stockQuantity: number
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    sku: string
     constructor(partial: Partial<InventoryModel>) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 }

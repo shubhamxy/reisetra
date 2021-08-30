@@ -1,164 +1,164 @@
-import { ConfigService } from "@nestjs/config";
-import { plainToClass } from "class-transformer";
-import { validateSync, IsString } from "class-validator";
-import { AppEnv } from "./app";
-import { AuthEnv } from "./auth";
-import { DBEnv } from "./db";
-import { CacheEnv } from "./cache";
-import { ServicesEnv } from "./services";
-import { SettingsEnv } from "./settings";
+import { ConfigService } from '@nestjs/config'
+import { plainToClass } from 'class-transformer'
+import { validateSync, IsString } from 'class-validator'
+import { AppEnv } from './app'
+import { AuthEnv } from './auth'
+import { DBEnv } from './db'
+import { CacheEnv } from './cache'
+import { ServicesEnv } from './services'
+import { SettingsEnv } from './settings'
 
 export class EnviromentVars {
     //  APP
     @IsString()
-    NODE_ENV: string;
+    NODE_ENV: string
 
     @IsString()
-    APP_NAME: string;
+    APP_NAME: string
 
     @IsString()
-    APP_ENV: string;
+    APP_ENV: string
 
     @IsString()
-    APP_DEBUG: string;
+    APP_DEBUG: string
 
     @IsString()
-    SERVICE_NAME: string;
+    SERVICE_NAME: string
 
     @IsString()
-    SERVICE_DESCRIPTION: string;
+    SERVICE_DESCRIPTION: string
 
     //  API
     @IsString()
-    PORT: string;
+    PORT: string
 
     @IsString()
-    API_PREFIX: string;
+    API_PREFIX: string
 
     @IsString()
-    API_VERSION: string;
+    API_VERSION: string
 
     @IsString()
-    API_HOST: string;
+    API_HOST: string
 
     @IsString()
-    API_PROTOCOL: string;
+    API_PROTOCOL: string
 
     @IsString()
-    API_URL: string;
+    API_URL: string
 
     //  CLIENTS
     @IsString()
-    CLIENT_URL: string;
+    CLIENT_URL: string
 
     //  CORS
     @IsString()
-    ALLOWED_HEADERS: string;
+    ALLOWED_HEADERS: string
 
     @IsString()
-    ORIGIN: string;
+    ORIGIN: string
 
     @IsString()
-    METHODS: string;
+    METHODS: string
 
     //  REDIS
     @IsString()
-    REDIS_HOST: string;
+    REDIS_HOST: string
 
     @IsString()
-    REDIS_PORT: string;
+    REDIS_PORT: string
 
     //  DATABASE
     @IsString()
-    DATABASE_URL: string;
+    DATABASE_URL: string
 
     @IsString()
-    POSTGRES_USER: string;
+    POSTGRES_USER: string
 
     @IsString()
-    POSTGRES_DB: string;
+    POSTGRES_DB: string
 
     @IsString()
-    POSTGRES_PASSWORD: string;
+    POSTGRES_PASSWORD: string
 
     //  MAILER
     @IsString()
-    EMAIL_SENDER_NAME: string;
+    EMAIL_SENDER_NAME: string
 
     //  AWS
     @IsString()
-    AWS_ACCESS_KEY_ID: string;
+    AWS_ACCESS_KEY_ID: string
 
     @IsString()
-    AWS_SECRET_KEY: string;
+    AWS_SECRET_KEY: string
 
     //  S3
     @IsString()
-    AWS_S3_BUCKET_NAME: string;
+    AWS_S3_BUCKET_NAME: string
 
     @IsString()
-    AWS_S3_REGION: string;
+    AWS_S3_REGION: string
 
     //  SES
     @IsString()
-    AWS_SES_ENDPOINT: string;
+    AWS_SES_ENDPOINT: string
 
     @IsString()
-    AWS_SES_DEFAULT_EMAIL_SENDER: string;
+    AWS_SES_DEFAULT_EMAIL_SENDER: string
 
     @IsString()
-    AWS_SES_REGION: string;
+    AWS_SES_REGION: string
 
     //  AUTH
     @IsString()
-    ISSUER: string;
+    ISSUER: string
 
     @IsString()
-    AUDIENCE: string;
+    AUDIENCE: string
 
     @IsString()
-    JWT_ACCESS_TOKEN_SECRET: string;
+    JWT_ACCESS_TOKEN_SECRET: string
 
     @IsString()
-    JWT_ACCESS_TOKEN_EXPIRATION_TIME: string; // 3600000
+    JWT_ACCESS_TOKEN_EXPIRATION_TIME: string // 3600000
 
     @IsString()
-    JWT_REFRESH_TOKEN_SECRET: string;
+    JWT_REFRESH_TOKEN_SECRET: string
 
     @IsString()
-    JWT_REFRESH_TOKEN_EXPIRATION_TIME: string; // 864000000
+    JWT_REFRESH_TOKEN_EXPIRATION_TIME: string // 864000000
 
     @IsString()
-    GOOGLE_OAUTH_CLIENT_ID: string;
+    GOOGLE_OAUTH_CLIENT_ID: string
 
     @IsString()
-    GOOGLE_OAUTH_CLIENT_SECRET: string;
+    GOOGLE_OAUTH_CLIENT_SECRET: string
 
     @IsString()
-    GOOGLE_OAUTH_CLIENT_CALLBACK_URL: string;
+    GOOGLE_OAUTH_CLIENT_CALLBACK_URL: string
 }
 
 export function validate(config: Record<string, unknown>) {
     const validatedConfig = plainToClass(EnviromentVars, config, {
         enableImplicitConversion: true,
-    });
+    })
     const errors = validateSync(validatedConfig, {
         skipMissingProperties: false,
-    });
+    })
 
     if (errors.length > 0) {
-        throw new Error(errors.toString());
+        throw new Error(errors.toString())
     }
-    return validatedConfig;
+    return validatedConfig
 }
 
 export function getConfig(configService: ConfigService) {
-    const app = configService.get<AppEnv>("app");
-    const services = configService.get<ServicesEnv>("services");
-    const auth = configService.get<AuthEnv>("auth");
-    const db = configService.get<DBEnv>("db");
-    const cache = configService.get<CacheEnv>("cache");
-    const setting = configService.get<SettingsEnv>("settings");
+    const app = configService.get<AppEnv>('app')
+    const services = configService.get<ServicesEnv>('services')
+    const auth = configService.get<AuthEnv>('auth')
+    const db = configService.get<DBEnv>('db')
+    const cache = configService.get<CacheEnv>('cache')
+    const setting = configService.get<SettingsEnv>('settings')
     return {
         app,
         services,
@@ -166,5 +166,5 @@ export function getConfig(configService: ConfigService) {
         db,
         cache,
         setting,
-    };
+    }
 }

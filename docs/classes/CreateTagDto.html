@@ -141,7 +141,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="233" class="link-to-prism">src/product/dto/index.ts:233</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="231" class="link-to-prism">src/product/dto/index.ts:231</a></div>
                         </td>
                     </tr>
 
@@ -167,7 +167,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">src/product/dto/index.ts:234</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="232" class="link-to-prism">src/product/dto/index.ts:232</a></div>
                         </td>
                     </tr>
 
@@ -193,7 +193,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="231" class="link-to-prism">src/product/dto/index.ts:231</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">src/product/dto/index.ts:229</a></div>
                         </td>
                     </tr>
 
@@ -219,7 +219,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">src/product/dto/index.ts:230</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="228" class="link-to-prism">src/product/dto/index.ts:228</a></div>
                         </td>
                     </tr>
 
@@ -245,7 +245,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="232" class="link-to-prism">src/product/dto/index.ts:232</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">src/product/dto/index.ts:230</a></div>
                         </td>
                     </tr>
 
@@ -264,8 +264,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Prisma } from &quot;.prisma/client&quot;;
-import { Type } from &quot;class-transformer&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Prisma } from &#x27;.prisma/client&#x27;
+import { Type } from &#x27;class-transformer&#x27;
 
 import {
     IsArray,
@@ -276,240 +276,238 @@ import {
     IsOptional,
     IsString,
     ValidateNested,
-} from &quot;class-validator&quot;;
-import { CursorPaginationDTO } from &quot;src/common/dto&quot;;
-import { mustBeOfType } from &quot;src/constants&quot;;
-import { File } from &quot;src/files/entity&quot;;
-import { CreateInventoryDto } from &quot;src/inventory/dto&quot;;
-import { Category, Product, Tag, Company } from &quot;../entity&quot;;
+} from &#x27;class-validator&#x27;
+import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
+import { mustBeOfType } from &#x27;src/constants&#x27;
+import { File } from &#x27;src/files/entity&#x27;
+import { CreateInventoryDto } from &#x27;src/inventory/dto&#x27;
+import { Category, Product, Tag, Company } from &#x27;../entity&#x27;
 
 type Excluded &#x3D;
-    | &quot;id&quot;
-    | &quot;active&quot;
-    | &quot;createdAt&quot;
-    | &quot;updatedAt&quot;
-    | &quot;extra&quot;
-    | &quot;inventoryId&quot;;
+    | &#x27;id&#x27;
+    | &#x27;active&#x27;
+    | &#x27;createdAt&#x27;
+    | &#x27;updatedAt&#x27;
+    | &#x27;extra&#x27;
+    | &#x27;slug&#x27;
+    | &#x27;inventoryId&#x27;
 
 export enum ProductSort {
-    new &#x3D; &quot;new&quot;,
-    bestSelling &#x3D; &quot;bestselling&quot;,
-    trending &#x3D; &quot;trending&quot;,
-    relevant &#x3D; &quot;relevant&quot;,
+    new &#x3D; &#x27;new&#x27;,
+    bestSelling &#x3D; &#x27;bestselling&#x27;,
+    trending &#x3D; &#x27;trending&#x27;,
+    relevant &#x3D; &#x27;relevant&#x27;,
 }
 
 export class GetAllProductsDto extends CursorPaginationDTO {
-    sort: ProductSort;
-    tags: string[];
-    brands: string[];
-    category: string;
-    price: string[];
-    q: string;
-    rating: number | string;
+    sort: ProductSort
+    tags: string[]
+    brands: string[]
+    category: string
+    price: string[]
+    q: string
+    rating: number | string
 }
 
 export class GetAllTagsDto extends CursorPaginationDTO {}
 
 export class CreateProductDto implements Omit&lt;Product, Excluded&gt; {
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;slug&quot;) })
-    slug: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;slug&#x27;) })
+    slug: string
 
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;title&quot;) })
-    title: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;title&#x27;) })
+    title: string
 
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;description&quot;) })
-    description: string;
-
-    @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;brand&quot;) })
-    brand: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;description&#x27;) })
+    description: string
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;taxCode&quot;) })
-    taxCode: string;
-
-    @IsBoolean({ message: mustBeOfType(&quot;boolean&quot;, &quot;published&quot;) })
-    published: boolean;
-
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;price&quot;) })
-    price: number;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;brand&#x27;) })
+    brand: string
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;mrp&quot;) })
-    mrp: number;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;taxCode&#x27;) })
+    taxCode: string
+
+    @IsBoolean({ message: mustBeOfType(&#x27;boolean&#x27;, &#x27;published&#x27;) })
+    published: boolean
+
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;price&#x27;) })
+    price: number
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;tax&quot;) })
-    tax: number;
-
-    @IsArray({ message: mustBeOfType(&quot;string[]&quot;, &quot;color&quot;) })
-    colors: string[];
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;mrp&#x27;) })
+    mrp: number
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;string[]&quot;, &quot;size&quot;) })
-    sizes: string[];
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;tax&#x27;) })
+    tax: number
+
+    @IsArray({ message: mustBeOfType(&#x27;string[]&#x27;, &#x27;color&#x27;) })
+    colors: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;dimensions&quot;) })
-    dimensions: string[];
+    @IsArray({ message: mustBeOfType(&#x27;string[]&#x27;, &#x27;size&#x27;) })
+    sizes: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;details&quot;) })
-    details: Prisma.JsonValue;
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;dimensions&#x27;) })
+    dimensions: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;faqs&quot;) })
-    faqs: Prisma.JsonValue;
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;details&#x27;) })
+    details: Prisma.JsonValue
+
+    @IsOptional()
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;faqs&#x27;) })
+    faqs: Prisma.JsonValue
 
     @IsDefined()
-    @IsNotEmptyObject({}, { message: mustBeOfType(&quot;object&quot;, &quot;inventory&quot;) })
+    @IsNotEmptyObject({}, { message: mustBeOfType(&#x27;object&#x27;, &#x27;inventory&#x27;) })
     @ValidateNested({
         each: true,
-        message: mustBeOfType(&quot;object&quot;, &quot;inventory&quot;),
+        message: mustBeOfType(&#x27;object&#x27;, &#x27;inventory&#x27;),
     })
     @Type(() &#x3D;&gt; CreateInventoryDto)
-    inventory?: CreateInventoryDto;
+    inventory?: CreateInventoryDto
 
-    images: Omit&lt;File, &quot;userId&quot;&gt;[];
+    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 
-    categories: string[];
-    tags: string[];
+    categories: string[]
+    tags: string[]
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;styles&quot;) })
-    styles: string[];
-
-    @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;rating&quot;) })
-    rating: number;
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;styles&#x27;) })
+    styles: string[]
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;ratingsCount&quot;) })
-    ratingsCount: number;
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;rating&#x27;) })
+    rating: number
+
+    @IsOptional()
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;ratingsCount&#x27;) })
+    ratingsCount: number
 }
 
 export class UpdateProductDto implements Omit&lt;Product, Excluded&gt; {
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;slug&quot;) })
-    slug: string;
+    @IsOptional()
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;string&#x27;) })
+    title: string
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;string&quot;) })
-    title: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;description&#x27;) })
+    description: string
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;description&quot;) })
-    description: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;brand&#x27;) })
+    brand: string
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;brand&quot;) })
-    brand: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;taxCode&#x27;) })
+    taxCode: string
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;taxCode&quot;) })
-    taxCode: string;
+    @IsBoolean({ message: mustBeOfType(&#x27;boolean&#x27;, &#x27;published&#x27;) })
+    published: boolean
 
     @IsOptional()
-    @IsBoolean({ message: mustBeOfType(&quot;boolean&quot;, &quot;published&quot;) })
-    published: boolean;
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;price&#x27;) })
+    price: number
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;price&quot;) })
-    price: number;
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;mrp&#x27;) })
+    mrp: number
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;mrp&quot;) })
-    mrp: number;
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;tax&#x27;) })
+    tax: number
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;tax&quot;) })
-    tax: number;
+    @IsArray({ message: mustBeOfType(&#x27;string[]&#x27;, &#x27;color&#x27;) })
+    colors: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;string[]&quot;, &quot;color&quot;) })
-    colors: string[];
+    @IsArray({ message: mustBeOfType(&#x27;string[]&#x27;, &#x27;size&#x27;) })
+    sizes: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;string[]&quot;, &quot;size&quot;) })
-    sizes: string[];
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;dimensions&#x27;) })
+    dimensions: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;dimensions&quot;) })
-    dimensions: string[];
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;details&#x27;) })
+    details: Prisma.JsonValue
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;details&quot;) })
-    details: Prisma.JsonValue;
-
-    @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;faqs&quot;) })
-    faqs: Prisma.JsonValue;
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;faqs&#x27;) })
+    faqs: Prisma.JsonValue
 
     @IsOptional()
     @IsDefined()
-    @IsNotEmptyObject({}, { message: mustBeOfType(&quot;object&quot;, &quot;inventory&quot;) })
+    @IsNotEmptyObject({}, { message: mustBeOfType(&#x27;object&#x27;, &#x27;inventory&#x27;) })
     @ValidateNested({
         each: true,
-        message: mustBeOfType(&quot;object&quot;, &quot;inventory&quot;),
+        message: mustBeOfType(&#x27;object&#x27;, &#x27;inventory&#x27;),
     })
     @Type(() &#x3D;&gt; CreateInventoryDto)
-    inventory?: CreateInventoryDto;
+    inventory?: CreateInventoryDto
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;styles&quot;) })
-    styles: string[];
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;styles&#x27;) })
+    styles: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;images&quot;) })
-    images: Omit&lt;File, &quot;userId&quot;&gt;[];
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;images&#x27;) })
+    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;categories&quot;) })
-    categories: string[];
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;categories&#x27;) })
+    categories: string[]
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType(&quot;array&quot;, &quot;tags&quot;) })
-    tags: string[];
+    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;tags&#x27;) })
+    tags: string[]
 
     @IsOptional()
-    @IsNumber({}, { message: mustBeOfType(&quot;number&quot;, &quot;rating&quot;) })
-    rating: number;
+    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;rating&#x27;) })
+    rating: number
 
-    ratingsCount: number;
+    ratingsCount: number
 }
 
 export class CreateCategoryDto implements Omit&lt;Category, Excluded&gt; {
-    label: string;
-    value: string;
-    styles: string[];
-    description: string;
-    images: Omit&lt;File, &quot;userId&quot;&gt;[];
+    label: string
+    value: string
+    styles: string[]
+    description: string
+    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 
 export class UpdateCategoryDto implements Omit&lt;Category, Excluded&gt; {
-    label: string;
-    value: string;
-    styles: string[];
-    description: string;
-    images: Omit&lt;File, &quot;userId&quot;&gt;[];
+    label: string
+    value: string
+    styles: string[]
+    description: string
+    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 
 export class CreateTagDto implements Omit&lt;Tag, Excluded&gt; {
-    styles: string[];
-    label: string;
-    value: string;
-    description: string;
-    images: Omit&lt;File, &quot;userId&quot;&gt;[];
+    styles: string[]
+    label: string
+    value: string
+    description: string
+    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 
 export class UpdateTagDto implements Omit&lt;Tag, Excluded&gt; {
-    styles: string[];
-    label: string;
-    value: string;
-    description: string;
-    images: Omit&lt;File, &quot;userId&quot;&gt;[];
+    styles: string[]
+    label: string
+    value: string
+    description: string
+    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 
 export class CreateCompanyDto implements Omit&lt;Company, Excluded&gt; {
-    name: string;
+    name: string
 }
 </code></pre>
     </div>

@@ -430,27 +430,27 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CACHE_MANAGER, Inject, Injectable } from &quot;@nestjs/common&quot;;
-import { Cache } from &quot;cache-manager&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CACHE_MANAGER, Inject, Injectable } from &#x27;@nestjs/common&#x27;
+import { Cache } from &#x27;cache-manager&#x27;
 
 @Injectable()
 export class CacheService {
     constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
 
     async get(key: string): Promise&lt;any&gt; {
-        return this.cache.get(key);
+        return this.cache.get(key)
     }
 
     async set(key: string, value: string) {
-        await this.cache.set(key, value, 1000);
+        await this.cache.set(key, value, 1000)
     }
 
     async reset() {
-        await this.cache.reset();
+        await this.cache.reset()
     }
 
     async del(key: string) {
-        await this.cache.del(key);
+        await this.cache.del(key)
     }
 }
 </code></pre>

@@ -1,15 +1,26 @@
-import { Box, ButtonGroup, CircularProgress, Container, makeStyles } from '@material-ui/core'
+import {
+    Box,
+    ButtonGroup,
+    CircularProgress,
+    Container,
+    makeStyles,
+    Grid,
+} from '@material-ui/core'
 import React, { useState } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 import { AppHeader } from '../ui/Header'
 import { Footer as UIFooter } from '../ui/Footer'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import { config, getTotalCount, getTotalDataCount, logout, useAuthDispatch, useAuthState, useBrands, useDeleteProduct } from '../libs'
-import { Grid } from '@material-ui/core'
+import {
+    config,
+    getTotalCount,
+    getTotalDataCount,
+    useBrands,
+    useDeleteProduct,
+} from '../libs'
 import { CreateBrand } from '../modules/CreateBrand'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GridItem } from '../modules/Brands'
 import { Footer, List } from '../ui/List'
@@ -35,10 +46,6 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
     const classes = useStyles()
     const deleteProduct = useDeleteProduct()
-    const authState = useAuthState()
-    const authDispatch = useAuthDispatch();
-
-    const {} = authState
     const router = useRouter()
     const query = useBrands(router.query)
     const [open, setOpen] = React.useState(null)
@@ -115,7 +122,7 @@ const CMSPage = () => {
                             fetchNextPage={query?.fetchNextPage}
                             totalDataCount={getTotalDataCount(query?.data)}
                             totalCount={getTotalCount(query?.data)}
-                        // isLoading={query.isLoading}
+                            // isLoading={query.isLoading}
                         />
                     }
                 />
@@ -127,7 +134,7 @@ const CMSPage = () => {
                     onClose={handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <CreateBrand />
+                    <CreateBrand id={selected} />
                 </Dialog>
             </Container>
         </MainLayout>

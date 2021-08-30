@@ -1,15 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { errorCodes } from "src/common/codes/error";
+import { Injectable } from '@nestjs/common'
+import { errorCodes } from 'src/common/codes/error'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import { CreateStoryDto } from "./dto";
-import { StoryRO } from "./interfaces";
+} from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import { CreateStoryDto, UpdateStoryDto } from './dto'
+import { StoryRO } from './interfaces'
 
 @Injectable()
 export class StoryService {
@@ -27,29 +27,37 @@ export class StoryService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "story",
+                model: 'story',
                 prisma: this.db,
                 where: {
                     userId,
                     active: true,
                 },
-            });
-            return result;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "StoryService.getStories"
-            );
+                'StoryService.getStories'
+            )
         }
     }
 
@@ -61,42 +69,58 @@ export class StoryService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "story",
+                model: 'story',
                 prisma: this.db,
                 where: {
                     active: true,
                 },
-            });
-            return result;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "StoryService.getAllAddresss"
-            );
+                'StoryService.getAllAddresss'
+            )
         }
     }
 
     async getStory(slug: string): Promise<any> {
         const story = await this.db.story.findUnique({
             where: { slug },
-        });
+            include: {
+                files: {
+                    select: {
+                        url: true,
+                        fileType: true,
+                    },
+                },
+            },
+        })
         if (!story) {
             throw new CustomError(
-                "Story does not exist",
+                'Story does not exist',
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return story;
+        return story
     }
 
     async createStory(userId: string, data: CreateStoryDto): Promise<any> {
@@ -106,48 +130,72 @@ export class StoryService {
                     ...data,
                     userId: userId,
                 },
-            });
-            return product;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "StoryService.createStory"
-            );
+                'StoryService.createStory'
+            )
         }
     }
 
-    async updateStory(addressId: string, update): Promise<any> {
+    async updateStory(slug: string, update: UpdateStoryDto): Promise<any> {
         try {
             const data = await this.db.story.update({
-                where: { id: addressId },
+                where: { slug },
                 data: update,
-            });
-            return data;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "StoryService.updateStory"
-            );
+                'StoryService.updateStory'
+            )
         }
     }
 
-    async deleteStory(addressId: string): Promise<any> {
+    async deleteStory(slug: string): Promise<any> {
         try {
             const data = await this.db.story.update({
-                where: { id: addressId },
+                where: { slug },
                 data: {
                     active: false,
                 },
-            });
-            return data;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "StoryService.deleteStory"
-            );
+                'StoryService.deleteStory'
+            )
         }
     }
 }

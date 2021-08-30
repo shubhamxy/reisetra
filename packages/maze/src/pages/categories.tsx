@@ -1,15 +1,19 @@
-import { Box, ButtonGroup, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Box, ButtonGroup, makeStyles, Grid } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 import { AppHeader } from '../ui/Header'
 import { Footer } from '../ui/Footer'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import { config, logout, useAuthDispatch, useAuthState, useCategories } from '../libs'
-import { Grid } from '@material-ui/core'
+import {
+    config,
+    logout,
+    useAuthDispatch,
+    useAuthState,
+    useCategories,
+} from '../libs'
 import { CreateCategory } from '../modules/CreateCategory'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GridItem } from '../modules/Categories'
 import GridList from '../ui/List/GridList'
@@ -35,9 +39,8 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
     const classes = useStyles()
     // const deleteProduct = useDeleteProduct();
-    const authDispatch = useAuthDispatch();
+    const authDispatch = useAuthDispatch()
     const authState = useAuthState()
-    const {} = authState
     const router = useRouter()
     const query = useCategories(router.query)
     useEffect(() => {
@@ -46,7 +49,7 @@ const CMSPage = () => {
             (authState.isAuthenticated === false ||
                 (authState.user && authState.user.role !== 'ADMIN'))
         ) {
-            authDispatch(logout());
+            authDispatch(logout())
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authState])

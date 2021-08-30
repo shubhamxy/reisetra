@@ -315,36 +315,36 @@
     IsOptional,
     IsString,
     MinLength,
-} from &quot;class-validator&quot;;
-import { mustBeOfType, mustBeValidEnum } from &quot;src/constants&quot;;
-import { CursorPaginationOptionsInterface } from &quot;../pagination&quot;;
+} from &#x27;class-validator&#x27;
+import { mustBeOfType, mustBeValidEnum } from &#x27;src/constants&#x27;
+import { CursorPaginationOptionsInterface } from &#x27;../pagination&#x27;
 export enum OrderDirection {
-    asc &#x3D; &quot;asc&quot;,
-    desc &#x3D; &quot;desc&quot;,
+    asc &#x3D; &#x27;asc&#x27;,
+    desc &#x3D; &#x27;desc&#x27;,
 }
 export class CursorPaginationDTO implements CursorPaginationOptionsInterface {
     @IsOptional()
     @IsNumberString()
-    size: number;
+    size: number
 
     @IsOptional()
     @IsNumberString()
-    buttonNum: number;
+    buttonNum: number
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;cursor&quot;) })
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;cursor&#x27;) })
     @MinLength(10)
-    cursor: string;
+    cursor: string
 
     @IsOptional()
-    @IsString({ message: mustBeOfType(&quot;string&quot;, &quot;orderBy&quot;) })
-    orderBy: string;
+    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;orderBy&#x27;) })
+    orderBy: string
 
     @IsOptional()
     @IsEnum(OrderDirection, {
-        message: mustBeValidEnum(OrderDirection, &quot;orderDirection&quot;),
+        message: mustBeValidEnum(OrderDirection, &#x27;orderDirection&#x27;),
     })
-    orderDirection: OrderDirection;
+    orderDirection: OrderDirection
 }
 </code></pre>
     </div>

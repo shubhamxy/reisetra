@@ -159,11 +159,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module, CacheModule as NestCacheModule } from &quot;@nestjs/common&quot;;
-import { ConfigModule, ConfigService } from &quot;@nestjs/config&quot;;
-import * as redisStore from &quot;cache-manager-redis-store&quot;;
-import { CacheEnv } from &quot;src/config&quot;;
-import { CacheService } from &quot;./cache.service&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module, CacheModule as NestCacheModule } from &#x27;@nestjs/common&#x27;
+import { ConfigModule, ConfigService } from &#x27;@nestjs/config&#x27;
+import * as redisStore from &#x27;cache-manager-redis-store&#x27;
+import { CacheEnv } from &#x27;src/config&#x27;
+import { CacheService } from &#x27;./cache.service&#x27;
 
 @Module({
     imports: [
@@ -171,16 +171,16 @@ import { CacheService } from &quot;./cache.service&quot;;
             imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: async (configService: ConfigService) &#x3D;&gt;
-                configService.get&lt;CacheEnv&gt;(&quot;cache&quot;).enable
+                configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).enable
                     ? {
                           store: redisStore,
-                          host: configService.get&lt;CacheEnv&gt;(&quot;cache&quot;).host,
-                          port: configService.get&lt;CacheEnv&gt;(&quot;cache&quot;).port,
-                          ttl: configService.get&lt;CacheEnv&gt;(&quot;cache&quot;).cacheTTL,
+                          host: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).host,
+                          port: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).port,
+                          ttl: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).cacheTTL,
                       }
                     : {
-                          store: &quot;memory&quot;,
-                          ttl: configService.get&lt;CacheEnv&gt;(&quot;cache&quot;).cacheTTL,
+                          store: &#x27;memory&#x27;,
+                          ttl: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).cacheTTL,
                       },
         }),
     ],

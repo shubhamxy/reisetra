@@ -64,11 +64,17 @@ export function useFileUpload({
                             if (!data.id) {
                                 throw Error('Server error: data missing')
                             }
-                            const { signedUrl, expiresIn, url, fileType: _fileType, ...rest } = data
+                            const {
+                                signedUrl,
+                                expiresIn,
+                                url,
+                                fileType: _fileType,
+                                ...rest
+                            } = data
                             return {
                                 url,
                                 fileType: _fileType,
-                                meta: rest
+                                meta: rest,
                             }
                         } catch (error) {
                             console.error(

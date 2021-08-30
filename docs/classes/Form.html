@@ -316,33 +316,33 @@
     Prisma,
     Form as FormModel,
     FormResponse as FormResponseModel,
-} from &quot;.prisma/client&quot;;
+} from &#x27;.prisma/client&#x27;
 
 export class Form implements FormModel {
     constructor(partial: Partial&lt;FormModel&gt;) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 
-    id: string;
-    data: Prisma.JsonValue;
+    id: string
+    data: Prisma.JsonValue
 
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
 }
 
 export class FormResponse implements FormResponseModel {
     constructor(partial: Partial&lt;FormModel&gt;) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 
-    id: string;
-    data: Prisma.JsonValue;
-    formId: string;
+    id: string
+    data: Prisma.JsonValue
+    formId: string
 
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
 }
 </code></pre>
     </div>

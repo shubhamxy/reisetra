@@ -1,76 +1,76 @@
-import { Injectable } from "@nestjs/common";
-import { UserService } from "../user/user.service";
-import { JwtService } from "@nestjs/jwt";
+import { Injectable } from '@nestjs/common'
+import { UserService } from '../user/user.service'
+import { JwtService } from '@nestjs/jwt'
 import {
     getEmailVerificationTokenKey,
     getForgotPasswordKey,
     getRefreshTokenKey,
-} from "../utils/cache";
-import { CacheService } from "../common/modules/cache/cache.service";
-import { CreateUserDto } from "../user/dto";
-import { User } from ".prisma/client";
-import { UserRO } from "../user/interfaces/user.interface";
-import { nanoid } from "nanoid";
-import { GoogleUser } from "./strategy/google.strategy";
-import { sendEmail, IData } from "../utils/aws";
-import { passwordResetEmail, emailVerificationEmail } from "../utils/template";
-import { CustomError } from "../common/response";
-import { errorCodes } from "../common/codes/error";
-import { ConfigService } from "@nestjs/config";
-import { AppEnv, AuthEnv } from "src/config";
+} from '../utils/cache'
+import { CacheService } from '../common/modules/cache/cache.service'
+import { CreateUserDto } from '../user/dto'
+import { User } from '.prisma/client'
+import { UserRO } from '../user/interfaces/user.interface'
+import { nanoid } from 'nanoid'
+import { GoogleUser } from './strategy/google.strategy'
+import { sendEmail, IData } from '../utils/aws'
+import { passwordResetEmail, emailVerificationEmail } from '../utils/template'
+import { CustomError } from '../common/response'
+import { errorCodes } from '../common/codes/error'
+import { ConfigService } from '@nestjs/config'
+import { AppEnv, AuthEnv } from 'src/config'
 
 export interface AuthTokenPayload {
-    tid: string;
-    sub: string;
-    email: string;
-    role: string;
+    tid: string
+    sub: string
+    email: string
+    role: string
 }
 
 export interface AuthResponse {
-    id: string;
-    email: string;
-    role: string;
-    expires_in: string;
-    access_token: string;
-    refresh_token: string;
-    token_type: string;
+    id: string
+    email: string
+    role: string
+    expires_in: string
+    access_token: string
+    refresh_token: string
+    token_type: string
 }
 
 @Injectable()
 export class AuthService {
-    appConfig: AppEnv;
-    authConfig: AuthEnv;
+    appConfig: AppEnv
+    authConfig: AuthEnv
     constructor(
         private user: UserService,
         private jwt: JwtService,
         private cache: CacheService,
         configService: ConfigService
     ) {
-        this.appConfig = configService.get<AppEnv>("app");
-        this.authConfig = configService.get<AuthEnv>("auth");
+        this.appConfig = configService.get<AppEnv>('app')
+        this.authConfig = configService.get<AuthEnv>('auth')
     }
 
     async validateUser(email: string, password: string): Promise<UserRO> {
-        return this.user.verifyEmailPassword({ email, password });
+        return this.user.verifyEmailPassword({ email, password })
     }
 
     async setRefreshToken(userId: string, tokenId: string) {
-        return this.cache.set(getRefreshTokenKey(userId), tokenId);
+        return this.cache.set(getRefreshTokenKey(userId), tokenId)
     }
 
     async getRefreshToken(userId: string) {
-        return this.cache.get(getRefreshTokenKey(userId));
+        return this.cache.get(getRefreshTokenKey(userId))
     }
 
     async removeRefreshToken(userId: string) {
-        return this.cache.del(getRefreshTokenKey(userId));
+        return this.cache.del(getRefreshTokenKey(userId))
     }
 
     async isRefreshTokenPayloadValid(
         payload: AuthTokenPayload
     ): Promise<boolean> {
-        const tokenId = await this.getRefreshToken(payload.sub);
-        return !!(tokenId && tokenId === payload.tid);
+        const tokenId = await this.getRefreshToken(payload.sub)
+        return !!(tokenId && tokenId === payload.tid)
     }
 
     async getAuthToken({
@@ -78,31 +78,31 @@ export class AuthService {
         email,
         role,
     }: Partial<{
-        id: string;
-        email: string;
-        role: string;
+        id: string
+        email: string
+        role: string
     }>): Promise<AuthResponse> {
         if (!id || !email || !role) {
             throw new CustomError(
-                "Invalid Token",
+                'Invalid Token',
                 errorCodes.AuthFailed,
-                "AuthService.getAuthToken"
-            );
+                'AuthService.getAuthToken'
+            )
         }
-        const tid = nanoid(5);
-        const jwtAccessTokenPayload = { email, sub: id, role: role, tid };
-        const jwtRefreshTokenPayload = { email, sub: id, role: role, tid };
+        const tid = nanoid(5)
+        const jwtAccessTokenPayload = { email, sub: id, role: role, tid }
+        const jwtRefreshTokenPayload = { email, sub: id, role: role, tid }
         const accessToken = this.jwt.sign(
             jwtAccessTokenPayload,
             this.authConfig.jwtAccessTokenOptions
-        );
+        )
 
         const refreshToken = this.jwt.sign(
             jwtRefreshTokenPayload,
             this.authConfig.jwtRefreshTokenOptions
-        );
+        )
 
-        this.setRefreshToken(id, tid);
+        this.setRefreshToken(id, tid)
         return {
             id,
             email,
@@ -110,50 +110,50 @@ export class AuthService {
             expires_in: this.authConfig.jwtAccessTokenOptions.expiresIn,
             access_token: accessToken,
             refresh_token: refreshToken,
-            token_type: "Bearer",
-        };
+            token_type: 'Bearer',
+        }
     }
 
     async login(user: Partial<User>): Promise<AuthResponse> {
-        return this.getAuthToken(user);
+        return this.getAuthToken(user)
     }
 
     async signup(user: CreateUserDto): Promise<AuthResponse> {
-        const createdUser = await this.user.create(user);
-        const authPayload = await this.getAuthToken(createdUser);
+        const createdUser = await this.user.create(user)
+        const authPayload = await this.getAuthToken(createdUser)
         if (createdUser) {
             if (this.appConfig.isProduction) {
-                this.sendEmailVerification(createdUser.id, createdUser.email);
+                this.sendEmailVerification(createdUser.id, createdUser.email)
             }
         }
-        return authPayload;
+        return authPayload
     }
 
     async resetPassword(data: {
-        email: string;
-        password: string;
+        email: string
+        password: string
     }): Promise<AuthResponse> {
         const updatedUser = await this.user.resetPassword(
             data.email,
             data.password
-        );
-        this.cache.del(getForgotPasswordKey(data.email));
-        return this.getAuthToken(updatedUser);
+        )
+        this.cache.del(getForgotPasswordKey(data.email))
+        return this.getAuthToken(updatedUser)
     }
 
     async updatePassword(
         email: string,
         data: {
-            password: string;
-            oldPassword: string;
+            password: string
+            oldPassword: string
         }
     ): Promise<AuthResponse> {
         const updatedUser = await this.user.updatePassword(
             email,
             data.password,
             data.oldPassword
-        );
-        return this.getAuthToken(updatedUser);
+        )
+        return this.getAuthToken(updatedUser)
     }
 
     async googleLogin(user: GoogleUser): Promise<AuthResponse> {
@@ -163,11 +163,11 @@ export class AuthService {
             avatar: user.avatar,
             emailVerified: user.emailVerified,
             oauthId: user.oauthId,
-            oauthProvider: "GOOGLE",
-            role: "USER",
-        });
+            oauthProvider: 'GOOGLE',
+            role: 'USER',
+        })
         if (userOrNull) {
-            return this.getAuthToken(userOrNull);
+            return this.getAuthToken(userOrNull)
         }
         /** User does not exist on db sign them up **/
         const newUser = await this.user.createOauthAccount({
@@ -176,50 +176,50 @@ export class AuthService {
             avatar: user.avatar,
             emailVerified: user.emailVerified,
             oauthId: user.oauthId,
-            oauthProvider: "GOOGLE",
-            role: "USER",
-        });
-        return this.getAuthToken(newUser);
+            oauthProvider: 'GOOGLE',
+            role: 'USER',
+        })
+        return this.getAuthToken(newUser)
     }
 
     async createEmailToken(id: string): Promise<string> {
-        const token = nanoid(6);
-        this.cache.set(getEmailVerificationTokenKey(id), token);
-        return token;
+        const token = nanoid(6)
+        this.cache.set(getEmailVerificationTokenKey(id), token)
+        return token
     }
 
     async verifyEmail(id: string, token: string): Promise<boolean> {
         const storedToken = await this.cache.get(
             getEmailVerificationTokenKey(id)
-        );
+        )
         if (!storedToken) {
-            return false;
+            return false
         }
         if (storedToken === token) {
-            await this.user.findAndUpdate(id, { emailVerified: true });
-            await this.cache.del(getEmailVerificationTokenKey(id));
-            return true;
+            await this.user.findAndUpdate(id, { emailVerified: true })
+            await this.cache.del(getEmailVerificationTokenKey(id))
+            return true
         }
-        return false;
+        return false
     }
 
     async createForgottenPasswordToken(email: string): Promise<string> {
-        const forgotPasswordToken = nanoid(16);
+        const forgotPasswordToken = nanoid(16)
         // @TODO add time??
-        await this.cache.set(getForgotPasswordKey(email), forgotPasswordToken);
-        return forgotPasswordToken;
+        await this.cache.set(getForgotPasswordKey(email), forgotPasswordToken)
+        return forgotPasswordToken
     }
 
     async sendEmailVerification(id: string, email: string): Promise<IData> {
-        const emailToken = await this.createEmailToken(id);
+        const emailToken = await this.createEmailToken(id)
         const data = await sendEmail(
             emailVerificationEmail({
                 email,
                 token: emailToken,
                 id: id,
             })
-        );
-        return data;
+        )
+        return data
     }
 
     async verifyForgotPasswordToken(
@@ -228,28 +228,28 @@ export class AuthService {
     ): Promise<boolean> {
         const storedToken = (await this.cache.get(
             getForgotPasswordKey(email)
-        )) as string;
+        )) as string
         if (!storedToken) {
-            return false;
+            return false
         }
         if (storedToken === token) {
-            return true;
+            return true
         }
-        return false;
+        return false
     }
 
     async sendForgotPasswordEmail(email: string): Promise<IData> {
         const forgotPasswordToken = await this.createForgottenPasswordToken(
             email
-        );
+        )
         // if (this.appConfig.isProduction) {
         const data = await sendEmail(
             passwordResetEmail({
                 email,
                 token: forgotPasswordToken,
             })
-        );
-        return data;
+        )
+        return data
         // }
     }
 }
