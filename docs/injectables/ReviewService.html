@@ -285,8 +285,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="298"
-                            class="link-to-prism">src/review/review.service.ts:298</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="304"
+                            class="link-to-prism">src/review/review.service.ts:304</a></div>
                 </td>
             </tr>
 
@@ -581,8 +581,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="214"
-                            class="link-to-prism">src/review/review.service.ts:214</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">src/review/review.service.ts:218</a></div>
                 </td>
             </tr>
 
@@ -660,17 +660,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type { Prisma } from &quot;.prisma/client&quot;;
-import { Product } from &quot;.prisma/client&quot;;
-import { Injectable } from &quot;@nestjs/common&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
-import { CacheService } from &quot;src/common/modules/cache/cache.service&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
-import { CursorPaginationResultInterface } from &quot;src/common/pagination&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { prismaOffsetPagination } from &quot;src/utils/prisma&quot;;
-import { OrderDirection } from &quot;../common/dto&quot;;
-import { CreateReviewDto, GetAllReviewsDto, UpdateReviewDto } from &quot;./dto&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type { Prisma } from &#x27;.prisma/client&#x27;
+import { Product } from &#x27;.prisma/client&#x27;
+import { Injectable } from &#x27;@nestjs/common&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { CursorPaginationResultInterface } from &#x27;src/common/pagination&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { OrderDirection } from &#x27;../common/dto&#x27;
+import { CreateReviewDto, GetAllReviewsDto, UpdateReviewDto } from &#x27;./dto&#x27;
 
 @Injectable()
 export class ReviewService {
@@ -688,9 +688,9 @@ export class ReviewService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
+                orderBy &#x3D; &#x27;createdAt&#x27;,
                 orderDirection &#x3D; OrderDirection.asc,
-            } &#x3D; options;
+            } &#x3D; options
 
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
@@ -698,7 +698,7 @@ export class ReviewService {
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;review&quot;,
+                model: &#x27;review&#x27;,
                 where: {
                     productId,
                     active: true,
@@ -718,14 +718,14 @@ export class ReviewService {
                     },
                 },
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;ReviewService.getAllReviews&quot;
-            );
+                &#x27;ReviewService.getAllReviews&#x27;
+            )
         }
     }
 
@@ -746,20 +746,20 @@ export class ReviewService {
                         },
                     },
                 },
-            });
+            })
             if (!review) {
                 throw new CustomError(
-                    &quot;Review does not exist&quot;,
+                    &#x27;Review does not exist&#x27;,
                     errorCodes.RecordDoesNotExist
-                );
+                )
             }
-            return review;
+            return review
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;ReviewService.getReview&quot;
-            );
+                &#x27;ReviewService.getReview&#x27;
+            )
         }
     }
 
@@ -782,14 +782,14 @@ export class ReviewService {
                     },
                 },
             },
-        });
+        })
         if (!products) {
             throw new CustomError(
-                &quot;Product does not exist&quot;,
+                &#x27;Product does not exist&#x27;,
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return products;
+        return products
     }
 
     async createReview(userId: string, data: CreateReviewDto): Promise&lt;any&gt; {
@@ -801,7 +801,7 @@ export class ReviewService {
                 description,
                 rating,
                 published,
-            } &#x3D; data;
+            } &#x3D; data
             const dataObj: Prisma.XOR&lt;
                 Prisma.ReviewCreateInput,
                 Prisma.ReviewUncheckedCreateInput
@@ -812,19 +812,23 @@ export class ReviewService {
                 productId,
                 rating: +rating,
                 published,
-            };
-            if (images) {
-                dataObj.images &#x3D; {
-                    createMany: {
-                        data: images.map((item) &#x3D;&gt; ({
-                            contentType: item.contentType,
-                            url: item.url,
-                            fileType: item.fileType,
-                            userId,
-                        })),
-                    },
-                };
             }
+
+            if (images &amp;&amp; images.length &gt; 0) {
+                dataObj.images &#x3D; {
+                    connectOrCreate: images.map((item) &#x3D;&gt; ({
+                        create: {
+                            url: item.url,
+                            meta: item.meta,
+                            userId,
+                        },
+                        where: {
+                            url: item.url,
+                        },
+                    })),
+                }
+            }
+
             const product &#x3D; await this.db.review.create({
                 data: dataObj,
                 include: {
@@ -840,7 +844,7 @@ export class ReviewService {
                         },
                     },
                 },
-            });
+            })
 
             const ratings &#x3D; await this.db.review.aggregate({
                 _avg: {
@@ -852,7 +856,7 @@ export class ReviewService {
                 where: {
                     productId: productId,
                 },
-            });
+            })
 
             await this.db.product.update({
                 where: {
@@ -862,14 +866,14 @@ export class ReviewService {
                     rating: Math.round(ratings._avg.rating),
                     ratingsCount: ratings._count._all,
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;ReviewService.createReview&quot;
-            );
+                &#x27;ReviewService.createReview&#x27;
+            )
         }
     }
 
@@ -886,7 +890,7 @@ export class ReviewService {
                 description,
                 rating,
                 published,
-            } &#x3D; data;
+            } &#x3D; data
             const dataObj: Prisma.XOR&lt;
                 Prisma.ReviewCreateInput,
                 Prisma.ReviewUncheckedCreateInput
@@ -896,18 +900,20 @@ export class ReviewService {
                 title,
                 description,
                 published,
-            };
-            if (images) {
+            }
+            if (images &amp;&amp; images.length &gt; 0) {
                 dataObj.images &#x3D; {
-                    createMany: {
-                        data: images.map((item) &#x3D;&gt; ({
-                            contentType: item.contentType,
+                    connectOrCreate: images.map((item) &#x3D;&gt; ({
+                        create: {
                             url: item.url,
-                            fileType: item.fileType,
+                            meta: item.meta,
                             userId,
-                        })),
-                    },
-                };
+                        },
+                        where: {
+                            url: item.url,
+                        },
+                    })),
+                }
             }
             const review &#x3D; await this.db.review.update({
                 where: { id: reviewId },
@@ -925,7 +931,7 @@ export class ReviewService {
                         },
                     },
                 },
-            });
+            })
             const ratings &#x3D; await this.db.review.aggregate({
                 _avg: {
                     rating: true,
@@ -936,7 +942,7 @@ export class ReviewService {
                 where: {
                     productId: productId,
                 },
-            });
+            })
 
             await this.db.product.update({
                 where: {
@@ -946,14 +952,14 @@ export class ReviewService {
                     rating: Math.round(ratings._avg.rating),
                     ratingsCount: ratings._count._all,
                 },
-            });
-            return review;
+            })
+            return review
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;ReviewService.updateReview&quot;
-            );
+                &#x27;ReviewService.updateReview&#x27;
+            )
         }
     }
 
@@ -977,14 +983,14 @@ export class ReviewService {
                         },
                     },
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;ReviewService.deleteReview&quot;
-            );
+                &#x27;ReviewService.deleteReview&#x27;
+            )
         }
     }
 }

@@ -154,56 +154,54 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get } from &quot;@nestjs/common&quot;;
-import { PinoLogger } from &quot;nestjs-pino&quot;;
-import { Public } from &quot;src/auth/decorator/public.decorator&quot;;
-import { SuccessResponse } from &quot;src/common/response&quot;;
-import { PrismaService } from &quot;../common/modules/db/prisma.service&quot;;
-import { ConfigService } from &quot;@nestjs/config&quot;;
-import { AppEnv } from &quot;src/config&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get } from &#x27;@nestjs/common&#x27;
+import { PinoLogger } from &#x27;nestjs-pino&#x27;
+import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
+import { SuccessResponse } from &#x27;src/common/response&#x27;
+import { PrismaService } from &#x27;../common/modules/db/prisma.service&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
+import { AppEnv } from &#x27;src/config&#x27;
 
 function timeFn(sec_num: number) {
-    sec_num &#x3D; parseInt(sec_num + &quot;&quot;, 10);
-    let hours: string | number &#x3D; Math.floor(sec_num / 3600);
-    let minutes: string | number &#x3D; Math.floor((sec_num - hours * 3600) / 60);
-    let seconds: string | number &#x3D; sec_num - hours * 3600 - minutes * 60;
+    sec_num &#x3D; parseInt(sec_num + &#x27;&#x27;, 10)
+    let hours: string | number &#x3D; Math.floor(sec_num / 3600)
+    let minutes: string | number &#x3D; Math.floor((sec_num - hours * 3600) / 60)
+    let seconds: string | number &#x3D; sec_num - hours * 3600 - minutes * 60
     if (hours &lt; 10) {
-        hours &#x3D; &quot;0&quot; + hours;
+        hours &#x3D; &#x27;0&#x27; + hours
     }
     if (minutes &lt; 10) {
-        minutes &#x3D; &quot;0&quot; + minutes;
+        minutes &#x3D; &#x27;0&#x27; + minutes
     }
     if (seconds &lt; 10) {
-        seconds &#x3D; &quot;0&quot; + seconds;
+        seconds &#x3D; &#x27;0&#x27; + seconds
     }
-    const time &#x3D; hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds;
-    return time;
+    const time &#x3D; hours + &#x27;:&#x27; + minutes + &#x27;:&#x27; + seconds
+    return time
 }
 
-@Controller(&quot;healthz&quot;)
+@Controller(&#x27;healthz&#x27;)
 export class HealthCheckController {
     constructor(
         private readonly prismaService: PrismaService,
         private readonly logger: PinoLogger,
         private readonly config: ConfigService
     ) {
-        logger.setContext(HealthCheckController.name);
+        logger.setContext(HealthCheckController.name)
     }
 
     @Public()
     @Get()
     async healthCheck(): Promise&lt;SuccessResponse&gt; {
-        const database &#x3D; Boolean(
-            await this.prismaService.$executeRaw&#x60;SELECT 1&#x60;
-        );
+        const database &#x3D; Boolean(await this.prismaService.$executeRaw&#x60;SELECT 1&#x60;)
         return {
-            version: this.config.get&lt;AppEnv&gt;(&quot;app&quot;).version,
+            version: this.config.get&lt;AppEnv&gt;(&#x27;app&#x27;).version,
             data: {
-                server: &quot;up&quot;,
-                database: database ? &quot;up&quot; : &quot;down&quot;,
+                server: &#x27;up&#x27;,
+                database: database ? &#x27;up&#x27; : &#x27;down&#x27;,
                 uptime: timeFn(process.uptime()),
             },
-        };
+        }
     }
 }
 </code></pre>

@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">src/address/address.controller.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/address/address.controller.ts:117</a></div>
                 </td>
             </tr>
 
@@ -561,8 +561,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/address/address.controller.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/address/address.controller.ts:99</a></div>
                 </td>
             </tr>
 
@@ -637,22 +637,22 @@
     Put,
     Query,
     Req,
-} from &quot;@nestjs/common&quot;;
-import { AddressService } from &quot;./address.service&quot;;
-import { CustomException, SuccessResponse } from &quot;src/common/response&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { AddressService } from &#x27;./address.service&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
 import {
     CreateAddressDto,
     GetAddressesDto,
     GetAllAddressDto,
     UpdateAddressDto,
-} from &quot;./dto&quot;;
-import { AuthenticatedRequest } from &quot;src/auth/auth.interface&quot;;
-import { Roles } from &quot;src/auth/decorator/roles.decorator&quot;;
+} from &#x27;./dto&#x27;
+import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
+import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
 
 @Controller()
 export class AddressController {
     constructor(private readonly address: AddressService) {}
-    @Get(&quot;addresses&quot;)
+    @Get(&#x27;addresses&#x27;)
     async getAddresses(
         @Req() req: AuthenticatedRequest,
         @Query() query: GetAddressesDto
@@ -661,102 +661,99 @@ export class AddressController {
             const { results, ...meta } &#x3D; await this.address.getAddresses(
                 query,
                 req.user.id
-            );
-            return { data: results || [], meta: meta };
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AddressController.getAllOrders&quot;
-            );
+                &#x27;AddressController.getAllOrders&#x27;
+            )
         }
     }
 
-    @Get(&quot;addresses/all&quot;)
+    @Get(&#x27;addresses/all&#x27;)
     async getAllAddresses(
         @Query() query: GetAllAddressDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.address.getAllAddresses(
                 query
-            );
-            return { data: results || [], meta: meta };
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AddressController.getAllOrders&quot;
-            );
+                &#x27;AddressController.getAllOrders&#x27;
+            )
         }
     }
 
-    @Get(&quot;address/:addressId&quot;)
+    @Get(&#x27;address/:addressId&#x27;)
     async getAddress(
-        @Param(&quot;addressId&quot;) addressId: string
+        @Param(&#x27;addressId&#x27;) addressId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.address.getAddress(addressId);
-            return { data };
+            const data &#x3D; await this.address.getAddress(addressId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AddressController.getOrder&quot;
-            );
+                &#x27;AddressController.getOrder&#x27;
+            )
         }
     }
 
-    @Post(&quot;address&quot;)
+    @Post(&#x27;address&#x27;)
     async createOrder(
         @Req() request: AuthenticatedRequest,
         @Body() body: CreateAddressDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.address.createAddress(
-                request.user.id,
-                body
-            );
-            return { data };
+            const data &#x3D; await this.address.createAddress(request.user.id, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AddressController.createOrder&quot;
-            );
+                &#x27;AddressController.createOrder&#x27;
+            )
         }
     }
 
-    @Put(&quot;address/:addressId&quot;)
+    @Put(&#x27;address/:addressId&#x27;)
     async updateOrder(
-        @Param(&quot;addressId&quot;) addressId: string,
+        @Param(&#x27;addressId&#x27;) addressId: string,
         @Body() body: UpdateAddressDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.address.updateAddress(addressId, body);
-            return { data };
+            const data &#x3D; await this.address.updateAddress(addressId, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AddressController.updateOrder&quot;
-            );
+                &#x27;AddressController.updateOrder&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Delete(&quot;address/:addressId&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Delete(&#x27;address/:addressId&#x27;)
     async deleteOrder(
-        @Param(&quot;addressId&quot;) addressId: string
+        @Param(&#x27;addressId&#x27;) addressId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.address.deleteAddress(addressId);
-            return { data };
+            const data &#x3D; await this.address.deleteAddress(addressId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AddressController.deleteOrder&quot;
-            );
+                &#x27;AddressController.deleteOrder&#x27;
+            )
         }
     }
 }

@@ -384,7 +384,7 @@
     Matches,
     MaxLength,
     MinLength,
-} from &quot;class-validator&quot;;
+} from &#x27;class-validator&#x27;
 import {
     STRONG_PASSWORD_REGEX,
     PASSWORD_MAX_LENGTH,
@@ -394,76 +394,76 @@ import {
     PHONE_REGEX,
     INVALID_PHONE,
     isInvalid,
-} from &quot;src/constants&quot;;
-import { User } from &quot;../entity&quot;;
-import { OAuthProvider, Role } from &quot;.prisma/client&quot;;
-import { CursorPaginationDTO } from &quot;src/common/dto&quot;;
+} from &#x27;src/constants&#x27;
+import { User } from &#x27;../entity&#x27;
+import { OAuthProvider, Role } from &#x27;.prisma/client&#x27;
+import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
 
 type Excluded &#x3D;
-    | &quot;id&quot;
-    | &quot;active&quot;
-    | &quot;createdAt&quot;
-    | &quot;updatedAt&quot;
-    | &quot;extra&quot;
-    | &quot;bio&quot;
-    | &quot;dateOfBirth&quot;
-    | &quot;phone&quot;
-    | &quot;inventoryId&quot;
-    | &quot;role&quot;
-    | &quot;oauthProvider&quot;
-    | &quot;emailVerified&quot;
-    | &quot;oauthId&quot;;
+    | &#x27;id&#x27;
+    | &#x27;active&#x27;
+    | &#x27;createdAt&#x27;
+    | &#x27;updatedAt&#x27;
+    | &#x27;extra&#x27;
+    | &#x27;bio&#x27;
+    | &#x27;dateOfBirth&#x27;
+    | &#x27;phone&#x27;
+    | &#x27;inventoryId&#x27;
+    | &#x27;role&#x27;
+    | &#x27;oauthProvider&#x27;
+    | &#x27;emailVerified&#x27;
+    | &#x27;oauthId&#x27;
 
-export { LoginUserDto } from &quot;./loginUser.dto&quot;;
-export { UpdateUserDto } from &quot;./updateUser.dto&quot;;
+export { LoginUserDto } from &#x27;./loginUser.dto&#x27;
+export { UpdateUserDto } from &#x27;./updateUser.dto&#x27;
 
 export class GetAllUsersDto extends CursorPaginationDTO {
     constructor(partial: Partial&lt;User&gt;) {
-        super();
-        Object.assign(this, partial);
+        super()
+        Object.assign(this, partial)
     }
 }
 
 export class CreateUserDto implements Omit&lt;User, Excluded&gt; {
-    @IsEmail({}, { message: isInvalid(&quot;Email&quot;) })
-    email: string;
+    @IsEmail({}, { message: isInvalid(&#x27;Email&#x27;) })
+    email: string
 
-    @IsNotEmpty({ message: isRequired(&quot;Password&quot;) })
+    @IsNotEmpty({ message: isRequired(&#x27;Password&#x27;) })
     @MinLength(8, { message: PASSWORD_MIN_LENGTH })
     @MaxLength(20, { message: PASSWORD_MAX_LENGTH })
     @Matches(STRONG_PASSWORD_REGEX, { message: PASSWORD_IS_WEAK })
-    password: string;
+    password: string
 
-    @IsNotEmpty({ message: isRequired(&quot;Name&quot;) })
-    @MinLength(3, { message: &quot;name should be min 3 chars&quot; })
-    name: string;
+    @IsNotEmpty({ message: isRequired(&#x27;Name&#x27;) })
+    @MinLength(3, { message: &#x27;name should be min 3 chars&#x27; })
+    name: string
 
-    dateOfBirth: Date;
+    dateOfBirth: Date
 
     @IsOptional()
     @Matches(PHONE_REGEX, { message: INVALID_PHONE })
-    phone: string;
+    phone: string
 
     @IsOptional()
     @IsString()
-    avatar: string;
+    avatar: string
 
     @IsOptional()
     @IsString()
-    bio: string;
+    bio: string
 }
 
 export class CreateOauthUserDto implements Omit&lt;User, Excluded&gt; {
-    email: string;
-    emailVerified: boolean;
-    name: string;
-    dateOfBirth?: Date;
-    phone?: string;
-    avatar: string;
-    role: Role;
-    bio?: string;
-    oauthId: string;
-    oauthProvider: OAuthProvider;
+    email: string
+    emailVerified: boolean
+    name: string
+    dateOfBirth?: Date
+    phone?: string
+    avatar: string
+    role: Role
+    bio?: string
+    oauthId: string
+    oauthProvider: OAuthProvider
 }
 </code></pre>
     </div>

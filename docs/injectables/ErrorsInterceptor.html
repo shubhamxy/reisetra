@@ -191,18 +191,18 @@
     NestInterceptor,
     ExecutionContext,
     CallHandler,
-} from &quot;@nestjs/common&quot;;
-import { Observable, throwError } from &quot;rxjs&quot;;
-import { catchError } from &quot;rxjs/operators&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { Observable, throwError } from &#x27;rxjs&#x27;
+import { catchError } from &#x27;rxjs/operators&#x27;
 
 @Injectable()
 export class ErrorsInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; {
         return next.handle().pipe(
             catchError((error) &#x3D;&gt; {
-                return throwError(error);
+                return throwError(error)
             })
-        );
+        )
     }
 }
 </code></pre>

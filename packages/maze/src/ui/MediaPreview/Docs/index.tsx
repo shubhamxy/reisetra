@@ -3,11 +3,11 @@ import React from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import { Box, Tooltip } from '@material-ui/core'
 import { CloudDownload } from '@material-ui/icons'
-import { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: 24
+        padding: 24,
     },
     gridList: {
         display: 'flex',
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100px',
         position: 'relative',
         boxShadow: `0px 0px 0px 4px ${theme.palette.primary.main}33`,
-        marginRight: "12px",
+        marginRight: '12px',
         '&:last-child': {
             marginRight: 0,
         },
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     image: {
         objectFit: 'cover',
         height: '80px',
-        width: '80px'
+        width: '80px',
     },
     titleContainer: {
         display: 'flex',
@@ -159,12 +159,12 @@ export default function DocsPreview({
     data,
     showRemoveIcon = false,
     handleRemoveItem,
-    markerFeild
+    markerFeild,
 }: {
-    className?: string,
-    data?: any,
-    showRemoveIcon?: boolean,
-    handleRemoveItem?: any,
+    className?: string
+    data?: any
+    showRemoveIcon?: boolean
+    handleRemoveItem?: any
     markerFeild?: string
 }) {
     const classes = useStyles()
@@ -175,11 +175,16 @@ export default function DocsPreview({
         <Box className={`${className ? className + ' ' : ''}${classes.root}`}>
             <Box className={classes.gridList}>
                 {data.map((item, index) => (
-                    <Box key={index} className={classes.gridItem}
-                        style={item && item.meta && item.meta[markerFeild] ? {
-                            boxShadow: `0px 0px 0px 4px #1e88e533`,
-
-                        } : {}}
+                    <Box
+                        key={index}
+                        className={classes.gridItem}
+                        style={
+                            item && item.meta && item.meta[markerFeild]
+                                ? {
+                                      boxShadow: `0px 0px 0px 4px #1e88e533`,
+                                  }
+                                : {}
+                        }
                         onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
@@ -187,9 +192,7 @@ export default function DocsPreview({
                         }}
                     >
                         <Tooltip title={item.meta.fileName}>
-                            <Box
-                                className={classes.container}
-                            >
+                            <Box className={classes.container}>
                                 <CloudDownload />
                             </Box>
                         </Tooltip>

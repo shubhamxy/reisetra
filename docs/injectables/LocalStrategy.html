@@ -237,21 +237,21 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Strategy } from &quot;passport-local&quot;;
-import { PassportStrategy } from &quot;@nestjs/passport&quot;;
-import { HttpStatus, Injectable } from &quot;@nestjs/common&quot;;
-import { AuthService } from &quot;../auth.service&quot;;
-import { CustomException, CustomError } from &quot;../../common/response&quot;;
-import { errorCodes } from &quot;../../common/codes/error&quot;;
-import { User } from &quot;../../user/entity&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Strategy } from &#x27;passport-local&#x27;
+import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
+import { HttpStatus, Injectable } from &#x27;@nestjs/common&#x27;
+import { AuthService } from &#x27;../auth.service&#x27;
+import { CustomException, CustomError } from &#x27;../../common/response&#x27;
+import { errorCodes } from &#x27;../../common/codes/error&#x27;
+import { User } from &#x27;../../user/entity&#x27;
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
     constructor(private authService: AuthService) {
         super({
-            usernameField: &quot;email&quot;,
-            passwordField: &quot;password&quot;,
-        });
+            usernameField: &#x27;email&#x27;,
+            passwordField: &#x27;password&#x27;,
+        })
     }
 
     async validate(email: string, password: string): Promise&lt;Partial&lt;User&gt;&gt; {
@@ -259,21 +259,21 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
             const userOrNull &#x3D; await this.authService.validateUser(
                 email,
                 password
-            );
+            )
             if (userOrNull &#x3D;&#x3D;&#x3D; null) {
                 throw new CustomError(
-                    &quot;Username and password does not match&quot;,
+                    &#x27;Username and password does not match&#x27;,
                     errorCodes.LocalAuthFailed,
-                    &quot;LocalStrategy.validate&quot;
-                );
+                    &#x27;LocalStrategy.validate&#x27;
+                )
             }
-            return userOrNull;
+            return userOrNull
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.UNAUTHORIZED,
-                &quot;LocalStrategy.validate&quot;
-            );
+                &#x27;LocalStrategy.validate&#x27;
+            )
         }
     }
 }

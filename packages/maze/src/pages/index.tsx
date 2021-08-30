@@ -1,8 +1,7 @@
 import { Box, makeStyles } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({

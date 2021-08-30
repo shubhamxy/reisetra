@@ -23,25 +23,22 @@ const useStyles = makeStyles((theme) => ({
         border: `2px dashed ${theme.palette.primary.main}88`,
     },
 }))
-export default function Documents({
-    values,
-    setFieldValue,
-}) {
+export default function Documents({ values, setFieldValue }) {
     const upload = useFileUpload({
         fileType: 'documents',
         accept: ['application/pdf'],
         multiple: true,
         onSuccess: (files) => {
-            files.forEach(item => {
+            files.forEach((item) => {
                 if (item && item['meta']) {
-                    item['meta']['invoice'] = invoice;
+                    item['meta']['invoice'] = invoice
                 }
             })
             setFieldValue('documents', [...values.documents, ...files])
-            setInvoice(false);
+            setInvoice(false)
         },
     })
-    const [invoice, setInvoice] = useState(false);
+    const [invoice, setInvoice] = useState(false)
     const classes = useStyles()
     return (
         <React.Fragment>
@@ -55,9 +52,9 @@ export default function Documents({
                                 checked={invoice}
                                 onChange={(e) => {
                                     if (e.target.checked) {
-                                        setInvoice(true);
+                                        setInvoice(true)
                                     } else {
-                                        setInvoice(false);
+                                        setInvoice(false)
                                     }
                                 }}
                             />
@@ -106,7 +103,9 @@ export default function Documents({
                             const val = [...values.documents]
                             val.splice(index, 1)
                             setFieldValue('documents', val)
-                        }} className={undefined} />
+                        }}
+                        className={undefined}
+                    />
                 </Grid>
             </Grid>
         </React.Fragment>

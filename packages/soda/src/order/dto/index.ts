@@ -1,11 +1,11 @@
-import { OrderStatus } from ".prisma/client";
-import { Allow, IsArray, IsOptional } from "class-validator";
-import { CursorPaginationDTO } from "src/common/dto";
-import { mustBeOfType } from "src/constants";
-import { File } from "src/files/entity";
-import { Order } from "../entity";
+import { OrderStatus } from '.prisma/client'
+import { Allow, IsArray, IsOptional } from 'class-validator'
+import { CursorPaginationDTO } from 'src/common/dto'
+import { mustBeOfType } from 'src/constants'
+import { File } from 'src/files/entity'
+import { Order } from '../entity'
 
-type Excluded = "id" | "active" | "createdAt" | "updatedAt" | "userId";
+type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId'
 
 export class GetAllOrdersDto extends CursorPaginationDTO {}
 
@@ -13,87 +13,87 @@ export class GetAllOrdersDocumentsDto extends CursorPaginationDTO {}
 
 export class CreateOrderDto implements Omit<Order, Excluded> {
     @Allow()
-    subTotal: number;
+    subTotal: number
 
     @Allow()
-    itemDiscount: number;
+    itemDiscount: number
 
     @Allow()
-    tax: number;
+    tax: number
 
     @Allow()
-    shipping: number;
+    shipping: number
 
     @Allow()
-    total: number;
+    total: number
 
     @Allow()
-    promo: string;
+    promo: string
 
     @Allow()
-    discount: number;
+    discount: number
 
     @Allow()
-    grandTotal: number;
+    grandTotal: number
 
     @Allow()
-    addressId: string;
+    addressId: string
 
     @Allow()
-    status: OrderStatus;
+    status: OrderStatus
 
-    cartId: string;
+    cartId: string
 
     @Allow()
-    note: string;
+    note: string
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType("array", "documents") })
-    documents: Omit<File, "userId">[];
+    @IsArray({ message: mustBeOfType('array', 'documents') })
+    documents: Omit<File, 'userId'>[]
 }
 
 export class UpdateOrderDto implements Omit<Order, Excluded> {
-    cartId: string;
+    cartId: string
     @Allow()
-    subTotal: number;
+    subTotal: number
 
     @Allow()
-    itemDiscount: number;
+    itemDiscount: number
 
     @Allow()
-    tax: number;
+    tax: number
 
     @Allow()
-    shipping: number;
+    shipping: number
 
     @Allow()
-    total: number;
+    total: number
 
     @Allow()
-    promo: string;
+    promo: string
 
     @Allow()
-    discount: number;
+    discount: number
 
     @Allow()
-    grandTotal: number;
+    grandTotal: number
 
     @Allow()
-    addressId: string;
+    addressId: string
 
     @Allow()
-    status: OrderStatus;
+    status: OrderStatus
 
     @Allow()
-    title: string;
+    title: string
 
     @Allow()
-    description: string;
+    description: string
 
     @Allow()
-    sendUpdate: boolean;
+    sendUpdate: boolean
 
     @IsOptional()
-    @IsArray({ message: mustBeOfType("array", "documents") })
-    documents: Omit<File, "userId">[];
+    @IsArray({ message: mustBeOfType('array', 'documents') })
+    documents: Omit<File, 'userId'>[]
 }

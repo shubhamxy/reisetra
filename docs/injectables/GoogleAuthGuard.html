@@ -222,26 +222,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpStatus, Injectable } from &quot;@nestjs/common&quot;;
-import { AuthGuard } from &quot;@nestjs/passport&quot;;
-import { errorCodes, errorTypes } from &quot;../../common/codes/error&quot;;
-import { Exception } from &quot;../../common/response&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpStatus, Injectable } from &#x27;@nestjs/common&#x27;
+import { AuthGuard } from &#x27;@nestjs/passport&#x27;
+import { errorCodes, errorTypes } from &#x27;../../common/codes/error&#x27;
+import { Exception } from &#x27;../../common/response&#x27;
 
 @Injectable()
-export class GoogleAuthGuard extends AuthGuard(&quot;google&quot;) {
+export class GoogleAuthGuard extends AuthGuard(&#x27;google&#x27;) {
     handleRequest(err: any, user: any, info: any, context: any, status: any) {
         if (err || !user) {
             throw new Exception(
                 {
-                    message: &quot;Authentication Failed&quot;,
+                    message: &#x27;Authentication Failed&#x27;,
                     code: errorCodes.AuthFailed,
-                    context: &quot;GoogleAuthGuard.handleRequest&quot;,
+                    context: &#x27;GoogleAuthGuard.handleRequest&#x27;,
                     type: errorTypes[errorCodes.AuthFailed],
                 },
                 HttpStatus.UNAUTHORIZED
-            );
+            )
         }
-        return user;
+        return user
     }
 }
 </code></pre>

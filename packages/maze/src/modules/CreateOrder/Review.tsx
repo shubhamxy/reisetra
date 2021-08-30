@@ -20,9 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function Summary({
-    values,
-}) {
+export default function Summary({ values }) {
     const classes = useStyles()
 
     return (
@@ -33,18 +31,18 @@ export default function Summary({
                         data={values.documents}
                         markerFeild={''}
                         showRemoveIcon={false}
-                       />
+                    />
                 </Grid>
                 {Object.keys(values).map((key) =>
                     typeof values[key] === 'string' ? (
                         <ListItem className={classes.listItem} key={key}>
                             {key && values[key] && (
                                 <Box>
-                                    <Typography variant='caption'>
+                                    <Typography variant="caption">
                                         {String(key).toLocaleUpperCase()}
                                     </Typography>
-                                    <Typography variant='body2'>
-                                        {String(values[key]).replace("_", " ")}
+                                    <Typography variant="body2">
+                                        {String(values[key]).replace('_', ' ')}
                                     </Typography>
                                 </Box>
                             )}

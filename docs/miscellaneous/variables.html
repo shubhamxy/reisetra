@@ -299,44 +299,48 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>(): AppEnv &#x3D;&gt; ({
     // APP
-    isProduction: process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &quot;production&quot;,
-    name: process.env.APP_NAME || &quot;SODA API V1&quot;,
-    appEnv: (process.env.APP_ENV || &quot;production&quot;) as Environment,
-    nodeEnv: (process.env.NODE_ENV || &quot;production&quot;) as Environment,
+    isProduction: process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;,
+    name: process.env.APP_NAME || &#x27;SODA API V1&#x27;,
+    appEnv: (process.env.APP_ENV || &#x27;production&#x27;) as Environment,
+    nodeEnv: (process.env.NODE_ENV || &#x27;production&#x27;) as Environment,
     debug: +process.env.APP_DEBUG || 1,
-    service: process.env.SERVICE_NAME || &quot;soda&quot;,
-    description: process.env.SERVICE_DESCRIPTION || &quot;Soda API v1&quot;,
+    service: process.env.SERVICE_NAME || &#x27;soda&#x27;,
+    description: process.env.SERVICE_DESCRIPTION || &#x27;Soda API v1&#x27;,
     // API
     port: +process.env.PORT || 8080,
-    apiPrefix: process.env.API_PREFIX || &quot;api/v1&quot;,
-    version: process.env.API_VERSION || &quot;1.0.0&quot;,
-    host: process.env.API_HOST || &quot;localhost&quot;,
-    protocol: process.env.API_PROTOCOL || &quot;http&quot;,
-    contactEmail: process.env.CONTACT_EMAIL || &quot;contact@reisetra.com&quot;,
-    apiUrl: process.env.API_URL || &quot;http://localhost:8080/api/v1&quot;,
-    clientUrl: process.env.CLIENT_URL,
+    apiPrefix: process.env.API_PREFIX || &#x27;api/v1&#x27;,
+    version: process.env.API_VERSION || &#x27;1.0.0&#x27;,
+    host: process.env.API_HOST || &#x27;localhost&#x27;,
+    protocol: process.env.API_PROTOCOL || &#x27;http&#x27;,
+    contactEmail: process.env.CONTACT_EMAIL || &#x27;contact@reisetra.com&#x27;,
+    apiUrl: process.env.API_URL || &#x27;http://localhost:8080/api/v1&#x27;,
+    clientUrl: process.env.CLIENT_URL || &#x27;https://next.reisetra.com&#x27;,
+    cmsUrl: process.env.CMS_CLIENT_URL || &#x27;https://cms.reisetra.com&#x27;,
+    callbackUrl:
+        process.env.CALLBACK_URL || &#x27;https://next.reisetra.com/login/callback&#x27;,
+    authUrl: process.env.AUTH_CLIENT_URL || &#x27;https://auth.reisetra.com&#x27;,
+    cdnUrl: process.env.CDN_URL || &#x27;https://d38bp8dgh2l2dc.cloudfront.net&#x27;,
     swagger: +process.env.ENABLE_SWAGGER &#x3D;&#x3D;&#x3D; 1,
     cors: {
         allowedHeaders: String(
             process.env.ALLOWED_HEADERS ||
-                &quot;x-requested-with,content-type,authorization,x-refresh-token,x-csrf-token&quot;
-        ).split(&quot;,&quot;),
+                &#x27;x-requested-with,content-type,authorization,x-refresh-token,x-csrf-token&#x27;
+        ).split(&#x27;,&#x27;),
         origin: String(
             process.env.ORIGIN || &#x60;localhost:3000,${process.env.CLIENT_URL}&#x60;
-        ).split(&quot;,&quot;),
+        ).split(&#x27;,&#x27;),
         methods:
-            process.env.METHODS || &quot;GET,POST,OPTIONS,PUT,PATCH,DELETE,HEAD&quot;,
+            process.env.METHODS || &#x27;GET,POST,OPTIONS,PUT,PATCH,DELETE,HEAD&#x27;,
     },
     socials: {
         facebook:
-            process.env.NEXT_PUBLIC_SOCIALS_FACEBOOK ||
-            &quot;https://www.facebook.com/reisetra&quot;,
+            process.env.SOCIALS_FACEBOOK || &#x27;https://www.facebook.com/reisetra&#x27;,
         instagram:
-            process.env.NEXT_PUBLIC_SOCIALS_INSTAGRAM ||
-            &quot;https://www.instagram.com/reisetra&quot;,
+            process.env.SOCIALS_INSTAGRAM ||
+            &#x27;https://www.instagram.com/reisetra_crafts&#x27;,
         whatsapp:
-            process.env.NEXT_PUBLIC_SOCIALS_WHATSAPP ||
-            &quot;https://api.whatsapp.com/send?phone&#x3D;91&quot;,
+            process.env.SOCIALS_WHATSAPP ||
+            &#x27;https://api.whatsapp.com/send?phone&#x3D;&#x27;,
     },
 })</code>
                     </td>
@@ -388,12 +392,12 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    10: &quot;🔵&quot;,
-    20: &quot;🔵&quot;,
-    30: &quot;ℹ️&quot;,
-    40: &quot;👀&quot;,
-    50: &quot;🚨&quot;,
-    60: &quot;🔴&quot;,
+    10: &#x27;🔵&#x27;,
+    20: &#x27;🔵&#x27;,
+    30: &#x27;ℹ️&#x27;,
+    40: &#x27;👀&#x27;,
+    50: &#x27;🚨&#x27;,
+    60: &#x27;🔴&#x27;,
 }</code>
                     </td>
                 </tr>
@@ -446,63 +450,60 @@
         autoLogging: true,
         customLogLevel: function (res, err) {
             if (res.statusCode &gt;&#x3D; 400 &amp;&amp; res.statusCode &lt; 500) {
-                return &quot;warn&quot;;
+                return &#x27;warn&#x27;
             } else if (res.statusCode &gt;&#x3D; 500 || err) {
-                return &quot;error&quot;;
+                return &#x27;error&#x27;
             }
-            return &quot;info&quot;;
+            return &#x27;info&#x27;
         },
         customSuccessMessage: function (res) {
             if (res.statusCode &gt;&#x3D; 400 &amp;&amp; res.statusCode &lt; 500) {
-                return &#x60;${res.statusCode} ${statusText[res.statusCode]} &#x60;;
+                return &#x60;${res.statusCode} ${statusText[res.statusCode]} &#x60;
             }
-            return &#x60;${res.statusCode} ${statusText[res.statusCode]}&#x60;;
+            return &#x60;${res.statusCode} ${statusText[res.statusCode]}&#x60;
         },
         customErrorMessage: function (error, res) {
             return &#x60;${res.statusCode} ${statusText[res.statusCode]} | 🚦 ${
                 error.message
-            }&#x60;;
+            }&#x60;
         },
         genReqId: function (req) {
-            return req.headers.requestid;
+            return req.headers.requestid
         },
         prettyPrint: {
             colorize: false,
             crlf: true,
-            translateTime: &quot;dd-mm-yyyy HH:MM:ss.l&quot;,
+            translateTime: &#x27;dd-mm-yyyy HH:MM:ss.l&#x27;,
             messageFormat: function (log) {
-                let suffix &#x3D; &quot;&quot;;
+                let suffix &#x3D; &#x27;&#x27;
                 if (log.req) {
                     log.ip &#x3D;
                         log.req.ip ||
-                        log.req.headers[&quot;x-forwarded-for&quot;] ||
+                        log.req.headers[&#x27;x-forwarded-for&#x27;] ||
                         (log.req.socket
                             ? log.req.socket.remoteAddress
-                            : log.req.remoteAddress);
+                            : log.req.remoteAddress)
                 }
-                if (log.req &amp;&amp; log.req.id)
-                    suffix &#x3D; &#x60;| 👨‍💻 ${log.req.id}&#x60;;
+                if (log.req &amp;&amp; log.req.id) suffix &#x3D; &#x60;| 👨‍💻 ${log.req.id}&#x60;
                 if (log.responseTime)
-                    suffix &#x3D; &#x60;| ✨ ${log.responseTime}ms ${suffix}&#x60;;
-                if (log.context) suffix &#x3D; &#x60;| ${log.context} ${suffix}&#x60;;
+                    suffix &#x3D; &#x60;| ✨ ${log.responseTime}ms ${suffix}&#x60;
+                if (log.context) suffix &#x3D; &#x60;| ${log.context} ${suffix}&#x60;
                 if (log.req &amp;&amp; log.req.method)
-                    suffix &#x3D; &#x60;| ${log.req.method} | ${log.req.url} ${suffix}&#x60;;
+                    suffix &#x3D; &#x60;| ${log.req.method} | ${log.req.url} ${suffix}&#x60;
                 if (log.level &gt;&#x3D; 50 &amp;&amp; log.err)
                     suffix +&#x3D; &#x60;${suffix} \n🚦 ${JSON.stringify(
                         log.err,
                         null,
                         4
-                    )}&#x60;;
-                log.message &#x3D; &#x60;${icons[log.level]} → ${
-                    log.msg
-                } ${suffix}&#x60;;
+                    )}&#x60;
+                log.message &#x3D; &#x60;${icons[log.level]} → ${log.msg} ${suffix}&#x60;
                 if (serviceEnv.logzio.enable) {
-                    logger.log(log);
+                    logger.log(log)
                 }
-                return log.message;
+                return log.message
             },
             hideObject: true,
-            ignore: &quot;hostname,pid&quot;,
+            ignore: &#x27;hostname,pid&#x27;,
         },
     },
 }</code>
@@ -551,7 +552,7 @@
                         <i>Default value : </i><code>(): AuthEnv &#x3D;&gt; ({
     common: {
         throttleLimit: 3,
-        throttleTTL: 60
+        throttleTTL: 60,
     },
     jwtAccessTokenOptions: {
         secret: process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -569,13 +570,13 @@
         clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
         callbackURL: process.env.GOOGLE_OAUTH_CLIENT_CALLBACK_URL,
-        scope: [&quot;email&quot;, &quot;profile&quot;],
+        scope: [&#x27;email&#x27;, &#x27;profile&#x27;],
     },
     facebookOAuthOptions: {
         clientID: process.env.FACEBOOK_OAUTH_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_OAUTH_CLIENT_SECRET,
         callbackURL: process.env.FACEBOOK_OAUTH_CLIENT_CALLBACK_URL,
-        scope: [&quot;email&quot;, &quot;profile&quot;],
+        scope: [&#x27;email&#x27;, &#x27;profile&#x27;],
     },
 })</code>
                     </td>
@@ -644,8 +645,8 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>readFileSync(
-    process.env.NODE_PATH + &quot;/views/mail/common.hbs&quot;,
-    &quot;utf8&quot;
+    process.env.NODE_PATH + &#x27;/views/mail/common.hbs&#x27;,
+    &#x27;utf8&#x27;
 )</code>
                     </td>
                 </tr>
@@ -699,29 +700,29 @@
                         <i>Default value : </i><code>(
     email: string,
     locals: {
-        messageSubject: string;
-        preheader: string;
-        header: string;
-        subheader: string;
-        logoImageSrc: string;
-        heroImageSrc: string;
-        heroLink: string;
-        mainParagraph: string;
-        mainCallToActionUrl: string;
-        mainCallToActionText: string;
-        footerText: string;
-        contactEmail: string;
-        [key: string]: any;
+        messageSubject: string
+        preheader: string
+        header: string
+        subheader: string
+        logoImageSrc: string
+        heroImageSrc: string
+        heroLink: string
+        mainParagraph: string
+        mainCallToActionUrl: string
+        mainCallToActionText: string
+        footerText: string
+        contactEmail: string
+        [key: string]: any
     }
 ): Partial&lt;IParams&gt; &#x3D;&gt; {
-    const config &#x3D; services();
+    const config &#x3D; services()
     return {
         source: &#x60;&quot;${config.mailer.senderName}&quot; &lt;${config.aws.sesEmailSender}&gt;&#x60;,
         to: [email],
-        subject: &#x60;${locals.messageSubject || &quot;&quot;}&#x60;,
+        subject: &#x60;${locals.messageSubject || &#x27;&#x27;}&#x60;,
         html: commonTemplate(locals),
         text: &#x60;${locals.mainParagraph}&#x60;,
-    };
+    }
 }</code>
                     </td>
                 </tr>
@@ -789,14 +790,14 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    hero: awsConfig.s3Url + &quot;/static/success.png&quot;,
-    shopping: awsConfig.s3Url + &quot;/static/shopping.png&quot;,
-    support: awsConfig.s3Url + &quot;/static/support.png&quot;,
-    authentication: awsConfig.s3Url + &quot;/static/authentication.png&quot;,
-    forgot: awsConfig.s3Url + &quot;/static/forgot.png&quot;,
-    login: awsConfig.s3Url + &quot;/static/login.png&quot;,
-    logo: awsConfig.s3Url + &quot;/static/logo.png&quot;,
-    welcome: awsConfig.s3Url + &quot;/static/welcome.png&quot;,
+    hero: awsConfig.s3Url + &#x27;/static/success.png&#x27;,
+    shopping: awsConfig.s3Url + &#x27;/static/shopping.png&#x27;,
+    support: awsConfig.s3Url + &#x27;/static/support.png&#x27;,
+    authentication: awsConfig.s3Url + &#x27;/static/authentication.png&#x27;,
+    forgot: awsConfig.s3Url + &#x27;/static/forgot.png&#x27;,
+    login: awsConfig.s3Url + &#x27;/static/login.png&#x27;,
+    logo: awsConfig.s3Url + &#x27;/static/logo.png&#x27;,
+    welcome: awsConfig.s3Url + &#x27;/static/welcome.png&#x27;,
 }</code>
                     </td>
                 </tr>
@@ -824,9 +825,9 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    fbIconSrc: awsConfig.s3Url + &quot;/static/fb.png&quot;,
-    whatsAppIconSrc: awsConfig.s3Url + &quot;/static/wa.png&quot;,
-    instaIconSrc: awsConfig.s3Url + &quot;/static/insta.png&quot;,
+    fbIconSrc: awsConfig.s3Url + &#x27;/static/fb.png&#x27;,
+    whatsAppIconSrc: awsConfig.s3Url + &#x27;/static/wa.png&#x27;,
+    instaIconSrc: awsConfig.s3Url + &#x27;/static/insta.png&#x27;,
 
     instagram: config.socials.instagram,
     facebook: config.socials.facebook,
@@ -852,8 +853,8 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>readFileSync(
-    process.env.NODE_PATH + &quot;/views/mail/transaction.hbs&quot;,
-    &quot;utf8&quot;
+    process.env.NODE_PATH + &#x27;/views/mail/transaction.hbs&#x27;,
+    &#x27;utf8&#x27;
 )</code>
                     </td>
                 </tr>
@@ -877,30 +878,30 @@
                         <i>Default value : </i><code>(
     email: string,
     locals: {
-        messageSubject: string;
-        preheader: string;
-        header: string;
-        subheader: string;
-        logoImageSrc: string;
-        heroImageSrc: string;
-        heroLink: string;
-        mainParagraph: string;
-        mainCallToActionUrl: string;
-        mainCallToActionText: string;
-        footerText: string;
-        contactEmail: string;
-        [key: string]: any;
+        messageSubject: string
+        preheader: string
+        header: string
+        subheader: string
+        logoImageSrc: string
+        heroImageSrc: string
+        heroLink: string
+        mainParagraph: string
+        mainCallToActionUrl: string
+        mainCallToActionText: string
+        footerText: string
+        contactEmail: string
+        [key: string]: any
     }
 ): Partial&lt;IParams&gt; &#x3D;&gt; {
-    const config &#x3D; services();
+    const config &#x3D; services()
     return {
         source: &#x60;&quot;${config.mailer.senderName}&quot; &lt;${config.aws.sesEmailSender}&gt;&#x60;,
         to: [email],
-        bcc: [&quot;contact@reisetra.com&quot;],
-        subject: &#x60;${locals.messageSubject || &quot;&quot;}&#x60;,
+        bcc: [&#x27;contact@reisetra.com&#x27;],
+        subject: &#x60;${locals.messageSubject || &#x27;&#x27;}&#x60;,
         html: transactionTemplate(locals),
         text: &#x60;${locals.mainParagraph}&#x60;,
-    };
+    }
 }</code>
                     </td>
                 </tr>
@@ -970,11 +971,11 @@
     const s3Params &#x3D; {
         Bucket: awsConfig.s3BucketName,
         Key: key,
-    };
-    await s3.deleteObject(s3Params).promise();
+    }
+    await s3.deleteObject(s3Params).promise()
     return {
         key,
-    };
+    }
 }</code>
                     </td>
                 </tr>
@@ -1002,24 +1003,24 @@
     contentType,
 }: UploadUrlProps): Promise&lt;
     Partial&lt;File&gt; &amp; {
-        id: string;
-        url: string;
-        fileName: string;
-        signedUrl: string;
-        expiresIn: number;
-        contentType: any;
+        id: string
+        url: string
+        fileName: string
+        signedUrl: string
+        expiresIn: number
+        contentType: any
     }
 &gt; {
-    const ext &#x3D; RE.exec(fileName)[1] || &quot;&quot;;
-    const key &#x3D; &#x60;${userId}/${fileType}/${nanoid()}${ext ? &#x60;.${ext}&#x60; : &quot;&quot;}&#x60;;
+    const ext &#x3D; RE.exec(fileName)[1] || &#x27;&#x27;
+    const key &#x3D; &#x60;${userId}/${fileType}/${nanoid()}${ext ? &#x60;.${ext}&#x60; : &#x27;&#x27;}&#x60;
     const s3Params &#x3D; {
         Bucket: awsConfig.s3BucketName,
         Key: key,
         Expires: URL_EXPIRATION_SECONDS,
         ContentType: contentType,
-        ACL: &quot;public-read&quot;,
-    };
-    const signedUrl &#x3D; await s3.getSignedUrlPromise(&quot;putObject&quot;, s3Params);
+        ACL: &#x27;public-read&#x27;,
+    }
+    const signedUrl &#x3D; await s3.getSignedUrlPromise(&#x27;putObject&#x27;, s3Params)
     return {
         id: key,
         contentType,
@@ -1027,8 +1028,8 @@
         fileName,
         expiresIn: URL_EXPIRATION_SECONDS,
         signedUrl,
-        url: awsConfig.s3Url + &quot;/&quot; + key,
-    };
+        url: awsConfig.s3Url + &#x27;/&#x27; + key,
+    }
 }</code>
                     </td>
                 </tr>
@@ -1122,8 +1123,8 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>(): CacheEnv &#x3D;&gt; ({
     enable: +process.env.ENABLE_REDIS &#x3D;&#x3D;&#x3D; 1 || false,
-    host: process.env.REDIS_HOST || &quot;localhost&quot;,
-    port: process.env.REDIS_PORT || &quot;6379&quot;,
+    host: process.env.REDIS_HOST || &#x27;localhost&#x27;,
+    port: process.env.REDIS_PORT || &#x27;6379&#x27;,
     cacheTTL: 120,
 })</code>
                     </td>
@@ -1330,16 +1331,16 @@
     Message: {
         Body: {
             Html: {
-                Charset: &quot;UTF-8&quot;,
+                Charset: &#x27;UTF-8&#x27;,
                 Data: html,
             },
             Text: {
-                Charset: &quot;UTF-8&quot;,
+                Charset: &#x27;UTF-8&#x27;,
                 Data: text,
             },
         },
         Subject: {
-            Charset: &quot;UTF-8&quot;,
+            Charset: &#x27;UTF-8&#x27;,
             Data: subject,
         },
     },
@@ -1437,12 +1438,12 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(): DBEnv &#x3D;&gt; ({
-    type: process.env.DB_TYPE || &quot;mysql2&quot;,
-    host: process.env.DB_HOST || &quot;localhost&quot;,
+    type: process.env.DB_TYPE || &#x27;mysql2&#x27;,
+    host: process.env.DB_HOST || &#x27;localhost&#x27;,
     port: process.env.DB_PORT || 3306,
-    username: process.env.DB_USER || &quot;root&quot;,
-    password: process.env.DB_PASSWORD || &quot;root&quot;,
-    database: process.env.DB_DATABASE || &quot;test&quot;,
+    username: process.env.DB_USER || &#x27;root&#x27;,
+    password: process.env.DB_PASSWORD || &#x27;root&#x27;,
+    database: process.env.DB_DATABASE || &#x27;test&#x27;,
     url: process.env.DATABASE_URL,
     user: process.env.POSTGRES_USER,
     db: process.env.POSTGRES_DB,
@@ -1475,7 +1476,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;EMAIL_VERIFICATION_TOKEN&quot;</code>
+                        <i>Default value : </i><code>&#x27;EMAIL_VERIFICATION_TOKEN&#x27;</code>
                     </td>
                 </tr>
 
@@ -1501,7 +1502,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;EMAIL_VERIFICATION_TOKEN&quot;</code>
+                        <i>Default value : </i><code>&#x27;EMAIL_VERIFICATION_TOKEN&#x27;</code>
                     </td>
                 </tr>
 
@@ -1527,7 +1528,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;REFRESH_TOKEN&quot;</code>
+                        <i>Default value : </i><code>&#x27;REFRESH_TOKEN&#x27;</code>
                     </td>
                 </tr>
 
@@ -1574,20 +1575,20 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    LocalAuthFailed: &quot;E1000&quot;,
-    AuthFailed: &quot;E1001&quot;,
-    RefreshAuthFailed: &quot;E1002&quot;,
-    InvalidRequest: &quot;E1003&quot;,
-    UserNotFound: &quot;E1004&quot;,
-    TransactionAlreadyInProgress: &quot;E1005&quot;,
-    TransactionAlreadySucceded: &quot;E1006&quot;,
-    OrderDoesNotExistWithUser: &quot;E1007&quot;,
-    ResetPasswordTokenInvalid: &quot;E1008&quot;,
-    CartIsEmpty: &quot;E1009&quot;,
-    CartNotFound: &quot;E1010&quot;,
-    RazorPayFailure: &quot;E2000&quot;,
-    BillingCalculationError: &quot;E2002&quot;,
-    EMailNotVerified: &quot;E2003&quot;,
+    LocalAuthFailed: &#x27;E1000&#x27;,
+    AuthFailed: &#x27;E1001&#x27;,
+    RefreshAuthFailed: &#x27;E1002&#x27;,
+    InvalidRequest: &#x27;E1003&#x27;,
+    UserNotFound: &#x27;E1004&#x27;,
+    TransactionAlreadyInProgress: &#x27;E1005&#x27;,
+    TransactionAlreadySucceded: &#x27;E1006&#x27;,
+    OrderDoesNotExistWithUser: &#x27;E1007&#x27;,
+    ResetPasswordTokenInvalid: &#x27;E1008&#x27;,
+    CartIsEmpty: &#x27;E1009&#x27;,
+    CartNotFound: &#x27;E1010&#x27;,
+    RazorPayFailure: &#x27;E2000&#x27;,
+    BillingCalculationError: &#x27;E2002&#x27;,
+    EMailNotVerified: &#x27;E2003&#x27;,
 } as const</code>
                     </td>
                 </tr>
@@ -1635,60 +1636,60 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    AuthenticationFailed: &quot;P1000&quot;,
-    CouldNotConnectToDatabase: &quot;P1001&quot;,
-    ConnectionTimedOut: &quot;P1002&quot;,
-    DatabaseFileNotFound: &quot;P1003&quot;,
-    OperationsTimedOut: &quot;P1008&quot;,
-    DatabaseAlreadyExists: &quot;P1009&quot;,
-    AccessDeniedForUser: &quot;P1010&quot;,
-    TLSConnectionError: &quot;P1011&quot;,
-    Error: &quot;P1012&quot;,
-    InvalidDatabaseString: &quot;P1013&quot;,
-    KindForModelDoesNotExist: &quot;P1014&quot;,
-    UnsupportedFeaturesAtPrismaSchema: &quot;P1015&quot;,
-    FailedToCreateDatabase: &quot;P3000&quot;,
-    PossibleDestructiveOrDataLossChanges: &quot;P3001&quot;,
-    MigrationRolledBack: &quot;P3002&quot;,
-    InvalidMigrationFormat: &quot;P3003&quot;,
-    SystemDatabaseNotSupported: &quot;P3004&quot;,
-    DatabaseNotEmpty: &quot;P3005&quot;,
-    CouldNotApplyCleanlyToTemporaryDatabase: &quot;P3006&quot;,
-    PreviewFeaturesNotAllowedInMigrationEngine: &quot;P3007&quot;,
-    MigrationAlreadyApplied: &quot;P3008&quot;,
-    FailedMigrationsFound: &quot;P3009&quot;,
-    MigrationNameTooLong: &quot;P3010&quot;,
-    CannotRollBackANeverAppliedMigration: &quot;P3011&quot;,
-    CannotRollBackANotFailedMigration: &quot;P3012&quot;,
-    DatasourceProviderArraysNotSupported: &quot;P3013&quot;,
-    DatasourceProviderDontMatchMigrationLock: &quot;P3014&quot;,
-    ValueTooLongForColumnType: &quot;P2000&quot;,
-    RecordDoesNotExist: &quot;P2001&quot;,
-    UniqueConstraintViolation: &quot;P2002&quot;,
-    ForeignConstraintViolation: &quot;P2003&quot;,
-    ContraintViolation: &quot;P2004&quot;,
-    InvalidValueForFieldType: &quot;P2005&quot;,
-    InvalidValue: &quot;P2006&quot;,
-    ValidationError: &quot;P2007&quot;,
-    QueryParsingError: &quot;P2008&quot;,
-    QueryValidationError: &quot;P2009&quot;,
-    RawQueryError: &quot;P2010&quot;,
-    NullConstraintViolation: &quot;P2011&quot;,
-    MissingRequiredValue: &quot;P2012&quot;,
-    MissingRequiredArgument: &quot;P2013&quot;,
-    RequiredRelationViolation: &quot;P2014&quot;,
-    RelatedRecordNotFound: &quot;P2015&quot;,
-    InterpretationError: &quot;P2016&quot;,
-    RecordsForParentAndChildNotConnected: &quot;P2017&quot;,
-    RequiredConnnectedRecordsNotFound: &quot;P2018&quot;,
-    InputError: &quot;P2019&quot;,
-    ValueOutOfRange: &quot;P2020&quot;,
-    TableDoesNotExist: &quot;P2021&quot;,
-    ColumnDoesNotExist: &quot;P2022&quot;,
-    InconsistentColumnData: &quot;P2023&quot;,
-    TimedOutFetchingConnectionFromThePool: &quot;P2024&quot;,
+    AuthenticationFailed: &#x27;P1000&#x27;,
+    CouldNotConnectToDatabase: &#x27;P1001&#x27;,
+    ConnectionTimedOut: &#x27;P1002&#x27;,
+    DatabaseFileNotFound: &#x27;P1003&#x27;,
+    OperationsTimedOut: &#x27;P1008&#x27;,
+    DatabaseAlreadyExists: &#x27;P1009&#x27;,
+    AccessDeniedForUser: &#x27;P1010&#x27;,
+    TLSConnectionError: &#x27;P1011&#x27;,
+    Error: &#x27;P1012&#x27;,
+    InvalidDatabaseString: &#x27;P1013&#x27;,
+    KindForModelDoesNotExist: &#x27;P1014&#x27;,
+    UnsupportedFeaturesAtPrismaSchema: &#x27;P1015&#x27;,
+    FailedToCreateDatabase: &#x27;P3000&#x27;,
+    PossibleDestructiveOrDataLossChanges: &#x27;P3001&#x27;,
+    MigrationRolledBack: &#x27;P3002&#x27;,
+    InvalidMigrationFormat: &#x27;P3003&#x27;,
+    SystemDatabaseNotSupported: &#x27;P3004&#x27;,
+    DatabaseNotEmpty: &#x27;P3005&#x27;,
+    CouldNotApplyCleanlyToTemporaryDatabase: &#x27;P3006&#x27;,
+    PreviewFeaturesNotAllowedInMigrationEngine: &#x27;P3007&#x27;,
+    MigrationAlreadyApplied: &#x27;P3008&#x27;,
+    FailedMigrationsFound: &#x27;P3009&#x27;,
+    MigrationNameTooLong: &#x27;P3010&#x27;,
+    CannotRollBackANeverAppliedMigration: &#x27;P3011&#x27;,
+    CannotRollBackANotFailedMigration: &#x27;P3012&#x27;,
+    DatasourceProviderArraysNotSupported: &#x27;P3013&#x27;,
+    DatasourceProviderDontMatchMigrationLock: &#x27;P3014&#x27;,
+    ValueTooLongForColumnType: &#x27;P2000&#x27;,
+    RecordDoesNotExist: &#x27;P2001&#x27;,
+    UniqueConstraintViolation: &#x27;P2002&#x27;,
+    ForeignConstraintViolation: &#x27;P2003&#x27;,
+    ContraintViolation: &#x27;P2004&#x27;,
+    InvalidValueForFieldType: &#x27;P2005&#x27;,
+    InvalidValue: &#x27;P2006&#x27;,
+    ValidationError: &#x27;P2007&#x27;,
+    QueryParsingError: &#x27;P2008&#x27;,
+    QueryValidationError: &#x27;P2009&#x27;,
+    RawQueryError: &#x27;P2010&#x27;,
+    NullConstraintViolation: &#x27;P2011&#x27;,
+    MissingRequiredValue: &#x27;P2012&#x27;,
+    MissingRequiredArgument: &#x27;P2013&#x27;,
+    RequiredRelationViolation: &#x27;P2014&#x27;,
+    RelatedRecordNotFound: &#x27;P2015&#x27;,
+    InterpretationError: &#x27;P2016&#x27;,
+    RecordsForParentAndChildNotConnected: &#x27;P2017&#x27;,
+    RequiredConnnectedRecordsNotFound: &#x27;P2018&#x27;,
+    InputError: &#x27;P2019&#x27;,
+    ValueOutOfRange: &#x27;P2020&#x27;,
+    TableDoesNotExist: &#x27;P2021&#x27;,
+    ColumnDoesNotExist: &#x27;P2022&#x27;,
+    InconsistentColumnData: &#x27;P2023&#x27;,
+    TimedOutFetchingConnectionFromThePool: &#x27;P2024&#x27;,
     // custom
-    RecordToUpdateNotFound: &quot;P2025&quot;,
+    RecordToUpdateNotFound: &#x27;P2025&#x27;,
 } as const</code>
                     </td>
                 </tr>
@@ -1742,7 +1743,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;Invalid phone number.&quot;</code>
+                        <i>Default value : </i><code>&#x27;Invalid phone number.&#x27;</code>
                     </td>
                 </tr>
 
@@ -1803,7 +1804,7 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(type: string, feild?: string) &#x3D;&gt;
-    &#x60;${feild || &quot;feild&quot;} must be ${type}&#x60;</code>
+    &#x60;${feild || &#x27;feild&#x27;} must be ${type}&#x60;</code>
                     </td>
                 </tr>
 
@@ -1824,7 +1825,7 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(type: string, feild?: string) &#x3D;&gt;
-    &#x60;${feild || &quot;feild&quot;} must be of type ${type}&#x60;</code>
+    &#x60;${feild || &#x27;feild&#x27;} must be of type ${type}&#x60;</code>
                     </td>
                 </tr>
 
@@ -1845,7 +1846,7 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(e: any, feild?: string) &#x3D;&gt;
-    &#x60;${feild || &quot;feild&quot;} must be ${e ? Object.values(e).join(&quot; | &quot;) : &quot;&quot;}&#x60;</code>
+    &#x60;${feild || &#x27;feild&#x27;} must be ${e ? Object.values(e).join(&#x27; | &#x27;) : &#x27;&#x27;}&#x60;</code>
                     </td>
                 </tr>
 
@@ -1871,7 +1872,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;Password must contain at least one uppercase and a special character (ex: !, @, # etc).&quot;</code>
+                        <i>Default value : </i><code>&#x27;Password must contain at least one uppercase and a special character (ex: !, @, # etc).&#x27;</code>
                     </td>
                 </tr>
 
@@ -1897,7 +1898,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;Password must be less than 30 character.&quot;</code>
+                        <i>Default value : </i><code>&#x27;Password must be less than 30 character.&#x27;</code>
                     </td>
                 </tr>
 
@@ -1923,7 +1924,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;Password must be greater than 8 character.&quot;</code>
+                        <i>Default value : </i><code>&#x27;Password must be greater than 8 character.&#x27;</code>
                     </td>
                 </tr>
 
@@ -1992,7 +1993,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;isLocalAuthenticated&quot;</code>
+                        <i>Default value : </i><code>&#x27;isLocalAuthenticated&#x27;</code>
                     </td>
                 </tr>
 
@@ -2018,7 +2019,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;isPublic&quot;</code>
+                        <i>Default value : </i><code>&#x27;isPublic&#x27;</code>
                     </td>
                 </tr>
 
@@ -2139,50 +2140,50 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(app: NestExpressApplication): AppEnv &#x3D;&gt; {
-    const configService &#x3D; app.get(ConfigService);
-    const servicesConfig &#x3D; configService.get&lt;ServicesEnv&gt;(&quot;services&quot;);
-    const appConfig &#x3D; configService.get&lt;AppEnv&gt;(&quot;app&quot;);
+    const configService &#x3D; app.get(ConfigService)
+    const servicesConfig &#x3D; configService.get&lt;ServicesEnv&gt;(&#x27;services&#x27;)
+    const appConfig &#x3D; configService.get&lt;AppEnv&gt;(&#x27;app&#x27;)
 
-    app.use(helmet());
-    app.set(&quot;trust proxy&quot;, 1);
+    app.use(helmet())
+    app.set(&#x27;trust proxy&#x27;, 1)
     app.enableCors({
         allowedHeaders: appConfig.cors.allowedHeaders,
         methods: appConfig.cors.methods,
         origin: appConfig.cors.origin,
         credentials: true,
-    });
+    })
 
-    const reflector &#x3D; app.get(Reflector);
-    app.setGlobalPrefix(appConfig.apiPrefix);
+    const reflector &#x3D; app.get(Reflector)
+    app.setGlobalPrefix(appConfig.apiPrefix)
     app.useGlobalInterceptors(
         new ClassSerializerInterceptor(reflector),
         new DataTransformInterceptor()
-    );
+    )
 
-    app.useGlobalFilters(new AllExceptionsFilter());
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalFilters(new AllExceptionsFilter())
+    app.useGlobalPipes(new ValidationPipe())
 
     awsconfig.update({
         accessKeyId: servicesConfig.aws.accessKeyId,
         secretAccessKey: servicesConfig.aws.secretAccessKey,
         region: servicesConfig.aws.region,
-    });
-    const service &#x3D; app.get(PrismaService);;
-    service.enableShutdownHooks(app);
+    })
+    const service &#x3D; app.get(PrismaService)
+    service.enableShutdownHooks(app)
 
-    process.on(&quot;SIGINT&quot;, function () {
-        const prisma &#x3D; app.get(PrismaService);
+    process.on(&#x27;SIGINT&#x27;, function () {
+        const prisma &#x3D; app.get(PrismaService)
         prisma
             .$disconnect()
             .then(() &#x3D;&gt; {
-                process.exit(0);
+                process.exit(0)
             })
             .catch((_error) &#x3D;&gt; {
-                process.exit(1);
-            });
-    });
+                process.exit(1)
+            })
+    })
 
-    return appConfig;
+    return appConfig
 }</code>
                     </td>
                 </tr>
@@ -2281,7 +2282,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;roles&quot;</code>
+                        <i>Default value : </i><code>&#x27;roles&#x27;</code>
                     </td>
                 </tr>
 
@@ -2306,13 +2307,13 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>(): ServicesEnv &#x3D;&gt; ({
     razorpay: {
-        name: &quot;Reisetra&quot;,
-        description: &quot;Reisetra description&quot;,
+        name: &#x27;Reisetra&#x27;,
+        description: &#x27;Reisetra description&#x27;,
         razorpayKeyId: process.env.RAZORPAY_KEY_ID,
         razorpaySecretKey: process.env.RAZORPAY_SECRET_KEY,
     },
     mailer: {
-        senderName: process.env.EMAIL_SENDER_NAME || &quot;Reisetra&quot;,
+        senderName: process.env.EMAIL_SENDER_NAME || &#x27;Reisetra&#x27;,
     },
     aws: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -2413,61 +2414,61 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    &quot;202&quot;: &quot;Accepted&quot;,
-    &quot;502&quot;: &quot;Bad Gateway&quot;,
-    &quot;400&quot;: &quot;Bad Request&quot;,
-    &quot;409&quot;: &quot;Conflict&quot;,
-    &quot;100&quot;: &quot;Continue&quot;,
-    &quot;201&quot;: &quot;Created&quot;,
-    &quot;417&quot;: &quot;Expectation Failed&quot;,
-    &quot;424&quot;: &quot;Failed Dependency&quot;,
-    &quot;403&quot;: &quot;Forbidden&quot;,
-    &quot;504&quot;: &quot;Gateway Timeout&quot;,
-    &quot;410&quot;: &quot;Gone&quot;,
-    &quot;505&quot;: &quot;HTTP Version Not Supported&quot;,
-    &quot;418&quot;: &quot;I&#x27;m a teapot&quot;,
-    &quot;419&quot;: &quot;Insufficient Space on Resource&quot;,
-    &quot;507&quot;: &quot;Insufficient Storage&quot;,
-    &quot;500&quot;: &quot;Internal Server Error&quot;,
-    &quot;411&quot;: &quot;Length Required&quot;,
-    &quot;423&quot;: &quot;Locked&quot;,
-    &quot;420&quot;: &quot;Method Failure&quot;,
-    &quot;405&quot;: &quot;Method Not Allowed&quot;,
-    &quot;301&quot;: &quot;Moved Permanently&quot;,
-    &quot;302&quot;: &quot;Moved Temporarily&quot;,
-    &quot;207&quot;: &quot;Multi-Status&quot;,
-    &quot;300&quot;: &quot;Multiple Choices&quot;,
-    &quot;511&quot;: &quot;Network Authentication Required&quot;,
-    &quot;204&quot;: &quot;No Content&quot;,
-    &quot;203&quot;: &quot;Non Authoritative Information&quot;,
-    &quot;406&quot;: &quot;Not Acceptable&quot;,
-    &quot;404&quot;: &quot;Not Found&quot;,
-    &quot;501&quot;: &quot;Not Implemented&quot;,
-    &quot;304&quot;: &quot;Not Modified&quot;,
-    &quot;200&quot;: &quot;OK&quot;,
-    &quot;206&quot;: &quot;Partial Content&quot;,
-    &quot;402&quot;: &quot;Payment Required&quot;,
-    &quot;308&quot;: &quot;Permanent Redirect&quot;,
-    &quot;412&quot;: &quot;Precondition Failed&quot;,
-    &quot;428&quot;: &quot;Precondition Required&quot;,
-    &quot;102&quot;: &quot;Processing&quot;,
-    &quot;407&quot;: &quot;Proxy Authentication Required&quot;,
-    &quot;431&quot;: &quot;Request Header Fields Too Large&quot;,
-    &quot;408&quot;: &quot;Request Timeout&quot;,
-    &quot;413&quot;: &quot;Request Entity Too Large&quot;,
-    &quot;414&quot;: &quot;Request-URI Too Long&quot;,
-    &quot;416&quot;: &quot;Requested Range Not Satisfiable&quot;,
-    &quot;205&quot;: &quot;Reset Content&quot;,
-    &quot;303&quot;: &quot;See Other&quot;,
-    &quot;503&quot;: &quot;Service Unavailable&quot;,
-    &quot;101&quot;: &quot;Switching Protocols&quot;,
-    &quot;307&quot;: &quot;Temporary Redirect&quot;,
-    &quot;429&quot;: &quot;Too Many Requests&quot;,
-    &quot;401&quot;: &quot;Unauthorized&quot;,
-    &quot;451&quot;: &quot;Unavailable For Legal Reasons&quot;,
-    &quot;422&quot;: &quot;Unprocessable Entity&quot;,
-    &quot;415&quot;: &quot;Unsupported Media Type&quot;,
-    &quot;305&quot;: &quot;Use Proxy&quot;,
+    &#x27;202&#x27;: &#x27;Accepted&#x27;,
+    &#x27;502&#x27;: &#x27;Bad Gateway&#x27;,
+    &#x27;400&#x27;: &#x27;Bad Request&#x27;,
+    &#x27;409&#x27;: &#x27;Conflict&#x27;,
+    &#x27;100&#x27;: &#x27;Continue&#x27;,
+    &#x27;201&#x27;: &#x27;Created&#x27;,
+    &#x27;417&#x27;: &#x27;Expectation Failed&#x27;,
+    &#x27;424&#x27;: &#x27;Failed Dependency&#x27;,
+    &#x27;403&#x27;: &#x27;Forbidden&#x27;,
+    &#x27;504&#x27;: &#x27;Gateway Timeout&#x27;,
+    &#x27;410&#x27;: &#x27;Gone&#x27;,
+    &#x27;505&#x27;: &#x27;HTTP Version Not Supported&#x27;,
+    &#x27;418&#x27;: &quot;I&#x27;m a teapot&quot;,
+    &#x27;419&#x27;: &#x27;Insufficient Space on Resource&#x27;,
+    &#x27;507&#x27;: &#x27;Insufficient Storage&#x27;,
+    &#x27;500&#x27;: &#x27;Internal Server Error&#x27;,
+    &#x27;411&#x27;: &#x27;Length Required&#x27;,
+    &#x27;423&#x27;: &#x27;Locked&#x27;,
+    &#x27;420&#x27;: &#x27;Method Failure&#x27;,
+    &#x27;405&#x27;: &#x27;Method Not Allowed&#x27;,
+    &#x27;301&#x27;: &#x27;Moved Permanently&#x27;,
+    &#x27;302&#x27;: &#x27;Moved Temporarily&#x27;,
+    &#x27;207&#x27;: &#x27;Multi-Status&#x27;,
+    &#x27;300&#x27;: &#x27;Multiple Choices&#x27;,
+    &#x27;511&#x27;: &#x27;Network Authentication Required&#x27;,
+    &#x27;204&#x27;: &#x27;No Content&#x27;,
+    &#x27;203&#x27;: &#x27;Non Authoritative Information&#x27;,
+    &#x27;406&#x27;: &#x27;Not Acceptable&#x27;,
+    &#x27;404&#x27;: &#x27;Not Found&#x27;,
+    &#x27;501&#x27;: &#x27;Not Implemented&#x27;,
+    &#x27;304&#x27;: &#x27;Not Modified&#x27;,
+    &#x27;200&#x27;: &#x27;OK&#x27;,
+    &#x27;206&#x27;: &#x27;Partial Content&#x27;,
+    &#x27;402&#x27;: &#x27;Payment Required&#x27;,
+    &#x27;308&#x27;: &#x27;Permanent Redirect&#x27;,
+    &#x27;412&#x27;: &#x27;Precondition Failed&#x27;,
+    &#x27;428&#x27;: &#x27;Precondition Required&#x27;,
+    &#x27;102&#x27;: &#x27;Processing&#x27;,
+    &#x27;407&#x27;: &#x27;Proxy Authentication Required&#x27;,
+    &#x27;431&#x27;: &#x27;Request Header Fields Too Large&#x27;,
+    &#x27;408&#x27;: &#x27;Request Timeout&#x27;,
+    &#x27;413&#x27;: &#x27;Request Entity Too Large&#x27;,
+    &#x27;414&#x27;: &#x27;Request-URI Too Long&#x27;,
+    &#x27;416&#x27;: &#x27;Requested Range Not Satisfiable&#x27;,
+    &#x27;205&#x27;: &#x27;Reset Content&#x27;,
+    &#x27;303&#x27;: &#x27;See Other&#x27;,
+    &#x27;503&#x27;: &#x27;Service Unavailable&#x27;,
+    &#x27;101&#x27;: &#x27;Switching Protocols&#x27;,
+    &#x27;307&#x27;: &#x27;Temporary Redirect&#x27;,
+    &#x27;429&#x27;: &#x27;Too Many Requests&#x27;,
+    &#x27;401&#x27;: &#x27;Unauthorized&#x27;,
+    &#x27;451&#x27;: &#x27;Unavailable For Legal Reasons&#x27;,
+    &#x27;422&#x27;: &#x27;Unprocessable Entity&#x27;,
+    &#x27;415&#x27;: &#x27;Unsupported Media Type&#x27;,
+    &#x27;305&#x27;: &#x27;Use Proxy&#x27;,
 }</code>
                     </td>
                 </tr>

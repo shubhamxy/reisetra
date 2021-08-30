@@ -1,15 +1,20 @@
-import { Box, ButtonGroup, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Box, ButtonGroup, makeStyles, Grid } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 import { AppHeader } from '../ui/Header'
 import { Footer } from '../ui/Footer'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import { config, logout, useAuthDispatch, useAuthState, useDeleteProduct, useOffers } from '../libs'
-import { Grid } from '@material-ui/core'
+import {
+    config,
+    logout,
+    useAuthDispatch,
+    useAuthState,
+    useDeleteProduct,
+    useOffers,
+} from '../libs'
 import { CreateOffer } from '../modules/CreateOffer'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GridItem } from '../modules/Offers'
 import GridList from '../ui/List/GridList'
@@ -36,22 +41,21 @@ const CMSPage = () => {
     const classes = useStyles()
     const deleteProduct = useDeleteProduct()
     const authState = useAuthState()
-    const {} = authState
     const router = useRouter()
     const query = useOffers(router.query)
-    const authDispatch = useAuthDispatch();
+    const authDispatch = useAuthDispatch()
     useEffect(() => {
         if (
             authState.isHydrated === true &&
             (authState.isAuthenticated === false ||
                 (authState.user && authState.user.role !== 'ADMIN'))
         ) {
-            authDispatch(logout());
+            authDispatch(logout())
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authState])
     const [open, setOpen] = React.useState(null)
-    const [selected, setSelected] = useState(null)
+    const [setSelected] = useState(null)
     const handleClickOpen = (key) => () => {
         setOpen(key)
     }

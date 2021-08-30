@@ -18,8 +18,17 @@ function useHelper({ slug }) {
 }
 
 export function ProductCard({ data }) {
-    const { id, slug, title, description, rating, ratingsCount, price, mrp, images } =
-        data
+    const {
+        id,
+        slug,
+        title,
+        description,
+        rating,
+        ratingsCount,
+        price,
+        mrp,
+        images,
+    } = data
     const { handleClick } = useHelper({
         slug,
     })

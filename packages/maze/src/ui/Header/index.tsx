@@ -330,7 +330,7 @@ export function AppHeader() {
     const ProfileMenu = [
         {
             label: 'Account',
-            link:  '/account',
+            link: '/account',
         },
         {
             label: 'Logout',
@@ -422,7 +422,12 @@ export function AppHeader() {
         </MenuItem>
     ) : (
         <MenuItem className={classes.menuPaperItem}>
-                <Link href={`/login?redirect_route=${encodeURIComponent(router.asPath)}`} passHref>
+            <Link
+                href={`/login?redirect_route=${encodeURIComponent(
+                    router.asPath
+                )}`}
+                passHref
+            >
                 <Button variant="contained" color="primary">
                     Login
                 </Button>

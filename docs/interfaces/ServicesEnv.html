@@ -255,45 +255,45 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &quot;@nestjs/config&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &#x27;@nestjs/config&#x27;
 
 export interface ServicesEnv {
     razorpay: {
-        name: string;
-        description: string;
-        razorpayKeyId: string;
-        razorpaySecretKey: string;
-    };
+        name: string
+        description: string
+        razorpayKeyId: string
+        razorpaySecretKey: string
+    }
     mailer: {
-        senderName: string;
-    };
+        senderName: string
+    }
     aws: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        region: string;
-        s3BucketName: string;
-        s3Region: string;
-        s3Url: string;
-        sesEndpoint: string;
-        sesEmailSender: string;
-        sesRegion: string;
-    };
+        accessKeyId: string
+        secretAccessKey: string
+        region: string
+        s3BucketName: string
+        s3Region: string
+        s3Url: string
+        sesEndpoint: string
+        sesEmailSender: string
+        sesRegion: string
+    }
     logzio: {
-        enable: boolean;
-        token: string;
-        host: string;
-    };
+        enable: boolean
+        token: string
+        host: string
+    }
 }
 
 export const services &#x3D; (): ServicesEnv &#x3D;&gt; ({
     razorpay: {
-        name: &quot;Reisetra&quot;,
-        description: &quot;Reisetra description&quot;,
+        name: &#x27;Reisetra&#x27;,
+        description: &#x27;Reisetra description&#x27;,
         razorpayKeyId: process.env.RAZORPAY_KEY_ID,
         razorpaySecretKey: process.env.RAZORPAY_SECRET_KEY,
     },
     mailer: {
-        senderName: process.env.EMAIL_SENDER_NAME || &quot;Reisetra&quot;,
+        senderName: process.env.EMAIL_SENDER_NAME || &#x27;Reisetra&#x27;,
     },
     aws: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -313,9 +313,9 @@ export const services &#x3D; (): ServicesEnv &#x3D;&gt; ({
         host: process.env.LOGZIO_HOST,
         token: process.env.LOGZIO_TOKEN,
     },
-});
+})
 
-export default registerAs(&quot;services&quot;, services);
+export default registerAs(&#x27;services&#x27;, services)
 </code></pre>
     </div>
 </div>

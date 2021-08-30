@@ -457,24 +457,24 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Review as ReviewModal } from &quot;.prisma/client&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Review as ReviewModal } from &#x27;.prisma/client&#x27;
 
 export class Review implements ReviewModal {
-    id: string;
-    rating: number;
-    title: string;
-    description: string;
-    productId: string;
+    id: string
+    rating: number
+    title: string
+    description: string
+    productId: string
 
     constructor(partial: Partial&lt;ReviewModal&gt;) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 
-    userId: string;
-    active: boolean;
-    published: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    userId: string
+    active: boolean
+    published: boolean
+    createdAt: Date
+    updatedAt: Date
 }
 </code></pre>
     </div>

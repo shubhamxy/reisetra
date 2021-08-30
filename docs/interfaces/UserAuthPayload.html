@@ -216,20 +216,20 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Role } from &quot;.prisma/client&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Role } from &#x27;.prisma/client&#x27;
 
 export interface UserAuthPayload {
-    id: string;
-    email: string;
-    role: Role;
+    id: string
+    email: string
+    role: Role
 }
 
 export type AuthenticatedRequest&lt;
     T &#x3D; Record&lt;string, unknown&gt;,
     U &#x3D; UserAuthPayload
 &gt; &#x3D; T &amp; {
-    user: U;
-};
+    user: U
+}
 </code></pre>
     </div>
 </div>

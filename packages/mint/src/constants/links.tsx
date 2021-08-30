@@ -1,14 +1,14 @@
 export const footerLinks = [
     {
-        to: "/terms",
-        label: "Terms",
+        to: '/terms',
+        label: 'Terms',
     },
     {
-        to: "/privacy",
-        label: "Privacy",
+        to: '/privacy',
+        label: 'Privacy',
     },
     {
-        to: "/resources",
-        label: "Resources",
+        to: '/resources',
+        label: 'Resources',
     },
-];
+]

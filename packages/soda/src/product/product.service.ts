@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { Product } from ".prisma/client";
-import { Injectable } from "@nestjs/common";
-import { errorCodes } from "src/common/codes/error";
-import { CursorPaginationResultInterface } from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import urlSlug from "url-slug";
+import { Product } from '.prisma/client'
+import { Injectable } from '@nestjs/common'
+import { errorCodes } from 'src/common/codes/error'
+import { CursorPaginationResultInterface } from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import urlSlug from 'url-slug'
 import {
     CreateProductDto,
     ProductSort,
@@ -20,9 +20,9 @@ import {
     UpdateCategoryDto,
     CreateCompanyDto,
     GetAllTagsDto,
-} from "./dto";
-import { OrderDirection } from "../common/dto";
-import type { Prisma } from ".prisma/client";
+} from './dto'
+import { OrderDirection } from '../common/dto'
+import type { Prisma } from '.prisma/client'
 
 @Injectable()
 export class ProductService {
@@ -35,7 +35,7 @@ export class ProductService {
         options: GetAllProductsDto
     ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
         try {
-            const whereObj: Prisma.ProductWhereInput = {};
+            const whereObj: Prisma.ProductWhereInput = {}
             let {
                 price,
                 category,
@@ -45,32 +45,32 @@ export class ProductService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
+                orderBy = 'createdAt',
                 orderDirection = OrderDirection.asc,
                 q,
                 rating,
-            } = options;
+            } = options
 
             switch (sort) {
                 case ProductSort.new: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.asc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.asc
+                    break
                 }
                 case ProductSort.bestSelling: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.desc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.desc
+                    break
                 }
                 case ProductSort.relevant: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.desc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.desc
+                    break
                 }
                 case ProductSort.trending: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.desc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.desc
+                    break
                 }
             }
 
@@ -79,20 +79,20 @@ export class ProductService {
                     {
                         title: {
                             contains: q,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     },
                     {
                         description: {
                             contains: q,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     },
-                ];
+                ]
             }
 
             if (price) {
-                whereObj.price = { gte: +price[0], lte: +price[1] };
+                whereObj.price = { gte: +price[0], lte: +price[1] }
             }
 
             if (tags) {
@@ -102,23 +102,23 @@ export class ProductService {
                             ? tags.map((t) => ({ label: t }))
                             : [{ label: tags }],
                     },
-                };
+                }
             }
 
             if (brands) {
                 whereObj.brand = {
                     in: brands,
-                };
+                }
             }
 
             if (category) {
-                whereObj.categories = { some: { label: category } };
+                whereObj.categories = { some: { label: category } }
             }
 
             if (rating) {
                 whereObj.rating = {
                     gte: +rating,
-                };
+                }
             }
 
             const result = await prismaOffsetPagination({
@@ -127,7 +127,7 @@ export class ProductService {
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "product",
+                model: 'product',
                 where: whereObj,
                 include: {
                     categories: true,
@@ -140,15 +140,15 @@ export class ProductService {
                     },
                 },
                 prisma: this.db,
-            });
+            })
 
-            return result;
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.getAllProducts"
-            );
+                'ProductService.getAllProducts'
+            )
         }
     }
 
@@ -156,7 +156,7 @@ export class ProductService {
         options: GetAllProductsDto
     ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
         try {
-            const whereObj: any = {};
+            const whereObj: any = {}
             let {
                 price,
                 category,
@@ -166,32 +166,32 @@ export class ProductService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
+                orderBy = 'createdAt',
                 orderDirection = OrderDirection.asc,
                 q,
                 rating,
-            } = options;
+            } = options
 
             switch (sort) {
                 case ProductSort.new: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.asc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.asc
+                    break
                 }
                 case ProductSort.bestSelling: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.desc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.desc
+                    break
                 }
                 case ProductSort.relevant: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.desc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.desc
+                    break
                 }
                 case ProductSort.trending: {
-                    orderBy = "updatedAt";
-                    orderDirection = OrderDirection.desc;
-                    break;
+                    orderBy = 'updatedAt'
+                    orderDirection = OrderDirection.desc
+                    break
                 }
             }
 
@@ -200,20 +200,20 @@ export class ProductService {
                     {
                         title: {
                             contains: q,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     },
                     {
                         description: {
                             contains: q,
-                            mode: "insensitive",
+                            mode: 'insensitive',
                         },
                     },
-                ];
+                ]
             }
 
             if (price) {
-                whereObj.price = { gte: +price[0], lte: +price[1] };
+                whereObj.price = { gte: +price[0], lte: +price[1] }
             }
 
             if (tags) {
@@ -223,23 +223,23 @@ export class ProductService {
                             ? tags.map((t) => ({ label: t }))
                             : [{ label: tags }],
                     },
-                };
+                }
             }
 
             if (brands) {
                 whereObj.brand = {
                     in: brands,
-                };
+                }
             }
 
             if (category) {
-                whereObj.categories = { some: { label: category } };
+                whereObj.categories = { some: { label: category } }
             }
 
             if (rating) {
                 whereObj.rating = {
                     gte: +rating,
-                };
+                }
             }
 
             const result = await prismaOffsetPagination({
@@ -248,7 +248,7 @@ export class ProductService {
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "product",
+                model: 'product',
                 where: whereObj,
                 include: {
                     categories: true,
@@ -261,15 +261,15 @@ export class ProductService {
                     },
                 },
                 prisma: this.db,
-            });
+            })
 
-            return result;
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.getAllProducts"
-            );
+                'ProductService.getAllProducts'
+            )
         }
     }
 
@@ -286,14 +286,14 @@ export class ProductService {
                     },
                 },
             },
-        });
+        })
         if (!product) {
             throw new CustomError(
-                "Product does not exist",
+                'Product does not exist',
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return product;
+        return product
     }
 
     async getProducts(options: GetAllProductsDto): Promise<any> {
@@ -305,15 +305,15 @@ export class ProductService {
             cursor,
             size = 10,
             buttonNum = 10,
-            orderBy = "createdAt",
+            orderBy = 'createdAt',
             orderDirection = OrderDirection.asc,
             rating,
             q,
-        } = options;
+        } = options
 
-        const whereObj: Prisma.ProductWhereInput = {};
+        const whereObj: Prisma.ProductWhereInput = {}
         if (price) {
-            whereObj.price = { gte: +price[0], lte: +price[1] };
+            whereObj.price = { gte: +price[0], lte: +price[1] }
         }
 
         if (tags) {
@@ -323,11 +323,11 @@ export class ProductService {
                         ? tags.map((t) => ({ label: t }))
                         : [{ label: tags }],
                 },
-            };
+            }
         }
 
         if (category) {
-            whereObj.categories = { some: { label: category } };
+            whereObj.categories = { some: { label: category } }
         }
 
         if (q) {
@@ -335,22 +335,22 @@ export class ProductService {
                 {
                     title: {
                         contains: q,
-                        mode: "insensitive",
+                        mode: 'insensitive',
                     },
                 },
                 {
                     description: {
                         contains: q,
-                        mode: "insensitive",
+                        mode: 'insensitive',
                     },
                 },
-            ];
+            ]
         }
 
         if (rating) {
             whereObj.rating = {
                 gt: +rating,
-            };
+            }
         }
 
         const products = await this.db.product.findMany({
@@ -367,14 +367,14 @@ export class ProductService {
                     },
                 },
             },
-        });
+        })
         if (!products) {
             throw new CustomError(
-                "Product does not exist",
+                'Product does not exist',
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return products;
+        return products
     }
 
     async createProduct(userId: string, data: CreateProductDto): Promise<any> {
@@ -386,7 +386,7 @@ export class ProductService {
                 categories,
                 tags,
                 ...productData
-            } = data;
+            } = data
             const dataObj: Prisma.XOR<
                 Prisma.ProductCreateInput,
                 Prisma.ProductUncheckedCreateInput
@@ -396,7 +396,7 @@ export class ProductService {
                     create: inventory,
                 },
                 slug: productData.slug || urlSlug(productData.title),
-            };
+            }
 
             if (brand) {
                 dataObj.company = {
@@ -408,7 +408,7 @@ export class ProductService {
                             name: brand,
                         },
                     },
-                };
+                }
             }
 
             if (images.length > 0) {
@@ -416,21 +416,21 @@ export class ProductService {
                     connectOrCreate: images.map((item) => ({
                         create: {
                             url: item.url,
-                            contentType: "image/png",
-                            fileType: "images",
+                            contentType: 'image/png',
+                            fileType: 'images',
                             userId,
                         },
                         where: {
                             url: item.url,
                         },
                     })),
-                };
+                }
             }
 
             if (tags.length > 0) {
                 dataObj.tags = {
                     connect: tags.map((tag) => ({ label: tag })),
-                };
+                }
             }
 
             if (categories.length > 0) {
@@ -438,7 +438,7 @@ export class ProductService {
                     connect: categories.map((category) => ({
                         label: category,
                     })),
-                };
+                }
             }
             const product = await this.db.product.create({
                 data: dataObj,
@@ -453,14 +453,14 @@ export class ProductService {
                         },
                     },
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -476,9 +476,9 @@ export class ProductService {
                 tags,
                 categories,
                 ...productData
-            } = update;
+            } = update
 
-            const updateData: any = productData;
+            const updateData: any = productData
 
             if (images && images.length > 0) {
                 updateData.images = {
@@ -504,23 +504,23 @@ export class ProductService {
                             url: item.url,
                         },
                     })),
-                };
+                }
             }
 
             if (inventory) {
                 updateData.inventory = {
                     update: inventory,
-                };
+                }
             }
             if (tags) {
                 updateData.tags = {
                     set: tags?.map((tag) => ({ label: tag })),
-                };
+                }
             }
             if (categories) {
                 updateData.categories = {
                     set: categories?.map((category) => ({ label: category })),
-                };
+                }
             }
 
             const productUpdate: Prisma.XOR<
@@ -539,15 +539,15 @@ export class ProductService {
                         },
                     },
                 },
-            };
-            const data = await this.db.product.update(productUpdate);
-            return data;
+            }
+            const data = await this.db.product.update(productUpdate)
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -563,14 +563,14 @@ export class ProductService {
                         },
                     },
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -586,14 +586,14 @@ export class ProductService {
                     },
                 },
                 take: 20,
-            });
-            return categories;
+            })
+            return categories
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.getCategories"
-            );
+                'ProductService.getCategories'
+            )
         }
     }
 
@@ -602,7 +602,7 @@ export class ProductService {
         data: CreateCategoryDto
     ): Promise<any> {
         try {
-            const { images, ...rest } = data;
+            const { images, ...rest } = data
 
             const dataObj: Prisma.XOR<
                 Prisma.CategoryCreateInput,
@@ -610,7 +610,7 @@ export class ProductService {
             > = {
                 label: rest.label,
                 value: rest.value,
-            };
+            }
 
             if (images && images.length > 0) {
                 dataObj.images = {
@@ -625,11 +625,11 @@ export class ProductService {
                             url: item.url,
                         },
                     })),
-                };
+                }
             }
 
             if (data.styles) {
-                dataObj.styles = rest.styles;
+                dataObj.styles = rest.styles
             }
             const category = await this.db.category.create({
                 data: dataObj,
@@ -641,14 +641,14 @@ export class ProductService {
                         },
                     },
                 },
-            });
-            return category;
+            })
+            return category
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -659,14 +659,14 @@ export class ProductService {
         try {
             const results = await Promise.all(
                 data.map((item) => this.createCategory(userId, item))
-            );
-            return results;
+            )
+            return results
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -675,7 +675,7 @@ export class ProductService {
         data: UpdateCategoryDto
     ): Promise<any> {
         try {
-            const { images, ...rest } = data;
+            const { images, ...rest } = data
 
             const dataObj: Prisma.XOR<
                 Prisma.CategoryCreateInput,
@@ -683,7 +683,7 @@ export class ProductService {
             > = {
                 label: rest.label,
                 value: rest.value,
-            };
+            }
             if (images && images.length > 0) {
                 dataObj.images = {
                     connectOrCreate: images.map((item) => ({
@@ -697,10 +697,10 @@ export class ProductService {
                             url: item.url,
                         },
                     })),
-                };
+                }
             }
             if (data.styles) {
-                dataObj.styles = rest.styles;
+                dataObj.styles = rest.styles
             }
             const category = await this.db.category.update({
                 where: {
@@ -715,14 +715,14 @@ export class ProductService {
                         },
                     },
                 },
-            });
-            return category;
+            })
+            return category
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -731,8 +731,8 @@ export class ProductService {
         data: UpdateCategoryDto
     ): Promise<any> {
         try {
-            const { images, ...rest } = data;
-            const imageData = images.map((item) => ({ ...item, userId }));
+            const { images, ...rest } = data
+            const imageData = images.map((item) => ({ ...item, userId }))
             const categories = await this.db.category.update({
                 where: { label: data.label },
                 data: {
@@ -741,14 +741,14 @@ export class ProductService {
                         createMany: { data: imageData },
                     },
                 },
-            });
-            return categories;
+            })
+            return categories
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.updateCategories"
-            );
+                'ProductService.updateCategories'
+            )
         }
     }
 
@@ -764,34 +764,34 @@ export class ProductService {
                 data: {
                     active: false,
                 },
-            });
-            return deleted;
+            })
+            return deleted
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.deleteTags"
-            );
+                'ProductService.deleteTags'
+            )
         }
     }
 
     async getAllTags(options: GetAllTagsDto): Promise<any> {
         try {
-            const whereObj = {};
+            const whereObj = {}
             const {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
+                orderBy = 'createdAt',
                 orderDirection = OrderDirection.asc,
-            } = options;
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "tag",
+                model: 'tag',
                 where: whereObj,
                 include: {
                     label: true,
@@ -800,14 +800,14 @@ export class ProductService {
                     styles: true,
                 },
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.getAllTags"
-            );
+                'ProductService.getAllTags'
+            )
         }
     }
 
@@ -823,7 +823,7 @@ export class ProductService {
                         },
                     },
                 },
-            };
+            }
             if (category) {
                 findObj.where = {
                     products: {
@@ -835,16 +835,16 @@ export class ProductService {
                             },
                         },
                     },
-                };
+                }
             }
-            const tags = await this.db.tag.findMany(findObj);
-            return tags;
+            const tags = await this.db.tag.findMany(findObj)
+            return tags
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.getCategories"
-            );
+                'ProductService.getCategories'
+            )
         }
     }
 
@@ -863,19 +863,19 @@ export class ProductService {
                             url: item.url,
                         },
                     })),
-                } as any;
+                } as any
             }
 
             const tags = await this.db.tag.create({
                 data: data,
-            });
-            return tags;
+            })
+            return tags
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.createTag"
-            );
+                'ProductService.createTag'
+            )
         }
     }
 
@@ -883,14 +883,14 @@ export class ProductService {
         try {
             const tags = await this.db.tag.createMany({
                 data: data,
-            });
-            return tags;
+            })
+            return tags
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.createTags"
-            );
+                'ProductService.createTags'
+            )
         }
     }
 
@@ -905,16 +905,16 @@ export class ProductService {
                             label: tag.label,
                             value: tag.value,
                         },
-                    });
+                    })
                 })
-            );
-            return update;
+            )
+            return update
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.findAllOffset"
-            );
+                'ProductService.findAllOffset'
+            )
         }
     }
 
@@ -924,14 +924,14 @@ export class ProductService {
                 where: {
                     label: { in: data.map((item) => item.label) },
                 },
-            });
-            return tags;
+            })
+            return tags
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.deleteTags"
-            );
+                'ProductService.deleteTags'
+            )
         }
     }
 
@@ -939,7 +939,7 @@ export class ProductService {
         try {
             const findObj: Prisma.CompanyFindManyArgs = {
                 take: 10,
-            };
+            }
             if (category) {
                 findObj.where = {
                     products: {
@@ -951,16 +951,16 @@ export class ProductService {
                             },
                         },
                     },
-                };
+                }
             }
-            const companies = await this.db.company.findMany(findObj);
-            return companies;
+            const companies = await this.db.company.findMany(findObj)
+            return companies
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.getCategories"
-            );
+                'ProductService.getCategories'
+            )
         }
     }
 
@@ -968,14 +968,14 @@ export class ProductService {
         try {
             const brand = await this.db.company.create({
                 data: data,
-            });
-            return brand;
+            })
+            return brand
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.createBrand"
-            );
+                'ProductService.createBrand'
+            )
         }
     }
 
@@ -986,14 +986,14 @@ export class ProductService {
                     name: data.name,
                 },
                 data: data,
-            });
-            return brand;
+            })
+            return brand
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.createBrand"
-            );
+                'ProductService.createBrand'
+            )
         }
     }
 
@@ -1003,14 +1003,14 @@ export class ProductService {
                 where: {
                     name: data.name,
                 },
-            });
-            return brand;
+            })
+            return brand
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "ProductService.deleteBrand"
-            );
+                'ProductService.deleteBrand'
+            )
         }
     }
 }

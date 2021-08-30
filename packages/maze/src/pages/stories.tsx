@@ -1,14 +1,12 @@
-import { Box, ButtonGroup, makeStyles } from '@material-ui/core'
+import { Box, ButtonGroup, makeStyles, Grid } from '@material-ui/core'
 import React, { useState } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 import { AppHeader } from '../ui/Header'
 import { Footer } from '../ui/Footer'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import { config, useAuthState, useDeleteStory, useStories } from '../libs'
-import { Grid } from '@material-ui/core'
+import { config, useDeleteStory, useStories } from '../libs'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GridItem } from '../modules/Stories'
 import GridList from '../ui/List/GridList'
@@ -35,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
     const classes = useStyles()
     const deleteStory = useDeleteStory()
-    const authState = useAuthState()
-    const {} = authState
     const router = useRouter()
     const query = useStories(router.query, true)
     const [open, setOpen] = React.useState(null)

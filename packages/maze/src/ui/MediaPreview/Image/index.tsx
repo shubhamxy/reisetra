@@ -514,10 +514,10 @@ export default function ImagePreview({
 
     function handleOpen(index) {
         return (e) => {
-            e?.stopPropagation?.();
-            e?.preventDefault?.();
-            setOpenIndex(index);
-        };
+            e?.stopPropagation?.()
+            e?.preventDefault?.()
+            setOpenIndex(index)
+        }
     }
 
     const [zoom, setZoom] = useState(true)
@@ -563,7 +563,6 @@ export default function ImagePreview({
                     paper: classes.paper,
                     container: classes.previewContainer,
                 }}
-            
                 onClose={handleOpen(-1)}
                 // style={{ backgroundColor: "transparent" }}
             >

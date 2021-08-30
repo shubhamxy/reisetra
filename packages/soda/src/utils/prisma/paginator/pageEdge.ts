@@ -1,27 +1,27 @@
-import { PageCursorsType, createPageCursors } from "./pageCursor";
+import { PageCursorsType, createPageCursors } from './pageCursor'
 
 export interface PaginationType {
-    results: any[];
-    link: PageCursorsType;
-    totalCount: number;
-    page: number;
+    results: any[]
+    link: PageCursorsType
+    totalCount: number
+    page: number
 }
 interface Props {
-    id?: string;
-    model: string;
-    cursor: string;
-    size: number;
-    buttonNum: number;
-    orderBy: string;
-    orderDirection: "asc" | "desc";
-    include?: any;
-    where?: any;
-    prisma: any;
-    select?: any;
+    id?: string
+    model: string
+    cursor: string
+    size: number
+    buttonNum: number
+    orderBy: string
+    orderDirection: 'asc' | 'desc'
+    include?: any
+    where?: any
+    prisma: any
+    select?: any
 }
 
 export async function prismaOffsetPagination({
-    id = "id",
+    id = 'id',
     model,
     cursor,
     size,
@@ -34,12 +34,12 @@ export async function prismaOffsetPagination({
     prisma,
 }: Props): Promise<PaginationType> {
     // totalCount
-    const prismaModel = prisma[model];
+    const prismaModel = prisma[model]
     const totalCount = await prismaModel.count({
         where: {
             ...where,
         },
-    });
+    })
 
     if (!totalCount) {
         return {
@@ -53,44 +53,44 @@ export async function prismaOffsetPagination({
             },
             page: 0,
             totalCount: 0,
-        };
+        }
     }
 
     // findManyArgs
-    let findManyArgs;
+    let findManyArgs
     if (where) {
-        findManyArgs = { ...findManyArgs, where: { ...where } };
+        findManyArgs = { ...findManyArgs, where: { ...where } }
     }
     if (size) {
-        findManyArgs = { ...findManyArgs, take: size };
+        findManyArgs = { ...findManyArgs, take: size }
     }
     if (orderBy) {
         findManyArgs = {
             ...findManyArgs,
             orderBy: { [orderBy]: orderDirection },
-        };
+        }
     }
     if (include) {
-        findManyArgs = { ...findManyArgs, include: include };
+        findManyArgs = { ...findManyArgs, include: include }
     }
 
     if (select) {
-        findManyArgs = { ...findManyArgs, select };
+        findManyArgs = { ...findManyArgs, select }
     }
 
     // cursor & currentPage
-    let currentPage: number;
+    let currentPage: number
     if (cursor) {
-        const prismaModel = prisma[model];
-        const decryptedCursor = Buffer.from(cursor, "base64")
-            .toString("ascii")
-            .slice(9);
+        const prismaModel = prisma[model]
+        const decryptedCursor = Buffer.from(cursor, 'base64')
+            .toString('ascii')
+            .slice(9)
         let idOrigin: number | string = isNaN(parseInt(decryptedCursor))
             ? decryptedCursor
-            : Number(decryptedCursor);
+            : Number(decryptedCursor)
 
         // findManyArgsForCursorCount -> cursorCount -> currentPage
-        let findManyArgsForCursorCount: Record<string, any>;
+        let findManyArgsForCursorCount: Record<string, any>
         if (findManyArgs?.orderBy) {
             const cursorObject = await prismaModel.findMany({
                 orderBy: {
@@ -103,9 +103,9 @@ export async function prismaOffsetPagination({
                     [id]: idOrigin,
                 },
                 take: 1,
-            });
+            })
             const whereArgs =
-                orderDirection === "desc"
+                orderDirection === 'desc'
                     ? {
                           [orderBy]: {
                               gte: cursorObject[0][orderBy],
@@ -115,7 +115,7 @@ export async function prismaOffsetPagination({
                           [orderBy]: {
                               lte: cursorObject[0][orderBy],
                           },
-                      };
+                      }
             findManyArgsForCursorCount = {
                 orderBy: {
                     [orderBy]: orderDirection,
@@ -124,7 +124,7 @@ export async function prismaOffsetPagination({
                     ...where,
                     ...whereArgs,
                 },
-            };
+            }
         } else {
             findManyArgsForCursorCount = {
                 where: {
@@ -133,12 +133,12 @@ export async function prismaOffsetPagination({
                         lte: idOrigin,
                     },
                 },
-            };
+            }
         }
         const cursorCount = await prismaModel.count({
             ...findManyArgsForCursorCount,
-        });
-        currentPage = Math.ceil(cursorCount / size);
+        })
+        currentPage = Math.ceil(cursorCount / size)
 
         // Reset idOrigin when it is not exact pageCursor
         if (cursorCount % size !== 1) {
@@ -157,26 +157,26 @@ export async function prismaOffsetPagination({
                         ? (cursorCount % size) - 1
                         : size - 1,
                 take: -1,
-            });
-            idOrigin = newCursorObject[0][id];
+            })
+            idOrigin = newCursorObject[0][id]
         }
 
-        findManyArgs = { ...findManyArgs, cursor: { [id]: idOrigin } };
+        findManyArgs = { ...findManyArgs, cursor: { [id]: idOrigin } }
     } else {
         const resultsForCursor = await prismaModel.findMany({
             ...findManyArgs,
             take: 1,
-        });
-        currentPage = 1;
+        })
+        currentPage = 1
         findManyArgs = {
             ...findManyArgs,
             cursor: { [id]: resultsForCursor[0][id] },
-        };
+        }
     }
 
     const resultsForEdges = await prismaModel.findMany({
         ...findManyArgs,
-    });
+    })
 
     const link = await createPageCursors({
         pageInfo: {
@@ -189,12 +189,12 @@ export async function prismaOffsetPagination({
         findManyArgs,
         prisma,
         id,
-    });
+    })
 
     return {
         results: resultsForEdges,
         link,
         page: currentPage,
         totalCount: totalCount,
-    };
+    }
 }

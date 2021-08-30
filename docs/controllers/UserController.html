@@ -229,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">src/user/user.controller.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/user/user.controller.ts:111</a></div>
                 </td>
             </tr>
 
@@ -625,14 +625,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;user/:id&#x27;)<br /></code>
+                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Put(&#x27;user/:id&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/user/user.controller.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/user/user.controller.ts:100</a></div>
                 </td>
             </tr>
 
@@ -706,108 +706,109 @@
     Put,
     Query,
     Req,
-} from &quot;@nestjs/common&quot;;
-import { UserService } from &quot;./user.service&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { UserService } from &#x27;./user.service&#x27;
 import {
     CustomException,
     Exception,
     SuccessResponse,
-} from &quot;src/common/response&quot;;
-import { GetAllUsersDto, UpdateUserDto } from &quot;./dto&quot;;
-import { errorTypes } from &quot;src/common/codes/error&quot;;
-import { getErrorMessage, stackObj } from &quot;src/utils/errorUtils&quot;;
-import { AuthenticatedRequest } from &quot;src/auth/auth.interface&quot;;
-import { Roles } from &quot;src/auth/decorator/roles.decorator&quot;;
+} from &#x27;src/common/response&#x27;
+import { GetAllUsersDto, UpdateUserDto } from &#x27;./dto&#x27;
+import { errorTypes } from &#x27;src/common/codes/error&#x27;
+import { getErrorMessage, stackObj } from &#x27;src/utils/errorUtils&#x27;
+import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
+import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
 
 @Controller()
 export class UserController {
     constructor(private readonly user: UserService) {}
-    @Roles(&quot;ADMIN&quot;)
-    @Get(&quot;users&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Get(&#x27;users&#x27;)
     async getAllUsers(
         @Query() query: GetAllUsersDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const { results, ...meta } &#x3D; await this.user.allUsers(query);
-            return { data: results, meta: meta };
+            const { results, ...meta } &#x3D; await this.user.allUsers(query)
+            return { data: results, meta: meta }
         } catch (error) {
             throw new Exception(
                 {
                     message: getErrorMessage(error),
                     code: error.code,
-                    context: &quot;UserController.getAllUsers&quot;,
+                    context: &#x27;UserController.getAllUsers&#x27;,
                     type: errorTypes[error.code],
                     stack: stackObj(error.message),
                 },
                 HttpStatus.BAD_REQUEST
-            );
+            )
         }
     }
 
-    @Get(&quot;user/me&quot;)
+    @Get(&#x27;user/me&#x27;)
     async getMe(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.user.find(req.user.id);
-            return { data };
+            const data &#x3D; await this.user.find(req.user.id)
+            return { data }
         } catch (error) {
-            throw new CustomException(error, HttpStatus.BAD_REQUEST);
+            throw new CustomException(error, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @Put(&quot;user/me&quot;)
+    @Put(&#x27;user/me&#x27;)
     async updateMe(
         @Req() req: AuthenticatedRequest,
         @Body() body: UpdateUserDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.user.findAndUpdate(req.user.id, body);
-            return { data };
+            const data &#x3D; await this.user.findAndUpdate(req.user.id, body)
+            return { data }
         } catch (error) {
             throw new Exception(
                 {
                     message: getErrorMessage(error),
                     code: error.code,
-                    context: &quot;UserController.updateMe&quot;,
+                    context: &#x27;UserController.updateMe&#x27;,
                     type: errorTypes[error.code],
                     stack: stackObj(error.message),
                 },
                 HttpStatus.BAD_REQUEST
-            );
+            )
         }
     }
 
-    @Delete(&quot;user/me&quot;)
+    @Delete(&#x27;user/me&#x27;)
     async deleteMe(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.user.delete(req.user.id);
-        return { data };
+        const data &#x3D; await this.user.delete(req.user.id)
+        return { data }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Get(&quot;user/:id&quot;)
-    async getUser(@Param(&quot;id&quot;) id: string): Promise&lt;SuccessResponse&gt; {
+    @Roles(&#x27;ADMIN&#x27;)
+    @Get(&#x27;user/:id&#x27;)
+    async getUser(@Param(&#x27;id&#x27;) id: string): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.user.find(id);
-            return { data };
+            const data &#x3D; await this.user.find(id)
+            return { data }
         } catch (error) {
-            throw new CustomException(error, HttpStatus.BAD_REQUEST);
+            throw new CustomException(error, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @Put(&quot;user/:id&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Put(&#x27;user/:id&#x27;)
     async updateUser(
-        @Param(&quot;id&quot;) id: string,
+        @Param(&#x27;id&#x27;) id: string,
         @Body() body: UpdateUserDto
     ): Promise&lt;SuccessResponse&gt; {
-        const update &#x3D; body;
-        const data &#x3D; await this.user.findAndUpdate(id, update);
-        return { data };
+        const update &#x3D; body
+        const data &#x3D; await this.user.findAndUpdate(id, update)
+        return { data }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Delete(&quot;user/:id&quot;)
-    async deleteUser(@Param(&quot;id&quot;) id: string): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.user.delete(id);
-        return { data };
+    @Roles(&#x27;ADMIN&#x27;)
+    @Delete(&#x27;user/:id&#x27;)
+    async deleteUser(@Param(&#x27;id&#x27;) id: string): Promise&lt;SuccessResponse&gt; {
+        const data &#x3D; await this.user.delete(id)
+        return { data }
     }
 }
 </code></pre>

@@ -573,26 +573,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OAuthProvider, Role, User as UserModel } from &quot;.prisma/client&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OAuthProvider, Role, User as UserModel } from &#x27;.prisma/client&#x27;
 export class User implements UserModel {
     constructor(partial: Partial&lt;User&gt;) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 
-    id: string;
-    email: string;
-    emailVerified: boolean;
-    name: string;
-    dateOfBirth: Date;
-    phone: string;
-    avatar: string;
-    oauthId: string;
-    oauthProvider: OAuthProvider;
-    role: Role;
-    bio: string;
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    id: string
+    email: string
+    emailVerified: boolean
+    name: string
+    dateOfBirth: Date
+    phone: string
+    avatar: string
+    oauthId: string
+    oauthProvider: OAuthProvider
+    role: Role
+    bio: string
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
 }
 </code></pre>
     </div>

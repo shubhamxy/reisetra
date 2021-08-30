@@ -71,8 +71,10 @@ export const config: Config = {
     clientUrl:
         process.env.NEXT_PUBLIC_CLIENT_URL || 'https://next.reisetra.com',
     callbackUrl:
-        process.env.NEXT_PUBLIC_CALLBACK_URL || 'https://next.reisetra.com/login/callback',
-    cmsUrl: process.env.NEXT_PUBLIC_CMS_CLIENT_URL || 'https://cms.reisetra.com',
+        process.env.NEXT_PUBLIC_CALLBACK_URL ||
+        'https://next.reisetra.com/login/callback',
+    cmsUrl:
+        process.env.NEXT_PUBLIC_CMS_CLIENT_URL || 'https://cms.reisetra.com',
     authUrl:
         process.env.NEXT_PUBLIC_AUTH_CLIENT_URL ||
         'https://next.reisetra.com/login?redirect=cms&clear=1',

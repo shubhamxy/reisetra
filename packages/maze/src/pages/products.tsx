@@ -1,4 +1,4 @@
-import { Box, ButtonGroup, makeStyles } from '@material-ui/core'
+import { Box, ButtonGroup, makeStyles, Grid } from '@material-ui/core'
 import React, { useState } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 import { AppHeader } from '../ui/Header'
@@ -6,14 +6,8 @@ import { Footer } from '../ui/Footer'
 import { CreateProduct } from '../modules/CreateProduct'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import { config, logout, useAuthDispatch, useAuthState, useDeleteProduct, useProducts } from '../libs'
-import { Grid } from '@material-ui/core'
-import { CreateCategory } from '../modules/CreateCategory'
-import { CreateTag } from '../modules/CreateTag'
-import { CreateOffer } from '../modules/CreateOffer'
-import { CreateBrand } from '../modules/CreateBrand'
+import { config, useDeleteProduct, useProducts } from '../libs'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GridItem } from '../modules/Products'
 import GridList from '../ui/List/GridList'
@@ -39,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
     const classes = useStyles()
     const deleteProduct = useDeleteProduct()
-    const authState = useAuthState()
-    const { } = authState
     const router = useRouter()
     const query = useProducts(router.query, true)
 
@@ -92,7 +84,7 @@ const CMSPage = () => {
                             handleDelete={(id) => {
                                 deleteProduct.mutate(id)
                             }}
-                            handleEdit={(id) => {
+                            handleEdit={() => {
                                 setSelected(item.slug)
                                 handleClickOpen('product')()
                             }}
@@ -107,10 +99,7 @@ const CMSPage = () => {
                     onClose={handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <CreateProduct
-                        id={selected}
-                        isUpdate={selected !== null}
-                    />
+                    <CreateProduct id={selected} isUpdate={selected !== null} />
                 </Dialog>
             </Box>
         </MainLayout>

@@ -126,7 +126,7 @@ export function updateProduct({
     body: CreateProductDTO
 }) {
     // !!fixme
-    const {brand, ...rest} = body;
+    const { brand, ...rest } = body
     return put(`product/${productId}`, rest)
 }
 interface PaginationParams {

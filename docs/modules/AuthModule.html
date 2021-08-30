@@ -243,20 +243,20 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &quot;@nestjs/common&quot;;
-import { AuthService } from &quot;./auth.service&quot;;
-import { PassportModule } from &quot;@nestjs/passport&quot;;
-import { JwtModule } from &quot;@nestjs/jwt&quot;;
-import { JwtStrategy } from &quot;./strategy/jwt.strategy&quot;;
-import { UserModule } from &quot;../user/user.module&quot;;
-import { LocalStrategy } from &quot;./strategy/local.strategy&quot;;
-import { JwtRefreshStrategy } from &quot;./strategy/refresh.strategy&quot;;
-import { AuthController } from &quot;./auth.controller&quot;;
-import { CacheModule } from &quot;../common/modules/cache/cache.module&quot;;
-import { auth } from &quot;../config&quot;;
-import { GoogleStrategy } from &quot;./strategy/google.strategy&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;
+import { AuthService } from &#x27;./auth.service&#x27;
+import { PassportModule } from &#x27;@nestjs/passport&#x27;
+import { JwtModule } from &#x27;@nestjs/jwt&#x27;
+import { JwtStrategy } from &#x27;./strategy/jwt.strategy&#x27;
+import { UserModule } from &#x27;../user/user.module&#x27;
+import { LocalStrategy } from &#x27;./strategy/local.strategy&#x27;
+import { JwtRefreshStrategy } from &#x27;./strategy/refresh.strategy&#x27;
+import { AuthController } from &#x27;./auth.controller&#x27;
+import { CacheModule } from &#x27;../common/modules/cache/cache.module&#x27;
+import { auth } from &#x27;../config&#x27;
+import { GoogleStrategy } from &#x27;./strategy/google.strategy&#x27;
 
-const config &#x3D; auth();
+const config &#x3D; auth()
 @Module({
     imports: [
         UserModule,

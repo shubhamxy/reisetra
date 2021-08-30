@@ -1,42 +1,42 @@
-import { registerAs } from "@nestjs/config";
+import { registerAs } from '@nestjs/config'
 
 export interface ServicesEnv {
     razorpay: {
-        name: string;
-        description: string;
-        razorpayKeyId: string;
-        razorpaySecretKey: string;
-    };
+        name: string
+        description: string
+        razorpayKeyId: string
+        razorpaySecretKey: string
+    }
     mailer: {
-        senderName: string;
-    };
+        senderName: string
+    }
     aws: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        region: string;
-        s3BucketName: string;
-        s3Region: string;
-        s3Url: string;
-        sesEndpoint: string;
-        sesEmailSender: string;
-        sesRegion: string;
-    };
+        accessKeyId: string
+        secretAccessKey: string
+        region: string
+        s3BucketName: string
+        s3Region: string
+        s3Url: string
+        sesEndpoint: string
+        sesEmailSender: string
+        sesRegion: string
+    }
     logzio: {
-        enable: boolean;
-        token: string;
-        host: string;
-    };
+        enable: boolean
+        token: string
+        host: string
+    }
 }
 
 export const services = (): ServicesEnv => ({
     razorpay: {
-        name: "Reisetra",
-        description: "Reisetra description",
+        name: 'Reisetra',
+        description: 'Reisetra description',
         razorpayKeyId: process.env.RAZORPAY_KEY_ID,
         razorpaySecretKey: process.env.RAZORPAY_SECRET_KEY,
     },
     mailer: {
-        senderName: process.env.EMAIL_SENDER_NAME || "Reisetra",
+        senderName: process.env.EMAIL_SENDER_NAME || 'Reisetra',
     },
     aws: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -56,6 +56,6 @@ export const services = (): ServicesEnv => ({
         host: process.env.LOGZIO_HOST,
         token: process.env.LOGZIO_TOKEN,
     },
-});
+})
 
-export default registerAs("services", services);
+export default registerAs('services', services)

@@ -1,14 +1,14 @@
-import { Product } from ".prisma/client";
-import { Injectable } from "@nestjs/common";
+import { Product } from '.prisma/client'
+import { Injectable } from '@nestjs/common'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import { CreateInventoryDto } from "./dto";
+} from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import { CreateInventoryDto } from './dto'
 
 @Injectable()
 export class InventoryService {
@@ -24,9 +24,9 @@ export class InventoryService {
             cursor,
             size = 10,
             buttonNum = 10,
-            orderBy = "createdAt",
-            orderDirection = "desc",
-        } = options;
+            orderBy = 'createdAt',
+            orderDirection = 'desc',
+        } = options
         try {
             const result = await prismaOffsetPagination({
                 cursor,
@@ -37,16 +37,16 @@ export class InventoryService {
                 include: {
                     product: true,
                 },
-                model: "inventory",
+                model: 'inventory',
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "InventoryService.getAllInventory"
-            );
+                'InventoryService.getAllInventory'
+            )
         }
     }
 
@@ -57,14 +57,14 @@ export class InventoryService {
                 include: {
                     product: true,
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "InventoryService.getInventory"
-            );
+                'InventoryService.getInventory'
+            )
         }
     }
 
@@ -75,14 +75,14 @@ export class InventoryService {
                 include: {
                     product: true,
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "InventoryService.createInventory"
-            );
+                'InventoryService.createInventory'
+            )
         }
     }
 
@@ -94,27 +94,27 @@ export class InventoryService {
                 include: {
                     product: true,
                 },
-            });
-            return updated;
+            })
+            return updated
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "InventoryService.updateInventory"
-            );
+                'InventoryService.updateInventory'
+            )
         }
     }
 
     async deleteInventory(id: string): Promise<any> {
         try {
-            const data = await this.db.inventory.delete({ where: { id } });
-            return data;
+            const data = await this.db.inventory.delete({ where: { id } })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "InventoryService.deleteInventory"
-            );
+                'InventoryService.deleteInventory'
+            )
         }
     }
 }

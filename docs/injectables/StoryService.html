@@ -202,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/story/story.service.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/story/story.service.ts:126</a></div>
                 </td>
             </tr>
 
@@ -278,15 +278,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteStory(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>deleteStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/story/story.service.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/story/story.service.ts:176</a></div>
                 </td>
             </tr>
 
@@ -307,7 +307,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>addressId</td>
+                                    <td>slug</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -356,8 +356,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">src/story/story.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/story/story.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -503,15 +503,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getStory(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/story/story.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/story/story.service.ts:105</a></div>
                 </td>
             </tr>
 
@@ -532,7 +532,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>slug</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -574,15 +574,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateStory(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update)</code>
+                    <code>updateStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateStoryDto.html" target="_self">UpdateStoryDto</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">src/story/story.service.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/story/story.service.ts:152</a></div>
                 </td>
             </tr>
 
@@ -603,7 +603,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>addressId</td>
+                                    <td>slug</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -617,6 +617,7 @@
                                 <tr>
                                     <td>update</td>
                                     <td>
+                                                <code><a href="../classes/UpdateStoryDto.html" target="_self" >UpdateStoryDto</a></code>
                                     </td>
 
                                     <td>
@@ -647,18 +648,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@nestjs/common&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &quot;src/common/pagination&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
-import { CacheService } from &quot;src/common/modules/cache/cache.service&quot;;
-import { prismaOffsetPagination } from &quot;src/utils/prisma&quot;;
-import { CreateStoryDto } from &quot;./dto&quot;;
-import { StoryRO } from &quot;./interfaces&quot;;
+} from &#x27;src/common/pagination&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { CreateStoryDto, UpdateStoryDto } from &#x27;./dto&#x27;
+import { StoryRO } from &#x27;./interfaces&#x27;
 
 @Injectable()
 export class StoryService {
@@ -676,29 +677,37 @@ export class StoryService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;story&quot;,
+                model: &#x27;story&#x27;,
                 prisma: this.db,
                 where: {
                     userId,
                     active: true,
                 },
-            });
-            return result;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;StoryService.getStories&quot;
-            );
+                &#x27;StoryService.getStories&#x27;
+            )
         }
     }
 
@@ -710,42 +719,58 @@ export class StoryService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: &quot;story&quot;,
+                model: &#x27;story&#x27;,
                 prisma: this.db,
                 where: {
                     active: true,
                 },
-            });
-            return result;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;StoryService.getAllAddresss&quot;
-            );
+                &#x27;StoryService.getAllAddresss&#x27;
+            )
         }
     }
 
-    async getStory(id: string): Promise&lt;any&gt; {
+    async getStory(slug: string): Promise&lt;any&gt; {
         const story &#x3D; await this.db.story.findUnique({
-            where: { id },
-        });
+            where: { slug },
+            include: {
+                files: {
+                    select: {
+                        url: true,
+                        fileType: true,
+                    },
+                },
+            },
+        })
         if (!story) {
             throw new CustomError(
-                &quot;Story does not exist&quot;,
+                &#x27;Story does not exist&#x27;,
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return story;
+        return story
     }
 
     async createStory(userId: string, data: CreateStoryDto): Promise&lt;any&gt; {
@@ -755,48 +780,72 @@ export class StoryService {
                     ...data,
                     userId: userId,
                 },
-            });
-            return product;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;StoryService.createStory&quot;
-            );
+                &#x27;StoryService.createStory&#x27;
+            )
         }
     }
 
-    async updateStory(addressId: string, update): Promise&lt;any&gt; {
+    async updateStory(slug: string, update: UpdateStoryDto): Promise&lt;any&gt; {
         try {
             const data &#x3D; await this.db.story.update({
-                where: { id: addressId },
+                where: { slug },
                 data: update,
-            });
-            return data;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;StoryService.updateStory&quot;
-            );
+                &#x27;StoryService.updateStory&#x27;
+            )
         }
     }
 
-    async deleteStory(addressId: string): Promise&lt;any&gt; {
+    async deleteStory(slug: string): Promise&lt;any&gt; {
         try {
             const data &#x3D; await this.db.story.update({
-                where: { id: addressId },
+                where: { slug },
                 data: {
                     active: false,
                 },
-            });
-            return data;
+                include: {
+                    files: {
+                        select: {
+                            url: true,
+                            fileType: true,
+                        },
+                    },
+                },
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;StoryService.deleteStory&quot;
-            );
+                &#x27;StoryService.deleteStory&#x27;
+            )
         }
     }
 }
