@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
-    Paper,
     Box,
-    Typography,
-    makeStyles,
-    CircularProgress,
     Divider,
-    Button,
+    LinearProgress,
+    makeStyles,
+    Paper,
+    Typography,
 } from '@material-ui/core'
-import { List } from '../List/List'
-import { Footer } from '../List'
-import { useProducts } from '../../libs'
+import { List, ListFooter } from '../List'
 import { ProductCard } from './Card'
-import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'
+import { getTotalCount, getTotalDataCount, useProducts } from '../../libs'
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
@@ -69,7 +66,7 @@ export function ProductsFeed({ title = 'Popular' }) {
                     )}
                     variant="infinite"
                     ListFooterComponent={
-                        <Footer
+                        <ListFooter
                             hasNextPage={hasNextPage}
                             fetchNextPage={fetchNextPage}
                             totalDataCount={getTotalDataCount(data)}
@@ -87,7 +84,10 @@ export function ProductsFeed({ title = 'Popular' }) {
                             pt={2}
                             pb={2}
                         >
-                            <CircularProgress size={24} />
+                            <LinearProgress
+                                style={{ minWidth: 140 }}
+                                variant="indeterminate"
+                            />
                         </Box>
                     }
                 />

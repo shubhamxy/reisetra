@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Chip from '@material-ui/core/Chip'
 import { makeStyles } from '@material-ui/core/styles'
@@ -33,11 +33,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function TagsInput({ ...props }) {
+export function TagsMultiInput({ ...props }) {
     const classes = useStyles()
     const { value, onChange, placeholder, ...other } = props
     const [inputValue, setInputValue] = useState('')
     const [key, setKey] = useState('')
+
     function handleKeyDown(event) {
         if (event.key === 'Enter') {
             const newSelectedItem = [...value]
@@ -77,6 +78,7 @@ export default function TagsInput({ ...props }) {
             onChange(value.slice(0, value.length - 1))
         }
     }
+
     function handleChange(item) {
         let newSelectedItem = [...value]
         if (newSelectedItem.indexOf(item) === -1) {
@@ -95,6 +97,7 @@ export default function TagsInput({ ...props }) {
     function handleInputChange(event) {
         setInputValue(event.target.value)
     }
+
     return (
         <React.Fragment>
             <Downshift
@@ -175,10 +178,11 @@ export default function TagsInput({ ...props }) {
         </React.Fragment>
     )
 }
-TagsInput.defaultProps = {
+
+TagsMultiInput.defaultProps = {
     value: [],
 }
-TagsInput.propTypes = {
+TagsMultiInput.propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.arrayOf(PropTypes.string),
 }

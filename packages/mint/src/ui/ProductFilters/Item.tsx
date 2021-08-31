@@ -1,14 +1,20 @@
 import React from 'react'
-import { makeStyles, Theme, createStyles, fade } from '@material-ui/core/styles'
+import {
+    alpha,
+    createStyles,
+    makeStyles,
+    Theme,
+} from '@material-ui/core/styles'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { Box, Chip, TextField, List, Slider, ListItem } from '@material-ui/core'
+import { Box, Chip, List, ListItem, Slider, TextField } from '@material-ui/core'
 import { FilterT } from '../../pages/products'
 import clsx from 'clsx'
 import { Rating } from '@material-ui/lab'
+
 const intlFormat = (num) => {
     return new Intl.NumberFormat().format(Math.round(num * 10) / 10)
 }
@@ -18,6 +24,7 @@ const formatHumanFriendly = (num) => {
     if (num >= 1000) return `${intlFormat(num / 1000)}k`
     return intlFormat(num)
 }
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -84,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
             background: theme.palette.text.primary,
             color: theme.palette.background.paper,
             '&:hover': {
-                backgroundColor: fade(theme.palette.text.primary, 0.8),
+                backgroundColor: alpha(theme.palette.text.primary, 0.8),
             },
             '&:focus': {
                 backgroundColor: theme.palette.text.primary,
@@ -97,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         taglistitemSelected: {
-            backgroundColor: fade(theme.palette.text.primary, 0.8),
+            backgroundColor: alpha(theme.palette.text.primary, 0.8),
             boxShadow: `0px 0px 0px 4px#d0f20f33`,
         },
         listPrimaryText: {},
@@ -119,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '1px 6px 1px 6px',
             borderRadius: 9,
             fontSize: 12,
-            backgroundColor: fade('#011632', 0.05),
+            backgroundColor: alpha('#011632', 0.05),
         },
         rangeRoot: {
             width: '100%',
@@ -137,22 +144,22 @@ export function Filters({
     data: {
         [key: string]: FilterT
     }
-    values: {
-        [key: string]: string | string[] | number[]
-    }
-    setFieldValue: (key: string, value: string | string[] | number[]) => void
+    values: any
+    setFieldValue: any
 }) {
     const classes = useStyles()
     const [expanded, setExpanded] = React.useState<number>(0)
 
     const handleChange =
         (panel: number) =>
-        (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+        (_event: React.ChangeEvent<{}>, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : -1)
         }
+
     function valuetext(value: number) {
         return `₹${formatHumanFriendly(value)}`
     }
+
     const content = (item, filter) => {
         switch (item.type) {
             case 'range': {
@@ -161,7 +168,7 @@ export function Filters({
                         <Slider
                             color="secondary"
                             value={values[filter] as number[]}
-                            onChange={(e, value) => {
+                            onChange={(_e, value) => {
                                 setFieldValue(filter, value as number[])
                             }}
                             max={100000}
@@ -190,7 +197,6 @@ export function Filters({
                                             values[filter][1],
                                         ] as number[])
                                     }}
-                                    onBlur={() => {}}
                                     inputProps={{
                                         step: 10,
                                         min: 0,
@@ -212,7 +218,6 @@ export function Filters({
                                             +e.target.value,
                                         ] as number[])
                                     }}
-                                    onBlur={() => {}}
                                     inputProps={{
                                         step: 10,
                                         min: values[filter][0],
@@ -242,7 +247,7 @@ export function Filters({
                                     key={item.value}
                                     disableGutters
                                     title={`${item.value} stars and up`}
-                                    onClick={(e) => {
+                                    onClick={(_e) => {
                                         if (isSelected) {
                                             setFieldValue(filter, undefined)
                                         } else {
@@ -293,54 +298,60 @@ export function Filters({
                         }}
                         disablePadding
                     >
-                        {item.data.map((item: { label: string }, index) => {
-                            const value = values[filter] as string[]
-                            const isSelected = value.includes(item.label)
-                            return (
-                                <Chip
-                                    key={item.label}
-                                    onClick={(e) => {
-                                        if (isSelected) {
-                                            setFieldValue(filter, [
-                                                ...value.filter(
-                                                    (i) => i !== item.label
-                                                ),
-                                            ])
-                                        } else {
-                                            setFieldValue(
-                                                filter,
-                                                // @ts-ignore
-                                                Array.isArray(values[filter]) &&
-                                                    values[filter].length > 0
-                                                    ? // @ts-ignore
-                                                      [
-                                                          ...values[filter],
-                                                          item.label,
-                                                      ]
-                                                    : [item.label]
-                                            )
+                        {item.data.map(
+                            (dataItem: { label: string }, _index) => {
+                                const value = values[filter] as string[]
+                                const isSelected = value.includes(
+                                    dataItem.label
+                                )
+                                return (
+                                    <Chip
+                                        key={dataItem.label}
+                                        onClick={(_e) => {
+                                            if (isSelected) {
+                                                setFieldValue(filter, [
+                                                    ...value.filter(
+                                                        (i) =>
+                                                            i !== dataItem.label
+                                                    ),
+                                                ])
+                                            } else {
+                                                setFieldValue(
+                                                    filter,
+                                                    Array.isArray(
+                                                        values[filter]
+                                                    ) &&
+                                                        values[filter].length >
+                                                            0
+                                                        ? [
+                                                              ...values[filter],
+                                                              dataItem.label,
+                                                          ]
+                                                        : [dataItem.label]
+                                                )
+                                            }
+                                        }}
+                                        className={clsx(
+                                            classes.taglistitem,
+                                            isSelected
+                                                ? classes.taglistitemSelected
+                                                : ''
+                                        )}
+                                        label={
+                                            <Typography
+                                                style={{
+                                                    fontSize: 14,
+                                                    lineHeight: 1,
+                                                }}
+                                                variant="subtitle2"
+                                            >
+                                                {dataItem.label}
+                                            </Typography>
                                         }
-                                    }}
-                                    className={clsx(
-                                        classes.taglistitem,
-                                        isSelected
-                                            ? classes.taglistitemSelected
-                                            : ''
-                                    )}
-                                    label={
-                                        <Typography
-                                            style={{
-                                                fontSize: 14,
-                                                lineHeight: 1,
-                                            }}
-                                            variant="subtitle2"
-                                        >
-                                            {item.label}
-                                        </Typography>
-                                    }
-                                />
-                            )
-                        })}
+                                    />
+                                )
+                            }
+                        )}
                     </List>
                 )
             default:
@@ -357,7 +368,7 @@ export function Filters({
                             return (
                                 <Chip
                                     key={item.label}
-                                    onClick={(e) => {
+                                    onClick={(_e) => {
                                         if (isSelected) {
                                             setFieldValue(filter, undefined)
                                         } else {

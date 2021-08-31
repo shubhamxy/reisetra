@@ -1,50 +1,30 @@
 import React from 'react'
 import {
     AccordionSummary,
-    Box,
     Checkbox,
     FormControlLabel,
     Grid,
     Typography,
 } from '@material-ui/core'
 import { useStyles } from './styles'
-import { useRouter } from 'next/router'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-function useHelper({ slug }) {
-    const router = useRouter()
-    function handleClick(e) {
-        e.preventDefault()
-        e.stopPropagation()
-        router.push(`/product/${slug}`)
-    }
-    return {
-        handleClick,
-    }
-}
-export function ProductCard({ data, selected, setSelected }) {
+
+export function Card({ data, selected, setSelected }) {
     const {
-        active,
         address,
         city,
         country,
-        createdAt,
         email,
         fullname,
         id,
-        slug,
         nearby,
         phone,
         region,
         state,
-        updatedAt,
-        userId,
         zipcode,
     } = data
-    const { handleClick } = useHelper({
-        slug,
-    })
 
     const classes = useStyles()
     return (
@@ -92,7 +72,7 @@ export function ProductCard({ data, selected, setSelected }) {
                         container
                         item
                         xs={12}
-                        justify="space-between"
+                        justifyContent="space-between"
                         spacing={2}
                     >
                         <Grid
@@ -101,7 +81,7 @@ export function ProductCard({ data, selected, setSelected }) {
                             xs={12}
                             md={6}
                             sm={12}
-                            justify="space-between"
+                            justifyContent="space-between"
                             spacing={2}
                         >
                             <Grid item xs={6}>
@@ -183,7 +163,7 @@ export function ProductCard({ data, selected, setSelected }) {
                             xs={12}
                             sm={12}
                             md={6}
-                            justify="space-between"
+                            justifyContent="space-between"
                             style={{ textAlign: 'right' }}
                             spacing={2}
                         >

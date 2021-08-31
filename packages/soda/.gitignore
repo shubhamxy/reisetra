@@ -37,3 +37,4 @@ databases/
 .env.local
 .env.production
 .env.staging
+.env.test

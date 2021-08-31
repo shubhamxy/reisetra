@@ -1,5 +1,5 @@
 import { InfiniteData } from 'react-query'
-import { ISuccessResponse, DataT } from './http'
+import { DataT, ISuccessResponse } from './http'
 
 export function getTotalDataCount(data: InfiniteData<ISuccessResponse<DataT>>) {
     let total = 0

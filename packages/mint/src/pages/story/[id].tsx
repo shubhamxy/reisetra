@@ -1,12 +1,13 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { AppHeader } from '../../ui/Header'
+import { MainLayout } from '../../layouts'
+import { AppHeader } from '../../ui'
 import { Footer } from '../../ui/Footer'
-import { Story } from '../../modules/Story'
+import { Story } from '../../modules'
 
 import { useRouter } from 'next/router'
 import { useStory } from '../../libs'
+
 const useStyles = makeStyles((theme) => ({
     content: {
         marginBottom: 48,

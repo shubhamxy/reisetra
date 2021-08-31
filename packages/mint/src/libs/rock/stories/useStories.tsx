@@ -4,98 +4,15 @@ import {
     useQuery,
     useQueryClient,
 } from 'react-query'
-import {
-    createStory,
-    deleteStory,
-    getStory,
-    getStories,
-    updateStory,
-    getForm,
-    createFormData,
-} from '../api/stories'
+import { createFormData, getForm, getStories, getStory } from '../api'
 import { updateSnackBar, useGlobalDispatch } from '../global'
 import { DataT, IErrorResponse, ISuccessResponse, QueryKeys } from '../utils'
 
-export const useCreateStory = () => {
-    const globalDispatch = useGlobalDispatch()
-    const queryClient = useQueryClient()
-    return useMutation(createStory, {
-        onSuccess: () => {
-            updateSnackBar({
-                message: 'Story added sucessfully',
-                type: 'info',
-                open: true,
-            })
-            queryClient.invalidateQueries(QueryKeys.stories)
-        },
-        onError: (error) => {
-            globalDispatch(
-                updateSnackBar({
-                    message: error['message'] || 'Server Error',
-                    type: 'error',
-                    open: true,
-                })
-            )
-        },
-    })
-}
 export const useStory = (id: string) =>
-    useQuery([QueryKeys.story, id], getStory, {
+    useQuery([QueryKeys.stories, id], getStory, {
         enabled: !!id,
         onSuccess: () => {},
     })
-
-export const useUpdateStory = () => {
-    const globalDispatch = useGlobalDispatch()
-    const queryClient = useQueryClient()
-
-    return useMutation(updateStory, {
-        onSuccess: () => {
-            updateSnackBar({
-                message: 'Story updated sucessfully',
-                type: 'info',
-                open: true,
-            })
-            queryClient.invalidateQueries(QueryKeys.story)
-            queryClient.invalidateQueries(QueryKeys.stories)
-        },
-        onError: (error) => {
-            globalDispatch(
-                updateSnackBar({
-                    message: error['message'] || 'Server Error',
-                    type: 'error',
-                    open: true,
-                })
-            )
-        },
-    })
-}
-
-export const useDeleteStory = () => {
-    const globalDispatch = useGlobalDispatch()
-    const queryClient = useQueryClient()
-    return useMutation(deleteStory, {
-        onSuccess: () => {
-            updateSnackBar({
-                message: 'Story deleted sucessfully',
-                type: 'info',
-                open: true,
-            })
-            queryClient.invalidateQueries(QueryKeys.story)
-            queryClient.invalidateQueries(QueryKeys.stories)
-        },
-        onError: (error) => {
-            globalDispatch(
-                updateSnackBar({
-                    message: error['message'] || 'Server Error',
-                    type: 'error',
-                    open: true,
-                })
-            )
-        },
-    })
-}
-
 export const useStories = (filters = {}, enabled = true) =>
     useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
         [QueryKeys.stories, filters],
@@ -115,7 +32,7 @@ export const useStories = (filters = {}, enabled = true) =>
     )
 
 export const useForm = (id: string) =>
-    useQuery([QueryKeys.form, id], getForm, {
+    useQuery([QueryKeys.forms, id], getForm, {
         enabled: !!id,
         onSuccess: () => {},
     })
@@ -130,7 +47,7 @@ export const useCreateForm = () => {
                 type: 'info',
                 open: true,
             })
-            queryClient.invalidateQueries(QueryKeys.form)
+            queryClient.invalidateQueries(QueryKeys.forms)
         },
         onError: (error) => {
             globalDispatch(

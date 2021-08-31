@@ -1,10 +1,9 @@
-/* eslint-disable @next/next/link-passhref */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    fade,
+    alpha,
+    createStyles,
     makeStyles,
     Theme,
-    createStyles,
     useTheme,
 } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -20,15 +19,20 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 import SearchIcon from '@material-ui/icons/Search'
 import { Button, InputBase } from '@material-ui/core'
 import Link from 'next/link'
-import { logout, useAuthDispatch, useAuthState } from '../../libs/rock/auth'
+import {
+    logout,
+    ROUTES,
+    useAuthDispatch,
+    useAuthState,
+    useCartItems,
+    useGlobalState,
+} from '../../libs'
 import { ShoppingCart } from '@material-ui/icons'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { config, useCartItems, useGlobalState } from '../../libs'
 import { Cart } from '../Cart'
 import { Logo } from '../Logo'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,14 +43,12 @@ const useStyles = makeStyles((theme: Theme) =>
             left: 0,
             border: 'none',
             right: 0,
-            position: '-webkit-sticky',
-            // @ts-ignore
             position: 'sticky',
             display: 'flex',
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: fade(theme.palette.background.paper, 0.4),
+            backgroundColor: alpha(theme.palette.background.paper, 0.4),
             backdropFilter: 'blur(30px)',
             '@supports (backdrop-filter: none)': {
                 boxShadow: '0 1px 4px 0 rgb(0 0 0 / 10%)',
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
         appBar: {
             paddingLeft: 24,
             paddingRight: 24,
-            maxWidth: theme.breakpoints.width('lg'),
+            maxWidth: theme.breakpoints.values.lg,
             display: 'flex',
             flex: 1,
             color: theme.palette.primary.main,
@@ -121,7 +123,8 @@ const useStyles = makeStyles((theme: Theme) =>
             background: theme.palette.background.paper,
             minWidth: 100,
             margin: 0,
-            marginTop: 8,
+            paddingTop: 8,
+            paddingBottom: 8,
             borderRadius: 8,
             padding: 0,
             justifyContent: 'center',
@@ -187,14 +190,14 @@ const useStyles = makeStyles((theme: Theme) =>
             width: 'auto',
             color: theme.palette.text.primary,
             ...theme.typography.caption,
-            backgroundColor: fade(theme.palette.common.white, 0.08),
+            backgroundColor: alpha(theme.palette.common.white, 0.08),
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.1),
+                backgroundColor: alpha(theme.palette.common.white, 0.1),
             },
             [theme.breakpoints.down('sm')]: {
-                backgroundColor: fade(theme.palette.common.white, 0.08),
+                backgroundColor: alpha(theme.palette.common.white, 0.08),
                 '&:hover': {
-                    backgroundColor: fade(theme.palette.common.white, 0.1),
+                    backgroundColor: alpha(theme.palette.common.white, 0.1),
                 },
             },
         },
@@ -265,26 +268,25 @@ export function AppHeader() {
     const data = response.data
     const authDispatch = useAuthDispatch()
     useEffect(() => {
-        if (router.query['q'] && searchText === '') {
-            setSearchText(
-                router.query['q'] ? (router.query['q'] as string) : ''
-            )
+        if (router.query.q && searchText === '') {
+            setSearchText(router.query.q ? (router.query.q as string) : '')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [router.query['q']])
+    }, [router.query.q])
 
     const debounced = useDebouncedCallback((value) => {
-        const routerObj = {}
-        if (router.pathname !== '/products') {
-            routerObj['query'] = {}
-            routerObj['pathname'] = '/products'
-        } else {
-            routerObj['query'] = router.query
+        const routerObj = {
+            query: router.query,
+            pathname: router.pathname,
+        }
+        if (router.pathname !== ROUTES.products) {
+            routerObj.query = {}
+            routerObj.pathname = ROUTES.products
         }
         if (!value) {
-            delete routerObj['query']['q']
+            delete routerObj.query.q
         } else {
-            routerObj['query']['q'] = value
+            routerObj.query.q = value
         }
         router.push(routerObj)
     }, 2000)
@@ -562,7 +564,7 @@ export function AppHeader() {
                                     centerRipple={false}
                                 >
                                     <Badge
-                                        badgeContent={data['items']?.length}
+                                        badgeContent={data.items?.length}
                                         color="primary"
                                     >
                                         <ShoppingCart
@@ -589,7 +591,7 @@ export function AppHeader() {
                                     centerRipple={false}
                                 >
                                     <Badge
-                                        badgeContent={data['items']?.length}
+                                        badgeContent={data.items?.length}
                                         color="primary"
                                     >
                                         <ShoppingCart
@@ -617,7 +619,7 @@ export function AppHeader() {
                 className={classes.drawer}
                 variant="temporary"
                 anchor="right"
-                onBackdropClick={handleDrawerClose}
+                onClose={handleDrawerClose}
                 open={open}
                 BackdropProps={{
                     className: classes.backdrop,

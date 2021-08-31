@@ -58,12 +58,6 @@
             <code>src/auth/auth.controller.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Prefix</h3>
-            </p>
-            <p class="comment">
-                <code>auth</code>
-            </p>
 
 
 
@@ -177,14 +171,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@UseGuards(LocalAuthGuard)<br />@Post(&#x27;email/login&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@UseGuards(LocalAuthGuard)<br />@Post(ROUTES.email_login)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">src/auth/auth.controller.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">src/auth/auth.controller.ts:86</a></div>
                 </td>
             </tr>
 
@@ -250,7 +244,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>emailSignup(body: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                    <code>emailSignup(body: <a href="../classes/CreateUserDTO.html" target="_self">CreateUserDTO</a>)</code>
                 </td>
             </tr>
 
@@ -258,14 +252,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Post(&#x27;email/signup&#x27;)<br /></code>
+                    <code>@Public()<br />@Post(ROUTES.email_signup)<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">src/auth/auth.controller.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/auth/auth.controller.ts:64</a></div>
                 </td>
             </tr>
 
@@ -291,7 +285,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                                <code><a href="../classes/CreateUserDTO.html" target="_self" >CreateUserDTO</a></code>
                                     </td>
 
                                     <td>
@@ -344,14 +338,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;login/oauth/google&#x27;)<br />@UseGuards(GoogleAuthGuard)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.login_oauth_google)<br />@UseGuards(GoogleAuthGuard)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">src/auth/auth.controller.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/auth/auth.controller.ts:134</a></div>
                 </td>
             </tr>
 
@@ -392,14 +386,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Post(&#x27;login/oauth/google/verify&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Post(ROUTES.login_oauth_google_verify)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="170"
-                            class="link-to-prism">src/auth/auth.controller.ts:170</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/auth/auth.controller.ts:176</a></div>
                 </td>
             </tr>
 
@@ -472,14 +466,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;login/oauth/google/redirect&#x27;)<br />@UseGuards(GoogleAuthGuard)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.login_oauth_google_redirect)<br />@UseGuards(GoogleAuthGuard)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">src/auth/auth.controller.ts:143</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/auth/auth.controller.ts:148</a></div>
                 </td>
             </tr>
 
@@ -563,14 +557,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@UseGuards(JwtRefreshGuard)<br />@Get(&#x27;refresh&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@UseGuards(JwtRefreshGuard)<br />@Get(ROUTES.refresh)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/auth/auth.controller.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/auth/auth.controller.ts:111</a></div>
                 </td>
             </tr>
 
@@ -645,14 +639,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;email/reset-password/:email/:token&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.email_reset_password_by_email_and_token)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="288"
-                            class="link-to-prism">src/auth/auth.controller.ts:288</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="297"
+                            class="link-to-prism">src/auth/auth.controller.ts:297</a></div>
                 </td>
             </tr>
 
@@ -727,7 +721,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>sendEmailForgotPassword(params: <a href="../classes/EmailParams.html" target="_self">EmailParams</a>)</code>
+                    <code>sendEmailForgotPassword(params: <a href="../classes/EmailDTO.html" target="_self">EmailDTO</a>)</code>
                 </td>
             </tr>
 
@@ -735,14 +729,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;email/forgot-password/:email&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.email_forgot_password_by_email)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">src/auth/auth.controller.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">src/auth/auth.controller.ts:273</a></div>
                 </td>
             </tr>
 
@@ -765,7 +759,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../classes/EmailParams.html" target="_self" >EmailParams</a></code>
+                                                <code><a href="../classes/EmailDTO.html" target="_self" >EmailDTO</a></code>
                                     </td>
 
                                     <td>
@@ -814,14 +808,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;email/resend-verification&#x27;)<br /></code>
+                    <code>@Get(ROUTES.auth_email_resend_verification)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">src/auth/auth.controller.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="248"
+                            class="link-to-prism">src/auth/auth.controller.ts:248</a></div>
                 </td>
             </tr>
 
@@ -887,7 +881,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setNewPassord(body: <a href="../classes/ResetPasswordDto.html" target="_self">ResetPasswordDto</a>)</code>
+                    <code>setNewPassord(body: <a href="../classes/ResetPasswordDTO.html" target="_self">ResetPasswordDTO</a>)</code>
                 </td>
             </tr>
 
@@ -895,14 +889,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Post(&#x27;email/reset-password&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Post(ROUTES.email_reset_password)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="318"
-                            class="link-to-prism">src/auth/auth.controller.ts:318</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="328"
+                            class="link-to-prism">src/auth/auth.controller.ts:328</a></div>
                 </td>
             </tr>
 
@@ -925,7 +919,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/ResetPasswordDto.html" target="_self" >ResetPasswordDto</a></code>
+                                                <code><a href="../classes/ResetPasswordDTO.html" target="_self" >ResetPasswordDTO</a></code>
                                     </td>
 
                                     <td>
@@ -966,7 +960,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updatePassord(body: <a href="../classes/UpdatePasswordDto.html" target="_self">UpdatePasswordDto</a>, request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                    <code>updatePassord(body: <a href="../classes/UpdatePasswordDTO.html" target="_self">UpdatePasswordDTO</a>, request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
                 </td>
             </tr>
 
@@ -974,14 +968,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;email/update-password&#x27;)<br /></code>
+                    <code>@Post(ROUTES.email_update_password)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="349"
-                            class="link-to-prism">src/auth/auth.controller.ts:349</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="359"
+                            class="link-to-prism">src/auth/auth.controller.ts:359</a></div>
                 </td>
             </tr>
 
@@ -1004,7 +998,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdatePasswordDto.html" target="_self" >UpdatePasswordDto</a></code>
+                                                <code><a href="../classes/UpdatePasswordDTO.html" target="_self" >UpdatePasswordDTO</a></code>
                                     </td>
 
                                     <td>
@@ -1057,7 +1051,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>verifyEmail(params: <a href="../classes/VerifyEmailParams.html" target="_self">VerifyEmailParams</a>, response)</code>
+                    <code>verifyEmail(params: <a href="../classes/VerifyEmailDTO.html" target="_self">VerifyEmailDTO</a>, response)</code>
                 </td>
             </tr>
 
@@ -1065,14 +1059,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;email/verify/:id/:token&#x27;)<br /></code>
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.email_verify_by_userId_and_token)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="210"
-                            class="link-to-prism">src/auth/auth.controller.ts:210</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="217"
+                            class="link-to-prism">src/auth/auth.controller.ts:217</a></div>
                 </td>
             </tr>
 
@@ -1097,7 +1091,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../classes/VerifyEmailParams.html" target="_self" >VerifyEmailParams</a></code>
+                                                <code><a href="../classes/VerifyEmailDTO.html" target="_self" >VerifyEmailDTO</a></code>
                                     </td>
 
                                     <td>
@@ -1152,23 +1146,24 @@ import { ConfigService } from &#x27;@nestjs/config&#x27;
 import { Throttle } from &#x27;@nestjs/throttler&#x27;
 import { OAuth2Client } from &#x27;google-auth-library&#x27;
 import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
     CustomError,
     CustomException,
     SuccessResponse,
     SuccessResponseDTO,
-} from &#x27;src/common/response&#x27;
+} from &#x27;src/core/response&#x27;
 import config, { auth, AuthEnv } from &#x27;src/config&#x27;
-import { CreateUserDto } from &#x27;src/user/dto&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
+import { CreateUserDTO } from &#x27;src/user/dto&#x27;
 import { User } from &#x27;src/user/entity&#x27;
 import { AuthenticatedRequest } from &#x27;./auth.interface&#x27;
 import { AuthResponse, AuthService } from &#x27;./auth.service&#x27;
 import {
-    EmailParams,
-    ResetPasswordDto,
-    UpdatePasswordDto,
-    VerifyEmailParams,
+    EmailDTO,
+    ResetPasswordDTO,
+    UpdatePasswordDTO,
+    VerifyEmailDTO,
 } from &#x27;./dto/login.dto&#x27;
 import { GoogleAuthGuard } from &#x27;./gaurd/google.gaurd&#x27;
 import { LocalAuthGuard } from &#x27;./gaurd/local.gaurd&#x27;
@@ -1176,7 +1171,7 @@ import JwtRefreshGuard from &#x27;./gaurd/refresh.gaurd&#x27;
 import { GoogleUser } from &#x27;./strategy/google.strategy&#x27;
 const authConfig &#x3D; auth()
 
-@Controller(&#x27;auth&#x27;)
+@Controller(ROUTES.auth)
 export class AuthController {
     googleOAuth2client: OAuth2Client
     auth: AuthEnv
@@ -1197,8 +1192,9 @@ export class AuthController {
      * @returns authentication data
      */
     @Public()
-    @Post(&#x27;email/signup&#x27;)
-    async emailSignup(@Body() body: CreateUserDto): Promise&lt;SuccessResponse&gt; {
+    @Post(ROUTES.email_signup)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    async emailSignup(@Body() body: CreateUserDTO): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.authService.signup(body)
             return { data, message: &#x27;SignUp Success&#x27; }
@@ -1219,7 +1215,7 @@ export class AuthController {
     @Public()
     @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
     @UseGuards(LocalAuthGuard)
-    @Post(&#x27;email/login&#x27;)
+    @Post(ROUTES.email_login)
     async emailLogin(
         @Req()
         request: AuthenticatedRequest&lt;Record&lt;string, unknown&gt;, Partial&lt;User&gt;&gt;
@@ -1242,8 +1238,9 @@ export class AuthController {
      * @returns authentication data
      */
     @Public()
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
     @UseGuards(JwtRefreshGuard)
-    @Get(&#x27;refresh&#x27;)
+    @Get(ROUTES.refresh)
     async refresh(
         @Req() request: AuthenticatedRequest
     ): Promise&lt;SuccessResponse&gt; {
@@ -1264,7 +1261,8 @@ export class AuthController {
      *
      */
     @Public()
-    @Get(&#x27;login/oauth/google&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.login_oauth_google)
     @UseGuards(GoogleAuthGuard)
     async googleAuth(): Promise&lt;SuccessResponse&gt; {
         return {
@@ -1277,7 +1275,8 @@ export class AuthController {
      *
      */
     @Public()
-    @Get(&#x27;login/oauth/google/redirect&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.login_oauth_google_redirect)
     @UseGuards(GoogleAuthGuard)
     async googleAuthRedirect(
         @Req()
@@ -1305,7 +1304,8 @@ export class AuthController {
      *
      */
     @Public()
-    @Post(&#x27;login/oauth/google/verify&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Post(ROUTES.login_oauth_google_verify)
     async googleAuthEndPoint(
         @Body()
         body: {
@@ -1345,15 +1345,16 @@ export class AuthController {
      *
      */
     @Public()
-    @Get(&#x27;email/verify/:id/:token&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.email_verify_by_userId_and_token)
     public async verifyEmail(
         @Param()
-        params: VerifyEmailParams,
+        params: VerifyEmailDTO,
         @Response() response
     ) {
         try {
             const emailVerified &#x3D; await this.authService.verifyEmail(
-                params.id,
+                params.userId,
                 params.token
             )
             if (emailVerified) {
@@ -1376,7 +1377,7 @@ export class AuthController {
      * Resend verification email.
      *
      */
-    @Get(&#x27;email/resend-verification&#x27;)
+    @Get(ROUTES.auth_email_resend_verification)
     public async sendEmailVerification(
         @Req() request: AuthenticatedRequest
     ): Promise&lt;SuccessResponse&gt; {
@@ -1400,9 +1401,10 @@ export class AuthController {
     }
 
     @Public()
-    @Get(&#x27;email/forgot-password/:email&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.email_forgot_password_by_email)
     public async sendEmailForgotPassword(
-        @Param() params: EmailParams
+        @Param() params: EmailDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.authService.sendForgotPasswordEmail(
@@ -1423,7 +1425,8 @@ export class AuthController {
     }
 
     @Public()
-    @Get(&#x27;email/reset-password/:email/:token&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.email_reset_password_by_email_and_token)
     public async resetPassword(
         @Param()
         params: {
@@ -1437,7 +1440,7 @@ export class AuthController {
                 // @TODO redirect to reset page
                 return response.redirect(
                     303,
-                    &#x60;${config.clientUrl}/login/reset-password?email&#x3D;${params.email}&amp;token&#x3D;${params.token}&#x60;
+                    &#x60;${config.authUrl}/reset-password?email&#x3D;${params.email}&amp;token&#x3D;${params.token}&#x60;
                 )
             } else {
                 // @TODO redirect to error page
@@ -1453,9 +1456,10 @@ export class AuthController {
     }
 
     @Public()
-    @Post(&#x27;email/reset-password&#x27;)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Post(ROUTES.email_reset_password)
     public async setNewPassord(
-        @Body() body: ResetPasswordDto
+        @Body() body: ResetPasswordDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const tokenVerified &#x3D; await this.authService.verifyForgotPasswordToken(
@@ -1484,9 +1488,9 @@ export class AuthController {
         }
     }
 
-    @Post(&#x27;email/update-password&#x27;)
+    @Post(ROUTES.email_update_password)
     public async updatePassord(
-        @Body() body: UpdatePasswordDto,
+        @Body() body: UpdatePasswordDTO,
         @Req() request: AuthenticatedRequest
     ): Promise&lt;SuccessResponse&gt; {
         try {

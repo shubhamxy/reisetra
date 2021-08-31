@@ -70,26 +70,26 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
         errors,
         handleChange,
         handleSubmit,
-        validateForm,
-        setTouched,
         handleBlur,
-        resetForm,
     } = useFormik({
         initialValues,
         validateOnMount: true,
         enableReinitialize: true,
         validationSchema: addressSchema,
-        onSubmit: (data) => {
-            const { isBillingAddressSame, ...rest } = data
+        onSubmit: (formData) => {
+            const { isBillingAddressSame } = formData
             cartCheckout.mutate(
                 {
                     cartId: cart.id,
-                    addressId: data['address'],
+                    addressId: formData.address,
+                    billingAddressId: isBillingAddressSame
+                        ? formData.address
+                        : formData.billingAddress,
                     promo: promo,
                 },
                 {
-                    onSuccess: ({ data }) => {
-                        handleTransaction(data)
+                    onSuccess: ({ data: responseData }) => {
+                        handleTransaction(responseData)
                     },
                 }
             )
@@ -197,7 +197,7 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
                             variant="contained"
                             size="medium"
                             color="secondary"
-                            onClick={(e) => {
+                            onClick={() => {
                                 dispatch(updatePromo(values.promo))
                             }}
                         >
@@ -210,9 +210,7 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
                             pl={1.6}
                         >
                             <Typography variant="caption">
-                                {data?.['promo']
-                                    ? `${data['promo']} applied!`
-                                    : ''}
+                                {data?.promo ? `${data.promo} applied!` : ''}
                             </Typography>
                         </Box>
                     </Grid>
@@ -224,7 +222,7 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
                         variant="contained"
                         size="large"
                         color="primary"
-                        onClick={(e) => {
+                        onClick={() => {
                             if (!isValid) {
                                 dispatch(
                                     updateSnackBar({

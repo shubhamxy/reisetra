@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-import {
-    Box,
-    Dialog,
-    FormControlLabel,
-    Switch,
-    Typography,
-} from '@material-ui/core'
+import { Box, Dialog, Typography } from '@material-ui/core'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import Image from 'next/image'
@@ -459,8 +453,10 @@ interface DataT {
     url: string
     title?: string
 }
+
 interface ImagePreview {
     [x: string]: any
+
     data: DataT[]
     style?: any
     className?: any

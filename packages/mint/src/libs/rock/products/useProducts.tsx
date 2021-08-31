@@ -5,11 +5,7 @@ import {
     useQueryClient,
 } from 'react-query'
 import {
-    createCategory,
-    createOffer,
-    createProduct,
     createReview,
-    createTag,
     deleteReview,
     getBrands,
     getCategories,
@@ -18,23 +14,17 @@ import {
     getRecommendations,
     getReviews,
     getTags,
-    updateProduct,
     updateReview,
-} from '../api/product'
+} from '../api'
 import { updateSnackBar, useGlobalDispatch } from '../global'
 import { DataT, IErrorResponse, ISuccessResponse, QueryKeys } from '../utils'
 
-export const useCreateProduct = () => useMutation(createProduct)
 export const useProduct = (id: string) =>
-    useQuery([QueryKeys.product, id], getProduct, {
+    useQuery([QueryKeys.products, id], getProduct, {
         enabled: !!id,
         onSuccess: () => {},
     })
 
-export const useProductMutation = () => useMutation(getProduct)
-
-export const useUpdateProduct = () => useMutation(updateProduct)
-export const useDeleteProduct = () => useMutation(createProduct)
 export const useProducts = (filters = {}, enabled = true) =>
     useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
         [QueryKeys.products, filters],
@@ -85,10 +75,6 @@ export const useCategories = (params = {}) =>
     useQuery([QueryKeys.categories, params], getCategories, {
         onSuccess: () => {},
     })
-
-export const useCreateCategory = () => useMutation(createCategory)
-export const useCreateTag = () => useMutation(createTag)
-export const useCreateOffer = () => useMutation(createOffer)
 
 export const useReviews = (id: string) =>
     useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(

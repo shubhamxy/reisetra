@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { isBrowser } from '../../config'
 import { pageView } from './analytics'
 import NProgress from 'nprogress'
+
 export const useRouteAnalytics = () => {
     const router = useRouter()
     useEffect(() => {

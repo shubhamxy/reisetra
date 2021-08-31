@@ -1,8 +1,8 @@
-import { UserProfile } from '../../../api/user'
+import { UserProfile } from '../../../api'
 import { config, isBrowser } from '../../../config'
 import {
     Events,
-    initial_props,
+    initialProps,
     mapUserProperties,
     User,
     UserState,
@@ -11,13 +11,15 @@ import {
 export async function initialize() {
     console.log({ initialize: 'xxx' })
 }
+
 export async function pageView(pathName: string) {
     // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
     console.log({ pathName })
-    if (isBrowser && typeof window['gtag'] === 'function') {
+    // @ts-ignore
+    if (isBrowser && typeof window.gtag === 'function') {
         // @ts-ignore
         window.gtag('config', config.analytics.gaMeasurementId, {
-            ...initial_props,
+            ...initialProps,
             page_path: pathName,
         })
     }
@@ -36,7 +38,8 @@ export async function event(
         value: string
     }
 ) {
-    if (isBrowser && typeof window['gtag'] === 'function') {
+    // @ts-ignore
+    if (isBrowser && typeof window.gtag === 'function') {
         // @ts-ignore
         window.gtag('event', action, {
             event_category: category,
@@ -63,7 +66,8 @@ export async function logout() {
 }
 
 export async function identify(user: Partial<UserProfile>) {
-    if (isBrowser && typeof window['gtag'] === 'function' && user.id) {
+    // @ts-ignore
+    if (isBrowser && typeof window.gtag === 'function' && user.id) {
         // @ts-ignore
         window.gtag('config', config.analytics.gaMeasurementId, {
             ...mapUserProperties(user),

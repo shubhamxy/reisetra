@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Yup from 'yup'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -7,16 +7,17 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { format } from 'date-fns'
-import Autocomplete, {
-    createFilterOptions,
-} from '@material-ui/lab/Autocomplete'
-import { Paper, Link } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import { Link, Paper } from '@material-ui/core'
 import { useFormik } from 'formik'
-import { useAuthState } from '../../libs/rock/auth'
-import { config, useCreateSupportTicket, useOrders } from '../../libs'
-import { useEffect } from 'react'
+import {
+    config,
+    useAuthState,
+    useCreateSupportTicket,
+    useOrders,
+} from '../../libs'
 import { useRouter } from 'next/router'
-const filter = createFilterOptions<{ name: string }>()
+
 const SupportSchema = Yup.object().shape({
     order: Yup.object().nullable(),
     subject: Yup.string()
@@ -31,6 +32,7 @@ const SupportSchema = Yup.object().shape({
         )
         .min(20, 'Description is too short - should be 20 chars minimum.'),
 })
+
 function getOrderName(order) {
     if (!order) {
         return ''
@@ -38,6 +40,7 @@ function getOrderName(order) {
     return `Order Placed for ${order.cart.items.length} items on
   ${format(new Date(order.createdAt), 'dd MMMM yyyy')}`
 }
+
 const useStyles = makeStyles((theme) => ({
     root: {},
     header: {},
@@ -136,13 +139,12 @@ export function Support() {
     const orders = useOrders({ size: 20 })
     const authState = useAuthState()
     const support = useCreateSupportTicket()
-    const { user, isAuthenticated, isHydrated } = authState
+    const { isAuthenticated, isHydrated } = authState
     const router = useRouter()
     const {
         values,
         isValid,
         resetForm,
-        setErrors,
         touched,
         errors,
         handleChange,
@@ -193,6 +195,7 @@ export function Support() {
                 `/login?redirect_route=${encodeURIComponent(router.asPath)}`
             )
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated, isHydrated])
     return (
         <Paper className={classes.paper} component="section">

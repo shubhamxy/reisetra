@@ -3,10 +3,10 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
 import { Request } from 'express'
 import { AuthService } from '../auth.service'
-import { CustomError } from 'src/common/response'
+import { CustomError } from 'src/core/response'
 import { UserAuthPayload } from '../auth.interface'
-import { auth } from 'src/config'
-import { errorCodes } from 'src/common/codes/error'
+import { auth } from 'src/core/config'
+import { errorCodes } from 'src/core/codes/error'
 const config = auth()
 
 @Injectable()

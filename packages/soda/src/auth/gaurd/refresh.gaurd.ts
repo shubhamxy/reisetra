@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpStatus, Injectable } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { errorCodes, errorTypes } from '../../common/codes/error'
-import { CustomException } from '../../common/response'
+import { errorCodes, errorTypes } from '../../core/codes/error'
+import { CustomException } from '../../core/response'
 
 @Injectable()
 export default class JwtRefreshGuard extends AuthGuard('jwt-refresh-token') {

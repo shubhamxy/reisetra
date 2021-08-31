@@ -1,26 +1,21 @@
 import React, { useState } from 'react'
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import {
-    Dialog,
-    DialogContent,
-    Grid,
-    Chip,
     Box,
+    Button,
     ButtonGroup,
+    Chip,
+    Dialog,
     DialogActions,
+    DialogContent,
     DialogTitle,
+    Grid,
 } from '@material-ui/core'
 import { Check, Error } from '@material-ui/icons'
-import { Button } from '@material-ui/core'
-import {
-    useCancelOrder,
-    useOrder,
-    useOrderInvoice,
-    useUpdateOrder,
-} from '../../libs'
+import { useCancelOrder, useOrder } from '../../libs'
 import { ProductList } from '../../ui/ProductList'
 import { format } from 'date-fns'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
@@ -117,13 +112,7 @@ export default function OrderCard(orderData) {
     }
 
     const Title = () => (
-        <Grid
-            xs={12}
-            container
-            justifyContent="center"
-            alignItems="center"
-            spacing={1}
-        >
+        <Grid container justifyContent="center" alignItems="center" spacing={1}>
             <Grid container item xs={12} md={6}>
                 <Grid item xs>
                     <Typography variant="caption">ORDER PLACED</Typography>
@@ -215,7 +204,7 @@ export default function OrderCard(orderData) {
     )
 
     const HeadLine = () => (
-        <Grid xs={12} container>
+        <Grid container>
             <Grid container item>
                 <Grid item xs={12}>
                     <Typography variant="caption">Order Placed</Typography>
@@ -253,13 +242,13 @@ export default function OrderCard(orderData) {
         }
 
         return (
-            <Grid xs={12} container>
+            <Grid container>
                 <Grid
                     item
                     xs={12}
                     container
                     alignItems="center"
-                    justify="center"
+                    justifyContent="center"
                 >
                     {cart && (
                         <Grid item xs={12} container>
@@ -326,7 +315,7 @@ export default function OrderCard(orderData) {
                             </Grid>
                         </Grid>
                     )}
-                    {+data['itemDiscount'] > 0 && (
+                    {+data.itemDiscount > 0 && (
                         <Grid item xs={12} container>
                             <Grid item xs={12}>
                                 <Typography variant="caption">
@@ -484,7 +473,7 @@ export default function OrderCard(orderData) {
                             xs={12}
                             container
                             alignItems="flex-start"
-                            justify="flex-start"
+                            justifyContent="flex-start"
                         >
                             <Box m={1} mt={2}>
                                 <Typography
@@ -499,7 +488,7 @@ export default function OrderCard(orderData) {
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Card style={{ width: '100%' }}>
                                     <CardContent>
@@ -514,14 +503,14 @@ export default function OrderCard(orderData) {
                             xs={12}
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Grid
                                 item
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Box m={1} mt={2}>
                                     <Typography
@@ -540,14 +529,14 @@ export default function OrderCard(orderData) {
                             xs={12}
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Grid
                                 item
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Box m={1} mt={2}>
                                     <Typography
@@ -563,7 +552,7 @@ export default function OrderCard(orderData) {
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Card style={{ width: '100%' }}>
                                     <CardContent>
@@ -578,14 +567,14 @@ export default function OrderCard(orderData) {
                             xs={12}
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Grid
                                 item
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Box m={1} mt={2}>
                                     <Typography
@@ -601,7 +590,7 @@ export default function OrderCard(orderData) {
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Card style={{ width: '100%' }}>
                                     <CardContent>
@@ -616,14 +605,14 @@ export default function OrderCard(orderData) {
                             xs={12}
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Grid
                                 item
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Box m={1} mt={2}>
                                     <Typography
@@ -639,7 +628,7 @@ export default function OrderCard(orderData) {
                                 xs={12}
                                 container
                                 alignItems="flex-start"
-                                justify="flex-start"
+                                justifyContent="flex-start"
                             >
                                 <Card style={{ width: '100%' }}>
                                     <CardContent>

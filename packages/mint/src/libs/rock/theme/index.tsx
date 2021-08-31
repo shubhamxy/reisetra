@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
-    responsiveFontSizes,
     Color,
+    responsiveFontSizes,
     SimplePaletteColorOptions,
 } from '@material-ui/core'
 import { createTheme, ThemeOptions } from '@material-ui/core/styles'
-
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { storage } from '../utils'
 
 export const primary: SimplePaletteColorOptions = {
@@ -59,17 +57,17 @@ export const warning: SimplePaletteColorOptions = {
 }
 
 export const info: SimplePaletteColorOptions = {
-    main: '#f00',
-    dark: '#f00',
-    light: '#f00',
-    contrastText: '#f00',
+    main: '#2271ad',
+    dark: '#0c2d83',
+    light: '#092354',
+    contrastText: '#586563',
 }
 
 export const success: SimplePaletteColorOptions = {
-    main: '#f00',
-    dark: '#f00',
-    light: '#f00',
-    contrastText: '#f00',
+    main: '#4e9432',
+    dark: '#10d28f',
+    light: '#47a866',
+    contrastText: '#3a3830',
 }
 
 export const grey: Partial<Color> = {
@@ -110,6 +108,7 @@ declare module '@material-ui/core/styles' {
             blue: Partial<Color>
         }
     }
+
     interface ThemeOptions {
         colors?: {
             golden: SimplePaletteColorOptions
@@ -294,6 +293,7 @@ export function themeOptions(type: 'light' | 'dark'): ThemeOptions {
             MuiMenuItem: {
                 root: {
                     borderRadius: 0,
+                    justifyContent: 'center',
                 },
             },
             MuiIconButton: {
@@ -426,19 +426,20 @@ export function themeOptions(type: 'light' | 'dark'): ThemeOptions {
 
 // Create a theme instance.
 export function useTheme() {
-    const [darkMode, setDarkMode] = useState<boolean>(true)
+    const [darkMode, setDarkMode] = useState<boolean>(
+        storage.get.dark_mode() !== '0'
+    )
 
     // const prefersLightMode = useMediaQuery("(prefers-color-scheme: light)");
-    // console.log({prefersLightMode})
     // useEffect(() => {
     //   setDarkMode(!prefersLightMode);
     // }, [prefersLightMode]);
 
     function update() {
-        const dark_mode = storage.get.dark_mode()
-        setDarkMode(!dark_mode)
-        storage.put.dark_mode(!dark_mode)
+        setDarkMode(storage.get.dark_mode() === '0')
+        storage.put.dark_mode(storage.get.dark_mode() === '0')
     }
+
     useEffect(() => {
         document?.addEventListener?.('toggle_dark_mode', update)
         return () => {

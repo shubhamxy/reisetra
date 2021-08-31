@@ -1,14 +1,11 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
-import { MainLayout } from '../layouts/MainLayout'
-import { AppHeader } from '../ui/Header'
+import { MainLayout } from '../layouts'
+import { AppHeader, GridList, HeroCard } from '../ui'
 import { Footer } from '../ui/Footer'
-import HeroCard from '../ui/HeroCard'
-import { config } from '../libs'
-import { useStories } from '../libs/rock/stories'
+import { config, useStories } from '../libs'
 import { useRouter } from 'next/router'
-import { GridItem } from '../modules/Stories'
-import GridList from '../ui/List/GridList'
+import { StoriesGridItem } from '../modules'
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -59,7 +56,7 @@ const StoriesPage = () => {
             <GridList
                 query={query}
                 renderItem={({ item, index }) => (
-                    <GridItem
+                    <StoriesGridItem
                         {...item}
                         showDescription
                         onClick={() => {

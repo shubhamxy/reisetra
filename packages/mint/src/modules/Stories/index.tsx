@@ -2,14 +2,14 @@
 import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import {
+    alpha,
     Box,
     Card,
-    CardMedia,
     CardContent,
-    fade,
-    Typography,
+    CardMedia,
     Chip,
     List,
+    Typography,
 } from '@material-ui/core'
 import { useInterval } from '../../libs'
 import Image from 'next/image'
@@ -70,7 +70,7 @@ const useGridItemStyles = makeStyles<
         color:
             colors && colors[0]
                 ? colors[0]
-                : fade(styles[styleIndex % styles.length].color, 0.8),
+                : alpha(styles[styleIndex % styles.length].color, 0.8),
         background:
             colors && colors[1]
                 ? colors[1]
@@ -174,7 +174,7 @@ const useGridItemStyles = makeStyles<
         background: theme.palette.text.primary,
         color: theme.palette.background.paper,
         '&:hover': {
-            backgroundColor: fade(theme.palette.text.primary, 0.8),
+            backgroundColor: alpha(theme.palette.text.primary, 0.8),
         },
         '&:focus': {
             backgroundColor: theme.palette.text.primary,
@@ -193,13 +193,11 @@ const useGridItemStyles = makeStyles<
     },
 }))
 
-export function GridItem({
+export function StoriesGridItem({
     styleIndex = 0,
-    id,
     title,
     description,
     tags,
-    body,
     styles: colors,
     onClick,
     files,
@@ -295,23 +293,6 @@ export function GridItem({
                         })}
                     </List>
                 </Box>
-                {/* <Box display="flex" flexDirection="column">
-          <Box className={classes.addToCartContainer} mt={1.4}>
-            <IconButton aria-label="settings" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-              <MoreVert />
-            </IconButton>
-          </Box>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={e => handleEdit(id)}>Edit</MenuItem>
-            <MenuItem onClick={e => handleDelete(id)}>Delete</MenuItem>
-          </Menu>
-        </Box> */}
             </CardContent>
         </Card>
     )

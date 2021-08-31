@@ -3,9 +3,10 @@ import { CacheProvider } from '@emotion/react'
 
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
-import { RocksProvider, analytics } from '../libs'
+import { analytics, RocksProvider } from '../libs'
 import 'nprogress/nprogress.css'
 import '../assets/styles/main.css'
+
 analytics.initialize()
 
 export const cache = createCache({ key: 'css', prepend: true })

@@ -274,7 +274,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/CreateOrderDto.html" target="_self">CreateOrderDto</a>)</code>
+                    <code>createOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/CreateOrderDTO.html" target="_self">CreateOrderDTO</a>)</code>
                 </td>
             </tr>
 
@@ -317,7 +317,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                                <code><a href="../classes/CreateOrderDto.html" target="_self" >CreateOrderDto</a></code>
+                                                <code><a href="../classes/CreateOrderDTO.html" target="_self" >CreateOrderDTO</a></code>
                                     </td>
 
                                     <td>
@@ -570,7 +570,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getOrderDocuments(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="../classes/GetAllOrdersDocumentsDto.html" target="_self">GetAllOrdersDocumentsDto</a>)</code>
+                    <code>getOrderDocuments(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="../classes/GetAllOrdersDocumentsDTO.html" target="_self">GetAllOrdersDocumentsDTO</a>)</code>
                 </td>
             </tr>
 
@@ -613,7 +613,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="../classes/GetAllOrdersDocumentsDto.html" target="_self" >GetAllOrdersDocumentsDto</a></code>
+                                                <code><a href="../classes/GetAllOrdersDocumentsDTO.html" target="_self" >GetAllOrdersDocumentsDTO</a></code>
                                     </td>
 
                                     <td>
@@ -736,7 +736,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOrder(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateOrderDto.html" target="_self">UpdateOrderDto</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>updateOrder(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateOrderDTO.html" target="_self">UpdateOrderDTO</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -779,7 +779,7 @@
                                 <tr>
                                     <td>update</td>
                                     <td>
-                                                <code><a href="../classes/UpdateOrderDto.html" target="_self" >UpdateOrderDto</a></code>
+                                                <code><a href="../classes/UpdateOrderDTO.html" target="_self" >UpdateOrderDTO</a></code>
                                     </td>
 
                                     <td>
@@ -824,19 +824,19 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &#x27;.prisma/client&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
-import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &#x27;src/common/pagination&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+} from &#x27;src/core/pagination&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
 import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
-import { CreateOrderDto, GetAllOrdersDocumentsDto, UpdateOrderDto } from &#x27;./dto&#x27;
+import { CreateOrderDTO, GetAllOrdersDocumentsDTO, UpdateOrderDTO } from &#x27;./dto&#x27;
 import { sendEmail, transactionEmail } from &#x27;src/utils&#x27;
 import type { Prisma } from &#x27;.prisma/client&#x27;
-import { File } from &#x27;src/files/entity&#x27;
+import { File } from &#x27;src/master/files/entity&#x27;
 
 @Injectable()
 export class OrderService {
@@ -1033,7 +1033,7 @@ export class OrderService {
 
     async getOrderDocuments(
         id: string,
-        options: GetAllOrdersDocumentsDto
+        options: GetAllOrdersDocumentsDTO
     ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;File&gt;&gt;&gt; {
         try {
             const {
@@ -1067,7 +1067,7 @@ export class OrderService {
         }
     }
 
-    async createOrder(userId: string, data: CreateOrderDto): Promise&lt;any&gt; {
+    async createOrder(userId: string, data: CreateOrderDTO): Promise&lt;any&gt; {
         try {
             const product &#x3D; await this.db.order.create({
                 data: {
@@ -1091,7 +1091,7 @@ export class OrderService {
 
     async updateOrder(
         orderId: string,
-        update: UpdateOrderDto,
+        update: UpdateOrderDTO,
         userId: string
     ): Promise&lt;any&gt; {
         try {

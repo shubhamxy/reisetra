@@ -1,10 +1,8 @@
-import { MetricsName, Metrics } from './types'
 import * as mixpanel from './mixpanel'
 import * as gtag from './gtag'
-import * as logrocket from './logrocket'
-import { UserProfile } from '../../api/user'
+import * as logRocket from './logrocket'
+import { UserProfile } from '../../api'
 import { config, isBrowser } from '../../config'
-import { NextWebVitalsMetric } from 'next/app'
 
 function caller(fnName: string, ...params) {
     if (!isBrowser || !config.isProduction) {
@@ -14,14 +12,14 @@ function caller(fnName: string, ...params) {
         mixpanel[fnName]?.(...params)
     }
     if (config.analytics.enableLogrocket) {
-        logrocket[fnName]?.(...params)
+        logRocket[fnName]?.(...params)
     }
     if (config.analytics.enableGTag) {
         gtag[fnName]?.(...params)
     }
 }
 
-export async function initialize() {
+export function initialize() {
     try {
         caller('initialize')
     } catch (error) {
@@ -62,24 +60,6 @@ export async function identify(user: Partial<UserProfile>) {
     }
     try {
         caller('identify', user)
-    } catch (error) {
-        console.error('analytics', error)
-    }
-}
-
-export async function metrics(metric: NextWebVitalsMetric) {
-    if (!metric) {
-        return
-    }
-    try {
-        const metricValue = Math.round(metric.value)
-        const data = {
-            [Metrics.metric_id]: metric.id,
-            [Metrics.metric_label]: metric.label,
-            [Metrics.metric_name]: MetricsName[metric.name],
-            [Metrics.metric_value]: metricValue,
-        }
-        caller('metrics', data)
     } catch (error) {
         console.error('analytics', error)
     }

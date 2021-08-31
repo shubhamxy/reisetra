@@ -1,60 +1,67 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_GUARD } from '@nestjs/core'
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { LoggerModule } from 'nestjs-pino'
-import { AddressModule } from './address/address.module'
+import { AddressModule } from './masters/address/address.module'
 import { AuthModule } from './auth/auth.module'
 import { JwtAuthGuard } from './auth/gaurd/jwt.gaurd'
 import { RolesGuard } from './auth/gaurd/roles.gaurd'
-import { CartModule } from './cart/cart.module'
-import { CacheModule } from './common/modules/cache/cache.module'
-import { config, pinoConfig } from './config'
-import { validate } from './config/env.validation'
-import settings from './config/settings'
-import { FilesModule } from './files/files.module'
-import { HealthCheckModule } from './health/health.module'
-import { InventoryModule } from './inventory/inventory.module'
-import { OrderModule } from './order/order.module'
-import { ProductModule } from './product/product.module'
-import { ReviewModule } from './review/review.module'
-import { StoryModule } from './story/story.module'
-import { SupportModule } from './support/support.module'
-import { TransactionModule } from './transaction/transaction.module'
-import { UserModule } from './user/user.module'
-
-const settingsEnv = settings()
+import { CartModule } from './carts/cart.module'
+import { CacheModule } from './core/modules/cache/cache.module'
+import { configOptions, pinoConfig, SettingsEnv } from './core/config'
+import { FilesModule } from './masters/files/files.module'
+import { HealthCheckModule } from './core/health/health.module'
+import { InventoryModule } from './products/inventory/inventory.module'
+import { OrderModule } from './orders/order.module'
+import { ProductModule } from './products/product.module'
+import { ReviewModule } from './products/review/review.module'
+import { StoryModule } from './masters/stories/story.module'
+import { SupportModule } from './supports/support.module'
+import { TransactionModule } from './carts/transaction/transaction.module'
+import { UserModule } from './users/user.module'
+import { TagModule } from './masters/tag/tag.module'
+import { BrandModule } from './masters/brand/brand.module'
+import { CategoryModule } from './masters/category/category.module'
+import { OfferModule } from './masters/offer/offer.module'
+import { FormModule } from './masters/forms/form.module'
 
 @Module({
     imports: [
-        // ServeStaticModule.forRoot({
-        //   rootPath: join(__dirname, '..', 'client'),
-        //   exclude: ['/api*'],
-        //   serveStaticOptions: {
-        //   }
-        // }),
-        LoggerModule.forRoot(pinoConfig),
-        ConfigModule.forRoot({
-            isGlobal: true,
-            load: config,
-            cache: true,
-            validationOptions: { config },
-            validate,
+        ConfigModule.forRoot(configOptions),
+        LoggerModule.forRootAsync({
+            imports: [],
+            inject: [],
+            useFactory: () => {
+                return pinoConfig
+            },
         }),
-        ThrottlerModule.forRoot(settingsEnv.throttle),
+        ThrottlerModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                const config = configService.get<SettingsEnv>('settings')
+                return config.throttle
+            },
+        }),
         CacheModule,
         HealthCheckModule,
         AuthModule,
         UserModule,
-        CartModule,
+        AddressModule,
         ProductModule,
         InventoryModule,
-        OrderModule,
-        AddressModule,
-        TransactionModule,
-        FilesModule,
-        ReviewModule,
         StoryModule,
+        CartModule,
+        OrderModule,
+        TransactionModule,
+        ReviewModule,
+        BrandModule,
+        CategoryModule,
+        FormModule,
+        FilesModule,
+        TagModule,
+        OfferModule,
         SupportModule,
     ],
     controllers: [],

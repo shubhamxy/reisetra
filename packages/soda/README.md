@@ -14,7 +14,7 @@
 
 - User Auth / Management APIs
 - Product/Inventory managemante APIs
-- Cart managemante APIs
+- Cart management APIs
 - Checkout API
 - Orders API
 - Transaction API

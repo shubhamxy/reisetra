@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
-import { useFileUpload } from '../../libs/rock/file'
+import { useFiles } from '../../libs'
 import { ImagePreview } from '../../ui/MediaPreview'
 import { Box, makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+
 const useStyles = makeStyles((theme) => ({
     dropzone: {
         position: 'relative',
@@ -22,15 +23,9 @@ const useStyles = makeStyles((theme) => ({
         border: `2px dashed ${theme.palette.primary.main}88`,
     },
 }))
-export default function ProductImages({
-    values,
-    errors,
-    touched,
-    handleBlur,
-    setFieldValue,
-    handleChange,
-}) {
-    const upload = useFileUpload({
+
+export function ProductImages({ values, setFieldValue }) {
+    const upload = useFiles({
         fileType: 'images',
         multiple: true,
         onSuccess: (files) => {
@@ -47,7 +42,7 @@ export default function ProductImages({
                         data={values.images}
                         showRemoveIcon
                         borderRadius="12px"
-                        handleRemoveItem={(e, index, item) => {
+                        handleRemoveItem={(e, index) => {
                             const val = [...values.images]
                             val.splice(index, 1)
                             setFieldValue('images', val)

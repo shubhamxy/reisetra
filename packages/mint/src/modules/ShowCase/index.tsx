@@ -1,17 +1,17 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import {
+    alpha,
     Box,
-    Card,
-    CardMedia,
-    CardContent,
-    fade,
-    Typography,
-    IconButton,
     Button,
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
 } from '@material-ui/core'
-import { useInterval, useProducts, useRecommendations } from '../../libs'
-import GridList from '../../ui/List/GridList'
+import { useInterval, useRecommendations } from '../../libs'
+import { GridList } from '../../ui/List'
 import { useRouter } from 'next/router'
 import { ShoppingCart } from '@material-ui/icons'
 import { Rating } from '@material-ui/lab'
@@ -71,7 +71,7 @@ const useGridItemStyles = makeStyles<
         color:
             colors && colors[0]
                 ? colors[0]
-                : fade(styles[styleIndex].color, 0.8),
+                : alpha(styles[styleIndex].color, 0.8),
         background:
             colors && colors[1] ? colors[1] : styles[styleIndex].background,
         [theme.breakpoints.down('sm')]: {
@@ -96,14 +96,14 @@ const useGridItemStyles = makeStyles<
         flex: 1,
     },
 
-    title: ({ styleIndex }) => ({
+    title: {
         ...theme.typography.subtitle2,
         display: '-webkit-box',
         overflow: 'hidden',
         WebkitLineClamp: 2,
         WebkitBoxOrient: 'vertical',
         wordBreak: 'break-all',
-    }),
+    },
     description: {
         ...theme.typography.caption,
         display: '-webkit-box',
@@ -155,7 +155,7 @@ const useGridItemStyles = makeStyles<
     },
 }))
 
-export function GridItem({
+export function ShowcaseGridItem({
     styleIndex = 0,
     title,
     description,
@@ -314,7 +314,7 @@ export function ShowCase({ filters }) {
             query={query}
             emptyListCaption="No recommendations right now."
             renderItem={({ item, index }) => (
-                <GridItem
+                <ShowcaseGridItem
                     {...item}
                     onClick={() => {
                         router.push(`/product/${item.slug}`)

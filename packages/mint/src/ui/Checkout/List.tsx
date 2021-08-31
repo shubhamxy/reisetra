@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
-    Paper,
     Box,
-    Typography,
-    makeStyles,
-    CircularProgress,
     Divider,
-    Button,
+    LinearProgress,
+    makeStyles,
+    Paper,
+    Typography,
 } from '@material-ui/core'
-import { List } from '../List/List'
-import { Footer } from '../List'
-import { useProducts } from '../../libs'
-import { ProductCard } from './Card'
-import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'
+import { List } from '../List'
+import { CheckoutCard } from './CheckoutCard'
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
@@ -33,7 +29,7 @@ export const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export function CheckoutCartList({ title = 'Cart', data }) {
+export function CheckoutCartList({ data }) {
     const classes = useStyles()
     return (
         <Paper className={classes.root}>
@@ -58,7 +54,7 @@ export function CheckoutCartList({ title = 'Cart', data }) {
                         </Box>
                     }
                     renderItem={({ item, index }) => (
-                        <ProductCard key={index} data={item} />
+                        <CheckoutCard key={index} data={item} />
                     )}
                     variant="default"
                     ListLoadingComponent={
@@ -70,7 +66,10 @@ export function CheckoutCartList({ title = 'Cart', data }) {
                             pt={2}
                             pb={2}
                         >
-                            <CircularProgress size={24} />
+                            <LinearProgress
+                                style={{ minWidth: 140 }}
+                                variant="indeterminate"
+                            />
                         </Box>
                     }
                 />

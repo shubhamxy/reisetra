@@ -83,15 +83,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#createOffers" >createOffers</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
                                 <a href="#deleteCartItem" >deleteCartItem</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#deleteOffers" >deleteOffers</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -103,19 +95,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#getOffers" >getOffers</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
                                 <a href="#getUserCart" >getUserCart</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
                                 <a href="#updateCartItem" >updateCartItem</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#updateOffers" >updateOffers</a>
                             </li>
                         </ul>
                     </td>
@@ -149,7 +133,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>checkoutCart(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CheckoutDto.html" target="_self">CheckoutDto</a>)</code>
+                    <code>checkoutCart(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CheckoutDTO.html" target="_self">CheckoutDTO</a>)</code>
                 </td>
             </tr>
 
@@ -157,14 +141,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;cart/checkout&#x27;)<br /></code>
+                    <code>@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/cart/cart.controller.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/cart/cart.controller.ts:42</a></div>
                 </td>
             </tr>
 
@@ -199,85 +183,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CheckoutDto.html" target="_self" >CheckoutDto</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createOffers"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>createOffers</b></span>
-                        <a href="#createOffers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOffers(body: CreateOfferDto[])</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Post(&#x27;offers&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">src/cart/cart.controller.ts:149</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>body</td>
-                                    <td>
-                                            <code>CreateOfferDto[]</code>
+                                                <code><a href="../classes/CheckoutDTO.html" target="_self" >CheckoutDTO</a></code>
                                     </td>
 
                                     <td>
@@ -325,14 +231,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Delete(&#x27;cart/:cartId/:productId&#x27;)<br /></code>
+                    <code>@Delete(ROUTES.carts_by_cartId_and_productId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">src/cart/cart.controller.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/cart/cart.controller.ts:112</a></div>
                 </td>
             </tr>
 
@@ -396,84 +302,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteOffers"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>deleteOffers</b></span>
-                        <a href="#deleteOffers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteOffers(body: DeleteOfferDto[])</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;offers&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">src/cart/cart.controller.ts:182</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>body</td>
-                                    <td>
-                                            <code>DeleteOfferDto[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getAllCarts"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -485,7 +313,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllCarts(query: <a href="../classes/GetAllCartsDto.html" target="_self">GetAllCartsDto</a>)</code>
+                    <code>getAllCarts(query: <a href="../classes/GetAllCartsDTO.html" target="_self">GetAllCartsDTO</a>)</code>
                 </td>
             </tr>
 
@@ -493,14 +321,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;allCarts&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.carts_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/cart/cart.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/cart/cart.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -523,7 +351,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllCartsDto.html" target="_self" >GetAllCartsDto</a></code>
+                                                <code><a href="../classes/GetAllCartsDTO.html" target="_self" >GetAllCartsDTO</a></code>
                                     </td>
 
                                     <td>
@@ -563,7 +391,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCartItem(cartid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, productid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateCartItemDto.html" target="_self">UpdateCartItemDto</a>)</code>
+                    <code>getCartItem(cartid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, productid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateCartItemDTO.html" target="_self">UpdateCartItemDTO</a>)</code>
                 </td>
             </tr>
 
@@ -571,14 +399,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;cart/:cartid/:productid&#x27;)<br /></code>
+                    <code>@Get(ROUTES.carts_by_cartId_and_productId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/cart/cart.controller.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">src/cart/cart.controller.ts:76</a></div>
                 </td>
             </tr>
 
@@ -625,85 +453,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateCartItemDto.html" target="_self" >UpdateCartItemDto</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getOffers"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>getOffers</b></span>
-                        <a href="#getOffers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getOffers(query: <a href="../classes/GetAllOffersDto.html" target="_self">GetAllOffersDto</a>)</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Get(&#x27;offers&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="135"
-                            class="link-to-prism">src/cart/cart.controller.ts:135</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>query</td>
-                                    <td>
-                                                <code><a href="../classes/GetAllOffersDto.html" target="_self" >GetAllOffersDto</a></code>
+                                                <code><a href="../classes/UpdateCartItemDTO.html" target="_self" >UpdateCartItemDTO</a></code>
                                     </td>
 
                                     <td>
@@ -743,7 +493,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getUserCart(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, promo: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getUserCart(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, promo: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -751,14 +501,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;cart/:id&#x27;)<br /></code>
+                    <code>@Get(ROUTES.carts_by_cartId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/cart/cart.controller.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/cart/cart.controller.ts:59</a></div>
                 </td>
             </tr>
 
@@ -779,7 +529,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>cartId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -833,7 +583,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateCartItem(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, productId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateCartItemDto.html" target="_self">UpdateCartItemDto</a>)</code>
+                    <code>updateCartItem(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, productId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateCartItemDTO.html" target="_self">UpdateCartItemDTO</a>)</code>
                 </td>
             </tr>
 
@@ -841,14 +591,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;cart/:cartId/:productId&#x27;)<br /></code>
+                    <code>@Put(ROUTES.carts_by_cartId_and_productId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/cart/cart.controller.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/cart/cart.controller.ts:94</a></div>
                 </td>
             </tr>
 
@@ -895,85 +645,7 @@
                                 <tr>
                                     <td>update</td>
                                     <td>
-                                                <code><a href="../classes/UpdateCartItemDto.html" target="_self" >UpdateCartItemDto</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="updateOffers"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>updateOffers</b></span>
-                        <a href="#updateOffers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOffers(body: UpdateOfferDto[])</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Put(&#x27;offers&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">src/cart/cart.controller.ts:165</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>body</td>
-                                    <td>
-                                            <code>UpdateOfferDto[]</code>
+                                                <code><a href="../classes/UpdateCartItemDTO.html" target="_self" >UpdateCartItemDTO</a></code>
                                     </td>
 
                                     <td>
@@ -1016,25 +688,19 @@ import {
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { CartService } from &#x27;./cart.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
-import {
-    CheckoutDto,
-    CreateOfferDto,
-    DeleteOfferDto,
-    GetAllCartsDto,
-    GetAllOffersDto,
-    UpdateCartItemDto,
-    UpdateOfferDto,
-} from &#x27;./dto&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { CheckoutDTO, GetAllCartsDTO, UpdateCartItemDTO } from &#x27;./dto&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
-@Controller()
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
+@Controller(ROUTES.carts)
 export class CartController {
     constructor(private readonly cart: CartService) {}
 
-    @Get(&#x27;allCarts&#x27;)
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.carts_all)
     async getAllCarts(
-        @Query() query: GetAllCartsDto
+        @Query() query: GetAllCartsDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.cart.getAllCarts(query)
@@ -1048,27 +714,10 @@ export class CartController {
         }
     }
 
-    @Get(&#x27;cart/:id&#x27;)
-    async getUserCart(
-        @Param(&#x27;id&#x27;) id: string,
-        @Query(&#x27;promo&#x27;) promo: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.getCart(id, promo)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.getUserCart&#x27;
-            )
-        }
-    }
-
-    @Post(&#x27;cart/checkout&#x27;)
+    @Post()
     async checkoutCart(
         @Req() req: AuthenticatedRequest,
-        @Body() body: CheckoutDto
+        @Body() body: CheckoutDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.cart.checkoutCart(req.user.id, body)
@@ -1082,11 +731,28 @@ export class CartController {
         }
     }
 
-    @Get(&#x27;cart/:cartid/:productid&#x27;)
+    @Get(ROUTES.carts_by_cartId)
+    async getUserCart(
+        @Param(&#x27;cartId&#x27;) cartId: string,
+        @Query(&#x27;promo&#x27;) promo: string
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.cart.getCart(cartId, promo)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;CartController.getUserCart&#x27;
+            )
+        }
+    }
+
+    @Get(ROUTES.carts_by_cartId_and_productId)
     async getCartItem(
         @Param(&#x27;cartid&#x27;) cartid: string,
         @Param(&#x27;productid&#x27;) productid: string,
-        @Body() body: UpdateCartItemDto
+        @Body() body: UpdateCartItemDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.cart.getCartItem(cartid, productid)
@@ -1100,11 +766,11 @@ export class CartController {
         }
     }
 
-    @Put(&#x27;cart/:cartId/:productId&#x27;)
+    @Put(ROUTES.carts_by_cartId_and_productId)
     async updateCartItem(
         @Param(&#x27;cartId&#x27;) cartId: string,
         @Param(&#x27;productId&#x27;) productId: string,
-        @Body() update: UpdateCartItemDto
+        @Body() update: UpdateCartItemDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.cart.updateCart(cartId, productId, update)
@@ -1118,7 +784,7 @@ export class CartController {
         }
     }
 
-    @Delete(&#x27;cart/:cartId/:productId&#x27;)
+    @Delete(ROUTES.carts_by_cartId_and_productId)
     async deleteCartItem(
         @Param(&#x27;cartId&#x27;) cartId: string,
         @Param(&#x27;productId&#x27;) productId: string
@@ -1131,69 +797,6 @@ export class CartController {
                 error,
                 HttpStatus.BAD_REQUEST,
                 &#x27;CartController.deleteCartItem&#x27;
-            )
-        }
-    }
-
-    @Get(&#x27;offers&#x27;)
-    async getOffers(@Query() query: GetAllOffersDto): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.cart.getOffers(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.getOffers&#x27;
-            )
-        }
-    }
-
-    @Post(&#x27;offers&#x27;)
-    async createOffers(
-        @Body() body: CreateOfferDto[]
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.createOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.createOffers&#x27;
-            )
-        }
-    }
-
-    @Put(&#x27;offers&#x27;)
-    async updateOffers(
-        @Body() body: UpdateOfferDto[]
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.updateOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.updateOffers&#x27;
-            )
-        }
-    }
-
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;offers&#x27;)
-    async deleteOffers(
-        @Body() body: DeleteOfferDto[]
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.deleteOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.deleteOffers&#x27;
             )
         }
     }

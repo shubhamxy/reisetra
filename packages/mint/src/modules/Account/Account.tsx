@@ -12,14 +12,15 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import {
+    IErrorResponse,
+    updateSnackBar,
+    useAuthState,
+    useFiles,
+    useGlobalDispatch,
     useUpdateUserProfile,
     useUserEmailResendVerification,
 } from '../../libs'
-import { useAuthState } from '../../libs/rock/auth'
-import { useFileUpload } from '../../libs/rock/file'
-import { updateSnackBar, useGlobalDispatch } from '../../libs/rock/global'
-import { IErrorResponse } from '../../libs/rock/utils/http'
-import { Logo } from '../../ui/Logo'
+import { Logo } from '../../ui'
 import { Addresses } from './Addresses'
 
 const AccountSchema = Yup.object().shape({
@@ -28,6 +29,7 @@ const AccountSchema = Yup.object().shape({
         .min(3, 'Name is too short - should be 3 chars minimum.'),
     email: Yup.string().required('Email is required.').email('Invalid email'),
     phone: Yup.string()
+        // eslint-disable-next-line prefer-regex-literals
         .matches(new RegExp(/^\+[1-9]\d{8,14}$/), 'Phone must be valid')
         .nullable(),
 })
@@ -149,7 +151,6 @@ export function Account() {
     const {
         values,
         isValid,
-        setErrors,
         touched,
         errors,
         handleChange,
@@ -163,7 +164,7 @@ export function Account() {
         validationSchema: AccountSchema,
         onSubmit: function (data) {
             updateUserProfile.mutate(data, {
-                onSuccess: (response) => {
+                onSuccess: () => {
                     globalDispatch(
                         updateSnackBar({
                             message: 'Profile Updated Successfully',
@@ -185,7 +186,7 @@ export function Account() {
         },
     })
 
-    const avatarUpload = useFileUpload({
+    const avatarUpload = useFiles({
         fileType: 'images',
         multiple: false,
         onSuccess: (files) => {
@@ -196,7 +197,7 @@ export function Account() {
         <Grid
             container
             alignContent="center"
-            justify="center"
+            justifyContent="center"
             direction="column"
         >
             <Paper className={classes.paper} component="section">
@@ -205,7 +206,7 @@ export function Account() {
                         item
                         className={classes.header}
                         alignContent="center"
-                        justify="center"
+                        justifyContent="center"
                         direction="column"
                     >
                         <Box display="flex" className={classes.logo}>

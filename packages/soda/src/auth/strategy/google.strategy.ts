@@ -1,7 +1,7 @@
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy, VerifyCallback } from 'passport-google-oauth20'
 import { Injectable } from '@nestjs/common'
-import { auth } from '../../config'
+import { auth } from '../../core/config'
 const config = auth()
 export interface GoogleUser {
     oauthId: string

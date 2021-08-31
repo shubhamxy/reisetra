@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
-    Paper,
-    Box,
-    Typography,
-    makeStyles,
-    CircularProgress,
-    Divider,
-    Grid,
-    Chip,
+    Accordion,
     AccordionDetails,
     AccordionSummary,
-    Accordion,
+    Box,
+    Divider,
+    makeStyles,
+    Paper,
+    Typography,
 } from '@material-ui/core'
 import { List } from '../List/List'
-import { useOrder } from '../../libs'
 import { ProductCard } from './Card'
 import { OrderTimeline } from '../Orders/Timeline'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'

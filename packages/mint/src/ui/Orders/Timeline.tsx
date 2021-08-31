@@ -12,9 +12,9 @@ import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
 import WarningIcon from '@material-ui/icons/Warning'
 import Typography from '@material-ui/core/Typography'
-import { Check, Done } from '@material-ui/icons'
+import { Check } from '@material-ui/icons'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     paper: {},
     secondaryTail: {},
     content: {

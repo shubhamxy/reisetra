@@ -1,7 +1,7 @@
-import { CircularProgress, Box, Container } from '@material-ui/core'
+import { Box, Container, LinearProgress } from '@material-ui/core'
 import React from 'react'
 import { getTotalCount, getTotalDataCount, useOrders } from '../../libs'
-import { List, Footer } from '../../ui/List'
+import { List, ListFooter } from '../../ui/List'
 import OrderCard from './order'
 
 export function Orders() {
@@ -24,11 +24,14 @@ export function Orders() {
                         pt={2}
                         pb={2}
                     >
-                        <CircularProgress size={24} />
+                        <LinearProgress
+                            style={{ minWidth: 140 }}
+                            variant="indeterminate"
+                        />
                     </Box>
                 }
                 ListFooterComponent={
-                    <Footer
+                    <ListFooter
                         hasNextPage={orders?.hasNextPage}
                         fetchNextPage={orders?.fetchNextPage}
                         totalDataCount={getTotalDataCount(orders?.data)}

@@ -1,5 +1,5 @@
 import { SES } from 'aws-sdk'
-import { services } from 'src/config'
+import { services } from 'src/core/config'
 
 const config = services()
 

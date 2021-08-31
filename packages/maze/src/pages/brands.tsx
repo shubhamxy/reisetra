@@ -1,7 +1,7 @@
 import {
     Box,
     ButtonGroup,
-    CircularProgress,
+    LinearProgress,
     Container,
     makeStyles,
     Grid,
@@ -113,7 +113,7 @@ const CMSPage = () => {
                             pt={2}
                             pb={2}
                         >
-                            <CircularProgress size={24} />
+                            <LinearProgress style={{ minWidth: 120 }} />
                         </Box>
                     }
                     ListFooterComponent={

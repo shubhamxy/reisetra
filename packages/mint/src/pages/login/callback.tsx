@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { login, useAuthDispatch, useRefreshAuth, config } from '../../libs'
-import { Box, makeStyles, CircularProgress } from '@material-ui/core'
+import { config, login, useAuthDispatch, useRefreshAuth } from '../../libs'
+import { Box, LinearProgress, makeStyles } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
 import { AppHeader } from '../../ui/Header'
 import { Footer } from '../../ui/Footer'
-import HeroCard from '../../ui/HeroCard'
+import { HeroCard } from '../../ui/HeroCard'
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -71,7 +71,10 @@ function Auth0CallbackPage() {
                     }}
                     actions={
                         <Box pt={2.4}>
-                            <CircularProgress />
+                            <LinearProgress
+                                style={{ minWidth: 140 }}
+                                variant="indeterminate"
+                            />
                         </Box>
                     }
                 />

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { QueryKeys } from '..'
-import { updateTransaction } from '../api/transaction'
+import { updateTransaction } from '../api'
 import { setAuthState, useAuthDispatch } from '../auth'
 import { updateSnackBar, useGlobalDispatch } from '../global'
 
@@ -11,7 +11,7 @@ export const useUpdateTransaction = () => {
     return useMutation(updateTransaction, {
         onSuccess: () => {
             dispatch(setAuthState({ user: null }))
-            queryClient.invalidateQueries(QueryKeys.cart)
+            queryClient.invalidateQueries(QueryKeys.carts)
             queryClient.invalidateQueries(QueryKeys.orders)
             globalDispatch(
                 updateSnackBar({

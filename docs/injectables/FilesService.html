@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/files/files.service.ts</code>
+            <code>src/master/files/files.service.ts</code>
         </p>
 
 
@@ -92,6 +92,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#getFiles" >getFiles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#uploadFile" >uploadFile</a>
                             </li>
                         </ul>
@@ -112,12 +116,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
+<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, awsService: <a href="../injectables/AWSService.html" target="_self">AWSService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/files/files.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/master/files/files.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -139,6 +143,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>awsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AWSService.html" target="_self" >AWSService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -182,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">src/files/files.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">src/master/files/files.service.ts:114</a></div>
                 </td>
             </tr>
 
@@ -265,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">src/files/files.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/master/files/files.service.ts:163</a></div>
                 </td>
             </tr>
 
@@ -348,8 +364,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/files/files.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/master/files/files.service.ts:19</a></div>
                 </td>
             </tr>
 
@@ -401,6 +417,89 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getFiles"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getFiles</b></span>
+                        <a href="#getFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFiles(options: <a href="../classes/FilesDTO.html" target="_self">FilesDTO</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/master/files/files.service.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/FilesDTO.html" target="_self" >FilesDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;File&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="uploadFile"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -412,15 +511,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>uploadFile(params: <a href="../interfaces/UploadUrlProps.html" target="_self">UploadUrlProps</a>)</code>
+                    <code>uploadFile(params: <a href="../interfaces/UploadUrlParams.html" target="_self">UploadUrlParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">src/files/files.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">src/master/files/files.service.ts:141</a></div>
                 </td>
             </tr>
 
@@ -443,7 +542,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../interfaces/UploadUrlProps.html" target="_self" >UploadUrlProps</a></code>
+                                                <code><a href="../interfaces/UploadUrlParams.html" target="_self" >UploadUrlParams</a></code>
                                     </td>
 
                                     <td>
@@ -476,16 +575,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
 import { Prisma } from &#x27;@prisma/client&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
-import { CursorPaginationResultInterface } from &#x27;src/common/pagination&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { getUploadURL, UploadUrlProps, deleteObject } from &#x27;src/utils&#x27;
+import { AWSService } from &#x27;src/core/modules/aws/aws.service&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { CursorPaginationResultInterface } from &#x27;src/core/pagination&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { UploadUrlParams } from &#x27;src/utils&#x27;
 import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
 import { FilesDTO, FileDTO } from &#x27;./dto/file.dto&#x27;
 import { File } from &#x27;./entity&#x27;
 @Injectable()
 export class FilesService {
-    constructor(private readonly db: PrismaService) {}
+    constructor(
+        private readonly db: PrismaService,
+        private readonly awsService: AWSService
+    ) {}
+
     async getAllFiles(
         options: FilesDTO
     ): Promise&lt;CursorPaginationResultInterface&lt;File&gt;&gt; {
@@ -515,7 +619,53 @@ export class FilesService {
                 whereObj.reviewId &#x3D; options.reviewId
             }
             const result &#x3D; await prismaOffsetPagination({
-                id: &#x27;url&#x27;,
+                cursor,
+                size: Number(size),
+                buttonNum: Number(buttonNum),
+                orderBy,
+                orderDirection,
+                model: &#x27;file&#x27;,
+                prisma: this.db,
+                where: whereObj,
+            })
+            return result
+        } catch (error) {
+            throw new CustomError(
+                error?.meta?.cause || error.message,
+                error.code,
+                &#x27;FilesService.getAllFiles&#x27;
+            )
+        }
+    }
+
+    async getFiles(
+        options: FilesDTO,
+        userId: string
+    ): Promise&lt;CursorPaginationResultInterface&lt;File&gt;&gt; {
+        try {
+            const {
+                cursor,
+                size &#x3D; 10,
+                buttonNum &#x3D; 10,
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
+
+            const whereObj: Prisma.FileWhereInput &#x3D; {
+                active: true,
+                userId,
+            }
+
+            if (options.fileType) {
+                whereObj.fileType &#x3D; options.fileType
+            }
+            if (options.productId) {
+                whereObj.productId &#x3D; options.productId
+            }
+            if (options.reviewId) {
+                whereObj.reviewId &#x3D; options.reviewId
+            }
+            const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
@@ -562,27 +712,70 @@ export class FilesService {
         }
     }
 
-    async uploadFile(params: UploadUrlProps) {
-        return getUploadURL(params)
+    async uploadFile(params: UploadUrlParams) {
+        const data &#x3D; await this.awsService.getUploadURL(params)
+        const {
+            id,
+            contentType,
+            signedUrl,
+            expiresIn,
+            fileName,
+            ...other
+        } &#x3D; data
+
+        await this.addFile(params.userId, {
+            ...other,
+            meta: {
+                id,
+                contentType,
+                fileName,
+            },
+        })
+        return data
     }
 
     async deleteFile(userId: string, url: string) {
         try {
-            let deleted &#x3D; {}
+            const key &#x3D; new URL(url).pathname
+            if (!key) {
+                throw new Error(&#x27;Key not found&#x27;)
+            }
+            let deleted &#x3D; []
             try {
-                deleted &#x3D; await this.db.file.delete({
-                    where: {
-                        url,
-                    },
-                })
+                deleted &#x3D; await this.db.$transaction([
+                    this.db.file.update({
+                        where: {
+                            url,
+                        },
+                        data: {
+                            product: {
+                                disconnect: true,
+                            },
+                            review: {
+                                disconnect: true,
+                            },
+                            story: {
+                                disconnect: true,
+                            },
+                            tag: {
+                                disconnect: true,
+                            },
+                            user: {
+                                disconnect: true,
+                            },
+                        },
+                    }),
+                    this.db.file.delete({
+                        where: {
+                            url,
+                        },
+                    }),
+                ])
             } catch (error) {
                 console.log(error)
                 throw error
             }
-            const key &#x3D; new URL(url).pathname
-            if (key) {
-                const s3 &#x3D; await deleteObject(key)
-            }
+            await this.awsService.deleteObject(key)
             return {
                 ...deleted,
                 id: key,

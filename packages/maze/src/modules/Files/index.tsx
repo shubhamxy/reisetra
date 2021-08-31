@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container } from '@material-ui/core'
+import { Box, LinearProgress, Container } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { getTotalCount, getTotalDataCount, useFiles } from '../../libs'
@@ -26,7 +26,7 @@ export function Files() {
                         pt={2}
                         pb={2}
                     >
-                        <CircularProgress size={24} />
+                        <LinearProgress style={{ minWidth: 120 }} />
                     </Box>
                 }
                 ListFooterComponent={

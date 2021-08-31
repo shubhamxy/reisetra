@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import { alpha, makeStyles } from '@material-ui/core/styles'
 import { Box, Tooltip } from '@material-ui/core'
 import { CloudDownload } from '@material-ui/icons'
 import { saveAs } from 'file-saver'
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0.4, 0.4, 1, 0.4),
     },
     emptyText: {
-        color: fade('#292C2E', 0.6),
+        color: alpha('#292C2E', 0.6),
         fontSize: 14,
         fontWeight: 500,
     },
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 500,
         fontSize: '14px',
         lineHeight: '19px',
-        color: fade('#131415', 0.6),
+        color: alpha('#131415', 0.6),
     },
     closeBtn: {
         height: 20,
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         lineHeight: 0,
         borderRadius: '50%',
-        background: fade('#0f0f0f', 0.4),
+        background: alpha('#0f0f0f', 0.4),
         color: '#fff',
         border: 'none',
         cursor: 'pointer',

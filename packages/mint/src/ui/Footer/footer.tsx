@@ -1,20 +1,19 @@
-import React, { Component, useRef } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { footerLinks } from './data'
+import { FooterLinks } from '../../content'
 import { Icons, Image } from '../Image'
 import {
+    alpha,
+    Box,
+    ButtonGroup,
     Container,
+    createStyles,
+    IconButton,
     List,
     ListItem,
-    Typography,
-    createStyles,
-    fade,
-    Grid,
-    Paper,
     makeStyles,
-    IconButton,
     Theme,
-    Box,
+    Typography,
     useTheme,
 } from '@material-ui/core'
 import { config } from '../../libs'
@@ -23,18 +22,16 @@ import {
     Facebook,
     Instagram,
     NightsStay,
-    WhatsApp,
     WbSunny,
+    WhatsApp,
 } from '@material-ui/icons'
-import { ButtonGroup } from '@material-ui/core'
-const { version } = require('../../../package.json')
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         footer: {
             display: 'flex',
             width: '100%',
-            backgroundColor: fade(theme.palette.background.paper, 0.4),
+            backgroundColor: alpha(theme.palette.background.paper, 0.4),
             backdropFilter: 'blur(30px)',
             position: 'relative',
             [theme.breakpoints.down('sm')]: {
@@ -159,7 +156,7 @@ function Footer() {
                             <Typography
                                 color="textPrimary"
                                 variant="caption"
-                                title={`Copyright ${config.name} ${version}`}
+                                title={`Copyright ${config.name} ${config.version}`}
                             >
                                 &copy; 2021 {config.name}.
                             </Typography>
@@ -167,7 +164,7 @@ function Footer() {
                     </Box>
                     <Box className={classes.links}>
                         <Box className={classes.footerlinks}>
-                            {footerLinks.map((item, index) => {
+                            {FooterLinks.map((item, index) => {
                                 return (
                                     <Box
                                         className={classes.footerNav}

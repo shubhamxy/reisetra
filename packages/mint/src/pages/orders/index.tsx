@@ -1,6 +1,6 @@
 import React from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { Orders } from '../../modules/Orders'
+import { MainLayout } from '../../layouts'
+import { Orders } from '../../modules'
 import { AppHeader, Footer } from '../../ui'
 
 const OrdersPage = () => {

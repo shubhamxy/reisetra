@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useImageZoom from '../../../libs/use-image-zoom'
-import Image from 'next/image'
-import { makeStyles, Theme } from '@material-ui/core'
-import { useState } from 'react'
+import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     root: {

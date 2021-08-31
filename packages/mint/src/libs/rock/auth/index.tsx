@@ -1,30 +1,16 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { storage } from '../utils/storage'
+import { analytics, AUTH_ROUTES, PRIVATE_ROUTES, storage } from '../utils'
 import { config } from '../config'
 import { useRefreshAuth } from './useAuth'
 import { useUserProfile } from '../users'
 import { useRouter } from 'next/router'
-import { UserProfile } from '../api/user'
-import { analytics } from '../utils'
+import { UserProfile } from '../api'
 import qs from 'query-string'
 
-const AuthStateContext = createContext(null)
-const AuthDispatchContext = createContext(null)
-
-export function useAuthState() {
-    const context = useContext(AuthStateContext)
-    if (context === undefined) {
-        throw new Error('useAuthState must be used within a AuthProvider')
-    }
-    return context
-}
-
-export function useAuthDispatch() {
-    const context = useContext(AuthDispatchContext)
-    if (context === undefined) {
-        throw new Error('useAuthDispatch must be used within a AuthProvider')
-    }
-    return context
+export const initialState = {
+    isHydrated: false,
+    isAuthenticated: false,
+    user: null,
 }
 
 export interface State {
@@ -35,13 +21,7 @@ export interface State {
     refresh_token?: string
 }
 
-export const initialState = {
-    isHydrated: false,
-    isAuthenticated: false,
-    user: null,
-}
-
-export enum ActionKind {
+enum ActionKind {
     hydrate = 'hydrate',
     login = 'login',
     logout = 'logout',
@@ -70,15 +50,65 @@ export const hydrate = (payload) => ({
     payload,
 })
 
-const privateRoutes = new Set(['/cart', '/orders'])
-// Provider hook that creates auth object and handles state
-const authenticationRoutes = new Set([
-    '/forgot-password',
-    '/login',
-    '/reset-password',
-    '/signup',
-    '/verify',
-])
+const authReducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case ActionKind.hydrate:
+            try {
+                return {
+                    ...state,
+                    ...action.payload,
+                    isHydrated: true,
+                }
+            } catch (error) {
+                console.error('authReducer.hydrate', error)
+                return state
+            }
+        case ActionKind.login:
+            try {
+                const hasPutAccessToken = storage.put.access_token(
+                    action.payload.access_token
+                )
+                const hasPutRefreshToken = storage.put.refresh_token(
+                    action.payload.refresh_token
+                )
+                return {
+                    ...state,
+                    isAuthenticated: Boolean(
+                        hasPutAccessToken && hasPutRefreshToken
+                    ),
+                }
+            } catch (error) {
+                console.error('authReducer.login', error)
+                return state
+            }
+        case ActionKind.logout:
+            try {
+                storage.clear()
+                return {
+                    ...initialState,
+                    isHydrated: true,
+                }
+            } catch (error) {
+                console.error('authReducer.logout', error)
+                return state
+            }
+
+        case ActionKind.setAuthState:
+            try {
+                const update = {
+                    ...state,
+                    ...action.payload,
+                }
+                analytics.identify(update.user)
+                return update
+            } catch (error) {
+                console.error('authReducer.setAuthState', error)
+                return state
+            }
+        default:
+            return state
+    }
+}
 
 function useAuth() {
     const { route, query, isReady, replace, asPath } = useRouter()
@@ -86,79 +116,16 @@ function useAuth() {
     const fetchUserProfile = useUserProfile()
     const fetchRefreshToken = useRefreshAuth()
 
-    const authReducer = (state: State, action: Action): State => {
-        switch (action.type) {
-            case ActionKind.hydrate:
-                try {
-                    return {
-                        ...state,
-                        ...action.payload,
-                        isHydrated: true,
-                    }
-                } catch (error) {
-                    console.error('authReducer.hydrate', error)
-                    return state
-                }
-            case ActionKind.login:
-                try {
-                    const hasPutAccessToken = storage.put.access_token(
-                        action.payload.access_token
-                    )
-                    const hasPutRefreshToken = storage.put.refresh_token(
-                        action.payload.refresh_token
-                    )
-                    return {
-                        ...state,
-                        isAuthenticated: Boolean(
-                            hasPutAccessToken && hasPutRefreshToken
-                        ),
-                    }
-                } catch (error) {
-                    console.error('authReducer.login', error)
-                    return state
-                }
-            case ActionKind.logout:
-                try {
-                    storage.clear()
-                    return {
-                        ...initialState,
-                        isHydrated: true,
-                    }
-                } catch (error) {
-                    console.error('authReducer.logout', error)
-                    return state
-                }
-
-            case ActionKind.setAuthState:
-                try {
-                    const update = {
-                        ...state,
-                        ...action.payload,
-                    }
-                    analytics.identify(update.user)
-                    return update
-                } catch (error) {
-                    console.error('authReducer.setAuthState', error)
-                    return state
-                }
-            default:
-                return state
-        }
-    }
-
     const [state, dispatch] = useReducer(authReducer, initialState)
 
     useEffect(() => {
         if (!isReady || !state.isHydrated) return
         if (state.isAuthenticated) {
-            if (
-                authenticationRoutes.has(route) ||
-                route === '/login/callback'
-            ) {
+            if (AUTH_ROUTES.has(route) || route === '/login/callback') {
                 replace((query.redirect_route as string) || '/')
             }
         } else {
-            if (authenticationRoutes.has(route)) {
+            if (AUTH_ROUTES.has(route)) {
                 const redirectTo = qs.stringifyUrl({
                     url: config.callbackUrl,
                     query,
@@ -169,7 +136,7 @@ function useAuth() {
                         redirect_uri: redirectTo,
                     },
                 })
-            } else if (privateRoutes.has(route)) {
+            } else if (PRIVATE_ROUTES.has(route)) {
                 const redirectTo = qs.stringifyUrl({
                     url: config.callbackUrl,
                     query,
@@ -234,6 +201,7 @@ function useAuth() {
                 dispatch(setAuthState({ isHydrated: true }))
             }
         }
+
         if (state.isHydrated === false) {
             hydrateAsync()
         }
@@ -263,6 +231,25 @@ function useAuth() {
         state,
         dispatch,
     }
+}
+
+const AuthStateContext = createContext(null)
+const AuthDispatchContext = createContext(null)
+
+export function useAuthState() {
+    const context = useContext(AuthStateContext)
+    if (context === undefined) {
+        throw new Error('useAuthState must be used within a AuthProvider')
+    }
+    return context
+}
+
+export function useAuthDispatch() {
+    const context = useContext(AuthDispatchContext)
+    if (context === undefined) {
+        throw new Error('useAuthDispatch must be used within a AuthProvider')
+    }
+    return context
 }
 
 export const AuthProvider = ({ children }) => {

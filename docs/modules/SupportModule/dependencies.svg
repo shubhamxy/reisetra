@@ -18,13 +18,13 @@
 <title>cluster_SupportModule_imports</title>
 <polygon fill="none" stroke="black" points="333,-40.8 333,-92.8 443,-92.8 443,-40.8 333,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_SupportModule_exports</title>
-<polygon fill="none" stroke="black" points="189,-170.8 189,-222.8 311,-222.8 311,-170.8 189,-170.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_SupportModule_providers</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 325,-92.8 325,-40.8 16,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_SupportModule_exports</title>
+<polygon fill="none" stroke="black" points="189,-170.8 189,-222.8 311,-222.8 311,-170.8 189,-170.8"/>
 </g>
 <!-- CacheModule -->
 <g id="node1" class="node">

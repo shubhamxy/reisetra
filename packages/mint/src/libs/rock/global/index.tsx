@@ -1,31 +1,9 @@
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
 import React, { createContext, useContext, useReducer } from 'react'
-import { Snackbar } from '../../../ui/SnackBar'
+import { Snackbar } from '../../../ui'
 import { AuthProvider } from '../auth'
 import { useTheme } from '../theme'
-const GlobalStateContext = createContext<GlobalState>(null)
-const GlobalDispatchContext = createContext(null)
-
-export function useGlobalState(): GlobalState {
-    const context = useContext(GlobalStateContext)
-    if (context === undefined) {
-        throw new Error(
-            'useGlobalState must be used within a GlobalStateContextProvider'
-        )
-    }
-    return context
-}
-
-export function useGlobalDispatch(): React.Dispatch<Action> {
-    const context = useContext<React.Dispatch<Action>>(GlobalDispatchContext)
-    if (context === undefined) {
-        throw new Error(
-            'useGlobalDispatch must be used within a GlobalDispatchContext'
-        )
-    }
-    return context
-}
 
 interface SnackBar {
     open: boolean
@@ -63,10 +41,6 @@ type Action = {
     payload?: Record<string, boolean | number> | Partial<SnackBar>
 }
 
-export const openSnackBar: Action = {
-    type: ActionKind.OpenSnackBar,
-}
-
 export const closeSnackBar: Action = {
     type: ActionKind.CloseSnackBar,
 }
@@ -80,6 +54,29 @@ export const updatePromo = (payload: any): Action => ({
     type: ActionKind.UpdatePromo,
     payload,
 })
+
+const GlobalStateContext = createContext<GlobalState>(null)
+const GlobalDispatchContext = createContext(null)
+
+export function useGlobalState(): GlobalState {
+    const context = useContext(GlobalStateContext)
+    if (context === undefined) {
+        throw new Error(
+            'useGlobalState must be used within a GlobalStateContextProvider'
+        )
+    }
+    return context
+}
+
+export function useGlobalDispatch(): React.Dispatch<Action> {
+    const context = useContext<React.Dispatch<Action>>(GlobalDispatchContext)
+    if (context === undefined) {
+        throw new Error(
+            'useGlobalDispatch must be used within a GlobalDispatchContext'
+        )
+    }
+    return context
+}
 
 function reducer(state: GlobalState, action: Action): GlobalState {
     const { type, payload } = action

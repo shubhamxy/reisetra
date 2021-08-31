@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import handlebars from 'handlebars'
 import { createParams, IParams } from './aws'
-import { services, app } from 'src/config'
+import { services, app } from 'src/core/config'
 const awsConfig = services().aws
 const config = app()
 

@@ -10,14 +10,14 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import React from 'react'
 import * as Yup from 'yup'
-import { footerLinks } from '../../constants'
+import { SimpleFooterLinks } from '../../content'
 import {
-    useUserPasswordUpdate,
+    IErrorResponse,
     updateSnackBar,
     useGlobalDispatch,
-    IErrorResponse,
+    useUserPasswordUpdate,
 } from '../../libs'
-import { Logo } from '../../ui/Logo'
+import { Logo } from '../../ui'
 
 const UpdatePasswordSchema = Yup.object().shape({
     oldPassword: Yup.string().required('Old Password is required.'),
@@ -166,7 +166,7 @@ export function UpdatePassword() {
                     onError: (error: IErrorResponse<any>) => {
                         globalDispatch(
                             updateSnackBar({
-                                message: error.message,
+                                message: error['message'],
                                 type: 'error',
                                 open: true,
                                 duration: 10000,
@@ -182,7 +182,7 @@ export function UpdatePassword() {
         <Grid
             container
             alignContent="center"
-            justify="center"
+            justifyContent="center"
             direction="column"
         >
             <Paper className={classes.paper} component="section">
@@ -191,7 +191,7 @@ export function UpdatePassword() {
                         item
                         className={classes.header}
                         alignContent="center"
-                        justify="center"
+                        justifyContent="center"
                         direction="column"
                     >
                         <Box display="flex" className={classes.logo}>
@@ -211,7 +211,7 @@ export function UpdatePassword() {
                         <form
                             className={classes.form}
                             noValidate
-                            autoComplete="pweeeseturnoff"
+                            autoComplete="off"
                             onSubmit={handleSubmit}
                         >
                             <TextField
@@ -279,7 +279,7 @@ export function UpdatePassword() {
             </Paper>
             <Grid className={classes.footer}>
                 <Box className={classes.links}>
-                    {footerLinks.map((link) => (
+                    {SimpleFooterLinks.map((link) => (
                         <Link
                             key={link.to}
                             className={classes.link}

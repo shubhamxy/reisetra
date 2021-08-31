@@ -1,12 +1,12 @@
 import mixpanel, { Dict } from 'mixpanel-browser'
-import { UserProfile } from '../../../api/user'
+import { UserProfile } from '../../../api/users'
 import { config } from '../../../config'
 import {
     Events,
     mapUserProperties,
+    Properties,
     User,
     UserState,
-    Properties,
 } from '../types'
 
 export function initialize() {

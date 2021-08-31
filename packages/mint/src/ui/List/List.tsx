@@ -20,7 +20,7 @@ interface ListProps {
     ListFooterComponentProps?: any
     ItemSeparatorComponent?: any
     ItemSeparatorComponentProps?: any
-    data?: InfiniteData<ISuccessResponse<DataT>>
+    data?: InfiniteData<ISuccessResponse<DataT>> | ISuccessResponse<DataT>
     renderItem?: any
     ListEmptyComponent?: any
     ListEmptyComponentProps?: any
@@ -35,7 +35,6 @@ export function List(props: ListProps) {
         classes = {},
         variant = 'default',
         isLoading = false,
-        isEmpty = false,
         ListLoadingComponent,
         ListHeaderComponent,
         ListFooterComponent,
@@ -53,7 +52,7 @@ export function List(props: ListProps) {
 
     if (variant === 'infinite') {
         return (
-            <Grid container className={classes.root} justify="center">
+            <Grid container className={classes.root} justifyContent="center">
                 {ListHeaderComponent && (
                     <Grid item xs={12} className={classes.header}>
                         {ListHeaderComponent}
@@ -75,7 +74,7 @@ export function List(props: ListProps) {
                         {data?.pages?.map(
                             (page: ISuccessResponse<any>, pageIndex: number) =>
                                 page.data?.map((item, index) => (
-                                    //@TODO fix the type ???
+                                    // @TODO fix the type ???
                                     <MaterialListItem
                                         disableGutters
                                         className={classes.listItem}
@@ -115,7 +114,11 @@ export function List(props: ListProps) {
         )
     } else {
         return (
-            <Grid container className={classes.root} justify="flex-start">
+            <Grid
+                container
+                className={classes.root}
+                justifyContent="flex-start"
+            >
                 {ListHeaderComponent && (
                     <Grid
                         item
@@ -135,7 +138,8 @@ export function List(props: ListProps) {
                     {ListEmptyComponent &&
                         !isLoading &&
                         data &&
-                        data['length'] === 0 && (
+                        // @ts-ignore
+                        data.length === 0 && (
                             <Grid item xs={12} className={classes.empty}>
                                 {ListEmptyComponent}
                             </Grid>
@@ -154,7 +158,7 @@ export function List(props: ListProps) {
                                     {...listItemProps}
                                 >
                                     {renderItem({ item, index })}
-                                    {!(index === data.length - 1) &&
+                                    {index !== data.length - 1 &&
                                         ItemSeparatorComponent &&
                                         ItemSeparatorComponent}
                                 </MaterialListItem>

@@ -1,11 +1,10 @@
 import React from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { AppHeader } from '../../ui/Header'
-import { Support } from '../../modules/Support'
+import { MainLayout } from '../../layouts'
+import { AppHeader, HeroCard } from '../../ui'
+import { Support } from '../../modules'
 import { makeStyles } from '@material-ui/core'
 import { Footer } from '../../ui/Footer'
 import { config } from '../../libs'
-import HeroCard from '../../ui/HeroCard'
 
 const useStyles = makeStyles((theme) => ({
     content: {

@@ -1,19 +1,14 @@
 import {
-    Avatar,
+    alpha,
     Box,
-    Chip,
     createStyles,
-    Divider,
-    fade,
     Grid,
     List,
-    ListItem,
     makeStyles,
     Paper,
     Typography,
 } from '@material-ui/core'
 import * as React from 'react'
-import { useAuthState, useCartItems, useGlobalState } from '../../../libs'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -76,7 +71,7 @@ const useStyles = makeStyles((theme) =>
             padding: '1px 6px 1px 6px',
             borderRadius: 9,
             fontSize: 12,
-            backgroundColor: fade('#011632', 0.05),
+            backgroundColor: alpha('#011632', 0.05),
         },
         subtext: {
             ...theme.typography.caption,
@@ -116,7 +111,7 @@ export function CheckoutSummary({
                         xs={12}
                         container
                         alignItems="center"
-                        justify="center"
+                        justifyContent="center"
                     >
                         <Grid item xs={12} container>
                             <Grid item xs>
@@ -126,7 +121,7 @@ export function CheckoutSummary({
                             </Grid>
                             <Grid item>
                                 <Typography className={classes.subtext}>
-                                    ₹{String(data['subTotal'] || 0)}
+                                    ₹{String(data.subTotal || 0)}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -138,7 +133,7 @@ export function CheckoutSummary({
                             </Grid>
                             <Grid item>
                                 <Typography className={classes.subtext}>
-                                    ₹{data['tax'] || 0}
+                                    ₹{data.tax || 0}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -150,9 +145,9 @@ export function CheckoutSummary({
                             </Grid>
                             <Grid item>
                                 <Typography className={classes.subtext}>
-                                    {data['shipping'] === 0
+                                    {data.shipping === 0
                                         ? 'Free'
-                                        : `₹${data['shipping'] || 0}`}
+                                        : `₹${data.shipping || 0}`}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -164,11 +159,11 @@ export function CheckoutSummary({
                             </Grid>
                             <Grid item>
                                 <Typography className={classes.subtext}>
-                                    ₹{data['total'] || 0}
+                                    ₹{data.total || 0}
                                 </Typography>
                             </Grid>
                         </Grid>
-                        {data['promo'] && (
+                        {data.promo && (
                             <Grid item xs={12} container>
                                 <Grid item xs>
                                     <Typography className={classes.subtext}>
@@ -177,15 +172,15 @@ export function CheckoutSummary({
                                 </Grid>
                                 <Grid item>
                                     <Typography className={classes.subtext}>
-                                        {data?.['promo']?.toUpperCase()}{' '}
-                                        {data['discount'] > 0
-                                            ? `(${data['discount']}% off)`
+                                        {data?.promo?.toUpperCase()}{' '}
+                                        {data.discount > 0
+                                            ? `(${data.discount}% off)`
                                             : '-'}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         )}
-                        {+data['itemDiscount'] > 0 && (
+                        {+data.itemDiscount > 0 && (
                             <Grid item xs={12} container>
                                 <Grid item xs>
                                     <Typography className={classes.subtext}>
@@ -194,13 +189,13 @@ export function CheckoutSummary({
                                 </Grid>
                                 <Grid item>
                                     <Typography className={classes.subtext}>
-                                        -₹{data['itemDiscount'] || 0}
+                                        -₹{data.itemDiscount || 0}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         )}
 
-                        {+data['grandTotal'] > 0 && (
+                        {+data.grandTotal > 0 && (
                             <Grid item xs={12} container>
                                 <Grid item xs>
                                     <Typography className={classes.subtext}>
@@ -209,7 +204,7 @@ export function CheckoutSummary({
                                 </Grid>
                                 <Grid item>
                                     <Typography className={classes.subtext}>
-                                        ₹{data['grandTotal'] || 0}
+                                        ₹{data.grandTotal || 0}
                                     </Typography>
                                 </Grid>
                             </Grid>

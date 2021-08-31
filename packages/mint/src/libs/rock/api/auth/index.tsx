@@ -1,5 +1,5 @@
-import { get, post } from '../../utils/http'
-import { storage } from '../../utils/storage'
+/* eslint-disable camelcase */
+import { get, post, storage } from '../../utils'
 
 export type LoginT = {
     readonly email: string
@@ -47,16 +47,8 @@ export function loginEmailResetPassword(body: ResetPasswordT) {
     return post<ResetPasswordT, AuthResponse>('auth/email/reset-password', body)
 }
 
-export function loginOauth(provider = 'google') {
-    return get<LoginT, AuthResponse>(`auth/login/oauth/${provider}`)
-}
-
 export function oauthGoogleVerify(body) {
     return post<LoginT, AuthResponse>(`auth/login/oauth/google/verify`, body)
-}
-
-export function emailVerify({ id, token }) {
-    return get(`auth/email/verify/${id}/${token}`)
 }
 
 export function emailResendVerification() {
@@ -72,7 +64,7 @@ export function refreshAuthToken({
     config,
 }: {
     token?: string
-    config?: RequestInit
+    config?: any
 }) {
     const refresh_token = token || storage.get.refresh_token()
     config = config || {}

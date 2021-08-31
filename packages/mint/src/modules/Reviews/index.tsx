@@ -1,21 +1,19 @@
-import React, { useState } from 'react'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import React, { useEffect, useState } from 'react'
 import {
     Box,
-    Card,
-    CardMedia,
-    CardContent,
-    fade,
-    Typography,
     Button,
-    Grid,
     ButtonGroup,
+    Card,
+    CardContent,
+    CardMedia,
     Dialog,
-    DialogTitle,
-    DialogContent,
-    TextField,
-    InputLabel,
     DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    InputLabel,
+    TextField,
+    Typography,
 } from '@material-ui/core'
 import {
     useAuthState,
@@ -25,15 +23,14 @@ import {
     useReviews,
     useUpdateReview,
 } from '../../libs'
-import GridList from '../../ui/List/GridList'
+import { GridList, ProductImages } from '../../ui'
 import { useRouter } from 'next/router'
 import { ShoppingCart } from '@material-ui/icons'
 import ReviewCard from './review'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import ProductImages from '../../ui/ProductImages'
 import { Rating } from '@material-ui/lab'
-import { useEffect } from 'react'
+import { useGridItemStyles } from './useGridItemStyles'
 
 const reviewSchema = Yup.object().shape({
     productId: Yup.string().required('Product is required'),
@@ -56,7 +53,7 @@ type TStyles = {
     color: string
 }[]
 
-const styles: TStyles = [
+export const styles: TStyles = [
     {
         background: '#ffffff',
         color: '#0f0f0f',
@@ -83,92 +80,8 @@ const styles: TStyles = [
         color: '#0f0f0f',
     },
 ]
-const useGridItemStyles = makeStyles<Theme, { styleIndex: number }>(
-    (theme) => ({
-        root: ({ styleIndex }) => ({
-            display: 'flex',
-            flex: 1,
-            position: 'relative',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            cursor: 'pointer',
-            height: 400,
-            mixBlendMode: 'normal',
-            borderRadius: 8,
-            boxShadow: '0px 4px 12px rgba(15, 15, 15, 0.10)',
-            color: fade(styles[styleIndex].color, 0.8),
-            background: styles[styleIndex].background,
-        }),
-        card: {
-            margin: 0,
-            padding: '30px 30px 19px 24px',
-            width: '100%',
-            height: '100%',
-        },
 
-        title: ({ styleIndex }) => ({
-            ...theme.typography.subtitle2,
-            display: '-webkit-box',
-            overflow: 'hidden',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            wordBreak: 'break-all',
-        }),
-        description: ({ styleIndex }) => ({
-            ...theme.typography.caption,
-            display: '-webkit-box',
-            overflow: 'hidden',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-            wordBreak: 'break-all',
-        }),
-        banner: {},
-        cover: {},
-        group: {},
-        costContainer: {
-            position: 'absolute',
-            bottom: '24px',
-            left: '24px',
-        },
-        addToCartContainer: {
-            position: 'absolute',
-            bottom: '24px',
-            right: '24px',
-        },
-        button: {
-            transition: 'opacity ease-in 0.2s',
-        },
-        cost: {},
-        seeAllText: ({ styleIndex }) => ({
-            ...theme.typography.body2,
-            fontSize: '12px',
-            lineHeight: '14px',
-        }),
-        imageContainer: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            width: '100%',
-            height: '100%',
-        },
-        image: {
-            backgroundColor: '#fff',
-            borderBottomLeftRadius: 8,
-            borderBottomRightRadius: 8,
-            backgroundSize: 'contain',
-            height: 0,
-            width: '100%',
-            paddingTop: '56.25%', // 16:9
-            '&:hover': {
-                transition:
-                    'background-image 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-            },
-        },
-    })
-)
-
-export function GridItem({
+export function ReviewGridItem({
     styleIndex = 0,
     title,
     description,
@@ -260,13 +173,14 @@ export function Reviews({ id }: { id: string }) {
                 return !!pageData?.some((order) => {
                     if (order.status === 'SHIPPED') {
                         return order.cart.items.some(
-                            (item) => item['productId'] === id
+                            (item) => item.productId === id
                         )
                     }
                     return false
                 })
             }) || false
         setHasOrdered(hasOrdered)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orders])
     const handleClickOpen = () => {
         setOpen(true)
@@ -333,9 +247,7 @@ export function Reviews({ id }: { id: string }) {
                     emptyListCaption="No Reviews Yet"
                     renderItem={({ item, index }) => (
                         <ReviewCard
-                            editable={
-                                item.userId === authState?.['user']?.['id']
-                            }
+                            editable={item.userId === authState?.user?.id}
                             {...item}
                             onEdit={() => {
                                 setSelected(item.id)
@@ -359,7 +271,7 @@ export function Reviews({ id }: { id: string }) {
                                 container
                                 item
                                 xs={12}
-                                justify="flex-end"
+                                justifyContent="flex-end"
                                 style={{ display: 'flex' }}
                             >
                                 <ButtonGroup>
@@ -444,12 +356,8 @@ export function Reviews({ id }: { id: string }) {
                         </Grid>
                         <Grid item xs={12}>
                             <ProductImages
-                                errors={errors}
                                 values={values}
-                                touched={touched}
-                                handleBlur={handleBlur}
                                 setFieldValue={setFieldValue}
-                                handleChange={handleChange}
                             />
                         </Grid>
                     </Grid>
@@ -476,6 +384,7 @@ export function Reviews({ id }: { id: string }) {
                         <Button
                             onClick={(e) => {
                                 if (!isValid) {
+                                    return
                                 }
                                 handleSubmit()
                             }}

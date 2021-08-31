@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common'
-import { UserService } from '../user/user.service'
+import { UserService } from '../users/user.service'
 import { JwtService } from '@nestjs/jwt'
 import {
     getEmailVerificationTokenKey,
     getForgotPasswordKey,
     getRefreshTokenKey,
 } from '../utils/cache'
-import { CacheService } from '../common/modules/cache/cache.service'
-import { CreateUserDto } from '../user/dto'
+import { CacheService } from '../core/modules/cache/cache.service'
+import { CreateUserDTO } from '../users/dto'
 import { User } from '.prisma/client'
-import { UserRO } from '../user/interfaces/user.interface'
+import { UserRO } from '../users/interfaces/user.interface'
 import { nanoid } from 'nanoid'
 import { GoogleUser } from './strategy/google.strategy'
 import { sendEmail, IData } from '../utils/aws'
 import { passwordResetEmail, emailVerificationEmail } from '../utils/template'
-import { CustomError } from '../common/response'
-import { errorCodes } from '../common/codes/error'
+import { CustomError } from '../core/response'
+import { errorCodes } from '../core/codes/error'
 import { ConfigService } from '@nestjs/config'
-import { AppEnv, AuthEnv } from 'src/config'
+import { AppEnv, AuthEnv } from 'src/core/config'
 
 export interface AuthTokenPayload {
     tid: string
@@ -118,7 +118,7 @@ export class AuthService {
         return this.getAuthToken(user)
     }
 
-    async signup(user: CreateUserDto): Promise<AuthResponse> {
+    async signup(user: CreateUserDTO): Promise<AuthResponse> {
         const createdUser = await this.user.create(user)
         const authPayload = await this.getAuthToken(createdUser)
         if (createdUser) {
@@ -242,14 +242,17 @@ export class AuthService {
         const forgotPasswordToken = await this.createForgottenPasswordToken(
             email
         )
-        // if (this.appConfig.isProduction) {
-        const data = await sendEmail(
-            passwordResetEmail({
-                email,
-                token: forgotPasswordToken,
-            })
-        )
-        return data
-        // }
+        if (this.appConfig.isProduction) {
+            const data = await sendEmail(
+                passwordResetEmail({
+                    email,
+                    token: forgotPasswordToken,
+                })
+            )
+            return data
+        }
+        return new Promise((resolve) => {
+            resolve({ MessageId: null })
+        })
     }
 }

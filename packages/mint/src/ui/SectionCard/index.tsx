@@ -2,32 +2,33 @@ import * as React from 'react'
 import { useState } from 'react'
 import {
     Box,
+    Button,
     Card,
     CardContent,
-    createStyles,
-    makeStyles,
-    Typography,
-    Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    Grid,
-    DialogActions,
     Container,
-    Radio,
+    createStyles,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     FormControl,
-    FormLabel,
     FormControlLabel,
-    RadioGroup,
-    TextField,
-    MenuItem,
-    Select,
+    FormLabel,
+    Grid,
     InputLabel,
+    makeStyles,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    Select,
+    TextField,
+    Typography,
 } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Rating } from '@material-ui/lab'
 import { useCreateForm, useForm } from '../../libs'
+import { SectionFormData } from '../../content'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -84,6 +85,7 @@ const useStyles = makeStyles((theme) =>
         },
     })
 )
+
 interface IFormData {
     description: string
     actions: {
@@ -103,150 +105,14 @@ interface IFormData {
         menuItems?: undefined
     }[]
 }
-const data = {
-    description:
-        'Answer a few questions and we’ll help you find the products which best suits your preferences',
-    actions: [
-        {
-            label: 'Get Started',
-        },
-        {
-            label: 'Dismiss',
-        },
-    ],
-    formTitle: 'Help us understand your needs',
-    form: [
-        {
-            type: 'text-feild',
-            id: 'Who are your shopping for?',
-            label: 'Who are your shopping for?',
-            name: 'Who are your shopping for?',
-            props: {
-                size: 'medium',
-                multiline: true,
-            },
-        },
-        {
-            type: 'text-feild',
-            id: 'What were you looking for?',
-            label: 'What were you looking for?',
-            name: 'What were you looking for?',
-            props: {
-                size: 'medium',
-                multiline: true,
-            },
-        },
-        {
-            type: 'text-feild',
-            id: 'Did you get what you were looking for?',
-            label: 'Did you get what you were looking for?',
-            name: 'Did you get what you were looking for?',
-            props: {
-                size: 'medium',
-                multiline: true,
-            },
-        },
-        {
-            type: 'select',
-            id: 'Are you going to return later?',
-            label: 'Are you going to return later?',
-            name: 'Are you going to return later?',
-            props: {
-                size: 'medium',
-            },
-            menuItems: [
-                {
-                    id: 'yes',
-                    label: 'Yes',
-                    value: 'Yes',
-                },
-                {
-                    id: 'no',
-                    label: 'No',
-                    value: 'No',
-                },
-                {
-                    id: 'maybe',
-                    label: 'Maybe',
-                    value: 'Maybe',
-                },
-            ],
-        },
-        {
-            type: 'select',
-            id: 'What led you to visit our website?',
-            label: 'What led you to visit our website?',
-            name: 'What led you to visit our website?',
-            props: {
-                size: 'medium',
-            },
-            menuItems: [
-                {
-                    id: 'Researching product information',
-                    label: 'Researching product information',
-                    value: 'Researching product information',
-                },
-                {
-                    id: 'Interested in buying products',
-                    label: 'Interested in buying products',
-                    value: 'Interested in buying products',
-                },
-                {
-                    id: 'Looking for contact information',
-                    label: 'Looking for contact information',
-                    value: 'Looking for contact information',
-                },
-                {
-                    id: 'Know more about the company',
-                    label: 'Know more about the company',
-                    value: 'Know more about the company',
-                },
-                {
-                    id: 'Other',
-                    label: 'Other',
-                    value: 'Other',
-                },
-            ],
-        },
-        {
-            type: 'text-feild',
-            id: 'Please let us know how we can improve your experience.',
-            label: 'Please let us know how we can improve your experience.',
-            name: 'Please let us know how we can improve your experience.',
-            props: {
-                size: 'medium',
-                multiline: true,
-                rows: 5,
-            },
-        },
-        {
-            type: 'ratings',
-            id: 'On a scale of 1-10, how likely are you to recommend us to your friend or colleague?',
-            label: 'On a scale of 1-10, how likely are you to recommend us to your friend or colleague?',
-            name: 'On a scale of 1-10, how likely are you to recommend us to your friend or colleague?',
-            props: {
-                size: 'medium',
-                multiline: true,
-                rows: 5,
-            },
-        },
-    ],
-    formActions: [
-        {
-            label: 'Cancel',
-        },
-        {
-            label: 'Submit',
-        },
-    ],
-}
+
 export function SectionCard({ formId = 'section' }) {
     const classes = useStyles()
     const [showModal, setShowModal] = useState(false)
     const [visible, setVisible] = useState(true)
     const form = useForm(formId)
     const createFormData = useCreateForm()
-    const formData = (form?.data?.data?.['data'] as IFormData) || data
+    const formData = (form?.data?.data?.data as IFormData) || SectionFormData
     const initialValues = {}
 
     const {
@@ -326,7 +192,7 @@ export function SectionCard({ formId = 'section' }) {
                 >
                     <DialogContent>
                         <Container maxWidth="lg">
-                            <Grid container spacing={3} xs={12}>
+                            <Grid container spacing={3}>
                                 {formData.form.map((item) => {
                                     switch (item.type) {
                                         case 'text-feild':

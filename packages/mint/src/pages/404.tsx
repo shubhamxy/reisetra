@@ -1,9 +1,9 @@
 import { Box, Button, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { MainLayout } from '../layouts/MainLayout'
-import { AppHeader } from '../ui/Header'
+import { AppHeader } from '../ui'
 import { Footer } from '../ui/Footer'
-import HeroCard from '../ui/HeroCard'
+import { HeroCard } from '../ui/HeroCard'
 import { config } from '../libs'
 
 const useStyles = makeStyles((theme) => ({

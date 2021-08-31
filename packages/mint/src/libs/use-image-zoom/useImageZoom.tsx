@@ -5,22 +5,23 @@ import * as React from 'react'
  * Work in progress
  */
 /**
-// Part of code taken from w3 schools for lens movement
-Need to maintain the ratio between lens and main image
+ // Part of code taken from w3 schools for lens movement
+ Need to maintain the ratio between lens and main image
 
-Need to maintain the ratio between preview container div and image used for preview
+ Need to maintain the ratio between preview container div and image used for preview
 
-Need to have imagePreview width and height with the same aspect ratio
-as the original image
+ Need to have imagePreview width and height with the same aspect ratio
+ as the original image
 
-Need to translate in horizontal by the ratio of imagePreview width / img width 
-Same translate in vertical by the ration of imagePreview height / img height
-**/
+ Need to translate in horizontal by the ratio of imagePreview width / img width
+ Same translate in vertical by the ration of imagePreview height / img height
+ **/
 // import "./styles.css";
 
 interface IStringKeyObj {
     [key: string]: any
 }
+
 interface IDefaultImgPreview {
     moveLens: React.MouseEventHandler<any>
     imgContainerDimesions: IStringKeyObj
@@ -107,6 +108,7 @@ const DefaultImgPreview = ({
         </div>
     )
 }
+
 interface IOptions {
     imgHeight: number
     imgWidth: number
@@ -228,8 +230,8 @@ function useImageZoom({
             lens.style.left = x + 'px'
             lens.style.top = y + 'px'
             /* Display what the lens "sees": */
-            let finaltranslateX = x * cx
-            let finaltranslateY = y * cy
+            const finaltranslateX = x * cx
+            const finaltranslateY = y * cy
 
             imgPreview.style.transform = `translate3d(${-finaltranslateX}px, ${-finaltranslateY}px, 0px)`
         },
@@ -325,4 +327,5 @@ function useImageZoom({
         imagePreviewRefCallback,
     }
 }
+
 export { useImageZoom }

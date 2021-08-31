@@ -14,15 +14,15 @@ export interface CreateStoryDTO {
 }
 
 export function getStory({ queryKey }: { queryKey: any }) {
-    return get(`story/${queryKey[1]}`)
+    return get(`stories/${queryKey[1]}`)
 }
 
 export function createStory(body: CreateStoryDTO) {
-    return post('story', body)
+    return post('stories', body)
 }
 
 export function deleteStory(id: string) {
-    return del(`story/${id}`)
+    return del(`stories/${id}`)
 }
 
 export function updateStory({
@@ -32,7 +32,7 @@ export function updateStory({
     storyId: string
     body: CreateStoryDTO
 }) {
-    return put(`story/${storyId}`, body)
+    return put(`stories/${storyId}`, body)
 }
 
 interface PaginationParams {

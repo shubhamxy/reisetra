@@ -1,6 +1,6 @@
 import React from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { UpdatePassword } from '../../modules/Update'
+import { MainLayout } from '../../layouts'
+import { UpdatePassword } from '../../modules'
 
 const UpdatePasswordPage = () => {
     return (

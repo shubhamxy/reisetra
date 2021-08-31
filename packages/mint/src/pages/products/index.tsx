@@ -1,7 +1,7 @@
 import {
+    alpha,
     Box,
     Chip,
-    fade,
     FormControl,
     Grid,
     InputLabel,
@@ -13,17 +13,14 @@ import {
     Typography,
 } from '@material-ui/core'
 import React from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { AppHeader } from '../../ui/Header'
+import { MainLayout } from '../../layouts'
+import { AppHeader, ProductFilters, ProductsFeed } from '../../ui'
 import { Footer } from '../../ui/Footer'
-import { ProductsFeed } from '../../ui/Feed/Feed'
-import { Products } from '../../modules/Products'
-import { ProductFilters } from '../../ui/ProductFilters'
+import { Products, ShowCase } from '../../modules'
 import { useRouter } from 'next/router'
 import { useBrands, useCategories, useTags } from '../../libs'
 import clsx from 'clsx'
 import { useDebounce } from 'use-debounce'
-import { ShowCase } from '../../modules/ShowCase'
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -56,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.text.primary,
         color: theme.palette.background.paper,
         '&:hover': {
-            backgroundColor: fade(theme.palette.text.primary, 0.8),
+            backgroundColor: alpha(theme.palette.text.primary, 0.8),
         },
         '&:focus': {
             backgroundColor: theme.palette.text.primary,

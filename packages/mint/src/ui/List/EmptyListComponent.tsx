@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography, Button, makeStyles } from '@material-ui/core'
+import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 import Image from 'next/image'
 
 export const useStyles = makeStyles((theme) => ({

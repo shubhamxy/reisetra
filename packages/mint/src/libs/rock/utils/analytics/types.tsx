@@ -1,6 +1,5 @@
-import { UserProfile } from '../../api/user'
-
-const { version } = require('../../../../../package.json')
+import { UserProfile } from '../../api'
+import { config } from '../../config'
 
 /**
  * @description Mixpanel events types
@@ -16,9 +15,11 @@ export enum Events {
     click = 'Click',
     scroll_depth = 'Scroll Depth',
 }
+
 export enum Properties {
     page_viewed = '$page_viewed',
 }
+
 export enum User {
     name = '$name',
     email = '$email',
@@ -41,37 +42,15 @@ export const mapUserProperties = (user: Partial<UserProfile>) => ({
     [User.active]: true,
     [User.created_at]: user.createdAt ? user.createdAt.toString() : '',
     [User.updated_at]: user.updatedAt ? user.updatedAt.toString() : '',
+    [User.user_role]: user.role,
 })
 
-export const initial_props = {
-    $client_version: version,
+// eslint-disable-next-line camelcase
+export const initialProps = {
+    $client_version: config.version,
 }
 
 export enum UserState {
     logged_out = 'Logged Out',
     logged_in = 'Logged In',
 }
-
-export enum AppState {}
-
-export enum CartState {}
-
-export enum Metrics {
-    metric_id = '$metric_id',
-    metric_label = '$metric_label',
-    metric_name = '$metric_name',
-    metric_value = '$metric_value',
-}
-
-export enum MetricsName {
-    FCP = 'First Contentful Paint (FCP)',
-    LCP = 'Largest Contentful Paint (LCP)',
-    CLS = 'Cumulative Layout Shift (CLS)',
-    FID = 'First Input Delay (FID)',
-    TTFB = 'Time to first byte (TTFB)',
-    'Next.js-hydration' = 'Page Hydration Metric',
-    'Next.js-route-change-to-render' = 'Route Change Render Metric',
-    'Next.js-render' = 'Page Render Metric',
-}
-
-export const LinksTracker = ''

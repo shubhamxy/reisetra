@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/address/address.controller.ts</code>
+            <code>src/master/address/address.controller.ts</code>
         </p>
 
 
@@ -79,11 +79,11 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#createOrder" >createOrder</a>
+                                <a href="#createAddress" >createAddress</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#deleteOrder" >deleteOrder</a>
+                                <a href="#deleteAddress" >deleteAddress</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -99,7 +99,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#updateOrder" >updateOrder</a>
+                                <a href="#updateAddress" >updateAddress</a>
                             </li>
                         </ul>
                     </td>
@@ -122,18 +122,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createOrder"></a>
+                    <a name="createAddress"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>createOrder</b></span>
-                        <a href="#createOrder"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>createAddress</b></span>
+                        <a href="#createAddress"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateAddressDto.html" target="_self">CreateAddressDto</a>)</code>
+                    <code>createAddress(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/AddressDTO.html" target="_self">AddressDTO</a>)</code>
                 </td>
             </tr>
 
@@ -141,14 +141,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;address&#x27;)<br /></code>
+                    <code>@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/address/address.controller.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/master/address/address.controller.ts:44</a></div>
                 </td>
             </tr>
 
@@ -183,7 +183,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateAddressDto.html" target="_self" >CreateAddressDto</a></code>
+                                                <code><a href="../classes/AddressDTO.html" target="_self" >AddressDTO</a></code>
                                     </td>
 
                                     <td>
@@ -212,18 +212,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteOrder"></a>
+                    <a name="deleteAddress"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>deleteOrder</b></span>
-                        <a href="#deleteOrder"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteAddress</b></span>
+                        <a href="#deleteAddress"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteOrder(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>deleteAddress(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -231,14 +231,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;address/:addressId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.addresses_by_addressId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">src/address/address.controller.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">src/master/address/address.controller.ts:122</a></div>
                 </td>
             </tr>
 
@@ -309,14 +309,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;address/:addressId&#x27;)<br /></code>
+                    <code>@Get(ROUTES.addresses_by_addressId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">src/address/address.controller.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/master/address/address.controller.ts:81</a></div>
                 </td>
             </tr>
 
@@ -379,7 +379,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAddresses(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetAddressesDto.html" target="_self">GetAddressesDto</a>)</code>
+                    <code>getAddresses(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/AddressesDTO.html" target="_self">AddressesDTO</a>)</code>
                 </td>
             </tr>
 
@@ -387,14 +387,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;addresses&#x27;)<br /></code>
+                    <code>@Get()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/address/address.controller.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">src/master/address/address.controller.ts:61</a></div>
                 </td>
             </tr>
 
@@ -429,7 +429,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAddressesDto.html" target="_self" >GetAddressesDto</a></code>
+                                                <code><a href="../classes/AddressesDTO.html" target="_self" >AddressesDTO</a></code>
                                     </td>
 
                                     <td>
@@ -469,7 +469,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllAddresses(query: <a href="../classes/GetAllAddressDto.html" target="_self">GetAllAddressDto</a>)</code>
+                    <code>getAllAddresses(query: <a href="../classes/AllAddressDTO.html" target="_self">AllAddressDTO</a>)</code>
                 </td>
             </tr>
 
@@ -477,14 +477,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;addresses/all&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.addresses_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/address/address.controller.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/master/address/address.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -507,7 +507,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllAddressDto.html" target="_self" >GetAllAddressDto</a></code>
+                                                <code><a href="../classes/AllAddressDTO.html" target="_self" >AllAddressDTO</a></code>
                                     </td>
 
                                     <td>
@@ -536,18 +536,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="updateOrder"></a>
+                    <a name="updateAddress"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>updateOrder</b></span>
-                        <a href="#updateOrder"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>updateAddress</b></span>
+                        <a href="#updateAddress"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOrder(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateAddressDto.html" target="_self">UpdateAddressDto</a>)</code>
+                    <code>updateAddress(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/AddressDTO.html" target="_self">AddressDTO</a>)</code>
                 </td>
             </tr>
 
@@ -555,14 +555,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;address/:addressId&#x27;)<br /></code>
+                    <code>@Put(ROUTES.addresses_by_addressId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/address/address.controller.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/master/address/address.controller.ts:97</a></div>
                 </td>
             </tr>
 
@@ -583,6 +583,18 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
                                     <td>addressId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
@@ -597,7 +609,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateAddressDto.html" target="_self" >UpdateAddressDto</a></code>
+                                                <code><a href="../classes/AddressDTO.html" target="_self" >AddressDTO</a></code>
                                     </td>
 
                                     <td>
@@ -639,42 +651,20 @@
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { AddressService } from &#x27;./address.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
-import {
-    CreateAddressDto,
-    GetAddressesDto,
-    GetAllAddressDto,
-    UpdateAddressDto,
-} from &#x27;./dto&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { AddressesDTO, AllAddressDTO, AddressDTO } from &#x27;./dto&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-@Controller()
+@Controller(ROUTES.addresses)
 export class AddressController {
     constructor(private readonly address: AddressService) {}
-    @Get(&#x27;addresses&#x27;)
-    async getAddresses(
-        @Req() req: AuthenticatedRequest,
-        @Query() query: GetAddressesDto
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.address.getAddresses(
-                query,
-                req.user.id
-            )
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.getAllOrders&#x27;
-            )
-        }
-    }
 
-    @Get(&#x27;addresses/all&#x27;)
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.addresses_all)
     async getAllAddresses(
-        @Query() query: GetAllAddressDto
+        @Query() query: AllAddressDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.address.getAllAddresses(
@@ -685,31 +675,15 @@ export class AddressController {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.getAllOrders&#x27;
+                &#x27;AddressController.getAllAddresses&#x27;
             )
         }
     }
 
-    @Get(&#x27;address/:addressId&#x27;)
-    async getAddress(
-        @Param(&#x27;addressId&#x27;) addressId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.address.getAddress(addressId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.getOrder&#x27;
-            )
-        }
-    }
-
-    @Post(&#x27;address&#x27;)
-    async createOrder(
+    @Post()
+    async createAddress(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateAddressDto
+        @Body() body: AddressDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.address.createAddress(request.user.id, body)
@@ -718,31 +692,74 @@ export class AddressController {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.createOrder&#x27;
+                &#x27;AddressController.createAddress&#x27;
             )
         }
     }
 
-    @Put(&#x27;address/:addressId&#x27;)
-    async updateOrder(
-        @Param(&#x27;addressId&#x27;) addressId: string,
-        @Body() body: UpdateAddressDto
+    @Get()
+    async getAddresses(
+        @Req() req: AuthenticatedRequest,
+        @Query() query: AddressesDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.address.updateAddress(addressId, body)
+            const { results, ...meta } &#x3D; await this.address.getAddressesByUser(
+                query,
+                req.user.id
+            )
+            return { data: results || [], meta: meta }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;AddressController.getAddresses&#x27;
+            )
+        }
+    }
+
+    @Get(ROUTES.addresses_by_addressId)
+    async getAddress(
+        @Param(&#x27;addressId&#x27;) addressId: string
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.address.getAddressById(addressId)
             return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.updateOrder&#x27;
+                &#x27;AddressController.getAddress&#x27;
             )
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;address/:addressId&#x27;)
-    async deleteOrder(
+    @Put(ROUTES.addresses_by_addressId)
+    async updateAddress(
+        @Req() request: AuthenticatedRequest,
+        @Param(&#x27;addressId&#x27;) addressId: string,
+        @Body() body: AddressDTO
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const isAdmin &#x3D; request.user.role &#x3D;&#x3D;&#x3D; &#x27;ADMIN&#x27;
+            const data &#x3D; await this.address.updateAddress(
+                addressId,
+                body,
+                request.user.id,
+                isAdmin
+            )
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;AddressController.updateAddress&#x27;
+            )
+        }
+    }
+
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.addresses_by_addressId)
+    async deleteAddress(
         @Param(&#x27;addressId&#x27;) addressId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
@@ -752,7 +769,7 @@ export class AddressController {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.deleteOrder&#x27;
+                &#x27;AddressController.deleteAddress&#x27;
             )
         }
     }

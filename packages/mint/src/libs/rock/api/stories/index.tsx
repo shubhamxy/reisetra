@@ -1,6 +1,7 @@
-import { del, get, post, put } from '../../utils/http'
+import { API_ROUTES, del, get, post, put } from '../../utils'
 import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
+
 const queryString = require('query-string')
 
 export interface CreateStoryDTO {
@@ -13,11 +14,11 @@ export interface CreateStoryDTO {
 }
 
 export function getStory({ queryKey }: { queryKey: any }) {
-    return get(`story/${queryKey[1]}`)
+    return get(`${API_ROUTES.stories}/${queryKey[1]}`)
 }
 
 export function getForm({ queryKey }: { queryKey: any }) {
-    return get(`form/${queryKey[1]}`)
+    return get(`${API_ROUTES.forms}/${queryKey[1]}`)
 }
 
 export function createFormData({
@@ -27,15 +28,15 @@ export function createFormData({
     formId: string
     body: any
 }) {
-    return post(`form/${formId}`, body)
+    return post(`${API_ROUTES.forms}/${formId}`, body)
 }
 
 export function createStory(body: CreateStoryDTO) {
-    return post('story', body)
+    return post(API_ROUTES.stories, body)
 }
 
 export function deleteStory(id: string) {
-    return del(`story/${id}`)
+    return del(`stories/${id}`)
 }
 
 export function updateStory({
@@ -45,11 +46,12 @@ export function updateStory({
     storyId: string
     body: CreateStoryDTO
 }) {
-    return put(`story/${storyId}`, body)
+    return put(`${API_ROUTES.stories}/${storyId}`, body)
 }
 
 interface PaginationParams {
     [key: string]: string
+
     size?: string
     buttonNum?: string
     cursor?: string
@@ -59,5 +61,5 @@ interface PaginationParams {
 
 export function getStories(params: PaginationParams) {
     const qs = queryString.stringify(pickBy(params, identity))
-    return get(`stories/all?${qs}`)
+    return get(`${API_ROUTES.stories}/all?${qs}`)
 }

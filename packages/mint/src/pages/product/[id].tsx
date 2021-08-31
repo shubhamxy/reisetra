@@ -1,13 +1,14 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { AppHeader } from '../../ui/Header'
+import { MainLayout } from '../../layouts'
+import { AppHeader } from '../../ui'
 import { Footer } from '../../ui/Footer'
-import { Product } from '../../modules/Product'
+import { Product } from '../../modules'
 import { NextSeo } from 'next-seo'
 
 import { useRouter } from 'next/router'
 import { config, useProduct } from '../../libs'
+
 const useStyles = makeStyles((theme) => ({
     content: {
         marginBottom: 48,
@@ -30,7 +31,7 @@ const ProductPage = () => {
     const classes = useStyles()
     const router = useRouter()
     const { id } = router.query
-    const { data, isLoading } = useProduct(id as string)
+    const { data } = useProduct(id as string)
     return (
         <MainLayout
             classes={{
@@ -68,7 +69,7 @@ const ProductPage = () => {
             header={<AppHeader />}
             footer={<Footer />}
         >
-            <Product data={data?.data} isLoading={isLoading} />
+            <Product data={data?.data} />
         </MainLayout>
     )
 }

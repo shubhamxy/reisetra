@@ -6,18 +6,20 @@ import { useRouter } from 'next/router'
 
 function useHelper({ slug }) {
     const router = useRouter()
+
     function handleClick(e) {
         e.preventDefault()
         e.stopPropagation()
         router.push(`/product/${slug}`)
     }
+
     return {
         handleClick,
     }
 }
 
 export function ProductCard({ data }) {
-    const { id, slug, title, description, price, mrp, images } = data?.product
+    const { slug, title, price, images } = data?.product
     const { handleClick } = useHelper({
         slug,
     })

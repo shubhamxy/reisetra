@@ -1,26 +1,20 @@
-import {
-    useInfiniteQuery,
-    useMutation,
-    useQuery,
-    useQueryClient,
-    UseQueryOptions,
-} from 'react-query'
+import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import {
     createAddress,
     createSupportTicket,
     deleteAddress,
-    getAddreses,
+    getAddresses,
     getMe,
     updateAddress,
     updateMe,
-} from '../api/user'
-import { useAuthDispatch, setAuthState, logout } from '../auth'
+} from '../api'
+import { setAuthState, useAuthDispatch } from '../auth'
 import { updateSnackBar, useGlobalDispatch } from '../global'
 import { DataT, IErrorResponse, ISuccessResponse, QueryKeys } from '../utils'
 
 export const useUserProfile = () =>
     useMutation(getMe, {
-        mutationKey: [QueryKeys.user],
+        mutationKey: [QueryKeys.users],
     })
 
 export const useUpdateUserProfile = () => {
@@ -122,7 +116,7 @@ export const useAddresses = (filters = {}, { onSuccess }) => {
     return useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
         [QueryKeys.addresses, filters],
         ({ queryKey, pageParam = undefined }) =>
-            getAddreses({
+            getAddresses({
                 ...filters,
                 buttonNum: '4',
                 size: '4',
@@ -138,7 +132,6 @@ export const useAddresses = (filters = {}, { onSuccess }) => {
 }
 
 export const useCreateSupportTicket = () => {
-    const queryClient = useQueryClient()
     const dispatch = useGlobalDispatch()
     return useMutation(createSupportTicket, {
         onSuccess: () => {

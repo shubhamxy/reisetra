@@ -1,7 +1,7 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
-import { auth } from '../../config'
+import { auth } from '../../core/config'
 import { UserAuthPayload } from '../auth.interface'
 const config = auth()
 @Injectable()

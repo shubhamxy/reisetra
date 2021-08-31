@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
@@ -11,13 +11,13 @@ import { Rating } from '@material-ui/lab'
 import { ImagePreview } from '../../ui/MediaPreview'
 import {
     Box,
+    Button,
     ButtonGroup,
     Dialog,
-    DialogTitle,
     DialogContent,
+    DialogTitle,
 } from '@material-ui/core'
 import { Delete, Edit } from '@material-ui/icons'
-import { Button } from '@material-ui/core'
 
 const useStyles = makeStyles<any, any>((theme: Theme) =>
     createStyles({
@@ -66,13 +66,11 @@ export default function ReviewCard({
     onEdit,
     onDelete,
     selected,
-    onClick,
     images,
     rating,
     description,
     createdAt,
     editable,
-    onSelected,
     user,
 }) {
     const classes = useStyles({ selected })

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, Container, fade, Typography, Button } from '@material-ui/core'
+import { Box, Button, Container, Typography } from '@material-ui/core'
 import { List } from './List'
 import { useInView } from 'react-intersection-observer'
-import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'
+import { getTotalCount, getTotalDataCount } from '../../libs'
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -94,9 +94,8 @@ function Footer({
     fetchNextPage,
     totalCount,
     totalDataCount,
-    isLoading,
 }) {
-    const { ref, inView } = useInView()
+    const { inView } = useInView()
     useEffect(() => {
         if (inView && hasNextPage) {
             fetchNextPage()
@@ -133,7 +132,7 @@ function Footer({
     ) : null
 }
 
-export default function GridList({
+export function GridList({
     emptyListCaption = 'No results',
     query,
     renderItem,
@@ -171,7 +170,6 @@ export default function GridList({
                         fetchNextPage={fetchNextPage}
                         totalDataCount={getTotalDataCount(data)}
                         totalCount={getTotalCount(data)}
-                        isLoading={isLoading}
                     />
                 }
                 renderItem={renderItem}

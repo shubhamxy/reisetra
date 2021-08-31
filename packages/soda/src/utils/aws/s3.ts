@@ -1,7 +1,7 @@
 import { S3 } from 'aws-sdk'
 import { nanoid } from 'nanoid'
-import { services } from 'src/config'
-import { File } from 'src/files/entity'
+import { services } from 'src/core/config'
+import { File } from 'src/masters/files/entity'
 
 const awsConfig = services().aws
 const URL_EXPIRATION_SECONDS = 300
@@ -10,12 +10,22 @@ const s3 = new S3({
     region: awsConfig.s3Region,
 })
 
-export interface UploadUrlProps {
+export interface UploadUrlParams {
     userId: string
     fileType: 'images' | 'documents'
     fileName: string
     contentType: string
 }
+
+export type UploadUrlResponse = Partial<File> & {
+    id: string
+    url: string
+    fileName: string
+    signedUrl: string
+    expiresIn: number
+    contentType: any
+}
+
 const RE = /(?:\.([^.]+))?$/
 
 export const getUploadURL = async function ({
@@ -23,16 +33,7 @@ export const getUploadURL = async function ({
     fileType,
     fileName,
     contentType,
-}: UploadUrlProps): Promise<
-    Partial<File> & {
-        id: string
-        url: string
-        fileName: string
-        signedUrl: string
-        expiresIn: number
-        contentType: any
-    }
-> {
+}: UploadUrlParams): Promise<UploadUrlResponse> {
     const ext = RE.exec(fileName)[1] || ''
     const key = `${userId}/${fileType}/${nanoid()}${ext ? `.${ext}` : ''}`
     const s3Params = {

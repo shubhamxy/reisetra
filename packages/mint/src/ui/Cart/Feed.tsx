@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
-    Paper,
     Box,
-    Typography,
-    makeStyles,
-    CircularProgress,
-    Divider,
     Button,
+    Divider,
     Grid,
-    TextField,
-    fade,
     IconButton,
+    LinearProgress,
+    makeStyles,
+    TextField,
+    Typography,
 } from '@material-ui/core'
 import { List } from '../List/List'
-import { Footer } from '../List'
-import {
-    updatePromo,
-    useAuthState,
-    useCartCheckout,
-    useCartItems,
-    useGlobalDispatch,
-    useGlobalState,
-    useProducts,
-} from '../../libs'
-import { ProductCard } from './Card'
-import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'
-import clsx from 'clsx'
+import { updatePromo, useGlobalDispatch, useGlobalState } from '../../libs'
+import { CartCard } from './CartCard'
 import { useRouter } from 'next/router'
 import Close from '@material-ui/icons/Close'
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         flex: 1,
         alignItems: 'flex-start',
@@ -84,7 +71,7 @@ export function Cart({ data, handleClose }) {
                     item
                     xs={12}
                     alignItems="center"
-                    justify="flex-start"
+                    justifyContent="flex-start"
                 >
                     <IconButton onClick={handleClose}>
                         <Close />
@@ -121,7 +108,7 @@ export function Cart({ data, handleClose }) {
                 </Box>
             }
             renderItem={({ item, index }) => (
-                <ProductCard key={index} data={item} />
+                <CartCard key={index} data={item} />
             )}
             variant="default"
             ListLoadingComponent={
@@ -133,7 +120,10 @@ export function Cart({ data, handleClose }) {
                     pt={2}
                     pb={2}
                 >
-                    <CircularProgress size={24} />
+                    <LinearProgress
+                        style={{ minWidth: 140 }}
+                        variant="indeterminate"
+                    />
                 </Box>
             }
             ListFooterComponent={
@@ -144,7 +134,7 @@ export function Cart({ data, handleClose }) {
                         xs={12}
                         wrap="wrap"
                         style={{ marginTop: 16 }}
-                        justify="space-between"
+                        justifyContent="space-between"
                     >
                         <Grid
                             item
@@ -184,7 +174,7 @@ export function Cart({ data, handleClose }) {
                         xs={12}
                         container
                         alignItems="center"
-                        justify="center"
+                        justifyContent="center"
                     >
                         <Grid item xs={12} container>
                             <Grid item xs>
@@ -224,7 +214,7 @@ export function Cart({ data, handleClose }) {
                                 <Typography>₹ {data.total || 0}</Typography>
                             </Grid>
                         </Grid>
-                        {data['promo'] && (
+                        {data.promo && (
                             <Grid item xs={12} container>
                                 <Grid item xs>
                                     <Typography>Promo</Typography>
@@ -232,14 +222,14 @@ export function Cart({ data, handleClose }) {
                                 <Grid item>
                                     <Typography>
                                         {data?.promo?.toUpperCase()}{' '}
-                                        {data['discount'] > 0
-                                            ? `(${data['discount']}% off)`
+                                        {data.discount > 0
+                                            ? `(${data.discount}% off)`
                                             : '-'}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         )}
-                        {+data['itemDiscount'] > 0 && (
+                        {+data.itemDiscount > 0 && (
                             <Grid item xs={12} container>
                                 <Grid item xs>
                                     <Typography>Discount</Typography>
@@ -253,14 +243,14 @@ export function Cart({ data, handleClose }) {
                             </Grid>
                         )}
 
-                        {+data['grandTotal'] > 0 && (
+                        {+data.grandTotal > 0 && (
                             <Grid item xs={12} container>
                                 <Grid item xs>
                                     <Typography>Grand Total</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography>
-                                        ₹ {data['grandTotal'] || 0}
+                                        ₹ {data.grandTotal || 0}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -274,7 +264,7 @@ export function Cart({ data, handleClose }) {
                         xs={12}
                         container
                         alignItems="center"
-                        justify="center"
+                        justifyContent="center"
                         style={{ paddingBottom: 16 }}
                     >
                         <Button
@@ -287,7 +277,7 @@ export function Cart({ data, handleClose }) {
                                 marginBottom: 16,
                             }}
                             onClick={() => {
-                                if (data['grandTotal'] > 0) {
+                                if (data.grandTotal > 0) {
                                     router.push('/checkout')
                                 }
                             }}

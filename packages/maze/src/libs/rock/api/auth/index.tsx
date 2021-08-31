@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { get, post } from '../../utils/http'
 import { storage } from '../../utils/storage'
 
@@ -63,7 +64,7 @@ export function refreshAuthToken({
     config,
 }: {
     token?: string
-    config?: RequestInit
+    config?: any
 }) {
     const refresh_token = token || storage.get.refresh_token()
     config = config || {}

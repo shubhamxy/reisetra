@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, fade, makeStyles, Typography, Button } from '@material-ui/core'
+import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 import { useInView } from 'react-intersection-observer'
 
 export const useStyles = makeStyles((theme) => ({

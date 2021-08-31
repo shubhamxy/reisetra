@@ -1,12 +1,14 @@
-export enum Environment {
+enum Environment {
     Local = 'localhost',
     Development = 'development',
     Production = 'production',
 }
 
 export interface Config {
+    version: string
     isProduction: boolean
     name: string
+    company: string
     title: string
     debug: boolean
     description: string
@@ -58,8 +60,10 @@ export const isBrowser = typeof window !== 'undefined'
 
 export const config: Config = {
     // app
+    version: '1.0.0',
     isProduction: process.env.NEXT_PUBLIC_NODE_ENV === 'production',
     name: process.env.NEXT_PUBLIC_APP_NAME || 'Reisetra',
+    company: process.env.NEXT_PUBLIC_COMPANY_NAME || 'REISETRA ENTERPRISES',
     title: process.env.NEXT_PUBLIC_APP_TITLE || 'Indian Handcrafts',
     description:
         process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
@@ -79,10 +83,8 @@ export const config: Config = {
         process.env.NEXT_PUBLIC_AUTH_CLIENT_URL || 'https://auth.reisetra.com',
     cdnUrl:
         process.env.NEXT_PUBLIC_CDN_URL ||
-        'https://d38bp8dgh2l2dc.cloudfront.net',
-    // API
-    apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
-    // GOOGLE Login
+        'https://d38bp8dgh2l2dc.cloudfront.net', // API
+    apiUrl: process.env.NEXT_PUBLIC_API_URL || '', // GOOGLE Login
     googleOAuthOptions: {
         enableGoogleSignIn: !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
         clientID: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '',
@@ -97,13 +99,10 @@ export const config: Config = {
     analytics: {
         enableGTag:
             !!process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID &&
-            !!process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID,
-        // ref: https://tagmanager.google.com/#/container/accounts
-        gtmId: process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID,
-        // ref: https://analytics.google.com/analytics/web/
+            !!process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID, // ref: https://tagmanager.google.com/#/container/accounts
+        gtmId: process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID, // ref: https://analytics.google.com/analytics/web/
         gaMeasurementId: process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID,
-        enableMixpanel: !!process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
-        // ref https://mixpanel.com/report/2463627/view/3006479/live
+        enableMixpanel: !!process.env.NEXT_PUBLIC_MIXPANEL_TOKEN, // ref https://mixpanel.com/report/2463627/view/3006479/live
         mixpanelToken: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
         enableLogrocket: !!process.env.NEXT_PUBLIC_LOGROCKET_TOKEN,
         logrocketToken: process.env.NEXT_PUBLIC_LOGROCKET_TOKEN,

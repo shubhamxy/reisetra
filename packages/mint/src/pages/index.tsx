@@ -1,17 +1,16 @@
-import { Box, makeStyles, Paper, Grid, Typography } from '@material-ui/core'
+import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import React from 'react'
-import { MainLayout } from '../layouts/MainLayout'
-import { AppHeader } from '../ui/Header'
+import { MainLayout } from '../layouts'
+import {
+    AppHeader,
+    HelpDesk,
+    HeroCard,
+    ProductsFeed,
+    RecommendedCategories,
+    SectionCard,
+} from '../ui'
 import { Footer } from '../ui/Footer'
-import RecommendedCategories from '../ui/RecommendedCategories'
-import Categories from '../modules/Categories'
-import HeroCard from '../ui/HeroCard'
-import { SectionCard } from '../ui/SectionCard'
-import { ShowCase } from '../modules/ShowCase'
-import { ProductsFeed } from '../ui/Feed/Feed'
-import { Products } from '../modules/Products'
-import { Catelogs } from '../modules/Catelogs'
-import HelpDesk from '../ui/HelpDesk'
+import { Catalogs, Categories, Products, ShowCase } from '../modules'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -118,7 +117,7 @@ const IndexPage = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <Catelogs filters={{}} />
+                        <Catalogs filters={{}} />
                     </Grid>
                 </Grid>
 
@@ -131,7 +130,7 @@ const IndexPage = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <Categories filters={{}} />
+                        <Categories />
                     </Grid>
                 </Grid>
                 <HelpDesk />

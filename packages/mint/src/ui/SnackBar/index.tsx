@@ -4,11 +4,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import MuiAlert from '@material-ui/lab/Alert'
-import {
-    closeSnackBar,
-    useGlobalDispatch,
-    useGlobalState,
-} from '../../libs/rock/global'
+import { closeSnackBar, useGlobalDispatch, useGlobalState } from '../../libs'
 
 const colors = {
     default: { background: '#f8f8f8', color: '#0f0f0f' },

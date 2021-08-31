@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 // @ts-nocheck
 import { useEffect } from 'react'
 import { config, isBrowser, useAuthState } from '../../libs'
@@ -18,20 +19,20 @@ const HelpDesk = () => {
             })
 
             window.fcWidget.setExternalId(user.id)
-            // To set user name
+            // To set users name
             window.fcWidget.user.setFirstName(user.name)
 
-            // To set user email
+            // To set users email
             window.fcWidget.user.setEmail(user.email)
 
-            // To set user properties
+            // To set users properties
             window.fcWidget.user.setProperties({
                 role: user.role, // meta property 1
             })
         }
 
         function initialize(i, t) {
-            var e
+            let e
             i.getElementById(t)
                 ? initFreshChat()
                 : (((e = i.createElement('script')).id = t),
@@ -40,9 +41,11 @@ const HelpDesk = () => {
                   (e.onload = initFreshChat),
                   i.head.appendChild(e))
         }
+
         function initiateCall() {
             initialize(document, 'Freshdesk Messaging-js-sdk')
         }
+
         window.addEventListener
             ? window.addEventListener('load', initiateCall, !1)
             : window.attachEvent('load', initiateCall, !1)
@@ -51,4 +54,4 @@ const HelpDesk = () => {
     return null
 }
 
-export default HelpDesk
+export { HelpDesk }

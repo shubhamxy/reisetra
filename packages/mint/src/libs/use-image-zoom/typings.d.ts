@@ -1,6 +1,6 @@
 /**
  * Default CSS definition for typescript,
- * will be overridden with file-specific definitions by rollup
+ * will be overridden with files-specific definitions by rollup
  */
 declare module '*.css' {
     const content: { [className: string]: string }

@@ -1,5 +1,6 @@
 import { isBrowser } from '../config'
 import { analytics } from './analytics'
+
 /**
  * @description LocalStorage keys
  */
@@ -98,23 +99,16 @@ export const storage = {
             }
             return null
         },
-        dark_mode: function dark_mode(): boolean | undefined {
+        dark_mode: function dark_mode(): string | undefined {
             if (isBrowser) {
                 try {
-                    const data = window?.localStorage?.getItem?.(
-                        LS_KEY.dark_mode
-                    )
-                    return data === '0'
-                        ? false
-                        : data === '1'
-                        ? true
-                        : undefined
+                    return window?.localStorage?.getItem?.(LS_KEY.dark_mode)
                 } catch (error) {
                     console.error('storage', error)
-                    return false
+                    return '0'
                 }
             }
-            return false
+            return '0'
         },
     },
     remove: {

@@ -7,28 +7,20 @@ import { Rating } from '@material-ui/lab'
 
 function useHelper({ slug }) {
     const router = useRouter()
+
     function handleClick(e) {
         e.preventDefault()
         e.stopPropagation()
         router.push(`/product/${slug}`)
     }
+
     return {
         handleClick,
     }
 }
 
 export function ProductCard({ data }) {
-    const {
-        id,
-        slug,
-        title,
-        description,
-        rating,
-        ratingsCount,
-        price,
-        mrp,
-        images,
-    } = data
+    const { slug, title, rating, ratingsCount, price, mrp, images } = data
     const { handleClick } = useHelper({
         slug,
     })

@@ -1,2 +1,3 @@
 export * from './List'
-export { default as Footer } from './Footer'
+export * from './GridList'
+export { default as ListFooter } from './Footer'

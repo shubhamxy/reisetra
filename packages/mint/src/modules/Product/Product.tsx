@@ -13,23 +13,17 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import {
     ButtonGroup,
+    Divider,
     FormControl,
     InputLabel,
     Paper,
     Select,
-    Divider,
     TextField,
-    Link as MaterialLink,
 } from '@material-ui/core'
-import {
-    useAddCartItem,
-    useAuthState,
-    useDeleteCartItem,
-    useProduct,
-} from '../../libs'
+import { ROUTES, useAddCartItem, useAuthState } from '../../libs'
 import { ImagePreview } from '../../ui/MediaPreview'
 import { Rating } from '@material-ui/lab'
 import { ShowCase } from '../ShowCase'
@@ -254,20 +248,18 @@ export default function DetailsTable({ rows, label }) {
         </TableContainer>
     )
 }
-export function Product({ data, isLoading }) {
+
+export function Product({ data }) {
     const classes = useStyles()
     const router = useRouter()
     const addCartItem = useAddCartItem()
-    const removeCartItem = useDeleteCartItem()
     const { user } = useAuthState()
     const [tabIndex, setTabIndex] = useState(0)
     const [qty, setQty] = useState(1)
     const [selectedSize, setSelectedSize] = useState('')
     const [selectedColor, setSelectedColor] = useState('')
-    const theme = useTheme()
     const {
         mrp = 0,
-        tax = 0,
         price = 0,
         sizes = [],
         dimensions = [],
@@ -324,12 +316,13 @@ export function Product({ data, isLoading }) {
         handleAddToCart()
         router.push('/checkout')
     }
+
     const Top = (
         <Grid item className={classes.top}>
             <Box className={classes.circle} />
             <Box display="flex" flexWrap="wrap">
                 <Box display="flex">
-                    <Link href="/">
+                    <Link passHref href="/">
                         <Typography variant="caption" className={classes.link}>
                             Home
                         </Typography>
@@ -340,6 +333,7 @@ export function Product({ data, isLoading }) {
                 </Box>
                 <Box display="flex">
                     <Link
+                        passHref
                         href={`/products?category=${
                             categories?.[0]?.label || ''
                         }`}
@@ -353,7 +347,7 @@ export function Product({ data, isLoading }) {
                     <Typography variant="caption">/</Typography>
                 </Box>
                 <Box display="flex">
-                    <Link href={`/product/${slug}`}>
+                    <Link passHref href={`/product/${slug}`}>
                         <Typography variant="caption" className={classes.link}>
                             {title ? String(title).trim() : ''}
                         </Typography>
@@ -382,7 +376,7 @@ export function Product({ data, isLoading }) {
                             <Typography
                                 onClick={() => {
                                     router.push({
-                                        pathname: '/products',
+                                        pathname: ROUTES.products,
                                         query: {
                                             brands: [brand],
                                         },
@@ -399,7 +393,7 @@ export function Product({ data, isLoading }) {
                         xs={12}
                         container
                         alignItems="center"
-                        justify="flex-start"
+                        justifyContent="flex-start"
                         alignContent="center"
                         style={{ display: 'flex' }}
                     >
@@ -587,7 +581,7 @@ export function Product({ data, isLoading }) {
                                                 parseInt(e.target.value),
                                                 1
                                             ),
-                                            inventory['stockQuantity'] || 0
+                                            inventory.stockQuantity || 0
                                         )
                                     )
                                 }}
@@ -610,7 +604,7 @@ export function Product({ data, isLoading }) {
                                         setQty(
                                             Math.min(
                                                 qty + 1,
-                                                inventory['stockQuantity'] || 99
+                                                inventory.stockQuantity || 99
                                             )
                                         )
                                     }}
@@ -738,7 +732,7 @@ export function Product({ data, isLoading }) {
         <Grid
             container
             alignContent="center"
-            justify="center"
+            justifyContent="center"
             direction="column"
             spacing={2}
         >

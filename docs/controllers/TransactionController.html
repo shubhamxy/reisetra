@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/transaction/transaction.controller.ts</code>
+            <code>src/order/transaction/transaction.controller.ts</code>
         </p>
 
 
@@ -95,6 +95,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#transactions" >transactions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#updateTransaction" >updateTransaction</a>
                             </li>
                         </ul>
@@ -129,7 +133,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>allTransactions(query: <a href="../classes/GetAllTransactionsDto.html" target="_self">GetAllTransactionsDto</a>)</code>
+                    <code>allTransactions(query: <a href="../classes/GetAllTransactionsDTO.html" target="_self">GetAllTransactionsDTO</a>)</code>
                 </td>
             </tr>
 
@@ -137,14 +141,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;transactions&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.transactions_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/transaction/transaction.controller.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/order/transaction/transaction.controller.ts:29</a></div>
                 </td>
             </tr>
 
@@ -167,7 +171,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllTransactionsDto.html" target="_self" >GetAllTransactionsDto</a></code>
+                                                <code><a href="../classes/GetAllTransactionsDTO.html" target="_self" >GetAllTransactionsDTO</a></code>
                                     </td>
 
                                     <td>
@@ -207,7 +211,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createTransaction(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateTransactionDto.html" target="_self">CreateTransactionDto</a>)</code>
+                    <code>createTransaction(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateTransactionDTO.html" target="_self">CreateTransactionDTO</a>)</code>
                 </td>
             </tr>
 
@@ -215,14 +219,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Post(&#x27;transaction&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">src/transaction/transaction.controller.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/order/transaction/transaction.controller.ts:67</a></div>
                 </td>
             </tr>
 
@@ -257,7 +261,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateTransactionDto.html" target="_self" >CreateTransactionDto</a></code>
+                                                <code><a href="../classes/CreateTransactionDTO.html" target="_self" >CreateTransactionDTO</a></code>
                                     </td>
 
                                     <td>
@@ -305,14 +309,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;transaction/:transactionId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.transactions_by_transactionId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/transaction/transaction.controller.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">src/order/transaction/transaction.controller.ts:123</a></div>
                 </td>
             </tr>
 
@@ -383,14 +387,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;transaction/:transactionId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.transactions_by_transactionId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/transaction/transaction.controller.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">src/order/transaction/transaction.controller.ts:88</a></div>
                 </td>
             </tr>
 
@@ -442,6 +446,96 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="transactions"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>transactions</b></span>
+                        <a href="#transactions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>transactions(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetAllTransactionsDTO.html" target="_self">GetAllTransactionsDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Roles(Role.ADMIN)<br />@Get()<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/order/transaction/transaction.controller.ts:46</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="../classes/GetAllTransactionsDTO.html" target="_self" >GetAllTransactionsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateTransaction"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -453,7 +547,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateTransaction(transactionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateTransactionDto.html" target="_self">UpdateTransactionDto</a>)</code>
+                    <code>updateTransaction(transactionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateTransactionDTO.html" target="_self">UpdateTransactionDTO</a>)</code>
                 </td>
             </tr>
 
@@ -461,14 +555,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Put(&#x27;transaction/:transactionId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Put(ROUTES.transactions_by_transactionId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">src/transaction/transaction.controller.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/order/transaction/transaction.controller.ts:105</a></div>
                 </td>
             </tr>
 
@@ -503,7 +597,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateTransactionDto.html" target="_self" >UpdateTransactionDto</a></code>
+                                                <code><a href="../classes/UpdateTransactionDTO.html" target="_self" >UpdateTransactionDTO</a></code>
                                     </td>
 
                                     <td>
@@ -545,22 +639,23 @@
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { TransactionService } from &#x27;./transaction.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
 import {
-    CreateTransactionDto,
-    GetAllTransactionsDto,
-    UpdateTransactionDto,
+    CreateTransactionDTO,
+    GetAllTransactionsDTO,
+    UpdateTransactionDTO,
 } from &#x27;./dto&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
-@Controller()
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
+@Controller(ROUTES.transactions)
 export class TransactionController {
     constructor(private readonly txn: TransactionService) {}
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Get(&#x27;transactions&#x27;)
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.transactions_all)
     async allTransactions(
-        @Query() query: GetAllTransactionsDto
+        @Query() query: GetAllTransactionsDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.txn.allTransactions(query)
@@ -574,28 +669,32 @@ export class TransactionController {
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Get(&#x27;transaction/:transactionId&#x27;)
-    async getTransaction(
-        @Param(&#x27;transactionId&#x27;) transactionId: string
+    @Roles(Role.ADMIN)
+    @Get()
+    async transactions(
+        @Req() request: AuthenticatedRequest,
+        @Query() query: GetAllTransactionsDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.txn.transaction(transactionId)
-            return { data }
+            const { results, ...meta } &#x3D; await this.txn.transactions(
+                query,
+                request.user.id
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &#x27;TransactionController.getTransaction&#x27;
+                &#x27;TransactionController.getAllTransaction&#x27;
             )
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Post(&#x27;transaction&#x27;)
+    @Roles(Role.ADMIN)
+    @Post()
     async createTransaction(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateTransactionDto
+        @Body() body: CreateTransactionDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.txn.createTransactionFromOrderId(
@@ -612,11 +711,28 @@ export class TransactionController {
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Put(&#x27;transaction/:transactionId&#x27;)
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.transactions_by_transactionId)
+    async getTransaction(
+        @Param(&#x27;transactionId&#x27;) transactionId: string
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.txn.transaction(transactionId)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;TransactionController.getTransaction&#x27;
+            )
+        }
+    }
+
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.transactions_by_transactionId)
     async updateTransaction(
         @Param(&#x27;transactionId&#x27;) transactionId: string,
-        @Body() body: UpdateTransactionDto
+        @Body() body: UpdateTransactionDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.txn.updateTransaction(transactionId, body)
@@ -630,8 +746,8 @@ export class TransactionController {
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;transaction/:transactionId&#x27;)
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.transactions_by_transactionId)
     async deleteTransaction(
         @Param(&#x27;transactionId&#x27;) transactionId: string
     ): Promise&lt;SuccessResponse&gt; {

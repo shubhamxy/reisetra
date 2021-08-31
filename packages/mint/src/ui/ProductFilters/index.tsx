@@ -1,16 +1,4 @@
-import {
-    Avatar,
-    Box,
-    Chip,
-    createStyles,
-    Divider,
-    fade,
-    List,
-    ListItem,
-    makeStyles,
-    Paper,
-    Typography,
-} from '@material-ui/core'
+import { createStyles, makeStyles, Paper } from '@material-ui/core'
 import * as React from 'react'
 import { FilterT } from '../../pages/products'
 import { Filters } from './Item'

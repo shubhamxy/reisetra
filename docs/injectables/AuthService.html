@@ -1155,7 +1155,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>signup(user: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                    <code>signup(user: <a href="../classes/CreateUserDTO.html" target="_self">CreateUserDTO</a>)</code>
                 </td>
             </tr>
 
@@ -1186,7 +1186,7 @@
                                 <tr>
                                     <td>user</td>
                                     <td>
-                                                <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                                <code><a href="../classes/CreateUserDTO.html" target="_self" >CreateUserDTO</a></code>
                                     </td>
 
                                     <td>
@@ -1615,16 +1615,16 @@ import {
     getForgotPasswordKey,
     getRefreshTokenKey,
 } from &#x27;../utils/cache&#x27;
-import { CacheService } from &#x27;../common/modules/cache/cache.service&#x27;
-import { CreateUserDto } from &#x27;../user/dto&#x27;
+import { CacheService } from &#x27;../core/modules/cache/cache.service&#x27;
+import { CreateUserDTO } from &#x27;../user/dto&#x27;
 import { User } from &#x27;.prisma/client&#x27;
 import { UserRO } from &#x27;../user/interfaces/user.interface&#x27;
 import { nanoid } from &#x27;nanoid&#x27;
 import { GoogleUser } from &#x27;./strategy/google.strategy&#x27;
 import { sendEmail, IData } from &#x27;../utils/aws&#x27;
 import { passwordResetEmail, emailVerificationEmail } from &#x27;../utils/template&#x27;
-import { CustomError } from &#x27;../common/response&#x27;
-import { errorCodes } from &#x27;../common/codes/error&#x27;
+import { CustomError } from &#x27;../core/response&#x27;
+import { errorCodes } from &#x27;../core/codes/error&#x27;
 import { ConfigService } from &#x27;@nestjs/config&#x27;
 import { AppEnv, AuthEnv } from &#x27;src/config&#x27;
 
@@ -1727,7 +1727,7 @@ export class AuthService {
         return this.getAuthToken(user)
     }
 
-    async signup(user: CreateUserDto): Promise&lt;AuthResponse&gt; {
+    async signup(user: CreateUserDTO): Promise&lt;AuthResponse&gt; {
         const createdUser &#x3D; await this.user.create(user)
         const authPayload &#x3D; await this.getAuthToken(createdUser)
         if (createdUser) {
@@ -1851,15 +1851,18 @@ export class AuthService {
         const forgotPasswordToken &#x3D; await this.createForgottenPasswordToken(
             email
         )
-        // if (this.appConfig.isProduction) {
-        const data &#x3D; await sendEmail(
-            passwordResetEmail({
-                email,
-                token: forgotPasswordToken,
-            })
-        )
-        return data
-        // }
+        if (this.appConfig.isProduction) {
+            const data &#x3D; await sendEmail(
+                passwordResetEmail({
+                    email,
+                    token: forgotPasswordToken,
+                })
+            )
+            return data
+        }
+        return new Promise((resolve) &#x3D;&gt; {
+            resolve({ MessageId: null })
+        })
     }
 }
 </code></pre>

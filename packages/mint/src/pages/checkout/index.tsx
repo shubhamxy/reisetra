@@ -1,10 +1,9 @@
 import { Box, Dialog, makeStyles, Paper } from '@material-ui/core'
 import React, { useEffect, useRef, useState } from 'react'
-import { MainLayout } from '../../layouts/MainLayout'
-import { AppHeader } from '../../ui/Header'
+import { MainLayout } from '../../layouts'
+import { AppHeader, CheckoutCartList, CheckoutSummary } from '../../ui'
 import { Footer } from '../../ui/Footer'
-import { Checkout } from '../../modules/Checkout'
-import { CheckoutSummary } from '../../ui/Checkout/CheckoutSummary'
+import { Checkout, CheckoutSuccess } from '../../modules'
 import {
     useAuthState,
     useCartItems,
@@ -12,8 +11,6 @@ import {
     useUpdateTransaction,
 } from '../../libs'
 import { useRouter } from 'next/router'
-import { CheckoutCartList } from '../../ui/Checkout'
-import Success from '../../modules/Checkout/Success'
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -131,7 +128,7 @@ const CheckoutPage = () => {
                     scroll="body"
                     fullWidth
                 >
-                    <Success
+                    <CheckoutSuccess
                         handleNext={() => {
                             router.replace('/')
                         }}
