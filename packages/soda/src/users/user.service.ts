@@ -23,7 +23,7 @@ export class UserService {
     constructor(
         private readonly db: PrismaService,
         private readonly cache: CacheService
-    ) {}
+    ) { }
 
     async allUsers(
         options: CursorPagination
@@ -48,9 +48,17 @@ export class UserService {
     }
 
     async create(user: CreateUserDTO): Promise<UserRO> {
+        if (await this.db.client.count({ where: { clientId: user.clientId, redirectUrls: {hasSome: user.redirectUri} } }) <= 0) {
+            throw new CustomError(
+                "Invalid ClientId",
+                errorCodes.InvalidClientId,
+                'UserService.create'
+            )
+        }
+
         try {
             // create new user
-            const { password, ...update } = user
+            const { clientId, redirectUri, password, ...update } = user
             const newPassword = await this.createPassword(password)
             const newUser = await this.db.user.create({
                 data: {
@@ -62,6 +70,11 @@ export class UserService {
                         create: {
                             password: newPassword,
                         },
+                    },
+                    client: {
+                        connect: {
+                            clientId
+                        }
                     },
                 },
             })
@@ -241,15 +254,18 @@ export class UserService {
                     secrets: true,
                 },
             })
-            if (!user) {
+            if (!user || !user.secrets || !user.secrets.password) {
                 return null
             }
+            console.log(user, email, password);
             if (await argon2.verify(user.secrets.password, password)) {
                 user.secrets = undefined
                 return user
             }
             return null
         } catch (error) {
+            console.log({ error});
+
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
@@ -268,7 +284,7 @@ export class UserService {
 
     async findByEmailAndUpdate(
         email: string,
-        update: { password: string }
+        update: UpdateUserDTO,
     ): Promise<UserRO> {
         try {
             const user = await this.db.user.update({

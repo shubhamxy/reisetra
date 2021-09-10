@@ -7,13 +7,11 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import Image from 'next/image'
 import { Paper } from '@material-ui/core'
 import { useFormik } from 'formik'
 import { useUserEmailForgotPassword } from '../../libs/rock/auth/useAuth'
 import { updateSnackBar, useGlobalDispatch } from '../../libs/rock/global'
 import { IErrorResponse } from '../../libs/rock/utils/http'
-import { useAuthDispatch } from '../../libs/rock/auth'
 import { useRouter } from 'next/router'
 import { Logo } from '../../ui/Logo'
 import { footerLinks } from '../../constants'
@@ -124,13 +122,10 @@ const useStyles = makeStyles((theme) => ({
 export function ForgotPassword() {
     const classes = useStyles()
     const emailForgotPassword = useUserEmailForgotPassword()
-    const { asPath, replace, query } = useRouter()
-    const authDispatch = useAuthDispatch()
+    const { replace, push, query } = useRouter()
     const globalDispatch = useGlobalDispatch()
     const {
         values,
-        isValid,
-        setErrors,
         touched,
         errors,
         handleChange,
@@ -143,7 +138,7 @@ export function ForgotPassword() {
         validationSchema: LoginSchema,
         onSubmit: function (data) {
             emailForgotPassword.mutate(data.email, {
-                onSuccess: (response) => {
+                onSuccess: () => {
                     globalDispatch(
                         updateSnackBar({
                             message: 'Email Sent Successfully',
@@ -152,8 +147,8 @@ export function ForgotPassword() {
                         })
                     )
                     replace({
-                        pathname: '/',
-                        query,
+                        query: query,
+                        pathname: '/'
                     })
                 },
                 onError: (error: IErrorResponse<any>) => {
@@ -252,18 +247,19 @@ export function ForgotPassword() {
                                 style={{ textAlign: 'center', marginTop: 8 }}
                             >
                                 <Grid item>
-                                    <Typography
-                                        variant="caption"
-                                        align="center"
+                                    <Button
+                                        title='Back to Login'
+                                        variant='text'
+                                        color='primary'
+                                        onClick={() => {
+                                            push({
+                                                query: query,
+                                                pathname: '/'
+                                            })
+                                        }}
                                     >
-                                        <Link
-                                            href={`/`}
-                                            variant="caption"
-                                            underline={'none'}
-                                        >
-                                            {'Back to Login'}
-                                        </Link>
-                                    </Typography>
+                                        {'Back to Login'}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </form>

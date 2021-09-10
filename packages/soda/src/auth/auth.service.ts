@@ -164,13 +164,13 @@ export class AuthService {
             emailVerified: user.emailVerified,
             oauthId: user.oauthId,
             oauthProvider: 'GOOGLE',
-            role: 'USER',
         })
         if (userOrNull) {
             return this.getAuthToken(userOrNull)
         }
         /** User does not exist on db sign them up **/
         const newUser = await this.user.createOauthAccount({
+            clientId: null,
             name: user.name,
             email: user.email,
             avatar: user.avatar,

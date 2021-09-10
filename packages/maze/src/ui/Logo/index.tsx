@@ -1,9 +1,8 @@
-import { Box, useTheme } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import { Icons, Image } from '../Image'
 import Link from 'next/link'
 
-export function Logo({}) {
-    const theme = useTheme()
+export function Logo() {
     return (
         <Box
             display="flex"
@@ -15,8 +14,9 @@ export function Logo({}) {
             position="relative"
             style={{ cursor: 'pointer' }}
         >
-            <Link href="/">
+            <Link passHref href="/">
                 <Image
+                    alt=""
                     icon={Icons.logo}
                     objectFit="contain"
                     width="80px"

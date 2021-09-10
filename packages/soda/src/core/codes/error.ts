@@ -70,6 +70,7 @@ const ErrorCodes = {
     RazorPayFailure: 'E2000',
     BillingCalculationError: 'E2002',
     EMailNotVerified: 'E2003',
+    InvalidClientId: 'E2004',
 } as const
 
 export const errorCodes = {

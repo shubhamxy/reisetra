@@ -21,7 +21,7 @@ import {
     SuccessResponseDTO,
 } from 'src/core/response'
 import config, { auth, AuthEnv } from 'src/core/config'
-import { ROUTES } from 'src/core/constants'
+import { Message, ROUTES } from 'src/core/constants'
 import { CreateUserDTO } from 'src/users/dto'
 import { User } from 'src/users/entity'
 import { AuthenticatedRequest } from './auth.interface'
@@ -64,7 +64,7 @@ export class AuthController {
     async emailSignup(@Body() body: CreateUserDTO): Promise<SuccessResponse> {
         try {
             const data = await this.authService.signup(body)
-            return { data, message: 'SignUp Success' }
+            return { data, message: Message.success }
         } catch (error) {
             throw new CustomException(
                 error,
@@ -217,7 +217,6 @@ export class AuthController {
     public async verifyEmail(
         @Param()
         params: VerifyEmailDTO,
-        @Response() response
     ) {
         try {
             const emailVerified = await this.authService.verifyEmail(
@@ -226,10 +225,15 @@ export class AuthController {
             )
             if (emailVerified) {
                 // @TODO redirect to success page
-                return response.redirect(303, config.clientUrl)
+                return { data: {
+                    emailVerified
+                }, message: 'VerifyEmail Success' }
             } else {
-                // @TODO redirect to error page
-                return response.redirect(303, config.clientUrl)
+                throw new CustomError(
+                    'Verify Email Failed',
+                    errorCodes.EMailNotVerified,
+                    'AuthController.verifyEmail'
+                )
             }
         } catch (error) {
             throw new CustomException(

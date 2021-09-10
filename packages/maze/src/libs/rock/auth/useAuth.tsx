@@ -47,6 +47,7 @@ export const useRefreshAuth = () => {
 }
 export const useVerifyGoogleLogin = () => {
     const dispatch = useGlobalDispatch()
+    const authDispatch = useAuthDispatch()
     return useMutation(oauthGoogleVerify, {
         onSuccess: ({ data }) => {
             if (data.role !== 'ADMIN') {
@@ -57,6 +58,7 @@ export const useVerifyGoogleLogin = () => {
                         open: true,
                     })
                 )
+                authDispatch(logout())
                 return
             }
             dispatch(

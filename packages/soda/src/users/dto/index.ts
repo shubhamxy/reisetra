@@ -47,6 +47,12 @@ export class GetAllUsersDTO extends CursorPaginationDTO {
 }
 
 export class CreateUserDTO implements Omit<User, Excluded> {
+    @IsOptional()
+    clientId: string
+
+    @IsOptional()
+    redirectUri: string
+    
     @IsEmail({}, { message: isInvalid('Email') })
     email: string
 
@@ -76,6 +82,7 @@ export class CreateUserDTO implements Omit<User, Excluded> {
 }
 
 export class CreateOauthUserDTO implements Omit<User, Excluded> {
+    clientId: string
     email: string
     emailVerified: boolean
     name: string

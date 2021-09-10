@@ -13,7 +13,7 @@ export const useRefreshAuth = () => {
         onSuccess: () => {
             dispatch(
                 updateSnackBar({
-                    message: 'Auth refreshed Successfully',
+                    message: 'Authentication Successfull',
                     type: 'success',
                     open: true,
                 })
@@ -22,6 +22,13 @@ export const useRefreshAuth = () => {
         },
         onError: (error) => {
             console.error(error['message'] || 'Server Error')
+            dispatch(
+                updateSnackBar({
+                    message: 'Authentication Failed',
+                    type: 'error',
+                    open: true,
+                })
+            )
         },
     })
 }

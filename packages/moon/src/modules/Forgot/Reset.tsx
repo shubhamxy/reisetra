@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
 export function ResetPassword() {
     const classes = useStyles()
     const emailResetPassword = useUserEmailResetPassword()
-    const { query, replace, asPath } = useRouter()
+    const { query, replace, push, asPath } = useRouter()
     const globalDispatch = useGlobalDispatch()
     const [fromQuery, setFromQuery] = useState(false)
     const {
@@ -342,15 +342,19 @@ export function ResetPassword() {
                                         variant="caption"
                                         align="center"
                                     >
-                                        <Link
-                                            href={`/?ref=${encodeURIComponent(
-                                                asPath
-                                            )}`}
-                                            variant="caption"
-                                            underline={'none'}
+                                        <Button
+                                            title='Back to Login'
+                                            variant='text'
+                                            color='primary'
+                                            onClick={() => {
+                                                push({
+                                                    query: query,
+                                                    pathname: '/'
+                                                })
+                                            }}
                                         >
                                             {'Back to Login'}
-                                        </Link>
+                                        </Button>
                                     </Typography>
                                 </Grid>
                             </Grid>

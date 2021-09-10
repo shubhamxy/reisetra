@@ -1,4 +1,4 @@
-import { Box, makeStyles, LinearProgress } from '@material-ui/core'
+import { Box, LinearProgress, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { MainLayout } from '../../layouts/MainLayout'
 import { AppHeader } from '../../ui/Header'
@@ -45,7 +45,10 @@ function Page() {
                     }}
                     actions={
                         <Box pt={2.4}>
-                            <LinearProgress style={{ minWidth: 120 }} />
+                            <LinearProgress
+                                style={{ minWidth: 140 }}
+                                variant="indeterminate"
+                            />
                         </Box>
                     }
                 />

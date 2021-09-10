@@ -1,12 +1,14 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
+/* eslint-disable camelcase */
+import React, { createContext, useContext, useReducer } from 'react'
 import { storage } from '../utils/storage'
 import { config } from '../config'
 import { useRouter } from 'next/router'
 import { UserProfile } from '../api/user'
 import { analytics } from '../utils'
+import qs from 'query-string'
+
 const AuthStateContext = createContext(null)
 const AuthDispatchContext = createContext(null)
-import qs from 'query-string'
 
 export function useAuthState() {
     const context = useContext(AuthStateContext)
@@ -88,15 +90,16 @@ function useAuth() {
             case ActionKind.login:
                 try {
                     const { refresh_token } = action.payload
-                    const { redirect_uri = DEFAULT_AUTH_REDIRECT_URI } = query
+                    const { redirect_uri = DEFAULT_AUTH_REDIRECT_URI, ...other } = query
                     const redirectTo = qs.parseUrl(redirect_uri as string)
                     replace({
                         pathname: redirectTo.url as string,
                         query: {
-                            token: refresh_token,
+                            ...other,
                             ...redirectTo.query,
+                            token: refresh_token
                         },
-                    })
+                    }, redirectTo.url)
                     return state
                 } catch (error) {
                     console.error('authReducer.login', error)

@@ -1,11 +1,11 @@
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-children-prop */
 import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import {
     Box,
     Dialog,
-    FormControlLabel,
-    Switch,
     Typography,
 } from '@material-ui/core'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
@@ -29,7 +29,7 @@ const useStyles = makeStyles<
         margin: 0,
         width: '100%',
     },
-    gridList: ({ length, selected }) => ({
+    gridList: ({ selected }) => ({
         display: 'grid',
         gridTemplateColumns: 'repeat(12, 1fr)',
         gridTemplateRows: 'repeat(12, 1fr)',
@@ -484,7 +484,7 @@ interface ImagePreview {
     listTileCount?: number
 }
 
-export default function ImagePreview({
+export default function PreviewImage({
     style,
     className,
     cellHeight,

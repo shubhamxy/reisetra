@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, Container, fade, Typography, Button } from '@material-ui/core'
+import { Box, Container, Typography, Button } from '@material-ui/core'
 import { List } from './List'
 import { useInView } from 'react-intersection-observer'
 import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'

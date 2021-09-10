@@ -58,7 +58,7 @@ export default function Footer({
                 )}
             </Box>
             <Box display={'flex'}>
-                {showCount && (
+                {showCount && totalDataCount > 0 && (
                     <Typography
                         children={`${totalDataCount} of ${totalCount}`}
                         align="center"
