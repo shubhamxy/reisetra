@@ -50,6 +50,10 @@ export class AuthService {
         this.authConfig = configService.get<AuthEnv>('auth')
     }
 
+    async validateClient(clientId: string, redirectUri: string): Promise<boolean> {
+        return this.user.validateClient(clientId, redirectUri)
+    }
+
     async validateUser(email: string, password: string): Promise<UserRO> {
         return this.user.verifyEmailPassword({ email, password })
     }
@@ -156,7 +160,7 @@ export class AuthService {
         return this.getAuthToken(updatedUser)
     }
 
-    async googleLogin(user: GoogleUser): Promise<AuthResponse> {
+    async googleLogin(user: GoogleUser, clientId: string): Promise<AuthResponse> {
         const userOrNull = await this.user.findAndUpdateOauthAccount({
             name: user.name,
             email: user.email,
@@ -170,7 +174,7 @@ export class AuthService {
         }
         /** User does not exist on db sign them up **/
         const newUser = await this.user.createOauthAccount({
-            clientId: null,
+            client: clientId,
             name: user.name,
             email: user.email,
             avatar: user.avatar,

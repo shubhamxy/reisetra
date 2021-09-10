@@ -1,10 +1,10 @@
-import { Strategy } from 'passport-local'
-import { PassportStrategy } from '@nestjs/passport'
 import { HttpStatus, Injectable } from '@nestjs/common'
-import { AuthService } from '../auth.service'
-import { CustomException, CustomError } from '../../core/response'
+import { PassportStrategy } from '@nestjs/passport'
+import { Strategy } from 'passport-local'
 import { errorCodes } from '../../core/codes/error'
+import { CustomError, CustomException } from '../../core/response'
 import { User } from '../../users/entity'
+import { AuthService } from '../auth.service'
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -12,11 +12,21 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         super({
             usernameField: 'email',
             passwordField: 'password',
+            passReqToCallback: true
         })
     }
 
-    async validate(email: string, password: string): Promise<Partial<User>> {
+    async validate(request: Request, email: string, password: string): Promise<Partial<User>> {
         try {
+            // @ts-ignore
+            const isValidClient = await this.authService.validateClient(request.body.clientId, request.body.redirectUri)
+            if(!isValidClient) {
+                throw new CustomError(
+                    'clientId or redirectUri is Invalid!',
+                    errorCodes.LocalAuthFailed,
+                    'LocalStrategy.validate'
+                ) 
+            }
             const userOrNull = await this.authService.validateUser(
                 email,
                 password

@@ -17,6 +17,7 @@ export interface AuthEnv {
         audience: string
     }
     googleOAuthOptions: {
+        passReqToCallback: true,
         clientID: string
         clientSecret: string
         callbackURL: string
@@ -48,6 +49,7 @@ export const auth = (): AuthEnv => ({
         audience: process.env.AUDIENCE,
     },
     googleOAuthOptions: {
+        passReqToCallback: true,
         clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
         callbackURL: process.env.GOOGLE_OAUTH_CLIENT_CALLBACK_URL,

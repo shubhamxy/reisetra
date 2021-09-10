@@ -48,9 +48,9 @@ export class UserService {
     }
 
     async create(user: CreateUserDTO): Promise<UserRO> {
-        if (await this.db.client.count({ where: { clientId: user.clientId, redirectUrls: {hasSome: user.redirectUri} } }) <= 0) {
+        if (!this.validateClient(user.clientId, user.redirectUri)) {
             throw new CustomError(
-                "Invalid ClientId",
+                "Invalid client or callback url.",
                 errorCodes.InvalidClientId,
                 'UserService.create'
             )
@@ -111,9 +111,17 @@ export class UserService {
         update: Partial<UpdateUserDTO & { emailVerified: boolean }>
     ): Promise<UserRO> {
         try {
+            const {clientId, ...body} = update;
             const user = await this.db.user.update({
                 where: { id },
-                data: update,
+                data: {
+                    ...body,
+                    client: {
+                        connect: {
+                            clientId
+                        }
+                    }
+                },
             })
             return new User(user)
         } catch (error) {
@@ -141,6 +149,13 @@ export class UserService {
                 'UserService.delete'
             )
         }
+    }
+    
+    async validateClient(clientId, redirectUri): Promise<boolean> {
+        if (await this.db.client.count({ where: { clientId: clientId, redirectUrls: { hasSome: redirectUri } } }) <= 0) {
+            return false;
+        }
+        return true;
     }
 
     async createPassword(password: string | Buffer) {
@@ -196,6 +211,11 @@ export class UserService {
                     ...user,
                     cart: {
                         create: {},
+                    },
+                    client: {
+                        connect: {
+                            clientId: user.client
+                        }
                     },
                 },
             })
@@ -257,7 +277,6 @@ export class UserService {
             if (!user || !user.secrets || !user.secrets.password) {
                 return null
             }
-            console.log(user, email, password);
             if (await argon2.verify(user.secrets.password, password)) {
                 user.secrets = undefined
                 return user

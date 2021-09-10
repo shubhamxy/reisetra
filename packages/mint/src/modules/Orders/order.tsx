@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -21,6 +21,7 @@ import { format } from 'date-fns'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import { DocsPreview } from '../../ui/MediaPreview'
 import { saveAs } from 'file-saver'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles<any, any>((theme: Theme) =>
     createStyles({
@@ -50,6 +51,7 @@ const useStyles = makeStyles<any, any>((theme: Theme) =>
 
 export default function OrderCard(orderData) {
     const [data, setData] = useState(orderData)
+    const { query, isReady, push } = useRouter();
     const {
         id,
         subTotal,
@@ -84,7 +86,14 @@ export default function OrderCard(orderData) {
         user,
         selected,
     } = data
-
+    useEffect(() => {
+        if(!isReady) return;
+        if(query.id === id) {
+            delete query.id;
+            push({query: query})
+            setOpen(true)
+        }
+    }, [query, isReady])
     const classes = useStyles({ selected })
     const cancelOrder = useCancelOrder()
     const [open, setOpen] = useState(false)

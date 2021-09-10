@@ -1,4 +1,4 @@
-import { Box, Container, Grid, makeStyles, Theme } from '@material-ui/core'
+import { Container, Grid, makeStyles, Theme } from '@material-ui/core'
 import * as React from 'react'
 import clsx from 'clsx'
 import { ClassNameMap } from '@material-ui/styles'
@@ -135,7 +135,7 @@ export function MainLayout({
             container
             component="main"
         >
-            {header ? header : null}
+            {header || null}
             {hero && (
                 <Grid
                     className={clsx(cls?.hero, classes.hero)}
@@ -208,7 +208,7 @@ export function MainLayout({
                 )}
             </Container>
 
-            {footer ? footer : null}
+            {footer || null}
         </Grid>
     )
 }

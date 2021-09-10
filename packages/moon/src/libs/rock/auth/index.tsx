@@ -1,11 +1,11 @@
+/* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable camelcase */
-import React, { createContext, useContext, useReducer } from 'react'
-import { storage } from '../utils/storage'
-import { config } from '../config'
 import { useRouter } from 'next/router'
-import { UserProfile } from '../api/user'
-import { analytics } from '../utils'
 import qs from 'query-string'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import { UserProfile } from '../api/user'
+import { config } from '../config'
+import { updateSnackBar, useGlobalDispatch } from '../global'
 
 const AuthStateContext = createContext(null)
 const AuthDispatchContext = createContext(null)
@@ -41,10 +41,7 @@ export const initialState = {
 }
 
 export enum ActionKind {
-    hydrate = 'hydrate',
     login = 'login',
-    logout = 'logout',
-    setAuthState = 'setAuthState',
 }
 
 export type Action = {
@@ -54,79 +51,42 @@ export type Action = {
 
 type LoginPayload = { access_token?: string; refresh_token?: string }
 
-export const logout = (): Action => ({ type: ActionKind.logout })
 export const login = (payload: LoginPayload): Action => ({
     type: ActionKind.login,
     payload,
 })
-export const setAuthState = (payload): Action => ({
-    type: ActionKind.setAuthState,
-    payload,
-})
 
-export const hydrate = (payload) => ({
-    type: ActionKind.hydrate,
-    payload,
-})
 
+const PERMITTED_DOMAINS = [config.clientUrl, config.cmsUrl];
 const DEFAULT_AUTH_REDIRECT_URI =
     (config.clientUrl as string) + '/login/callback'
 function useAuth() {
-    const { query, replace } = useRouter()
-
+    const dispatchGlobal = useGlobalDispatch()
+    const { query, replace, isReady } = useRouter()
+    const { redirect_uri = DEFAULT_AUTH_REDIRECT_URI, client_id = config.clientId, ...other } = query
+    function postCrossDomainMessage(data) {
+        const iframe = document.getElementById('client_iframe') as HTMLIFrameElement;
+        if (client_id === config.cmsClientId) {
+            iframe.contentWindow.postMessage(data, config.cmsUrl);
+        } else {
+            iframe.contentWindow.postMessage(data, config.clientUrl);
+        }
+    }
     const authReducer = (state: State, action: Action): State => {
         switch (action.type) {
-            case ActionKind.hydrate:
-                try {
-                    return {
-                        ...state,
-                        ...action.payload,
-                        isHydrated: true,
-                    }
-                } catch (error) {
-                    console.error('authReducer.hydrate', error)
-                    return state
-                }
             case ActionKind.login:
                 try {
                     const { refresh_token } = action.payload
-                    const { redirect_uri = DEFAULT_AUTH_REDIRECT_URI, ...other } = query
                     const redirectTo = qs.parseUrl(redirect_uri as string)
-                    replace({
-                        pathname: redirectTo.url as string,
-                        query: {
-                            ...other,
-                            ...redirectTo.query,
-                            token: refresh_token
-                        },
-                    }, redirectTo.url)
+                    postCrossDomainMessage({
+                        ...other,
+                        ...redirectTo.query,
+                        type: 'login',
+                        token: refresh_token,
+                    })
                     return state
                 } catch (error) {
                     console.error('authReducer.login', error)
-                    return state
-                }
-            case ActionKind.logout:
-                try {
-                    storage.clear()
-                    return {
-                        ...initialState,
-                        isHydrated: true,
-                    }
-                } catch (error) {
-                    console.error('authReducer.logout', error)
-                    return state
-                }
-
-            case ActionKind.setAuthState:
-                try {
-                    const update = {
-                        ...state,
-                        ...action.payload,
-                    }
-                    analytics.identify(update.user)
-                    return update
-                } catch (error) {
-                    console.error('authReducer.setAuthState', logout)
                     return state
                 }
             default:
@@ -134,19 +94,60 @@ function useAuth() {
         }
     }
 
+    useEffect(() => {
+        if (!isReady) return;
+        function handlePostMessage(event) {
+            if (PERMITTED_DOMAINS.includes(event.origin)) {
+                if (event.data && event.data.type) {
+                    switch (event.data.type) {
+                        case 'redirect': {
+                            const redirectTo = qs.parseUrl(redirect_uri as string)
+                            replace({
+                                pathname: redirectTo.url as string,
+                                query: {
+                                    ...other,
+                                    ...redirectTo.query
+                                },
+                            }, redirectTo.url)
+                            break
+                        }
+                        case 'error': {
+                            dispatchGlobal(
+                                updateSnackBar({
+                                    message: event.data.error || 'Error Authorization.',
+                                    type: 'error',
+                                    open: true,
+                                })
+                            )
+                            console.error('handlePostMessage', event)
+                        }
+
+                    }
+
+                }
+            }
+        };
+        window.addEventListener('message', handlePostMessage);
+        return () => {
+            window.removeEventListener("message", handlePostMessage);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query, isReady])
     const [state, dispatch] = useReducer(authReducer, initialState)
     return {
         state,
         dispatch,
+        redirect_uri
     }
 }
 
 export const AuthProvider = ({ children }) => {
-    const { state, dispatch } = useAuth()
+    const { state, dispatch, redirect_uri } = useAuth()
     return (
         <AuthStateContext.Provider value={state}>
             <AuthDispatchContext.Provider value={dispatch}>
                 {children}
+                <iframe style={{ display: 'none' }} src={`${redirect_uri}`} id="client_iframe"></iframe>
             </AuthDispatchContext.Provider>
         </AuthStateContext.Provider>
     )

@@ -1,16 +1,12 @@
-import { useInfiniteQuery } from 'react-query'
 import {
-    DataT,
     del,
     get,
-    IErrorResponse,
-    ISuccessResponse,
     post,
     put,
 } from '../../utils/http'
-const queryString = require('query-string')
 import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
+const queryString = require('query-string')
 export interface UserProfile {
     id: string
     email: string

@@ -5,7 +5,6 @@ import { useRefreshAuth } from './useAuth'
 import { useUserProfile } from '../users'
 import { useRouter } from 'next/router'
 import { UserProfile } from '../api'
-import qs from 'query-string'
 
 export const initialState = {
     isHydrated: false,
@@ -112,7 +111,6 @@ const authReducer = (state: State, action: Action): State => {
 
 function useAuth() {
     const { route, query, isReady, replace, asPath } = useRouter()
-
     const fetchUserProfile = useUserProfile()
     const fetchRefreshToken = useRefreshAuth()
 
@@ -123,7 +121,7 @@ function useAuth() {
         if (state.isAuthenticated) {
             if (AUTH_ROUTES.has(route as ROUTES)) {
                 replace((query.redirect_route as string) || '/')
-            } else if (route === '/login/callback'){
+            } else if (route === '/login/callback') {
                 replace((query.redirect_route as string) || '/')
             }
         } else {
@@ -135,7 +133,7 @@ function useAuth() {
                         client_id: config.clientId,
                         redirect_uri: config.callbackUrl,
                     },
-                }, config.authUrl, {shallow: true})
+                }, config.authUrl, { shallow: true })
             } else if (PRIVATE_ROUTES.has(route as ROUTES)) {
                 replace({
                     pathname: config.authUrl,

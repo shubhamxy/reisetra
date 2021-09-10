@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { config, login, useAuthDispatch, useRefreshAuth } from '../../libs'
+import { config, login, storage, updateSnackBar, useAuthDispatch, useGlobalDispatch, useRefreshAuth } from '../../libs'
 import { Box, LinearProgress, makeStyles } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
 import { AppHeader } from '../../ui/Header'
@@ -24,11 +24,16 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }))
+const PERMITTED_DOMAINS = [config.authUrl];
 
 function Auth0CallbackPage() {
     const classes = useStyles()
+    function postCrossDomainMessage(data) {
+        window.parent.postMessage(data, config.authUrl);
+    }
     const fetchRefreshToken = useRefreshAuth()
-    const { query,isReady, replace } = useRouter()
+    const dispatchGlobal = useGlobalDispatch()
+    const { query, isReady, replace } = useRouter()
     const dispatch = useAuthDispatch()
     const pageMeta = {
         title: '',
@@ -57,13 +62,65 @@ function Auth0CallbackPage() {
     }
 
     useEffect(() => {
-        if(!isReady) return;
-        console.log(query)
+        if (!isReady) return;
         if (query.token && typeof query.token === 'string') {
             refreshAuth(query.token as string)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query, isReady])
+
+    useEffect(() => {
+        if (!isReady) return;
+        async function handlePostMessage(event) {
+            if (PERMITTED_DOMAINS.includes(event.origin)) {
+                if (event.data && event.data.type) {
+                    switch (event.data.type) {
+                        case 'login': {
+                            try {
+                                const response = await fetchRefreshToken.mutateAsync({
+                                    token: event.data.token,
+                                })
+                                storage.put.access_token(
+                                    response.data.access_token
+                                )
+                                storage.put.refresh_token(
+                                    response.data.refresh_token
+                                )
+                                postCrossDomainMessage({
+                                    ...event.data,
+                                    type: 'redirect'
+                                })
+                            } catch (error) {
+                                postCrossDomainMessage({
+                                    ...event.data,
+                                    type: 'error',
+                                    error: error.message
+                                })
+                            }
+                            break
+                        }
+                        case 'error': {
+                            dispatchGlobal(
+                                updateSnackBar({
+                                    message: event.data.error || 'Error Authorization.',
+                                    type: 'error',
+                                    open: true,
+                                })
+                            )
+                            console.error('handlePostMessage', event)
+                        }
+
+                    }
+                }
+
+            }
+        }
+        window.addEventListener('message', handlePostMessage);
+        return () => {
+            window.removeEventListener("message", handlePostMessage);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isReady])
     return (
         <MainLayout
             classes={{

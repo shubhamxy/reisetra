@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) =>
             boxShadow: '0 1px 4px 0 rgb(0 0 0 / 10%)',
             background: '#d8dbdf',
             transition:
-                'background 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                'background 1s cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         },
         content: {
             width: '100%',
@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme) =>
             [theme.breakpoints.down('sm')]: {
                 maxWidth: 400,
             },
-            height: '40vh',
+            height: '500px',
             zIndex: 10,
             padding: 0,
             paddingBottom: '0 !important',
@@ -111,7 +111,10 @@ export const useStyles = makeStyles((theme) =>
         categoriesContainer: {
             position: 'absolute',
             top: '68%',
-            zIndex: 1000
+            zIndex: 10,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
         },
     })
 )

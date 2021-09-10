@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Box,
     Button,
@@ -29,15 +29,18 @@ interface HeroCardParams {
     actions?: React.ReactChild
     data?: HeroCardData
 }
+const slideWidth = 30;
+
+const sleep = (ms = 0) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+};
 
 export function HeadShowCase(props: HeroCardParams) {
     const router = useRouter()
     const classes = useStyles()
     const categories = useCategories();
-
-    console.log(categories?.data?.data);
-
-    const [data, setData] = React.useState({
+    const [items, setItems] = useState([]);
+    const [data, setData] = useState({
         index: -1,
         title: config.title,
         subtitle: config.name,
@@ -45,20 +48,56 @@ export function HeadShowCase(props: HeroCardParams) {
         backgroundImage: '/images/hero2.jpeg',
         objectFit: 'contain',
     })
-    useInterval(
-        () => {
-            const item = categories?.data?.data[(data.index + 1) % categories?.data?.data?.length]
+    useEffect(() => {
+        if (!categories.isLoading && categories?.data?.data) {
+            setItems(categories?.data?.data)
+        }
+    }, [categories?.data?.data, categories.isLoading])
+
+    const [isTicking, setIsTicking] = useState(false);
+    const [activeIdx, setActiveIdx] = useState(0);
+    const bigLength = items.length;
+
+    const prevClick = (jump = 1) => {
+        if (!isTicking) {
+            setIsTicking(true);
+            setActiveIdx((idx) => (idx - jump + bigLength) % bigLength)
+            setItems((prev) => {
+                return prev.map((_, i) => prev[(i + jump) % bigLength]);
+            });
+        }
+    };
+
+    const nextClick = (jump = 1) => {
+        if (!isTicking) {
+            setIsTicking(true);
+            setActiveIdx((idx) => (idx + jump) % bigLength)
+            setItems((prev) => {
+                return prev.map(
+                    (_, i) => prev[(i - jump + bigLength) % bigLength],
+                );
+            });
+        }
+    };
+
+    useEffect(() => {
+        if (isTicking) sleep(300).then(() => setIsTicking(false));
+    }, [isTicking]);
+
+    useEffect(() => {
+        if (items.length > 0) {
+            const item = items[0]
             setData({
-                index: +(data.index + 1) % categories?.data?.data?.length,
+                index: 0,
                 backgroundImage: item.images[0].url,
                 description: '',
                 objectFit: 'cover',
                 subtitle: '',
                 title: item.label
             })
-        },
-        10000
-    )
+        }
+    }, [items]);
+
     return (
         <Card className={classes.root}>
             <Box className={classes.imageContainer} />
@@ -120,7 +159,21 @@ export function HeadShowCase(props: HeroCardParams) {
             </CardContent>
 
             <Grid item container className={classes.categoriesContainer}>
-                {data.index > -1 && <Carousal key={data.index} selected={data.index} data={categories?.data?.data}/>}
+                {activeIdx > -1 && (
+                    <Carousal
+                        key={activeIdx}
+                        active={activeIdx}
+                        prevClick={prevClick}
+                        nextClick={nextClick}
+                        data={items?.map((item) => ({
+                            ...item,
+                            // illustration: `/images/tags/${item.value}.jpeg`,
+                            variant: 'dark',
+                            title: item?.label,
+                            styles: item?.styles,
+                            images: item?.images,
+                        }))} />
+                )}
             </Grid>
         </Card>
     )

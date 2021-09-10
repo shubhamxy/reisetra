@@ -28,12 +28,11 @@ export const useRefreshAuth = () => {
             analytics.login()
         },
         onError: (error) => {
-            console.error(error['message'] || 'Server Error')
-            // dispatch(updateSnackBar({
-            //   message: error['message'] || 'Server Error',
-            //   type: "error",
-            //   open: true,
-            // }));
+            dispatch(updateSnackBar({
+                message: error['message'] || 'Server Error',
+                type: "error",
+                open: true,
+            }));
         },
     })
 }

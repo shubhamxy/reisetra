@@ -189,5 +189,5 @@ export function deleteReview(id: string) {
 
 export function getFiles({ params }) {
     const qs = queryString.stringify(pickBy(params, identity))
-    return get(`files?${qs}`)
+    return get(`files/all?${qs}`)
 }

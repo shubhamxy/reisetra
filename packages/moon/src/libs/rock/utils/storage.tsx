@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable unused-imports/no-unused-vars */
 import { isBrowser } from '../config'
 import { analytics } from './analytics'
 /**

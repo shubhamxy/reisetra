@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga */
 import { config } from '../config'
 
 export function GoogleSignInScript() {

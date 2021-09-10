@@ -7,7 +7,7 @@ type TStyles = {
 
 export const colors: TStyles = [
     {
-        background: '#0f0f0f',
+        background: '#0f0f0c',
         color: '#ffffff',
     },
     {
@@ -39,7 +39,6 @@ export const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         height: 180,
         mixBlendMode: 'normal',
         color: styles && styles[0] ? styles[0] : colors[colorIndex].color,
-
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             margin: '0 auto',
@@ -48,16 +47,14 @@ export const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         border: `1px solid ${theme.palette.text.primary}33`,
         background:
             styles && styles[1] ? styles[1] : colors[colorIndex].background,
-        '&:hover': {
+        transition: 'all ease-in 0.4s',
+        "&:hover": {
             boxShadow: '0px 4px 12px rgba(15, 15, 15, 0.7)',
-        },
-        transition:
-            'background 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+        }
     }),
-    selected: ({ colorIndex, styles }) => ({
-        background: '#00000033',
+    selected: {
         boxShadow: '0px 4px 12px rgba(15, 15, 15, 0.7)',
-    }),
+    },
     content: {
         flexDirection: 'column',
         display: 'flex',
@@ -127,6 +124,6 @@ export const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         borderRadius: '6px',
     },
     image: {
-        transition: 'all ease-in 2s',
+        transition: 'all ease-in 0.4s',
     },
 }))

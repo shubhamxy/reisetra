@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useEffect, useMemo, useState } from 'react'
 import {
     responsiveFontSizes,
@@ -6,7 +7,6 @@ import {
 } from '@material-ui/core'
 import { createTheme, ThemeOptions } from '@material-ui/core/styles'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { storage } from '../utils'
 
 export const primary: SimplePaletteColorOptions = {

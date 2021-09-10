@@ -1,32 +1,10 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
 import React, { createContext, useContext, useReducer } from 'react'
 import { Snackbar } from '../../../ui/SnackBar'
 import { AuthProvider } from '../auth'
 import { useTheme } from '../theme'
-const GlobalStateContext = createContext<GlobalState>(null)
-const GlobalDispatchContext = createContext(null)
-
-export function useGlobalState(): GlobalState {
-    const context = useContext(GlobalStateContext)
-    if (context === undefined) {
-        throw new Error(
-            'useGlobalState must be used within a GlobalStateContextProvider'
-        )
-    }
-    return context
-}
-
-export function useGlobalDispatch(): React.Dispatch<Action> {
-    const context = useContext<React.Dispatch<Action>>(GlobalDispatchContext)
-    if (context === undefined) {
-        throw new Error(
-            'useGlobalDispatch must be used within a GlobalDispatchContext'
-        )
-    }
-    return context
-}
-
 interface SnackBar {
     open: boolean
     message: string
@@ -62,6 +40,31 @@ type Action = {
     type: ActionKind
     payload?: Record<string, boolean | number> | Partial<SnackBar>
 }
+
+
+const GlobalStateContext = createContext<GlobalState>(null)
+const GlobalDispatchContext = createContext(null)
+
+export function useGlobalState(): GlobalState {
+    const context = useContext(GlobalStateContext)
+    if (context === undefined) {
+        throw new Error(
+            'useGlobalState must be used within a GlobalStateContextProvider'
+        )
+    }
+    return context
+}
+
+export function useGlobalDispatch(): React.Dispatch<Action> {
+    const context = useContext<React.Dispatch<Action>>(GlobalDispatchContext)
+    if (context === undefined) {
+        throw new Error(
+            'useGlobalDispatch must be used within a GlobalDispatchContext'
+        )
+    }
+    return context
+}
+
 
 export const openSnackBar: Action = {
     type: ActionKind.OpenSnackBar,
@@ -105,14 +108,13 @@ function reducer(state: GlobalState, action: Action): GlobalState {
                 ...state,
                 snackbar: {
                     ...state.snackbar,
-                    ...action.payload,
+                    ...payload,
                 },
             }
-
         case ActionKind.UpdatePromo:
             return {
                 ...state,
-                promo: action.payload as string,
+                promo: payload as string,
             }
         default:
             return state

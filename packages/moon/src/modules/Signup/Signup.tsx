@@ -218,7 +218,11 @@ export function SignUp() {
                 ux_mode: 'popup',
                 callback: function handleCredentialResponse(response) {
                     verifyGoogleLogin
-                        .mutateAsync(response)
+                        .mutateAsync({
+                            ...response,
+                            clientId: router.query['client_id'] as string || config.clientId,
+                            redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
+                        })
                         .then((response) => {
                             authDispatch(
                                 login({

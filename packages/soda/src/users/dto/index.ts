@@ -82,7 +82,7 @@ export class CreateUserDTO implements Omit<User, Excluded> {
 }
 
 export class CreateOauthUserDTO implements Omit<User, Excluded> {
-    clientId: string
+    client: string
     email: string
     emailVerified: boolean
     name: string

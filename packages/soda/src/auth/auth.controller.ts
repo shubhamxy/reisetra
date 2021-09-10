@@ -7,21 +7,21 @@ import {
     Post,
     Req,
     Response,
-    UseGuards,
+    UseGuards
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Throttle } from '@nestjs/throttler'
 import { OAuth2Client } from 'google-auth-library'
 import { Public } from 'src/auth/decorator/public.decorator'
 import { errorCodes } from 'src/core/codes/error'
+import config, { auth, AuthEnv } from 'src/core/config'
+import { Message, ROUTES } from 'src/core/constants'
 import {
     CustomError,
     CustomException,
     SuccessResponse,
-    SuccessResponseDTO,
+    SuccessResponseDTO
 } from 'src/core/response'
-import config, { auth, AuthEnv } from 'src/core/config'
-import { Message, ROUTES } from 'src/core/constants'
 import { CreateUserDTO } from 'src/users/dto'
 import { User } from 'src/users/entity'
 import { AuthenticatedRequest } from './auth.interface'
@@ -30,7 +30,7 @@ import {
     EmailDTO,
     ResetPasswordDTO,
     UpdatePasswordDTO,
-    VerifyEmailDTO,
+    VerifyEmailDTO
 } from './dto/login.dto'
 import { GoogleAuthGuard } from './gaurd/google.gaurd'
 import { LocalAuthGuard } from './gaurd/local.gaurd'
@@ -151,7 +151,7 @@ export class AuthController {
         @Response() response
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.authService.googleLogin(request.user)
+            const data = await this.authService.googleLogin(request.user, undefined)
 
             return response.redirect(
                 303,
@@ -178,10 +178,20 @@ export class AuthController {
         body: {
             credential: string
             clientId: string
+            redirectUri: string
             select_by: string
         }
     ): Promise<SuccessResponse> {
         try {
+            const isValidClient = await this.authService.validateClient(body.clientId, body.redirectUri)
+            if (!isValidClient) {
+                throw new CustomError(
+                    'clientId or redirectUri is Invalid!',
+                    errorCodes.LocalAuthFailed,
+                    'LocalStrategy.validate'
+                )
+            }
+
             const loginData = await this.googleOAuth2client.verifyIdToken({
                 idToken: body.credential,
                 audience: this.config.get<AuthEnv>('auth').googleOAuthOptions
@@ -196,7 +206,7 @@ export class AuthController {
                 avatar: payload.picture,
                 oauthProvider: 'GOOGLE',
             }
-            const data = await this.authService.googleLogin(googleUser)
+            const data = await this.authService.googleLogin(googleUser, body.clientId)
             return { data, message: 'GoogleAuth Success' }
         } catch (error) {
             throw new CustomException(

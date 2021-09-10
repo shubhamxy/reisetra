@@ -1,4 +1,4 @@
-import { InputAdornment, Paper } from '@material-ui/core'
+import { FormControl, InputAdornment, InputLabel, MenuItem, Paper, Select, Switch } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -12,6 +12,7 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import {
+    config,
     IErrorResponse,
     updateSnackBar,
     useAuthState,
@@ -128,6 +129,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    client: {
+        minWidth: 120,
+    },
 }))
 
 export function Account() {
@@ -146,6 +150,7 @@ export function Account() {
         dateOfBirth: authState.user?.dateOfBirth,
         phone: authState.user?.phone,
         oauthId: authState.oauthId,
+        clientId: config.clientId,
     }
 
     const {
@@ -390,7 +395,34 @@ export function Account() {
                                     }
                                 />
                             </Box>
-
+                            {authState?.user?.role === 'ADMIN' && <Box mt={2}>
+                                <FormControl
+                                    variant="outlined"
+                                    className={classes.client}
+                                >
+                                    <InputLabel id="clientId-label">
+                                        Client
+                                    </InputLabel>
+                                    <Select
+                                        variant="outlined"
+                                        style={{ height: 40, overflow: 'hidden' }}
+                                        fullWidth
+                                        labelId="clientId"
+                                        id="clientId"
+                                        value={values.clientId}
+                                        onChange={(e) => {
+                                            setFieldValue('clientId', e.target.value as string)
+                                        }}
+                                        label="Client"
+                                    >
+                                        {[config.clientId, config.cmsClientId].map((item) => (
+                                            <MenuItem key={item} value={item}>
+                                                {item}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>}
                             <Addresses
                                 mt={4.6}
                                 children={null}
