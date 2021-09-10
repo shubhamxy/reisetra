@@ -1,20 +1,13 @@
-import { makeStyles, Paper } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { MainLayout } from "../../layouts/MainLayout";
-import { Account } from "../../modules/Account";
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginBottom: 20,
-  },
-}));
+import React from 'react'
+import { MainLayout } from '../../layouts'
+import { Account } from '../../modules'
 
 const AccountPage = () => {
-  const classes = useStyles();
-  return (
-    <MainLayout>
-      <Account />
-    </MainLayout>
-  );
-};
+    return (
+        <MainLayout containerProps={{ style: { justifyContent: 'center' } }}>
+            <Account />
+        </MainLayout>
+    )
+}
 
-export default AccountPage;
+export default AccountPage

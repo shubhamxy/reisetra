@@ -1,0 +1,1443 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>@reisetra/soda documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">@reisetra/soda documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >OrderService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/order/order.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#cancelOrder" >cancelOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#createOrder" >createOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteOrder" >deleteOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAllOrders" >getAllOrders</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getOrder" >getOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getOrderDocuments" >getOrderDocuments</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getUserOrders" >getUserOrders</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateOrder" >updateOrder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>, auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, aws: <a href="../injectables/AWSService.html" target="_self">AWSService</a>, template: <a href="../injectables/TemplateService.html" target="_self">TemplateService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/order/order.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>db</td>
+                                                  
+                                                        <td>
+                                                                    <code>DbService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cache</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CacheService.html" target="_self" >CacheService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>auth</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>aws</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AWSService.html" target="_self" >AWSService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>template</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TemplateService.html" target="_self" >TemplateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelOrder"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>cancelOrder</b></span>
+                        <a href="#cancelOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancelOrder(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="431"
+                            class="link-to-prism">src/order/order.service.ts:431</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>orderId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createOrder"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>createOrder</b></span>
+                        <a href="#createOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/OrderDTO.html" target="_self">OrderDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="244"
+                            class="link-to-prism">src/order/order.service.ts:244</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="../classes/OrderDTO.html" target="_self" >OrderDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteOrder"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>deleteOrder</b></span>
+                        <a href="#deleteOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteOrder(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">src/order/order.service.ts:409</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>orderId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllOrders"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getAllOrders</b></span>
+                        <a href="#getAllOrders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllOrders(options: <a href="../classes/CursorPagination.html" target="_self">CursorPagination</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/order/order.service.ts:25</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/CursorPagination.html" target="_self" >CursorPagination</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOrder"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getOrder</b></span>
+                        <a href="#getOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getOrder(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">src/order/order.service.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOrderDocuments"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getOrderDocuments</b></span>
+                        <a href="#getOrderDocuments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getOrderDocuments(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="../classes/GetAllOrdersDocumentsDTO.html" target="_self">GetAllOrdersDocumentsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="209"
+                            class="link-to-prism">src/order/order.service.ts:209</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/GetAllOrdersDocumentsDTO.html" target="_self" >GetAllOrdersDocumentsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;File&gt;&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserOrders"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getUserOrders</b></span>
+                        <a href="#getUserOrders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUserOrders(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="../classes/CursorPagination.html" target="_self">CursorPagination</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/order/order.service.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/CursorPagination.html" target="_self" >CursorPagination</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateOrder"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>updateOrder</b></span>
+                        <a href="#updateOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateOrder(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/OrderDTO.html" target="_self">OrderDTO</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="265"
+                            class="link-to-prism">src/order/order.service.ts:265</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>orderId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>update</td>
+                                    <td>
+                                                <code><a href="../classes/OrderDTO.html" target="_self" >OrderDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type {Prisma} from &#x27;.prisma/client&#x27;
+import {Product} from &#x27;.prisma/client&#x27;
+import {Injectable} from &#x27;@nestjs/common&#x27;
+import {CursorPagination, CursorPaginationResultInterface, CustomError, errorCodes,} from &#x27;@app/core&#x27;
+import {DbService} from &#x27;@app/db&#x27;
+import {CacheService} from &#x27;@app/cache&#x27;
+import {prismaOffsetPagination} from &#x27;@app/utils&#x27;
+import {GetAllOrdersDocumentsDTO, OrderDTO} from &#x27;./dto&#x27;
+import {File} from &#x27;src/master/file/entity&#x27;
+import {AuthService} from &#x27;@app/auth&#x27;
+import {AWSService} from &#x27;@app/aws&#x27;
+import {TemplateService} from &#x27;@app/aws/template.service&#x27;
+
+@Injectable()
+export class OrderService {
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService,
+    private readonly auth: AuthService,
+    private readonly aws: AWSService,
+    private readonly template: TemplateService
+  ) {}
+
+  async getAllOrders(
+    options: CursorPagination
+  ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      return await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;order&#x27;,
+        include: {
+          address: true,
+          user: true,
+          cart: {
+            include: {
+              items: true,
+            },
+          },
+          documents: {
+            where: {
+              meta: {
+                path: [&#x27;invoice&#x27;],
+                equals: true,
+              },
+            },
+          },
+        },
+        where: {
+          transaction: {
+            status: &#x27;SUCCESS&#x27;,
+          },
+          active: true,
+        },
+        prisma: this.db,
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.getAllOrders&#x27;
+      )
+    }
+  }
+
+  async getUserOrders(
+    userId: string,
+    options: CursorPagination
+  ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      return await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;order&#x27;,
+        where: {
+          transaction: {
+            status: &#x27;SUCCESS&#x27;,
+          },
+          userId,
+          active: true,
+        },
+        include: {
+          cart: {
+            include: {
+              items: true,
+            },
+          },
+          address: true,
+          user: true,
+          documents: {
+            where: {
+              meta: {
+                path: [&#x27;invoice&#x27;],
+                equals: true,
+              },
+            },
+          },
+        },
+        prisma: this.db,
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.getAllOrders&#x27;
+      )
+    }
+  }
+
+  async getOrder(id: string): Promise&lt;any&gt; {
+    try {
+      const product &#x3D; await this.db.order.findUnique({
+        where: { id },
+        include: {
+          cart: {
+            include: {
+              items: {
+                select: {
+                  active: true,
+                  productId: true,
+                  quantity: true,
+                  size: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  product: {
+                    select: {
+                      slug: true,
+                      title: true,
+                      description: true,
+                      brand: true,
+                      mrp: true,
+                      price: true,
+                      id: true,
+                      images: {
+                        select: {
+                          url: true,
+                          fileType: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          address: true,
+          transaction: {
+            select: {
+              id: true,
+              notes: true,
+              verified: true,
+              status: true,
+              type: true,
+              amount: true,
+              active: true,
+            },
+          },
+          documents: {
+            where: {
+              meta: {
+                path: [&#x27;invoice&#x27;],
+                equals: true,
+              },
+            },
+            select: {
+              url: true,
+              fileType: true,
+            },
+          },
+        },
+      })
+      if (!product) {
+        throw new CustomError(
+          &#x27;Order does not exist&#x27;,
+          errorCodes.RecordDoesNotExist
+        )
+      }
+      return product
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.getOrder&#x27;
+      )
+    }
+  }
+
+  async getOrderDocuments(
+    id: string,
+    options: GetAllOrdersDocumentsDTO
+  ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;File&gt;&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      return await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;file&#x27;,
+        where: {
+          orderId: id,
+          fileType: &#x27;documents&#x27;,
+          active: true,
+        },
+        prisma: this.db,
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.getOrderDocuments&#x27;
+      )
+    }
+  }
+
+  async createOrder(userId: string, data: OrderDTO): Promise&lt;any&gt; {
+    try {
+      return await this.db.order.create({
+        data: {
+          ...data,
+          userId: userId,
+        },
+        include: {
+          address: true,
+          user: true,
+        },
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.createOrder&#x27;
+      )
+    }
+  }
+
+  async updateOrder(
+    orderId: string,
+    update: OrderDTO,
+    userId: string
+  ): Promise&lt;any&gt; {
+    try {
+      const {
+        title,
+        description,
+        sendUpdate,
+        status,
+        documents,
+        ...orderData
+      } &#x3D; update
+      const updateData: Prisma.XOR&lt;
+        Prisma.OrderUpdateInput,
+        Prisma.OrderUncheckedUpdateInput
+      &gt; &#x3D; {}
+
+      if (documents &amp;&amp; documents.length &gt; 0) {
+        updateData.documents &#x3D; {
+          connectOrCreate: documents.map((item) &#x3D;&gt; ({
+            create: {
+              url: item.url,
+              fileType: item.fileType,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
+          update: documents.map((item) &#x3D;&gt; ({
+            data: {
+              url: item.url,
+              fileType: item.fileType,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
+        }
+      }
+
+      if (status) {
+        updateData.status &#x3D; status
+      }
+
+      const data &#x3D; await this.db.order.update({
+        where: { id: orderId },
+        data: updateData,
+        include: {
+          cart: {
+            select: {
+              items: {
+                select: {
+                  color: true,
+                  size: true,
+                  quantity: true,
+                  product: {
+                    include: {
+                      inventory: {
+                        select: {
+                          sku: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          address: true,
+          user: true,
+          documents: {
+            where: {
+              meta: {
+                path: [&#x27;invoice&#x27;],
+                equals: true,
+              },
+            },
+            select: {
+              url: true,
+              fileType: true,
+            },
+          },
+        },
+      })
+
+      try {
+        if (sendUpdate) {
+          const response &#x3D; await this.aws.sendEmail(
+            await this.template.transactionEmail({
+              id: data.user.id,
+              subject:
+                title ||
+                &#x60;Your Reisetra.com order #${
+                  data.id
+                } ${data.status.toLowerCase()} for ${
+                  data.cart.items.length
+                } item${data.cart.items.length &gt; 1 ? &#x27;s&#x27; : &#x27;&#x27;}&#x60;,
+              description:
+                description ||
+                &#x60;Thank you for shopping with us. We&#x27;d like to let you know that we have ${data.status.toLowerCase()} your order. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.&#x60;,
+              orderId: data.id,
+              address: &#x60;${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}&#x60;,
+              email: data.address.email,
+              phone: data.address.phone,
+              status: &#x60;Your Reisetra.com order #${
+                data.id
+              } ${data.status.toLowerCase()} for ${
+                data.cart.items.length
+              } item${data.cart.items.length &gt; 1 ? &#x27;s&#x27; : &#x27;&#x27;}.&#x60;,
+              transaction: {
+                id: data.id,
+                grandTotal: data.grandTotal,
+                shipping: data.shipping,
+                subTotal: data.subTotal,
+                taxes: data.tax,
+              },
+              orderItems: data.cart.items.map((item) &#x3D;&gt; ({
+                sku: item.product.inventory.sku,
+                title: item.product.title,
+                options: item.size + &#x27; - &#x27; + item.color,
+                qty: item.quantity,
+              })),
+            })
+          )
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.updateOrder&#x27;
+      )
+    }
+  }
+
+  async deleteOrder(orderId: string): Promise&lt;any&gt; {
+    try {
+      const data &#x3D; await this.db.order.update({
+        where: { id: orderId },
+        include: {
+          address: true,
+          user: true,
+        },
+        data: {
+          active: false,
+        },
+      })
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.deleteOrder&#x27;
+      )
+    }
+  }
+
+  async cancelOrder(orderId: string): Promise&lt;any&gt; {
+    try {
+      const data &#x3D; await this.db.order.update({
+        where: { id: orderId },
+        include: {
+          cart: {
+            select: {
+              items: {
+                select: {
+                  color: true,
+                  size: true,
+                  quantity: true,
+                  product: {
+                    include: {
+                      inventory: {
+                        select: {
+                          sku: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          address: true,
+          user: true,
+        },
+        data: {
+          status: &#x27;CANCELLED&#x27;,
+        },
+      })
+      try {
+        const response &#x3D; await this.aws.sendEmail(
+          await this.template.transactionEmail({
+            id: data.user.id,
+            subject: &#x60;Your Reisetra.com order #${
+              data.id
+            } ${data.status.toLowerCase()} for ${data.cart.items.length} item${
+              data.cart.items.length &gt; 1 ? &#x27;s&#x27; : &#x27;&#x27;
+            }&#x60;,
+            description: &#x60;Thank you for shopping with us. We&#x27;d like to let you know that we have ${data.status.toLowerCase()} your order. we will initiate refund in 1-2 business days. please visit your orders on reisetra.com to check status.&#x60;,
+            orderId: data.id,
+            address: &#x60;${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}&#x60;,
+            email: data.address.email,
+            phone: data.address.phone,
+            status: &#x60;Your Reisetra.com order #${
+              data.id
+            } ${data.status.toLowerCase()} for ${data.cart.items.length} item${
+              data.cart.items.length &gt; 1 ? &#x27;s&#x27; : &#x27;&#x27;
+            }.&#x60;,
+            transaction: {
+              id: data.id,
+              grandTotal: data.grandTotal,
+              shipping: data.shipping,
+              subTotal: data.subTotal,
+              taxes: data.tax,
+            },
+            orderItems: data.cart.items.map((item) &#x3D;&gt; ({
+              sku: item.product.inventory.sku,
+              title: item.product.title,
+              options: item.size + &#x27; - &#x27; + item.color,
+              qty: item.quantity,
+            })),
+          })
+        )
+      } catch (error) {
+        console.log(error)
+      }
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;OrderService.cancelOrder&#x27;
+      )
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'OrderService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,15 +1,17 @@
-FROM node:12.13-alpine As development
+FROM node:14.17.0-alpine As development
 
-RUN apk add git openssh-client
+# RUN apk add git openssh-client
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN yarn run install
+RUN yarn install
+RUN mv .env.production .env
+RUN yarn run migrate:dev
 RUN yarn run build
 
 EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
 
 FROM node:12.13-alpine as production
 WORKDIR /usr/src/app

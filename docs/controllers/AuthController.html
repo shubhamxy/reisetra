@@ -1,0 +1,1619 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>@reisetra/soda documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">@reisetra/soda documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content controller">
+                   <div class="content-data">
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Controllers</li>
+  <li >AuthController</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/auth/src/auth.controller.ts</code>
+        </p>
+
+
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#emailLogin" >emailLogin</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#emailSignup" >emailSignup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#googleAuth" >googleAuth</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#googleAuthEndPoint" >googleAuthEndPoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#googleAuthRedirect" >googleAuthRedirect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#refresh" >refresh</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#resetPassword" >resetPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#sendEmailForgotPassword" >sendEmailForgotPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#sendEmailVerification" >sendEmailVerification</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#setNewPassword" >setNewPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#updatePassword" >updatePassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#verifyEmail" >verifyEmail</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emailLogin"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>emailLogin</b></span>
+                        <a href="#emailLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>emailLogin(request: <a href="../classes/User.html" target="_self">AuthenticatedRequest&lt;Record&lt;string, string&gt; | Partial&lt;User&gt;&gt;</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@UseGuards(LocalAuthGuard)<br />@Post(ROUTES.email_login)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:89</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p> LogIn user with email and password.
+ @param request
+ @returns {SuccessResponseDTO<AuthResponse>} authentication data</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >AuthenticatedRequest&lt;Record&lt;string, string&gt; | Partial&lt;User&gt;&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/AuthResponse.html" target="_self" >Promise&lt;SuccessResponseDTO&lt;AuthResponse&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>authentication data</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emailSignup"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>emailSignup</b></span>
+                        <a href="#emailSignup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>emailSignup(body: <a href="../classes/CreateUserDTO.html" target="_self">CreateUserDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Post(ROUTES.email_signup)<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sign up user using email method.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/CreateUserDTO.html" target="_self" >CreateUserDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>User details</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>authentication data</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="googleAuth"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>googleAuth</b></span>
+                        <a href="#googleAuth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>googleAuth()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.login_oauth_google)<br />@UseGuards(GoogleAuthGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>OAuth redirect for google.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="googleAuthEndPoint"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>googleAuthEndPoint</b></span>
+                        <a href="#googleAuthEndPoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>googleAuthEndPoint(body: literal type)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Post(ROUTES.login_oauth_google_verify)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:179</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Verify OAuth login.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="googleAuthRedirect"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>googleAuthRedirect</b></span>
+                        <a href="#googleAuthRedirect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>googleAuthRedirect(request: <a href="../interfaces/GoogleUser.html" target="_self">AuthenticatedRequest&lt;Record&lt;string, string&gt; | GoogleUser&gt;</a>, response)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.login_oauth_google_redirect)<br />@UseGuards(GoogleAuthGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>OAuth redirect.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../interfaces/GoogleUser.html" target="_self" >AuthenticatedRequest&lt;Record&lt;string, string&gt; | GoogleUser&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refresh"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>refresh</b></span>
+                        <a href="#refresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refresh(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@UseGuards(JwtRefreshGuard)<br />@Get(ROUTES.refresh)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Refresh authentication token.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/AuthResponse.html" target="_self" >Promise&lt;SuccessResponseDTO&lt;AuthResponse&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>authentication data</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetPassword"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>resetPassword</b></span>
+                        <a href="#resetPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resetPassword(params: literal type, response)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.email_reset_password_by_email_and_token)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:318</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reset password with reset token.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>unknown</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendEmailForgotPassword"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>sendEmailForgotPassword</b></span>
+                        <a href="#sendEmailForgotPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sendEmailForgotPassword(params: <a href="../classes/EmailDTO.html" target="_self">EmailDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.email_forgot_password_by_email)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="289"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:289</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Send forgot password email.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                                <code><a href="../classes/EmailDTO.html" target="_self" >EmailDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendEmailVerification"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>sendEmailVerification</b></span>
+                        <a href="#sendEmailVerification"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sendEmailVerification(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(ROUTES.auth_email_resend_verification)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="258"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:258</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resend verification email.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>request</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setNewPassword"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>setNewPassword</b></span>
+                        <a href="#setNewPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setNewPassword(body: <a href="../classes/ResetPasswordDTO.html" target="_self">ResetPasswordDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Post(ROUTES.email_reset_password)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="354"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:354</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reset user password</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/ResetPasswordDTO.html" target="_self" >ResetPasswordDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updatePassword"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>updatePassword</b></span>
+                        <a href="#updatePassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updatePassword(body: <a href="../classes/UpdatePasswordDTO.html" target="_self">UpdatePasswordDTO</a>, request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post(ROUTES.email_update_password)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="391"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:391</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Update user password</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/UpdatePasswordDTO.html" target="_self" >UpdatePasswordDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="verifyEmail"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>verifyEmail</b></span>
+                        <a href="#verifyEmail"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>verifyEmail(params: <a href="../classes/VerifyEmailDTO.html" target="_self">VerifyEmailDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Public()<br />@Throttle(undefined.throttleLimit, undefined.throttleTTL)<br />@Get(ROUTES.email_verify_by_userId_and_token)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">libs/auth/src/auth.controller.ts:220</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Verify email.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                                <code><a href="../classes/VerifyEmailDTO.html" target="_self" >VerifyEmailDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>unknown</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Req,
+  Response,
+  UseGuards,
+} from &#x27;@nestjs/common&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
+import { Throttle } from &#x27;@nestjs/throttler&#x27;
+import { OAuth2Client } from &#x27;google-auth-library&#x27;
+import { CreateUserDTO, User } from &#x27;@app/user&#x27;
+import {
+  CustomError,
+  CustomException,
+  errorCodes,
+  Message,
+  ROUTES,
+  SuccessResponse,
+  SuccessResponseDTO,
+} from &#x27;@app/core&#x27;
+import { AppEnv, auth, AuthEnv, Config } from &#x27;@app/config&#x27;
+import {
+  AuthResponse,
+  EmailDTO,
+  ResetPasswordDTO,
+  UpdatePasswordDTO,
+  VerifyEmailDTO,
+} from &#x27;./dto&#x27;
+import { GoogleAuthGuard, JwtRefreshGuard, LocalAuthGuard } from &#x27;./gaurd&#x27;
+import { GoogleUser } from &#x27;./strategy&#x27;
+import { AuthService } from &#x27;./auth.service&#x27;
+import { Public } from &#x27;./decorator&#x27;
+import { AuthenticatedRequest } from &#x27;./auth.interface&#x27;
+
+const authConfig &#x3D; auth()
+
+@Controller(ROUTES.auth)
+export class AuthController {
+  private readonly googleOAuth2client: OAuth2Client
+  private readonly app: AppEnv
+  private readonly auth: AuthEnv
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService
+  ) {
+    this.app &#x3D; this.configService.get&lt;AppEnv&gt;(Config.app)
+    this.auth &#x3D; this.configService.get&lt;AuthEnv&gt;(Config.auth)
+    this.googleOAuth2client &#x3D; new OAuth2Client(
+      this.auth.googleOAuthOptions.clientID
+    )
+  }
+
+  /**
+   * Sign up user using email method.
+   *
+   * @param body User details
+   * @returns authentication data
+   */
+  @Public()
+  @Post(ROUTES.email_signup)
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  async emailSignup(@Body() body: CreateUserDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.authService.signup(body)
+      return { data, message: Message.success }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.emailSignup&#x27;
+      )
+    }
+  }
+
+  /**
+   *  LogIn user with email and password.
+   *  @param request
+   *  @returns {SuccessResponseDTO&lt;AuthResponse&gt;} authentication data
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @UseGuards(LocalAuthGuard)
+  @Post(ROUTES.email_login)
+  async emailLogin(
+    @Req()
+    request: AuthenticatedRequest&lt;Record&lt;string, string&gt;, Partial&lt;User&gt;&gt;
+  ): Promise&lt;SuccessResponseDTO&lt;AuthResponse&gt;&gt; {
+    try {
+      const data &#x3D; await this.authService.login(request.user)
+      return { data, message: Message.created }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.emailLogin&#x27;
+      )
+    }
+  }
+
+  /**
+   * Refresh authentication token.
+   *
+   * @returns {SuccessResponseDTO&lt;AuthResponse&gt;} authentication data
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @UseGuards(JwtRefreshGuard)
+  @Get(ROUTES.refresh)
+  async refresh(
+    @Req() request: AuthenticatedRequest
+  ): Promise&lt;SuccessResponseDTO&lt;AuthResponse&gt;&gt; {
+    try {
+      const data &#x3D; await this.authService.login(request.user)
+      return { data, message: Message.created }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.refresh&#x27;
+      )
+    }
+  }
+
+  /**
+   * OAuth redirect for google.
+   *
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Get(ROUTES.login_oauth_google)
+  @UseGuards(GoogleAuthGuard)
+  async googleAuth(): Promise&lt;SuccessResponse&gt; {
+    return {
+      message: Message.redirected,
+    }
+  }
+
+  /**
+   * OAuth redirect.
+   *
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Get(ROUTES.login_oauth_google_redirect)
+  @UseGuards(GoogleAuthGuard)
+  async googleAuthRedirect(
+    @Req()
+    request: AuthenticatedRequest&lt;Record&lt;string, string&gt;, GoogleUser&gt;,
+    @Response() response
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.authService.googleLogin(request.user, undefined)
+
+      return response.redirect(
+        303,
+        &#x60;${this.app.callbackUrl}?token&#x3D;${data.refresh_token}&#x60;
+      )
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.googleAuthRedirect&#x27;
+      )
+    }
+  }
+
+  /**
+   * Verify OAuth login.
+   *
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Post(ROUTES.login_oauth_google_verify)
+  async googleAuthEndPoint(
+    @Body()
+    body: {
+      credential: string
+      clientId: string
+      select_by: string
+    }
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const loginData &#x3D; await this.googleOAuth2client.verifyIdToken({
+        idToken: body.credential,
+        audience: this.configService.get&lt;AuthEnv&gt;(Config.auth)
+          .googleOAuthOptions.clientID,
+      })
+      const payload &#x3D; loginData.getPayload()
+      const googleUser: GoogleUser &#x3D; {
+        oauthId: payload.sub,
+        email: payload.email,
+        emailVerified: payload.email_verified,
+        name: payload.name,
+        avatar: payload.picture,
+        oauthProvider: &#x27;GOOGLE&#x27;,
+      }
+      const data &#x3D; await this.authService.googleLogin(googleUser, body.clientId)
+      return { data, message: Message.created }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.googleAuthRedirect&#x27;
+      )
+    }
+  }
+
+  /**
+   * Verify email.
+   *
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Get(ROUTES.email_verify_by_userId_and_token)
+  public async verifyEmail(
+    @Param()
+    params: VerifyEmailDTO
+  ) {
+    try {
+      const emailVerified &#x3D; await this.authService.verifyEmail(
+        params.userId,
+        params.token
+      )
+      if (emailVerified) {
+        // @TODO redirect to success page
+        return {
+          data: {
+            emailVerified,
+          },
+          message: Message.success,
+        }
+      } else {
+        throw new CustomError(
+          &#x27;Verify Email Failed&#x27;,
+          errorCodes.EMailNotVerified,
+          &#x27;AuthController.verifyEmail&#x27;
+        )
+      }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.verifyEmail&#x27;
+      )
+    }
+  }
+
+  /**
+   * Resend verification email.
+   * @returns request
+   */
+  @Get(ROUTES.auth_email_resend_verification)
+  public async sendEmailVerification(
+    @Req() request: AuthenticatedRequest
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.authService.sendEmailVerification(
+        request.user.id,
+        request.user.email
+      )
+      return {
+        message: Message.success,
+        data: {
+          emailSent: Boolean(data.MessageId),
+        },
+      }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.sendEmailVerification&#x27;
+      )
+    }
+  }
+
+  /**
+   * Send forgot password email.
+   *
+   * @param params
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Get(ROUTES.email_forgot_password_by_email)
+  public async sendEmailForgotPassword(
+    @Param() params: EmailDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.authService.sendForgotPasswordEmail(params.email)
+      return {
+        message: Message.success,
+        data: {
+          emailSent: Boolean(data?.MessageId),
+        },
+      }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.sendEmailForgotPassword&#x27;
+      )
+    }
+  }
+
+  /**
+   * Reset password with reset token.
+   *
+   * @param params
+   * @param response
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Get(ROUTES.email_reset_password_by_email_and_token)
+  public async resetPassword(
+    @Param()
+    params: {
+      email: string
+      token: string
+    },
+    @Response() response
+  ) {
+    try {
+      if (params.email &amp;&amp; params.token) {
+        // @TODO redirect to reset page
+        return response.redirect(
+          303,
+          &#x60;${this.app.authUrl}/reset-password?email&#x3D;${params.email}&amp;token&#x3D;${params.token}&#x60;
+        )
+      } else {
+        // @TODO redirect to error page
+        return response.redirect(303, this.app.clientUrl)
+      }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.resetPassword&#x27;
+      )
+    }
+  }
+
+  /**
+   * Reset user password
+   *
+   * @param body
+   */
+  @Public()
+  @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+  @Post(ROUTES.email_reset_password)
+  public async setNewPassword(
+    @Body() body: ResetPasswordDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const tokenVerified &#x3D; await this.authService.verifyForgotPasswordToken(
+        body.email,
+        body.token
+      )
+      if (tokenVerified) {
+        const data &#x3D; await this.authService.resetPassword({
+          email: body.email,
+          password: body.password,
+        })
+        return { data, message: Message.success }
+      }
+
+      throw new CustomError(
+        &#x27;Invalid Reset Token&#x27;,
+        errorCodes.ResetPasswordTokenInvalid,
+        &#x27;AuthService.setNewPassword&#x27;
+      )
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.setNewPassword&#x27;
+      )
+    }
+  }
+
+  /**
+   * Update user password
+   *
+   * @param body
+   * @param request
+   */
+  @Post(ROUTES.email_update_password)
+  public async updatePassword(
+    @Body() body: UpdatePasswordDTO,
+    @Req() request: AuthenticatedRequest
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.authService.updatePassword(
+        request.user.email,
+        body
+      )
+      return { data, message: Message.success }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AuthController.updatePassword&#x27;
+      )
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuthController.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

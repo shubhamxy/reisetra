@@ -1,0 +1,1349 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>@reisetra/soda documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">@reisetra/soda documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >ProductService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/product/product.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#createProduct" >createProduct</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteProduct" >deleteProduct</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAllProducts" >getAllProducts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProduct" >getProduct</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProducts" >getProducts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getRecommendations" >getRecommendations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateProduct" >updateProduct</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/product/product.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>db</td>
+                                                  
+                                                        <td>
+                                                                    <code>DbService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cache</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CacheService.html" target="_self" >CacheService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createProduct"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>createProduct</b></span>
+                        <a href="#createProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createProduct(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/CreateProductDTO.html" target="_self">CreateProductDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="359"
+                            class="link-to-prism">src/product/product.service.ts:359</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="../classes/CreateProductDTO.html" target="_self" >CreateProductDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;ProductRO&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteProduct"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>deleteProduct</b></span>
+                        <a href="#deleteProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteProduct(productId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="528"
+                            class="link-to-prism">src/product/product.service.ts:528</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;ProductRO&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllProducts"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getAllProducts</b></span>
+                        <a href="#getAllProducts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllProducts(options: <a href="../classes/GetAllProductsDTO.html" target="_self">GetAllProductsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/product/product.service.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/GetAllProductsDTO.html" target="_self" >GetAllProductsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;ProductRO&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProduct"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProduct</b></span>
+                        <a href="#getProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProduct(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">src/product/product.service.ts:267</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>slug</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;ProductRO&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProducts"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProducts</b></span>
+                        <a href="#getProducts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProducts(options: <a href="../classes/GetAllProductsDTO.html" target="_self">GetAllProductsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="290"
+                            class="link-to-prism">src/product/product.service.ts:290</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/GetAllProductsDTO.html" target="_self" >GetAllProductsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;ProductsRO&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRecommendations"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getRecommendations</b></span>
+                        <a href="#getRecommendations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRecommendations(options: <a href="../classes/GetAllProductsDTO.html" target="_self">GetAllProductsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/product/product.service.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/GetAllProductsDTO.html" target="_self" >GetAllProductsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;ProductRO&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateProduct"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>updateProduct</b></span>
+                        <a href="#updateProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateProduct(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateProductDTO.html" target="_self">UpdateProductDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="448"
+                            class="link-to-prism">src/product/product.service.ts:448</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>slug</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>update</td>
+                                    <td>
+                                                <code><a href="../classes/UpdateProductDTO.html" target="_self" >UpdateProductDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;ProductRO&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
+import {
+  CursorPaginationResultInterface,
+  CustomError,
+  errorCodes,
+  OrderDirection,
+} from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
+import urlSlug from &#x27;url-slug&#x27;
+import {
+  CreateProductDTO,
+  GetAllProductsDTO,
+  ProductSort,
+  UpdateProductDTO,
+} from &#x27;./dto&#x27;
+import type { Prisma } from &#x27;.prisma/client&#x27;
+import { ProductRO } from &#x27;./interfaces&#x27;
+import { ProductsRO } from &#x27;src/product/inventory/interfaces&#x27;
+
+@Injectable()
+export class ProductService {
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
+
+  async getAllProducts(
+    options: GetAllProductsDTO
+  ): Promise&lt;CursorPaginationResultInterface&lt;ProductRO&gt;&gt; {
+    try {
+      const whereObj: Prisma.ProductWhereInput &#x3D; {}
+      let {
+        price,
+        category,
+        tags,
+        brands,
+        sort,
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; OrderDirection.asc,
+        q,
+        rating,
+      } &#x3D; options
+
+      switch (sort) {
+        case ProductSort.new: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.asc
+          break
+        }
+        case ProductSort.bestSelling: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.desc
+          break
+        }
+        case ProductSort.relevant: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.desc
+          break
+        }
+        case ProductSort.trending: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.desc
+          break
+        }
+      }
+
+      if (q) {
+        whereObj.OR &#x3D; [
+          {
+            title: {
+              contains: q,
+              mode: &#x27;insensitive&#x27;,
+            },
+          },
+          {
+            description: {
+              contains: q,
+              mode: &#x27;insensitive&#x27;,
+            },
+          },
+        ]
+      }
+
+      if (price) {
+        whereObj.price &#x3D; { gte: +price[0], lte: +price[1] }
+      }
+
+      if (tags) {
+        whereObj.tags &#x3D; {
+          some: {
+            OR: Array.isArray(tags)
+              ? tags.map((t) &#x3D;&gt; ({ label: t }))
+              : [{ label: tags }],
+          },
+        }
+      }
+
+      if (brands) {
+        whereObj.brand &#x3D; {
+          in: brands,
+        }
+      }
+
+      if (category) {
+        whereObj.categories &#x3D; { some: { label: category } }
+      }
+
+      if (rating) {
+        whereObj.rating &#x3D; {
+          gte: +rating,
+        }
+      }
+
+      return await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;product&#x27;,
+        where: whereObj,
+        include: {
+          categories: true,
+          tags: true,
+          inventory: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+        },
+        prisma: this.db,
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.getAllProducts&#x27;
+      )
+    }
+  }
+
+  async getRecommendations(
+    options: GetAllProductsDTO
+  ): Promise&lt;CursorPaginationResultInterface&lt;ProductRO&gt;&gt; {
+    try {
+      const whereObj: any &#x3D; {}
+      let {
+        price,
+        category,
+        tags,
+        brands,
+        sort,
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; OrderDirection.asc,
+        q,
+        rating,
+      } &#x3D; options
+
+      switch (sort) {
+        case ProductSort.new: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.asc
+          break
+        }
+        case ProductSort.bestSelling: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.desc
+          break
+        }
+        case ProductSort.relevant: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.desc
+          break
+        }
+        case ProductSort.trending: {
+          orderBy &#x3D; &#x27;updatedAt&#x27;
+          orderDirection &#x3D; OrderDirection.desc
+          break
+        }
+      }
+
+      if (q) {
+        whereObj.OR &#x3D; [
+          {
+            title: {
+              contains: q,
+              mode: &#x27;insensitive&#x27;,
+            },
+          },
+          {
+            description: {
+              contains: q,
+              mode: &#x27;insensitive&#x27;,
+            },
+          },
+        ]
+      }
+
+      if (price) {
+        whereObj.price &#x3D; { gte: +price[0], lte: +price[1] }
+      }
+
+      if (tags) {
+        whereObj.tags &#x3D; {
+          some: {
+            OR: Array.isArray(tags)
+              ? tags.map((t) &#x3D;&gt; ({ label: t }))
+              : [{ label: tags }],
+          },
+        }
+      }
+
+      if (brands) {
+        whereObj.brand &#x3D; {
+          in: brands,
+        }
+      }
+
+      if (category) {
+        whereObj.categories &#x3D; { some: { label: category } }
+      }
+
+      if (rating) {
+        whereObj.rating &#x3D; {
+          gte: +rating,
+        }
+      }
+
+      return await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;product&#x27;,
+        where: whereObj,
+        include: {
+          categories: true,
+          tags: true,
+          inventory: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+        },
+        prisma: this.db,
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.getAllProducts&#x27;
+      )
+    }
+  }
+
+  async getProduct(slug: string): Promise&lt;ProductRO&gt; {
+    const product &#x3D; await this.db.product.findUnique({
+      where: { slug },
+      include: {
+        tags: true,
+        categories: true,
+        inventory: true,
+        images: {
+          select: {
+            url: true,
+          },
+        },
+      },
+    })
+    if (!product) {
+      throw new CustomError(
+        &#x27;Product does not exist&#x27;,
+        errorCodes.RecordDoesNotExist
+      )
+    }
+    return product
+  }
+
+  async getProducts(options: GetAllProductsDTO): Promise&lt;ProductsRO&gt; {
+    const { price, category, tags, rating, q } &#x3D; options
+
+    const whereObj: Prisma.ProductWhereInput &#x3D; {}
+    if (price) {
+      whereObj.price &#x3D; { gte: +price[0], lte: +price[1] }
+    }
+
+    if (tags) {
+      whereObj.tags &#x3D; {
+        some: {
+          OR: Array.isArray(tags)
+            ? tags.map((t) &#x3D;&gt; ({ label: t }))
+            : [{ label: tags }],
+        },
+      }
+    }
+
+    if (category) {
+      whereObj.categories &#x3D; { some: { label: category } }
+    }
+
+    if (q) {
+      whereObj.OR &#x3D; [
+        {
+          title: {
+            contains: q,
+            mode: &#x27;insensitive&#x27;,
+          },
+        },
+        {
+          description: {
+            contains: q,
+            mode: &#x27;insensitive&#x27;,
+          },
+        },
+      ]
+    }
+
+    if (rating) {
+      whereObj.rating &#x3D; {
+        gt: +rating,
+      }
+    }
+
+    const products &#x3D; await this.db.product.findMany({
+      where: {
+        ...whereObj,
+      },
+      include: {
+        tags: true,
+        categories: true,
+        inventory: true,
+        images: {
+          select: {
+            url: true,
+          },
+        },
+      },
+    })
+    if (!products) {
+      throw new CustomError(
+        &#x27;Product does not exist&#x27;,
+        errorCodes.RecordDoesNotExist
+      )
+    }
+    return products
+  }
+
+  async createProduct(
+    userId: string,
+    data: CreateProductDTO
+  ): Promise&lt;ProductRO&gt; {
+    try {
+      const {
+        inventory,
+        brand,
+        images,
+        categories,
+        tags,
+        ...productData
+      } &#x3D; data
+      const dataObj: Prisma.XOR&lt;
+        Prisma.ProductCreateInput,
+        Prisma.ProductUncheckedCreateInput
+      &gt; &#x3D; {
+        ...productData,
+        inventory: {
+          create: inventory,
+        },
+        slug: productData.slug || urlSlug(productData.title),
+      }
+
+      if (brand) {
+        dataObj.company &#x3D; {
+          connectOrCreate: {
+            create: {
+              name: brand,
+            },
+            where: {
+              name: brand,
+            },
+          },
+        }
+      }
+
+      if (images.length &gt; 0) {
+        dataObj.images &#x3D; {
+          connectOrCreate: images.map((item) &#x3D;&gt; ({
+            create: {
+              url: item.url,
+              contentType: &#x27;image/png&#x27;,
+              fileType: &#x27;images&#x27;,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
+        }
+      }
+
+      if (tags.length &gt; 0) {
+        dataObj.tags &#x3D; {
+          connect: tags.map((tag) &#x3D;&gt; ({ label: tag })),
+        }
+      }
+
+      if (categories.length &gt; 0) {
+        dataObj.categories &#x3D; {
+          connect: categories.map((category) &#x3D;&gt; ({
+            label: category,
+          })),
+        }
+      }
+      return await this.db.product.create({
+        data: dataObj,
+        include: {
+          categories: true,
+          tags: true,
+          inventory: true,
+          images: {
+            select: {
+              url: true,
+              meta: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.findAllOffset&#x27;
+      )
+    }
+  }
+
+  async updateProduct(
+    userId: string,
+    slug: string,
+    update: UpdateProductDTO
+  ): Promise&lt;ProductRO&gt; {
+    try {
+      const { inventory, images, tags, categories, ...productData } &#x3D; update
+
+      const updateData: any &#x3D; productData
+
+      if (images &amp;&amp; images.length &gt; 0) {
+        updateData.images &#x3D; {
+          connectOrCreate: images.map((item) &#x3D;&gt; ({
+            create: {
+              url: item.url,
+              fileType: item.fileType,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
+          update: images.map((item) &#x3D;&gt; ({
+            data: {
+              url: item.url,
+              fileType: item.fileType,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
+        }
+      }
+
+      if (inventory) {
+        updateData.inventory &#x3D; {
+          update: inventory,
+        }
+      }
+      if (tags) {
+        updateData.tags &#x3D; {
+          set: tags?.map((tag) &#x3D;&gt; ({ label: tag })),
+        }
+      }
+      if (categories) {
+        updateData.categories &#x3D; {
+          set: categories?.map((category) &#x3D;&gt; ({ label: category })),
+        }
+      }
+
+      const productUpdate: Prisma.XOR&lt;
+        Prisma.ProductUpdateArgs,
+        Prisma.ProductUncheckedUpdateInput
+      &gt; &#x3D; {
+        where: { slug },
+        data: updateData,
+        include: {
+          categories: true,
+          tags: true,
+          inventory: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      }
+      return await this.db.product.update(productUpdate)
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.findAllOffset&#x27;
+      )
+    }
+  }
+
+  async deleteProduct(productId: string): Promise&lt;ProductRO&gt; {
+    try {
+      return await this.db.product.delete({
+        where: { id: productId },
+        include: {
+          inventory: true,
+          images: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.findAllOffset&#x27;
+      )
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,18 +1,29 @@
-// require this to be on top
-import { setupNestApp, nestOptions } from "./setupNestApp";
-import { NestFactory } from "@nestjs/core";
-import { NestExpressApplication } from "@nestjs/platform-express";
-import { AppModule } from "./app.module";
+import { nestOptions, setupNestApp } from '@app/core'
+import { NestFactory } from '@nestjs/core'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { AppModule } from './app.module'
+import { Logger } from 'nestjs-pino'
+import { AWSService } from '@app/aws'
 
 async function bootstrap() {
   try {
-    console.log("🦺 Bootstrapping Nest App");
-    const app = await NestFactory.create<NestExpressApplication>(AppModule, nestOptions);
-    const config = setupNestApp(app);
-    await app.listen(config.port);
+    const app = await NestFactory.create<NestExpressApplication>(
+      AppModule,
+      nestOptions()
+    )
+    const config = setupNestApp(app)
+    const logger = app.get(Logger)
+    logger.log(
+      `Starting ${config.name} version ${config.version} on ${config.apiUrl}`
+    )
+
+    const aws = app.get(AWSService)
+    await aws.subscribeAllSNS()
+
+    await app.listen(config.port)
   } catch (error) {
-    console.log("🤪 Error Bootstrapping Nest App", error);
+    console.log('Error Starting App', error)
   }
 }
 
-bootstrap();
+bootstrap()

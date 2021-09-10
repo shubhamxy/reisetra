@@ -1,25 +1,38 @@
 {
-  "name": "reisetra",
+  "name": "@reisetra/mono",
   "private": true,
+  "version": "1.0.2",
+  "homepage": "https://github.com/shubhamxy/reisetra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shubhamxy/reisetra"
+  },
+  "author": {
+    "name": "Shubham Jain",
+    "url": "https://github.com/shubhamxy"
+  },
   "workspaces": {
     "packages": [
       "packages/mint",
-      "packages/soda",
-      "packages/rocks"
+      "packages/maze",
+      "packages/moon",
+      "packages/soda"
     ],
     "nohoist": [
       "**"
     ]
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
-    "commitizen": "^4.2.3",
+    "@commitlint/cli": "^16.0.2",
+    "@commitlint/config-conventional": "^16.0.0",
+    "aws-sdk": "^2.1145.0",
+    "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^6.0.0"
+    "git-branch-is": "^4.0.0",
+    "husky": "^7.0.4"
   },
   "config": {
     "commitizen": {
@@ -27,18 +40,38 @@
       "defaultScope": "global"
     }
   },
+  "husky": {
+    "hooks": {
+      "post-merge": "(npx git-branch-is main && npm version minor) || (npx git-branch-is develop && npm --no-git-tag-version version patch)"
+    }
+  },
   "scripts": {
-    "prepare": "husky install",
     "commit": "cz",
     "commit:signed": "cz -S",
-    "deploy:soda": "./scripts/deploy.sh",
+    "prepare": "husky install",
+    "lint": "yarn workspaces run lint",
+    "prettier": "yarn workspaces run prettier",
+    "build": "yarn workspaces run build",
+    "start": "yarn workspaces run start",
+    "stop": "yarn workspaces run stop",
+    "dev": "yarn workspaces run dev ",
+    "deploy:soda": "yarn run build:soda; ./scripts/deploy.sh",
+    "test:soda": "yarn workspace @reisetra/soda test; yarn workspace @reisetra/soda test:e2e",
     "build:soda": "yarn workspace @reisetra/soda build",
-    "start:soda": "yarn workspace @reisetra/soda start:prod",
-    "stop:soda": "yarn workspace @reisetra/soda stop:prod",
+    "ci:soda": "./scripts/ci.sh",
+    "start:soda": "yarn workspace @reisetra/soda start",
+    "stop:soda": "yarn workspace @reisetra/soda stop",
     "dev:soda": "yarn workspace @reisetra/soda dev",
-    "deploy:mint": "",
+    "build:docs": "yarn workspace @reisetra/soda build:docs",
+    "build:maze": "yarn workspace @reisetra/maze build",
+    "start:maze": "yarn workspace @reisetra/maze start",
+    "dev:maze": "yarn workspace @reisetra/maze dev",
     "build:mint": "yarn workspace @reisetra/mint build",
     "start:mint": "yarn workspace @reisetra/mint start",
-    "dev:mint": "yarn workspace @reisetra/mint dev"
+    "dev:mint": "yarn workspace @reisetra/mint dev",
+    "build:moon": "yarn workspace @reisetra/moon build",
+    "start:moon": "yarn workspace @reisetra/moon start",
+    "dev:moon": "yarn workspace @reisetra/moon dev",
+    "post-merge": "(npx git-branch-is main && npm version minor) || (npx git-branch-is develop && npm --no-git-tag-version version patch)"
   }
 }

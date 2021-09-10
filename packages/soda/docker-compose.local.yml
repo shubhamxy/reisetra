@@ -1,26 +1,29 @@
 version: "3.7"
 services:
   soda:
+    env_file: .env
     container_name: reisetra-soda
     image: "reisetra-soda:dev"
     build:
+      dockerfile: local.dockerfile
       context: ./
-      target: development
     volumes:
-      - "./src:/usr/src/app/src"
+      - "./:/usr/src/app/"
     ports:
       - "8080:8080"
-    working_dir: "/usr/src/app"
-    command:
-      - node dist/main.js
+    command: yarn run dev
     networks:
       - soda-backend
     depends_on:
       - redis-global
       - postgres-global
-    env_file: .env
     healthcheck:
-      test: ["CMD", "wget", "localhost:8080/api/v1/healthz -q -O - > /dev/null 2>&1"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "localhost:8080/api/v1/healthz -q -O - > /dev/null 2>&1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 5

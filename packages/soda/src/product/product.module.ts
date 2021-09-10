@@ -1,13 +1,13 @@
-import { Module } from "@nestjs/common";
-import { ProductController } from "./product.controller";
-import { PrismaService } from "../common/modules/db/prisma.service";
-import { ProductService } from "./product.service";
-import { CacheModule } from "src/common/modules/cache/cache.module";
+import { Module } from '@nestjs/common'
+import { ProductController } from './product.controller'
+import { DbService } from '@app/db'
+import { ProductService } from './product.service'
+import { CacheModule } from '@app/cache'
 
 @Module({
   imports: [CacheModule],
   controllers: [ProductController],
-  providers: [PrismaService, ProductService],
+  providers: [DbService, ProductService],
   exports: [ProductService],
 })
 export class ProductModule {}

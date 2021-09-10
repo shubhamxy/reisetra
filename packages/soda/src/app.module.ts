@@ -1,56 +1,68 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { APP_GUARD } from "@nestjs/core";
-import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { LoggerModule } from "nestjs-pino";
-import { AddressModule } from "./address/address.module";
-import { AuthModule } from "./auth/auth.module";
-import { JwtAuthGuard } from "./auth/gaurd/jwt.gaurd";
-import { RolesGuard } from "./auth/gaurd/roles.gaurd";
-import { CartModule } from "./cart/cart.module";
-import { config, pinoConfig } from "./config";
-import { validate } from "./config/env.validation";
-import { HealthCheckModule } from "./health/health.module";
-import { InventoryModule } from "./inventory/inventory.module";
-import { OrderModule } from "./order/order.module";
-import { ProductModule } from "./product/product.module";
-import { TransactionModule } from "./transaction/transaction.module";
-import { UserModule } from "./user/user.module";
-import { FilesModule } from "./files/files.module";
-import { ReviewModule } from "./review/review.module";
-import { CacheModule } from "./common/modules/cache/cache.module";
-import settings from "./config/settings";
-const settingsEnv = settings();
+import { MiddlewareConsumer, Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
+import { LoggerModule } from 'nestjs-pino'
+import {
+  AddressModule,
+  BrandModule,
+  CategoryModule,
+  FileModule,
+  FormModule,
+  OfferModule,
+  StoryModule,
+  TagModule,
+} from './master'
+import { AuthModule, JwtAuthGuard, RolesGuard } from '@app/auth'
+import { CartModule, TransactionModule } from './cart'
+import { Config, configOptions, SettingsEnv } from '@app/config'
+import { HealthCheckModule } from '@app/health'
+import { OrderModule } from './order'
+import { InventoryModule, ProductModule, ReviewModule } from './product'
+import { SupportModule } from './support'
+import { UserModule } from '@app/user'
+import { CacheModule } from '@app/cache'
+import { DbModule } from '@app/db'
+import { ParsePlainTextMiddleware } from '@app/core/middleware/parse-plaintext.middleware'
+import { ROUTES } from '@app/core'
+import { NotificationModule } from '@app/notification'
 
 @Module({
   imports: [
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, '..', 'client'),
-    //   exclude: ['/api*'],
-    //   serveStaticOptions: {
-    //   }
-    // }),
-    LoggerModule.forRoot(pinoConfig),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: config,
-      cache: true,
-      validationOptions: { config },
-      validate,
+    ConfigModule.forRoot(configOptions),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        configService.get<SettingsEnv>(Config.settings).pino,
     }),
-    ThrottlerModule.forRoot(settingsEnv.throttle),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        configService.get<SettingsEnv>(Config.settings).throttle,
+    }),
     CacheModule,
+    DbModule,
     HealthCheckModule,
-    AuthModule,
     UserModule,
-    CartModule,
+    AuthModule,
+    AddressModule,
     ProductModule,
     InventoryModule,
+    StoryModule,
+    CartModule,
     OrderModule,
-    AddressModule,
     TransactionModule,
-    FilesModule,
     ReviewModule,
+    BrandModule,
+    CategoryModule,
+    FormModule,
+    FileModule,
+    TagModule,
+    OfferModule,
+    SupportModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [
@@ -68,4 +80,8 @@ const settingsEnv = settings();
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ParsePlainTextMiddleware).forRoutes(ROUTES.notification)
+  }
+}

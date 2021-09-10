@@ -1,1 +1,2 @@
-export * from './Checkout';
+export * from './Checkout'
+export * from './Success'

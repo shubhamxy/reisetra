@@ -1,21 +1,62 @@
-import { makeStyles, Paper } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { MainLayout } from "../../layouts/MainLayout";
-import { AppHeader } from "../../ui/Header";
-import { SignUp } from "../../modules/Signup";
+import { Box, LinearProgress, makeStyles } from '@material-ui/core'
+import React from 'react'
+import { MainLayout } from '../../layouts/MainLayout'
+import { AppHeader } from '../../ui/Header'
+import { Footer } from '../../ui/Footer'
+import { HeroCard } from '../../ui/HeroCard'
+
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginBottom: 20,
-  },
-}));
+    content: {
+        marginBottom: 48,
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    left: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+    right: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+}))
 
-const SignUpPage = () => {
-  const classes = useStyles();
-  return (
-    <MainLayout>
-      <SignUp />
-    </MainLayout>
-  );
-};
+function Page() {
+    const classes = useStyles()
+    const pageMeta = {
+        title: '',
+        description: '',
+        url: '/',
+    }
 
-export default SignUpPage;
+    return (
+        <MainLayout
+            classes={{
+                left: classes.left,
+                right: classes.right,
+            }}
+            top={
+                <HeroCard
+                    data={{
+                        title: pageMeta.title,
+                        subtitle: pageMeta.description,
+                    }}
+                    actions={
+                        <Box pt={2.4}>
+                            <LinearProgress
+                                style={{ minWidth: 140 }}
+                                variant="indeterminate"
+                            />
+                        </Box>
+                    }
+                />
+            }
+            header={<AppHeader />}
+            footer={<Footer />}
+        />
+    )
+}
+
+export default Page

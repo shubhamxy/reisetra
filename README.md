@@ -1,7 +1,6 @@
-
 <p align="center">
   <a href="http://reisetra.com">
-    <img src='./mint/public/icons/logo.dark.png' alt="Reisetra Logo" width="30%" />
+    <img src='./packages/mint/public/icons/logo.dark.png' alt="Reisetra Logo" width="30%" />
   </a>
 </p>
 <p align="center">
@@ -10,7 +9,7 @@
   </a>
 </p>
 <p align="center">
-  <img src="./docs/Screengrabs/1.png" alt="Screengrab"  width="60%"/>
+  <img src="./docs/screenshots/home.png" alt="Screengrab"  width="100%"/>
 </p>
 
 
@@ -18,13 +17,13 @@
 
 ## Features
 
-
-| Codebase                     |   Description    |
-| :--------------------------- | :--------------: |
-| [soda](./soda)               |    NodeJS API    |
-| [mint](./mint)               | Next.js frontend |
-| [maze](./mint)               |   Next.js cms    |
-| [rock](./mint/src/libs/rock) |    API Client    |
+| Codebase                              |    Description     |
+|:--------------------------------------|:------------------:|
+| [soda](./packages/soda)               |     API Server     |
+| [mint](./packages/mint)               |   Main Frontend    |
+| [maze](./packages/maze)               |    CMS Frontend    |
+| [moon](./packages/moon)               |    Auth Frontend   |
+| [rock](./packages/mint/src/libs/rock) |     API Client     |
 
 ---
 
@@ -33,11 +32,10 @@
 | [main](main)       | production version |
 | [develop](develop) |   Staging branch   |
 
-
 ### db diagram
 
 <p align="center">
-  <a href="./docs/Architecture/db.pdf">
-    <img src='./docs/Architecture/db.png' alt="DB Diagram" width="100%" />
+  <a href="./docs/architecture/db.pdf">
+    <img src='./docs/architecture/db.png' alt="DB Diagram" width="100%" />
   </a>
 </p>

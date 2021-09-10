@@ -1,68 +1,65 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common'
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import { CartItemRO } from "./interfaces";
-import {
-  CheckoutDto,
-  CreateOfferDto,
-  DeleteOfferDto,
-  UpdateCartItemDto,
-  UpdateOfferDto,
-} from "./dto";
-import { TransactionService } from "src/transaction/transaction.service";
-import { CartItem, Order, Product } from ".prisma/client";
-import { errorCodes } from "src/common/codes/error";
-import { Offer } from "./entity";
-
+  CustomError,
+  errorCodes,
+} from '@app/core'
+import { DbService } from '@app/db'
+import { CacheService } from '@app/cache'
+import { prismaOffsetPagination } from '@app/utils'
+import { CartItemRO } from './interfaces'
+import { CheckoutDTO, UpdateCartItemDTO } from './dto'
+import { TransactionService } from 'src/cart/transaction/transaction.service'
+import { Order } from '.prisma/client'
+import { UserService } from '@app/user'
+import { Offer } from 'src/master/offer/entity'
 
 function calculateBilling(
   cartItemsWithProduct: {
-    quantity: number;
+    quantity: number
     product: {
-      price: number;
-      tax: number;
-      mrp: number;
-      taxCode?: string;
-    };
+      price: number
+      tax: number
+      mrp: number
+      taxCode?: string
+    }
   }[],
   offer: Offer | null
 ) {
-  let subTotal = 0;
-  let tax = 0;
-  let shipping = 0;
+  let subTotal = 0
+  let tax = 0
+  const shipping = 0
   cartItemsWithProduct.forEach((item) => {
-    let itemPrice = item.quantity * item.product.price;
-    subTotal += itemPrice;
-    tax += (Number(itemPrice) * Number(item.product.tax || 18.5)) / 100;
-  });
-  let total = subTotal + tax + shipping;
-  let itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0;
-  let grandTotal = (total - itemDiscount) | 0; // convert to int
+    const itemPrice = item.quantity * item.product.price
+    subTotal += itemPrice
+    tax += Math.ceil(+itemPrice * (+item.product.tax || 0.185))
+  })
+  const total = subTotal + tax + shipping
+  const itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0
+  const grandTotal = (total - itemDiscount) | 0 // convert to int
 
   return {
     subTotal,
-    tax,
+    tax: tax,
     shipping,
     itemDiscount,
     total,
     promo: offer ? offer.label : null,
-    discount: (total - grandTotal) / total * 100,
+    discount: (((total - grandTotal) / total) * 100) | 0,
     grandTotal,
-  };
+  }
 }
+
 @Injectable()
 export class CartService {
   constructor(
-    private readonly db: PrismaService,
+    private readonly db: DbService,
     private readonly cache: CacheService,
-    private readonly txn: TransactionService
+    private readonly txn: TransactionService,
+    private readonly user: UserService
   ) {}
+
   async getAllCarts(
     options: CursorPagination
   ): Promise<CursorPaginationResultInterface<CartItemRO>> {
@@ -71,9 +68,9 @@ export class CartService {
         cursor,
         size = 10,
         buttonNum = 10,
-        orderBy = "createdAt",
-        orderDirection = "desc",
-      } = options;
+        orderBy = 'createdAt',
+        orderDirection = 'desc',
+      } = options
       const result = await prismaOffsetPagination({
         cursor,
         size: Number(size),
@@ -83,16 +80,16 @@ export class CartService {
         include: {
           items: true,
         },
-        model: "cart",
+        model: 'cart',
         prisma: this.db,
-      });
-      return result;
+      })
+      return result
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "CartService.getAllCarts"
-      );
+        'CartService.getAllCarts'
+      )
     }
   }
 
@@ -110,33 +107,40 @@ export class CartService {
                   images: {
                     select: {
                       url: true,
-                    }
+                    },
                   },
                 },
               },
             },
           },
         },
-      });
+      })
       if (!cart) {
         throw new CustomError(
-          "Cart not found",
+          'Cart not found',
           errorCodes.CartNotFound,
-          "UserService.getAllCarts"
-        );
+          'CartService.getAllCarts'
+        )
       }
-      const offer = promo ? await this.db.offer.findFirst({where: {AND: {label: promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
-      const billing = calculateBilling(cart.items, offer);
+      const offer = promo
+        ? await this.db.offer.findFirst({
+            where: {
+              AND: { label: promo, active: true, type: 'promo' },
+            },
+            rejectOnNotFound: false,
+          })
+        : null
+      const billing = calculateBilling(cart.items, offer)
       return {
         ...cart,
         ...billing,
-      };
+      }
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "CartService.getAllCarts"
-      );
+        'CartService.getAllCarts'
+      )
     }
   }
 
@@ -149,21 +153,21 @@ export class CartService {
             productId,
           },
         },
-      });
-      return cart;
+      })
+      return cart
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "UserService.getCartItem"
-      );
+        'CartService.getCartItem'
+      )
     }
   }
 
   async updateCart(
     cartId: string,
     productId: string,
-    update: UpdateCartItemDto
+    update: UpdateCartItemDTO
   ): Promise<any> {
     try {
       const data = this.db.cart.update({
@@ -196,14 +200,14 @@ export class CartService {
             },
           },
         },
-      });
-      return data;
+      })
+      return data
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "UserService.addCartItem"
-      );
+        'CartService.addCartItem'
+      )
     }
   }
 
@@ -222,26 +226,37 @@ export class CartService {
             },
           },
         },
-      });
-      return data;
+      })
+      return data
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "UserService.removeCartItem"
-      );
+        'CartService.removeCartItem'
+      )
     }
   }
 
   async checkoutCart(
     userId: string,
-    checkout: CheckoutDto
+    checkout: CheckoutDTO
   ): Promise<
     Order & {
-      razorpayOptions: Record<string, any>;
+      razorpayOptions: Record<string, any>
     }
   > {
     try {
+      // check if email is verified
+      const requestUser = await this.user.find(userId)
+
+      if (!requestUser.emailVerified) {
+        throw new CustomError(
+          'Email not verified, Verify email before checking out.',
+          errorCodes.EMailNotVerified,
+          'CartService.checkoutCart'
+        )
+      }
+
       // @TODO: OPTIMIZE THIS ... too slow :(
       const userCart = await this.db.cart.findFirst({
         where: {
@@ -257,26 +272,37 @@ export class CartService {
             },
           },
         },
-      });
+      })
 
       if (!userCart) {
         throw new CustomError(
-          "Cart not found",
+          'Cart not found',
           errorCodes.CartNotFound,
-          "UserService.removeCartItem"
-        );
+          'CartService.removeCartItem'
+        )
       }
 
       if (userCart.items.length === 0) {
         throw new CustomError(
-          "Cart is empty",
+          'Cart is empty',
           errorCodes.CartIsEmpty,
-          "UserService.removeCartItem"
-        );
+          'CartService.removeCartItem'
+        )
       }
 
-      const offer = checkout.promo ? await this.db.offer.findFirst({where: {AND: {label: checkout.promo, active: true, type: "promo"}}, rejectOnNotFound: false}) : null;
-      const billing = calculateBilling(userCart.items, offer);
+      const offer = checkout.promo
+        ? await this.db.offer.findFirst({
+            where: {
+              AND: {
+                label: checkout.promo,
+                active: true,
+                type: 'promo',
+              },
+            },
+            rejectOnNotFound: false,
+          })
+        : null
+      const billing = calculateBilling(userCart.items, offer)
 
       const user = await this.db.user.update({
         where: { id: userId },
@@ -296,95 +322,19 @@ export class CartService {
             },
             take: 1,
             orderBy: {
-              createdAt: "desc",
+              createdAt: 'desc',
             },
           },
         },
-      });
+      })
 
-      return this.txn.createTransaction(user);
+      return this.txn.createTransaction(user)
     } catch (error) {
       throw new CustomError(
         error?.meta?.cause || error.message,
         error.code,
-        "UserService.removeCartItem"
-      );
-    }
-  }
-
-  async getOffers(label: string, type: string): Promise<any> {
-    try {
-      const offers = await this.db.offer.findFirst({
-        rejectOnNotFound: true,
-        where: {
-          label: label,
-        },
-      });
-      return offers;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "UserService.getOffers"
-      );
-    }
-  }
-
-  async createOffers(data: CreateOfferDto[]): Promise<any> {
-    try {
-      const offers = await this.db.offer.createMany({
-        data: data,
-      });
-      return offers;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "ProductService.findAllOffset"
-      );
-    }
-  }
-
-  async updateOffers(data: UpdateOfferDto[]): Promise<any> {
-    try {
-      // TODO: find beter way??
-      const update = await Promise.all(
-        data.map((offer) => {
-          return this.db.offer.update({
-            where: { label: offer.label },
-            data: {
-              value: offer.value,
-            },
-          });
-        })
-      );
-      return update;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "ProductService.updateCategories"
-      );
-    }
-  }
-
-  async deleteOffers(data: DeleteOfferDto[]): Promise<any> {
-    try {
-      const deleted = await this.db.offer.updateMany({
-        where: {
-          label: { in: data.map((item) => item.label) },
-        },
-        data: {
-          active: false,
-        },
-      });
-      return deleted;
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        "ProductService.deleteTags"
-      );
+        'CartService.removeCartItem'
+      )
     }
   }
 }

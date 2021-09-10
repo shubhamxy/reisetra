@@ -1,22 +1,14 @@
-import { makeStyles, Paper } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { MainLayout } from "../../layouts/MainLayout";
-import { Orders } from "../../modules/Orders";
-import { AppHeader } from "../../ui";
-const useStyles = makeStyles((theme) => ({
-  paper: {
-  },
-}));
+import React from 'react'
+import { MainLayout } from '../../layouts'
+import { Orders } from '../../modules'
+import { AppHeader, Footer } from '../../ui'
 
 const OrdersPage = () => {
-  const classes = useStyles();
-  return (
-    <MainLayout
-      header={<AppHeader />}
-    >
-      <Orders />
-    </MainLayout>
-  );
-};
+    return (
+        <MainLayout header={<AppHeader />} footer={<Footer />}>
+            <Orders />
+        </MainLayout>
+    )
+}
 
-export default OrdersPage;
+export default OrdersPage

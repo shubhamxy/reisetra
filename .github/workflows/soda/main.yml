@@ -2,26 +2,47 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [14.17.0]
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
+
+      - name: Cache packages
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: yarn install
-      - run: yarn ci
-      - run: yarn run build --if-present
-      - run: yarn test
+      - name: Run NPM Install.
+        run: yarn workspace @reisetra/soda install --frozen-lockfile
+
+      - name: Generate schema.
+        run:  yarn workspace @reisetra/soda generate
+
+      - name: Build Project.
+        run: yarn run build:soda
+
+      - name: Run Tests.
+        run: yarn run test:soda
+
+      - name: Deploy Project.
+        run: yarn run ci:soda
