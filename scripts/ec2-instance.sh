@@ -1,5 +1,10 @@
 #!/bin/bash
 
+## reboot instance in case it hangs up.
+# aws ec2 reboot-instances --instance-ids i-04662dff48251f895
+## update cloudflare with public dns of ec2 instance.
+# cfcli edit api.reisetra.com (aws ec2 describe-instances --instance-ids i-04662dff48251f895 | jq -r "[[.Reservations[].Instances[]]][0][0] | .PublicDnsName")
+
 echo "# Install nvm"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
