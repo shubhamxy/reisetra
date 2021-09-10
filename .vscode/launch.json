@@ -1,19 +1,77 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "Attach by Process ID",
-            "processId": "${command:PickProcess}",
-            "request": "attach",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node"
+            "name": "mint:server",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:mint"
         },
         {
+            "name": "mint:client",
             "type": "pwa-chrome",
-            "name": "ws://127.0.0.1:9229/d1db551a-0009-4b23-9b5f-61df30a9ca33",
             "request": "launch",
-            "url": "ws://127.0.0.1:9229/d1db551a-0009-4b23-9b5f-61df30a9ca33"
-        }
+            "url": "http://localhost:3000"
+        },
+        {
+            "name": "mint:debug",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:mint",
+            "console": "integratedTerminal",
+            "serverReadyAction": {
+                "pattern": "started server on .+, url: (https?://.+)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome"
+            }
+        },
+        {
+            "name": "maze:server",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:maze"
+        },
+        {
+            "name": "maze:client",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "http://localhost:4000"
+        },
+        {
+            "name": "maze:debug",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:maze",
+            "console": "integratedTerminal",
+            "serverReadyAction": {
+                "pattern": "started server on .+, url: (https?://.+)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome"
+            }
+        },
+        {
+            "name": "moon:server",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:moon"
+        },
+        {
+            "name": "moon:client",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "http://localhost:5000"
+        },
+        {
+            "name": "moon:debug",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:moon",
+            "console": "integratedTerminal",
+            "serverReadyAction": {
+                "pattern": "started server on .+, url: (https?://.+)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome"
+            }
+        },
     ]
 }
