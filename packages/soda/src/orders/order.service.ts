@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import type { Prisma } from '.prisma/client'
 import { Product } from '.prisma/client'
 import { Injectable } from '@nestjs/common'
 import { errorCodes } from 'src/core/codes/error'
@@ -10,16 +11,19 @@ import { CustomError } from 'src/core/response'
 import { PrismaService } from 'src/core/modules/db/prisma.service'
 import { CacheService } from 'src/core/modules/cache/cache.service'
 import { prismaOffsetPagination } from 'src/utils/prisma'
-import { OrderDTO, GetAllOrdersDocumentsDTO } from './dto'
-import { sendEmail, transactionEmail } from 'src/utils'
-import type { Prisma } from '.prisma/client'
+import { GetAllOrdersDocumentsDTO, OrderDTO } from './dto'
+import { transactionEmail } from 'src/utils'
 import { File } from 'src/masters/files/entity'
+import { AuthService } from 'src/auth/auth.service'
+import { AWSService } from '../core/modules/aws/aws.service'
 
 @Injectable()
 export class OrderService {
     constructor(
         private readonly db: PrismaService,
-        private readonly cache: CacheService
+        private readonly cache: CacheService,
+        private readonly auth: AuthService,
+        private readonly aws: AWSService
     ) {}
 
     async getAllOrders(
@@ -33,7 +37,7 @@ export class OrderService {
                 orderBy = 'createdAt',
                 orderDirection = 'desc',
             } = options
-            const result = await prismaOffsetPagination({
+            return await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
@@ -65,7 +69,6 @@ export class OrderService {
                 },
                 prisma: this.db,
             })
-            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
@@ -87,7 +90,7 @@ export class OrderService {
                 orderBy = 'createdAt',
                 orderDirection = 'desc',
             } = options
-            const result = await prismaOffsetPagination({
+            return await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
@@ -120,7 +123,6 @@ export class OrderService {
                 },
                 prisma: this.db,
             })
-            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
@@ -220,7 +222,7 @@ export class OrderService {
                 orderBy = 'createdAt',
                 orderDirection = 'desc',
             } = options
-            const result = await prismaOffsetPagination({
+            return await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
@@ -234,7 +236,6 @@ export class OrderService {
                 },
                 prisma: this.db,
             })
-            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
@@ -246,7 +247,7 @@ export class OrderService {
 
     async createOrder(userId: string, data: OrderDTO): Promise<any> {
         try {
-            const product = await this.db.order.create({
+            return await this.db.order.create({
                 data: {
                     ...data,
                     userId: userId,
@@ -256,7 +257,6 @@ export class OrderService {
                     user: true,
                 },
             })
-            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
@@ -356,45 +356,55 @@ export class OrderService {
                     },
                 },
             })
+            const unsubscribeToken = await this.auth.createUnsubscribeToken(
+                data.user.email
+            )
 
             try {
                 if (sendUpdate) {
-                    const response = await sendEmail(
-                        transactionEmail({
-                            id: data.user.id,
-                            subject:
-                                title ||
-                                `Your Reisetra.com order #${
+                    const response = await this.aws.sendEmail(
+                        transactionEmail(
+                            {
+                                id: data.user.id,
+                                subject:
+                                    title ||
+                                    `Your Reisetra.com order #${
+                                        data.id
+                                    } ${data.status.toLowerCase()} for ${
+                                        data.cart.items.length
+                                    } item${
+                                        data.cart.items.length > 1 ? 's' : ''
+                                    }`,
+                                description:
+                                    description ||
+                                    `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
+                                orderId: data.id,
+                                address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
+                                email: data.address.email,
+                                phone: data.address.phone,
+                                status: `Your Reisetra.com order #${
                                     data.id
                                 } ${data.status.toLowerCase()} for ${
                                     data.cart.items.length
-                                } item${data.cart.items.length > 1 ? 's' : ''}`,
-                            description:
-                                description ||
-                                `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
-                            orderId: data.id,
-                            address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
-                            email: data.address.email,
-                            phone: data.address.phone,
-                            status: `Your Reisetra.com order #${
-                                data.id
-                            } ${data.status.toLowerCase()} for ${
-                                data.cart.items.length
-                            } item${data.cart.items.length > 1 ? 's' : ''}.`,
-                            transaction: {
-                                id: data.id,
-                                grandTotal: data.grandTotal,
-                                shipping: data.shipping,
-                                subTotal: data.subTotal,
-                                taxes: data.tax,
+                                } item${
+                                    data.cart.items.length > 1 ? 's' : ''
+                                }.`,
+                                transaction: {
+                                    id: data.id,
+                                    grandTotal: data.grandTotal,
+                                    shipping: data.shipping,
+                                    subTotal: data.subTotal,
+                                    taxes: data.tax,
+                                },
+                                orderItems: data.cart.items.map((item) => ({
+                                    sku: item.product.inventory.sku,
+                                    title: item.product.title,
+                                    options: item.size + ' - ' + item.color,
+                                    qty: item.quantity,
+                                })),
                             },
-                            orderItems: data.cart.items.map((item) => ({
-                                sku: item.product.inventory.sku,
-                                title: item.product.title,
-                                options: item.size + ' - ' + item.color,
-                                qty: item.quantity,
-                            })),
-                        })
+                            unsubscribeToken
+                        )
                     )
                 }
             } catch (error) {
@@ -465,38 +475,45 @@ export class OrderService {
                 },
             })
             try {
-                const response = await sendEmail(
-                    transactionEmail({
-                        id: data.user.id,
-                        subject: `Your Reisetra.com order #${
-                            data.id
-                        } ${data.status.toLowerCase()} for ${
-                            data.cart.items.length
-                        } item${data.cart.items.length > 1 ? 's' : ''}`,
-                        description: `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. we will initiate refund in 1-2 business days. please visit your orders on reisetra.com to check status.`,
-                        orderId: data.id,
-                        address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
-                        email: data.address.email,
-                        phone: data.address.phone,
-                        status: `Your Reisetra.com order #${
-                            data.id
-                        } ${data.status.toLowerCase()} for ${
-                            data.cart.items.length
-                        } item${data.cart.items.length > 1 ? 's' : ''}.`,
-                        transaction: {
-                            id: data.id,
-                            grandTotal: data.grandTotal,
-                            shipping: data.shipping,
-                            subTotal: data.subTotal,
-                            taxes: data.tax,
+                const unsubscribeToken = await this.auth.createUnsubscribeToken(
+                    data.user.email
+                )
+
+                const response = await this.aws.sendEmail(
+                    transactionEmail(
+                        {
+                            id: data.user.id,
+                            subject: `Your Reisetra.com order #${
+                                data.id
+                            } ${data.status.toLowerCase()} for ${
+                                data.cart.items.length
+                            } item${data.cart.items.length > 1 ? 's' : ''}`,
+                            description: `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. we will initiate refund in 1-2 business days. please visit your orders on reisetra.com to check status.`,
+                            orderId: data.id,
+                            address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
+                            email: data.address.email,
+                            phone: data.address.phone,
+                            status: `Your Reisetra.com order #${
+                                data.id
+                            } ${data.status.toLowerCase()} for ${
+                                data.cart.items.length
+                            } item${data.cart.items.length > 1 ? 's' : ''}.`,
+                            transaction: {
+                                id: data.id,
+                                grandTotal: data.grandTotal,
+                                shipping: data.shipping,
+                                subTotal: data.subTotal,
+                                taxes: data.tax,
+                            },
+                            orderItems: data.cart.items.map((item) => ({
+                                sku: item.product.inventory.sku,
+                                title: item.product.title,
+                                options: item.size + ' - ' + item.color,
+                                qty: item.quantity,
+                            })),
                         },
-                        orderItems: data.cart.items.map((item) => ({
-                            sku: item.product.inventory.sku,
-                            title: item.product.title,
-                            options: item.size + ' - ' + item.color,
-                            qty: item.quantity,
-                        })),
-                    })
+                        unsubscribeToken
+                    )
                 )
             } catch (error) {
                 console.log(error)

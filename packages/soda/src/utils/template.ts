@@ -1,7 +1,8 @@
 import { readFileSync } from 'fs'
 import handlebars from 'handlebars'
 import { createParams, IParams } from './aws'
-import { services, app } from 'src/core/config'
+import { app, services } from 'src/core/config'
+
 const awsConfig = services().aws
 const config = app()
 
@@ -99,7 +100,11 @@ const transactionOptions = (
         text: `${locals.mainParagraph}`,
     }
 }
-export function passwordResetEmail(user: { email: string; token: string }) {
+
+export function passwordResetEmail(
+    user: { email: string; token: string },
+    unsubscribeToken: string
+) {
     const config = app()
     const passwordResetLink = `${config.authUrl}/reset-password?email=${user.email}&token=${user.token}`
     return createParams(
@@ -114,16 +119,20 @@ export function passwordResetEmail(user: { email: string; token: string }) {
             mainParagraph: `To complete the password reset process, click on the button below.`,
             mainCallToActionUrl: passwordResetLink,
             mainCallToActionText: 'Reset Password',
+            unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${user.email}&token=${unsubscribeToken}`,
             ...socials,
         })
     )
 }
 
-export function emailVerificationEmail(user: {
-    email: string
-    token: string
-    id: string
-}) {
+export function emailVerificationEmail(
+    user: {
+        email: string
+        token: string
+        id: string
+    },
+    unsubscribeToken: string
+) {
     const emailVerifyLink = `${config.authUrl}/verify?id=${user.id}&token=${user.token}`
     return createParams(
         commonOptions(user.email, {
@@ -137,17 +146,21 @@ export function emailVerificationEmail(user: {
             mainCallToActionUrl: emailVerifyLink,
             mainCallToActionText: 'Verify Email',
             footerText: 'This message was ment for ' + user.email + '.',
+            unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${user.email}&token=${unsubscribeToken}`,
             ...socials,
         })
     )
 }
 
-export function supportEmailAck(data: {
-    id: string
-    email: string
-    ticketId: string
-    subject: string
-}) {
+export function supportEmailAck(
+    data: {
+        id: string
+        email: string
+        ticketId: string
+        subject: string
+    },
+    unsubscribeToken: string
+) {
     const config = app()
     const supportLink = `${config.clientUrl}/support?ticketId=${data.ticketId}`
     return createParams(
@@ -163,18 +176,22 @@ export function supportEmailAck(data: {
             mainCallToActionUrl: supportLink,
             mainCallToActionText: 'Support',
             footerText: 'This message was ment for ' + data.email + '.',
+            unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${data.email}&token=${unsubscribeToken}`,
         })
     )
 }
 
-export function supportEmail(data: {
-    id: string
-    email: string
-    ticketId: string
-    description: string
-    orderId: string
-    subject: string
-}) {
+export function supportEmail(
+    data: {
+        id: string
+        email: string
+        ticketId: string
+        description: string
+        orderId: string
+        subject: string
+    },
+    unsubscribeToken: string
+) {
     const config = app()
     const supportLink = `${config.clientUrl}/support?ticketId=${data.ticketId}`
     return createParams(
@@ -190,33 +207,37 @@ export function supportEmail(data: {
             mainCallToActionUrl: supportLink,
             mainCallToActionText: 'Support',
             footerText: 'This message was ment for ' + data.email + '.',
+            unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${data.email}&token=${unsubscribeToken}`,
         })
     )
 }
 
-export function transactionEmail(data: {
-    id: string
-    email: string
-    subject: string
-    description: string
-    orderId: string
-    orderItems: {
-        sku: string
-        title: string
-        options: string
-        qty: string | number
-    }[]
-    address: string
-    phone: string
-    status: string
-    transaction: {
+export function transactionEmail(
+    data: {
         id: string
-        subTotal: string | number
-        taxes: string | number
-        shipping: string | number
-        grandTotal: string | number
-    }
-}) {
+        email: string
+        subject: string
+        description: string
+        orderId: string
+        orderItems: {
+            sku: string
+            title: string
+            options: string
+            qty: string | number
+        }[]
+        address: string
+        phone: string
+        status: string
+        transaction: {
+            id: string
+            subTotal: string | number
+            taxes: string | number
+            shipping: string | number
+            grandTotal: string | number
+        }
+    },
+    unsubscribeToken: string
+) {
     const config = app()
     const orderLink = `${config.clientUrl}/orders?id=${data.orderId}`
     return createParams(
@@ -238,6 +259,7 @@ export function transactionEmail(data: {
             address: data.address,
             email: data.email,
             phone: data.phone,
+            unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${data.email}&token=${unsubscribeToken}`,
         })
     )
 }

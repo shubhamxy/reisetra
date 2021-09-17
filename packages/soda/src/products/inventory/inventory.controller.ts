@@ -17,7 +17,7 @@ import {
     UpdateInventoryDTO,
 } from './dto'
 import { errorCodes } from 'src/core/codes/error'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.inventories)

@@ -1,4 +1,4 @@
-import { PageCursorsType, createPageCursors } from './pageCursor'
+import { createPageCursors, PageCursorsType } from './pageCursor'
 
 export interface PaginationType {
     results: any[]
@@ -6,6 +6,7 @@ export interface PaginationType {
     totalCount: number
     page: number
 }
+
 interface Props {
     id?: string
     model: string

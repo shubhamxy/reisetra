@@ -1,14 +1,8 @@
 import { S3 } from 'aws-sdk'
 import { nanoid } from 'nanoid'
-import { services } from 'src/core/config'
 import { File } from 'src/masters/files/entity'
 
-const awsConfig = services().aws
 const URL_EXPIRATION_SECONDS = 300
-
-const s3 = new S3({
-    region: awsConfig.s3Region,
-})
 
 export interface UploadUrlParams {
     userId: string
@@ -28,12 +22,11 @@ export type UploadUrlResponse = Partial<File> & {
 
 const RE = /(?:\.([^.]+))?$/
 
-export const getUploadURL = async function ({
-    userId,
-    fileType,
-    fileName,
-    contentType,
-}: UploadUrlParams): Promise<UploadUrlResponse> {
+export const getUploadURL = async function (
+    s3: S3,
+    awsConfig,
+    { userId, fileType, fileName, contentType }: UploadUrlParams
+): Promise<UploadUrlResponse> {
     const ext = RE.exec(fileName)[1] || ''
     const key = `${userId}/${fileType}/${nanoid()}${ext ? `.${ext}` : ''}`
     const s3Params = {
@@ -56,6 +49,8 @@ export const getUploadURL = async function ({
 }
 
 export const deleteObject = async function (
+    s3: S3,
+    awsConfig,
     key: string
 ): Promise<{ key: string }> {
     const s3Params = {

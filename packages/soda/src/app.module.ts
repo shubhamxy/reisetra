@@ -25,6 +25,7 @@ import { BrandModule } from './masters/brand/brand.module'
 import { CategoryModule } from './masters/category/category.module'
 import { OfferModule } from './masters/offer/offer.module'
 import { FormModule } from './masters/forms/form.module'
+import { CONFIG } from './core/config/type'
 
 @Module({
     imports: [
@@ -32,17 +33,13 @@ import { FormModule } from './masters/forms/form.module'
         LoggerModule.forRootAsync({
             imports: [],
             inject: [],
-            useFactory: () => {
-                return pinoConfig
-            },
+            useFactory: () => pinoConfig,
         }),
         ThrottlerModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: (configService: ConfigService) => {
-                const config = configService.get<SettingsEnv>('settings')
-                return config.throttle
-            },
+            useFactory: (configService: ConfigService) =>
+                configService.get<SettingsEnv>(CONFIG.settings).throttle,
         }),
         CacheModule,
         HealthCheckModule,

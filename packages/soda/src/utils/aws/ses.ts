@@ -1,14 +1,4 @@
 import { SES } from 'aws-sdk'
-import { services } from 'src/core/config'
-
-const config = services()
-
-const ses = new SES({
-    region: config.aws.sesRegion,
-    endpoint: config.aws.sesEndpoint,
-    accessKeyId: config.aws.accessKeyId,
-    secretAccessKey: config.aws.secretAccessKey,
-})
 
 export interface IParams {
     subject: string
@@ -61,7 +51,11 @@ export interface IData {
     MessageId: string
 }
 
-export function sendEmail(params: SES.SendEmailRequest): Promise<IData> {
+export function sendEmail(
+    ses: SES,
+    awsConfig,
+    params: SES.SendEmailRequest
+): Promise<IData> {
     return new Promise((resolve, reject) => {
         ses.sendEmail(params, function (error, data) {
             if (error) {

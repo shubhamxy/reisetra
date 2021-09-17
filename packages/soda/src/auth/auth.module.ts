@@ -11,6 +11,9 @@ import { CacheModule } from '../core/modules/cache/cache.module'
 import { AuthEnv } from '../core/config'
 import { GoogleStrategy } from './strategy/google.strategy'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { AWSModule } from '../core/modules/aws/aws.module'
+import { CONFIG } from '../core/config/type'
+
 @Module({
     imports: [
         UserModule,
@@ -20,7 +23,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
             imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: async (configService: ConfigService) => {
-                const config = configService.get<AuthEnv>('auth')
+                const config = configService.get<AuthEnv>(CONFIG.auth)
                 return {
                     secret: config.jwtAccessTokenOptions.secret,
                     signOptions: {
@@ -31,6 +34,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
                 }
             },
         }),
+        AWSModule,
     ],
     controllers: [AuthController],
     providers: [

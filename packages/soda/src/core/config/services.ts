@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config'
+import { CONFIG } from './type'
 
 export interface ServicesEnv {
     razorpay: {
@@ -20,6 +21,13 @@ export interface ServicesEnv {
         sesEndpoint: string
         sesEmailSender: string
         sesRegion: string
+        snsTopicArnBounce: string
+        snsTopicArnBounceEndpoint: string
+        snsTopicArnComplaint: string
+        snsTopicArnComplaintEndpoint: string
+        snsTopicArnDelivery: string
+        snsTopicArnDeliveryEndpoint: string
+        snsRegion: string
     }
     logzio: {
         enable: boolean
@@ -50,6 +58,17 @@ export const services = (): ServicesEnv => ({
         sesEndpoint: process.env.AWS_SES_ENDPOINT,
         sesEmailSender: process.env.AWS_SES_DEFAULT_EMAIL_SENDER,
         sesRegion: process.env.AWS_SES_REGION,
+        // SNS
+        snsRegion: process.env.AWS_SNS_REGION,
+        snsTopicArnBounce: process.env.AWS_SNS_TOPIC_ARN_BOUNCES,
+        snsTopicArnBounceEndpoint:
+            process.env.AWS_SNS_TOPIC_ARN_BOUNCES_ENDPOINT,
+        snsTopicArnComplaint: process.env.AWS_SNS_Topic_ARN_COMPLAINTS,
+        snsTopicArnComplaintEndpoint:
+            process.env.AWS_SNS_Topic_ARN_COMPLAINTS_ENDPOINT,
+        snsTopicArnDelivery: process.env.AWS_SNS_Topic_ARN_DELIVERIES,
+        snsTopicArnDeliveryEndpoint:
+            process.env.AWS_SNS_Topic_ARN_DELIVERIES_ENDPOINT,
     },
     logzio: {
         enable: Boolean(process.env.LOGZIO_TOKEN),
@@ -58,4 +77,4 @@ export const services = (): ServicesEnv => ({
     },
 })
 
-export default registerAs('services', services)
+export default registerAs(CONFIG.services, services)

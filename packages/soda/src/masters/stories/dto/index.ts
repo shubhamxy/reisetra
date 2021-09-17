@@ -5,6 +5,7 @@ import { Story } from '../entity'
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId'
 
 export class GetAllStoriesDTO extends CursorPaginationDTO {}
+
 export class GetStoriesDTO extends CursorPaginationDTO {}
 
 export class CreateStoryDTO implements Omit<Story, Excluded> {

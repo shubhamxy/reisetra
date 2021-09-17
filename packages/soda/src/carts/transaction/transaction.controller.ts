@@ -18,8 +18,9 @@ import {
     UpdateTransactionDTO,
 } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
+
 @Controller(ROUTES.transactions)
 export class TransactionController {
     constructor(private readonly txn: TransactionService) {}

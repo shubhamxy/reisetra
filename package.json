@@ -47,8 +47,10 @@
     "start": "yarn workspaces run start",
     "stop": "yarn workspaces run stop",
     "dev": "yarn workspaces run dev ",
-    "deploy:soda": "./scripts/deploy.sh",
+    "deploy:soda": "yarn run build:soda; ./scripts/deploy.sh",
+    "test:soda": "yarn workspace @reisetra/soda test; yarn workspace @reisetra/soda test:e2e",
     "build:soda": "yarn workspace @reisetra/soda build",
+    "ci:soda": "./scripts/ci.sh",
     "start:soda": "yarn workspace @reisetra/soda start",
     "stop:soda": "yarn workspace @reisetra/soda stop",
     "dev:soda": "yarn workspace @reisetra/soda dev",
@@ -62,5 +64,8 @@
     "build:moon": "yarn workspace @reisetra/moon build",
     "start:moon": "yarn workspace @reisetra/moon start",
     "dev:moon": "yarn workspace @reisetra/moon dev"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1145.0"
   }
 }

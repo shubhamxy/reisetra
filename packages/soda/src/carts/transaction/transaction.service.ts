@@ -20,7 +20,9 @@ import { nanoid } from 'nanoid'
 import { Order } from 'src/orders/entity'
 import { Address } from 'src/masters/address/entity'
 import { User } from 'src/users/entity'
-import { sendEmail, transactionEmail } from 'src/utils'
+import { transactionEmail } from 'src/utils'
+import { AuthService } from 'src/auth/auth.service'
+import { AWSService } from '../../core/modules/aws/aws.service'
 
 interface RazororpayOrderResponse {
     id: string
@@ -36,13 +38,16 @@ interface RazororpayOrderResponse {
     notes: any
     created_at: number
 }
+
 @Injectable()
 export class TransactionService {
     constructor(
         private readonly db: PrismaService,
         private readonly cache: CacheService,
-        private httpService: HttpService,
-        private config: ConfigService
+        private readonly httpService: HttpService,
+        private readonly config: ConfigService,
+        private readonly auth: AuthService,
+        private readonly aws: AWSService
     ) {}
 
     async allTransactions(
@@ -480,48 +485,53 @@ export class TransactionService {
                     },
                 })
                 try {
-                    const response = await sendEmail(
-                        transactionEmail({
-                            id: updatedData.user.id,
-                            subject: `Your Reisetra.com order #${
-                                updatedData.order.id
-                            } received for ${
-                                updatedData.order.cart.items.length
-                            } item${
-                                updatedData.order.cart.items.length > 1
-                                    ? 's'
-                                    : ''
-                            }`,
-                            description: `Thank you for shopping with us. We'd like to let you know that we have received your order, and is preparing it for shipment. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
-                            orderId: updatedData.order.id,
-                            address: `${updatedData.order.address.address}, ${updatedData.order.address.region}, ${updatedData.order.address.nearby},  ${updatedData.order.address.city}, ${updatedData.order.address.state},   ${updatedData.order.address.country}, ${updatedData.order.address.zipcode}`,
-                            email: updatedData.order.address.email,
-                            phone: updatedData.order.address.phone,
-                            status: `Your Reisetra.com order #${
-                                updatedData.order.id
-                            } received for ${
-                                updatedData.order.cart.items.length
-                            } item${
-                                updatedData.order.cart.items.length > 1
-                                    ? 's'
-                                    : ''
-                            }.`,
-                            transaction: {
-                                id: updatedData.id,
-                                grandTotal: updatedData.order.grandTotal,
-                                shipping: updatedData.order.shipping,
-                                subTotal: updatedData.order.subTotal,
-                                taxes: updatedData.order.tax,
+                    const response = await this.aws.sendEmail(
+                        transactionEmail(
+                            {
+                                id: updatedData.user.id,
+                                subject: `Your Reisetra.com order #${
+                                    updatedData.order.id
+                                } received for ${
+                                    updatedData.order.cart.items.length
+                                } item${
+                                    updatedData.order.cart.items.length > 1
+                                        ? 's'
+                                        : ''
+                                }`,
+                                description: `Thank you for shopping with us. We'd like to let you know that we have received your order, and is preparing it for shipment. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
+                                orderId: updatedData.order.id,
+                                address: `${updatedData.order.address.address}, ${updatedData.order.address.region}, ${updatedData.order.address.nearby},  ${updatedData.order.address.city}, ${updatedData.order.address.state},   ${updatedData.order.address.country}, ${updatedData.order.address.zipcode}`,
+                                email: updatedData.order.address.email,
+                                phone: updatedData.order.address.phone,
+                                status: `Your Reisetra.com order #${
+                                    updatedData.order.id
+                                } received for ${
+                                    updatedData.order.cart.items.length
+                                } item${
+                                    updatedData.order.cart.items.length > 1
+                                        ? 's'
+                                        : ''
+                                }.`,
+                                transaction: {
+                                    id: updatedData.id,
+                                    grandTotal: updatedData.order.grandTotal,
+                                    shipping: updatedData.order.shipping,
+                                    subTotal: updatedData.order.subTotal,
+                                    taxes: updatedData.order.tax,
+                                },
+                                orderItems: updatedData.order.cart.items.map(
+                                    (item) => ({
+                                        sku: item.product.inventory.sku,
+                                        title: item.product.title,
+                                        options: item.size + ' - ' + item.color,
+                                        qty: item.quantity,
+                                    })
+                                ),
                             },
-                            orderItems: updatedData.order.cart.items.map(
-                                (item) => ({
-                                    sku: item.product.inventory.sku,
-                                    title: item.product.title,
-                                    options: item.size + ' - ' + item.color,
-                                    qty: item.quantity,
-                                })
-                            ),
-                        })
+                            await this.auth.createUnsubscribeToken(
+                                updatedData.user.email
+                            )
+                        )
                     )
                 } catch (error) {
                     console.log(error)

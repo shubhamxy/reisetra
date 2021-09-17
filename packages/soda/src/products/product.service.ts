@@ -8,8 +8,8 @@ import { prismaOffsetPagination } from 'src/utils/prisma'
 import urlSlug from 'url-slug'
 import {
     CreateProductDTO,
-    ProductSort,
     GetAllProductsDTO,
+    ProductSort,
     UpdateProductDTO,
 } from './dto'
 import { OrderDirection } from '../core/dto'

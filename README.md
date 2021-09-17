@@ -17,12 +17,13 @@
 
 ## Features
 
-| Codebase                              |   Description    |
-| :------------------------------------ | :--------------: |
-| [soda](./packages/soda)               |    NodeJS API    |
-| [mint](./packages/mint)               | Next.js frontend |
-| [maze](./packages/maze)               |   Next.js cms    |
-| [rock](./packages/mint/src/libs/rock) |    API Client    |
+| Codebase                              |    Description     |
+|:--------------------------------------|:------------------:|
+| [soda](./packages/soda)               |     API Server     |
+| [mint](./packages/mint)               |   Main Frontend    |
+| [maze](./packages/maze)               |    cms Frontend    |
+| [moon](./packages/moon)               | Auth Microfrontend |
+| [rock](./packages/mint/src/libs/rock) |     API Client     |
 
 ---
 

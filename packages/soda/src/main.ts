@@ -1,4 +1,4 @@
-import { setupNestApp, nestOptions } from './core/setupNestApp'
+import { nestOptions, setupNestApp } from './core/setupNestApp'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'

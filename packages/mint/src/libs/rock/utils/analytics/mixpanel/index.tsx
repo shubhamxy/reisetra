@@ -1,5 +1,5 @@
 import mixpanel, { Dict } from 'mixpanel-browser'
-import { UserProfile } from '../../../api/users'
+import { UserProfile } from '../../../api'
 import { config } from '../../../config'
 import {
     Events,

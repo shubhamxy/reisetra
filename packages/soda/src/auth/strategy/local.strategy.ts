@@ -12,21 +12,16 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         super({
             usernameField: 'email',
             passwordField: 'password',
-            passReqToCallback: true
+            passReqToCallback: true,
         })
     }
 
-    async validate(request: Request, email: string, password: string): Promise<Partial<User>> {
+    async validate(
+        request: Request,
+        email: string,
+        password: string
+    ): Promise<Partial<User>> {
         try {
-            // @ts-ignore
-            const isValidClient = await this.authService.validateClient(request.body.clientId, request.body.redirectUri)
-            if(!isValidClient) {
-                throw new CustomError(
-                    'clientId or redirectUri is Invalid!',
-                    errorCodes.LocalAuthFailed,
-                    'LocalStrategy.validate'
-                ) 
-            }
             const userOrNull = await this.authService.validateUser(
                 email,
                 password
@@ -40,7 +35,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
             }
             return userOrNull
         } catch (error) {
-            console.log(error)
             throw new CustomException(
                 error,
                 HttpStatus.UNAUTHORIZED,

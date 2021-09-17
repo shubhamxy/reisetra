@@ -28,7 +28,7 @@ export enum User {
     date_of_birth = '$date_of_birth',
     active = '$active',
     user_state = '$user_state',
-    user_role = '$user_role',
+    user_roles = '$user_roles',
     created_at = '$created',
     updated_at = '$updated',
 }
@@ -42,7 +42,7 @@ export const mapUserProperties = (user: Partial<UserProfile>) => ({
     [User.active]: true,
     [User.created_at]: user.createdAt ? user.createdAt.toString() : '',
     [User.updated_at]: user.updatedAt ? user.updatedAt.toString() : '',
-    [User.user_role]: user.role,
+    [User.user_roles]: user.roles.toString(),
 })
 
 // eslint-disable-next-line camelcase

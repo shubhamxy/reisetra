@@ -15,13 +15,14 @@ import { CustomException, SuccessResponse } from 'src/core/response'
 import { CreateProductDTO, GetAllProductsDTO, UpdateProductDTO } from './dto'
 import { Public } from 'src/auth/decorator/public.decorator'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { Throttle } from '@nestjs/throttler'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.products)
 export class ProductController {
     constructor(private readonly product: ProductService) {}
+
     @Throttle(60, 120)
     @Public()
     @Get()

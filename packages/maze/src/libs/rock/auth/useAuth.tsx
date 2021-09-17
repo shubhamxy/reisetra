@@ -15,7 +15,7 @@ export const useRefreshAuth = () => {
     const authDispatch = useAuthDispatch()
     return useMutation(refreshAuthToken, {
         onSuccess: ({ data }) => {
-            if (data.role !== 'ADMIN') {
+            if (!data.admin) {
                 dispatch(
                     updateSnackBar({
                         message: 'Please login with an admin account.',
@@ -50,7 +50,7 @@ export const useVerifyGoogleLogin = () => {
     const authDispatch = useAuthDispatch()
     return useMutation(oauthGoogleVerify, {
         onSuccess: ({ data }) => {
-            if (data.role !== 'ADMIN') {
+            if (!data.admin) {
                 dispatch(
                     updateSnackBar({
                         message: 'Please login with an admin account.',
@@ -85,7 +85,7 @@ export const useUserEmailLogin = () => {
     const authDispatch = useAuthDispatch()
     return useMutation(loginEmail, {
         onSuccess: ({ data }) => {
-            if (data.role !== 'ADMIN') {
+            if (!data.admin) {
                 dispatch(
                     updateSnackBar({
                         message: 'Please login with an admin account.',

@@ -1,4 +1,6 @@
 import { registerAs } from '@nestjs/config'
+import { CONFIG } from './type'
+
 export interface AuthEnv {
     common: {
         throttleLimit: number
@@ -17,7 +19,7 @@ export interface AuthEnv {
         audience: string
     }
     googleOAuthOptions: {
-        passReqToCallback: true,
+        passReqToCallback: true
         clientID: string
         clientSecret: string
         callbackURL: string
@@ -63,4 +65,4 @@ export const auth = (): AuthEnv => ({
     },
 })
 
-export default registerAs('auth', auth)
+export default registerAs(CONFIG.auth, auth)

@@ -2,11 +2,20 @@
     "name": "@reisetra/soda",
     "version": "1.0.1",
     "description": "",
-    "author": "",
     "private": true,
     "license": "UNLICENSED",
+    "homepage": "https://github.com/shubhamxy/reisetra",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/shubhamxy/reisetra"
+    },
+    "author": {
+        "name": "Shubham Jain",
+        "url": "https://github.com/shubhamxy"
+    },
     "scripts": {
         "prebuild": "rimraf dist",
+        "generate": "npx prisma generate",
         "dev": "nest start --watch --webpack --path tsconfig.json",
         "dev:debug": "nest start --debug --watch",
         "migrate:dev": "prisma migrate dev",
@@ -16,8 +25,8 @@
         "migrate": "npx prisma migrate deploy",
         "deploy": "pm2 reload ecosystem.config.js --env production",
         "test": "NODE_PATH=./src jest --config  ./jest.config.js",
-        "test:watch": "NODE_PATH=./src jest --config  ./jest.config.js --watch",
-        "test:cov": "NODE_PATH=./src jest --config  ./jest.config.js --coverage",
+        "test:watch": "NODE_PATH=./src jest --config ./jest.config.js --watch",
+        "test:cov": "NODE_PATH=./src jest --config ./jest.config.js --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "NODE_PATH=./src jest --config ./test/jest-e2e.json",
         "start:docs": "npx @compodoc/compodoc -p tsconfig.json -s -w --port 8081 --output ../../docs",

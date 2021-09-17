@@ -1,4 +1,5 @@
 import { OAuthProvider, Role, User as UserModel } from '.prisma/client'
+
 export class User implements UserModel {
     constructor(partial: Partial<User>) {
         Object.assign(this, partial)
@@ -13,7 +14,7 @@ export class User implements UserModel {
     avatar: string
     oauthId: string
     oauthProvider: OAuthProvider
-    role: Role
+    roles: Role[]
     bio: string
     active: boolean
     createdAt: Date

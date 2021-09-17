@@ -4,10 +4,10 @@ import { CustomError } from 'src/core/response'
 import { PrismaService } from 'src/core/modules/db/prisma.service'
 import { CacheService } from 'src/core/modules/cache/cache.service'
 import {
+    CreateOauthUserDTO,
     CreateUserDTO,
     LoginUserDTO,
     UpdateUserDTO,
-    CreateOauthUserDTO,
 } from './dto'
 import { UserRO } from './interfaces/user.interface'
 import {
@@ -23,7 +23,7 @@ export class UserService {
     constructor(
         private readonly db: PrismaService,
         private readonly cache: CacheService
-    ) { }
+    ) {}
 
     async allUsers(
         options: CursorPagination
@@ -35,7 +35,7 @@ export class UserService {
             orderBy = 'createdAt',
             orderDirection = 'desc',
         } = options
-        const result = await prismaOffsetPagination({
+        return await prismaOffsetPagination({
             cursor,
             size: Number(size),
             buttonNum: Number(buttonNum),
@@ -44,21 +44,12 @@ export class UserService {
             model: 'user',
             prisma: this.db,
         })
-        return result
     }
 
     async create(user: CreateUserDTO): Promise<UserRO> {
-        if (!this.validateClient(user.clientId, user.redirectUri)) {
-            throw new CustomError(
-                "Invalid client or callback url.",
-                errorCodes.InvalidClientId,
-                'UserService.create'
-            )
-        }
-
         try {
             // create new user
-            const { clientId, redirectUri, password, ...update } = user
+            const { clientId, password, ...update } = user
             const newPassword = await this.createPassword(password)
             const newUser = await this.db.user.create({
                 data: {
@@ -73,8 +64,8 @@ export class UserService {
                     },
                     client: {
                         connect: {
-                            clientId
-                        }
+                            clientId,
+                        },
                     },
                 },
             })
@@ -111,16 +102,16 @@ export class UserService {
         update: Partial<UpdateUserDTO & { emailVerified: boolean }>
     ): Promise<UserRO> {
         try {
-            const {clientId, ...body} = update;
+            const { clientId, ...body } = update
             const user = await this.db.user.update({
                 where: { id },
                 data: {
                     ...body,
                     client: {
                         connect: {
-                            clientId
-                        }
-                    }
+                            clientId,
+                        },
+                    },
                 },
             })
             return new User(user)
@@ -149,13 +140,6 @@ export class UserService {
                 'UserService.delete'
             )
         }
-    }
-    
-    async validateClient(clientId, redirectUri): Promise<boolean> {
-        if (await this.db.client.count({ where: { clientId: clientId, redirectUrls: { hasSome: redirectUri } } }) <= 0) {
-            return false;
-        }
-        return true;
     }
 
     async createPassword(password: string | Buffer) {
@@ -206,16 +190,20 @@ export class UserService {
 
     async createOauthAccount(user: CreateOauthUserDTO): Promise<UserRO> {
         try {
+            const { roles, ...update } = user
             const newUser = await this.db.user.create({
                 data: {
-                    ...user,
+                    ...update,
+                    roles: {
+                        set: roles,
+                    },
                     cart: {
                         create: {},
                     },
                     client: {
                         connect: {
-                            clientId: user.client
-                        }
+                            clientId: update.client,
+                        },
                     },
                 },
             })
@@ -283,7 +271,7 @@ export class UserService {
             }
             return null
         } catch (error) {
-            console.log({ error});
+            console.log({ error })
 
             throw new CustomError(
                 error?.meta?.cause || error.message,
@@ -303,7 +291,7 @@ export class UserService {
 
     async findByEmailAndUpdate(
         email: string,
-        update: UpdateUserDTO,
+        update: UpdateUserDTO
     ): Promise<UserRO> {
         try {
             const user = await this.db.user.update({

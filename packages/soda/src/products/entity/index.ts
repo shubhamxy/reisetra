@@ -1,8 +1,8 @@
 import {
-    Prisma,
-    Company as CompanyModel,
-    Product as ProductModel,
     Category as CategoryModel,
+    Company as CompanyModel,
+    Prisma,
+    Product as ProductModel,
     Tag as TagModel,
 } from '.prisma/client'
 

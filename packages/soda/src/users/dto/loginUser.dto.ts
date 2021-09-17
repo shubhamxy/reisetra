@@ -12,6 +12,7 @@ export class LoginUserDTO implements User {
     oauthId: string
     oauthProvider: OAuthProvider
     role: Role
+    roles: Role[]
     bio: string
     @IsOptional()
     clientId: string

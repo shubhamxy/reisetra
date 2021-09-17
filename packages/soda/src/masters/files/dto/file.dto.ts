@@ -1,8 +1,8 @@
-import { FileType, File } from '../entity'
+import { File, FileType } from '../entity'
 import { IsEnum, IsOptional, IsString } from 'class-validator'
 import { CursorPaginationDTO } from 'src/core/dto'
 import { UploadUrlParams } from 'src/utils'
-import { mustBeValidEnum, mustBe } from '../../../core/constants/validation'
+import { mustBe, mustBeValidEnum } from '../../../core/constants/validation'
 import { Prisma } from '@prisma/client'
 
 enum ContentTypeEnum {

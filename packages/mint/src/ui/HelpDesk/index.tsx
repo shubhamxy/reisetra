@@ -27,7 +27,7 @@ const HelpDesk = () => {
 
             // To set users properties
             window.fcWidget.user.setProperties({
-                role: user.role, // meta property 1
+                roles: user.roles, // meta property 1
             })
         }
 

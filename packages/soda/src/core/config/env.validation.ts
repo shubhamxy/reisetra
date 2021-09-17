@@ -1,12 +1,13 @@
 import { ConfigService } from '@nestjs/config'
 import { plainToClass } from 'class-transformer'
-import { validateSync, IsString } from 'class-validator'
+import { IsString, validateSync } from 'class-validator'
 import { AppEnv } from './app'
 import { AuthEnv } from './auth'
 import { DBEnv } from './db'
 import { CacheEnv } from './cache'
 import { ServicesEnv } from './services'
 import { SettingsEnv } from './settings'
+import { CONFIG } from './type'
 
 export class EnviromentVars {
     //  APP
@@ -152,19 +153,11 @@ export function validate(config: Record<string, unknown>) {
     return validatedConfig
 }
 
-export function getConfig(configService: ConfigService) {
-    const app = configService.get<AppEnv>('app')
-    const services = configService.get<ServicesEnv>('services')
-    const auth = configService.get<AuthEnv>('auth')
-    const db = configService.get<DBEnv>('db')
-    const cache = configService.get<CacheEnv>('cache')
-    const setting = configService.get<SettingsEnv>('settings')
-    return {
-        app,
-        services,
-        auth,
-        db,
-        cache,
-        setting,
-    }
-}
+export const getConfig = (configService: ConfigService) => ({
+    app: configService.get<AppEnv>(CONFIG.app),
+    db: configService.get<DBEnv>(CONFIG.db),
+    services: configService.get<ServicesEnv>(CONFIG.services),
+    auth: configService.get<AuthEnv>(CONFIG.auth),
+    cache: configService.get<CacheEnv>(CONFIG.cache),
+    setting: configService.get<SettingsEnv>(CONFIG.settings),
+})

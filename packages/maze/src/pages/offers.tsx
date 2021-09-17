@@ -40,20 +40,8 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
     const classes = useStyles()
     const deleteProduct = useDeleteProduct()
-    const authState = useAuthState()
     const router = useRouter()
     const query = useOffers(router.query)
-    const authDispatch = useAuthDispatch()
-    useEffect(() => {
-        if (
-            authState.isHydrated === true &&
-            (authState.isAuthenticated === false ||
-                (authState.user && authState.user.role !== 'ADMIN'))
-        ) {
-            authDispatch(logout())
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authState])
     const [open, setOpen] = React.useState(null)
     const [setSelected] = useState(null)
     const handleClickOpen = (key) => () => {

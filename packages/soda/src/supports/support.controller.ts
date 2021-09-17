@@ -3,23 +3,49 @@ import {
     Controller,
     Delete,
     Get,
+    Headers,
     HttpStatus,
     Param,
     Post,
     Put,
     Query,
     Req,
+    Response,
 } from '@nestjs/common'
 import { SupportService } from './support.service'
 import { CustomException, SuccessResponse } from 'src/core/response'
-import { TicketDTO, AllTicketsDTO, TicketsDTO } from './dto'
+import { AllTicketsDTO, BounceDTO, TicketDTO, TicketsDTO } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
+import { Public } from 'src/auth/decorator/public.decorator'
+import { ConfigService } from '@nestjs/config'
 
 @Controller(ROUTES.supports)
 export class SupportController {
-    constructor(private readonly support: SupportService) {}
+    constructor(
+        private readonly support: SupportService,
+        private readonly config: ConfigService
+    ) {}
+
+    @Public()
+    @Get(ROUTES.handle_unsubscribe)
+    async handleUnsubscribe(
+        @Query('token') token: string,
+        @Query('email') email: string,
+        @Response() response
+    ) {
+        try {
+            await this.support.handleUnsubscribe(email, token)
+            return response.redirect(303, `${this.config.get('app').clientUrl}`)
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'TicketController.handleUnsubscribe'
+            )
+        }
+    }
 
     @Roles(Role.ADMIN)
     @Get(ROUTES.supports_all)
@@ -127,6 +153,60 @@ export class SupportController {
                 error,
                 HttpStatus.BAD_REQUEST,
                 'TicketController.deleteTicket'
+            )
+        }
+    }
+
+    @Public()
+    @Post(ROUTES.handle_bounce)
+    async handleBounce(
+        @Headers('x-amz-sns-message-type') messageType: string,
+        @Body() body: BounceDTO
+    ): Promise<SuccessResponse> {
+        try {
+            const data = await this.support.handleBounce(messageType, body)
+            return { data: data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'TicketController.getAllTicketes'
+            )
+        }
+    }
+
+    @Public()
+    @Post(ROUTES.handle_complaint)
+    async handleComplaints(
+        @Headers('x-amz-sns-message-type') messageType: string,
+        @Body() body: BounceDTO
+    ): Promise<SuccessResponse> {
+        try {
+            const data = await this.support.handleComplaints(messageType, body)
+            return { data: data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'TicketController.handleComplaints'
+            )
+        }
+    }
+
+    @Public()
+    @Post(ROUTES.handle_delivery)
+    async handleDeliveries(
+        @Headers('x-amz-sns-message-type') messageType: string,
+        @Body() body: BounceDTO
+    ): Promise<SuccessResponse> {
+        try {
+            const data = await this.support.handleDeliveries(messageType, body)
+            return { data: data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'TicketController.handleDeliveries'
             )
         }
     }

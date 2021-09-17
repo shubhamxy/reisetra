@@ -3,7 +3,8 @@ import { Role } from '.prisma/client'
 export interface UserAuthPayload {
     id: string
     email: string
-    role: Role
+    roles: Role[]
+    isAdmin: boolean
 }
 
 export type AuthenticatedRequest<

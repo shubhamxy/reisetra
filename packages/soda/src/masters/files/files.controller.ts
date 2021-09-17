@@ -14,7 +14,7 @@ import { CustomException, SuccessResponse } from 'src/core/response'
 import { FilesService } from './files.service'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
 import { FileDTO, FilesDTO, FileUploadDTO } from './dto/file.dto'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.files)

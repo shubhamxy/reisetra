@@ -17,8 +17,9 @@ import {
     GetAllOffersDTO,
     UpdateOfferDTO,
 } from './dto'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
+
 @Controller(ROUTES.offers)
 export class OfferController {
     constructor(private readonly offer: OfferService) {}

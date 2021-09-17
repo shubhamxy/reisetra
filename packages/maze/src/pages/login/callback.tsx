@@ -47,7 +47,7 @@ function Auth0CallbackPage() {
             const response = await fetchRefreshToken.mutateAsync({
                 token,
             })
-            if (response.data.role === 'ADMIN') {
+            if (response.data.admin) {
                 dispatch(
                     login({
                         access_token: response.data.access_token,
@@ -84,7 +84,7 @@ function Auth0CallbackPage() {
                                 const response = await fetchRefreshToken.mutateAsync({
                                     token: event.data.token,
                                 })
-                                if (response.data.role === 'ADMIN') {
+                                if (response.data.admin) {
                                     storage.put.access_token(
                                         response.data.access_token
                                     )

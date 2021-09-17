@@ -7,6 +7,7 @@ import {
 import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
 const queryString = require('query-string')
+type Role =  'USER' | 'ADMIN';
 export interface UserProfile {
     id: string
     email: string
@@ -17,7 +18,7 @@ export interface UserProfile {
     avatar: string
     oauthId: string
     oauthProvider: 'GOOGLE'
-    role: 'USER' | 'ADMIN'
+    roles: Role[]
     bio: string
     active: boolean
     createdAt: Date

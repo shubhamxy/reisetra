@@ -7,7 +7,7 @@ import {
     Post,
     Req,
     Response,
-    UseGuards
+    UseGuards,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Throttle } from '@nestjs/throttler'
@@ -20,28 +20,31 @@ import {
     CustomError,
     CustomException,
     SuccessResponse,
-    SuccessResponseDTO
+    SuccessResponseDTO,
 } from 'src/core/response'
 import { CreateUserDTO } from 'src/users/dto'
 import { User } from 'src/users/entity'
 import { AuthenticatedRequest } from './auth.interface'
-import { AuthResponse, AuthService } from './auth.service'
 import {
+    AuthResponse,
     EmailDTO,
     ResetPasswordDTO,
     UpdatePasswordDTO,
-    VerifyEmailDTO
+    VerifyEmailDTO,
 } from './dto/login.dto'
 import { GoogleAuthGuard } from './gaurd/google.gaurd'
 import { LocalAuthGuard } from './gaurd/local.gaurd'
 import JwtRefreshGuard from './gaurd/refresh.gaurd'
 import { GoogleUser } from './strategy/google.strategy'
+import { AuthService } from './auth.service'
+
 const authConfig = auth()
 
 @Controller(ROUTES.auth)
 export class AuthController {
     googleOAuth2client: OAuth2Client
     auth: AuthEnv
+
     constructor(
         private authService: AuthService,
         private config: ConfigService
@@ -89,7 +92,7 @@ export class AuthController {
     ): Promise<SuccessResponseDTO<AuthResponse>> {
         try {
             const data = await this.authService.login(request.user)
-            return { data }
+            return { data, message: Message.success }
         } catch (error) {
             throw new CustomException(
                 error,
@@ -113,7 +116,7 @@ export class AuthController {
     ): Promise<SuccessResponse> {
         try {
             const data = await this.authService.login(request.user)
-            return { data }
+            return { data, message: Message.success }
         } catch (error) {
             throw new CustomException(
                 error,
@@ -151,11 +154,14 @@ export class AuthController {
         @Response() response
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.authService.googleLogin(request.user, undefined)
+            const data = await this.authService.googleLogin(
+                request.user,
+                undefined
+            )
 
             return response.redirect(
                 303,
-                `${config.clientUrl}/login/callback?token=${data.refresh_token}`
+                `${config.callbackUrl}?token=${data.refresh_token}`
             )
         } catch (error) {
             throw new CustomException(
@@ -178,20 +184,10 @@ export class AuthController {
         body: {
             credential: string
             clientId: string
-            redirectUri: string
             select_by: string
         }
     ): Promise<SuccessResponse> {
         try {
-            const isValidClient = await this.authService.validateClient(body.clientId, body.redirectUri)
-            if (!isValidClient) {
-                throw new CustomError(
-                    'clientId or redirectUri is Invalid!',
-                    errorCodes.LocalAuthFailed,
-                    'LocalStrategy.validate'
-                )
-            }
-
             const loginData = await this.googleOAuth2client.verifyIdToken({
                 idToken: body.credential,
                 audience: this.config.get<AuthEnv>('auth').googleOAuthOptions
@@ -206,7 +202,10 @@ export class AuthController {
                 avatar: payload.picture,
                 oauthProvider: 'GOOGLE',
             }
-            const data = await this.authService.googleLogin(googleUser, body.clientId)
+            const data = await this.authService.googleLogin(
+                googleUser,
+                body.clientId
+            )
             return { data, message: 'GoogleAuth Success' }
         } catch (error) {
             throw new CustomException(
@@ -226,7 +225,7 @@ export class AuthController {
     @Get(ROUTES.email_verify_by_userId_and_token)
     public async verifyEmail(
         @Param()
-        params: VerifyEmailDTO,
+        params: VerifyEmailDTO
     ) {
         try {
             const emailVerified = await this.authService.verifyEmail(
@@ -235,9 +234,12 @@ export class AuthController {
             )
             if (emailVerified) {
                 // @TODO redirect to success page
-                return { data: {
-                    emailVerified
-                }, message: 'VerifyEmail Success' }
+                return {
+                    data: {
+                        emailVerified,
+                    },
+                    message: 'VerifyEmail Success',
+                }
             } else {
                 throw new CustomError(
                     'Verify Email Failed',
@@ -352,7 +354,7 @@ export class AuthController {
                     email: body.email,
                     password: body.password,
                 })
-                return { data }
+                return { data, message: Message.success }
             }
 
             throw new CustomError(
@@ -379,7 +381,7 @@ export class AuthController {
                 request.user.email,
                 body
             )
-            return { data }
+            return { data, message: Message.success }
         } catch (error) {
             throw new CustomException(
                 error,

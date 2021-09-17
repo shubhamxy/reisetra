@@ -1,7 +1,7 @@
 import {
-    Prisma,
     Form as FormModel,
     FormResponse as FormResponseModel,
+    Prisma,
 } from '.prisma/client'
 
 export class Form implements FormModel {

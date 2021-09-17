@@ -1,6 +1,4 @@
-/* eslint-disable camelcase */
-import { get, post } from '../../utils/http'
-import { storage } from '../../utils/storage'
+import { get, post, storage } from '../../utils'
 
 export type LoginT = {
     readonly email: string
@@ -21,11 +19,12 @@ export type SignupT = {
     avatar?: string
     bio?: string
 }
-
+type Role = 'ADMIN' | 'USER'
 export interface AuthResponse {
     id: string
     email: string
-    role: string
+    admin: boolean
+    roles: Role[]
     expires_in: string
     access_token: string
     refresh_token: string

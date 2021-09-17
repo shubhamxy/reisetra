@@ -1,13 +1,14 @@
 import {
-    ExceptionFilter,
-    Catch,
     ArgumentsHost,
+    Catch,
+    ExceptionFilter,
     HttpException,
     HttpStatus,
 } from '@nestjs/common'
 import { app } from 'src/core/config'
 import { ErrorResponse } from '../response'
-import { stackObj } from '../../utils/errorUtils'
+import { stackObj } from '../../utils'
+
 const config = app()
 
 @Catch()

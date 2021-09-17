@@ -1,5 +1,5 @@
 import { Role } from '.prisma/client'
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import config from 'src/core/config'
 import { ROLES_KEY } from '../decorator/roles.decorator'
@@ -21,6 +21,8 @@ export class RolesGuard implements CanActivate {
             return true
         }
         const { user } = context.switchToHttp().getRequest()
-        return requiredRoles.some((role) => user.role === role)
+        return requiredRoles.some(
+            (role) => user.roles.indexOf((item) => item === role) > -1
+        )
     }
 }

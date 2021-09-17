@@ -1,6 +1,7 @@
 import { HttpStatus, ValidationPipe as _ValidationPipe } from '@nestjs/common'
 import { ValidationError } from 'class-validator'
 import { Exception, IError } from '../response'
+
 export class ValidationPipe extends _ValidationPipe {
     constructor() {
         super({

@@ -16,7 +16,7 @@ import { CreateUserDTO, GetAllUsersDTO, UpdateUserDTO } from './dto'
 import { errorTypes } from 'src/core/codes/error'
 import { getErrorMessage, stackObj } from 'src/utils/errorUtils'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.users)

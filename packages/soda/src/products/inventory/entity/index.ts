@@ -7,6 +7,7 @@ export class Inventory implements InventoryModel {
     createdAt: Date
     updatedAt: Date
     sku: string
+
     constructor(partial: Partial<InventoryModel>) {
         Object.assign(this, partial)
     }

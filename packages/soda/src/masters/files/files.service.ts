@@ -7,8 +7,9 @@ import { CursorPaginationResultInterface } from 'src/core/pagination'
 import { CustomError } from 'src/core/response'
 import { UploadUrlParams } from 'src/utils'
 import { prismaOffsetPagination } from 'src/utils/prisma'
-import { FilesDTO, FileDTO } from './dto/file.dto'
+import { FileDTO, FilesDTO } from './dto/file.dto'
 import { File } from './entity'
+
 @Injectable()
 export class FilesService {
     constructor(

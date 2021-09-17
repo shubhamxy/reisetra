@@ -16,6 +16,7 @@ import {
     STRONG_PASSWORD_REGEX,
 } from 'src/core/constants'
 import { User } from '../entity'
+
 type Excluded =
     | 'id'
     | 'active'
@@ -30,6 +31,7 @@ type Excluded =
     | 'oauthProvider'
     | 'emailVerified'
     | 'oauthId'
+
 export class UpdateUserDTO implements Omit<User, Excluded> {
     constructor(partial: Partial<User>) {
         Object.assign(this, partial)
@@ -66,5 +68,6 @@ export class UpdateUserDTO implements Omit<User, Excluded> {
     oauthId: string
     oauthProvider: OAuthProvider
     role: Role
+    roles: Role[]
     bio: string
 }

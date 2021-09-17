@@ -1,21 +1,21 @@
 import {
-    IsOptional,
     IsEmail,
     IsNotEmpty,
+    IsOptional,
     IsString,
     Matches,
     MaxLength,
     MinLength,
 } from 'class-validator'
 import {
-    STRONG_PASSWORD_REGEX,
-    PASSWORD_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH,
-    isRequired,
-    PASSWORD_IS_WEAK,
-    PHONE_REGEX,
     INVALID_PHONE,
     isInvalid,
+    isRequired,
+    PASSWORD_IS_WEAK,
+    PASSWORD_MAX_LENGTH,
+    PASSWORD_MIN_LENGTH,
+    PHONE_REGEX,
+    STRONG_PASSWORD_REGEX,
 } from 'src/core/constants'
 import { User } from '../entity'
 import { OAuthProvider, Role } from '.prisma/client'
@@ -31,7 +31,7 @@ type Excluded =
     | 'dateOfBirth'
     | 'phone'
     | 'inventoryId'
-    | 'role'
+    | 'roles'
     | 'oauthProvider'
     | 'emailVerified'
     | 'oauthId'
@@ -50,9 +50,6 @@ export class CreateUserDTO implements Omit<User, Excluded> {
     @IsOptional()
     clientId: string
 
-    @IsOptional()
-    redirectUri: string
-    
     @IsEmail({}, { message: isInvalid('Email') })
     email: string
 
@@ -89,7 +86,7 @@ export class CreateOauthUserDTO implements Omit<User, Excluded> {
     dateOfBirth?: Date
     phone?: string
     avatar: string
-    role: Role
+    roles: Role[]
     bio?: string
     oauthId: string
     oauthProvider: OAuthProvider

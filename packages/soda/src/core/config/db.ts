@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config'
+import { CONFIG } from './type'
 
 export interface DBEnv {
     type: string
@@ -24,4 +25,4 @@ export const db = (): DBEnv => ({
     db: process.env.POSTGRES_DB,
 })
 
-export default registerAs('db', db)
+export default registerAs(CONFIG.db, db)

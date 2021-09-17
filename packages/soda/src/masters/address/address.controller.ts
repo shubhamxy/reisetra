@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common'
 import { AddressService } from './address.service'
 import { CustomException, SuccessResponse } from 'src/core/response'
-import { AddressesDTO, AllAddressDTO, AddressDTO } from './dto'
+import { AddressDTO, AddressesDTO, AllAddressDTO } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { isAdmin, Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.addresses)
@@ -100,12 +100,11 @@ export class AddressController {
         @Body() body: AddressDTO
     ): Promise<SuccessResponse> {
         try {
-            const isAdmin = request.user.role === 'ADMIN'
             const data = await this.address.updateAddress(
                 addressId,
                 body,
                 request.user.id,
-                isAdmin
+                isAdmin(request.user.roles)
             )
             return { data }
         } catch (error) {

@@ -13,7 +13,7 @@ import { CustomException, SuccessResponse } from 'src/core/response'
 import { CreateCategoryDTO } from './dto'
 import { Public } from 'src/auth/decorator/public.decorator'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.categories)

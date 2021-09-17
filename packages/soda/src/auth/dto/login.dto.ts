@@ -7,12 +7,13 @@ import {
     MinLength,
 } from 'class-validator'
 import {
-    STRONG_PASSWORD_REGEX,
-    PASSWORD_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH,
     isRequired,
     PASSWORD_IS_WEAK,
+    PASSWORD_MAX_LENGTH,
+    PASSWORD_MIN_LENGTH,
+    STRONG_PASSWORD_REGEX,
 } from '../../core/constants'
+import { Role } from '@prisma/client'
 
 export class AuthUserDTO {
     @IsEmail({}, { message: 'Email is invalid' })
@@ -56,4 +57,22 @@ export class VerifyEmailDTO {
 export class EmailDTO {
     @IsEmail({}, { message: 'Email is invalid' })
     readonly email: string
+}
+
+export interface AuthTokenPayload {
+    tid: string
+    sub: string
+    email: string
+    role: string
+}
+
+export interface AuthResponse {
+    id: string
+    email: string
+    roles: Role[]
+    admin: boolean
+    expires_in: string
+    access_token: string
+    refresh_token: string
+    token_type: string
 }

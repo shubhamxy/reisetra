@@ -1,10 +1,5 @@
 import { registerAs } from '@nestjs/config'
-
-export enum Environment {
-    Local = 'localhost',
-    Development = 'development',
-    Production = 'production',
-}
+import { CONFIG, Environment } from './type'
 
 export interface AppEnv {
     name: string
@@ -55,13 +50,12 @@ export const app = (): AppEnv => ({
     host: process.env.API_HOST || 'localhost',
     protocol: process.env.API_PROTOCOL || 'http',
     contactEmail: process.env.CONTACT_EMAIL || 'contact@reisetra.com',
-    apiUrl: process.env.API_URL || 'http://localhost:8080/api/v1',
-    clientUrl: process.env.CLIENT_URL || 'https://next.reisetra.com',
-    cmsUrl: process.env.CMS_CLIENT_URL || 'https://cms.reisetra.com',
-    callbackUrl:
-        process.env.CALLBACK_URL || 'https://next.reisetra.com/login/callback',
-    authUrl: process.env.AUTH_CLIENT_URL || 'https://auth.reisetra.com',
-    cdnUrl: process.env.CDN_URL || 'https://d38bp8dgh2l2dc.cloudfront.net',
+    apiUrl: process.env.API_URL || '',
+    clientUrl: process.env.CLIENT_URL || '',
+    cmsUrl: process.env.CMS_CLIENT_URL || '',
+    callbackUrl: process.env.CALLBACK_URL || '',
+    authUrl: process.env.AUTH_CLIENT_URL || '',
+    cdnUrl: process.env.CDN_URL || '',
     swagger: +process.env.ENABLE_SWAGGER === 1,
     cors: {
         allowedHeaders: String(
@@ -86,4 +80,4 @@ export const app = (): AppEnv => ({
     },
 })
 
-export default registerAs('app', app)
+export default registerAs(CONFIG.app, app)

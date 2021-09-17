@@ -7,6 +7,8 @@ import { CustomError } from 'src/core/response'
 import { UserAuthPayload } from '../auth.interface'
 import { auth } from 'src/core/config'
 import { errorCodes } from 'src/core/codes/error'
+import { isAdmin } from '../decorator/roles.decorator'
+
 const config = auth()
 
 @Injectable()
@@ -26,14 +28,12 @@ export class JwtRefreshStrategy extends PassportStrategy(
     }
 
     async validate(request: Request, payload: any): Promise<UserAuthPayload> {
-        const isValid = await this.authService.isRefreshTokenPayloadValid(
-            payload
-        )
-        if (isValid) {
+        if (await this.authService.isRefreshTokenPayloadValid(payload)) {
             return {
                 email: payload.email,
                 id: payload.sub,
-                role: payload.role,
+                roles: payload.roles,
+                isAdmin: isAdmin(payload.roles),
             }
         } else {
             throw new CustomError(

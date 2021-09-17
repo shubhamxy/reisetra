@@ -15,14 +15,17 @@ export interface IMeta {
     link: PageCursorsType
     totalCount: number
     page: number
+
     [key: string]: any
 }
+
 export interface IError {
     code?: number | string
     type?: string
     context: string
     message?: string
     stack?: any
+
     [key: string]: any
 }
 
@@ -31,6 +34,7 @@ export interface IErrorResponse<T> {
     message?: string
     errors?: T[]
     meta?: Partial<IMeta>
+
     [key: string]: any
 }
 
@@ -113,6 +117,7 @@ interface ISuccessResponse<D> {
     message?: string
     data?: D
     meta?: Partial<IMeta>
+
     [key: string]: DataT
 }
 
@@ -120,6 +125,7 @@ export type SuccessResponse<D = DataT> = ISuccessResponse<D>
 
 export class SuccessResponseDTO<T = DataT> implements SuccessResponse<T> {
     [key: string]: DataT
+
     success?: boolean
     message?: string
     data?: T

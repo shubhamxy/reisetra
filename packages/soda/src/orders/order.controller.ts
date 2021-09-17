@@ -14,11 +14,13 @@ import { OrderService } from './order.service'
 import { CustomException, SuccessResponse } from 'src/core/response'
 import { GetAllOrdersDocumentsDTO, GetAllOrdersDTO, OrderDTO } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
+
 @Controller(ROUTES.orders)
 export class OrderController {
     constructor(private readonly order: OrderService) {}
+
     @Get(ROUTES.orders_all)
     async getAllOrders(
         @Req() request: AuthenticatedRequest,

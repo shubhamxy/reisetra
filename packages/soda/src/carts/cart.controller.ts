@@ -15,8 +15,9 @@ import { CartService } from './cart.service'
 import { CustomException, SuccessResponse } from 'src/core/response'
 import { CheckoutDTO, GetAllCartsDTO, UpdateCartItemDTO } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
+
 @Controller(ROUTES.carts)
 export class CartController {
     constructor(private readonly cart: CartService) {}

@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["filterJson"]
-  binaryTargets   = ["linux-musl", "native"]
+  binaryTargets   = ["linux-musl", "native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -61,7 +61,7 @@ model User {
   bio           String?
   oauthId       String?        @unique
   oauthProvider OAuthProvider?
-  role          Role           @default(USER)
+  roles         Role[]
   active        Boolean        @default(true)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt

@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common'
 import { TagService } from './tag.service'
 import { CustomException, SuccessResponse } from 'src/core/response'
-import { CreateTagDTO, UpdateTagDTO, GetAllTagsDTO } from './dto'
+import { CreateTagDTO, GetAllTagsDTO, UpdateTagDTO } from './dto'
 import { Public } from 'src/auth/decorator/public.decorator'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.tags)

@@ -1,11 +1,7 @@
 #!/bin/bash
 
-SERVER_HOST="ubuntu@api.reisetra.com"
-USERNAME="ubuntu"
-SERVER_KEY="~/.ssh/workspace/soda-server.pem"
-
-echo "Local system name: $HOSTNAME"
-echo "Local date and time: $(date)"
+echo "*** Local system name: $HOSTNAME ***"
+echo "***  Local date and time: $(date) ***"
 
 echo
 echo "*** Running commands on remote host named $SERVER_HOST ***"
@@ -21,7 +17,7 @@ echo
 echo "*** Uploading server to $SERVER_HOST ***"
 echo
 
-rsync -avz -e "ssh -i $SERVER_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --exclude-from './scripts/exclude-list' --progress packages/soda ubuntu@api.reisetra.com:~/server
+rsync -avz -e "ssh -i $SERVER_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --exclude-from './scripts/exclude-list' --progress packages/soda $SERVER_HOST:~/server
 
 echo
 echo "*** Deploying server on $SERVER_HOST ***"

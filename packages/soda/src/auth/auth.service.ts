@@ -2,56 +2,42 @@ import { Injectable } from '@nestjs/common'
 import { UserService } from '../users/user.service'
 import { JwtService } from '@nestjs/jwt'
 import {
+    emailVerificationEmail,
     getEmailVerificationTokenKey,
     getForgotPasswordKey,
     getRefreshTokenKey,
-} from '../utils/cache'
+    getUnsubscribeKey,
+    IData,
+    passwordResetEmail,
+} from '../utils'
 import { CacheService } from '../core/modules/cache/cache.service'
 import { CreateUserDTO } from '../users/dto'
-import { User } from '.prisma/client'
+import { User } from '../users/entity'
 import { UserRO } from '../users/interfaces/user.interface'
 import { nanoid } from 'nanoid'
 import { GoogleUser } from './strategy/google.strategy'
-import { sendEmail, IData } from '../utils/aws'
-import { passwordResetEmail, emailVerificationEmail } from '../utils/template'
 import { CustomError } from '../core/response'
 import { errorCodes } from '../core/codes/error'
 import { ConfigService } from '@nestjs/config'
 import { AppEnv, AuthEnv } from 'src/core/config'
-
-export interface AuthTokenPayload {
-    tid: string
-    sub: string
-    email: string
-    role: string
-}
-
-export interface AuthResponse {
-    id: string
-    email: string
-    role: string
-    expires_in: string
-    access_token: string
-    refresh_token: string
-    token_type: string
-}
+import { AuthResponse, AuthTokenPayload } from './dto/login.dto'
+import { isAdmin, Role } from './decorator/roles.decorator'
+import { AWSService } from '../core/modules/aws/aws.service'
 
 @Injectable()
 export class AuthService {
-    appConfig: AppEnv
-    authConfig: AuthEnv
+    private readonly appConfig
+    private readonly authConfig
+
     constructor(
-        private user: UserService,
-        private jwt: JwtService,
-        private cache: CacheService,
-        configService: ConfigService
+        private readonly user: UserService,
+        private readonly jwt: JwtService,
+        private readonly cache: CacheService,
+        private readonly aws: AWSService,
+        private readonly configService: ConfigService
     ) {
         this.appConfig = configService.get<AppEnv>('app')
         this.authConfig = configService.get<AuthEnv>('auth')
-    }
-
-    async validateClient(clientId: string, redirectUri: string): Promise<boolean> {
-        return this.user.validateClient(clientId, redirectUri)
     }
 
     async validateUser(email: string, password: string): Promise<UserRO> {
@@ -80,22 +66,22 @@ export class AuthService {
     async getAuthToken({
         id,
         email,
-        role,
+        roles,
     }: Partial<{
         id: string
         email: string
-        role: string
+        roles: Role[]
     }>): Promise<AuthResponse> {
-        if (!id || !email || !role) {
+        if (!id || !email || !roles || roles.length < 1) {
             throw new CustomError(
-                'Invalid Token',
+                `Invalid Token for id:${id}, email:${email}, roles: ${roles}`,
                 errorCodes.AuthFailed,
                 'AuthService.getAuthToken'
             )
         }
         const tid = nanoid(5)
-        const jwtAccessTokenPayload = { email, sub: id, role: role, tid }
-        const jwtRefreshTokenPayload = { email, sub: id, role: role, tid }
+        const jwtAccessTokenPayload = { email, sub: id, roles: roles, tid }
+        const jwtRefreshTokenPayload = { email, sub: id, roles: roles, tid }
         const accessToken = this.jwt.sign(
             jwtAccessTokenPayload,
             this.authConfig.jwtAccessTokenOptions
@@ -106,11 +92,12 @@ export class AuthService {
             this.authConfig.jwtRefreshTokenOptions
         )
 
-        this.setRefreshToken(id, tid)
+        await this.setRefreshToken(id, tid)
         return {
             id,
             email,
-            role,
+            roles,
+            admin: isAdmin(roles),
             expires_in: this.authConfig.jwtAccessTokenOptions.expiresIn,
             access_token: accessToken,
             refresh_token: refreshToken,
@@ -127,7 +114,10 @@ export class AuthService {
         const authPayload = await this.getAuthToken(createdUser)
         if (createdUser) {
             if (this.appConfig.isProduction) {
-                this.sendEmailVerification(createdUser.id, createdUser.email)
+                await this.sendEmailVerification(
+                    createdUser.id,
+                    createdUser.email
+                )
             }
         }
         return authPayload
@@ -141,7 +131,7 @@ export class AuthService {
             data.email,
             data.password
         )
-        this.cache.del(getForgotPasswordKey(data.email))
+        await this.cache.del(getForgotPasswordKey(data.email))
         return this.getAuthToken(updatedUser)
     }
 
@@ -160,7 +150,10 @@ export class AuthService {
         return this.getAuthToken(updatedUser)
     }
 
-    async googleLogin(user: GoogleUser, clientId: string): Promise<AuthResponse> {
+    async googleLogin(
+        user: GoogleUser,
+        clientId: string
+    ): Promise<AuthResponse> {
         const userOrNull = await this.user.findAndUpdateOauthAccount({
             name: user.name,
             email: user.email,
@@ -181,15 +174,40 @@ export class AuthService {
             emailVerified: user.emailVerified,
             oauthId: user.oauthId,
             oauthProvider: 'GOOGLE',
-            role: 'USER',
+            roles: [Role.USER],
         })
         return this.getAuthToken(newUser)
     }
 
     async createEmailToken(id: string): Promise<string> {
         const token = nanoid(6)
-        this.cache.set(getEmailVerificationTokenKey(id), token)
+        await this.cache.set(getEmailVerificationTokenKey(id), token)
         return token
+    }
+
+    async createUnsubscribeToken(email: string): Promise<string> {
+        const storedToken = (await this.cache.get(
+            getUnsubscribeKey(email)
+        )) as string
+        if (storedToken) {
+            return storedToken
+        }
+        const token = nanoid(6)
+        await this.cache.set(getUnsubscribeKey(email), token)
+        return token
+    }
+
+    async verifyUnsubscribbeToken(
+        email: string,
+        token: string
+    ): Promise<boolean> {
+        const storedToken = (await this.cache.get(
+            getUnsubscribeKey(email)
+        )) as string
+        if (!storedToken) {
+            return false
+        }
+        return storedToken === token
     }
 
     async verifyEmail(id: string, token: string): Promise<boolean> {
@@ -216,14 +234,16 @@ export class AuthService {
 
     async sendEmailVerification(id: string, email: string): Promise<IData> {
         const emailToken = await this.createEmailToken(id)
-        const data = await sendEmail(
-            emailVerificationEmail({
-                email,
-                token: emailToken,
-                id: id,
-            })
+        return await this.aws.sendEmail(
+            emailVerificationEmail(
+                {
+                    email,
+                    token: emailToken,
+                    id: id,
+                },
+                await this.createUnsubscribeToken(email)
+            )
         )
-        return data
     }
 
     async verifyForgotPasswordToken(
@@ -236,27 +256,25 @@ export class AuthService {
         if (!storedToken) {
             return false
         }
-        if (storedToken === token) {
-            return true
-        }
-        return false
+        return storedToken === token
     }
 
     async sendForgotPasswordEmail(email: string): Promise<IData> {
         const forgotPasswordToken = await this.createForgottenPasswordToken(
             email
         )
+
         if (this.appConfig.isProduction) {
-            const data = await sendEmail(
-                passwordResetEmail({
-                    email,
-                    token: forgotPasswordToken,
-                })
+            return await this.aws.sendEmail(
+                passwordResetEmail(
+                    {
+                        email,
+                        token: forgotPasswordToken,
+                    },
+                    await this.createUnsubscribeToken(email)
+                )
             )
-            return data
         }
-        return new Promise((resolve) => {
-            resolve({ MessageId: null })
-        })
+        return { MessageId: null }
     }
 }

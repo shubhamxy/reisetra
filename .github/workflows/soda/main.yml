@@ -14,13 +14,35 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
+
+      - name: Cache packages
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            **/.eslintcache
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: "14.17.0"
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: yarn install
-      - run: yarn run ci:soda
-      - run: yarn run build:soda --if-present
-      - run: yarn run test:soda --if-present
+      - name: Run NPM Install.
+        run: yarn workspace @reisetra/soda install --frozen-lockfile
+
+      - name: Generate schema.
+        run:  yarn workspace @reisetra/soda generate
+
+      - name: Build Project.
+        run: yarn run build:soda
+
+      - name: Run Tests.
+        run: yarn run test:soda
+
+      - name: Deploy Project.
+        run: yarn run ci:soda

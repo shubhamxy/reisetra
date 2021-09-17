@@ -1,5 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client'
-import * as cuid from 'cuid'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 

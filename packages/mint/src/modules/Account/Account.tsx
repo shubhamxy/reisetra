@@ -395,7 +395,7 @@ export function Account() {
                                     }
                                 />
                             </Box>
-                            {authState?.user?.role === 'ADMIN' && <Box mt={2}>
+                            {authState?.user?.roles.findIndex(item => item === 'ADMIN') && <Box mt={2}>
                                 <FormControl
                                     variant="outlined"
                                     className={classes.client}

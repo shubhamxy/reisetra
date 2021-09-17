@@ -14,13 +14,13 @@ import { StoryService } from './story.service'
 import { CustomException, SuccessResponse } from 'src/core/response'
 import {
     CreateStoryDTO,
-    GetStoriesDTO,
     GetAllStoriesDTO,
+    GetStoriesDTO,
     UpdateStoryDTO,
 } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
 import { Public } from 'src/auth/decorator/public.decorator'
-import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { Role, Roles } from 'src/auth/decorator/roles.decorator'
 import { ROUTES } from 'src/core/constants'
 
 @Controller(ROUTES.stories)
