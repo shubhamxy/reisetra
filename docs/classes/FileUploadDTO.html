@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/master/files/dto/file.dto.ts</code>
+            <code>src/master/file/dto/file.dto.ts</code>
         </p>
 
 
@@ -135,7 +135,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/master/files/dto/file.dto.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/master/file/dto/file.dto.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -170,7 +170,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/master/files/dto/file.dto.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/master/file/dto/file.dto.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -205,7 +205,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/master/files/dto/file.dto.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/master/file/dto/file.dto.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -224,114 +224,113 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { FileType, File } from &#x27;../entity&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { File, FileType } from &#x27;../entity&#x27;
 import { IsEnum, IsOptional, IsString } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
-import { UploadUrlParams } from &#x27;src/utils&#x27;
-import { mustBeValidEnum, mustBe } from &#x27;../../../constants/validation&#x27;
+import { CursorPaginationDTO, mustBe, mustBeValidEnum } from &#x27;@app/core&#x27;
+import { UploadUrlParams } from &#x27;@app/aws&#x27;
 import { Prisma } from &#x27;@prisma/client&#x27;
 
 enum ContentTypeEnum {
-    jpeg &#x3D; &#x27;image/jpeg&#x27;,
-    jpg &#x3D; &#x27;image/jpg&#x27;,
-    png &#x3D; &#x27;image/png&#x27;,
-    svg &#x3D; &#x27;image/svg&#x27;,
+  jpeg &#x3D; &#x27;image/jpeg&#x27;,
+  jpg &#x3D; &#x27;image/jpg&#x27;,
+  png &#x3D; &#x27;image/png&#x27;,
+  svg &#x3D; &#x27;image/svg&#x27;,
 }
 
 type Excluded &#x3D;
-    | &#x27;id&#x27;
-    | &#x27;userId&#x27;
-    | &#x27;fileName&#x27;
-    | &#x27;active&#x27;
-    | &#x27;createdAt&#x27;
-    | &#x27;updatedAt&#x27;
-    | &#x27;extra&#x27;
-    | &#x27;slug&#x27;
-    | &#x27;inventoryId&#x27;
+  | &#x27;id&#x27;
+  | &#x27;userId&#x27;
+  | &#x27;fileName&#x27;
+  | &#x27;active&#x27;
+  | &#x27;createdAt&#x27;
+  | &#x27;updatedAt&#x27;
+  | &#x27;extra&#x27;
+  | &#x27;slug&#x27;
+  | &#x27;inventoryId&#x27;
 
 export class FilesDTO extends CursorPaginationDTO {
-    @IsOptional()
-    @IsEnum(FileType, {
-        message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
-    })
-    fileType: FileType
+  @IsOptional()
+  @IsEnum(FileType, {
+    message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
+  })
+  fileType: FileType
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;url&#x27;) })
-    url: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;url&#x27;) })
+  url: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;productId&#x27;) })
-    productId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;productId&#x27;) })
+  productId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;reviewId&#x27;) })
-    reviewId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;reviewId&#x27;) })
+  reviewId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;categoryId&#x27;) })
-    categoryId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;categoryId&#x27;) })
+  categoryId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;userId&#x27;) })
-    userId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;userId&#x27;) })
+  userId: string
 
-    active: boolean
+  active: boolean
 }
 
 export class FileUploadDTO implements Omit&lt;UploadUrlParams, Excluded&gt; {
-    @IsEnum(FileType, {
-        message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
-    })
-    fileType: FileType
+  @IsEnum(FileType, {
+    message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
+  })
+  fileType: FileType
 
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;fileName&#x27;) })
-    fileName: string
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;fileName&#x27;) })
+  fileName: string
 
-    contentType: ContentTypeEnum
+  contentType: ContentTypeEnum
 }
 
 export class FileDTO implements Omit&lt;File, Excluded&gt; {
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;id&#x27;) })
-    id: string
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;id&#x27;) })
+  id: string
 
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;url&#x27;) })
-    url: string
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;url&#x27;) })
+  url: string
 
-    @IsOptional()
-    @IsEnum(FileType, {
-        message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
-    })
-    fileType: FileType
+  @IsOptional()
+  @IsEnum(FileType, {
+    message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
+  })
+  fileType: FileType
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;productId&#x27;) })
-    productId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;productId&#x27;) })
+  productId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;reviewId&#x27;) })
-    reviewId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;reviewId&#x27;) })
+  reviewId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;categoryId&#x27;) })
-    categoryId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;categoryId&#x27;) })
+  categoryId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;storyId&#x27;) })
-    storyId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;storyId&#x27;) })
+  storyId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;tagId&#x27;) })
-    tagId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;tagId&#x27;) })
+  tagId: string
 
-    @IsOptional()
-    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;orderId&#x27;) })
-    orderId: string
+  @IsOptional()
+  @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;orderId&#x27;) })
+  orderId: string
 
-    @IsOptional()
-    meta: Prisma.JsonValue
+  @IsOptional()
+  meta: Prisma.JsonValue
 
-    active: boolean
+  active: boolean
 }
 </code></pre>
     </div>

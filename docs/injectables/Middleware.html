@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/core/middleware/common.middleware.ts</code>
+            <code>libs/core/src/middleware/common.middleware.ts</code>
         </p>
 
 
@@ -105,7 +105,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/core/middleware/common.middleware.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">libs/core/src/middleware/common.middleware.ts:6</a></div>
                             </td>
                         </tr>
 
@@ -140,8 +140,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">src/core/middleware/common.middleware.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">libs/core/src/middleware/common.middleware.ts:9</a></div>
                 </td>
             </tr>
 
@@ -219,15 +219,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NestMiddleware, Injectable } from &#x27;@nestjs/common&#x27;
-import { Request, Response, NextFunction } from &#x27;express&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NestMiddleware } from &#x27;@nestjs/common&#x27;
+import { NextFunction, Request, Response } from &#x27;express&#x27;
 
 @Injectable()
 export class Middleware implements NestMiddleware {
-    constructor() {}
-    async use(req: Request, res: Response, next: NextFunction) {
-        next()
-    }
+  constructor() {}
+
+  async use(req: Request, res: Response, next: NextFunction) {
+    next()
+  }
 }
 </code></pre>
     </div>

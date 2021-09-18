@@ -345,31 +345,40 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Allow } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
+import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 
 export class AllTicketsDTO extends CursorPaginationDTO {}
+
 export class TicketsDTO extends CursorPaginationDTO {}
 
 export class TicketDTO {
-    @Allow()
-    subject: string
+  @Allow()
+  subject: string
 
-    @Allow()
-    description: string
+  @Allow()
+  description: string
 
-    @Allow()
-    orderId?: string
+  @Allow()
+  orderId?: string
 
-    @Allow()
-    ticketId?: string
+  @Allow()
+  ticketId?: string
 }
 
 export class GetFormDataDTO {
-    @Allow()
-    formId: string
+  @Allow()
+  formId: string
 }
 
 export class CreateFormDataDTO {}
+
+export class BounceDTO {
+  @Allow()
+  Message: string
+
+  @Allow()
+  Token: string
+}
 </code></pre>
     </div>
 </div>

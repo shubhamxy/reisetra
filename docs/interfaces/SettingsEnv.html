@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/config/settings.ts</code>
+            <code>libs/config/src/env/settings.ts</code>
         </p>
 
 
@@ -139,19 +139,22 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &#x27;@nestjs/config&#x27;
+import { CONFIG } from &#x27;./type&#x27;
+
 export interface SettingsEnv {
-    throttle: {
-        limit: number
-        ttl: number
-    }
+  throttle: {
+    limit: number
+    ttl: number
+  }
 }
+
 export const settings &#x3D; (): SettingsEnv &#x3D;&gt; ({
-    throttle: {
-        limit: +process.env.THROTTLE_LIMIT || 60,
-        ttl: +process.env.THROTTLE_TTL || 120,
-    },
+  throttle: {
+    limit: +process.env.THROTTLE_LIMIT || 60,
+    ttl: +process.env.THROTTLE_TTL || 120,
+  },
 })
-export default registerAs(&#x27;settings&#x27;, settings)
+export default registerAs(CONFIG.settings, settings)
 </code></pre>
     </div>
 </div>

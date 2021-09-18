@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/config/db.ts</code>
+            <code>libs/config/src/env/db.ts</code>
         </p>
 
 
@@ -451,32 +451,33 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &#x27;@nestjs/config&#x27;
+import { CONFIG } from &#x27;./type&#x27;
 
 export interface DBEnv {
-    type: string
-    host: string
-    port: string | number
-    username: string
-    password: string
-    database: string
-    url: string
-    user: string
-    db: string
+  type: string
+  host: string
+  port: string | number
+  username: string
+  password: string
+  database: string
+  url: string
+  user: string
+  db: string
 }
 
 export const db &#x3D; (): DBEnv &#x3D;&gt; ({
-    type: process.env.DB_TYPE || &#x27;mysql2&#x27;,
-    host: process.env.DB_HOST || &#x27;localhost&#x27;,
-    port: process.env.DB_PORT || 3306,
-    username: process.env.DB_USER || &#x27;root&#x27;,
-    password: process.env.DB_PASSWORD || &#x27;root&#x27;,
-    database: process.env.DB_DATABASE || &#x27;test&#x27;,
-    url: process.env.DATABASE_URL,
-    user: process.env.POSTGRES_USER,
-    db: process.env.POSTGRES_DB,
+  type: process.env.DB_TYPE || &#x27;mysql2&#x27;,
+  host: process.env.DB_HOST || &#x27;localhost&#x27;,
+  port: process.env.DB_PORT || 3306,
+  username: process.env.DB_USER || &#x27;root&#x27;,
+  password: process.env.DB_PASSWORD || &#x27;root&#x27;,
+  database: process.env.DB_DATABASE || &#x27;test&#x27;,
+  url: process.env.DATABASE_URL,
+  user: process.env.POSTGRES_USER,
+  db: process.env.POSTGRES_DB,
 })
 
-export default registerAs(&#x27;db&#x27;, db)
+export default registerAs(CONFIG.db, db)
 </code></pre>
     </div>
 </div>

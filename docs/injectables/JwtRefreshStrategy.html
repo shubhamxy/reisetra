@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/strategy/refresh.strategy.ts</code>
+            <code>libs/auth/src/strategy/refresh.strategy.ts</code>
         </p>
 
 
@@ -100,12 +100,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, configService: <a href="../injectables/ConfigService.html" target="_self">ConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/auth/strategy/refresh.strategy.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/auth/src/strategy/refresh.strategy.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -127,6 +127,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>configService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigService.html" target="_self" >ConfigService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -170,8 +182,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/auth/strategy/refresh.strategy.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">libs/auth/src/strategy/refresh.strategy.ts:34</a></div>
                 </td>
             </tr>
 
@@ -241,46 +253,47 @@
 import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
 import { Request } from &#x27;express&#x27;
-import { AuthService } from &#x27;../auth.service&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
+import { CustomError, errorCodes } from &#x27;@app/core&#x27;
+import { AuthEnv, CONFIG } from &#x27;@app/config&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
 import { UserAuthPayload } from &#x27;../auth.interface&#x27;
-import { auth } from &#x27;src/config&#x27;
-import { errorCodes } from &#x27;src/core/codes/error&#x27;
-const config &#x3D; auth()
+import { isAdmin } from &#x27;../decorator&#x27;
+import { AuthService } from &#x27;../auth.service&#x27;
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
-    Strategy,
-    &#x27;jwt-refresh-token&#x27;
+  Strategy,
+  &#x27;jwt-refresh-strategy&#x27;
 ) {
-    constructor(private authService: AuthService) {
-        super({
-            jwtFromRequest: ExtractJwt.fromHeader(&#x27;x-refresh-token&#x27;),
-            secretOrKey: config.jwtRefreshTokenOptions.secret,
-            issuer: config.jwtRefreshTokenOptions.issuer,
-            audience: config.jwtRefreshTokenOptions.audience,
-            passReqToCallback: true,
-            ignoreExpiration: false,
-        })
-    }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService
+  ) {
+    super({
+      jwtFromRequest: ExtractJwt.fromHeader(&#x27;x-refresh-token&#x27;),
+      secretOrKey: configService.get&lt;AuthEnv&gt;(CONFIG.auth)
+        .jwtRefreshTokenOptions.secret,
+      issuer: configService.get&lt;AuthEnv&gt;(CONFIG.auth).jwtRefreshTokenOptions
+        .issuer,
+      audience: configService.get&lt;AuthEnv&gt;(CONFIG.auth).jwtRefreshTokenOptions
+        .audience,
+      passReqToCallback: true,
+      ignoreExpiration: false,
+    })
+  }
 
-    async validate(request: Request, payload: any): Promise&lt;UserAuthPayload&gt; {
-        const isValid &#x3D; await this.authService.isRefreshTokenPayloadValid(
-            payload
-        )
-        if (isValid) {
-            return {
-                email: payload.email,
-                id: payload.sub,
-                role: payload.role,
-            }
-        } else {
-            throw new CustomError(
-                &#x27;Refresh token expired&#x27;,
-                errorCodes.AuthFailed
-            )
-        }
+  async validate(request: Request, payload: any): Promise&lt;UserAuthPayload&gt; {
+    if (await this.authService.isRefreshTokenPayloadValid(payload)) {
+      return {
+        email: payload.email,
+        id: payload.sub,
+        roles: payload.roles,
+        isAdmin: isAdmin(payload.roles),
+      }
+    } else {
+      throw new CustomError(&#x27;Refresh token expired&#x27;, errorCodes.AuthFailed)
     }
+  }
 }
 </code></pre>
     </div>

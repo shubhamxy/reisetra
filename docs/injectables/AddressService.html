@@ -120,7 +120,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -146,7 +146,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -681,182 +681,182 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
-    CursorPagination,
-    CursorPaginationResultInterface,
-} from &#x27;src/core/pagination&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+  CursorPagination,
+  CursorPaginationResultInterface,
+  CustomError,
+  errorCodes,
+} from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
 import { AddressDTO } from &#x27;./dto&#x27;
 import { AddressRO } from &#x27;./interfaces&#x27;
 
 @Injectable()
 export class AddressService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getAllAddresses(
-        options: CursorPagination
-    ): Promise&lt;CursorPaginationResultInterface&lt;AddressRO&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;address&#x27;,
-                prisma: this.db,
-                where: {
-                    active: true,
-                },
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;AddressService.getAllAddresss&#x27;
-            )
-        }
+  async getAllAddresses(
+    options: CursorPagination
+  ): Promise&lt;CursorPaginationResultInterface&lt;AddressRO&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;address&#x27;,
+        prisma: this.db,
+        where: {
+          active: true,
+        },
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;AddressService.getAllAddresss&#x27;
+      )
     }
+  }
 
-    async getAddressesByUser(
-        options: CursorPagination,
-        userId: string
-    ): Promise&lt;CursorPaginationResultInterface&lt;AddressRO&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;address&#x27;,
-                prisma: this.db,
-                where: {
-                    userId,
-                    active: true,
-                },
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;AddressService.getAddresses&#x27;
-            )
-        }
+  async getAddressesByUser(
+    options: CursorPagination,
+    userId: string
+  ): Promise&lt;CursorPaginationResultInterface&lt;AddressRO&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;address&#x27;,
+        prisma: this.db,
+        where: {
+          userId,
+          active: true,
+        },
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;AddressService.getAddresses&#x27;
+      )
     }
+  }
 
-    async getAddressById(id: string): Promise&lt;AddressRO&gt; {
-        const address &#x3D; await this.db.address.findUnique({
-            where: { id },
+  async getAddressById(id: string): Promise&lt;AddressRO&gt; {
+    const address &#x3D; await this.db.address.findUnique({
+      where: { id },
+    })
+    if (!address) {
+      throw new CustomError(
+        &#x27;Address does not exist&#x27;,
+        errorCodes.RecordDoesNotExist
+      )
+    }
+    return address
+  }
+
+  async createAddress(userId: string, data: AddressDTO): Promise&lt;AddressRO&gt; {
+    try {
+      const product &#x3D; await this.db.address.create({
+        data: {
+          ...data,
+          userId: userId,
+        },
+      })
+      return product
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;AddressService.createAddress&#x27;
+      )
+    }
+  }
+
+  async updateAddress(
+    id: string,
+    update: AddressDTO,
+    userId,
+    isAdmin &#x3D; false
+  ): Promise&lt;AddressRO&gt; {
+    try {
+      if (isAdmin) {
+        const data &#x3D; await this.db.address.update({
+          where: { id },
+          data: update,
         })
-        if (!address) {
-            throw new CustomError(
-                &#x27;Address does not exist&#x27;,
-                errorCodes.RecordDoesNotExist
-            )
+
+        return data
+      } else {
+        const count &#x3D; await this.db.address.count({
+          where: {
+            userId,
+            id,
+          },
+        })
+
+        if (count &gt; 0) {
+          const data &#x3D; await this.db.address.update({
+            where: { id },
+            data: update,
+          })
+          return data
+        } else {
+          throw new Error(&#x27;Address Not found&#x27;)
         }
-        return address
+      }
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;AddressService.updateAddress&#x27;
+      )
     }
+  }
 
-    async createAddress(userId: string, data: AddressDTO): Promise&lt;AddressRO&gt; {
-        try {
-            const product &#x3D; await this.db.address.create({
-                data: {
-                    ...data,
-                    userId: userId,
-                },
-            })
-            return product
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;AddressService.createAddress&#x27;
-            )
-        }
+  async deleteAddress(id: string): Promise&lt;AddressRO&gt; {
+    try {
+      const data &#x3D; await this.db.address.update({
+        where: { id },
+        data: {
+          active: false,
+        },
+      })
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;AddressService.deleteAddress&#x27;
+      )
     }
-
-    async updateAddress(
-        id: string,
-        update: AddressDTO,
-        userId,
-        isAdmin &#x3D; false
-    ): Promise&lt;AddressRO&gt; {
-        try {
-            if (isAdmin) {
-                const data &#x3D; await this.db.address.update({
-                    where: { id },
-                    data: update,
-                })
-
-                return data
-            } else {
-                const count &#x3D; await this.db.address.count({
-                    where: {
-                        userId,
-                        id,
-                    },
-                })
-
-                if (count &gt; 0) {
-                    const data &#x3D; await this.db.address.update({
-                        where: { id },
-                        data: update,
-                    })
-                    return data
-                } else {
-                    throw new Error(&#x27;Address Not found&#x27;)
-                }
-            }
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;AddressService.updateAddress&#x27;
-            )
-        }
-    }
-
-    async deleteAddress(id: string): Promise&lt;AddressRO&gt; {
-        try {
-            const data &#x3D; await this.db.address.update({
-                where: { id },
-                data: {
-                    active: false,
-                },
-            })
-            return data
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;AddressService.deleteAddress&#x27;
-            )
-        }
-    }
+  }
 }
 </code></pre>
     </div>

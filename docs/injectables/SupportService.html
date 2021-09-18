@@ -100,6 +100,26 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#handleBounce" >handleBounce</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleComplaints" >handleComplaints</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleDeliveries" >handleDeliveries</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleSnsNotification" >handleSnsNotification</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleUnsubscribe" >handleUnsubscribe</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#updateTicket" >updateTicket</a>
                             </li>
                         </ul>
@@ -120,12 +140,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
+<code>constructor(db: DbService, config: <a href="../injectables/ConfigService.html" target="_self">ConfigService</a>, auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, aws: <a href="../injectables/AWSService.html" target="_self">AWSService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/support/support.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/support/support.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -146,7 +166,43 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigService.html" target="_self" >ConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>auth</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>aws</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AWSService.html" target="_self" >AWSService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -190,8 +246,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">src/support/support.service.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/support/support.service.ts:107</a></div>
                 </td>
             </tr>
 
@@ -285,8 +341,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="170"
-                            class="link-to-prism">src/support/support.service.ts:170</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/support/support.service.ts:185</a></div>
                 </td>
             </tr>
 
@@ -356,8 +412,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/support/support.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/support/support.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -427,8 +483,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">src/support/support.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/support/support.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -498,8 +554,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">src/support/support.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/support/support.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -563,6 +619,409 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="handleBounce"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>handleBounce</b></span>
+                        <a href="#handleBounce"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleBounce(messageType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/BounceDTO.html" target="_self">BounceDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/support/support.service.ts:202</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>messageType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/BounceDTO.html" target="_self" >BounceDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleComplaints"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>handleComplaints</b></span>
+                        <a href="#handleComplaints"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleComplaints(messageType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/BounceDTO.html" target="_self">BounceDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="224"
+                            class="link-to-prism">src/support/support.service.ts:224</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>messageType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/BounceDTO.html" target="_self" >BounceDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleDeliveries"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>handleDeliveries</b></span>
+                        <a href="#handleDeliveries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleDeliveries(messageType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/BounceDTO.html" target="_self">BounceDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">src/support/support.service.ts:246</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>messageType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/BounceDTO.html" target="_self" >BounceDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleSnsNotification"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>handleSnsNotification</b></span>
+                        <a href="#handleSnsNotification"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleSnsNotification(body: <a href="../classes/BounceDTO.html" target="_self">BounceDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">src/support/support.service.ts:270</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/BounceDTO.html" target="_self" >BounceDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleUnsubscribe"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>handleUnsubscribe</b></span>
+                        <a href="#handleUnsubscribe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleUnsubscribe(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="301"
+                            class="link-to-prism">src/support/support.service.ts:301</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>token</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateTicket"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -581,8 +1040,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">src/support/support.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">src/support/support.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -649,191 +1108,326 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { TicketDTO } from &#x27;./dto&#x27;
-import { sendEmail, supportEmail, supportEmailAck } from &#x27;src/utils&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
-    CursorPagination,
-    CursorPaginationResultInterface,
-} from &#x27;src/core/pagination&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+  CursorPagination,
+  CursorPaginationResultInterface,
+  CustomError,
+  errorCodes,
+} from &#x27;@app/core&#x27;
+import { BounceDTO, TicketDTO } from &#x27;./dto&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
+import { DbService } from &#x27;@app/db&#x27;
 import { Ticket } from &#x27;./entity&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
+import { ServicesEnv } from &#x27;@app/config&#x27;
+import { AuthService } from &#x27;@app/auth&#x27;
+import { AWSService } from &#x27;@app/aws&#x27;
+import { supportEmail, supportEmailAck } from &#x27;@app/aws/aws/template&#x27;
 
 @Injectable()
 export class SupportService {
-    constructor(private readonly db: PrismaService) {}
-    async getAllTicketes(
-        options: CursorPagination
-    ): Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;ticket&#x27;,
-                prisma: this.db,
-                where: {
-                    active: true,
-                },
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;SupportService.getAllTickets&#x27;
-            )
-        }
-    }
+  constructor(
+    private readonly db: DbService,
+    private readonly config: ConfigService,
+    private readonly auth: AuthService,
+    private readonly aws: AWSService
+  ) {}
 
-    async getTicketesByUser(
-        options: CursorPagination,
-        userId: string
-    ): Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;ticket&#x27;,
-                prisma: this.db,
-                where: {
-                    userId,
-                    active: true,
-                },
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;SupportService.getTicketes&#x27;
-            )
-        }
+  async getAllTicketes(
+    options: CursorPagination
+  ): Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;ticket&#x27;,
+        prisma: this.db,
+        where: {
+          active: true,
+        },
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.getAllTickets&#x27;
+      )
     }
+  }
 
-    async getTicketById(id: string): Promise&lt;Ticket&gt; {
-        const ticket &#x3D; await this.db.ticket.findUnique({
-            where: { id },
+  async getTicketesByUser(
+    options: CursorPagination,
+    userId: string
+  ): Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      return await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;ticket&#x27;,
+        prisma: this.db,
+        where: {
+          userId,
+          active: true,
+        },
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.getTicketes&#x27;
+      )
+    }
+  }
+
+  async getTicketById(id: string): Promise&lt;Ticket&gt; {
+    const ticket &#x3D; await this.db.ticket.findUnique({
+      where: { id },
+    })
+    if (!ticket) {
+      throw new CustomError(
+        &#x27;Ticket does not exist&#x27;,
+        errorCodes.RecordDoesNotExist
+      )
+    }
+    return ticket
+  }
+
+  async createTicket(
+    userId: string,
+    email: string,
+    data: TicketDTO
+  ): Promise&lt;any&gt; {
+    try {
+      const ticket &#x3D; await this.db.ticket.create({
+        data: {
+          userId,
+          data: {
+            email,
+            subject: data.subject,
+            description: data.description,
+            orderId: data.orderId,
+          },
+        },
+      })
+      const ticketId &#x3D; ticket.id || data.ticketId
+      const unsubscribeToken &#x3D; await this.auth.createUnsubscribeToken(email)
+      const results &#x3D; await Promise.all([
+        this.aws.sendEmail(
+          supportEmailAck(
+            {
+              id: userId,
+              subject: data.subject,
+              email,
+              ticketId,
+            },
+            unsubscribeToken
+          )
+        ),
+        this.aws.sendEmail(
+          supportEmail(
+            {
+              id: userId,
+              email,
+              ticketId,
+              orderId: data.orderId,
+              subject: data.subject,
+              description: data.description,
+            },
+            unsubscribeToken
+          )
+        ),
+      ])
+      return {
+        ...ticket,
+        messages: results,
+      }
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.createSupportTicket&#x27;
+      )
+    }
+  }
+
+  async updateTicket(id: string, data: TicketDTO): Promise&lt;Ticket&gt; {
+    try {
+      return await this.db.ticket.update({
+        where: { id },
+        data: {
+          data: {
+            subject: data.subject,
+            description: data.description,
+          },
+        },
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.updateTicket&#x27;
+      )
+    }
+  }
+
+  async deleteTicket(id: string): Promise&lt;Ticket&gt; {
+    try {
+      return await this.db.ticket.update({
+        where: { id },
+        data: {
+          active: false,
+        },
+      })
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.deleteTicket&#x27;
+      )
+    }
+  }
+
+  async handleBounce(messageType: string, body: BounceDTO): Promise&lt;any&gt; {
+    try {
+      if (messageType &#x3D;&#x3D;&#x3D; &#x27;Notification&#x27; &amp;&amp; body.Message) {
+        await this.handleSnsNotification(body)
+      } else if (messageType &#x3D;&#x3D;&#x3D; &#x27;SubscriptionConfirmation&#x27;) {
+        const params &#x3D; {
+          Token: body.Token,
+          TopicArn: this.config.get&lt;ServicesEnv&gt;(&#x27;services&#x27;).aws
+            .snsTopicArnBounce,
+        }
+        await this.aws.confirmSubscription(params)
+      }
+      return body
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.handleBounce&#x27;
+      )
+    }
+  }
+
+  async handleComplaints(messageType: string, body: BounceDTO): Promise&lt;any&gt; {
+    try {
+      if (messageType &#x3D;&#x3D;&#x3D; &#x27;Notification&#x27; &amp;&amp; body.Message) {
+        await this.handleSnsNotification(body)
+      } else if (messageType &#x3D;&#x3D;&#x3D; &#x27;SubscriptionConfirmation&#x27;) {
+        const params &#x3D; {
+          Token: body.Token,
+          TopicArn: this.config.get&lt;ServicesEnv&gt;(&#x27;services&#x27;).aws
+            .snsTopicArnComplaint,
+        }
+        await this.aws.confirmSubscription(params)
+      }
+      return body
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.handleComplaints&#x27;
+      )
+    }
+  }
+
+  async handleDeliveries(messageType: string, body: BounceDTO): Promise&lt;any&gt; {
+    try {
+      if (messageType &#x3D;&#x3D;&#x3D; &#x27;Notification&#x27; &amp;&amp; body.Message) {
+        await this.handleSnsNotification(body)
+      } else if (messageType &#x3D;&#x3D;&#x3D; &#x27;SubscriptionConfirmation&#x27;) {
+        const params &#x3D; {
+          Token: body.Token,
+          TopicArn: this.config.get&lt;ServicesEnv&gt;(&#x27;services&#x27;).aws
+            .snsTopicArnDelivery,
+        }
+        await this.aws.confirmSubscription(params)
+      } else {
+        throw Error(&#x27;Invalid Notification&#x27;)
+      }
+      return body
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.handleDeliveries&#x27;
+      )
+    }
+  }
+
+  async handleSnsNotification(body: BounceDTO) {
+    const message &#x3D; JSON.parse(body.Message)
+    if (
+      message &amp;&amp;
+      (message.notificationType &#x3D;&#x3D;&#x3D; &#x27;Bounce&#x27; ||
+        message.notificationType &#x3D;&#x3D;&#x3D; &#x27;Complaint&#x27;)
+    ) {
+      const mail &#x3D; message.mail
+      if (mail &amp;&amp; mail.destination) {
+        for (let i &#x3D; 0; i &lt; mail.destination.length; i++) {
+          const address &#x3D; mail.destination[i]
+
+          try {
+            const user &#x3D; await this.db.user.update({
+              where: { email: address },
+              data: {
+                emailVerified: false,
+              },
+            })
+            this.createTicket(user.id, user.email, {
+              subject: message.notificationType as string,
+              description: body.Message,
+            })
+          } catch (error) {
+            console.error(error.message)
+          }
+        }
+      }
+    }
+  }
+
+  async handleUnsubscribe(email: string, token: string): Promise&lt;any&gt; {
+    try {
+      console.log(await this.auth.createUnsubscribeToken(email))
+      if (await this.auth.verifyUnsubscribeToken(email, token)) {
+        await this.db.user.update({
+          where: { email },
+          data: {
+            emailVerified: false,
+          },
         })
-        if (!ticket) {
-            throw new CustomError(
-                &#x27;Ticket does not exist&#x27;,
-                errorCodes.RecordDoesNotExist
-            )
-        }
-        return ticket
+      } else {
+        throw Error(&#x27;Invalid Verification UnsubscribeToken&#x27;)
+      }
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;SupportService.handleDeliveries&#x27;
+      )
     }
-
-    async createTicket(
-        userId: string,
-        email: string,
-        data: TicketDTO
-    ): Promise&lt;any&gt; {
-        try {
-            const ticket &#x3D; await this.db.ticket.create({
-                data: {
-                    userId,
-                    data: {
-                        email,
-                        subject: data.subject,
-                        description: data.description,
-                        orderId: data.orderId,
-                    },
-                },
-            })
-            const ticketId &#x3D; ticket.id || data.ticketId
-            const results &#x3D; await Promise.all([
-                sendEmail(
-                    supportEmailAck({
-                        id: userId,
-                        subject: data.subject,
-                        email,
-                        ticketId,
-                    })
-                ),
-                sendEmail(
-                    supportEmail({
-                        id: userId,
-                        email,
-                        ticketId,
-                        orderId: data.orderId,
-                        subject: data.subject,
-                        description: data.description,
-                    })
-                ),
-            ])
-            return {
-                ...ticket,
-                messages: results,
-            }
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;SupportService.createSupportTicket&#x27;
-            )
-        }
-    }
-
-    async updateTicket(id: string, data: TicketDTO): Promise&lt;Ticket&gt; {
-        try {
-            const ticket &#x3D; await this.db.ticket.update({
-                where: { id },
-                data: {
-                    data: {
-                        subject: data.subject,
-                        description: data.description,
-                    },
-                },
-            })
-            return ticket
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;SupportService.updateTicket&#x27;
-            )
-        }
-    }
-
-    async deleteTicket(id: string): Promise&lt;Ticket&gt; {
-        try {
-            const ticket &#x3D; await this.db.ticket.update({
-                where: { id },
-                data: {
-                    active: false,
-                },
-            })
-            return ticket
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;SupportService.deleteTicket&#x27;
-            )
-        }
-    }
+  }
 }
 </code></pre>
     </div>

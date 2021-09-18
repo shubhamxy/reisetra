@@ -91,7 +91,7 @@ export const config: Config = {
         'https://reisetra.com/login/callback',
     cdnUrl:
         process.env.NEXT_PUBLIC_CDN_URL ||
-        'https://d38bp8dgh2l2dc.cloudfront.net', // API
+        'https://cdn.reisetra.com', // API
     apiUrl: process.env.NEXT_PUBLIC_API_URL || '', // GOOGLE Login
     googleOAuthOptions: {
         enableGoogleSignIn: !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,

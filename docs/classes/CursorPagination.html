@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/core/pagination/pagination.ts</code>
+            <code>libs/core/src/pagination/pagination.ts</code>
         </p>
 
 
@@ -147,7 +147,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/core/pagination/pagination.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">libs/core/src/pagination/pagination.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -174,7 +174,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/core/pagination/pagination.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">libs/core/src/pagination/pagination.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -201,7 +201,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/core/pagination/pagination.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">libs/core/src/pagination/pagination.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -228,7 +228,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/core/pagination/pagination.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">libs/core/src/pagination/pagination.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -255,7 +255,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/core/pagination/pagination.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">libs/core/src/pagination/pagination.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -274,53 +274,53 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PaginationType } from &#x27;src/utils/prisma&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PaginationType } from &#x27;@app/utils&#x27;
 
 export interface OffsetPaginationOptionsInterface {
-    limit: number
-    page: number
+  limit: number
+  page: number
 }
 
 export interface OffsetPaginationResultInterface&lt;PaginationEntity&gt; {
-    results: PaginationEntity[]
-    page?: number
-    size?: number
+  results: PaginationEntity[]
+  page?: number
+  size?: number
 
-    totalCount?: number
-    pageCount?: number
-    next?: string
-    previous?: string
+  totalCount?: number
+  pageCount?: number
+  next?: string
+  previous?: string
 
-    offset?: number
-    link?: {
-        first: string
-        last: string
-        self: string
-        previous: string
-        next: string
-    }
+  offset?: number
+  link?: {
+    first: string
+    last: string
+    self: string
+    previous: string
+    next: string
+  }
 }
 
 export interface CursorPaginationOptionsInterface {
-    size: number
-    buttonNum: number
-    cursor: string
-    orderBy: string
-    orderDirection: &#x27;desc&#x27; | &#x27;asc&#x27;
+  size: number
+  buttonNum: number
+  cursor: string
+  orderBy: string
+  orderDirection: &#x27;desc&#x27; | &#x27;asc&#x27;
 }
 
 export class CursorPagination
-    implements Partial&lt;CursorPaginationOptionsInterface&gt; {
-    size?: number
-    buttonNum?: number
-    cursor?: string
-    orderBy?: string
-    orderDirection?: &#x27;desc&#x27; | &#x27;asc&#x27;
+  implements Partial&lt;CursorPaginationOptionsInterface&gt; {
+  size?: number
+  buttonNum?: number
+  cursor?: string
+  orderBy?: string
+  orderDirection?: &#x27;desc&#x27; | &#x27;asc&#x27;
 }
 
 export interface CursorPaginationResultInterface&lt;PaginationEntity&gt;
-    extends PaginationType {
-    results: PaginationEntity[]
+  extends PaginationType {
+  results: PaginationEntity[]
 }
 </code></pre>
     </div>

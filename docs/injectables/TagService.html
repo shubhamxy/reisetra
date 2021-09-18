@@ -120,12 +120,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/master/tag/tag.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/master/tag/tag.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -146,7 +146,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -202,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">src/master/tag/tag.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/master/tag/tag.service.ts:96</a></div>
                 </td>
             </tr>
 
@@ -284,8 +284,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="125"
-                            class="link-to-prism">src/master/tag/tag.service.ts:125</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">src/master/tag/tag.service.ts:127</a></div>
                 </td>
             </tr>
 
@@ -348,15 +348,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteTags(data: UpdateTagDTO[])</code>
+                    <code>deleteTags(data: <a href="../s/date.html" target="_self">UpdateTagDTO[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">src/master/tag/tag.service.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/master/tag/tag.service.ts:166</a></div>
                 </td>
             </tr>
 
@@ -379,7 +379,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                            <code>UpdateTagDTO[]</code>
+                                                <code><a href="../miscellaneous/variables.html#date" target="_self" >UpdateTagDTO[]</a></code>
                                     </td>
 
                                     <td>
@@ -426,8 +426,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">src/master/tag/tag.service.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">src/master/tag/tag.service.ts:21</a></div>
                 </td>
             </tr>
 
@@ -497,8 +497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/master/tag/tag.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/master/tag/tag.service.ts:59</a></div>
                 </td>
             </tr>
 
@@ -561,15 +561,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateTags(data: UpdateTagDTO[])</code>
+                    <code>updateTags(data: <a href="../s/date.html" target="_self">UpdateTagDTO[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">src/master/tag/tag.service.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">src/master/tag/tag.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -592,7 +592,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                            <code>UpdateTagDTO[]</code>
+                                                <code><a href="../miscellaneous/variables.html#date" target="_self" >UpdateTagDTO[]</a></code>
                                     </td>
 
                                     <td>
@@ -624,184 +624,186 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
-import { CreateTagDTO, UpdateTagDTO, GetAllTagsDTO } from &#x27;./dto&#x27;
-import { OrderDirection } from &#x27;../../core/dto&#x27;
+import {
+  CursorPaginationResultInterface,
+  CustomError,
+  OrderDirection,
+} from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
+import { CreateTagDTO, GetAllTagsDTO, UpdateTagDTO } from &#x27;./dto&#x27;
 import type { Prisma } from &#x27;.prisma/client&#x27;
-import { CursorPaginationResultInterface } from &#x27;src/core/pagination&#x27;
 import { TagRO, TagsRO } from &#x27;./interfaces&#x27;
 
 @Injectable()
 export class TagService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getAllTags(
-        options: GetAllTagsDTO
-    ): Promise&lt;CursorPaginationResultInterface&lt;TagRO&gt;&gt; {
-        try {
-            const whereObj &#x3D; {}
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; OrderDirection.asc,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;tag&#x27;,
-                where: whereObj,
-                include: {
-                    label: true,
-                    value: true,
-                    description: true,
-                    styles: true,
+  async getAllTags(
+    options: GetAllTagsDTO
+  ): Promise&lt;CursorPaginationResultInterface&lt;TagRO&gt;&gt; {
+    try {
+      const whereObj &#x3D; {}
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; OrderDirection.asc,
+      } &#x3D; options
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;tag&#x27;,
+        where: whereObj,
+        include: {
+          label: true,
+          value: true,
+          description: true,
+          styles: true,
+        },
+        prisma: this.db,
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;TagService.getAllTags&#x27;
+      )
+    }
+  }
+
+  async getTags(category?: string): Promise&lt;TagsRO&gt; {
+    try {
+      const findObj: Prisma.TagFindManyArgs &#x3D; {
+        take: 20,
+        include: {
+          images: {
+            select: {
+              url: true,
+              meta: true,
+            },
+          },
+        },
+      }
+      if (category) {
+        findObj.where &#x3D; {
+          products: {
+            some: {
+              categories: {
+                some: {
+                  label: category,
                 },
-                prisma: this.db,
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;TagService.getAllTags&#x27;
-            )
+              },
+            },
+          },
         }
+      }
+      const tags &#x3D; await this.db.tag.findMany(findObj)
+      return tags
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;TagService.getCategories&#x27;
+      )
     }
+  }
 
-    async getTags(category?: string): Promise&lt;TagsRO&gt; {
-        try {
-            const findObj: Prisma.TagFindManyArgs &#x3D; {
-                take: 20,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-            }
-            if (category) {
-                findObj.where &#x3D; {
-                    products: {
-                        some: {
-                            categories: {
-                                some: {
-                                    label: category,
-                                },
-                            },
-                        },
-                    },
-                }
-            }
-            const tags &#x3D; await this.db.tag.findMany(findObj)
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;TagService.getCategories&#x27;
-            )
-        }
+  async createTag(userId, data: CreateTagDTO): Promise&lt;TagRO&gt; {
+    try {
+      if (data.images &amp;&amp; data.images.length &gt; 0) {
+        data.images &#x3D; {
+          connectOrCreate: data.images.map((item) &#x3D;&gt; ({
+            create: {
+              fileType: item.fileType,
+              url: item.url,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
+        } as any
+      }
+
+      const tags &#x3D; await this.db.tag.create({
+        data: data,
+      })
+      return tags
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;TagService.createTag&#x27;
+      )
     }
+  }
 
-    async createTag(userId, data: CreateTagDTO): Promise&lt;TagRO&gt; {
-        try {
-            if (data.images &amp;&amp; data.images.length &gt; 0) {
-                data.images &#x3D; {
-                    connectOrCreate: data.images.map((item) &#x3D;&gt; ({
-                        create: {
-                            fileType: item.fileType,
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                } as any
-            }
-
-            const tags &#x3D; await this.db.tag.create({
-                data: data,
-            })
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;TagService.createTag&#x27;
-            )
-        }
+  async createTags(data: CreateTagDTO[]): Promise&lt;Prisma.BatchPayload&gt; {
+    try {
+      const tags &#x3D; await this.db.tag.createMany({
+        data: data,
+      })
+      return tags
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;TagService.createTags&#x27;
+      )
     }
+  }
 
-    async createTags(data: CreateTagDTO[]): Promise&lt;Prisma.BatchPayload&gt; {
-        try {
-            const tags &#x3D; await this.db.tag.createMany({
-                data: data,
-            })
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;TagService.createTags&#x27;
-            )
-        }
+  async updateTags(data: UpdateTagDTO[]): Promise&lt;TagsRO&gt; {
+    try {
+      // TODO: find beter way??
+      const update &#x3D; await Promise.all(
+        data.map((tag) &#x3D;&gt; {
+          return this.db.tag.update({
+            where: { label: tag.label },
+            data: {
+              label: tag.label,
+              value: tag.value,
+            },
+          })
+        })
+      )
+      return update
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;TagService.updateTags&#x27;
+      )
     }
+  }
 
-    async updateTags(data: UpdateTagDTO[]): Promise&lt;TagsRO&gt; {
-        try {
-            // TODO: find beter way??
-            const update &#x3D; await Promise.all(
-                data.map((tag) &#x3D;&gt; {
-                    return this.db.tag.update({
-                        where: { label: tag.label },
-                        data: {
-                            label: tag.label,
-                            value: tag.value,
-                        },
-                    })
-                })
-            )
-            return update
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;TagService.updateTags&#x27;
-            )
-        }
+  async deleteTags(data: UpdateTagDTO[]): Promise&lt;Prisma.BatchPayload&gt; {
+    try {
+      const tags &#x3D; await this.db.tag.deleteMany({
+        where: {
+          label: { in: data.map((item) &#x3D;&gt; item.label) },
+        },
+      })
+      return tags
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;TagService.deleteTags&#x27;
+      )
     }
-
-    async deleteTags(data: UpdateTagDTO[]): Promise&lt;Prisma.BatchPayload&gt; {
-        try {
-            const tags &#x3D; await this.db.tag.deleteMany({
-                where: {
-                    label: { in: data.map((item) &#x3D;&gt; item.label) },
-                },
-            })
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;TagService.deleteTags&#x27;
-            )
-        }
-    }
+  }
 }
 </code></pre>
     </div>

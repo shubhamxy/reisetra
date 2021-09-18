@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/strategy/jwt.strategy.ts</code>
+            <code>libs/auth/src/strategy/jwt.strategy.ts</code>
         </p>
 
 
@@ -100,15 +100,45 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor()</code>
+<code>constructor(configService: <a href="../injectables/ConfigService.html" target="_self">ConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/auth/strategy/jwt.strategy.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">libs/auth/src/strategy/jwt.strategy.ts:10</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>configService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfigService.html" target="_self" >ConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -140,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/auth/strategy/jwt.strategy.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">libs/auth/src/strategy/jwt.strategy.ts:25</a></div>
                 </td>
             </tr>
 
@@ -209,25 +239,35 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExtractJwt, Strategy } from &#x27;passport-jwt&#x27;
 import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
-import { auth } from &#x27;../../config&#x27;
+import { AuthEnv, CONFIG } from &#x27;@app/config&#x27;
 import { UserAuthPayload } from &#x27;../auth.interface&#x27;
-const config &#x3D; auth()
+import { isAdmin } from &#x27;../decorator&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor() {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: config.jwtAccessTokenOptions.secret,
-            issuer: config.jwtAccessTokenOptions.issuer,
-            audience: config.jwtAccessTokenOptions.audience,
-            ignoreExpiration: false,
-            passReqToCallback: true,
-        })
-    }
+  constructor(private readonly configService: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.get&lt;AuthEnv&gt;(CONFIG.auth).jwtAccessTokenOptions
+        .secret,
+      issuer: configService.get&lt;AuthEnv&gt;(CONFIG.auth).jwtAccessTokenOptions
+        .issuer,
+      audience: configService.get&lt;AuthEnv&gt;(CONFIG.auth).jwtAccessTokenOptions
+        .audience,
+      ignoreExpiration: false,
+      passReqToCallback: true,
+    })
+  }
 
-    async validate(request: Request, payload): Promise&lt;UserAuthPayload&gt; {
-        return { id: payload.sub, email: payload.email, role: payload.role }
+  async validate(request: Request, payload): Promise&lt;UserAuthPayload&gt; {
+    return {
+      id: payload.sub,
+      email: payload.email,
+      roles: payload.roles,
+      isAdmin: isAdmin(payload.roles),
     }
+  }
 }
 </code></pre>
     </div>

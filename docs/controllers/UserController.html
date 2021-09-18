@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/user/user.controller.ts</code>
+            <code>libs/user/src/user.controller.ts</code>
         </p>
 
 
@@ -155,8 +155,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/user/user.controller.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">libs/user/src/user.controller.ts:51</a></div>
                 </td>
             </tr>
 
@@ -233,8 +233,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">src/user/user.controller.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">libs/user/src/user.controller.ts:93</a></div>
                 </td>
             </tr>
 
@@ -311,8 +311,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">src/user/user.controller.ts:129</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">libs/user/src/user.controller.ts:121</a></div>
                 </td>
             </tr>
 
@@ -383,14 +383,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.users_all)<br /></code>
+                    <code>@Get(ROUTES.users_all)<br />@Roles(Role.ADMIN)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/user/user.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">libs/user/src/user.controller.ts:31</a></div>
                 </td>
             </tr>
 
@@ -467,8 +467,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/user/user.controller.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">libs/user/src/user.controller.ts:61</a></div>
                 </td>
             </tr>
 
@@ -545,8 +545,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">src/user/user.controller.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">libs/user/src/user.controller.ts:100</a></div>
                 </td>
             </tr>
 
@@ -623,8 +623,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">src/user/user.controller.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">libs/user/src/user.controller.ts:71</a></div>
                 </td>
             </tr>
 
@@ -713,8 +713,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">src/user/user.controller.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">libs/user/src/user.controller.ts:111</a></div>
                 </td>
             </tr>
 
@@ -779,139 +779,131 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
-    Query,
-    Req,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
 } from &#x27;@nestjs/common&#x27;
 import { UserService } from &#x27;./user.service&#x27;
 import {
-    CustomException,
-    Exception,
-    SuccessResponse,
-} from &#x27;src/core/response&#x27;
+  CustomException,
+  errorTypes,
+  Exception,
+  ROUTES,
+  SuccessResponse,
+} from &#x27;@app/core&#x27;
 import { CreateUserDTO, GetAllUsersDTO, UpdateUserDTO } from &#x27;./dto&#x27;
-import { errorTypes } from &#x27;src/core/codes/error&#x27;
-import { getErrorMessage, stackObj } from &#x27;src/utils/errorUtils&#x27;
-import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { getErrorMessage, stackObj } from &#x27;@app/utils&#x27;
+import { AuthenticatedRequest, Role, Roles } from &#x27;@app/auth&#x27;
 
 @Controller(ROUTES.users)
 export class UserController {
-    constructor(private readonly user: UserService) {}
+  constructor(private readonly user: UserService) {}
 
-    @Roles(Role.ADMIN)
-    @Get(ROUTES.users_all)
-    async getAllUsers(
-        @Query() query: GetAllUsersDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.user.allUsers(query)
-            return { data: results, meta: meta }
-        } catch (error) {
-            throw new Exception(
-                {
-                    message: getErrorMessage(error),
-                    code: error.code,
-                    context: &#x27;UserController.getAllUsers&#x27;,
-                    type: errorTypes[error.code],
-                    stack: stackObj(error.message),
-                },
-                HttpStatus.BAD_REQUEST
-            )
-        }
+  @Get(ROUTES.users_all)
+  @Roles(Role.ADMIN)
+  async getAllUsers(@Query() query: GetAllUsersDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.user.allUsers(query)
+      return { data: results, meta: meta }
+    } catch (error) {
+      throw new Exception(
+        {
+          message: getErrorMessage(error),
+          code: error.code,
+          context: &#x27;UserController.getAllUsers&#x27;,
+          type: errorTypes[error.code],
+          stack: stackObj(error.message),
+        },
+        HttpStatus.BAD_REQUEST
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Post()
-    async createUser(@Body() body: CreateUserDTO): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.user.create(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(error, HttpStatus.BAD_REQUEST)
-        }
+  @Roles(Role.ADMIN)
+  @Post()
+  async createUser(@Body() body: CreateUserDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.user.create(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(error, HttpStatus.BAD_REQUEST)
     }
+  }
 
-    @Get()
-    async getUser(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.user.find(req.user.id)
-            return { data }
-        } catch (error) {
-            throw new CustomException(error, HttpStatus.BAD_REQUEST)
-        }
+  @Get()
+  async getUser(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.user.find(req.user.id)
+      return { data }
+    } catch (error) {
+      throw new CustomException(error, HttpStatus.BAD_REQUEST)
     }
+  }
 
-    @Put()
-    async updateUser(
-        @Req() req: AuthenticatedRequest,
-        @Body() body: UpdateUserDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.user.findAndUpdate(req.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new Exception(
-                {
-                    message: getErrorMessage(error),
-                    code: error.code,
-                    context: &#x27;UserController.updateMe&#x27;,
-                    type: errorTypes[error.code],
-                    stack: stackObj(error.message),
-                },
-                HttpStatus.BAD_REQUEST
-            )
-        }
+  @Put()
+  async updateUser(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: UpdateUserDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.user.findAndUpdate(req.user.id, body)
+      return { data }
+    } catch (error) {
+      throw new Exception(
+        {
+          message: getErrorMessage(error),
+          code: error.code,
+          context: &#x27;UserController.updateMe&#x27;,
+          type: errorTypes[error.code],
+          stack: stackObj(error.message),
+        },
+        HttpStatus.BAD_REQUEST
+      )
     }
+  }
 
-    @Delete()
-    async deleteUser(
-        @Req() req: AuthenticatedRequest
-    ): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.user.delete(req.user.id)
-        return { data }
-    }
+  @Delete()
+  async deleteUser(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
+    const data &#x3D; await this.user.delete(req.user.id)
+    return { data }
+  }
 
-    @Roles(Role.ADMIN)
-    @Get(ROUTES.users_by_userId)
-    async getUserById(
-        @Param(&#x27;userId&#x27;) userId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.user.find(userId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(error, HttpStatus.BAD_REQUEST)
-        }
+  @Roles(Role.ADMIN)
+  @Get(ROUTES.users_by_userId)
+  async getUserById(@Param(&#x27;userId&#x27;) userId: string): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.user.find(userId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(error, HttpStatus.BAD_REQUEST)
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Put(ROUTES.users_by_userId)
-    async updateUserById(
-        @Param(&#x27;userId&#x27;) userId: string,
-        @Body() body: UpdateUserDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        const update &#x3D; body
-        const data &#x3D; await this.user.findAndUpdate(userId, update)
-        return { data }
-    }
+  @Roles(Role.ADMIN)
+  @Put(ROUTES.users_by_userId)
+  async updateUserById(
+    @Param(&#x27;userId&#x27;) userId: string,
+    @Body() body: UpdateUserDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    const data &#x3D; await this.user.findAndUpdate(userId, body)
+    return { data }
+  }
 
-    @Roles(Role.ADMIN)
-    @Delete(ROUTES.users_by_userId)
-    async deleteUserId(
-        @Param(&#x27;userId&#x27;) userId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.user.delete(userId)
-        return { data }
-    }
+  @Roles(Role.ADMIN)
+  @Delete(ROUTES.users_by_userId)
+  async deleteUserId(
+    @Param(&#x27;userId&#x27;) userId: string
+  ): Promise&lt;SuccessResponse&gt; {
+    const data &#x3D; await this.user.delete(userId)
+    return { data }
+  }
 }
 </code></pre>
     </div>

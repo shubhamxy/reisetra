@@ -344,15 +344,16 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inventory as InventoryModel } from &#x27;.prisma/client&#x27;
 
 export class Inventory implements InventoryModel {
-    id: string
-    stockQuantity: number
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
-    sku: string
-    constructor(partial: Partial&lt;InventoryModel&gt;) {
-        Object.assign(this, partial)
-    }
+  id: string
+  stockQuantity: number
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
+  sku: string
+
+  constructor(partial: Partial&lt;InventoryModel&gt;) {
+    Object.assign(this, partial)
+  }
 }
 </code></pre>
     </div>

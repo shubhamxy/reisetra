@@ -147,8 +147,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/master/address/address.controller.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/master/address/address.controller.ts:40</a></div>
                 </td>
             </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="122"
-                            class="link-to-prism">src/master/address/address.controller.ts:122</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/master/address/address.controller.ts:117</a></div>
                 </td>
             </tr>
 
@@ -315,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">src/master/address/address.controller.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/master/address/address.controller.ts:77</a></div>
                 </td>
             </tr>
 
@@ -393,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/master/address/address.controller.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/master/address/address.controller.ts:57</a></div>
                 </td>
             </tr>
 
@@ -483,8 +483,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/master/address/address.controller.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/master/address/address.controller.ts:24</a></div>
                 </td>
             </tr>
 
@@ -561,8 +561,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">src/master/address/address.controller.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/master/address/address.controller.ts:93</a></div>
                 </td>
             </tr>
 
@@ -639,140 +639,135 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
-    Query,
-    Req,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
 } from &#x27;@nestjs/common&#x27;
 import { AddressService } from &#x27;./address.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
-import { AddressesDTO, AllAddressDTO, AddressDTO } from &#x27;./dto&#x27;
-import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
+import { AddressDTO, AddressesDTO, AllAddressDTO } from &#x27;./dto&#x27;
+import { AuthenticatedRequest, isAdmin, Role, Roles } from &#x27;@app/auth&#x27;
 
 @Controller(ROUTES.addresses)
 export class AddressController {
-    constructor(private readonly address: AddressService) {}
+  constructor(private readonly address: AddressService) {}
 
-    @Roles(Role.ADMIN)
-    @Get(ROUTES.addresses_all)
-    async getAllAddresses(
-        @Query() query: AllAddressDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.address.getAllAddresses(
-                query
-            )
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.getAllAddresses&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Get(ROUTES.addresses_all)
+  async getAllAddresses(
+    @Query() query: AllAddressDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.address.getAllAddresses(query)
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AddressController.getAllAddresses&#x27;
+      )
     }
+  }
 
-    @Post()
-    async createAddress(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: AddressDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.address.createAddress(request.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.createAddress&#x27;
-            )
-        }
+  @Post()
+  async createAddress(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: AddressDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.address.createAddress(request.user.id, body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AddressController.createAddress&#x27;
+      )
     }
+  }
 
-    @Get()
-    async getAddresses(
-        @Req() req: AuthenticatedRequest,
-        @Query() query: AddressesDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.address.getAddressesByUser(
-                query,
-                req.user.id
-            )
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.getAddresses&#x27;
-            )
-        }
+  @Get()
+  async getAddresses(
+    @Req() req: AuthenticatedRequest,
+    @Query() query: AddressesDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.address.getAddressesByUser(
+        query,
+        req.user.id
+      )
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AddressController.getAddresses&#x27;
+      )
     }
+  }
 
-    @Get(ROUTES.addresses_by_addressId)
-    async getAddress(
-        @Param(&#x27;addressId&#x27;) addressId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.address.getAddressById(addressId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.getAddress&#x27;
-            )
-        }
+  @Get(ROUTES.addresses_by_addressId)
+  async getAddress(
+    @Param(&#x27;addressId&#x27;) addressId: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.address.getAddressById(addressId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AddressController.getAddress&#x27;
+      )
     }
+  }
 
-    @Put(ROUTES.addresses_by_addressId)
-    async updateAddress(
-        @Req() request: AuthenticatedRequest,
-        @Param(&#x27;addressId&#x27;) addressId: string,
-        @Body() body: AddressDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const isAdmin &#x3D; request.user.role &#x3D;&#x3D;&#x3D; &#x27;ADMIN&#x27;
-            const data &#x3D; await this.address.updateAddress(
-                addressId,
-                body,
-                request.user.id,
-                isAdmin
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.updateAddress&#x27;
-            )
-        }
+  @Put(ROUTES.addresses_by_addressId)
+  async updateAddress(
+    @Req() request: AuthenticatedRequest,
+    @Param(&#x27;addressId&#x27;) addressId: string,
+    @Body() body: AddressDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.address.updateAddress(
+        addressId,
+        body,
+        request.user.id,
+        isAdmin(request.user.roles)
+      )
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AddressController.updateAddress&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Delete(ROUTES.addresses_by_addressId)
-    async deleteAddress(
-        @Param(&#x27;addressId&#x27;) addressId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.address.deleteAddress(addressId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;AddressController.deleteAddress&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Delete(ROUTES.addresses_by_addressId)
+  async deleteAddress(
+    @Param(&#x27;addressId&#x27;) addressId: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.address.deleteAddress(addressId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;AddressController.deleteAddress&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

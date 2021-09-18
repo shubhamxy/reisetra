@@ -112,7 +112,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -138,7 +138,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -463,97 +463,97 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
+import { CustomError } from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
 import { CreateCompanyDTO } from &#x27;./dto&#x27;
 import type { Prisma } from &#x27;.prisma/client&#x27;
 
 @Injectable()
 export class BrandService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getBrands(category?: string): Promise&lt;any&gt; {
-        try {
-            const findObj: Prisma.CompanyFindManyArgs &#x3D; {
-                take: 10,
-            }
-            if (category) {
-                findObj.where &#x3D; {
-                    products: {
-                        some: {
-                            categories: {
-                                some: {
-                                    label: category,
-                                },
-                            },
-                        },
-                    },
-                }
-            }
-            const companies &#x3D; await this.db.company.findMany(findObj)
-            return companies
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.getCategories&#x27;
-            )
-        }
-    }
-
-    async createBrand(data: CreateCompanyDTO): Promise&lt;any&gt; {
-        try {
-            const brand &#x3D; await this.db.company.create({
-                data: data,
-            })
-            return brand
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.createBrand&#x27;
-            )
-        }
-    }
-
-    async updateBrand(data: CreateCompanyDTO): Promise&lt;any&gt; {
-        try {
-            const brand &#x3D; await this.db.company.update({
-                where: {
-                    name: data.name,
+  async getBrands(category?: string): Promise&lt;any&gt; {
+    try {
+      const findObj: Prisma.CompanyFindManyArgs &#x3D; {
+        take: 10,
+      }
+      if (category) {
+        findObj.where &#x3D; {
+          products: {
+            some: {
+              categories: {
+                some: {
+                  label: category,
                 },
-                data: data,
-            })
-            return brand
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.createBrand&#x27;
-            )
+              },
+            },
+          },
         }
+      }
+      const companies &#x3D; await this.db.company.findMany(findObj)
+      return companies
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.getCategories&#x27;
+      )
     }
+  }
 
-    async deleteBrand(data: CreateCompanyDTO): Promise&lt;any&gt; {
-        try {
-            const brand &#x3D; await this.db.company.delete({
-                where: {
-                    name: data.name,
-                },
-            })
-            return brand
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.deleteBrand&#x27;
-            )
-        }
+  async createBrand(data: CreateCompanyDTO): Promise&lt;any&gt; {
+    try {
+      const brand &#x3D; await this.db.company.create({
+        data: data,
+      })
+      return brand
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.createBrand&#x27;
+      )
     }
+  }
+
+  async updateBrand(data: CreateCompanyDTO): Promise&lt;any&gt; {
+    try {
+      const brand &#x3D; await this.db.company.update({
+        where: {
+          name: data.name,
+        },
+        data: data,
+      })
+      return brand
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.createBrand&#x27;
+      )
+    }
+  }
+
+  async deleteBrand(data: CreateCompanyDTO): Promise&lt;any&gt; {
+    try {
+      const brand &#x3D; await this.db.company.delete({
+        where: {
+          name: data.name,
+        },
+      })
+      return brand
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.deleteBrand&#x27;
+      )
+    }
+  }
 }
 </code></pre>
     </div>

@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/utils/aws/s3.ts</code>
+            <code>libs/aws/src/aws/s3.ts</code>
         </p>
 
 
@@ -257,72 +257,67 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { S3 } from &#x27;aws-sdk&#x27;
 import { nanoid } from &#x27;nanoid&#x27;
-import { services } from &#x27;src/config&#x27;
-import { File } from &#x27;src/master/files/entity&#x27;
+import { File } from &#x27;src/master/file/entity&#x27;
 
-const awsConfig &#x3D; services().aws
 const URL_EXPIRATION_SECONDS &#x3D; 300
 
-const s3 &#x3D; new S3({
-    region: awsConfig.s3Region,
-})
-
 export interface UploadUrlParams {
-    userId: string
-    fileType: &#x27;images&#x27; | &#x27;documents&#x27;
-    fileName: string
-    contentType: string
+  userId: string
+  fileType: &#x27;images&#x27; | &#x27;documents&#x27;
+  fileName: string
+  contentType: string
 }
 
 export type UploadUrlResponse &#x3D; Partial&lt;File&gt; &amp; {
-    id: string
-    url: string
-    fileName: string
-    signedUrl: string
-    expiresIn: number
-    contentType: any
+  id: string
+  url: string
+  fileName: string
+  signedUrl: string
+  expiresIn: number
+  contentType: any
 }
 
 const RE &#x3D; /(?:\.([^.]+))?$/
 
-export const getUploadURL &#x3D; async function ({
-    userId,
+export const getUploadURL &#x3D; async function (
+  s3: S3,
+  awsConfig,
+  { userId, fileType, fileName, contentType }: UploadUrlParams
+): Promise&lt;UploadUrlResponse&gt; {
+  const ext &#x3D; RE.exec(fileName)[1] || &#x27;&#x27;
+  const key &#x3D; &#x60;${userId}/${fileType}/${nanoid()}${ext ? &#x60;.${ext}&#x60; : &#x27;&#x27;}&#x60;
+  const s3Params &#x3D; {
+    Bucket: awsConfig.s3BucketName,
+    Key: key,
+    Expires: URL_EXPIRATION_SECONDS,
+    ContentType: contentType,
+    ACL: &#x27;public-read&#x27;,
+  }
+  const signedUrl &#x3D; await s3.getSignedUrlPromise(&#x27;putObject&#x27;, s3Params)
+  return {
+    id: key,
+    contentType,
     fileType,
     fileName,
-    contentType,
-}: UploadUrlParams): Promise&lt;UploadUrlResponse&gt; {
-    const ext &#x3D; RE.exec(fileName)[1] || &#x27;&#x27;
-    const key &#x3D; &#x60;${userId}/${fileType}/${nanoid()}${ext ? &#x60;.${ext}&#x60; : &#x27;&#x27;}&#x60;
-    const s3Params &#x3D; {
-        Bucket: awsConfig.s3BucketName,
-        Key: key,
-        Expires: URL_EXPIRATION_SECONDS,
-        ContentType: contentType,
-        ACL: &#x27;public-read&#x27;,
-    }
-    const signedUrl &#x3D; await s3.getSignedUrlPromise(&#x27;putObject&#x27;, s3Params)
-    return {
-        id: key,
-        contentType,
-        fileType,
-        fileName,
-        expiresIn: URL_EXPIRATION_SECONDS,
-        signedUrl,
-        url: awsConfig.s3Url + &#x27;/&#x27; + key,
-    }
+    expiresIn: URL_EXPIRATION_SECONDS,
+    signedUrl,
+    url: awsConfig.s3Url + &#x27;/&#x27; + key,
+  }
 }
 
 export const deleteObject &#x3D; async function (
-    key: string
+  s3: S3,
+  awsConfig,
+  key: string
 ): Promise&lt;{ key: string }&gt; {
-    const s3Params &#x3D; {
-        Bucket: awsConfig.s3BucketName,
-        Key: key,
-    }
-    await s3.deleteObject(s3Params).promise()
-    return {
-        key,
-    }
+  const s3Params &#x3D; {
+    Bucket: awsConfig.s3BucketName,
+    Key: key,
+  }
+  await s3.deleteObject(s3Params).promise()
+  return {
+    key,
+  }
 }
 </code></pre>
     </div>

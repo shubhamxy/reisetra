@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/core/modules/cache/cache.service.ts</code>
+            <code>libs/cache/src/cache.service.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/core/modules/cache/cache.service.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">libs/cache/src/cache.service.ts:5</a></div>
                             </td>
                         </tr>
 
@@ -183,7 +183,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/core/modules/cache/cache.service.ts:20</a></div>
+                            class="link-to-prism">libs/cache/src/cache.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -254,7 +254,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">src/core/modules/cache/cache.service.ts:8</a></div>
+                            class="link-to-prism">libs/cache/src/cache.service.ts:8</a></div>
                 </td>
             </tr>
 
@@ -325,7 +325,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/core/modules/cache/cache.service.ts:16</a></div>
+                            class="link-to-prism">libs/cache/src/cache.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -364,7 +364,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">src/core/modules/cache/cache.service.ts:12</a></div>
+                            class="link-to-prism">libs/cache/src/cache.service.ts:12</a></div>
                 </td>
             </tr>
 
@@ -435,23 +435,23 @@ import { Cache } from &#x27;cache-manager&#x27;
 
 @Injectable()
 export class CacheService {
-    constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
+  constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
 
-    async get(key: string): Promise&lt;any&gt; {
-        return this.cache.get(key)
-    }
+  async get(key: string): Promise&lt;any&gt; {
+    return this.cache.get(key)
+  }
 
-    async set(key: string, value: string) {
-        await this.cache.set(key, value, 1000)
-    }
+  async set(key: string, value: string) {
+    await this.cache.set(key, value, 1000)
+  }
 
-    async reset() {
-        await this.cache.reset()
-    }
+  async reset() {
+    await this.cache.reset()
+  }
 
-    async del(key: string) {
-        await this.cache.del(key)
-    }
+  async del(key: string) {
+    await this.cache.del(key)
+  }
 }
 </code></pre>
     </div>

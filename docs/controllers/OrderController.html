@@ -155,8 +155,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">src/order/order.controller.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">src/order/order.controller.ts:146</a></div>
                 </td>
             </tr>
 
@@ -219,7 +219,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateOrderDTO.html" target="_self">CreateOrderDTO</a>)</code>
+                    <code>createOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/OrderDTO.html" target="_self">OrderDTO</a>)</code>
                 </td>
             </tr>
 
@@ -233,8 +233,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/order/order.controller.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/order/order.controller.ts:94</a></div>
                 </td>
             </tr>
 
@@ -269,7 +269,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateOrderDTO.html" target="_self" >CreateOrderDTO</a></code>
+                                                <code><a href="../classes/OrderDTO.html" target="_self" >OrderDTO</a></code>
                                     </td>
 
                                     <td>
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">src/order/order.controller.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">src/order/order.controller.ts:130</a></div>
                 </td>
             </tr>
 
@@ -401,8 +401,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/order/order.controller.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/order/order.controller.ts:23</a></div>
                 </td>
             </tr>
 
@@ -491,8 +491,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/order/order.controller.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/order/order.controller.ts:60</a></div>
                 </td>
             </tr>
 
@@ -569,8 +569,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">src/order/order.controller.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">src/order/order.controller.ts:74</a></div>
                 </td>
             </tr>
 
@@ -659,8 +659,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/order/order.controller.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/order/order.controller.ts:40</a></div>
                 </td>
             </tr>
 
@@ -735,7 +735,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateOrderDTO.html" target="_self">UpdateOrderDTO</a>)</code>
+                    <code>updateOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/OrderDTO.html" target="_self">OrderDTO</a>)</code>
                 </td>
             </tr>
 
@@ -749,8 +749,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">src/order/order.controller.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/order/order.controller.ts:111</a></div>
                 </td>
             </tr>
 
@@ -797,7 +797,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateOrderDTO.html" target="_self" >UpdateOrderDTO</a></code>
+                                                <code><a href="../classes/OrderDTO.html" target="_self" >OrderDTO</a></code>
                                     </td>
 
                                     <td>
@@ -827,175 +827,164 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
-    Query,
-    Req,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
 } from &#x27;@nestjs/common&#x27;
 import { OrderService } from &#x27;./order.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
-import {
-    CreateOrderDTO,
-    GetAllOrdersDocumentsDTO,
-    GetAllOrdersDTO,
-    UpdateOrderDTO,
-} from &#x27;./dto&#x27;
-import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
+import { GetAllOrdersDocumentsDTO, GetAllOrdersDTO, OrderDTO } from &#x27;./dto&#x27;
+import { AuthenticatedRequest, Role, Roles } from &#x27;@app/auth&#x27;
+
 @Controller(ROUTES.orders)
 export class OrderController {
-    constructor(private readonly order: OrderService) {}
-    @Get(ROUTES.orders_all)
-    async getAllOrders(
-        @Req() request: AuthenticatedRequest,
-        @Query() query: GetAllOrdersDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.order.getAllOrders(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.getAllOrders&#x27;
-            )
-        }
-    }
+  constructor(private readonly order: OrderService) {}
 
-    @Get()
-    async getUserOrders(
-        @Req() request: AuthenticatedRequest,
-        @Query() query: GetAllOrdersDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.order.getUserOrders(
-                request.user.id,
-                query
-            )
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.getUserOrders&#x27;
-            )
-        }
+  @Get(ROUTES.orders_all)
+  async getAllOrders(
+    @Req() request: AuthenticatedRequest,
+    @Query() query: GetAllOrdersDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.order.getAllOrders(query)
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.getAllOrders&#x27;
+      )
     }
+  }
 
-    @Get(ROUTES.orders_by_orderId)
-    async getOrder(
-        @Param(&#x27;orderId&#x27;) orderId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.order.getOrder(orderId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.getOrder&#x27;
-            )
-        }
+  @Get()
+  async getUserOrders(
+    @Req() request: AuthenticatedRequest,
+    @Query() query: GetAllOrdersDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.order.getUserOrders(
+        request.user.id,
+        query
+      )
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.getUserOrders&#x27;
+      )
     }
+  }
 
-    @Get(ROUTES.orders_by_orderId_documents)
-    async getOrderDocuments(
-        @Param(&#x27;orderId&#x27;) orderId: string,
-        @Query() query: GetAllOrdersDocumentsDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.order.getOrderDocuments(
-                orderId,
-                query
-            )
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.getOrderInvoice&#x27;
-            )
-        }
+  @Get(ROUTES.orders_by_orderId)
+  async getOrder(@Param(&#x27;orderId&#x27;) orderId: string): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.order.getOrder(orderId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.getOrder&#x27;
+      )
     }
+  }
 
-    @Post()
-    async createOrder(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateOrderDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.order.createOrder(request.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.createOrder&#x27;
-            )
-        }
+  @Get(ROUTES.orders_by_orderId_documents)
+  async getOrderDocuments(
+    @Param(&#x27;orderId&#x27;) orderId: string,
+    @Query() query: GetAllOrdersDocumentsDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.order.getOrderDocuments(
+        orderId,
+        query
+      )
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.getOrderInvoice&#x27;
+      )
     }
+  }
 
-    @Put(ROUTES.orders_by_orderId)
-    async updateOrder(
-        @Req() request: AuthenticatedRequest,
-        @Param(&#x27;orderId&#x27;) orderId: string,
-        @Body() body: UpdateOrderDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.order.updateOrder(
-                orderId,
-                body,
-                request.user.id
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.updateOrder&#x27;
-            )
-        }
+  @Post()
+  async createOrder(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: OrderDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.order.createOrder(request.user.id, body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.createOrder&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Delete(ROUTES.orders_by_orderId)
-    async deleteOrder(
-        @Param(&#x27;orderId&#x27;) orderId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.order.deleteOrder(orderId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.deleteOrder&#x27;
-            )
-        }
+  @Put(ROUTES.orders_by_orderId)
+  async updateOrder(
+    @Req() request: AuthenticatedRequest,
+    @Param(&#x27;orderId&#x27;) orderId: string,
+    @Body() body: OrderDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.order.updateOrder(orderId, body, request.user.id)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.updateOrder&#x27;
+      )
     }
+  }
 
-    @Put(ROUTES.orders_by_orderId_cancel)
-    async cancelOrder(
-        @Param(&#x27;orderId&#x27;) orderId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.order.cancelOrder(orderId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;OrderController.cancelOrder&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Delete(ROUTES.orders_by_orderId)
+  async deleteOrder(
+    @Param(&#x27;orderId&#x27;) orderId: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.order.deleteOrder(orderId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.deleteOrder&#x27;
+      )
     }
+  }
+
+  @Put(ROUTES.orders_by_orderId_cancel)
+  async cancelOrder(
+    @Param(&#x27;orderId&#x27;) orderId: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.order.cancelOrder(orderId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;OrderController.cancelOrder&#x27;
+      )
+    }
+  }
 }
 </code></pre>
     </div>

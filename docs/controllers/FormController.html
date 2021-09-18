@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/form/form.controller.ts</code>
+            <code>src/master/form/form.controller.ts</code>
         </p>
 
 
@@ -131,8 +131,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/form/form.controller.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/master/form/form.controller.ts:27</a></div>
                 </td>
             </tr>
 
@@ -214,8 +214,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/form/form.controller.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">src/master/form/form.controller.ts:12</a></div>
                 </td>
             </tr>
 
@@ -265,46 +265,45 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Get, HttpStatus, Param, Post } from &#x27;@nestjs/common&#x27;
 import { FormService } from &#x27;./form.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
-import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
+import { Public } from &#x27;@app/auth&#x27;
 
 @Controller(ROUTES.forms)
 export class FormController {
-    constructor(private readonly form: FormService) {}
+  constructor(private readonly form: FormService) {}
 
-    @Public()
-    @Get(ROUTES.forms_by_formId)
-    async getFormData(@Param(&#x27;formId&#x27;) formId): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.form.getFormData(formId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;FormController.getFormData&#x27;
-            )
-        }
+  @Public()
+  @Get(ROUTES.forms_by_formId)
+  async getFormData(@Param(&#x27;formId&#x27;) formId): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.form.getFormData(formId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;FormController.getFormData&#x27;
+      )
     }
+  }
 
-    @Public()
-    @Post(ROUTES.forms_by_formId)
-    async createFormData(
-        @Param(&#x27;formId&#x27;) formId,
-        @Body() body
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.form.createFormData(formId, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;FormController.createFormData&#x27;
-            )
-        }
+  @Public()
+  @Post(ROUTES.forms_by_formId)
+  async createFormData(
+    @Param(&#x27;formId&#x27;) formId,
+    @Body() body
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.form.createFormData(formId, body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;FormController.createFormData&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

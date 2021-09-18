@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/strategy/google.strategy.ts</code>
+            <code>libs/auth/src/strategy/google.strategy.ts</code>
         </p>
 
 
@@ -105,7 +105,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/auth/strategy/google.strategy.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">libs/auth/src/strategy/google.strategy.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -133,15 +133,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>validate(accessToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, refreshToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, profile: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, done: VerifyCallback)</code>
+                    <code>validate(request: Request, accessToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, refreshToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, profile: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, done: VerifyCallback)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/auth/strategy/google.strategy.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">libs/auth/src/strategy/google.strategy.ts:25</a></div>
                 </td>
             </tr>
 
@@ -161,6 +161,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                            <code>Request</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
                                 <tr>
                                     <td>accessToken</td>
                                     <td>
@@ -234,43 +246,47 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
 import { Strategy, VerifyCallback } from &#x27;passport-google-oauth20&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
-import { auth } from &#x27;../../config&#x27;
+import { auth } from &#x27;@app/config&#x27;
+
 const config &#x3D; auth()
+
 export interface GoogleUser {
-    oauthId: string
-    email: string
-    emailVerified: boolean
-    name: string
-    avatar?: string
-    accessToken?: string
-    refreshToken?: string
-    oauthProvider: string
+  oauthId: string
+  email: string
+  emailVerified: boolean
+  name: string
+  avatar?: string
+  accessToken?: string
+  refreshToken?: string
+  oauthProvider: string
 }
+
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, &#x27;google&#x27;) {
-    constructor() {
-        super(config.googleOAuthOptions)
-    }
+  constructor() {
+    super(config.googleOAuthOptions)
+  }
 
-    async validate(
-        accessToken: string,
-        refreshToken: string,
-        profile: any,
-        done: VerifyCallback
-    ): Promise&lt;any&gt; {
-        const { id, displayName, name, emails, photos, provider } &#x3D; profile
-        const user: GoogleUser &#x3D; {
-            oauthId: id,
-            email: emails[0].value,
-            emailVerified: emails[0].verified,
-            name: displayName || &#x60;${name.givenName} ${name.familyName}&#x60;.trim(),
-            avatar: photos[0].value,
-            accessToken,
-            refreshToken,
-            oauthProvider: String(provider).toUpperCase(),
-        }
-        done(null, user)
+  async validate(
+    request: Request,
+    accessToken: string,
+    refreshToken: string,
+    profile: any,
+    done: VerifyCallback
+  ): Promise&lt;any&gt; {
+    const { id, displayName, name, emails, photos, provider } &#x3D; profile
+    const user: GoogleUser &#x3D; {
+      oauthId: id,
+      email: emails[0].value,
+      emailVerified: emails[0].verified,
+      name: displayName || &#x60;${name.givenName} ${name.familyName}&#x60;.trim(),
+      avatar: photos[0].value,
+      accessToken,
+      refreshToken,
+      oauthProvider: String(provider).toUpperCase(),
     }
+    done(null, user)
+  }
 }
 </code></pre>
     </div>

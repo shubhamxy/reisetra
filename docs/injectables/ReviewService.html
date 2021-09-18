@@ -120,12 +120,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/product/review/review.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/product/review/review.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -146,7 +146,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -202,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">src/product/review/review.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/product/review/review.service.ts:135</a></div>
                 </td>
             </tr>
 
@@ -285,8 +285,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="304"
-                            class="link-to-prism">src/product/review/review.service.ts:304</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="292"
+                            class="link-to-prism">src/product/review/review.service.ts:292</a></div>
                 </td>
             </tr>
 
@@ -356,8 +356,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/product/review/review.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">src/product/review/review.service.ts:22</a></div>
                 </td>
             </tr>
 
@@ -439,8 +439,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">src/product/review/review.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/product/review/review.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -510,8 +510,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">src/product/review/review.service.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">src/product/review/review.service.ts:106</a></div>
                 </td>
             </tr>
 
@@ -581,8 +581,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">src/product/review/review.service.ts:218</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">src/product/review/review.service.ts:213</a></div>
                 </td>
             </tr>
 
@@ -663,336 +663,324 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type { Prisma } from &#x27;.prisma/client&#x27;
 import { Product } from &#x27;.prisma/client&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
-import { errorCodes } from &#x27;src/core/codes/error&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CursorPaginationResultInterface } from &#x27;src/core/pagination&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
-import { OrderDirection } from &#x27;../../core/dto&#x27;
+import {
+  CursorPaginationResultInterface,
+  CustomError,
+  errorCodes,
+  OrderDirection,
+} from &#x27;@app/core&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
 import { CreateReviewDTO, GetAllReviewsDTO, UpdateReviewDTO } from &#x27;./dto&#x27;
 
 @Injectable()
 export class ReviewService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getAllReviews(
-        productId: string,
-        options: GetAllReviewsDTO
-    ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; OrderDirection.asc,
-            } &#x3D; options
+  async getAllReviews(
+    productId: string,
+    options: GetAllReviewsDTO
+  ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; OrderDirection.asc,
+      } &#x3D; options
 
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;review&#x27;,
-                where: {
-                    productId,
-                    active: true,
-                    published: true,
-                },
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                        },
-                    },
-                    user: {
-                        select: {
-                            avatar: true,
-                            name: true,
-                        },
-                    },
-                },
-                prisma: this.db,
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ReviewService.getAllReviews&#x27;
-            )
-        }
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;review&#x27;,
+        where: {
+          productId,
+          active: true,
+          published: true,
+        },
+        include: {
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
+        },
+        prisma: this.db,
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ReviewService.getAllReviews&#x27;
+      )
     }
+  }
 
-    async getReview(reviewId: string): Promise&lt;any&gt; {
-        try {
-            const review &#x3D; await this.db.review.findUnique({
-                where: { id: reviewId },
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                        },
-                    },
-                    user: {
-                        select: {
-                            avatar: true,
-                            name: true,
-                        },
-                    },
-                },
-            })
-            if (!review) {
-                throw new CustomError(
-                    &#x27;Review does not exist&#x27;,
-                    errorCodes.RecordDoesNotExist
-                )
-            }
-            return review
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ReviewService.getReview&#x27;
-            )
-        }
+  async getReview(reviewId: string): Promise&lt;any&gt; {
+    try {
+      const review &#x3D; await this.db.review.findUnique({
+        where: { id: reviewId },
+        include: {
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
+        },
+      })
+      if (!review) {
+        throw new CustomError(
+          &#x27;Review does not exist&#x27;,
+          errorCodes.RecordDoesNotExist
+        )
+      }
+      return review
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ReviewService.getReview&#x27;
+      )
     }
+  }
 
-    async getReviews(productId: string): Promise&lt;any&gt; {
-        const products &#x3D; await this.db.review.findMany({
+  async getReviews(productId: string): Promise&lt;any&gt; {
+    const products &#x3D; await this.db.review.findMany({
+      where: {
+        productId,
+        active: true,
+      },
+      include: {
+        images: {
+          select: {
+            url: true,
+          },
+        },
+        user: {
+          select: {
+            avatar: true,
+            name: true,
+          },
+        },
+      },
+    })
+    if (!products) {
+      throw new CustomError(
+        &#x27;Product does not exist&#x27;,
+        errorCodes.RecordDoesNotExist
+      )
+    }
+    return products
+  }
+
+  async createReview(userId: string, data: CreateReviewDTO): Promise&lt;any&gt; {
+    try {
+      const { productId, images, title, description, rating, published } &#x3D; data
+      const dataObj: Prisma.XOR&lt;
+        Prisma.ReviewCreateInput,
+        Prisma.ReviewUncheckedCreateInput
+      &gt; &#x3D; {
+        userId,
+        title,
+        description,
+        productId,
+        rating: +rating,
+        published,
+      }
+
+      if (images &amp;&amp; images.length &gt; 0) {
+        dataObj.images &#x3D; {
+          connectOrCreate: images.map((item) &#x3D;&gt; ({
+            create: {
+              url: item.url,
+              meta: item.meta,
+              userId,
+            },
             where: {
-                productId,
-                active: true,
+              url: item.url,
             },
-            include: {
-                images: {
-                    select: {
-                        url: true,
-                    },
-                },
-                user: {
-                    select: {
-                        avatar: true,
-                        name: true,
-                    },
-                },
+          })),
+        }
+      }
+
+      const product &#x3D; await this.db.review.create({
+        data: dataObj,
+        include: {
+          images: {
+            select: {
+              url: true,
             },
-        })
-        if (!products) {
-            throw new CustomError(
-                &#x27;Product does not exist&#x27;,
-                errorCodes.RecordDoesNotExist
-            )
-        }
-        return products
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
+        },
+      })
+
+      const ratings &#x3D; await this.db.review.aggregate({
+        _avg: {
+          rating: true,
+        },
+        _count: {
+          _all: true,
+        },
+        where: {
+          productId: productId,
+        },
+      })
+
+      await this.db.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          rating: Math.round(ratings._avg.rating),
+          ratingsCount: ratings._count._all,
+        },
+      })
+      return product
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ReviewService.createReview&#x27;
+      )
     }
+  }
 
-    async createReview(userId: string, data: CreateReviewDTO): Promise&lt;any&gt; {
-        try {
-            const {
-                productId,
-                images,
-                title,
-                description,
-                rating,
-                published,
-            } &#x3D; data
-            const dataObj: Prisma.XOR&lt;
-                Prisma.ReviewCreateInput,
-                Prisma.ReviewUncheckedCreateInput
-            &gt; &#x3D; {
-                userId,
-                title,
-                description,
-                productId,
-                rating: +rating,
-                published,
-            }
-
-            if (images &amp;&amp; images.length &gt; 0) {
-                dataObj.images &#x3D; {
-                    connectOrCreate: images.map((item) &#x3D;&gt; ({
-                        create: {
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                }
-            }
-
-            const product &#x3D; await this.db.review.create({
-                data: dataObj,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                        },
-                    },
-                    user: {
-                        select: {
-                            avatar: true,
-                            name: true,
-                        },
-                    },
-                },
-            })
-
-            const ratings &#x3D; await this.db.review.aggregate({
-                _avg: {
-                    rating: true,
-                },
-                _count: {
-                    _all: true,
-                },
-                where: {
-                    productId: productId,
-                },
-            })
-
-            await this.db.product.update({
-                where: {
-                    id: productId,
-                },
-                data: {
-                    rating: Math.round(ratings._avg.rating),
-                    ratingsCount: ratings._count._all,
-                },
-            })
-            return product
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ReviewService.createReview&#x27;
-            )
+  async updateReview(
+    userId: string,
+    reviewId: string,
+    data: UpdateReviewDTO
+  ): Promise&lt;any&gt; {
+    try {
+      const { productId, images, title, description, rating, published } &#x3D; data
+      const dataObj: Prisma.XOR&lt;
+        Prisma.ReviewCreateInput,
+        Prisma.ReviewUncheckedCreateInput
+      &gt; &#x3D; {
+        rating: +rating,
+        productId,
+        title,
+        description,
+        published,
+      }
+      if (images &amp;&amp; images.length &gt; 0) {
+        dataObj.images &#x3D; {
+          connectOrCreate: images.map((item) &#x3D;&gt; ({
+            create: {
+              url: item.url,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
         }
-    }
+      }
+      const review &#x3D; await this.db.review.update({
+        where: { id: reviewId },
+        data: dataObj,
+        include: {
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
+        },
+      })
+      const ratings &#x3D; await this.db.review.aggregate({
+        _avg: {
+          rating: true,
+        },
+        _count: {
+          _all: true,
+        },
+        where: {
+          productId: productId,
+        },
+      })
 
-    async updateReview(
-        userId: string,
-        reviewId: string,
-        data: UpdateReviewDTO
-    ): Promise&lt;any&gt; {
-        try {
-            const {
-                productId,
-                images,
-                title,
-                description,
-                rating,
-                published,
-            } &#x3D; data
-            const dataObj: Prisma.XOR&lt;
-                Prisma.ReviewCreateInput,
-                Prisma.ReviewUncheckedCreateInput
-            &gt; &#x3D; {
-                rating: +rating,
-                productId,
-                title,
-                description,
-                published,
-            }
-            if (images &amp;&amp; images.length &gt; 0) {
-                dataObj.images &#x3D; {
-                    connectOrCreate: images.map((item) &#x3D;&gt; ({
-                        create: {
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                }
-            }
-            const review &#x3D; await this.db.review.update({
-                where: { id: reviewId },
-                data: dataObj,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                        },
-                    },
-                    user: {
-                        select: {
-                            avatar: true,
-                            name: true,
-                        },
-                    },
-                },
-            })
-            const ratings &#x3D; await this.db.review.aggregate({
-                _avg: {
-                    rating: true,
-                },
-                _count: {
-                    _all: true,
-                },
-                where: {
-                    productId: productId,
-                },
-            })
-
-            await this.db.product.update({
-                where: {
-                    id: productId,
-                },
-                data: {
-                    rating: Math.round(ratings._avg.rating),
-                    ratingsCount: ratings._count._all,
-                },
-            })
-            return review
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ReviewService.updateReview&#x27;
-            )
-        }
+      await this.db.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          rating: Math.round(ratings._avg.rating),
+          ratingsCount: ratings._count._all,
+        },
+      })
+      return review
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ReviewService.updateReview&#x27;
+      )
     }
+  }
 
-    async deleteReview(reviewId: string): Promise&lt;any&gt; {
-        try {
-            const data &#x3D; await this.db.review.update({
-                where: { id: reviewId },
-                data: {
-                    active: false,
-                },
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                        },
-                    },
-                    user: {
-                        select: {
-                            avatar: true,
-                            name: true,
-                        },
-                    },
-                },
-            })
-            return data
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ReviewService.deleteReview&#x27;
-            )
-        }
+  async deleteReview(reviewId: string): Promise&lt;any&gt; {
+    try {
+      const data &#x3D; await this.db.review.update({
+        where: { id: reviewId },
+        data: {
+          active: false,
+        },
+        include: {
+          images: {
+            select: {
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
+        },
+      })
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ReviewService.deleteReview&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

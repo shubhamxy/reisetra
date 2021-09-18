@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/auth/gaurd/roles.gaurd.ts</code>
+                <code>libs/auth/src/gaurd/roles.gaurd.ts</code>
             </p>
 
 
@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/auth/gaurd/roles.gaurd.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">libs/auth/src/gaurd/roles.gaurd.ts:6</a></div>
                             </td>
                         </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">src/auth/gaurd/roles.gaurd.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">libs/auth/src/gaurd/roles.gaurd.ts:9</a></div>
                 </td>
             </tr>
 
@@ -224,31 +224,25 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Role } from &#x27;.prisma/client&#x27;
-import { Injectable, CanActivate, ExecutionContext } from &#x27;@nestjs/common&#x27;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CanActivate, ExecutionContext, Injectable } from &#x27;@nestjs/common&#x27;
 import { Reflector } from &#x27;@nestjs/core&#x27;
-import config from &#x27;src/config&#x27;
-import { ROLES_KEY } from &#x27;../decorator/roles.decorator&#x27;
+import { Role, ROLES_KEY } from &#x27;../decorator&#x27;
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-    constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) {}
 
-    canActivate(context: ExecutionContext): boolean {
-        const requiredRoles &#x3D; this.reflector.getAllAndOverride&lt;Role[]&gt;(
-            ROLES_KEY,
-            [context.getHandler(), context.getClass()]
-        )
-        if (config.debug) {
-            return true
-        }
-
-        if (!requiredRoles) {
-            return true
-        }
-        const { user } &#x3D; context.switchToHttp().getRequest()
-        return requiredRoles.some((role) &#x3D;&gt; user.role &#x3D;&#x3D;&#x3D; role)
+  canActivate(context: ExecutionContext): boolean {
+    const requiredRoles &#x3D; this.reflector.getAllAndOverride&lt;Role[]&gt;(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ])
+    if (!requiredRoles) {
+      return true
     }
+    const { user } &#x3D; context.switchToHttp().getRequest()
+    return requiredRoles.some((role) &#x3D;&gt; user.roles?.includes(role))
+  }
 }
 </code></pre>
         </div>

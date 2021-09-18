@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/health/health.controller.ts</code>
+            <code>libs/health/src/health.controller.ts</code>
         </p>
 
 
@@ -113,7 +113,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>healthCheck()</code>
+                    <code>healthCheck(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
                 </td>
             </tr>
 
@@ -127,8 +127,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">src/health/health.controller.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">libs/health/src/health.controller.ts:12</a></div>
                 </td>
             </tr>
 
@@ -137,8 +137,40 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>req</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -148,38 +180,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get } from &#x27;@nestjs/common&#x27;
-import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { SuccessResponse } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { ConfigService } from &#x27;@nestjs/config&#x27;
-import { AppEnv } from &#x27;src/config&#x27;
-import { timeFn } from &#x27;src/utils&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Req } from &#x27;@nestjs/common&#x27;
+import { AuthenticatedRequest, Public } from &#x27;@app/auth&#x27;
+import { ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
+import { HealthService } from &#x27;@app/health/health.service&#x27;
 
 @Controller(ROUTES.healthz)
 export class HealthCheckController {
-    constructor(
-        private readonly prismaService: PrismaService,
-        private readonly config: ConfigService
-    ) {}
+  constructor(private readonly health: HealthService) {}
 
-    @Public()
-    @Get()
-    async healthCheck(): Promise&lt;SuccessResponse&gt; {
-        const database &#x3D; Boolean(await this.prismaService.$executeRaw&#x60;SELECT 1&#x60;)
-        return {
-            version: this.config.get&lt;AppEnv&gt;(&#x27;app&#x27;).version,
-            data: {
-                server: &#x27;up&#x27;,
-                database: database ? &#x27;up&#x27; : &#x27;down&#x27;,
-                uptime: timeFn(process.uptime()),
-                ...(this.config.get&lt;AppEnv&gt;(&#x27;app&#x27;).debug
-                    ? (this.config.get&lt;AppEnv&gt;(&#x27;app&#x27;) as any)
-                    : {}),
-            },
-        }
-    }
+  @Public()
+  @Get()
+  async healthCheck(
+    @Req() req: AuthenticatedRequest
+  ): Promise&lt;SuccessResponse&gt; {
+    return this.health.healthCheck()
+  }
 }
 </code></pre>
     </div>

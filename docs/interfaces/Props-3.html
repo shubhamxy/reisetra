@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/utils/prisma/paginator/pageCursor/pageCursors.ts</code>
+            <code>libs/utils/src/prisma/paginator/pageCursor/pageCursors.ts</code>
         </p>
 
 
@@ -257,176 +257,176 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PageCursorType, pageToCursorObject } from &#x27;./cursorObject&#x27;
 import {
-    pageCursorsToArrayInTheMiddle,
-    pageCursorsToArrayNearTheBeginning,
-    pageCursorsToArrayNearTheEnd,
+  pageCursorsToArrayInTheMiddle,
+  pageCursorsToArrayNearTheBeginning,
+  pageCursorsToArrayNearTheEnd,
 } from &#x27;./cursorArray&#x27;
 
 // Returns the total number of pagination results capped to PAGE_NUMBER_CAP.
 export function computeTotalPages(totalCount: number, size: number): number {
-    return Math.ceil(totalCount / size)
+  return Math.ceil(totalCount / size)
 }
 
 export interface PageCursorsType {
-    first: PageCursorType
-    previous: PageCursorType
-    around: [PageCursorType]
-    next: PageCursorType
-    last: PageCursorType
+  first: PageCursorType
+  previous: PageCursorType
+  around: [PageCursorType]
+  next: PageCursorType
+  last: PageCursorType
 }
 
 interface Props&lt;T&gt; {
-    pageInfo: {
-        currentPage: number
-        size: number
-        buttonNum: number
-        totalCount: number
-    }
-    model: T
-    findManyArgs: any
-    prisma: any
+  pageInfo: {
+    currentPage: number
+    size: number
+    buttonNum: number
+    totalCount: number
+  }
+  model: T
+  findManyArgs: any
+  prisma: any
 }
 
 export async function createPageCursors({
-    pageInfo: { currentPage, size, buttonNum, totalCount },
-    model,
-    findManyArgs,
-    prisma,
-    id &#x3D; &#x27;id&#x27;,
+  pageInfo: { currentPage, size, buttonNum, totalCount },
+  model,
+  findManyArgs,
+  prisma,
+  id &#x3D; &#x27;id&#x27;,
 }: Props&lt;typeof model&gt; &amp; { id: string }): Promise&lt;PageCursorsType&gt; {
-    // If buttonNum is even, bump it up by 1, and log out a warning.
-    if (buttonNum % 2 &#x3D;&#x3D;&#x3D; 0) {
-        // eslint-disable-next-line
-        console.log(
-            &#x60;buttonNum of ${buttonNum} passed to page cursors, but using ${
-                buttonNum + 1
-            } instead for the pagination logic&#x60;
-        )
-        buttonNum &#x3D; buttonNum + 1
-    }
+  // If buttonNum is even, bump it up by 1, and log out a warning.
+  if (buttonNum % 2 &#x3D;&#x3D;&#x3D; 0) {
+    // eslint-disable-next-line
+    console.log(
+      &#x60;buttonNum of ${buttonNum} passed to page cursors, but using ${
+        buttonNum + 1
+      } instead for the pagination logic&#x60;
+    )
+    buttonNum &#x3D; buttonNum + 1
+  }
 
-    let pageCursors
-    const totalPages &#x3D; computeTotalPages(totalCount, size)
-    const pageInfo &#x3D; { currentPage, size, totalCount, totalPages }
+  let pageCursors
+  const totalPages &#x3D; computeTotalPages(totalCount, size)
+  const pageInfo &#x3D; { currentPage, size, totalCount, totalPages }
 
-    // Degenerate case of no records found. 1 / 1 / 1
-    if (totalPages &#x3D;&#x3D;&#x3D; 0) {
-        pageCursors &#x3D; {
-            around: [],
-        }
-    } else if (totalPages &lt;&#x3D; buttonNum) {
-        // Collection is short, and &#x60;around&#x60; includes page 1 and the last page. 1 / 1 2 3 / 7
-        const around &#x3D; await pageCursorsToArrayNearTheBeginning({
-            start: 1,
-            end: totalPages,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        pageCursors &#x3D; {
-            around,
-        }
-    } else if (currentPage &lt;&#x3D; Math.floor(buttonNum / 2) + 1) {
-        // We are near the beginning, and &#x60;around&#x60; will include page 1. 1 / 1 2 3 / 7
-        const last &#x3D; await pageToCursorObject({
-            page: totalPages,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        const around &#x3D; await pageCursorsToArrayNearTheBeginning({
-            start: 1,
-            end: buttonNum - 1,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
+  // Degenerate case of no records found. 1 / 1 / 1
+  if (totalPages &#x3D;&#x3D;&#x3D; 0) {
+    pageCursors &#x3D; {
+      around: [],
+    }
+  } else if (totalPages &lt;&#x3D; buttonNum) {
+    // Collection is short, and &#x60;around&#x60; includes page 1 and the last page. 1 / 1 2 3 / 7
+    const around &#x3D; await pageCursorsToArrayNearTheBeginning({
+      start: 1,
+      end: totalPages,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    pageCursors &#x3D; {
+      around,
+    }
+  } else if (currentPage &lt;&#x3D; Math.floor(buttonNum / 2) + 1) {
+    // We are near the beginning, and &#x60;around&#x60; will include page 1. 1 / 1 2 3 / 7
+    const last &#x3D; await pageToCursorObject({
+      page: totalPages,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    const around &#x3D; await pageCursorsToArrayNearTheBeginning({
+      start: 1,
+      end: buttonNum - 1,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
 
-        pageCursors &#x3D; {
-            last,
-            around,
-        }
-    } else if (currentPage &gt;&#x3D; totalPages - Math.floor(buttonNum / 2)) {
-        // We are near the end, and &#x60;around&#x60; will include the last page. 1 / 5 6 7 / 7
-        const first &#x3D; await pageToCursorObject({
-            page: 1,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        const around &#x3D; await pageCursorsToArrayNearTheEnd({
-            start: totalPages - buttonNum + 2,
-            end: totalPages,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        pageCursors &#x3D; {
-            first,
-            around,
-        }
-    } else {
-        // We are in the middle, and &#x60;around&#x60; doesn&#x27;t include the first or last page. 1 / 4 5 6 / 7
-        const first &#x3D; await pageToCursorObject({
-            page: 1,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        const last &#x3D; await pageToCursorObject({
-            page: totalPages,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        const offset &#x3D; Math.floor((buttonNum - 3) / 2)
-        const around &#x3D; await pageCursorsToArrayInTheMiddle({
-            start: currentPage - offset,
-            end: currentPage + offset,
-            pageInfo,
-            model,
-            findManyArgs,
-            prisma,
-            id,
-        })
-        pageCursors &#x3D; {
-            first,
-            around,
-            last,
-        }
+    pageCursors &#x3D; {
+      last,
+      around,
     }
+  } else if (currentPage &gt;&#x3D; totalPages - Math.floor(buttonNum / 2)) {
+    // We are near the end, and &#x60;around&#x60; will include the last page. 1 / 5 6 7 / 7
+    const first &#x3D; await pageToCursorObject({
+      page: 1,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    const around &#x3D; await pageCursorsToArrayNearTheEnd({
+      start: totalPages - buttonNum + 2,
+      end: totalPages,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    pageCursors &#x3D; {
+      first,
+      around,
+    }
+  } else {
+    // We are in the middle, and &#x60;around&#x60; doesn&#x27;t include the first or last page. 1 / 4 5 6 / 7
+    const first &#x3D; await pageToCursorObject({
+      page: 1,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    const last &#x3D; await pageToCursorObject({
+      page: totalPages,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    const offset &#x3D; Math.floor((buttonNum - 3) / 2)
+    const around &#x3D; await pageCursorsToArrayInTheMiddle({
+      start: currentPage - offset,
+      end: currentPage + offset,
+      pageInfo,
+      model,
+      findManyArgs,
+      prisma,
+      id,
+    })
+    pageCursors &#x3D; {
+      first,
+      around,
+      last,
+    }
+  }
 
-    // previous
-    if (currentPage &gt; 1 &amp;&amp; totalPages &gt; 1) {
-        pageCursors.around.forEach((item, index) &#x3D;&gt; {
-            if (item.isCurrent) {
-                pageCursors.previous &#x3D; pageCursors.around[index - 1]
-            }
-        })
-    }
-    // next
-    if (totalPages &gt; currentPage) {
-        pageCursors.around.forEach((item, index) &#x3D;&gt; {
-            if (item.isCurrent) {
-                pageCursors.next &#x3D; pageCursors.around[index + 1]
-            }
-        })
-    }
-    return pageCursors
+  // previous
+  if (currentPage &gt; 1 &amp;&amp; totalPages &gt; 1) {
+    pageCursors.around.forEach((item, index) &#x3D;&gt; {
+      if (item.isCurrent) {
+        pageCursors.previous &#x3D; pageCursors.around[index - 1]
+      }
+    })
+  }
+  // next
+  if (totalPages &gt; currentPage) {
+    pageCursors.around.forEach((item, index) &#x3D;&gt; {
+      if (item.isCurrent) {
+        pageCursors.next &#x3D; pageCursors.around[index + 1]
+      }
+    })
+  }
+  return pageCursors
 }
 </code></pre>
     </div>

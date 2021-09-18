@@ -156,7 +156,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/master/address/dto/index.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/master/address/dto/index.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -182,7 +182,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/master/address/dto/index.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/master/address/dto/index.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -208,7 +208,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/master/address/dto/index.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/master/address/dto/index.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -234,7 +234,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/master/address/dto/index.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/master/address/dto/index.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -260,7 +260,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/master/address/dto/index.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/master/address/dto/index.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -286,7 +286,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/master/address/dto/index.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/master/address/dto/index.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -312,7 +312,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/master/address/dto/index.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/master/address/dto/index.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -338,7 +338,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/master/address/dto/index.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/master/address/dto/index.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -364,7 +364,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/master/address/dto/index.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/master/address/dto/index.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -390,7 +390,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/master/address/dto/index.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/master/address/dto/index.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -409,25 +409,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 import { Address } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;userId&#x27;
 
 export class AllAddressDTO extends CursorPaginationDTO {}
+
 export class AddressesDTO extends CursorPaginationDTO {}
 
 export class AddressDTO implements Omit&lt;Address, Excluded&gt; {
-    state: string
-    phone: string
-    email: string
-    fullname: string
-    address: string
-    region: string
-    nearby: string
-    zipcode: string
-    city: string
-    country: string
+  state: string
+  phone: string
+  email: string
+  fullname: string
+  address: string
+  region: string
+  nearby: string
+  zipcode: string
+  city: string
+  country: string
 }
 </code></pre>
     </div>

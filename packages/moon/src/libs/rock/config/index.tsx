@@ -84,7 +84,7 @@ export const config: Config = {
         process.env.NEXT_PUBLIC_AUTH_CLIENT_URL || 'https://auth.reisetra.com',
     cdnUrl:
         process.env.NEXT_PUBLIC_CDN_URL ||
-        'https://d38bp8dgh2l2dc.cloudfront.net',
+        'https://cdn.reisetra.com',
     callbackUrl:
         process.env.NEXT_PUBLIC_CALLBACK_URL ||
         'https://reisetra.com/login/callback',

@@ -602,48 +602,48 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CartItem as CartItemModel, Cart as CartModel } from &#x27;.prisma/client&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Cart as CartModel, CartItem as CartItemModel } from &#x27;.prisma/client&#x27;
 
 export class CartItem implements CartItemModel {
-    constructor(partial: Partial&lt;CartItemModel&gt;) {
-        Object.assign(this, partial)
-    }
+  constructor(partial: Partial&lt;CartItemModel&gt;) {
+    Object.assign(this, partial)
+  }
 
-    id: string
-    userId: string
-    quantity: number
-    size: string
-    color: string
+  id: string
+  userId: string
+  quantity: number
+  size: string
+  color: string
 
-    cartId: string
-    productId: string
-    orderId: string
+  cartId: string
+  productId: string
+  orderId: string
 
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class Cart implements CartModel {
-    constructor(partial: Partial&lt;CartItemModel&gt;) {
-        Object.assign(this, partial)
-    }
+  constructor(partial: Partial&lt;CartItemModel&gt;) {
+    Object.assign(this, partial)
+  }
 
-    userId: string
-    orderId: string
-    id: string
-    subTotal: number
-    itemDiscount: number
-    tax: number
-    shipping: number
-    total: number
-    promo: string
-    discount: string
-    grandTotal: number
-    createdAt: Date
-    updatedAt: Date
-    checkedOut: boolean
-    active: boolean
+  userId: string
+  orderId: string
+  id: string
+  subTotal: number
+  itemDiscount: number
+  tax: number
+  shipping: number
+  total: number
+  promo: string
+  discount: string
+  grandTotal: number
+  createdAt: Date
+  updatedAt: Date
+  checkedOut: boolean
+  active: boolean
 }
 </code></pre>
     </div>

@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/core/dto/index.ts</code>
+            <code>libs/core/src/dto/index.ts</code>
         </p>
 
 
@@ -150,7 +150,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/core/dto/index.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">libs/core/src/dto/index.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -185,7 +185,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/core/dto/index.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">libs/core/src/dto/index.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -220,7 +220,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/core/dto/index.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">libs/core/src/dto/index.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -255,7 +255,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/core/dto/index.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">libs/core/src/dto/index.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -290,7 +290,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/core/dto/index.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/core/src/dto/index.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -310,43 +310,43 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    IsEnum,
-    IsNumberString,
-    IsOptional,
-    IsString,
-    MinLength,
+  IsEnum,
+  IsNumberString,
+  IsOptional,
+  IsString,
+  MinLength,
 } from &#x27;class-validator&#x27;
-import { mustBeOfType, mustBeValidEnum } from &#x27;src/constants&#x27;
+import { mustBeOfType, mustBeValidEnum } from &#x27;@app/core&#x27;
 import { CursorPaginationOptionsInterface } from &#x27;../pagination&#x27;
 
 export enum OrderDirection {
-    asc &#x3D; &#x27;asc&#x27;,
-    desc &#x3D; &#x27;desc&#x27;,
+  asc &#x3D; &#x27;asc&#x27;,
+  desc &#x3D; &#x27;desc&#x27;,
 }
 
 export class CursorPaginationDTO implements CursorPaginationOptionsInterface {
-    @IsOptional()
-    @IsNumberString()
-    size: number
+  @IsOptional()
+  @IsNumberString()
+  size: number
 
-    @IsOptional()
-    @IsNumberString()
-    buttonNum: number
+  @IsOptional()
+  @IsNumberString()
+  buttonNum: number
 
-    @IsOptional()
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;cursor&#x27;) })
-    @MinLength(10)
-    cursor: string
+  @IsOptional()
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;cursor&#x27;) })
+  @MinLength(10)
+  cursor: string
 
-    @IsOptional()
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;orderBy&#x27;) })
-    orderBy: string
+  @IsOptional()
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;orderBy&#x27;) })
+  orderBy: string
 
-    @IsOptional()
-    @IsEnum(OrderDirection, {
-        message: mustBeValidEnum(OrderDirection, &#x27;orderDirection&#x27;),
-    })
-    orderDirection: OrderDirection
+  @IsOptional()
+  @IsEnum(OrderDirection, {
+    message: mustBeValidEnum(OrderDirection, &#x27;orderDirection&#x27;),
+  })
+  orderDirection: OrderDirection
 }
 </code></pre>
     </div>

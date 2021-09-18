@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/config/app.ts</code>
+            <code>libs/config/src/env/app.ts</code>
         </p>
 
 
@@ -958,94 +958,82 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &#x27;@nestjs/config&#x27;
-
-export enum Environment {
-    Local &#x3D; &#x27;localhost&#x27;,
-    Development &#x3D; &#x27;development&#x27;,
-    Production &#x3D; &#x27;production&#x27;,
-}
+import { CONFIG, Environment } from &#x27;./type&#x27;
 
 export interface AppEnv {
-    name: string
-    nodeEnv: Environment
-    appEnv: Environment
-    debug: number
-    isProduction: boolean
-    service: string
-    description: string
-    port: number
-    apiPrefix: string
-    version: string
-    host: string
-    apiUrl: string
-    clientUrl: string
-    callbackUrl: string
-    authUrl: string
-    cmsUrl: string
-    cdnUrl: string
-    contactEmail: string
-    protocol: string
-    swagger: boolean
-    cors: {
-        allowedHeaders: string[]
-        origin: string[]
-        methods: string
-    }
-    socials: {
-        instagram: string
-        facebook: string
-        whatsapp: string
-    }
+  name: string
+  nodeEnv: Environment
+  appEnv: Environment
+  debug: number
+  isProduction: boolean
+  service: string
+  description: string
+  port: number
+  apiPrefix: string
+  version: string
+  host: string
+  apiUrl: string
+  clientUrl: string
+  callbackUrl: string
+  authUrl: string
+  cmsUrl: string
+  cdnUrl: string
+  contactEmail: string
+  protocol: string
+  swagger: boolean
+  cors: {
+    allowedHeaders: string[]
+    origin: string[]
+    methods: string
+  }
+  socials: {
+    instagram: string
+    facebook: string
+    whatsapp: string
+  }
 }
 
 export const app &#x3D; (): AppEnv &#x3D;&gt; ({
-    // APP
-    isProduction: process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;,
-    name: process.env.APP_NAME || &#x27;SODA API V1&#x27;,
-    appEnv: (process.env.APP_ENV || &#x27;production&#x27;) as Environment,
-    nodeEnv: (process.env.NODE_ENV || &#x27;production&#x27;) as Environment,
-    debug: +process.env.APP_DEBUG || 1,
-    service: process.env.SERVICE_NAME || &#x27;soda&#x27;,
-    description: process.env.SERVICE_DESCRIPTION || &#x27;Soda API v1&#x27;,
-    // API
-    port: +process.env.PORT || 8080,
-    apiPrefix: process.env.API_PREFIX || &#x27;api/v1&#x27;,
-    version: process.env.API_VERSION || &#x27;1.0.0&#x27;,
-    host: process.env.API_HOST || &#x27;localhost&#x27;,
-    protocol: process.env.API_PROTOCOL || &#x27;http&#x27;,
-    contactEmail: process.env.CONTACT_EMAIL || &#x27;contact@reisetra.com&#x27;,
-    apiUrl: process.env.API_URL || &#x27;http://localhost:8080/api/v1&#x27;,
-    clientUrl: process.env.CLIENT_URL || &#x27;https://next.reisetra.com&#x27;,
-    cmsUrl: process.env.CMS_CLIENT_URL || &#x27;https://cms.reisetra.com&#x27;,
-    callbackUrl:
-        process.env.CALLBACK_URL || &#x27;https://next.reisetra.com/login/callback&#x27;,
-    authUrl: process.env.AUTH_CLIENT_URL || &#x27;https://auth.reisetra.com&#x27;,
-    cdnUrl: process.env.CDN_URL || &#x27;https://d38bp8dgh2l2dc.cloudfront.net&#x27;,
-    swagger: +process.env.ENABLE_SWAGGER &#x3D;&#x3D;&#x3D; 1,
-    cors: {
-        allowedHeaders: String(
-            process.env.ALLOWED_HEADERS ||
-                &#x27;x-requested-with,content-type,authorization,x-refresh-token,x-csrf-token&#x27;
-        ).split(&#x27;,&#x27;),
-        origin: String(
-            process.env.ORIGIN || &#x60;localhost:3000,${process.env.CLIENT_URL}&#x60;
-        ).split(&#x27;,&#x27;),
-        methods:
-            process.env.METHODS || &#x27;GET,POST,OPTIONS,PUT,PATCH,DELETE,HEAD&#x27;,
-    },
-    socials: {
-        facebook:
-            process.env.SOCIALS_FACEBOOK || &#x27;https://www.facebook.com/reisetra&#x27;,
-        instagram:
-            process.env.SOCIALS_INSTAGRAM ||
-            &#x27;https://www.instagram.com/reisetra_crafts&#x27;,
-        whatsapp:
-            process.env.SOCIALS_WHATSAPP ||
-            &#x27;https://api.whatsapp.com/send?phone&#x3D;&#x27;,
-    },
+  // APP
+  isProduction: process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;,
+  name: process.env.APP_NAME || &#x27;&#x27;,
+  appEnv: (process.env.APP_ENV || &#x27;production&#x27;) as Environment,
+  nodeEnv: (process.env.NODE_ENV || &#x27;production&#x27;) as Environment,
+  debug: +process.env.APP_DEBUG || 1,
+  service: process.env.SERVICE_NAME || &#x27;&#x27;,
+  description: process.env.SERVICE_DESCRIPTION || &#x27;&#x27;,
+  // API
+  port: +process.env.PORT || 8080,
+  apiPrefix: process.env.API_PREFIX || &#x27;&#x27;,
+  version: process.env.API_VERSION || &#x27;&#x27;,
+  host: process.env.API_HOST || &#x27;&#x27;,
+  protocol: process.env.API_PROTOCOL || &#x27;&#x27;,
+  contactEmail: process.env.CONTACT_EMAIL || &#x27;&#x27;,
+  apiUrl: process.env.API_URL || &#x27;&#x27;,
+  clientUrl: process.env.CLIENT_URL || &#x27;&#x27;,
+  cmsUrl: process.env.CMS_CLIENT_URL || &#x27;&#x27;,
+  callbackUrl: process.env.CALLBACK_URL || &#x27;&#x27;,
+  authUrl: process.env.AUTH_CLIENT_URL || &#x27;&#x27;,
+  cdnUrl: process.env.CDN_URL || &#x27;&#x27;,
+  swagger: +process.env.ENABLE_SWAGGER &#x3D;&#x3D;&#x3D; 1,
+  cors: {
+    allowedHeaders: String(
+      process.env.ALLOWED_HEADERS ||
+        &#x27;x-requested-with,content-type,authorization,x-refresh-token,x-csrf-token&#x27;
+    ).split(&#x27;,&#x27;),
+    origin: String(
+      process.env.ORIGIN || &#x60;localhost:3000,${process.env.CLIENT_URL}&#x60;
+    ).split(&#x27;,&#x27;),
+    methods: process.env.METHODS || &#x27;GET,POST,OPTIONS,PUT,PATCH,DELETE,HEAD&#x27;,
+  },
+  socials: {
+    facebook: process.env.SOCIALS_FACEBOOK || &#x27;&#x27;,
+    instagram: process.env.SOCIALS_INSTAGRAM || &#x27;&#x27;,
+    whatsapp: process.env.SOCIALS_WHATSAPP || &#x27;&#x27;,
+  },
 })
 
-export default registerAs(&#x27;app&#x27;, app)
+export default registerAs(CONFIG.app, app)
 </code></pre>
     </div>
 </div>

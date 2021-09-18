@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/config/cache.ts</code>
+            <code>libs/config/src/env/cache.ts</code>
         </p>
 
 
@@ -256,20 +256,22 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &#x27;@nestjs/config&#x27;
+import { CONFIG } from &#x27;./type&#x27;
 
 export interface CacheEnv {
-    enable: boolean
-    host: string
-    port: string
-    cacheTTL: number
+  enable: boolean
+  host: string
+  port: string
+  cacheTTL: number
 }
+
 export const cache &#x3D; (): CacheEnv &#x3D;&gt; ({
-    enable: +process.env.ENABLE_REDIS &#x3D;&#x3D;&#x3D; 1 || false,
-    host: process.env.REDIS_HOST || &#x27;localhost&#x27;,
-    port: process.env.REDIS_PORT || &#x27;6379&#x27;,
-    cacheTTL: 120,
+  enable: +process.env.ENABLE_REDIS &#x3D;&#x3D;&#x3D; 1 || false,
+  host: process.env.REDIS_HOST || &#x27;localhost&#x27;,
+  port: process.env.REDIS_PORT || &#x27;6379&#x27;,
+  cacheTTL: 120,
 })
-export default registerAs(&#x27;cache&#x27;, cache)
+export default registerAs(CONFIG.cache, cache)
 </code></pre>
     </div>
 </div>

@@ -156,7 +156,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/product/review/dto/index.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/product/review/dto/index.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -182,7 +182,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/product/review/dto/index.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/product/review/dto/index.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -217,7 +217,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/product/review/dto/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/product/review/dto/index.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -243,7 +243,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/product/review/dto/index.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/product/review/dto/index.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -269,7 +269,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/product/review/dto/index.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/product/review/dto/index.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -295,7 +295,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/product/review/dto/index.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/product/review/dto/index.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -330,7 +330,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/product/review/dto/index.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/product/review/dto/index.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -350,52 +350,51 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsString } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
-import { mustBeOfType } from &#x27;src/constants&#x27;
-import { File } from &#x27;src/master/files/entity&#x27;
+import { CursorPaginationDTO, mustBeOfType } from &#x27;@app/core&#x27;
+import { File } from &#x27;src/master/file/entity&#x27;
 import { Review } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;userId&#x27; | &#x27;updatedAt&#x27; | &#x27;extra&#x27;
 
 export enum ProductSort {
-    new &#x3D; &#x27;new&#x27;,
-    bestSelling &#x3D; &#x27;bestselling&#x27;,
-    trending &#x3D; &#x27;trending&#x27;,
-    relevant &#x3D; &#x27;relevant&#x27;,
+  new &#x3D; &#x27;new&#x27;,
+  bestSelling &#x3D; &#x27;bestselling&#x27;,
+  trending &#x3D; &#x27;trending&#x27;,
+  relevant &#x3D; &#x27;relevant&#x27;,
 }
 
 export class GetAllReviewsDTO extends CursorPaginationDTO {}
 
 export class CreateReviewDTO implements Omit&lt;Review, Excluded&gt; {
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;title&#x27;) })
-    title: string
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;title&#x27;) })
+  title: string
 
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;description&#x27;) })
-    description: string
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;description&#x27;) })
+  description: string
 
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;productId&#x27;) })
-    productId: string
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;productId&#x27;) })
+  productId: string
 
-    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
-    tags: string[]
-    rating: number
-    published: boolean
+  images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
+  tags: string[]
+  rating: number
+  published: boolean
 }
 
 export class UpdateReviewDTO implements Omit&lt;Review, Excluded&gt; {
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;string&#x27;) })
-    title: string
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;string&#x27;) })
+  title: string
 
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;description&#x27;) })
-    description: string
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;description&#x27;) })
+  description: string
 
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;productId&#x27;) })
-    productId: string
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;productId&#x27;) })
+  productId: string
 
-    images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
-    tags: string[]
-    rating: number
-    published: boolean
+  images: Omit&lt;File, &#x27;userId&#x27;&gt;[]
+  tags: string[]
+  rating: number
+  published: boolean
 }
 </code></pre>
     </div>

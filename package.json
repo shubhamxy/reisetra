@@ -27,14 +27,21 @@
   "devDependencies": {
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
+    "aws-sdk": "^2.1145.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
+    "git-branch-is": "^4.0.0",
     "husky": "^7.0.4"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog",
       "defaultScope": "global"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "(npx git-branch-is main && npm version minor) || (npx git-branch-is develop && npm --no-git-tag-version version patch)"
     }
   },
   "scripts": {
@@ -63,9 +70,7 @@
     "dev:mint": "yarn workspace @reisetra/mint dev",
     "build:moon": "yarn workspace @reisetra/moon build",
     "start:moon": "yarn workspace @reisetra/moon start",
-    "dev:moon": "yarn workspace @reisetra/moon dev"
-  },
-  "dependencies": {
-    "aws-sdk": "^2.1145.0"
+    "dev:moon": "yarn workspace @reisetra/moon dev",
+    "post-merge": "(npx git-branch-is main && npm version minor) || (npx git-branch-is develop && npm --no-git-tag-version version patch)"
   }
 }

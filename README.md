@@ -21,8 +21,8 @@
 |:--------------------------------------|:------------------:|
 | [soda](./packages/soda)               |     API Server     |
 | [mint](./packages/mint)               |   Main Frontend    |
-| [maze](./packages/maze)               |    cms Frontend    |
-| [moon](./packages/moon)               | Auth Microfrontend |
+| [maze](./packages/maze)               |    CMS Frontend    |
+| [moon](./packages/moon)               |    Auth Frontend   |
 | [rock](./packages/mint/src/libs/rock) |     API Client     |
 
 ---

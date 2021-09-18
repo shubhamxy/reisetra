@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/utils/prisma/paginator/pageCursor/cursorObject.ts</code>
+            <code>libs/utils/src/prisma/paginator/pageCursor/cursorObject.ts</code>
         </p>
 
 
@@ -295,118 +295,118 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">interface Props&lt;T&gt; {
-    page: number
-    pageInfo: {
-        currentPage: number
-        size: number
-        totalCount: number
-        totalPages: number
-    }
-    model: T
-    findManyArgs: any
-    prisma: any
+  page: number
+  pageInfo: {
+    currentPage: number
+    size: number
+    totalCount: number
+    totalPages: number
+  }
+  model: T
+  findManyArgs: any
+  prisma: any
 }
 
 export interface PageCursorType {
-    cursor: string
-    page: number
-    isCurrent: boolean
+  cursor: string
+  page: number
+  isCurrent: boolean
 }
 
 // Returns an opaque cursor for a page.
 export async function pageToCursorObject({
-    page,
-    pageInfo,
-    model,
-    findManyArgs,
-    prisma,
-    id &#x3D; &#x27;id&#x27;,
+  page,
+  pageInfo,
+  model,
+  findManyArgs,
+  prisma,
+  id &#x3D; &#x27;id&#x27;,
 }: Props&lt;typeof model&gt; &amp; { id: string }): Promise&lt;PageCursorType&gt; {
-    const { currentPage, size, totalCount, totalPages } &#x3D; pageInfo
-    let cursorId: number | string
-    const prismaModel &#x3D; prisma[model]
+  const { currentPage, size, totalCount, totalPages } &#x3D; pageInfo
+  let cursorId: number | string
+  const prismaModel &#x3D; prisma[model]
 
-    // first
-    if (page &#x3D;&#x3D;&#x3D; 1) {
-        let findManyArgsForFirst
-        if (findManyArgs?.orderBy) {
-            const { orderBy } &#x3D; findManyArgs
-            findManyArgsForFirst &#x3D; {
-                ...findManyArgsForFirst,
-                orderBy: { ...orderBy },
-            }
-        }
-        if (findManyArgs?.where) {
-            const { where } &#x3D; findManyArgs
-            findManyArgsForFirst &#x3D; {
-                ...findManyArgsForFirst,
-                where: { ...where },
-            }
-        }
-        const result &#x3D; await prismaModel.findMany({
-            ...findManyArgsForFirst,
-            take: 1,
-        })
-        cursorId &#x3D; result[0][id]
+  // first
+  if (page &#x3D;&#x3D;&#x3D; 1) {
+    let findManyArgsForFirst
+    if (findManyArgs?.orderBy) {
+      const { orderBy } &#x3D; findManyArgs
+      findManyArgsForFirst &#x3D; {
+        ...findManyArgsForFirst,
+        orderBy: { ...orderBy },
+      }
+    }
+    if (findManyArgs?.where) {
+      const { where } &#x3D; findManyArgs
+      findManyArgsForFirst &#x3D; {
+        ...findManyArgsForFirst,
+        where: { ...where },
+      }
+    }
+    const result &#x3D; await prismaModel.findMany({
+      ...findManyArgsForFirst,
+      take: 1,
+    })
+    cursorId &#x3D; result[0][id]
 
-        // last
-    } else if (page &#x3D;&#x3D;&#x3D; totalPages) {
-        let findManyArgsForLast
-        if (findManyArgs?.orderBy) {
-            const orderByKey &#x3D; Object.keys(findManyArgs.orderBy)[0]
-            const orderDirection &#x3D;
-                findManyArgs.orderBy[orderByKey] &#x3D;&#x3D;&#x3D; &#x27;asc&#x27; ? &#x27;desc&#x27; : &#x27;asc&#x27;
-            findManyArgsForLast &#x3D; {
-                ...findManyArgsForLast,
-                orderBy: {
-                    [orderByKey]: orderDirection,
-                },
-            }
-        } else {
-            findManyArgsForLast &#x3D; {
-                ...findManyArgsForLast,
-                orderBy: {
-                    [id]: &#x27;desc&#x27;,
-                },
-            }
-        }
-        if (findManyArgs?.where) {
-            const { where } &#x3D; findManyArgs
-            findManyArgsForLast &#x3D; {
-                ...findManyArgsForLast,
-                where: { ...where },
-            }
-        }
-        const itemsOnTheLastPage &#x3D;
-            totalCount % size !&#x3D;&#x3D; 0 ? totalCount % size : size
-        const result &#x3D; await prismaModel.findMany({
-            ...findManyArgsForLast,
-            skip: itemsOnTheLastPage - 1,
-            take: 1,
-        })
-        cursorId &#x3D; result[0][id]
-
-        // around &amp; previous
+    // last
+  } else if (page &#x3D;&#x3D;&#x3D; totalPages) {
+    let findManyArgsForLast
+    if (findManyArgs?.orderBy) {
+      const orderByKey &#x3D; Object.keys(findManyArgs.orderBy)[0]
+      const orderDirection &#x3D;
+        findManyArgs.orderBy[orderByKey] &#x3D;&#x3D;&#x3D; &#x27;asc&#x27; ? &#x27;desc&#x27; : &#x27;asc&#x27;
+      findManyArgsForLast &#x3D; {
+        ...findManyArgsForLast,
+        orderBy: {
+          [orderByKey]: orderDirection,
+        },
+      }
     } else {
-        const distance &#x3D; (page - currentPage) * size
-        const takeSkipArgs &#x3D; {
-            take: distance &lt; 0 ? -1 : 1,
-            skip: distance &lt; 0 ? distance * -1 : distance,
-        }
-        const result &#x3D; await prismaModel.findMany({
-            ...findManyArgs,
-            ...takeSkipArgs,
-        })
-        cursorId &#x3D; result[0][id]
+      findManyArgsForLast &#x3D; {
+        ...findManyArgsForLast,
+        orderBy: {
+          [id]: &#x27;desc&#x27;,
+        },
+      }
     }
+    if (findManyArgs?.where) {
+      const { where } &#x3D; findManyArgs
+      findManyArgsForLast &#x3D; {
+        ...findManyArgsForLast,
+        where: { ...where },
+      }
+    }
+    const itemsOnTheLastPage &#x3D;
+      totalCount % size !&#x3D;&#x3D; 0 ? totalCount % size : size
+    const result &#x3D; await prismaModel.findMany({
+      ...findManyArgsForLast,
+      skip: itemsOnTheLastPage - 1,
+      take: 1,
+    })
+    cursorId &#x3D; result[0][id]
 
-    return {
-        cursor: Buffer.from(&#x27;saltysalt&#x27;.concat(String(cursorId))).toString(
-            &#x27;base64&#x27;
-        ),
-        page,
-        isCurrent: currentPage &#x3D;&#x3D;&#x3D; page,
+    // around &amp; previous
+  } else {
+    const distance &#x3D; (page - currentPage) * size
+    const takeSkipArgs &#x3D; {
+      take: distance &lt; 0 ? -1 : 1,
+      skip: distance &lt; 0 ? distance * -1 : distance,
     }
+    const result &#x3D; await prismaModel.findMany({
+      ...findManyArgs,
+      ...takeSkipArgs,
+    })
+    cursorId &#x3D; result[0][id]
+  }
+
+  return {
+    cursor: Buffer.from(&#x27;saltysalt&#x27;.concat(String(cursorId))).toString(
+      &#x27;base64&#x27;
+    ),
+    page,
+    isCurrent: currentPage &#x3D;&#x3D;&#x3D; page,
+  }
 }
 </code></pre>
     </div>

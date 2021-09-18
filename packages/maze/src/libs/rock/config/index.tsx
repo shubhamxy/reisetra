@@ -84,10 +84,10 @@ export const config: Config = {
         process.env.NEXT_PUBLIC_AUTH_CLIENT_URL || 'https://auth.reisetra.com',
     callbackUrl:
         process.env.NEXT_PUBLIC_CALLBACK_URL ||
-        'https://next.reisetra.com/login/callback',
+        'https://reisetra.com/login/callback',
     cdnUrl:
         process.env.NEXT_PUBLIC_CDN_URL ||
-        'https://d38bp8dgh2l2dc.cloudfront.net',
+        'https://cdn.reisetra.com',
     // API
     apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
     // GOOGLE Login

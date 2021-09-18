@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/story/story.service.ts</code>
+            <code>src/master/story/story.service.ts</code>
         </p>
 
 
@@ -120,12 +120,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/story/story.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/master/story/story.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -146,7 +146,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -203,7 +203,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/story/story.service.ts:126</a></div>
+                            class="link-to-prism">src/master/story/story.service.ts:126</a></div>
                 </td>
             </tr>
 
@@ -286,7 +286,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">src/story/story.service.ts:176</a></div>
+                            class="link-to-prism">src/master/story/story.service.ts:176</a></div>
                 </td>
             </tr>
 
@@ -357,7 +357,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/story/story.service.ts:64</a></div>
+                            class="link-to-prism">src/master/story/story.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -428,7 +428,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">src/story/story.service.ts:21</a></div>
+                            class="link-to-prism">src/master/story/story.service.ts:21</a></div>
                 </td>
             </tr>
 
@@ -511,7 +511,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">src/story/story.service.ts:105</a></div>
+                            class="link-to-prism">src/master/story/story.service.ts:105</a></div>
                 </td>
             </tr>
 
@@ -582,7 +582,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">src/story/story.service.ts:152</a></div>
+                            class="link-to-prism">src/master/story/story.service.ts:152</a></div>
                 </td>
             </tr>
 
@@ -649,205 +649,205 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
-    CursorPagination,
-    CursorPaginationResultInterface,
-} from &#x27;src/core/pagination&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+  CursorPagination,
+  CursorPaginationResultInterface,
+  CustomError,
+  errorCodes,
+} from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
 import { CreateStoryDTO, UpdateStoryDTO } from &#x27;./dto&#x27;
 import { StoryRO } from &#x27;./interfaces&#x27;
 
 @Injectable()
 export class StoryService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getStories(
-        options: CursorPagination,
-        userId: string
-    ): Promise&lt;CursorPaginationResultInterface&lt;StoryRO&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;story&#x27;,
-                prisma: this.db,
-                where: {
-                    userId,
-                    active: true,
-                },
-                include: {
-                    files: {
-                        select: {
-                            url: true,
-                            fileType: true,
-                        },
-                    },
-                },
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;StoryService.getStories&#x27;
-            )
-        }
-    }
-
-    async getAllStories(
-        options: CursorPagination
-    ): Promise&lt;CursorPaginationResultInterface&lt;StoryRO&gt;&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; options
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;story&#x27;,
-                prisma: this.db,
-                where: {
-                    active: true,
-                },
-                include: {
-                    files: {
-                        select: {
-                            url: true,
-                            fileType: true,
-                        },
-                    },
-                },
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;StoryService.getAllAddresss&#x27;
-            )
-        }
-    }
-
-    async getStory(slug: string): Promise&lt;any&gt; {
-        const story &#x3D; await this.db.story.findUnique({
-            where: { slug },
-            include: {
-                files: {
-                    select: {
-                        url: true,
-                        fileType: true,
-                    },
-                },
+  async getStories(
+    options: CursorPagination,
+    userId: string
+  ): Promise&lt;CursorPaginationResultInterface&lt;StoryRO&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;story&#x27;,
+        prisma: this.db,
+        where: {
+          userId,
+          active: true,
+        },
+        include: {
+          files: {
+            select: {
+              url: true,
+              fileType: true,
             },
-        })
-        if (!story) {
-            throw new CustomError(
-                &#x27;Story does not exist&#x27;,
-                errorCodes.RecordDoesNotExist
-            )
-        }
-        return story
+          },
+        },
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;StoryService.getStories&#x27;
+      )
     }
+  }
 
-    async createStory(userId: string, data: CreateStoryDTO): Promise&lt;any&gt; {
-        try {
-            const product &#x3D; await this.db.story.create({
-                data: {
-                    ...data,
-                    userId: userId,
-                },
-                include: {
-                    files: {
-                        select: {
-                            url: true,
-                            fileType: true,
-                        },
-                    },
-                },
-            })
-            return product
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;StoryService.createStory&#x27;
-            )
-        }
+  async getAllStories(
+    options: CursorPagination
+  ): Promise&lt;CursorPaginationResultInterface&lt;StoryRO&gt;&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; options
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;story&#x27;,
+        prisma: this.db,
+        where: {
+          active: true,
+        },
+        include: {
+          files: {
+            select: {
+              url: true,
+              fileType: true,
+            },
+          },
+        },
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;StoryService.getAllAddresss&#x27;
+      )
     }
+  }
 
-    async updateStory(slug: string, update: UpdateStoryDTO): Promise&lt;any&gt; {
-        try {
-            const data &#x3D; await this.db.story.update({
-                where: { slug },
-                data: update,
-                include: {
-                    files: {
-                        select: {
-                            url: true,
-                            fileType: true,
-                        },
-                    },
-                },
-            })
-            return data
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;StoryService.updateStory&#x27;
-            )
-        }
+  async getStory(slug: string): Promise&lt;any&gt; {
+    const story &#x3D; await this.db.story.findUnique({
+      where: { slug },
+      include: {
+        files: {
+          select: {
+            url: true,
+            fileType: true,
+          },
+        },
+      },
+    })
+    if (!story) {
+      throw new CustomError(
+        &#x27;Story does not exist&#x27;,
+        errorCodes.RecordDoesNotExist
+      )
     }
+    return story
+  }
 
-    async deleteStory(slug: string): Promise&lt;any&gt; {
-        try {
-            const data &#x3D; await this.db.story.update({
-                where: { slug },
-                data: {
-                    active: false,
-                },
-                include: {
-                    files: {
-                        select: {
-                            url: true,
-                            fileType: true,
-                        },
-                    },
-                },
-            })
-            return data
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;StoryService.deleteStory&#x27;
-            )
-        }
+  async createStory(userId: string, data: CreateStoryDTO): Promise&lt;any&gt; {
+    try {
+      const product &#x3D; await this.db.story.create({
+        data: {
+          ...data,
+          userId: userId,
+        },
+        include: {
+          files: {
+            select: {
+              url: true,
+              fileType: true,
+            },
+          },
+        },
+      })
+      return product
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;StoryService.createStory&#x27;
+      )
     }
+  }
+
+  async updateStory(slug: string, update: UpdateStoryDTO): Promise&lt;any&gt; {
+    try {
+      const data &#x3D; await this.db.story.update({
+        where: { slug },
+        data: update,
+        include: {
+          files: {
+            select: {
+              url: true,
+              fileType: true,
+            },
+          },
+        },
+      })
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;StoryService.updateStory&#x27;
+      )
+    }
+  }
+
+  async deleteStory(slug: string): Promise&lt;any&gt; {
+    try {
+      const data &#x3D; await this.db.story.update({
+        where: { slug },
+        data: {
+          active: false,
+        },
+        include: {
+          files: {
+            select: {
+              url: true,
+              fileType: true,
+            },
+          },
+        },
+      })
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;StoryService.deleteStory&#x27;
+      )
+    }
+  }
 }
 </code></pre>
     </div>

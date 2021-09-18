@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/core/filter/exeption.filter.ts</code>
+            <code>libs/core/src/filter/exeption.filter.ts</code>
         </p>
 
 
@@ -131,8 +131,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">src/core/filter/exeption.filter.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">libs/core/src/filter/exeption.filter.ts:16</a></div>
                 </td>
             </tr>
 
@@ -203,74 +203,74 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    ExceptionFilter,
-    Catch,
-    ArgumentsHost,
-    HttpException,
-    HttpStatus,
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  HttpStatus,
 } from &#x27;@nestjs/common&#x27;
-import { app } from &#x27;src/config&#x27;
+import { app } from &#x27;@app/config&#x27;
 import { ErrorResponse } from &#x27;../response&#x27;
-import { stackObj } from &#x27;../../utils/errorUtils&#x27;
+import { stackObj } from &#x27;@app/utils&#x27;
+
 const config &#x3D; app()
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-    catch(exception: any, host: ArgumentsHost) {
-        const ctx &#x3D; host.switchToHttp()
-        const response &#x3D; ctx.getResponse()
-        // const request &#x3D; ctx.getRequest();
-        if (exception instanceof HttpException) {
-            const status &#x3D; exception.getStatus()
-            const responseObj: ErrorResponse &#x3D; {
-                message: &#x27;Internal Server Error&#x27;,
-                meta: {},
-            }
+  catch(exception: any, host: ArgumentsHost) {
+    const ctx &#x3D; host.switchToHttp()
+    const response &#x3D; ctx.getResponse()
+    // const request &#x3D; ctx.getRequest();
+    if (exception instanceof HttpException) {
+      const status &#x3D; exception.getStatus()
+      const responseObj: ErrorResponse &#x3D; {
+        message: &#x27;Internal Server Error&#x27;,
+        meta: {},
+      }
 
-            const exeptionResponse &#x3D; exception.getResponse() as any
+      const exeptionResponse &#x3D; exception.getResponse() as any
 
-            if (typeof exeptionResponse &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-                responseObj.message &#x3D; exeptionResponse
-            } else {
-                // obj
-                responseObj.message &#x3D;
-                    exception.message || exeptionResponse.error
-                responseObj.errors &#x3D; exeptionResponse.errors || []
-            }
+      if (typeof exeptionResponse &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+        responseObj.message &#x3D; exeptionResponse
+      } else {
+        // obj
+        responseObj.message &#x3D; exception.message || exeptionResponse.error
+        responseObj.errors &#x3D; exeptionResponse.errors || []
+      }
 
-            if (!config.isProduction &amp;&amp; exception) {
-                // @ts-ignore
-                responseObj.meta &#x3D; exception.meta || {}
-                responseObj.meta &#x3D; {
-                    // @ts-ignore
-                    context: exception.context,
-                    stack: stackObj(exception.stack),
-                }
-            }
-
-            responseObj.success &#x3D; false
-            response.status(status).json(responseObj)
-        } else {
-            const status &#x3D; HttpStatus.INTERNAL_SERVER_ERROR
-
-            const responseObj: ErrorResponse &#x3D; {
-                message: &#x27;Internal Server Error&#x27;,
-            }
-            if (exception &amp;&amp; exception.message) {
-                responseObj.message &#x3D; exception.message
-            }
-            if (!config.isProduction &amp;&amp; exception) {
-                responseObj.meta &#x3D; exception.meta || {}
-                responseObj.meta &#x3D; {
-                    context: exception.context,
-                    stack: stackObj(exception.stack),
-                }
-            }
-            responseObj.error &#x3D; undefined
-            responseObj.success &#x3D; false
-            response.status(status).json(responseObj)
+      if (!config.isProduction &amp;&amp; exception) {
+        // @ts-ignore
+        responseObj.meta &#x3D; exception.meta || {}
+        responseObj.meta &#x3D; {
+          // @ts-ignore
+          context: exception.context,
+          stack: stackObj(exception.stack),
         }
+      }
+
+      responseObj.success &#x3D; false
+      response.status(status).json(responseObj)
+    } else {
+      const status &#x3D; HttpStatus.INTERNAL_SERVER_ERROR
+
+      const responseObj: ErrorResponse &#x3D; {
+        message: &#x27;Internal Server Error&#x27;,
+      }
+      if (exception &amp;&amp; exception.message) {
+        responseObj.message &#x3D; exception.message
+      }
+      if (!config.isProduction &amp;&amp; exception) {
+        responseObj.meta &#x3D; exception.meta || {}
+        responseObj.meta &#x3D; {
+          context: exception.context,
+          stack: stackObj(exception.stack),
+        }
+      }
+      responseObj.error &#x3D; undefined
+      responseObj.success &#x3D; false
+      response.status(status).json(responseObj)
     }
+  }
 }
 </code></pre>
     </div>

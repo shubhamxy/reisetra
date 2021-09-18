@@ -345,8 +345,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsNotEmpty, IsNumber, IsOptional, IsString } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
-import { mustBeOfType } from &#x27;src/constants&#x27;
+import { CursorPaginationDTO, mustBeOfType } from &#x27;@app/core&#x27;
 import { Inventory } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27;
@@ -354,22 +353,22 @@ type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27;
 export class GetAllInventoryDTO extends CursorPaginationDTO {}
 
 export class CreateInventoryDTO implements Omit&lt;Inventory, Excluded&gt; {
-    @IsNotEmpty()
-    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
-    stockQuantity: number
+  @IsNotEmpty()
+  @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
+  stockQuantity: number
 
-    @IsNotEmpty()
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
-    sku: string
+  @IsNotEmpty()
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
+  sku: string
 }
 
 export class UpdateInventoryDTO implements Omit&lt;Inventory, Excluded&gt; {
-    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
-    stockQuantity: number
+  @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
+  stockQuantity: number
 
-    @IsOptional()
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
-    sku: string
+  @IsOptional()
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
+  sku: string
 }
 </code></pre>
     </div>

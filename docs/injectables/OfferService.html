@@ -112,7 +112,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
+<code>constructor(db: DbService)</code>
                     </td>
                 </tr>
                         <tr>
@@ -138,7 +138,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -388,7 +388,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOffers(data: UpdateOfferDTO[])</code>
+                    <code>updateOffers(data: <a href="../s/date.html" target="_self">UpdateOfferDTO[]</a>)</code>
                 </td>
             </tr>
 
@@ -419,7 +419,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                            <code>UpdateOfferDTO[]</code>
+                                                <code><a href="../miscellaneous/variables.html#date" target="_self" >UpdateOfferDTO[]</a></code>
                                     </td>
 
                                     <td>
@@ -451,106 +451,106 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { CustomError } from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
 import {
-    CreateOfferDTO,
-    DeleteOfferDTO,
-    GetAllOffersDTO,
-    UpdateOfferDTO,
+  CreateOfferDTO,
+  DeleteOfferDTO,
+  GetAllOffersDTO,
+  UpdateOfferDTO,
 } from &#x27;./dto&#x27;
 
 @Injectable()
 export class OfferService {
-    constructor(private readonly db: PrismaService) {}
+  constructor(private readonly db: DbService) {}
 
-    async getOffers(params: GetAllOffersDTO): Promise&lt;any&gt; {
-        try {
-            const {
-                cursor,
-                size &#x3D; 10,
-                buttonNum &#x3D; 10,
-                orderBy &#x3D; &#x27;createdAt&#x27;,
-                orderDirection &#x3D; &#x27;desc&#x27;,
-            } &#x3D; params
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: &#x27;offer&#x27;,
-                prisma: this.db,
-                id: &#x27;label&#x27;,
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;CartService.getOffers&#x27;
-            )
-        }
+  async getOffers(params: GetAllOffersDTO): Promise&lt;any&gt; {
+    try {
+      const {
+        cursor,
+        size &#x3D; 10,
+        buttonNum &#x3D; 10,
+        orderBy &#x3D; &#x27;createdAt&#x27;,
+        orderDirection &#x3D; &#x27;desc&#x27;,
+      } &#x3D; params
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        model: &#x27;offer&#x27;,
+        prisma: this.db,
+        id: &#x27;label&#x27;,
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;CartService.getOffers&#x27;
+      )
     }
+  }
 
-    async createOffers(data: CreateOfferDTO[]): Promise&lt;any&gt; {
-        try {
-            const offers &#x3D; await this.db.offer.createMany({
-                data: data,
-            })
-            return offers
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;CartService.findAllOffset&#x27;
-            )
-        }
+  async createOffers(data: CreateOfferDTO[]): Promise&lt;any&gt; {
+    try {
+      const offers &#x3D; await this.db.offer.createMany({
+        data: data,
+      })
+      return offers
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;CartService.findAllOffset&#x27;
+      )
     }
+  }
 
-    async updateOffers(data: UpdateOfferDTO[]): Promise&lt;any&gt; {
-        try {
-            // TODO: find beter way??
-            const update &#x3D; await Promise.all(
-                data.map((offer) &#x3D;&gt; {
-                    return this.db.offer.update({
-                        where: { label: offer.label },
-                        data: {
-                            value: offer.value,
-                        },
-                    })
-                })
-            )
-            return update
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;CartService.updateCategories&#x27;
-            )
-        }
+  async updateOffers(data: UpdateOfferDTO[]): Promise&lt;any&gt; {
+    try {
+      // TODO: find beter way??
+      const update &#x3D; await Promise.all(
+        data.map((offer) &#x3D;&gt; {
+          return this.db.offer.update({
+            where: { label: offer.label },
+            data: {
+              value: offer.value,
+            },
+          })
+        })
+      )
+      return update
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;CartService.updateCategories&#x27;
+      )
     }
+  }
 
-    async deleteOffers(data: DeleteOfferDTO[]): Promise&lt;any&gt; {
-        try {
-            const deleted &#x3D; await this.db.offer.updateMany({
-                where: {
-                    label: { in: data.map((item) &#x3D;&gt; item.label) },
-                },
-                data: {
-                    active: false,
-                },
-            })
-            return deleted
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;CartService.deleteTags&#x27;
-            )
-        }
+  async deleteOffers(data: DeleteOfferDTO[]): Promise&lt;any&gt; {
+    try {
+      const deleted &#x3D; await this.db.offer.updateMany({
+        where: {
+          label: { in: data.map((item) &#x3D;&gt; item.label) },
+        },
+        data: {
+          active: false,
+        },
+      })
+      return deleted
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;CartService.deleteTags&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

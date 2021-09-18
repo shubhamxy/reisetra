@@ -135,7 +135,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/master/offer/dto/index.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/master/offer/dto/index.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -161,7 +161,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/master/offer/dto/index.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/master/offer/dto/index.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -187,7 +187,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/master/offer/dto/index.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/master/offer/dto/index.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -206,28 +206,31 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 import { Offer } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;description&#x27;
+
 export class GetAllOffersDTO extends CursorPaginationDTO {}
+
 export class CreateOfferDTO implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
+  label: string
+  value: string
+  type: string
+  description: string
 }
+
 export class UpdateOfferDTO implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
+  label: string
+  value: string
+  type: string
+  description: string
 }
 
 export class DeleteOfferDTO implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
+  label: string
+  value: string
+  type: string
 }
 </code></pre>
     </div>

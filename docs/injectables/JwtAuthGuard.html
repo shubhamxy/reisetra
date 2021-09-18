@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/gaurd/jwt.gaurd.ts</code>
+            <code>libs/auth/src/gaurd/jwt.gaurd.ts</code>
         </p>
 
 
@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/auth/gaurd/jwt.gaurd.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">libs/auth/src/gaurd/jwt.gaurd.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/auth/gaurd/jwt.gaurd.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">libs/auth/src/gaurd/jwt.gaurd.ts:13</a></div>
                 </td>
             </tr>
 
@@ -239,8 +239,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/auth/gaurd/jwt.gaurd.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">libs/auth/src/gaurd/jwt.gaurd.ts:31</a></div>
                 </td>
             </tr>
 
@@ -345,51 +345,47 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExecutionContext, HttpStatus, Injectable } from &#x27;@nestjs/common&#x27;
 import { Reflector } from &#x27;@nestjs/core&#x27;
 import { AuthGuard } from &#x27;@nestjs/passport&#x27;
-import {
-    IS_LOCAL_AUTHENTICATED,
-    IS_PUBLIC_KEY,
-} from &#x27;../../auth/decorator/public.decorator&#x27;
-import { errorCodes, errorTypes } from &#x27;../../core/codes/error&#x27;
-import { CustomException } from &#x27;../../core/response&#x27;
+import { IS_LOCAL_AUTHENTICATED, IS_PUBLIC_KEY } from &#x27;@app/auth&#x27;
+import { CustomException, errorCodes, errorTypes } from &#x27;@app/core&#x27;
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(&#x27;jwt&#x27;) {
-    constructor(private reflector: Reflector) {
-        super()
-    }
+  constructor(private reflector: Reflector) {
+    super()
+  }
 
-    canActivate(context: ExecutionContext) {
-        const isPublic &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(
-            IS_PUBLIC_KEY,
-            [context.getHandler(), context.getClass()]
-        )
-        if (isPublic) {
-            return true
-        }
-        const isLocalAuthenticated &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(
-            IS_LOCAL_AUTHENTICATED,
-            [context.getHandler(), context.getClass()]
-        )
-        if (isLocalAuthenticated) {
-            return true
-        }
-        return super.canActivate(context)
+  canActivate(context: ExecutionContext) {
+    const isPublic &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ])
+    if (isPublic) {
+      return true
     }
+    const isLocalAuthenticated &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(
+      IS_LOCAL_AUTHENTICATED,
+      [context.getHandler(), context.getClass()]
+    )
+    if (isLocalAuthenticated) {
+      return true
+    }
+    return super.canActivate(context)
+  }
 
-    handleRequest(err: any, user: any, info: any, context: any, status: any) {
-        if (err || !user) {
-            throw new CustomException(
-                {
-                    message: &#x27;Authentication Failed&#x27;,
-                    code: errorCodes.AuthFailed,
-                    context: &#x27;JwtAuthGuard.handleRequest&#x27;,
-                    type: errorTypes[errorCodes.AuthFailed],
-                },
-                HttpStatus.UNAUTHORIZED
-            )
-        }
-        return user
+  handleRequest(err: any, user: any, info: any, context: any, status: any) {
+    if (err || !user) {
+      throw new CustomException(
+        {
+          message: &#x27;Authentication Failed&#x27;,
+          code: errorCodes.AuthFailed,
+          context: &#x27;JwtAuthGuard.handleRequest&#x27;,
+          type: errorTypes[errorCodes.AuthFailed],
+        },
+        HttpStatus.UNAUTHORIZED
+      )
     }
+    return user
+  }
 }
 </code></pre>
     </div>

@@ -217,8 +217,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">src/master/offer/offer.controller.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">src/master/offer/offer.controller.ts:70</a></div>
                 </td>
             </tr>
 
@@ -359,7 +359,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOffers(body: UpdateOfferDTO[])</code>
+                    <code>updateOffers(body: <a href="../s/date.html" target="_self">UpdateOfferDTO[]</a>)</code>
                 </td>
             </tr>
 
@@ -373,8 +373,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/master/offer/offer.controller.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/master/offer/offer.controller.ts:55</a></div>
                 </td>
             </tr>
 
@@ -397,7 +397,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                            <code>UpdateOfferDTO[]</code>
+                                                <code><a href="../miscellaneous/variables.html#date" target="_self" >UpdateOfferDTO[]</a></code>
                                     </td>
 
                                     <td>
@@ -428,91 +428,85 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Post,
-    Put,
-    Query,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Post,
+  Put,
+  Query,
 } from &#x27;@nestjs/common&#x27;
 import { OfferService } from &#x27;./offer.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
 import {
-    CreateOfferDTO,
-    DeleteOfferDTO,
-    GetAllOffersDTO,
-    UpdateOfferDTO,
+  CreateOfferDTO,
+  DeleteOfferDTO,
+  GetAllOffersDTO,
+  UpdateOfferDTO,
 } from &#x27;./dto&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { Role, Roles } from &#x27;@app/auth&#x27;
+
 @Controller(ROUTES.offers)
 export class OfferController {
-    constructor(private readonly offer: OfferService) {}
+  constructor(private readonly offer: OfferService) {}
 
-    @Get()
-    async getOffers(@Query() query: GetAllOffersDTO): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.offer.getOffers(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.getOffers&#x27;
-            )
-        }
+  @Get()
+  async getOffers(@Query() query: GetAllOffersDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.offer.getOffers(query)
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.getOffers&#x27;
+      )
     }
+  }
 
-    @Post()
-    async createOffers(
-        @Body() body: CreateOfferDTO[]
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.offer.createOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.createOffers&#x27;
-            )
-        }
+  @Post()
+  async createOffers(@Body() body: CreateOfferDTO[]): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.offer.createOffers(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.createOffers&#x27;
+      )
     }
+  }
 
-    @Put()
-    async updateOffers(
-        @Body() body: UpdateOfferDTO[]
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.offer.updateOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.updateOffers&#x27;
-            )
-        }
+  @Put()
+  async updateOffers(@Body() body: UpdateOfferDTO[]): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.offer.updateOffers(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.updateOffers&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Delete()
-    async deleteOffers(
-        @Body() body: DeleteOfferDTO[]
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.offer.deleteOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.deleteOffers&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Delete()
+  async deleteOffers(@Body() body: DeleteOfferDTO[]): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.offer.deleteOffers(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.deleteOffers&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/support/entity/index.ts</code>
+            <code>src/master/form/entity/index.ts</code>
         </p>
 
 
@@ -130,7 +130,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/support/entity/index.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/master/form/entity/index.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -192,7 +192,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/support/entity/index.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/master/form/entity/index.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -218,7 +218,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/support/entity/index.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/master/form/entity/index.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -244,7 +244,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/support/entity/index.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/master/form/entity/index.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -270,7 +270,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/support/entity/index.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/master/form/entity/index.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -296,7 +296,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/support/entity/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/master/form/entity/index.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -322,7 +322,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/support/entity/index.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/master/form/entity/index.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -342,50 +342,36 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Prisma,
-    Form as FormModel,
-    FormResponse as FormResponseModel,
-    Ticket as TicketModel,
+  Form as FormModel,
+  FormResponse as FormResponseModel,
+  Prisma,
 } from &#x27;.prisma/client&#x27;
 
 export class Form implements FormModel {
-    constructor(partial: Partial&lt;FormModel&gt;) {
-        Object.assign(this, partial)
-    }
+  constructor(partial: Partial&lt;FormModel&gt;) {
+    Object.assign(this, partial)
+  }
 
-    id: string
-    data: Prisma.JsonValue
+  id: string
+  data: Prisma.JsonValue
 
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class FormResponse implements FormResponseModel {
-    constructor(partial: Partial&lt;FormModel&gt;) {
-        Object.assign(this, partial)
-    }
+  constructor(partial: Partial&lt;FormModel&gt;) {
+    Object.assign(this, partial)
+  }
 
-    id: string
-    data: Prisma.JsonValue
-    formId: string
+  id: string
+  data: Prisma.JsonValue
+  formId: string
 
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
-}
-
-export class Ticket implements TicketModel {
-    constructor(partial: Partial&lt;TicketModel&gt;) {
-        Object.assign(this, partial)
-    }
-
-    id: string
-    data: Prisma.JsonValue
-    userId: string
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
 }
 </code></pre>
     </div>

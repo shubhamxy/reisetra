@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/story/story.controller.ts</code>
+            <code>src/master/story/story.controller.ts</code>
         </p>
 
 
@@ -147,8 +147,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">src/story/story.controller.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/master/story/story.controller.ts:66</a></div>
                 </td>
             </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">src/story/story.controller.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/master/story/story.controller.ts:117</a></div>
                 </td>
             </tr>
 
@@ -315,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/story/story.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/master/story/story.controller.ts:29</a></div>
                 </td>
             </tr>
 
@@ -393,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/story/story.controller.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/master/story/story.controller.ts:45</a></div>
                 </td>
             </tr>
 
@@ -483,8 +483,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">src/story/story.controller.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">src/master/story/story.controller.ts:84</a></div>
                 </td>
             </tr>
 
@@ -561,8 +561,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/story/story.controller.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/master/story/story.controller.ts:99</a></div>
                 </td>
             </tr>
 
@@ -627,136 +627,133 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
-    Query,
-    Req,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
 } from &#x27;@nestjs/common&#x27;
 import { StoryService } from &#x27;./story.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
 import {
-    CreateStoryDTO,
-    GetStoriesDTO,
-    GetAllStoriesDTO,
-    UpdateStoryDTO,
+  CreateStoryDTO,
+  GetAllStoriesDTO,
+  GetStoriesDTO,
+  UpdateStoryDTO,
 } from &#x27;./dto&#x27;
-import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { AuthenticatedRequest, Public, Role, Roles } from &#x27;@app/auth&#x27;
 
 @Controller(ROUTES.stories)
 export class StoryController {
-    constructor(private readonly story: StoryService) {}
+  constructor(private readonly story: StoryService) {}
 
-    @Public()
-    @Get(ROUTES.stories_all)
-    async getAllStories(
-        @Query() query: GetAllStoriesDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.story.getAllStories(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.getAllStories&#x27;
-            )
-        }
+  @Public()
+  @Get(ROUTES.stories_all)
+  async getAllStories(
+    @Query() query: GetAllStoriesDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.story.getAllStories(query)
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;StoryController.getAllStories&#x27;
+      )
     }
+  }
 
-    @Get()
-    async getStories(
-        @Req() req: AuthenticatedRequest,
-        @Query() query: GetStoriesDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.story.getStories(
-                query,
-                req.user.id
-            )
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.getStories&#x27;
-            )
-        }
+  @Get()
+  async getStories(
+    @Req() req: AuthenticatedRequest,
+    @Query() query: GetStoriesDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.story.getStories(
+        query,
+        req.user.id
+      )
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;StoryController.getStories&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Post()
-    async createStory(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateStoryDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.story.createStory(request.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.createStory&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Post()
+  async createStory(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateStoryDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.story.createStory(request.user.id, body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;StoryController.createStory&#x27;
+      )
     }
+  }
 
-    @Public()
-    @Get(ROUTES.stories_by_slug)
-    async getStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.story.getStory(slug)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.getStory&#x27;
-            )
-        }
+  @Public()
+  @Get(ROUTES.stories_by_slug)
+  async getStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.story.getStory(slug)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;StoryController.getStory&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Put(ROUTES.stories_by_slug)
-    async updateStory(
-        @Param(&#x27;storyId&#x27;) slug: string,
-        @Body() body: UpdateStoryDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.story.updateStory(slug, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.updateStory&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Put(ROUTES.stories_by_slug)
+  async updateStory(
+    @Param(&#x27;storyId&#x27;) slug: string,
+    @Body() body: UpdateStoryDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.story.updateStory(slug, body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;StoryController.updateStory&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Delete(ROUTES.stories_by_slug)
-    async deleteStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.story.deleteStory(slug)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.deleteStory&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Delete(ROUTES.stories_by_slug)
+  async deleteStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.story.deleteStory(slug)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;StoryController.deleteStory&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

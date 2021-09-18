@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/auth.service.ts</code>
+            <code>libs/auth/src/auth.service.ts</code>
         </p>
 
 
@@ -78,9 +78,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#appConfig" >appConfig</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#authConfig" >authConfig</a>
                             </li>
                         </ul>
@@ -102,6 +106,10 @@
                             <li>
                                     <span class="modifier">Async</span>
                                 <a href="#createForgottenPasswordToken" >createForgottenPasswordToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#createUnsubscribeToken" >createUnsubscribeToken</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -163,6 +171,10 @@
                                     <span class="modifier">Async</span>
                                 <a href="#verifyForgotPasswordToken" >verifyForgotPasswordToken</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#verifyUnsubscribeToken" >verifyUnsubscribeToken</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -181,12 +193,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(user: <a href="../injectables/UserService.html" target="_self">UserService</a>, jwt: JwtService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>, configService: ConfigService)</code>
+<code>constructor(user: <a href="../injectables/UserService.html" target="_self">UserService</a>, jwt: JwtService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>, aws: <a href="../injectables/AWSService.html" target="_self">AWSService</a>, configService: <a href="../injectables/ConfigService.html" target="_self">ConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/auth/auth.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">libs/auth/src/auth.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -240,10 +252,22 @@
                                                     
                                                 </tr>
                                                 <tr>
+                                                        <td>aws</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AWSService.html" target="_self" >AWSService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
                                                         <td>configService</td>
                                                   
                                                         <td>
-                                                                    <code>ConfigService</code>
+                                                                        <code><a href="../injectables/ConfigService.html" target="_self" >ConfigService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -287,8 +311,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">src/auth/auth.service.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:171</a></div>
                 </td>
             </tr>
 
@@ -358,8 +382,79 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="206"
-                            class="link-to-prism">src/auth/auth.service.ts:206</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:212</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createUnsubscribeToken"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>createUnsubscribeToken</b></span>
+                        <a href="#createUnsubscribeToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createUnsubscribeToken(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:177</a></div>
                 </td>
             </tr>
 
@@ -429,8 +524,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">src/auth/auth.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -499,8 +594,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/auth/auth.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -563,15 +658,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>googleLogin(user: <a href="../interfaces/GoogleUser.html" target="_self">GoogleUser</a>)</code>
+                    <code>googleLogin(user: <a href="../interfaces/GoogleUser.html" target="_self">GoogleUser</a>, clientId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="159"
-                            class="link-to-prism">src/auth/auth.service.ts:159</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:145</a></div>
                 </td>
             </tr>
 
@@ -595,6 +690,18 @@
                                     <td>user</td>
                                     <td>
                                                 <code><a href="../interfaces/GoogleUser.html" target="_self" >GoogleUser</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>clientId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -641,8 +748,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">src/auth/auth.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -712,8 +819,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">src/auth/auth.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:106</a></div>
                 </td>
             </tr>
 
@@ -783,8 +890,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/auth/auth.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -854,8 +961,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="132"
-                            class="link-to-prism">src/auth/auth.service.ts:132</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:121</a></div>
                 </td>
             </tr>
 
@@ -925,8 +1032,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="213"
-                            class="link-to-prism">src/auth/auth.service.ts:213</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:219</a></div>
                 </td>
             </tr>
 
@@ -1008,8 +1115,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">src/auth/auth.service.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:246</a></div>
                 </td>
             </tr>
 
@@ -1079,8 +1186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/auth/auth.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -1162,8 +1269,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">src/auth/auth.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -1233,8 +1340,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">src/auth/auth.service.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -1316,8 +1423,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/auth/auth.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -1399,8 +1506,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="191"
-                            class="link-to-prism">src/auth/auth.service.ts:191</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:199</a></div>
                 </td>
             </tr>
 
@@ -1482,8 +1589,91 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="225"
-                            class="link-to-prism">src/auth/auth.service.ts:225</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:233</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>token</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="verifyUnsubscribeToken"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>verifyUnsubscribeToken</b></span>
+                        <a href="#verifyUnsubscribeToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>verifyUnsubscribeToken(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">libs/auth/src/auth.service.ts:189</a></div>
                 </td>
             </tr>
 
@@ -1555,20 +1745,16 @@
                 <td class="col-md-4">
                     <a name="appConfig"></a>
                     <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
                         <span ><b>appConfig</b></span>
                         <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/AppEnv.html" target="_self" >AppEnv</a></code>
-
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/auth/auth.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/auth/src/auth.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -1581,20 +1767,16 @@
                 <td class="col-md-4">
                     <a name="authConfig"></a>
                     <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
                         <span ><b>authConfig</b></span>
                         <a href="#authConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/AuthEnv.html" target="_self" >AuthEnv</a></code>
-
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/auth/auth.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">libs/auth/src/auth.service.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -1608,262 +1790,266 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { UserService } from &#x27;../user/user.service&#x27;
+import { CreateUserDTO, User, UserRO, UserService } from &#x27;@app/user&#x27;
 import { JwtService } from &#x27;@nestjs/jwt&#x27;
 import {
-    getEmailVerificationTokenKey,
-    getForgotPasswordKey,
-    getRefreshTokenKey,
-} from &#x27;../utils/cache&#x27;
-import { CacheService } from &#x27;../core/modules/cache/cache.service&#x27;
-import { CreateUserDTO } from &#x27;../user/dto&#x27;
-import { User } from &#x27;.prisma/client&#x27;
-import { UserRO } from &#x27;../user/interfaces/user.interface&#x27;
+  getEmailVerificationTokenKey,
+  getForgotPasswordKey,
+  getRefreshTokenKey,
+  getUnsubscribeKey,
+} from &#x27;@app/utils&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
 import { nanoid } from &#x27;nanoid&#x27;
-import { GoogleUser } from &#x27;./strategy/google.strategy&#x27;
-import { sendEmail, IData } from &#x27;../utils/aws&#x27;
-import { passwordResetEmail, emailVerificationEmail } from &#x27;../utils/template&#x27;
-import { CustomError } from &#x27;../core/response&#x27;
-import { errorCodes } from &#x27;../core/codes/error&#x27;
+import { GoogleUser } from &#x27;./strategy&#x27;
+import { CustomError, errorCodes } from &#x27;@app/core&#x27;
 import { ConfigService } from &#x27;@nestjs/config&#x27;
-import { AppEnv, AuthEnv } from &#x27;src/config&#x27;
-
-export interface AuthTokenPayload {
-    tid: string
-    sub: string
-    email: string
-    role: string
-}
-
-export interface AuthResponse {
-    id: string
-    email: string
-    role: string
-    expires_in: string
-    access_token: string
-    refresh_token: string
-    token_type: string
-}
+import { AppEnv, AuthEnv, CONFIG } from &#x27;@app/config&#x27;
+import { AuthResponse, AuthTokenPayload } from &#x27;./dto/login.dto&#x27;
+import { isAdmin, Role } from &#x27;./decorator/roles.decorator&#x27;
+import {
+  AWSService,
+  emailVerificationEmail,
+  IData,
+  passwordResetEmail,
+} from &#x27;@app/aws&#x27;
 
 @Injectable()
 export class AuthService {
-    appConfig: AppEnv
-    authConfig: AuthEnv
-    constructor(
-        private user: UserService,
-        private jwt: JwtService,
-        private cache: CacheService,
-        configService: ConfigService
-    ) {
-        this.appConfig &#x3D; configService.get&lt;AppEnv&gt;(&#x27;app&#x27;)
-        this.authConfig &#x3D; configService.get&lt;AuthEnv&gt;(&#x27;auth&#x27;)
+  private readonly appConfig
+  private readonly authConfig
+
+  constructor(
+    private readonly user: UserService,
+    private readonly jwt: JwtService,
+    private readonly cache: CacheService,
+    private readonly aws: AWSService,
+    private readonly configService: ConfigService
+  ) {
+    this.appConfig &#x3D; configService.get&lt;AppEnv&gt;(CONFIG.app)
+    this.authConfig &#x3D; configService.get&lt;AuthEnv&gt;(CONFIG.auth)
+  }
+
+  async validateUser(email: string, password: string): Promise&lt;UserRO&gt; {
+    return this.user.verifyEmailPassword({ email, password })
+  }
+
+  async setRefreshToken(userId: string, tokenId: string) {
+    return this.cache.set(getRefreshTokenKey(userId), tokenId)
+  }
+
+  async getRefreshToken(userId: string) {
+    return this.cache.get(getRefreshTokenKey(userId))
+  }
+
+  async removeRefreshToken(userId: string) {
+    return this.cache.del(getRefreshTokenKey(userId))
+  }
+
+  async isRefreshTokenPayloadValid(
+    payload: AuthTokenPayload
+  ): Promise&lt;boolean&gt; {
+    const tokenId &#x3D; await this.getRefreshToken(payload.sub)
+    return !!(tokenId &amp;&amp; tokenId &#x3D;&#x3D;&#x3D; payload.tid)
+  }
+
+  async getAuthToken({
+    id,
+    email,
+    roles,
+  }: Partial&lt;{
+    id: string
+    email: string
+    roles: Role[]
+  }&gt;): Promise&lt;AuthResponse&gt; {
+    if (!id || !email || !roles || roles.length &lt; 1) {
+      throw new CustomError(
+        &#x60;Invalid Token for id:${id}, email:${email}, roles: ${roles}&#x60;,
+        errorCodes.AuthFailed,
+        &#x27;AuthService.getAuthToken&#x27;
+      )
     }
+    const tid &#x3D; nanoid(5)
+    const jwtAccessTokenPayload &#x3D; { email, sub: id, roles: roles, tid }
+    const jwtRefreshTokenPayload &#x3D; { email, sub: id, roles: roles, tid }
+    const accessToken &#x3D; this.jwt.sign(
+      jwtAccessTokenPayload,
+      this.authConfig.jwtAccessTokenOptions
+    )
 
-    async validateUser(email: string, password: string): Promise&lt;UserRO&gt; {
-        return this.user.verifyEmailPassword({ email, password })
+    const refreshToken &#x3D; this.jwt.sign(
+      jwtRefreshTokenPayload,
+      this.authConfig.jwtRefreshTokenOptions
+    )
+
+    await this.setRefreshToken(id, tid)
+    return {
+      id,
+      email,
+      roles,
+      admin: isAdmin(roles),
+      expires_in: this.authConfig.jwtAccessTokenOptions.expiresIn,
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      token_type: &#x27;Bearer&#x27;,
     }
+  }
 
-    async setRefreshToken(userId: string, tokenId: string) {
-        return this.cache.set(getRefreshTokenKey(userId), tokenId)
+  async login(user: Partial&lt;User&gt;): Promise&lt;AuthResponse&gt; {
+    return this.getAuthToken(user)
+  }
+
+  async signup(user: CreateUserDTO): Promise&lt;AuthResponse&gt; {
+    const createdUser &#x3D; await this.user.create(user)
+    const authPayload &#x3D; await this.getAuthToken(createdUser)
+    if (createdUser) {
+      if (this.appConfig.isProduction) {
+        await this.sendEmailVerification(createdUser.id, createdUser.email)
+      }
     }
+    return authPayload
+  }
 
-    async getRefreshToken(userId: string) {
-        return this.cache.get(getRefreshTokenKey(userId))
+  async resetPassword(data: {
+    email: string
+    password: string
+  }): Promise&lt;AuthResponse&gt; {
+    const updatedUser &#x3D; await this.user.resetPassword(data.email, data.password)
+    await this.cache.del(getForgotPasswordKey(data.email))
+    return this.getAuthToken(updatedUser)
+  }
+
+  async updatePassword(
+    email: string,
+    data: {
+      password: string
+      oldPassword: string
     }
+  ): Promise&lt;AuthResponse&gt; {
+    const updatedUser &#x3D; await this.user.updatePassword(
+      email,
+      data.password,
+      data.oldPassword
+    )
+    return this.getAuthToken(updatedUser)
+  }
 
-    async removeRefreshToken(userId: string) {
-        return this.cache.del(getRefreshTokenKey(userId))
+  async googleLogin(user: GoogleUser, clientId: string): Promise&lt;AuthResponse&gt; {
+    const userOrNull &#x3D; await this.user.findAndUpdateOauthAccount({
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      emailVerified: user.emailVerified,
+      oauthId: user.oauthId,
+      oauthProvider: &#x27;GOOGLE&#x27;,
+    })
+    if (userOrNull) {
+      return this.getAuthToken(userOrNull)
     }
+    /** User does not exist on db sign them up **/
+    const newUser &#x3D; await this.user.createOauthAccount({
+      client: clientId,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      emailVerified: user.emailVerified,
+      oauthId: user.oauthId,
+      oauthProvider: &#x27;GOOGLE&#x27;,
+      roles: [Role.USER],
+    })
+    return this.getAuthToken(newUser)
+  }
 
-    async isRefreshTokenPayloadValid(
-        payload: AuthTokenPayload
-    ): Promise&lt;boolean&gt; {
-        const tokenId &#x3D; await this.getRefreshToken(payload.sub)
-        return !!(tokenId &amp;&amp; tokenId &#x3D;&#x3D;&#x3D; payload.tid)
+  async createEmailToken(id: string): Promise&lt;string&gt; {
+    const token &#x3D; nanoid(6)
+    await this.cache.set(getEmailVerificationTokenKey(id), token)
+    return token
+  }
+
+  async createUnsubscribeToken(email: string): Promise&lt;string&gt; {
+    const storedToken &#x3D; (await this.cache.get(
+      getUnsubscribeKey(email)
+    )) as string
+    if (storedToken) {
+      return storedToken
     }
+    const token &#x3D; nanoid(6)
+    await this.cache.set(getUnsubscribeKey(email), token)
+    return token
+  }
 
-    async getAuthToken({
-        id,
-        email,
-        role,
-    }: Partial&lt;{
-        id: string
-        email: string
-        role: string
-    }&gt;): Promise&lt;AuthResponse&gt; {
-        if (!id || !email || !role) {
-            throw new CustomError(
-                &#x27;Invalid Token&#x27;,
-                errorCodes.AuthFailed,
-                &#x27;AuthService.getAuthToken&#x27;
-            )
-        }
-        const tid &#x3D; nanoid(5)
-        const jwtAccessTokenPayload &#x3D; { email, sub: id, role: role, tid }
-        const jwtRefreshTokenPayload &#x3D; { email, sub: id, role: role, tid }
-        const accessToken &#x3D; this.jwt.sign(
-            jwtAccessTokenPayload,
-            this.authConfig.jwtAccessTokenOptions
-        )
+  async verifyUnsubscribeToken(email: string, token: string): Promise&lt;boolean&gt; {
+    const storedToken &#x3D; (await this.cache.get(
+      getUnsubscribeKey(email)
+    )) as string
+    if (!storedToken) {
+      return false
+    }
+    return storedToken &#x3D;&#x3D;&#x3D; token
+  }
 
-        const refreshToken &#x3D; this.jwt.sign(
-            jwtRefreshTokenPayload,
-            this.authConfig.jwtRefreshTokenOptions
-        )
+  async verifyEmail(id: string, token: string): Promise&lt;boolean&gt; {
+    const storedToken &#x3D; await this.cache.get(getEmailVerificationTokenKey(id))
+    if (!storedToken) {
+      return false
+    }
+    if (storedToken &#x3D;&#x3D;&#x3D; token) {
+      await this.user.findAndUpdate(id, { emailVerified: true })
+      await this.cache.del(getEmailVerificationTokenKey(id))
+      return true
+    }
+    return false
+  }
 
-        this.setRefreshToken(id, tid)
-        return {
-            id,
+  async createForgottenPasswordToken(email: string): Promise&lt;string&gt; {
+    const forgotPasswordToken &#x3D; nanoid(16)
+    // @TODO add time??
+    await this.cache.set(getForgotPasswordKey(email), forgotPasswordToken)
+    return forgotPasswordToken
+  }
+
+  async sendEmailVerification(id: string, email: string): Promise&lt;IData&gt; {
+    const emailToken &#x3D; await this.createEmailToken(id)
+    return await this.aws.sendEmail(
+      emailVerificationEmail(
+        {
+          email,
+          token: emailToken,
+          id: id,
+        },
+        await this.createUnsubscribeToken(email)
+      )
+    )
+  }
+
+  async verifyForgotPasswordToken(
+    email: string,
+    token: string
+  ): Promise&lt;boolean&gt; {
+    const storedToken &#x3D; (await this.cache.get(
+      getForgotPasswordKey(email)
+    )) as string
+    if (!storedToken) {
+      return false
+    }
+    return storedToken &#x3D;&#x3D;&#x3D; token
+  }
+
+  async sendForgotPasswordEmail(email: string): Promise&lt;IData&gt; {
+    const forgotPasswordToken &#x3D; await this.createForgottenPasswordToken(email)
+
+    if (this.appConfig.isProduction) {
+      return await this.aws.sendEmail(
+        passwordResetEmail(
+          {
             email,
-            role,
-            expires_in: this.authConfig.jwtAccessTokenOptions.expiresIn,
-            access_token: accessToken,
-            refresh_token: refreshToken,
-            token_type: &#x27;Bearer&#x27;,
-        }
-    }
-
-    async login(user: Partial&lt;User&gt;): Promise&lt;AuthResponse&gt; {
-        return this.getAuthToken(user)
-    }
-
-    async signup(user: CreateUserDTO): Promise&lt;AuthResponse&gt; {
-        const createdUser &#x3D; await this.user.create(user)
-        const authPayload &#x3D; await this.getAuthToken(createdUser)
-        if (createdUser) {
-            if (this.appConfig.isProduction) {
-                this.sendEmailVerification(createdUser.id, createdUser.email)
-            }
-        }
-        return authPayload
-    }
-
-    async resetPassword(data: {
-        email: string
-        password: string
-    }): Promise&lt;AuthResponse&gt; {
-        const updatedUser &#x3D; await this.user.resetPassword(
-            data.email,
-            data.password
+            token: forgotPasswordToken,
+          },
+          await this.createUnsubscribeToken(email)
         )
-        this.cache.del(getForgotPasswordKey(data.email))
-        return this.getAuthToken(updatedUser)
+      )
     }
-
-    async updatePassword(
-        email: string,
-        data: {
-            password: string
-            oldPassword: string
-        }
-    ): Promise&lt;AuthResponse&gt; {
-        const updatedUser &#x3D; await this.user.updatePassword(
-            email,
-            data.password,
-            data.oldPassword
-        )
-        return this.getAuthToken(updatedUser)
-    }
-
-    async googleLogin(user: GoogleUser): Promise&lt;AuthResponse&gt; {
-        const userOrNull &#x3D; await this.user.findAndUpdateOauthAccount({
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
-            emailVerified: user.emailVerified,
-            oauthId: user.oauthId,
-            oauthProvider: &#x27;GOOGLE&#x27;,
-            role: &#x27;USER&#x27;,
-        })
-        if (userOrNull) {
-            return this.getAuthToken(userOrNull)
-        }
-        /** User does not exist on db sign them up **/
-        const newUser &#x3D; await this.user.createOauthAccount({
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
-            emailVerified: user.emailVerified,
-            oauthId: user.oauthId,
-            oauthProvider: &#x27;GOOGLE&#x27;,
-            role: &#x27;USER&#x27;,
-        })
-        return this.getAuthToken(newUser)
-    }
-
-    async createEmailToken(id: string): Promise&lt;string&gt; {
-        const token &#x3D; nanoid(6)
-        this.cache.set(getEmailVerificationTokenKey(id), token)
-        return token
-    }
-
-    async verifyEmail(id: string, token: string): Promise&lt;boolean&gt; {
-        const storedToken &#x3D; await this.cache.get(
-            getEmailVerificationTokenKey(id)
-        )
-        if (!storedToken) {
-            return false
-        }
-        if (storedToken &#x3D;&#x3D;&#x3D; token) {
-            await this.user.findAndUpdate(id, { emailVerified: true })
-            await this.cache.del(getEmailVerificationTokenKey(id))
-            return true
-        }
-        return false
-    }
-
-    async createForgottenPasswordToken(email: string): Promise&lt;string&gt; {
-        const forgotPasswordToken &#x3D; nanoid(16)
-        // @TODO add time??
-        await this.cache.set(getForgotPasswordKey(email), forgotPasswordToken)
-        return forgotPasswordToken
-    }
-
-    async sendEmailVerification(id: string, email: string): Promise&lt;IData&gt; {
-        const emailToken &#x3D; await this.createEmailToken(id)
-        const data &#x3D; await sendEmail(
-            emailVerificationEmail({
-                email,
-                token: emailToken,
-                id: id,
-            })
-        )
-        return data
-    }
-
-    async verifyForgotPasswordToken(
-        email: string,
-        token: string
-    ): Promise&lt;boolean&gt; {
-        const storedToken &#x3D; (await this.cache.get(
-            getForgotPasswordKey(email)
-        )) as string
-        if (!storedToken) {
-            return false
-        }
-        if (storedToken &#x3D;&#x3D;&#x3D; token) {
-            return true
-        }
-        return false
-    }
-
-    async sendForgotPasswordEmail(email: string): Promise&lt;IData&gt; {
-        const forgotPasswordToken &#x3D; await this.createForgottenPasswordToken(
-            email
-        )
-        if (this.appConfig.isProduction) {
-            const data &#x3D; await sendEmail(
-                passwordResetEmail({
-                    email,
-                    token: forgotPasswordToken,
-                })
-            )
-            return data
-        }
-        return new Promise((resolve) &#x3D;&gt; {
-            resolve({ MessageId: null })
-        })
-    }
+    return { MessageId: null }
+  }
 }
 </code></pre>
     </div>

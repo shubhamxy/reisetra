@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/strategy/google.strategy.ts</code>
+            <code>libs/auth/src/strategy/google.strategy.ts</code>
         </p>
 
 
@@ -432,43 +432,47 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
 import { Strategy, VerifyCallback } from &#x27;passport-google-oauth20&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
-import { auth } from &#x27;../../config&#x27;
+import { auth } from &#x27;@app/config&#x27;
+
 const config &#x3D; auth()
+
 export interface GoogleUser {
-    oauthId: string
-    email: string
-    emailVerified: boolean
-    name: string
-    avatar?: string
-    accessToken?: string
-    refreshToken?: string
-    oauthProvider: string
+  oauthId: string
+  email: string
+  emailVerified: boolean
+  name: string
+  avatar?: string
+  accessToken?: string
+  refreshToken?: string
+  oauthProvider: string
 }
+
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, &#x27;google&#x27;) {
-    constructor() {
-        super(config.googleOAuthOptions)
-    }
+  constructor() {
+    super(config.googleOAuthOptions)
+  }
 
-    async validate(
-        accessToken: string,
-        refreshToken: string,
-        profile: any,
-        done: VerifyCallback
-    ): Promise&lt;any&gt; {
-        const { id, displayName, name, emails, photos, provider } &#x3D; profile
-        const user: GoogleUser &#x3D; {
-            oauthId: id,
-            email: emails[0].value,
-            emailVerified: emails[0].verified,
-            name: displayName || &#x60;${name.givenName} ${name.familyName}&#x60;.trim(),
-            avatar: photos[0].value,
-            accessToken,
-            refreshToken,
-            oauthProvider: String(provider).toUpperCase(),
-        }
-        done(null, user)
+  async validate(
+    request: Request,
+    accessToken: string,
+    refreshToken: string,
+    profile: any,
+    done: VerifyCallback
+  ): Promise&lt;any&gt; {
+    const { id, displayName, name, emails, photos, provider } &#x3D; profile
+    const user: GoogleUser &#x3D; {
+      oauthId: id,
+      email: emails[0].value,
+      emailVerified: emails[0].verified,
+      name: displayName || &#x60;${name.givenName} ${name.familyName}&#x60;.trim(),
+      avatar: photos[0].value,
+      accessToken,
+      refreshToken,
+      oauthProvider: String(provider).toUpperCase(),
     }
+    done(null, user)
+  }
 }
 </code></pre>
     </div>

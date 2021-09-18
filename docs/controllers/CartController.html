@@ -147,8 +147,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/cart/cart.controller.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/cart/cart.controller.ts:38</a></div>
                 </td>
             </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">src/cart/cart.controller.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/cart/cart.controller.ts:108</a></div>
                 </td>
             </tr>
 
@@ -327,8 +327,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/cart/cart.controller.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/cart/cart.controller.ts:24</a></div>
                 </td>
             </tr>
 
@@ -405,8 +405,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">src/cart/cart.controller.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/cart/cart.controller.ts:72</a></div>
                 </td>
             </tr>
 
@@ -507,8 +507,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/cart/cart.controller.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/cart/cart.controller.ts:55</a></div>
                 </td>
             </tr>
 
@@ -597,8 +597,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">src/cart/cart.controller.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">src/cart/cart.controller.ts:90</a></div>
                 </td>
             </tr>
 
@@ -674,132 +674,128 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
-    Query,
-    Req,
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
 } from &#x27;@nestjs/common&#x27;
 import { CartService } from &#x27;./cart.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
 import { CheckoutDTO, GetAllCartsDTO, UpdateCartItemDTO } from &#x27;./dto&#x27;
-import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { AuthenticatedRequest, Role, Roles } from &#x27;@app/auth&#x27;
+
 @Controller(ROUTES.carts)
 export class CartController {
-    constructor(private readonly cart: CartService) {}
+  constructor(private readonly cart: CartService) {}
 
-    @Roles(Role.ADMIN)
-    @Get(ROUTES.carts_all)
-    async getAllCarts(
-        @Query() query: GetAllCartsDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.cart.getAllCarts(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.getAllCarts&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Get(ROUTES.carts_all)
+  async getAllCarts(@Query() query: GetAllCartsDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.cart.getAllCarts(query)
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.getAllCarts&#x27;
+      )
     }
+  }
 
-    @Post()
-    async checkoutCart(
-        @Req() req: AuthenticatedRequest,
-        @Body() body: CheckoutDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.checkoutCart(req.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.checkoutCart&#x27;
-            )
-        }
+  @Post()
+  async checkoutCart(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: CheckoutDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.cart.checkoutCart(req.user.id, body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.checkoutCart&#x27;
+      )
     }
+  }
 
-    @Get(ROUTES.carts_by_cartId)
-    async getUserCart(
-        @Param(&#x27;cartId&#x27;) cartId: string,
-        @Query(&#x27;promo&#x27;) promo: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.getCart(cartId, promo)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.getUserCart&#x27;
-            )
-        }
+  @Get(ROUTES.carts_by_cartId)
+  async getUserCart(
+    @Param(&#x27;cartId&#x27;) cartId: string,
+    @Query(&#x27;promo&#x27;) promo: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.cart.getCart(cartId, promo)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.getUserCart&#x27;
+      )
     }
+  }
 
-    @Get(ROUTES.carts_by_cartId_and_productId)
-    async getCartItem(
-        @Param(&#x27;cartid&#x27;) cartid: string,
-        @Param(&#x27;productid&#x27;) productid: string,
-        @Body() body: UpdateCartItemDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.getCartItem(cartid, productid)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.getCartItem&#x27;
-            )
-        }
+  @Get(ROUTES.carts_by_cartId_and_productId)
+  async getCartItem(
+    @Param(&#x27;cartid&#x27;) cartid: string,
+    @Param(&#x27;productid&#x27;) productid: string,
+    @Body() body: UpdateCartItemDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.cart.getCartItem(cartid, productid)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.getCartItem&#x27;
+      )
     }
+  }
 
-    @Put(ROUTES.carts_by_cartId_and_productId)
-    async updateCartItem(
-        @Param(&#x27;cartId&#x27;) cartId: string,
-        @Param(&#x27;productId&#x27;) productId: string,
-        @Body() update: UpdateCartItemDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.updateCart(cartId, productId, update)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.updateCartItem&#x27;
-            )
-        }
+  @Put(ROUTES.carts_by_cartId_and_productId)
+  async updateCartItem(
+    @Param(&#x27;cartId&#x27;) cartId: string,
+    @Param(&#x27;productId&#x27;) productId: string,
+    @Body() update: UpdateCartItemDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.cart.updateCart(cartId, productId, update)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.updateCartItem&#x27;
+      )
     }
+  }
 
-    @Delete(ROUTES.carts_by_cartId_and_productId)
-    async deleteCartItem(
-        @Param(&#x27;cartId&#x27;) cartId: string,
-        @Param(&#x27;productId&#x27;) productId: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.cart.removeCartItem(cartId, productId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;CartController.deleteCartItem&#x27;
-            )
-        }
+  @Delete(ROUTES.carts_by_cartId_and_productId)
+  async deleteCartItem(
+    @Param(&#x27;cartId&#x27;) cartId: string,
+    @Param(&#x27;productId&#x27;) productId: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.cart.removeCartItem(cartId, productId)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;CartController.deleteCartItem&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

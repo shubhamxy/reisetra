@@ -344,28 +344,31 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 import { Offer } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;description&#x27;
+
 export class GetAllOffersDTO extends CursorPaginationDTO {}
+
 export class CreateOfferDTO implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
+  label: string
+  value: string
+  type: string
+  description: string
 }
+
 export class UpdateOfferDTO implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
+  label: string
+  value: string
+  type: string
+  description: string
 }
 
 export class DeleteOfferDTO implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
+  label: string
+  value: string
+  type: string
 }
 </code></pre>
     </div>

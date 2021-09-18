@@ -116,7 +116,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -142,7 +142,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -551,122 +551,122 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &#x27;.prisma/client&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
 import {
-    CursorPagination,
-    CursorPaginationResultInterface,
-} from &#x27;src/core/pagination&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
-import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+  CursorPagination,
+  CursorPaginationResultInterface,
+  CustomError,
+} from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
+import { prismaOffsetPagination } from &#x27;@app/utils&#x27;
 import { CreateInventoryDTO } from &#x27;./dto&#x27;
 
 @Injectable()
 export class InventoryService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getAllInventory(
-        options: CursorPagination
-    ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt; {
-        const {
-            cursor,
-            size &#x3D; 10,
-            buttonNum &#x3D; 10,
-            orderBy &#x3D; &#x27;createdAt&#x27;,
-            orderDirection &#x3D; &#x27;desc&#x27;,
-        } &#x3D; options
-        try {
-            const result &#x3D; await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                include: {
-                    product: true,
-                },
-                model: &#x27;inventory&#x27;,
-                prisma: this.db,
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;InventoryService.getAllInventory&#x27;
-            )
-        }
+  async getAllInventory(
+    options: CursorPagination
+  ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Product&gt;&gt;&gt; {
+    const {
+      cursor,
+      size &#x3D; 10,
+      buttonNum &#x3D; 10,
+      orderBy &#x3D; &#x27;createdAt&#x27;,
+      orderDirection &#x3D; &#x27;desc&#x27;,
+    } &#x3D; options
+    try {
+      const result &#x3D; await prismaOffsetPagination({
+        cursor,
+        size: Number(size),
+        buttonNum: Number(buttonNum),
+        orderBy,
+        orderDirection,
+        include: {
+          product: true,
+        },
+        model: &#x27;inventory&#x27;,
+        prisma: this.db,
+      })
+      return result
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;InventoryService.getAllInventory&#x27;
+      )
     }
+  }
 
-    async getInventory(id: string): Promise&lt;any&gt; {
-        try {
-            const product &#x3D; await this.db.inventory.findUnique({
-                where: { id },
-                include: {
-                    product: true,
-                },
-            })
-            return product
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;InventoryService.getInventory&#x27;
-            )
-        }
+  async getInventory(id: string): Promise&lt;any&gt; {
+    try {
+      const product &#x3D; await this.db.inventory.findUnique({
+        where: { id },
+        include: {
+          product: true,
+        },
+      })
+      return product
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;InventoryService.getInventory&#x27;
+      )
     }
+  }
 
-    async createInventory(data: CreateInventoryDTO): Promise&lt;any&gt; {
-        try {
-            const product &#x3D; await this.db.inventory.create({
-                data,
-                include: {
-                    product: true,
-                },
-            })
-            return product
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;InventoryService.createInventory&#x27;
-            )
-        }
+  async createInventory(data: CreateInventoryDTO): Promise&lt;any&gt; {
+    try {
+      const product &#x3D; await this.db.inventory.create({
+        data,
+        include: {
+          product: true,
+        },
+      })
+      return product
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;InventoryService.createInventory&#x27;
+      )
     }
+  }
 
-    async updateInventory(id: string, data): Promise&lt;any&gt; {
-        try {
-            const updated &#x3D; await this.db.inventory.update({
-                where: { id },
-                data,
-                include: {
-                    product: true,
-                },
-            })
-            return updated
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;InventoryService.updateInventory&#x27;
-            )
-        }
+  async updateInventory(id: string, data): Promise&lt;any&gt; {
+    try {
+      const updated &#x3D; await this.db.inventory.update({
+        where: { id },
+        data,
+        include: {
+          product: true,
+        },
+      })
+      return updated
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;InventoryService.updateInventory&#x27;
+      )
     }
+  }
 
-    async deleteInventory(id: string): Promise&lt;any&gt; {
-        try {
-            const data &#x3D; await this.db.inventory.delete({ where: { id } })
-            return data
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;InventoryService.deleteInventory&#x27;
-            )
-        }
+  async deleteInventory(id: string): Promise&lt;any&gt; {
+    try {
+      const data &#x3D; await this.db.inventory.delete({ where: { id } })
+      return data
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;InventoryService.deleteInventory&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

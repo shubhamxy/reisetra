@@ -143,8 +143,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">src/master/tag/tag.controller.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/master/tag/tag.controller.ts:51</a></div>
                 </td>
             </tr>
 
@@ -207,7 +207,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteTags(body: UpdateTagDTO[])</code>
+                    <code>deleteTags(body: <a href="../s/date.html" target="_self">UpdateTagDTO[]</a>)</code>
                 </td>
             </tr>
 
@@ -221,8 +221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/master/tag/tag.controller.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/master/tag/tag.controller.ts:81</a></div>
                 </td>
             </tr>
 
@@ -245,7 +245,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                            <code>UpdateTagDTO[]</code>
+                                                <code><a href="../miscellaneous/variables.html#date" target="_self" >UpdateTagDTO[]</a></code>
                                     </td>
 
                                     <td>
@@ -299,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/master/tag/tag.controller.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">src/master/tag/tag.controller.ts:21</a></div>
                 </td>
             </tr>
 
@@ -377,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/master/tag/tag.controller.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/master/tag/tag.controller.ts:36</a></div>
                 </td>
             </tr>
 
@@ -441,7 +441,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateTags(body: UpdateTagDTO[])</code>
+                    <code>updateTags(body: <a href="../s/date.html" target="_self">UpdateTagDTO[]</a>)</code>
                 </td>
             </tr>
 
@@ -455,8 +455,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/master/tag/tag.controller.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/master/tag/tag.controller.ts:66</a></div>
                 </td>
             </tr>
 
@@ -479,7 +479,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                            <code>UpdateTagDTO[]</code>
+                                                <code><a href="../miscellaneous/variables.html#date" target="_self" >UpdateTagDTO[]</a></code>
                                     </td>
 
                                     <td>
@@ -509,102 +509,97 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Body,
-    Controller,
-    Get,
-    HttpStatus,
-    Post,
-    Put,
-    Query,
-    Req,
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Put,
+  Query,
 } from &#x27;@nestjs/common&#x27;
 import { TagService } from &#x27;./tag.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
-import { CreateTagDTO, UpdateTagDTO, GetAllTagsDTO } from &#x27;./dto&#x27;
-import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
+import { CreateTagDTO, GetAllTagsDTO, UpdateTagDTO } from &#x27;./dto&#x27;
+import { Public, Role, Roles } from &#x27;@app/auth&#x27;
 
 @Controller(ROUTES.tags)
 export class TagController {
-    constructor(private readonly product: TagService) {}
+  constructor(private readonly product: TagService) {}
 
-    @Public()
-    @Get(ROUTES.tags_all)
-    async getAllTags(@Query() query: GetAllTagsDTO): Promise&lt;SuccessResponse&gt; {
-        try {
-            const { results, ...meta } &#x3D; await this.product.getAllTags(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.getTags&#x27;
-            )
-        }
+  @Public()
+  @Get(ROUTES.tags_all)
+  async getAllTags(@Query() query: GetAllTagsDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const { results, ...meta } &#x3D; await this.product.getAllTags(query)
+      return { data: results || [], meta: meta }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.getTags&#x27;
+      )
     }
+  }
 
-    @Public()
-    @Get()
-    async getTags(
-        @Query(&#x27;category&#x27;) category: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.getTags(category)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.getTags&#x27;
-            )
-        }
+  @Public()
+  @Get()
+  async getTags(@Query(&#x27;category&#x27;) category: string): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.getTags(category)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.getTags&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Post()
-    async createTags(@Body() body: CreateTagDTO[]): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.createTags(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.createTag&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Post()
+  async createTags(@Body() body: CreateTagDTO[]): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.createTags(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.createTag&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Put()
-    async updateTags(@Body() body: UpdateTagDTO[]): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.updateTags(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.updateTags&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Put()
+  async updateTags(@Body() body: UpdateTagDTO[]): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.updateTags(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.updateTags&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Put()
-    async deleteTags(@Body() body: UpdateTagDTO[]): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.deleteTags(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.deleteTags&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Put()
+  async deleteTags(@Body() body: UpdateTagDTO[]): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.deleteTags(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.deleteTags&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

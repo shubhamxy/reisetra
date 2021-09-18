@@ -124,7 +124,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/core/modules/cache/cache.module.ts</code>
+            <code>libs/cache/src/cache.module.ts</code>
         </p>
 
 
@@ -159,34 +159,33 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module, CacheModule as NestCacheModule } from &#x27;@nestjs/common&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CacheModule as NestCacheModule, Module } from &#x27;@nestjs/common&#x27;
 import { ConfigModule, ConfigService } from &#x27;@nestjs/config&#x27;
 import * as redisStore from &#x27;cache-manager-redis-store&#x27;
-import { CacheEnv } from &#x27;src/config&#x27;
 import { CacheService } from &#x27;./cache.service&#x27;
+import { CacheEnv, CONFIG } from &#x27;@app/config&#x27;
 
 @Module({
-    imports: [
-        NestCacheModule.registerAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: async (configService: ConfigService) &#x3D;&gt;
-                configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).enable
-                    ? {
-                          store: redisStore,
-                          host: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).host,
-                          port: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).port,
-                          ttl: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).cacheTTL,
-                      }
-                    : {
-                          store: &#x27;memory&#x27;,
-                          ttl: configService.get&lt;CacheEnv&gt;(&#x27;cache&#x27;).cacheTTL,
-                      },
-        }),
-    ],
-
-    providers: [CacheService],
-    exports: [CacheService], // This is IMPORTANT,  you need to export RedisCacheService here so that other modules can use it
+  imports: [
+    NestCacheModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) &#x3D;&gt;
+        configService.get&lt;CacheEnv&gt;(CONFIG.cache).enable
+          ? {
+              store: redisStore,
+              host: configService.get&lt;CacheEnv&gt;(CONFIG.cache).host,
+              port: configService.get&lt;CacheEnv&gt;(CONFIG.cache).port,
+              ttl: configService.get&lt;CacheEnv&gt;(CONFIG.cache).cacheTTL,
+            }
+          : {
+              store: &#x27;memory&#x27;,
+              ttl: configService.get&lt;CacheEnv&gt;(CONFIG.cache).cacheTTL,
+            },
+    }),
+  ],
+  providers: [CacheService],
+  exports: [CacheService, NestCacheModule], // This is IMPORTANT,  you need to export RedisCacheService here so that other modules can use it
 })
 export class CacheModule {}
 </code></pre>

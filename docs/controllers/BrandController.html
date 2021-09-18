@@ -139,8 +139,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/master/brand/brand.controller.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/master/brand/brand.controller.ts:40</a></div>
                 </td>
             </tr>
 
@@ -229,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/master/brand/brand.controller.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/master/brand/brand.controller.ts:75</a></div>
                 </td>
             </tr>
 
@@ -307,8 +307,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/master/brand/brand.controller.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/master/brand/brand.controller.ts:23</a></div>
                 </td>
             </tr>
 
@@ -385,8 +385,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/master/brand/brand.controller.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/master/brand/brand.controller.ts:57</a></div>
                 </td>
             </tr>
 
@@ -451,96 +451,91 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Post,
-    Put,
-    Query,
-    Req,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Post,
+  Put,
+  Query,
+  Req,
 } from &#x27;@nestjs/common&#x27;
 import { BrandService } from &#x27;./brand.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { CustomException, ROUTES, SuccessResponse } from &#x27;@app/core&#x27;
 import { CreateCompanyDTO } from &#x27;./dto&#x27;
-import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
-import { ROUTES } from &#x27;src/constants&#x27;
+import { AuthenticatedRequest, Public, Role, Roles } from &#x27;@app/auth&#x27;
 
 @Controller(ROUTES.brands)
 export class BrandController {
-    constructor(private readonly product: BrandService) {}
+  constructor(private readonly product: BrandService) {}
 
-    @Public()
-    @Get()
-    async getBrands(
-        @Query(&#x27;category&#x27;) category: string
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.getBrands(category)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.getBrands&#x27;
-            )
-        }
+  @Public()
+  @Get()
+  async getBrands(
+    @Query(&#x27;category&#x27;) category: string
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.getBrands(category)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.getBrands&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Post()
-    async createBrand(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCompanyDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.createBrand(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.createBrand&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Post()
+  async createBrand(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateCompanyDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.createBrand(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.createBrand&#x27;
+      )
     }
+  }
 
-    @Put()
-    async updateBrand(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCompanyDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.updateBrand(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.updateBrand&#x27;
-            )
-        }
+  @Put()
+  async updateBrand(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateCompanyDTO
+  ): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.updateBrand(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.updateBrand&#x27;
+      )
     }
+  }
 
-    @Roles(Role.ADMIN)
-    @Delete()
-    async deleteBrand(
-        @Body() body: CreateCompanyDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.product.deleteBrand(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ProductController.deleteBrand&#x27;
-            )
-        }
+  @Roles(Role.ADMIN)
+  @Delete()
+  async deleteBrand(@Body() body: CreateCompanyDTO): Promise&lt;SuccessResponse&gt; {
+    try {
+      const data &#x3D; await this.product.deleteBrand(body)
+      return { data }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        &#x27;ProductController.deleteBrand&#x27;
+      )
     }
+  }
 }
 </code></pre>
     </div>

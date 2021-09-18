@@ -120,7 +120,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(db: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
+<code>constructor(db: DbService, cache: <a href="../injectables/CacheService.html" target="_self">CacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -146,7 +146,7 @@
                                                         <td>db</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>DbService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -641,219 +641,219 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { CustomError } from &#x27;src/core/response&#x27;
-import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
+import { CustomError } from &#x27;@app/core&#x27;
+import { DbService } from &#x27;@app/db&#x27;
+import { CacheService } from &#x27;@app/cache&#x27;
 import { CreateCategoryDTO, UpdateCategoryDTO } from &#x27;./dto&#x27;
 import type { Prisma } from &#x27;.prisma/client&#x27;
 import { CategoriesRO, CategoryRO } from &#x27;./interfaces&#x27;
 
 @Injectable()
 export class CategoryService {
-    constructor(
-        private readonly db: PrismaService,
-        private readonly cache: CacheService
-    ) {}
+  constructor(
+    private readonly db: DbService,
+    private readonly cache: CacheService
+  ) {}
 
-    async getCategories(): Promise&lt;CategoriesRO&gt; {
-        try {
-            const categories &#x3D; await this.db.category.findMany({
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                        },
-                    },
-                },
-                take: 20,
-            })
-            return categories
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.getCategories&#x27;
-            )
-        }
+  async getCategories(): Promise&lt;CategoriesRO&gt; {
+    try {
+      const categories &#x3D; await this.db.category.findMany({
+        include: {
+          images: {
+            select: {
+              url: true,
+            },
+          },
+        },
+        take: 20,
+      })
+      return categories
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.getCategories&#x27;
+      )
     }
+  }
 
-    async createCategory(
-        userId: string,
-        data: CreateCategoryDTO
-    ): Promise&lt;CategoryRO&gt; {
-        try {
-            const { images, ...rest } &#x3D; data
+  async createCategory(
+    userId: string,
+    data: CreateCategoryDTO
+  ): Promise&lt;CategoryRO&gt; {
+    try {
+      const { images, ...rest } &#x3D; data
 
-            const dataObj: Prisma.XOR&lt;
-                Prisma.CategoryCreateInput,
-                Prisma.CategoryUncheckedCreateInput
-            &gt; &#x3D; {
-                label: rest.label,
-                value: rest.value,
-            }
+      const dataObj: Prisma.XOR&lt;
+        Prisma.CategoryCreateInput,
+        Prisma.CategoryUncheckedCreateInput
+      &gt; &#x3D; {
+        label: rest.label,
+        value: rest.value,
+      }
 
-            if (images &amp;&amp; images.length &gt; 0) {
-                dataObj.images &#x3D; {
-                    connectOrCreate: images.map((item) &#x3D;&gt; ({
-                        create: {
-                            fileType: item.fileType,
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                }
-            }
-
-            if (data.styles) {
-                dataObj.styles &#x3D; rest.styles
-            }
-            const category &#x3D; await this.db.category.create({
-                data: dataObj,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-            })
-            return category
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.findAllOffset&#x27;
-            )
+      if (images &amp;&amp; images.length &gt; 0) {
+        dataObj.images &#x3D; {
+          connectOrCreate: images.map((item) &#x3D;&gt; ({
+            create: {
+              fileType: item.fileType,
+              url: item.url,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
         }
-    }
+      }
 
-    async createCategories(
-        userId: string,
-        data: CreateCategoryDTO[]
-    ): Promise&lt;CategoriesRO&gt; {
-        try {
-            const results &#x3D; await Promise.all(
-                data.map((item) &#x3D;&gt; this.createCategory(userId, item))
-            )
-            return results
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.findAllOffset&#x27;
-            )
+      if (data.styles) {
+        dataObj.styles &#x3D; rest.styles
+      }
+      const category &#x3D; await this.db.category.create({
+        data: dataObj,
+        include: {
+          images: {
+            select: {
+              url: true,
+              meta: true,
+            },
+          },
+        },
+      })
+      return category
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.findAllOffset&#x27;
+      )
+    }
+  }
+
+  async createCategories(
+    userId: string,
+    data: CreateCategoryDTO[]
+  ): Promise&lt;CategoriesRO&gt; {
+    try {
+      const results &#x3D; await Promise.all(
+        data.map((item) &#x3D;&gt; this.createCategory(userId, item))
+      )
+      return results
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.findAllOffset&#x27;
+      )
+    }
+  }
+
+  async updateCategory(
+    userId: string,
+    data: UpdateCategoryDTO
+  ): Promise&lt;CategoryRO&gt; {
+    try {
+      const { images, ...rest } &#x3D; data
+
+      const dataObj: Prisma.XOR&lt;
+        Prisma.CategoryCreateInput,
+        Prisma.CategoryUncheckedCreateInput
+      &gt; &#x3D; {
+        label: rest.label,
+        value: rest.value,
+      }
+      if (images &amp;&amp; images.length &gt; 0) {
+        dataObj.images &#x3D; {
+          connectOrCreate: images.map((item) &#x3D;&gt; ({
+            create: {
+              fileType: item.fileType,
+              url: item.url,
+              meta: item.meta,
+              userId,
+            },
+            where: {
+              url: item.url,
+            },
+          })),
         }
+      }
+      if (data.styles) {
+        dataObj.styles &#x3D; rest.styles
+      }
+      const category &#x3D; await this.db.category.update({
+        where: {
+          label: data.label,
+        },
+        data: dataObj,
+        include: {
+          images: {
+            select: {
+              url: true,
+              meta: true,
+            },
+          },
+        },
+      })
+      return category
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.findAllOffset&#x27;
+      )
     }
+  }
 
-    async updateCategory(
-        userId: string,
-        data: UpdateCategoryDTO
-    ): Promise&lt;CategoryRO&gt; {
-        try {
-            const { images, ...rest } &#x3D; data
-
-            const dataObj: Prisma.XOR&lt;
-                Prisma.CategoryCreateInput,
-                Prisma.CategoryUncheckedCreateInput
-            &gt; &#x3D; {
-                label: rest.label,
-                value: rest.value,
-            }
-            if (images &amp;&amp; images.length &gt; 0) {
-                dataObj.images &#x3D; {
-                    connectOrCreate: images.map((item) &#x3D;&gt; ({
-                        create: {
-                            fileType: item.fileType,
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                }
-            }
-            if (data.styles) {
-                dataObj.styles &#x3D; rest.styles
-            }
-            const category &#x3D; await this.db.category.update({
-                where: {
-                    label: data.label,
-                },
-                data: dataObj,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-            })
-            return category
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.findAllOffset&#x27;
-            )
-        }
+  async updateCategories(
+    userId: string,
+    data: UpdateCategoryDTO
+  ): Promise&lt;CategoryRO&gt; {
+    try {
+      const { images, ...rest } &#x3D; data
+      const imageData &#x3D; images.map((item) &#x3D;&gt; ({ ...item, userId }))
+      const categories &#x3D; await this.db.category.update({
+        where: { label: data.label },
+        data: {
+          ...rest,
+          images: {
+            createMany: { data: imageData },
+          },
+        },
+      })
+      return categories
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.updateCategories&#x27;
+      )
     }
+  }
 
-    async updateCategories(
-        userId: string,
-        data: UpdateCategoryDTO
-    ): Promise&lt;CategoryRO&gt; {
-        try {
-            const { images, ...rest } &#x3D; data
-            const imageData &#x3D; images.map((item) &#x3D;&gt; ({ ...item, userId }))
-            const categories &#x3D; await this.db.category.update({
-                where: { label: data.label },
-                data: {
-                    ...rest,
-                    images: {
-                        createMany: { data: imageData },
-                    },
-                },
-            })
-            return categories
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.updateCategories&#x27;
-            )
-        }
+  async deleteCategory(
+    userId: string,
+    data: CreateCategoryDTO
+  ): Promise&lt;CategoryRO&gt; {
+    try {
+      const deleted &#x3D; await this.db.category.update({
+        where: {
+          label: data.label,
+        },
+        data: {
+          active: false,
+        },
+      })
+      return deleted
+    } catch (error) {
+      throw new CustomError(
+        error?.meta?.cause || error.message,
+        error.code,
+        &#x27;ProductService.deleteTags&#x27;
+      )
     }
-
-    async deleteCategory(
-        userId: string,
-        data: CreateCategoryDTO
-    ): Promise&lt;CategoryRO&gt; {
-        try {
-            const deleted &#x3D; await this.db.category.update({
-                where: {
-                    label: data.label,
-                },
-                data: {
-                    active: false,
-                },
-            })
-            return deleted
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;ProductService.deleteTags&#x27;
-            )
-        }
-    }
+  }
 }
 </code></pre>
     </div>
