@@ -13,6 +13,7 @@ import { AppEnv, Config, ServicesEnv } from '@app/config'
 import { Injectable } from '@nestjs/common'
 import { DbService } from '@app/db'
 import { CustomError, errorCodes } from '@app/core'
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino'
 
 @Injectable()
 export class AWSService {
@@ -25,7 +26,9 @@ export class AWSService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly db: DbService
+    private readonly db: DbService,
+    @InjectPinoLogger(AWSService.name)
+    private readonly logger: PinoLogger
   ) {
     this.appConfig = configService.get<AppEnv>(Config.app)
     this.awsConfig = configService.get<ServicesEnv>(Config.services).aws
@@ -60,6 +63,8 @@ export class AWSService {
         Endpoint: this.awsConfig.snsTopicArnDeliveryEndpoint,
       },
     ]
+
+    console.log(this.subscriptionTopics)
   }
 
   async getUploadURL(options: FileUploadDTO): Promise<FileUploadRTO> {
@@ -90,7 +95,7 @@ export class AWSService {
         return sendEmail(this.ses, this.awsConfig, params)
       }
       throw new CustomError(
-        `Email is unverified: ${verifiedUsers} ${allEmails.length}`,
+        `Email is unverified: ${allEmails.length - verifiedUsers}`,
         errorCodes.EMailNotVerified,
         'AWSService.sendEmail'
       )
@@ -99,7 +104,20 @@ export class AWSService {
   }
 
   async subscribeAllSNS() {
-    return subscribeAllSNS(this.sns, this.awsConfig, this.subscriptionTopics)
+    try {
+      const result = await subscribeAllSNS(
+        this.sns,
+        this.awsConfig,
+        this.subscriptionTopics
+      )
+      this.logger.info(result, 'SNS subscription set up successfully.')
+      return result
+    } catch (error) {
+      throw new CustomError(
+        `Unable to set up SNS subscription: ${error}`,
+        errorCodes.Error
+      )
+    }
   }
 
   async confirmSubscription(params: { Token: string; TopicArn: string }) {

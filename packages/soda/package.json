@@ -1,6 +1,6 @@
 {
   "name": "@reisetra/soda",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "private": true,
   "license": "UNLICENSED",
@@ -35,7 +35,7 @@
     "test:e2e:cov": "jest --config ./jest-e2e.config.js --coverage --runInBand",
     "build:docs": "npx @compodoc/compodoc -p tsconfig.json --output ../../docs",
     "start:docs": "npx @compodoc/compodoc -p tsconfig.json -s -w --port 8081 --output ../../docs",
-    "format": "prettier --write \"{src,apps,libs,test}/**/*.{js,ts,json}\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.{js,ts}\" --fix"
   },
   "engines": {

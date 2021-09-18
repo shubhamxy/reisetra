@@ -2,8 +2,10 @@ import { Params as PinoConfig } from 'nestjs-pino'
 import { createLogger, ILogzioLogger } from 'logzio-nodejs'
 import { services } from './services'
 import { STATUS_MESSAGE } from '@app/utils'
+import app from './app'
 
 const serviceEnv = services()
+const appEnv = app()
 let logger: ILogzioLogger
 if (serviceEnv.logzio.enable) {
   // eslint-disable-next-line prefer-const
@@ -71,13 +73,13 @@ export const pinoConfig: PinoConfig = {
         if (log.level >= 50 && log.err) {
           suffix += `${suffix} \n ${JSON.stringify(log.err, null, 4)}`
         }
-        log.message = `${log.msg} ${suffix}`
+        log.message = `${log.msg || ''} ${suffix}`.trim()
         if (serviceEnv.logzio.enable) {
           logger.log(log)
         }
         return log.message
       },
-      hideObject: true,
+      hideObject: !appEnv.debug,
       ignore: 'hostname,pid',
     },
   },

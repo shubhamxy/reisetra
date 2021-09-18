@@ -71,10 +71,12 @@ export enum ROUTES {
   supports = '/supports',
   supports_all = '/all',
   support_by_ticketId = '/:ticketId',
-  handle_bounce = '/bounces',
-  handle_complaint = '/complaints',
-  handle_delivery = '/deliveries',
-  handle_unsubscribe = '/unsubscribe',
+
+  notification = '/notifications',
+  bounce = '/bounces',
+  complaint = '/complaints',
+  delivery = '/deliveries',
+  unsubscribe = '/unsubscribe',
 
   forms = '/forms',
   forms_by_formId = '/:formId',

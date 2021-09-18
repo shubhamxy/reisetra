@@ -12,24 +12,66 @@
     "baseUrl": "./",
     "resolveJsonModule": true,
     "paths": {
-      "@app/core": ["libs/core/src"],
-      "@app/core/*": ["libs/core/src/*"],
-      "@app/aws": ["libs/aws/src"],
-      "@app/aws/*": ["libs/aws/src/*"],
-      "@app/config": ["libs/config/src"],
-      "@app/config/*": ["libs/config/src/*"],
-      "@app/cache": ["libs/cache/src"],
-      "@app/cache/*": ["libs/cache/src/*"],
-      "@app/db": ["libs/db/src"],
-      "@app/db/*": ["libs/db/src/*"],
-      "@app/utils": ["libs/utils/src"],
-      "@app/utils/*": ["libs/utils/src/*"],
-      "@app/health": ["libs/health/src"],
-      "@app/health/*": ["libs/health/src/*"],
-      "@app/auth": ["libs/auth/src"],
-      "@app/auth/*": ["libs/auth/src/*"],
-      "@app/user": ["libs/user/src"],
-      "@app/user/*": ["libs/user/src/*"]
+      "@app/core": [
+        "libs/core/src"
+      ],
+      "@app/core/*": [
+        "libs/core/src/*"
+      ],
+      "@app/aws": [
+        "libs/aws/src"
+      ],
+      "@app/aws/*": [
+        "libs/aws/src/*"
+      ],
+      "@app/config": [
+        "libs/config/src"
+      ],
+      "@app/config/*": [
+        "libs/config/src/*"
+      ],
+      "@app/cache": [
+        "libs/cache/src"
+      ],
+      "@app/cache/*": [
+        "libs/cache/src/*"
+      ],
+      "@app/db": [
+        "libs/db/src"
+      ],
+      "@app/db/*": [
+        "libs/db/src/*"
+      ],
+      "@app/utils": [
+        "libs/utils/src"
+      ],
+      "@app/utils/*": [
+        "libs/utils/src/*"
+      ],
+      "@app/health": [
+        "libs/health/src"
+      ],
+      "@app/health/*": [
+        "libs/health/src/*"
+      ],
+      "@app/auth": [
+        "libs/auth/src"
+      ],
+      "@app/auth/*": [
+        "libs/auth/src/*"
+      ],
+      "@app/user": [
+        "libs/user/src"
+      ],
+      "@app/user/*": [
+        "libs/user/src/*"
+      ],
+      "@app/notification": [
+        "libs/notification/src"
+      ],
+      "@app/notification/*": [
+        "libs/notification/src/*"
+      ]
     }
   }
 }

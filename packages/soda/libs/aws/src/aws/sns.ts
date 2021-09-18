@@ -1,14 +1,18 @@
 import { SNS } from 'aws-sdk'
 
 export async function subscribeAllSNS(sns: SNS, awsConfig, subscriptionTopics) {
-  subscriptionTopics.forEach((topic) => {
-    sns.subscribe(topic, function (error, data) {
-      if (error) throw new Error(`Unable to set up SNS subscription: ${error}`)
-      console.log(
-        `SNS subscription set up successfully: ${JSON.stringify(data)}`
-      )
+  return Promise.all(
+    subscriptionTopics.map((topic) => {
+      return new Promise((resolve, reject) => {
+        sns.subscribe(topic, function (error, data) {
+          if (error) {
+            reject(error)
+          }
+          resolve({ data, topic })
+        })
+      })
     })
-  })
+  )
 }
 
 export async function confirmSubscription(

@@ -118,6 +118,13 @@ export class TemplateService {
     }
   }
 
+  unsubscribeLink = async (email) =>
+    `${
+      this.appConfig.apiUrl
+    }/notifications/unsubscribe?email=${email}&token=${await this.createUnsubscribeToken(
+      email
+    )}}`
+
   async passwordResetEmail(user: { email: string; token: string }) {
     const config = this.appConfig
     return createParams(
@@ -132,9 +139,7 @@ export class TemplateService {
         mainCallToActionUrl: `${config.authUrl}/reset-password?email=${user.email}&token=${user.token}`,
         mainCallToActionText: 'Reset Password',
         footerText: `This message was meant for ${user.email}.`,
-        unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${
-          user.email
-        }&token=${await this.createUnsubscribeToken(user.email)}}`,
+        unsubscribeLink: await this.unsubscribeLink(user.email),
         ...this.socials,
       })
     )
@@ -158,9 +163,7 @@ export class TemplateService {
         mainCallToActionUrl: `${config.authUrl}/verify?id=${user.id}&token=${user.token}`,
         mainCallToActionText: 'Verify Email',
         footerText: `This message was meant for ${user.email}.`,
-        unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${
-          user.email
-        }&token=${await this.createUnsubscribeToken(user.email)}`,
+        unsubscribeLink: await this.unsubscribeLink(user.email),
         ...this.socials,
       })
     )
@@ -176,7 +179,6 @@ export class TemplateService {
     return createParams(
       this.commonOptions(data.email, {
         ...this.commonData,
-        ...this.socials,
         messageSubject: `${data.subject} | Support Ticket #${data.ticketId}`,
         preheader: ``,
         header: 'Dear Customer,',
@@ -186,9 +188,8 @@ export class TemplateService {
         mainCallToActionUrl: `${config.clientUrl}/support?ticketId=${data.ticketId}`,
         mainCallToActionText: 'Support',
         footerText: `This message was meant for ${data.email}.`,
-        unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${
-          data.email
-        }&token=${await this.createUnsubscribeToken(data.email)}`,
+        unsubscribeLink: await this.unsubscribeLink(data.email),
+        ...this.socials,
       })
     )
   }
@@ -205,7 +206,6 @@ export class TemplateService {
     return createParams(
       this.commonOptions(this.appConfig.contactEmail, {
         ...this.commonData,
-        ...this.socials,
         messageSubject: `${data.subject} | Support Ticket #${data.ticketId}`,
         preheader: ``,
         header: `Support ticket for ${data.id} ${data.email}`,
@@ -215,9 +215,8 @@ export class TemplateService {
         mainCallToActionUrl: `${config.clientUrl}/support?ticketId=${data.ticketId}`,
         mainCallToActionText: 'Support',
         footerText: `This message was meant for ${data.email}.`,
-        unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${
-          data.email
-        }&token=${await this.createUnsubscribeToken(data.email)}`,
+        unsubscribeLink: await this.unsubscribeLink(data.email),
+        ...this.socials,
       })
     )
   }
@@ -265,9 +264,7 @@ export class TemplateService {
         address: data.address,
         email: data.email,
         phone: data.phone,
-        unsubscribeLink: `${config.apiUrl}/supports/unsubscribe?email=${
-          data.email
-        }&token=${await this.createUnsubscribeToken(data.email)}`,
+        unsubscribeLink: await this.unsubscribeLink(data.email),
       })
     )
   }

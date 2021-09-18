@@ -25,11 +25,3 @@ export class GetFormDataDTO {
 }
 
 export class CreateFormDataDTO {}
-
-export class BounceDTO {
-  @Allow()
-  Message: string
-
-  @Allow()
-  Token: string
-}

@@ -62,12 +62,12 @@ export const services = (): ServicesEnv => ({
     snsRegion: process.env.AWS_SNS_REGION,
     snsTopicArnBounce: process.env.AWS_SNS_TOPIC_ARN_BOUNCES,
     snsTopicArnBounceEndpoint: process.env.AWS_SNS_TOPIC_ARN_BOUNCES_ENDPOINT,
-    snsTopicArnComplaint: process.env.AWS_SNS_Topic_ARN_COMPLAINTS,
+    snsTopicArnComplaint: process.env.AWS_SNS_TOPIC_ARN_COMPLAINTS,
     snsTopicArnComplaintEndpoint:
-      process.env.AWS_SNS_Topic_ARN_COMPLAINTS_ENDPOINT,
-    snsTopicArnDelivery: process.env.AWS_SNS_Topic_ARN_DELIVERIES,
+      process.env.AWS_SNS_TOPIC_ARN_COMPLAINTS_ENDPOINT,
+    snsTopicArnDelivery: process.env.AWS_SNS_TOPIC_ARN_DELIVERIES,
     snsTopicArnDeliveryEndpoint:
-      process.env.AWS_SNS_Topic_ARN_DELIVERIES_ENDPOINT,
+      process.env.AWS_SNS_TOPIC_ARN_DELIVERIES_ENDPOINT,
   },
   logzio: {
     enable: Boolean(process.env.LOGZIO_TOKEN),

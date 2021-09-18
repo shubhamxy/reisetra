@@ -28,5 +28,7 @@ module.exports = {
     '@app/auth': '<rootDir>/libs/auth/src',
     '@app/user/(.*)': '<rootDir>/libs/user/src/$1',
     '@app/user': '<rootDir>/libs/user/src',
+    '@app/notification/(.*)': '<rootDir>/libs/notification/src/$1',
+    '@app/notification': '<rootDir>/libs/notification/src',
   },
 }
