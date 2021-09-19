@@ -93,6 +93,7 @@ export function ProductCard({ data, selected, setSelected }) {
               item
               xs={12}
               md={6}
+              sm={12}
               justify="space-between"
               spacing={2}
             >
@@ -173,6 +174,7 @@ export function ProductCard({ data, selected, setSelected }) {
               container
               item
               xs={12}
+              sm={12}
               md={6}
               justify="space-between"
               style={{textAlign: "right"}}

@@ -366,11 +366,11 @@ export function themeOptions(type: "light" | "dark"): ThemeOptions {
 // Create a theme instance.
 export function useTheme(){
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   useEffect(() => {
     const darkModefromls = storage.get.dark_mode();
     if(darkModefromls === undefined) {
-      setDarkMode(prefersDarkMode);
+      setDarkMode(false);
     } else {
       setDarkMode(darkModefromls);
     }
@@ -388,7 +388,7 @@ export function useTheme(){
       if(btn){
         btn.addEventListener("click", update);
       }
-    }, 500)
+    }, 2500)
 
     return () => {
       clearTimeout(timer)

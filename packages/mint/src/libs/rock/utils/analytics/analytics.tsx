@@ -5,6 +5,7 @@ import * as gtag from "./gtag";
 import * as logrocket from './logrocket';
 import { UserProfile } from "../../api/user";
 import { config, isBrowser } from "../../config";
+
 function caller(fnName: string, ...params) {
   if(!isBrowser || !config.isProduction) {return}
   if (config.analytics.enableMixpanel) {
@@ -17,6 +18,7 @@ function caller(fnName: string, ...params) {
     gtag[fnName]?.(...params);
   }
 }
+
 export async function initialize() {
   try {
     caller('initialize');

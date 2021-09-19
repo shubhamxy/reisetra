@@ -5,7 +5,7 @@ import { Theme } from "@material-ui/core";
 import { ServerStyleSheets } from "@material-ui/styles";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import * as React from "react";
-import { config, GoogleSignInScript, GTagNoscript, GTagScript, WithTheme } from "../libs";
+import { config, ThirdPartyBodyTags, ThirdPartyHeadTags, WithTheme } from "../libs";
 
 const getCache = () => {
   const cache = createCache({ key: "css", prepend: true });
@@ -16,52 +16,49 @@ const getCache = () => {
 export default class MyDocument extends Document {
   render() {
     return (
-      <WithTheme>
-        {(theme: Theme) => (
-          <Html lang="en">
-            <Head>
-              <link
-                rel="apple-touch-icon"
-                sizes="180x180"
-                href="/static/apple-touch-icon.png"
-              />
-              <link
-                rel="icon"
-                type="image/png"
-                sizes="32x32"
-                href="/static/favicon-32x32.png"
-              />
-              <link
-                rel="icon"
-                type="image/png"
-                sizes="16x16"
-                href="/static/favicon-16x16.png"
-              />
-              <link
-                rel="mask-icon"
-                href="/static/safari-pinned-tab.svg"
-                color={theme.palette.primary.main}
-              />
-              <meta name="apple-mobile-web-app-title" content={config.name} />
-              <meta name="application-name" content={config.name} />
-              <meta
-                name="msapplication-TileColor"
-                content={theme.palette.primary.main}
-              />
-              <meta name="theme-color" content={theme.palette.primary.main} />
-              <link rel="apple-touch-icon" href="/static/logo.png" />
-              <link rel="manifest" href="/static/manifest.json" />
-              <GoogleSignInScript />
-              <GTagScript />
-            </Head>
-            <body>
-              <GTagNoscript />
-              <Main />
-              <NextScript />
-            </body>
-          </Html>
-        )}
-      </WithTheme>
+      <WithTheme children={((theme: Theme) => (
+        <Html lang="en">
+          <Head>
+            <link
+              rel="apple-touch-icon"
+              sizes="180x180"
+              href="/static/apple-touch-icon.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-16x16.png"
+            />
+            <link
+              rel="mask-icon"
+              href="/static/safari-pinned-tab.svg"
+              color={theme.palette.primary.main}
+            />
+            <meta name="apple-mobile-web-app-title" content={config.name} />
+            <meta name="application-name" content={config.name} />
+            <meta
+              name="msapplication-TileColor"
+              content={theme.palette.primary.main}
+            />
+            <meta name="theme-color" content={theme.palette.primary.main} />
+            <link rel="apple-touch-icon" href="/static/logo.png" />
+            <link rel="manifest" href="/static/manifest.json" />
+            <ThirdPartyHeadTags />
+          </Head>
+          <body>
+            <Main />
+            <NextScript />
+            <ThirdPartyBodyTags />
+          </body>
+        </Html>
+      ))} />
     );
   }
 }

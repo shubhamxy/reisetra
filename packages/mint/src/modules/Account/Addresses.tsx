@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function Addresses({ title = "Addresses", defaultExpanded = true, selected, setSelected, header, children }) {
+export function Addresses({ title = "Addresses", defaultExpanded = true, selected, setSelected, header, children, ...rest }) {
   const classes = useStyles();
   const userAddresses = useAddresses({}, {
     onSuccess: ({pages}) => {
@@ -159,7 +159,8 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
   });
 
   return (
-    <Grid className={classes.root}>
+    <>
+    <Box className={classes.root} {...rest}>
       <Accordion color="primary"  defaultExpanded={defaultExpanded} variant="outlined" style={{border: 'none'}} >
         <AccordionSummary color="primary" expandIcon={<ExpandMoreIcon />}>
           <Typography
@@ -252,205 +253,206 @@ export function Addresses({ title = "Addresses", defaultExpanded = true, selecte
         </AccordionDetails>
         {children}
       </Accordion>
-      <Dialog fullWidth open={open} onClose={handleClose} scroll="body">
-        <DialogTitle>{selected ? 'Edit' : 'Add'} Address</DialogTitle>
-        <DialogContent>
-          <Grid container item xs={12} spacing={3}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="fullname"
-                name="fullname"
-                label="Full Name"
-                placeholder="Eg. Ram Das"
-                fullWidth
-                autoComplete="name"
-                value={values.fullname}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.fullname ? !!errors.fullname : false}
-                helperText={touched.fullname ? errors.fullname : ""}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="address"
-                name="address"
-                label="Address"
-                fullWidth
-                multiline
-                placeholder="Eg. 45, 5th Floor, Industry House, Race Course Road"
-                autoComplete="shipping"
-                value={values.address}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.address ? !!errors.address : false}
-                helperText={touched.address ? errors.address : ""}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                id="region"
-                name="region"
-                label="Region"
-                fullWidth
-                autoComplete="region"
-                value={values.region}
-                placeholder="Eg. Rajgarh"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.region ? !!errors.region : false}
-                helperText={touched.region ? errors.region : ""}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                required
-                id="city"
-                name="city"
-                label="City"
-                fullWidth
-                placeholder="Eg. Bangalore"
-                autoComplete="shipping city"
-                value={values.city}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.city ? !!errors.city : false}
-                helperText={touched.city ? errors.city : ""}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="state"
-                name="state"
-                label="State / Province / Town"
-                placeholder="Eg. Karnataka"
-                fullWidth
-                value={values.state}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.state ? !!errors.state : false}
-                helperText={touched.state ? errors.state : ""}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                required
-                id="zipcode"
-                name="zipcode"
-                label="Zip / Postal code"
-                fullWidth
-                placeholder="560001"
-                autoComplete="shipping postal-code"
-                value={values.zipcode}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.zipcode ? !!errors.zipcode : false}
-                helperText={touched.zipcode ? errors.zipcode : ""}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                id="nearby"
-                name="nearby"
-                label="Nearby"
-                fullWidth
-                value={values.nearby}
-                onChange={handleChange}
-                placeholder="Eg. mgm mall"
-                onBlur={handleBlur}
-                error={touched.nearby ? !!errors.nearby : false}
-                helperText={touched.nearby ? errors.nearby : ""}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="country"
-                name="country"
-                label="Country"
-                fullWidth
-                placeholder="Eg. India"
-                autoComplete="shipping country"
-                value={values.country}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.country ? !!errors.country : false}
-                helperText={touched.country ? errors.country : ""}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="email"
-                name="email"
-                label="Email Address"
-                placeholder="Eg. john@example.com"
-                fullWidth
-                autoComplete="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.email ? !!errors.email : false}
-                helperText={touched.email ? errors.email : ""}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="phone"
-                name="phone"
-                label="Phone"
-                placeholder="Eg. +918022250763"
-                fullWidth
-                autoComplete="phone"
-                value={values.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.phone ? !!errors.phone : false}
-                helperText={touched.phone ? errors.phone : ""}
-              />
-            </Grid>
+     </Box>
+      <Dialog fullWidth open={open} onClose={handleClose} scroll="body" keepMounted={false}>
+      <DialogTitle>{selected ? 'Edit' : 'Add'} Address</DialogTitle>
+      <DialogContent>
+        <Grid container item xs={12} spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="fullname"
+              name="fullname"
+              label="Full Name"
+              placeholder="Eg. Ram Das"
+              fullWidth
+              autoComplete="name"
+              value={values.fullname}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.fullname ? !!errors.fullname : false}
+              helperText={touched.fullname ? errors.fullname : ""}
+            />
           </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Box
-            display="flex"
-            flex={1}
-            width={"100%"}
-            justifyContent="flex-end"
-            pt={1.6}
-            pb={1.6}
-          >
-            <Button
-              onClick={handleClose}
-              color="primary"
-              variant="text"
-              size="medium"
-              style={{ marginRight: 16 }}
-            >
-              Cancel
-            </Button>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="address"
+              name="address"
+              label="Address"
+              fullWidth
+              multiline
+              placeholder="Eg. 45, 5th Floor, Industry House, Race Course Road"
+              autoComplete="shipping"
+              value={values.address}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.address ? !!errors.address : false}
+              helperText={touched.address ? errors.address : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="region"
+              name="region"
+              label="Region"
+              fullWidth
+              autoComplete="region"
+              value={values.region}
+              placeholder="Eg. Rajgarh"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.region ? !!errors.region : false}
+              helperText={touched.region ? errors.region : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="city"
+              name="city"
+              label="City"
+              fullWidth
+              placeholder="Eg. Bangalore"
+              autoComplete="shipping city"
+              value={values.city}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.city ? !!errors.city : false}
+              helperText={touched.city ? errors.city : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="state"
+              name="state"
+              label="State / Province / Town"
+              placeholder="Eg. Karnataka"
+              fullWidth
+              value={values.state}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.state ? !!errors.state : false}
+              helperText={touched.state ? errors.state : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="zipcode"
+              name="zipcode"
+              label="Zip / Postal code"
+              fullWidth
+              placeholder="560001"
+              autoComplete="shipping postal-code"
+              value={values.zipcode}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.zipcode ? !!errors.zipcode : false}
+              helperText={touched.zipcode ? errors.zipcode : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="nearby"
+              name="nearby"
+              label="Nearby"
+              fullWidth
+              value={values.nearby}
+              onChange={handleChange}
+              placeholder="Eg. mgm mall"
+              onBlur={handleBlur}
+              error={touched.nearby ? !!errors.nearby : false}
+              helperText={touched.nearby ? errors.nearby : ""}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="country"
+              name="country"
+              label="Country"
+              fullWidth
+              placeholder="Eg. India"
+              autoComplete="shipping country"
+              value={values.country}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.country ? !!errors.country : false}
+              helperText={touched.country ? errors.country : ""}
+            />
+          </Grid>
 
-            <Button
-              onClick={(e) => {
-                if (!isValid) {
-                }
-                handleSubmit();
-              }}
-              size="medium"
-              color="primary"
-              variant="contained"
-            >
-              Save
-            </Button>
-          </Box>
-        </DialogActions>
-      </Dialog>
-    </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="email"
+              name="email"
+              label="Email Address"
+              placeholder="Eg. john@example.com"
+              fullWidth
+              autoComplete="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email ? !!errors.email : false}
+              helperText={touched.email ? errors.email : ""}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="phone"
+              name="phone"
+              label="Phone"
+              placeholder="Eg. +918022250763"
+              fullWidth
+              autoComplete="phone"
+              value={values.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.phone ? !!errors.phone : false}
+              helperText={touched.phone ? errors.phone : ""}
+            />
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Box
+          display="flex"
+          flex={1}
+          width={"100%"}
+          justifyContent="flex-end"
+          pt={1.6}
+          pb={1.6}
+        >
+          <Button
+            onClick={handleClose}
+            color="primary"
+            variant="text"
+            size="medium"
+            style={{ marginRight: 16 }}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            onClick={(e) => {
+              if (!isValid) {
+              }
+              handleSubmit();
+            }}
+            size="medium"
+            color="primary"
+            variant="contained"
+          >
+            Save
+          </Button>
+        </Box>
+      </DialogActions>
+    </Dialog>
+  </>
   );
 }

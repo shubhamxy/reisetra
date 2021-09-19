@@ -329,15 +329,14 @@ export function Account() {
                 />
               </Box>
 
-              <Box mt={4.6}>
-                <Addresses
-                  children={null}
-                  defaultExpanded={false}
-                  header
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              </Box>
+              <Addresses
+                mt={4.6}
+                children={null}
+                defaultExpanded={false}
+                header
+                selected={selected}
+                setSelected={setSelected}
+              />
 
               <Box mt={4.6}>
                 <Button

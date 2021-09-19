@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
   },
   circle: {
-    marginBbottom: "0px",
     marginRight: "16px",
+    marginLeft: "16px",
     width: "24px",
     marginTop: "6px",
     height: "24px",
@@ -322,7 +322,7 @@ export function Product({ data, isLoading }) {
   const Top = (
     <Grid item className={classes.top}>
       <Box className={classes.circle} />
-      <Box display="flex">
+      <Box display="flex" flexWrap="wrap">
         <Box display="flex">
           <Link href="/">
             <Typography variant="caption" className={classes.link}>
@@ -334,7 +334,7 @@ export function Product({ data, isLoading }) {
           <Typography variant="caption">/</Typography>
         </Box>
         <Box display="flex">
-          <Link href={`/products?category=${categories?.[0]?.value || ""}`}>
+          <Link href={`/products?category=${categories?.[0]?.label || ""}`}>
             <Typography variant="caption" className={classes.link}>
               {categories ? categories[0]?.label : ""}
             </Typography>
