@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Image from "next/image";
 import {
   Box,
   Card,
@@ -19,34 +18,35 @@ import {
 } from "@material-ui/core";
 import { useDebouncedCallback } from "use-debounce";
 import clsx from "clsx";
-export const tags = [];
+export const tags = [{ label: "33 minutes " }, { label: "active directory " }, { label: "agile " }, { label: "api " }, { label: "appsecinc " }, { label: "architecture " }, { label: "art " }, { label: "artsy " }, { label: "asp.net " }, { label: "aws " }, { label: "blog " }, { label: "build " }, { label: "capybara " }, { label: "conferences " }, { label: "cto " }, { label: "databases " }, { label: "dotnet " }, { label: "dotnetinstaller " }, { label: "git " }, { label: "github " }, { label: "grape " }, { label: "graphql " }, { label: "head of engineering " }, { label: "heroku " }, { label: "hiring " }, { label: "ios " }, { label: "java " }, { label: "javascript " }, { label: "jenkins " }, { label: "jna " }, { label: "jobs " }, { label: "learning " }, { label: "me me " }, { label: "mongodb " }, { label: "mongoid " }, { label: "msbuild " }, { label: "msi " }, { label: "open source " }, { label: "organizations " }, { label: "people " }, { label: "performance " }, { label: "rack " }, { label: "rails " }, { label: "rake " }, { label: "react native " }, { label: "rspec " }, { label: "ruby " }, { label: "s3 " }, { label: "security " }, { label: "slack " }, { label: "speaking " }, { label: "strava " }, { label: "teaching " }, { label: "teams " }, { label: "technology " }, { label: "testing " }, { label: "tomcat " }, { label: "ui " }, { label: "vestris " }, { label: "vmware " }, { label: "vp of engineering " }, { label: "waffle " }, { label: "win32 " }, { label: "wix" }];
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    minHeight: 420,
     width: "100%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
     position: "relative",
     flex: 1,
+    padding: theme.spacing(4, 2, 0, 2),
   },
   header: {
     margin: 0,
-    padding: theme.spacing(4.4, 6.4, 4.4, 0),
     display: "flex",
     flexDirection: "column",
+    padding: theme.spacing(4, 4, 2, 0),
   },
   content: {
     display: "flex",
     flex: 1,
     flexDirection: "column",
-    padding: theme.spacing(0, 11.4, 0, 11.4),
   },
   actions: {
     margin: 0,
     display: "flex",
     flexDirection: "column",
-    padding: theme.spacing(0, 6.4, 4, 6.4),
+    padding: theme.spacing(0, 6, 4, 6),
   },
   avatar: {
     width: "32px",
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     paddingLeft: 20,
     display: "flex",
-    borderRadius: 24,
+    borderRadius: 8,
     backgroundColor: fade("#D8D8D8", 0.3),
     "&:hover": {
       backgroundColor: fade("#D8D8D8", 0.25),
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   tagListItem: {
-    borderRadius: "48px",
+    borderRadius: "4px",
     textAlign: "center",
     textTransform: "capitalize",
     justifyContent: "center",
@@ -231,9 +231,6 @@ export default function CreateExperience({
         }}
         title={
           <Box display="flex" alignItems="center" justifyContent="flex-start">
-            <Button className={classes.backBtn} onClick={handleGoBack}>
-              <Image src={"/images/arrow-back.svg"} height={16} width={40} />
-            </Button>
             <Typography
               component="span"
               children={"Add relevant tags"}
@@ -246,11 +243,6 @@ export default function CreateExperience({
         <Box display="flex" width="100%" m={0}>
           <Grid item xs className={classes.searchContainer}>
             <Box className={classes.search}>
-              <Image
-                src={"/images/icons/search-gray.svg"}
-                width={16}
-                height={16}
-              />
               <InputBase
                 onChange={(e) => {
                   debounced(e.target.value);
@@ -293,21 +285,21 @@ export default function CreateExperience({
           >
             {tagList.map((item, index) => {
               const value = values["tags"] as string[];
-              const isSelected = values.tags.includes(item.text);
+              const isSelected = values.tags.includes(item.label);
               return (
                 <Chip
                   onClick={(e) => {
                     if (isSelected) {
                       setFieldValue("tags", [
-                        ...value.filter((i) => i !== item.text),
+                        ...value.filter((i) => i !== item.label),
                       ]);
                       return;
                     }
                     setFieldValue(
                       "tags",
                       Array.isArray(value)
-                        ? [...value, item.text]
-                        : ([item.text] as string[])
+                        ? [...value, item.label]
+                        : ([item.label] as string[])
                     );
                   }}
                   key={index}
@@ -320,7 +312,7 @@ export default function CreateExperience({
                       style={{ fontSize: 14, lineHeight: 1 }}
                       variant="subtitle2"
                     >
-                      {item.text}
+                      {item.label}
                     </Typography>
                   }
                 />
@@ -336,6 +328,7 @@ export default function CreateExperience({
             </Typography>
           </Box>
         </Box>
+
         <Box display="flex" width="100%" m={0}></Box>
       </CardContent>
       <CardActions className={classes.actions}>

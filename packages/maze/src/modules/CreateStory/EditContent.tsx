@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Image from "next/image";
 import {
   Badge,
   Box,
@@ -10,7 +9,7 @@ import {
   CardContent,
   CardHeader,
   fade,
-  TextareaAutosize,
+  Grid,
   Button,
   TextField,
   ButtonGroup,
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     position: "relative",
     flex: 1,
-    padding: theme.spacing(5.6, 2.4, 5.6, 2.4),
+    padding: theme.spacing(4, 2, 4, 2),
   },
   textInput: {
     cursor: "text",
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     margin: 0,
-    padding: theme.spacing(4.4, 6.4, 4.4, 6.4),
+    padding: theme.spacing(4, 4, 4, 4),
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
@@ -130,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     ...theme.typography.h4,
     fontWeight: 600,
-    fontSize: "26px",
+    fontSize: "24px",
     lineHeight: "37px",
     textAlign: "center",
     maxWidth: "500px",
@@ -292,6 +291,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "6px",
     border: "1px solid #ccc",
     padding: "14px",
+    flex: 1,
   },
   badgeContainer: {
     ...theme.typography.body1,
@@ -369,6 +369,7 @@ function Actions({
                 id="name"
                 type="text"
                 variant="outlined"
+                size="medium"
               />
             </Box>
             <Box pt={2} pb={2}>
@@ -444,7 +445,7 @@ function Actions({
               </Button>
             </Badge>
             <Badge
-              badgeContent={getTotalCount(values.content, "image") || 0}
+              badgeContent={getTotalCount(values.body, "image") || 0}
               classes={{ badge: classes.badgeContainer }}
             >
               <Button
@@ -458,12 +459,12 @@ function Actions({
               </Button>
             </Badge>
             <Badge
-              badgeContent={getTotalCount(values.content, "video") || 0}
+              badgeContent={getTotalCount(values.body, "video") || 0}
               classes={{ badge: classes.badgeContainer }}
             >
               <Button
                 color="primary"
-                style={{width: "36px", height: "36px"}}
+                style={{ width: "36px", height: "36px" }}
                 onClick={videoUpload.open}
                 {...videoUpload.getRootProps}
               >
@@ -513,6 +514,10 @@ export default function CreateContent({
       id: "title",
       placeholder: "",
     },
+    description: {
+      id: "description",
+      placeholder: "",
+    },
     content: {
       id: "content",
       placeholder: "",
@@ -537,36 +542,57 @@ export default function CreateContent({
         }
       />
       <CardContent>
-        <Box display="flex" width="100%" pt={2.4}>
-          <TextField
-            multiline
-            variant="outlined"
-            id={text.title.id}
-            name={text.title.id}
-            label="Title"
-            onChange={(e) => {
-              setFieldValue("title", e.target.value);
-            }}
-            value={values.title}
-            className={classes.titleInput}
-            rowsMax={10}
-            aria-label={text.title.placeholder}
-            placeholder={text.title.placeholder}
-          />
-        </Box>
-        <Box className={classes.textEditor}>
-          <TextEditor
-            ref={editorRef}
-            key={text.content.id}
-            aria-label={text.content.placeholder}
-            // @ts-ignore
-            placeholder={text?.content?.placeholder || ''}
-            onChange={(value) => {
-              setFieldValue("content", value);
-            }}
-            value={values.content}
-          />
-        </Box>
+        <Grid container>
+          <Grid item xs={12}>
+            <TextField
+              multiline
+              variant="outlined"
+              id={text.title.id}
+              name={text.title.id}
+              label="Title"
+              onChange={(e) => {
+                setFieldValue("title", e.target.value);
+              }}
+              value={values.title}
+              className={classes.titleInput}
+              rowsMax={10}
+              size="medium"
+              aria-label={text.title.placeholder}
+              placeholder={text.title.placeholder}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              multiline
+              variant="outlined"
+              id={text.description.id}
+              name={text.description.id}
+              label="Description"
+              onChange={(e) => {
+                setFieldValue("description", e.target.value);
+              }}
+              value={values.description}
+              className={classes.titleInput}
+              rowsMax={10}
+              size="medium"
+              aria-label={text.description.placeholder}
+              placeholder={text.description.placeholder}
+            />
+          </Grid>
+          <Grid item className={classes.textEditor} xs={12}>
+            <TextEditor
+              ref={editorRef}
+              key={text.content.id}
+              aria-label={text.content.placeholder}
+              // @ts-ignore
+              placeholder={text?.content?.placeholder || ''}
+              onChange={(value) => {
+                setFieldValue("body", value);
+              }}
+              value={values.body}
+            />
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>
         <Actions

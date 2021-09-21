@@ -27,10 +27,12 @@ model File {
   reviewId    String?
   categoryId  String?
   tagId       String?
+  storyId     String?
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   category    Category? @relation(fields: [categoryId], references: [label])
+  story       Story?    @relation(fields: [storyId], references: [id])
   product     Product?  @relation(fields: [productId], references: [id])
   review      Review?   @relation(fields: [reviewId], references: [id])
   tag         Tag?      @relation(fields: [tagId], references: [label])
@@ -57,6 +59,7 @@ model User {
   files         File[]
   orders        Order[]
   reviews       Review[]
+  stories       Story[]
   secrets       Secrets?
   transactions  Transaction[]
 }
@@ -248,6 +251,27 @@ model Transaction {
   updatedAt        DateTime          @updatedAt
   order            Order             @relation(fields: [id], references: [id])
   user             User              @relation(fields: [userId], references: [id])
+}
+
+model Story {
+  id           String     @id @default(cuid())
+  title        String
+  description  String?
+
+  body         Json       @default("[]")
+  published    Boolean    @default(false)
+
+  userId       String?
+
+  files         File[]
+
+  tags         String[]
+
+  user         User?              @relation(fields: [userId], references: [id])
+
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 enum OAuthProvider {

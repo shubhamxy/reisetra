@@ -30,6 +30,7 @@ export * from "./cart";
 export * from "./global";
 export * from "./orders";
 export * from "./products";
+export * from "./stories";
 export * from "./transactions";
 export * from "./users";
 export * from "./theme";

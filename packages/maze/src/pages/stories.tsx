@@ -3,19 +3,14 @@ import React, { useState } from "react";
 import { MainLayout } from "../layouts/MainLayout";
 import { AppHeader } from "../ui/Header";
 import { Footer } from "../ui/Footer";
-import { CreateProduct } from "../modules/CreateProduct";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import { useAuthState, useDeleteProduct, useProducts, useStories } from "../libs";
+import { config, useAuthState, useDeleteStory, useStories } from "../libs";
 import { Grid } from "@material-ui/core";
-import { CreateCategory } from "../modules/CreateCategory";
-import { CreateTag } from "../modules/CreateTag";
-import { CreateOffer } from "../modules/CreateOffer";
-import { CreateBrand } from "../modules/CreateBrand";
 
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { GridItem } from "../modules/Products";
+import { GridItem } from "../modules/Stories";
 import GridList from "../ui/List/GridList";
 import { CreateContent } from "../modules/CreateStory";
 
@@ -39,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CMSPage = () => {
   const classes = useStyles();
-  const deleteProduct = useDeleteProduct();
+  const deleteStory = useDeleteStory();
   const authState = useAuthState();
   const {} = authState;
   const router = useRouter();
@@ -80,7 +75,7 @@ const CMSPage = () => {
               size="medium"
               onClick={handleClickOpen("story")}
             >
-              Story
+              Add
             </Button>
           </ButtonGroup>
         </Grid>
@@ -91,12 +86,12 @@ const CMSPage = () => {
               {...item}
               showDescription
               onClick={() => {
-                window.open(`https://next.reisetra.com/product/${item.id}`);
+                window.open(`${config.clientUrl}/story/${item.id}`);
               }}
               key={item.id}
               styleIndex={index}
               handleDelete={(id) => {
-                deleteProduct.mutate(id);
+                deleteStory.mutate(id);
               }}
               handleEdit={(id) => {
                 setSelected(id);
@@ -113,17 +108,7 @@ const CMSPage = () => {
           onClose={handleClose}
           aria-labelledby="form-dialog-title"
         >
-          {open === "story" ? (
             <CreateContent onCloseHandler={handleClose} />
-          ) : open === "category" ? (
-            <CreateCategory />
-          ) : open === "tag" ? (
-            <CreateTag />
-          ) : open === "offer" ? (
-            <CreateOffer />
-          ) : open === "brand" ? (
-            <CreateBrand />
-          ) : null}
         </Dialog>
       </Box>
     </MainLayout>

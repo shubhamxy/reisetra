@@ -77,8 +77,8 @@ function H3Icon({color}) {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		background: theme.palette.background.paper,
-		borderRadius: "8px",
+		background: theme.palette.secondary.main,
+		borderRadius: "4px",
 		boxShadow: "0 2px 4px 0 rgb(0 0 0 / 9%)",
 		height: "52px",
 		display: "flex",

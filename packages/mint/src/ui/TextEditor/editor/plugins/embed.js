@@ -74,7 +74,7 @@ export const InsertEmbedsButton = () => {
 			variant="contained"
 			onMouseDown={event => {
 				event.preventDefault();
-				const url = window.prompt("Enter the URL:");
+				const url = isBrowser && window.prompt("Enter the URL:");
 				insertEmbeds(editor, url);
 			}}
 		>

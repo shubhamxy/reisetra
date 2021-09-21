@@ -3,11 +3,12 @@ import * as Yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
+import NextLink from "next/link";
+
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
 import {
   Checkbox,
   FormControlLabel,
@@ -32,8 +33,7 @@ const SignUpSchema = Yup.object().shape({
       "Password is required. Password has to be at least 8 characters and less than 64 characters."
     )
     .min(8, "Password is too short - should be 8 chars minimum.")
-    .max(64, "Password is too short - should be 8 chars minimum.")
-    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+    .max(64, "Password is too Long - should be 64 chars maximum."),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -222,7 +222,7 @@ export function SignUp() {
         direction="column"
       >
         <Box display="flex" className={classes.logo}>
-          <Link href={"/"} color="textSecondary" underline={"none"}>
+          <Link component={NextLink} href={"/"} color="textSecondary" underline={"none"}>
             <Logo />
           </Link>
         </Box>
@@ -311,9 +311,7 @@ export function SignUp() {
                   alignItems="center"
                   alignContent="center"
                 >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
+                                        {/* <Checkbox
                         size="small"
                         name="tos"
                         checked={values.tos}
@@ -325,14 +323,11 @@ export function SignUp() {
                           }
                         }}
                         color="primary"
-                      />
-                    }
-                    label={
-                      <Typography variant="caption">
-                        Agreed to terms of use and privacy policy.
+                      /> */}
+
+                         <Typography variant="caption">
+                        Agreed to <Link component={NextLink} href={"/terms"} color="textSecondary" underline={"none"}>terms of use</Link> and <Link component={NextLink} href={"/privacy"} color="textSecondary" underline={"none"}>privacy policy</Link>.
                       </Typography>
-                    }
-                  />
                   <FormHelperText variant="outlined">
                     <Typography variant="caption" color="error">{errors.tos}</Typography>
                   </FormHelperText>

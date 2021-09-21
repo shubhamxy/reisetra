@@ -129,3 +129,10 @@ export function toText(nodes) {
 	}
 	return serialize(nodes);
 }
+
+export const defaultValue = [
+  {
+    type: "paragraph",
+    children: [{text: "", marks: []}],
+  },
+];

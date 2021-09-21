@@ -7,6 +7,7 @@ import { withVideo } from "./plugins/videos";
 import { withEmbeds } from "./plugins/embed";
 import { DefaultElement, LeafElement } from "./elements";
 import { withHistory } from "slate-history";
+import { isBrowser } from "../../../libs";
 
 export function useEditor() {
   const editorRef = useRef();
@@ -28,7 +29,7 @@ export function useEditor() {
     }
 
     // editor.selection is not updated/synced yet, use native selection
-    const selection = window.getSelection();
+    const selection =  isBrowser && window.getSelection();
     if (!selection || selection.isCollapsed) {
       setToolbarAnchor(null);
       return;

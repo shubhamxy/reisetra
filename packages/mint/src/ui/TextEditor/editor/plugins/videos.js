@@ -35,7 +35,7 @@ export const InsertVideoButton = () => {
 			variant="contained"
 			onMouseDown={event => {
 				event.preventDefault();
-				const url = window.prompt("Enter the URL of the video:");
+				const url = isBrowser && window.prompt("Enter the URL of the video:");
 				insertVideo(editor, url);
 			}}
 		>

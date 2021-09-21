@@ -22,7 +22,7 @@ export default function Image({attributes, children, element}) {
 				showRemoveIcon={!readOnly}
 				objectFit="cover"
 				readOnly={readOnly}
-				style={{userSelect: "none"}}
+				style={{userSelect: "none",}}
 				contentEditable={false}
 				selected={selected}
 				focused={focused}

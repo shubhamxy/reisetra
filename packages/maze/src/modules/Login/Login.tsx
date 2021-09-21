@@ -263,6 +263,7 @@ export function LogIn() {
                 fullWidth
                 variant="contained"
                 color="primary"
+                size="medium"
                 disabled={emailLogin.isLoading}
                 className={classes.submit}
               >

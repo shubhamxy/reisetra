@@ -20,6 +20,9 @@ export function useEditor() {
   const [toolbarAnchor, setToolbarAnchor] = useState(null);
 
   const handleSelection = (ev) => {
+    if(!isBrowser) {
+      return;
+    }
     ev.preventDefault();
     // filter out outside selection
     if (!editor.selection || Range.isCollapsed(editor.selection)) {
@@ -28,7 +31,7 @@ export function useEditor() {
     }
 
     // editor.selection is not updated/synced yet, use native selection
-    const selection = window.getSelection();
+    const selection =  window.getSelection();
     if (!selection || selection.isCollapsed) {
       setToolbarAnchor(null);
       return;

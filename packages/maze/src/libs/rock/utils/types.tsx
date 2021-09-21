@@ -5,6 +5,8 @@ enum QueryKeys {
   orders = "orders",
   product = "product",
   products = "products",
+  stories = "stories",
+  story = "story",
   tags = "tags",
   brands = "brands",
   tag = "tag",

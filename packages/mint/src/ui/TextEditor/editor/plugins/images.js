@@ -35,7 +35,7 @@ export const InsertImageButton = () => {
 			variant="contained"
 			onMouseDown={event => {
 				event.preventDefault();
-				const url = window.prompt("Enter the URL of the image:");
+				const url = isBrowser && window.prompt("Enter the URL of the image:");
 				insertImage(editor, url);
 			}}
 		>

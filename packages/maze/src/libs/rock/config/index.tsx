@@ -15,10 +15,16 @@ export interface Config {
   port: number;
   apiUrl: string;
   clientUrl: string;
+  cdnUrl: string;
   googleOAuthOptions: {
     enableGoogleSignIn: boolean;
     clientID: string;
     callbackUrl: string;
+  };
+  freshchat: {
+    enableFreshChat: boolean;
+    host: string;
+    token: string;
   };
   analytics: {
     enableGTag: boolean;
@@ -29,6 +35,15 @@ export interface Config {
     mixpanelToken: string;
     logrocketToken: string;
   },
+  fb: {
+    enableFBChatPlugin: boolean;
+    fbCustomerChatPageId: string;
+    appId: string;
+  },
+  twitter: {
+    handle?: string;
+    site?: string;
+  }
   socials: {
     instagram: string;
     facebook: string;
@@ -49,7 +64,7 @@ export const config: Config = {
   debug: +process.env.NEXT_PUBLIC_APP_DEBUG === 1,
   port: +process.env.NEXT_PUBLIC_PORT || 3000,
   clientUrl: process.env.NEXT_PUBLIC_CLIENT_URL || '',
-
+  cdnUrl: process.env.NEXT_PUBLIC_CDN_URL || 'https://d38bp8dgh2l2dc.cloudfront.net',
   // API
   apiUrl: process.env.NEXT_PUBLIC_API_URL || "",
   // GOOGLE Login
@@ -57,6 +72,11 @@ export const config: Config = {
     enableGoogleSignIn: !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
     clientID: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '',
     callbackUrl: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_CALLBACK_URL || '',
+  },
+  freshchat: {
+    enableFreshChat: !!process.env.NEXT_PUBLIC_FRESHCHAT_TOKEN,
+    host: process.env.NEXT_PUBLIC_FRESHCHAT_HOST,
+    token: process.env.NEXT_PUBLIC_FRESHCHAT_TOKEN,
   },
   analytics: {
     enableGTag: !!process.env.NEXT_PUBLIC_ANALYTICS_GTM_ID && !! process.env.NEXT_PUBLIC_ANALYTICS_GA_MEASUREMENT_ID,
@@ -69,6 +89,15 @@ export const config: Config = {
     mixpanelToken: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
     enableLogrocket: !!process.env.NEXT_PUBLIC_LOGROCKET_TOKEN,
     logrocketToken: process.env.NEXT_PUBLIC_LOGROCKET_TOKEN,
+  },
+  fb: {
+    enableFBChatPlugin: !!process.env.NEXT_PUBLIC_FB_CUSTOMER_CHAT_PAGE_ID,
+    fbCustomerChatPageId: process.env.NEXT_PUBLIC_FB_CUSTOMER_CHAT_PAGE_ID,
+    appId: process.env.NEXT_PUBLIC_FB_APP_ID,
+  },
+  twitter: {
+    handle: process.env.NEXT_PUBLIC_TWITTER_HANDLE,
+    site: process.env.NEXT_PUBLIC_TWITTER_SITE || process.env.NEXT_PUBLIC_CLIENT_URL,
   },
   socials: {
     facebook: process.env.NEXT_PUBLIC_SOCIALS_FACEBOOK || "https://www.facebook.com/",

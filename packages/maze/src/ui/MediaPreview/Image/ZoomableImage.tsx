@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export function ImageWithZoom({ alt, src, ...rest }) {
   const imgHeight = 320;
 
@@ -102,7 +103,7 @@ export function ImageWithZoom({ alt, src, ...rest }) {
         onMouseEnter={() => setShowPreview(true)}
         onMouseLeave={() => setShowPreview(false)}
       >
-        <div
+       <div
           ref={meshRefCallback}
           className="mesh"
           // @ts-ignore

@@ -100,6 +100,10 @@ export class AddFileDTO implements Omit<File, "userId" | "fileName"> {
   categoryId: string;
 
   @IsOptional()
+  @IsString({ message: mustBe("string", "storyId") })
+  storyId: string;
+
+  @IsOptional()
   @IsString({ message: mustBe("string", "tagId") })
   tagId: string;
 

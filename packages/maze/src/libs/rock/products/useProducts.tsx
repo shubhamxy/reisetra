@@ -189,21 +189,3 @@ export const useDeleteReview = () => {
     },
   });
 };
-
-export const useStories = (filters = {}, enabled = true) =>
-  useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
-    [QueryKeys.products, filters],
-    ({ queryKey, pageParam = undefined }) =>
-      getProducts({
-        ...filters,
-        buttonNum: "4",
-        size: "10",
-        cursor: pageParam,
-      }),
-    {
-      enabled,
-      getNextPageParam: (lastPage, _pages) => {
-        return lastPage.meta.link?.next?.cursor;
-      },
-    }
-  );

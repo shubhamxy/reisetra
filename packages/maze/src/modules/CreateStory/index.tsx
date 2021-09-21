@@ -2,33 +2,36 @@ import React, {useEffect} from "react";
 import EditContent from "./EditContent";
 import SelectTags from "./SelectTags";
 import Success from "./Success";
+import {useCreateStory, useUpdateStory} from '../../libs';
 
 import * as Yup from "yup";
 import {useFormik} from "formik";
 
 import {
-	fromString,
+  defaultValue,
 	isEmpty,
 } from "../../ui/TextEditor";
+
 
 function useHelper({
 	isUpdate,
 	step,
 	data,
 }) {
-	const {id, isPublished, title, description, tags, type, images, docs} =
+	const {id, published, title, description, body, tags, files} =
 		data || {};
 	const initialValues = {
 		step: step || 0,
 		isUpdate: isUpdate || false,
-		isPublished: isPublished === false ? false : true,
+		published: published === false ? false : true,
 		title: title || "",
-		content: fromString(description),
+    description: description || "",
+		body: body || defaultValue,
 		tags: tags || [],
-		type: type,
-		images: images || [],
-		docs: docs || [],
+		files: files || [],
 	};
+  const createStory = useCreateStory();
+  const updateStory = useUpdateStory();
 
 	const onError = error => {
 		let message = String(error.message);
@@ -39,7 +42,7 @@ function useHelper({
 	const isLoading = false;
 	const schema = Yup.object().shape({
 		title: Yup.string().required(),
-		content: Yup.array().required(),
+		body: Yup.array().required(),
 		docs: Yup.array(),
 		images: Yup.array(),
 	});
@@ -59,15 +62,50 @@ function useHelper({
 		validationSchema: schema,
 		validate: values => {
 			let errors;
-			if (values && values.content && isEmpty(values.content)) {
+			if (values && values.body && isEmpty(values.body)) {
 				errors = {};
-				errors.content = "required";
+				errors.body = "required";
 			}
 			return errors;
 		},
 		onSubmit: ({
+      title,
+      description,
+      body,
+      tags,
+      published,
 		}) => {
+      if(isUpdate) {
+        updateStory.mutate({
+          body: {
+            body,
+            tags,
+            title,
+            description,
+            files,
+            published
+          },
+          storyId: id,
+        }, {
+          onSuccess: () => {
+            setFieldValue("step", 2);
+          }
+        })
+        return;
+      }
 
+      createStory.mutate({
+        body,
+        tags,
+        title,
+        description,
+        files,
+        published,
+      }, {
+        onSuccess: () => {
+          setFieldValue("step", 2);
+        }
+      })
 		},
 	});
 
@@ -135,6 +173,10 @@ export function CreateContent({
 							id: "title",
 							placeholder: "Title of your story",
 						},
+            description: {
+							id: "description",
+							placeholder: "Description of your story",
+						},
 						content: {
 							id: "content",
 							placeholder: "Start writing here",
@@ -171,10 +213,12 @@ export function CreateContent({
 					onCloseHandler={onCloseHandler}
 					handleSkipForNow={() => {
             resetForm();
+            onCloseHandler();
 					}}
 					hasNext={false}
 					handleNext={() => {
             resetForm();
+            onCloseHandler();
 					}}
 				/>
 			);

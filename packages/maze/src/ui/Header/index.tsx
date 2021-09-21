@@ -17,17 +17,15 @@ import { useDebouncedCallback } from "use-debounce";
 import Menu from "@material-ui/core/Menu";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import SearchIcon from "@material-ui/icons/Search";
-import { Box, Button, InputBase } from "@material-ui/core";
+import { Button, InputBase } from "@material-ui/core";
 import Link from "next/link";
 import { logout, useAuthDispatch, useAuthState } from "../../libs/rock/auth";
 import { ShoppingCart } from "@material-ui/icons";
-import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
 import { useCartItems, useGlobalState } from "../../libs";
 import { Logo } from "../Logo";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -303,6 +301,16 @@ export function AppHeader() {
 
   const menuId = "primary-search-account-menu";
 
+  const NavigationMenu = [
+    {
+      label: "Products",
+      link: "/products",
+    },
+    {
+      label: "Stories",
+      link: "/stories",
+    },
+  ];
 
   const ProfileMenu = [
     {
@@ -442,6 +450,20 @@ export function AppHeader() {
             <div className={classes.flex1} />
             {renderSearchBar}
             <div className={classes.sectionDesktop}>
+            {NavigationMenu.map((item) => (
+                <MenuItem className={classes.menuPaperItem} key={item.link}>
+                  <Link href={item.link}>
+                    <Button
+                      variant="text"
+                      color={
+                        item.link === router.pathname ? "primary" : "default"
+                      }
+                    >
+                      {item.label}
+                    </Button>
+                  </Link>
+                </MenuItem>
+              ))}
               {renderProfile}
             </div>
             <div className={classes.sectionMobile}>

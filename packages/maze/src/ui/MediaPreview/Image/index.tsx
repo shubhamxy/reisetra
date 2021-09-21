@@ -33,7 +33,7 @@ const useStyles = makeStyles<
     gridTemplateColumns: "repeat(12, 1fr)",
     gridTemplateRows: "repeat(12, 1fr)",
     gridGap: "4px",
-    alignItems: "stretch",
+    alignItems: "center",
     justifyItems: "center",
     margin: "auto",
     ...(selected !== undefined
@@ -63,9 +63,8 @@ const useStyles = makeStyles<
     },
     "&:nth-child(1)": {
       gridColumn: "span 12",
-      gridRow: "span 8",
+      gridRow: length === 1 ? "span 12" : "span 8",
       height: "100%",
-      maxHeight: "320px",
       minHeight: "320px",
       alignItems: "center",
       "&:hover": {
@@ -344,6 +343,7 @@ function GridView({
   setOpenIndex,
   showRemoveIcon,
   handleRemoveItem,
+  zoomable,
   showTitleBar,
 }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -357,14 +357,31 @@ function GridView({
           e.stopPropagation();
         }}
       >
-        <ImageWithZoom
-          // onDoubleClick={() => setZoom(!zoom)}
-          key={data[selectedIndex].url}
-          alt={`${data[selectedIndex].url}`}
-          src={data[selectedIndex].url}
-        />
+        {zoomable ? (
+          <ImageWithZoom
+            key={data[selectedIndex].url}
+            alt={`${data[selectedIndex].url}`}
+            src={data[selectedIndex].url}
+          />
+        ) : (
+            <Box display="flex" >
+              <Image
+                key={data[selectedIndex].url}
+                alt={`${data[selectedIndex].url}`}
+                src={data[selectedIndex].url}
+                layout="fill"
+                objectFit="contain"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setOpenIndex(0);
+                }}
+              />
+
+            </Box>
+        )}
       </Box>
-      {data.slice(0, 3).map((tile, index) => (
+      {data.length > 1 && data.slice(0, 3).map((tile, index) => (
         <Box
           key={tile.url}
           className={classes.gridItem}
@@ -485,6 +502,7 @@ export default function ImagePreview({
   selected,
   focused,
   data,
+  zoomable = false,
   showTitleBar = false,
   showRemoveIcon = false,
   handleRemoveItem,
@@ -518,6 +536,7 @@ export default function ImagePreview({
           showRemoveIcon={showRemoveIcon}
           showTitleBar={showTitleBar}
           setOpenIndex={setOpenIndex}
+          zoomable={zoomable}
           handleRemoveItem={handleRemoveItem}
         />
       ) : (
