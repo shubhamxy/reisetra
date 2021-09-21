@@ -256,6 +256,9 @@ model Transaction {
 model Story {
   id           String     @id @default(cuid())
   title        String
+  subtitle     String?
+  styles       String[]
+
   description  String?
 
   body         Json       @default("[]")

@@ -15,6 +15,7 @@ export interface Config {
   port: number;
   apiUrl: string;
   clientUrl: string;
+  cmsUrl: string;
   cdnUrl: string;
   googleOAuthOptions: {
     enableGoogleSignIn: boolean;
@@ -64,6 +65,7 @@ export const config: Config = {
   debug: +process.env.NEXT_PUBLIC_APP_DEBUG === 1,
   port: +process.env.NEXT_PUBLIC_PORT || 3000,
   clientUrl: process.env.NEXT_PUBLIC_CLIENT_URL || '',
+  cmsUrl:  process.env.NEXT_PUBLIC_CLIENT_URL || '',
   cdnUrl: process.env.NEXT_PUBLIC_CDN_URL || 'https://d38bp8dgh2l2dc.cloudfront.net',
   // API
   apiUrl: process.env.NEXT_PUBLIC_API_URL || "",

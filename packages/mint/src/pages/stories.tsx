@@ -97,7 +97,7 @@ const StoriesPage = () => {
             {...item}
             showDescription
             onClick={() => {
-              window.open(`${config.clientUrl}/story/${item.id}`);
+              router.push(`/story/${item.id}`);
             }}
             key={item.id}
             styleIndex={index}

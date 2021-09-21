@@ -6,7 +6,7 @@ import { Footer } from "../ui/Footer";
 import { CreateProduct } from "../modules/CreateProduct";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import { useAuthState, useDeleteProduct, useProducts } from "../libs";
+import { config, useAuthState, useDeleteProduct, useProducts } from "../libs";
 import { Grid } from "@material-ui/core";
 import { CreateCategory } from "../modules/CreateCategory";
 import { CreateTag } from "../modules/CreateTag";
@@ -123,7 +123,7 @@ const CMSPage = () => {
               {...item}
               showDescription
               onClick={() => {
-                window.open(`https://next.reisetra.com/product/${item.id}`);
+                window.open(`${config.clientUrl}/product/${item.id}`);
               }}
               key={item.id}
               styleIndex={index}
