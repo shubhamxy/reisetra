@@ -56,6 +56,7 @@ const CMSPage = () => {
 
   const handleClose = () => {
     setOpen(null);
+    setSelected(null);
   };
   return (
     <MainLayout
@@ -86,12 +87,13 @@ const CMSPage = () => {
               {...item}
               showDescription
               onClick={() => {
-                window.open(`${config.clientUrl}/story/${item.id}`);
+                window.open(`${config.clientUrl}/story/${item.id}`, "__blank");
               }}
               key={item.id}
               styleIndex={index}
               handleDelete={(id) => {
                 deleteStory.mutate(id);
+                setSelected(null);
               }}
               handleEdit={(id) => {
                 setSelected(id);
@@ -108,7 +110,7 @@ const CMSPage = () => {
           onClose={handleClose}
           aria-labelledby="form-dialog-title"
         >
-            <CreateContent onCloseHandler={handleClose} />
+            <CreateContent id={selected} isUpdate={selected} onSuccess={() => {setSelected(null);}} onCloseHandler={handleClose} />
         </Dialog>
       </Box>
     </MainLayout>

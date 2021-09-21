@@ -125,7 +125,6 @@ export default function Success({
   handleNext,
   hasNext = true,
   onCloseHandler,
-  academics,
 }) {
   const classes = useStyles();
   return (
