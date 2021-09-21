@@ -65,3 +65,5 @@ export * from "./products";
 export * from "./transactions";
 export * from "./users";
 export * from "./theme";
+export * from "./stories";
+

@@ -13,7 +13,9 @@ enum QueryKeys {
   review = "review",
   reviews = "reviews",
   cart = "cart",
-  user = "user"
+  user = "user",
+  stories = "stories",
+  story = "story"
 }
 
 export { QueryKeys };

@@ -7,7 +7,7 @@ import {
 	useSlate,
 } from "slate-react";
 import {Transforms} from "slate";
-import {insertEmbeds, isEmbedURL} from "../plugins/embed";
+import {insertEmbeds} from "../plugins/embed";
 
 import {EmbedsPreview} from "../../../MediaPreview";
 

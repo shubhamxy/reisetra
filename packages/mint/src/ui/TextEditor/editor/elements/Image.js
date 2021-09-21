@@ -7,7 +7,7 @@ import {
 	useSelected,
 	useSlate,
 } from "slate-react";
-import {ImagePreview} from "../../../MediaPreview";
+import ImagePreview from "../../../MediaPreview/Image-preview";
 import {insertImage} from "../plugins/images";
 
 export default function Image({attributes, children, element}) {

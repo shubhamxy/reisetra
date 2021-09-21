@@ -110,20 +110,20 @@ export default React.memo(function HeroCard(
     title = "Get better recommendations",
     subtitle = "",
     description = "",
-    backgroundImage,
+    backgroundImage = '/images/hero.jpeg',
     objectFit = "cover",
   } = props.data || {};
 
   return (
     <Card className={classes.root}>
       <Box className={classes.imageContainer} />
-      <Image
-          objectPosition="center"
-          objectFit={objectFit as any}
-          className={classes.image}
-          src={backgroundImage || '/images/hero.jpeg'}
-          layout="fill"
-        />
+      {backgroundImage && (<Image
+        objectPosition="center"
+        objectFit={objectFit as any}
+        className={classes.image}
+        src={backgroundImage}
+        layout="fill"
+      />)}
 
       {/* <Image
           objectPosition="right"
