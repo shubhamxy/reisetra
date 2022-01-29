@@ -151,25 +151,25 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Allow } from &quot;class-validator&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Allow } from &#x27;class-validator&#x27;
 
 export class CreateSupportTicketDto {
     @Allow()
-    subject: string;
+    subject: string
 
     @Allow()
-    description: string;
+    description: string
 
     @Allow()
-    orderId?: string;
+    orderId?: string
 
     @Allow()
-    ticketId?: string;
+    ticketId?: string
 }
 
 export class GetFormDataDto {
     @Allow()
-    formId: string;
+    formId: string
 }
 
 export class CreateFormDataDto {}

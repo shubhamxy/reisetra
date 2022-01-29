@@ -1,2 +1,2 @@
-export * from "./Forgot";
-export * from "./Reset";
+export * from './Forgot'
+export * from './Reset'

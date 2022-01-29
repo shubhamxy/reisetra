@@ -19,19 +19,13 @@ import { useFileUpload } from '../../libs/rock/file/useFileUpload'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import {
-    LocalOffer,
-    FileCopy,
-} from '@material-ui/icons'
+import { LocalOffer, FileCopy } from '@material-ui/icons'
 
-import "@uiw/react-md-editor/markdown-editor.css";
-import "@uiw/react-markdown-preview/markdown.css";
-import dynamic from "next/dynamic";
+import '@uiw/react-md-editor/markdown-editor.css'
+import '@uiw/react-markdown-preview/markdown.css'
+import dynamic from 'next/dynamic'
 
-const MDEditor = dynamic(
-    () => import("@uiw/react-md-editor"),
-    { ssr: false }
-);
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -287,8 +281,7 @@ const useStyles = makeStyles((theme) => ({
     toolbarText: {
         fontSize: 15,
     },
-    textEditor: {
-    },
+    textEditor: {},
     badgeContainer: {
         ...theme.typography.body1,
         top: '10%',
@@ -316,8 +309,8 @@ function Actions({
         fileType: 'images',
         multiple: true,
         onSuccess: (files) => {
-            setFieldValue("files", [...files, ...values.files]);
-            setText(files.url);
+            setFieldValue('files', [...files, ...values.files])
+            setText(files.url)
         },
     })
 
@@ -390,9 +383,7 @@ function Actions({
                             </Button>
                         </Badge>
                         <Badge
-                            badgeContent={
-                                values?.files?.length || 0
-                            }
+                            badgeContent={values?.files?.length || 0}
                             classes={{ badge: classes.badgeContainer }}
                         >
                             <Button

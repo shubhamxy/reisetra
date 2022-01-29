@@ -1,40 +1,35 @@
 /* eslint-disable react/no-unescaped-entities */
-import {
-  Box,
-  Container,
-  makeStyles,
-  Paper,
-} from "@material-ui/core";
-import React from "react";
-import { MainLayout } from "../layouts/MainLayout";
-import { AppHeader } from "../ui/Header";
-import { Footer } from "../ui/Footer";
-import HeroCard from "../ui/HeroCard";
-import ReactMarkdown from 'react-markdown'
+import { Box, Container, makeStyles, Paper } from '@material-ui/core'
+import React from 'react'
+import { MainLayout } from '../layouts/MainLayout'
+import { AppHeader } from '../ui/Header'
+import { Footer } from '../ui/Footer'
+import HeroCard from '../ui/HeroCard'
+import { Markdown } from '../modules/Markdown'
 
 const t = {
-  title: "Terms of Service",
-  subtitle: "REISETRA ENTERPRISES",
-  backgroundImage: "",
-};
+    title: 'Terms Of Service',
+    subtitle: 'REISETRA ENTERPRISES',
+    backgroundImage: '',
+}
 
 const useStyles = makeStyles((theme) => ({
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    background: theme.palette.background.default,
-  },
-  left: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        background: theme.palette.background.default,
     },
-  },
-  right: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
+    left: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
     },
-  },
-}));
+    right: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+}))
 
 const markdown = `
 ### OVERVIEW
@@ -204,36 +199,36 @@ We reserve the right, at our sole discretion, to update, change or replace any p
 Questions about the Terms of Service should be sent to us at [contact@reisetra.com](mailto:contact@reisetra.com).
 `
 
-const TermsPage = () => {
-  const classes = useStyles();
-  return (
-    <MainLayout
-      classes={{
-        left: classes.left,
-        right: classes.right,
-      }}
-      containerProps={{
-        maxWidth: "md",
-      }}
-      top={
-        <HeroCard
-          data={{
-            title: t.title,
-            subtitle: t.subtitle,
-            backgroundImage: t.backgroundImage,
-          }}
-        />
-      }
-      header={<AppHeader />}
-      footer={<Footer />}
-    >
-      <Paper className={classes.content} variant="outlined">
-        <Container>
-            <ReactMarkdown children={markdown} />
-        </Container>
-      </Paper>
-    </MainLayout>
-  );
-};
+const PrivacyPage = () => {
+    const classes = useStyles()
+    return (
+        <MainLayout
+            classes={{
+                left: classes.left,
+                right: classes.right,
+            }}
+            containerProps={{}}
+            top={
+                <HeroCard
+                    data={{
+                        title: t.title,
+                        subtitle: t.subtitle,
+                        backgroundImage: t.backgroundImage,
+                    }}
+                />
+            }
+            header={<AppHeader />}
+            footer={<Footer />}
+        >
+            <Paper className={classes.content}>
+                <Container>
+                    <Box pt={3.2} pb={3.2}>
+                        <Markdown>{markdown}</Markdown>
+                    </Box>
+                </Container>
+            </Paper>
+        </MainLayout>
+    )
+}
 
-export default TermsPage;
+export default PrivacyPage

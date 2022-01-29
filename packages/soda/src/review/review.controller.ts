@@ -9,75 +9,75 @@ import {
     Put,
     Query,
     Req,
-} from "@nestjs/common";
-import { ReviewService } from "./review.service";
-import { CustomException, SuccessResponse } from "src/common/response";
-import { CreateReviewDto, GetAllReviewsDto, UpdateReviewDto } from "./dto";
-import { Public } from "src/auth/decorator/public.decorator";
-import { AuthenticatedRequest } from "src/auth/auth.interface";
+} from '@nestjs/common'
+import { ReviewService } from './review.service'
+import { CustomException, SuccessResponse } from 'src/common/response'
+import { CreateReviewDto, GetAllReviewsDto, UpdateReviewDto } from './dto'
+import { Public } from 'src/auth/decorator/public.decorator'
+import { AuthenticatedRequest } from 'src/auth/auth.interface'
 @Controller()
 export class ReviewController {
     constructor(private readonly review: ReviewService) {}
 
     @Public()
-    @Get("reviews/:productId")
+    @Get('reviews/:productId')
     async getAllReviews(
-        @Param("productId") productId: string,
+        @Param('productId') productId: string,
         @Query() query: GetAllReviewsDto
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.review.getAllReviews(
                 productId,
                 query
-            );
-            return { data: results || [], meta: meta };
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "ReviewController.getAllReviews"
-            );
+                'ReviewController.getAllReviews'
+            )
         }
     }
 
     @Public()
-    @Get("review/:reviewId")
+    @Get('review/:reviewId')
     async getReview(
-        @Param("reviewId") reviewId: string
+        @Param('reviewId') reviewId: string
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.review.getReview(reviewId);
-            return { data };
+            const data = await this.review.getReview(reviewId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "ReviewController.getReview"
-            );
+                'ReviewController.getReview'
+            )
         }
     }
 
-    @Post("review")
+    @Post('review')
     async createReview(
         @Req() request: AuthenticatedRequest,
         @Body() body: CreateReviewDto
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.review.createReview(request.user.id, body);
-            return { data };
+            const data = await this.review.createReview(request.user.id, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "ReviewController.createReview"
-            );
+                'ReviewController.createReview'
+            )
         }
     }
 
-    @Put("review/:reviewId")
+    @Put('review/:reviewId')
     async updateReview(
         @Req() request: AuthenticatedRequest,
-        @Param("reviewId") reviewId: string,
+        @Param('reviewId') reviewId: string,
         @Body() body: UpdateReviewDto
     ): Promise<SuccessResponse> {
         try {
@@ -85,30 +85,30 @@ export class ReviewController {
                 request.user.id,
                 reviewId,
                 body
-            );
-            return { data };
+            )
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "ReviewController.updateReview"
-            );
+                'ReviewController.updateReview'
+            )
         }
     }
 
-    @Delete("review/:reviewId")
+    @Delete('review/:reviewId')
     async deleteReview(
-        @Param("reviewId") reviewId: string
+        @Param('reviewId') reviewId: string
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.review.deleteReview(reviewId);
-            return { data };
+            const data = await this.review.deleteReview(reviewId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "ReviewController.deleteReview"
-            );
+                'ReviewController.deleteReview'
+            )
         }
     }
 }

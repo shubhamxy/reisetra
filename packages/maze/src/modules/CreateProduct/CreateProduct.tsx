@@ -138,7 +138,11 @@ function StepContent({
 
 function mapProductToState(update) {
     if (update) {
-        ['id', 'inventoryId',  'active', 'createdAt', 'updatedAt'].forEach((key) => { delete update[key]})
+        ;['id', 'inventoryId', 'active', 'createdAt', 'updatedAt'].forEach(
+            (key) => {
+                delete update[key]
+            }
+        )
         if (update['categories']) {
             update['categories'] = update['categories']
                 .map((item) => item?.label)
@@ -149,9 +153,11 @@ function mapProductToState(update) {
                 .map((item) => item?.label)
                 .filter(Boolean)
         }
-        update['faqs'] = Array.isArray(update['faqs']) ? update['faqs'] : [];
-        if(update['inventory']) {
-            ['id', 'active', 'createdAt', 'updatedAt'].forEach((key) => { delete update['inventory'][key] })
+        update['faqs'] = Array.isArray(update['faqs']) ? update['faqs'] : []
+        if (update['inventory']) {
+            ;['id', 'active', 'createdAt', 'updatedAt'].forEach((key) => {
+                delete update['inventory'][key]
+            })
         }
     }
 

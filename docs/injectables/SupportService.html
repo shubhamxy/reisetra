@@ -411,25 +411,25 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@nestjs/common&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { CreateSupportTicketDto } from &quot;./dto&quot;;
-import { sendEmail, supportEmail, supportEmailAck } from &quot;src/utils&quot;;
-import { nanoid } from &quot;nanoid&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { CreateSupportTicketDto } from &#x27;./dto&#x27;
+import { sendEmail, supportEmail, supportEmailAck } from &#x27;src/utils&#x27;
+import { nanoid } from &#x27;nanoid&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
 
 @Injectable()
 export class SupportService {
     constructor(private readonly db: PrismaService) {}
     async getFormData(formId: string): Promise&lt;any&gt; {
         try {
-            return this.db.form.findFirst({ where: { id: formId } });
+            return this.db.form.findFirst({ where: { id: formId } })
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;SupportService.getFormData&quot;
-            );
+                &#x27;SupportService.getFormData&#x27;
+            )
         }
     }
 
@@ -440,13 +440,13 @@ export class SupportService {
                     formId,
                     data,
                 },
-            });
+            })
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;SupportService.createFormData&quot;
-            );
+                &#x27;SupportService.createFormData&#x27;
+            )
         }
     }
 
@@ -456,7 +456,7 @@ export class SupportService {
         data: CreateSupportTicketDto
     ): Promise&lt;any&gt; {
         try {
-            const ticketId &#x3D; data.ticketId || nanoid();
+            const ticketId &#x3D; data.ticketId || nanoid()
             const results &#x3D; await Promise.all([
                 sendEmail(
                     supportEmailAck({
@@ -476,14 +476,14 @@ export class SupportService {
                         description: data.description,
                     })
                 ),
-            ]);
-            return results;
+            ])
+            return results
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;SupportService.createSupportTicket&quot;
-            );
+                &#x27;SupportService.createSupportTicket&#x27;
+            )
         }
     }
 }

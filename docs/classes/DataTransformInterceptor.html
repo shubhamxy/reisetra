@@ -202,10 +202,10 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NestInterceptor, ExecutionContext, CallHandler } from &quot;@nestjs/common&quot;;
-import { Observable } from &quot;rxjs&quot;;
-import { map } from &quot;rxjs/operators&quot;;
-import { SuccessResponse } from &quot;../response&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NestInterceptor, ExecutionContext, CallHandler } from &#x27;@nestjs/common&#x27;
+import { Observable } from &#x27;rxjs&#x27;
+import { map } from &#x27;rxjs/operators&#x27;
+import { SuccessResponse } from &#x27;../response&#x27;
 
 export class DataTransformInterceptor&lt;T&gt;
     implements NestInterceptor&lt;T, SuccessResponse&gt; {
@@ -213,15 +213,15 @@ export class DataTransformInterceptor&lt;T&gt;
         context: ExecutionContext,
         next: CallHandler
     ): Observable&lt;SuccessResponse&gt; {
-        return next.handle().pipe(map(transformData(context)));
+        return next.handle().pipe(map(transformData(context)))
     }
 }
 
 function transformData(context: ExecutionContext) {
     return (response: SuccessResponse) &#x3D;&gt; {
-        response.success &#x3D; true;
-        return response;
-    };
+        response.success &#x3D; true
+        return response
+    }
 }
 </code></pre>
     </div>

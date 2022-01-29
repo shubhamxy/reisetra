@@ -111,10 +111,10 @@ function StepContent({
     }
 }
 
-export function CreateCategory({id = null}) {
+export function CreateCategory({ id = null }) {
     const classes = useStyles()
     const [activeStep, setActiveStep] = React.useState(0)
-    const isUpdate = id !== null;
+    const isUpdate = id !== null
 
     const initialValues = {
         label: '',
@@ -153,7 +153,7 @@ export function CreateCategory({id = null}) {
               }),
     }
     const createCategory = useCreateCategory()
-    const updateCategory = useUpdateCategory();
+    const updateCategory = useUpdateCategory()
     const queryClient = useQueryClient()
     const globalDispatch = useGlobalDispatch()
     const [serverError, setServerErrors] = useState()
@@ -175,7 +175,7 @@ export function CreateCategory({id = null}) {
         enableReinitialize: true,
         validationSchema: createProductSchema,
         onSubmit: (data) => {
-            if(isUpdate) {
+            if (isUpdate) {
                 updateCategory.mutate(data, {
                     onSuccess: () => {
                         setActiveStep(activeStep + 1)
@@ -193,7 +193,7 @@ export function CreateCategory({id = null}) {
                         setServerErrors(error['errors'])
                     },
                 })
-                return;
+                return
             }
 
             createCategory.mutate(data, {
@@ -262,7 +262,7 @@ export function CreateCategory({id = null}) {
                                     Submitted
                                 </Typography>
                                 <Typography variant="subtitle1">
-                                     Added successfully
+                                    Added successfully
                                 </Typography>
                             </React.Fragment>
                         ) : (

@@ -1008,16 +1008,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@nestjs/common&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &quot;src/common/pagination&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { PrismaService } from &quot;src/common/modules/db/prisma.service&quot;;
-import { CacheService } from &quot;src/common/modules/cache/cache.service&quot;;
-import { prismaOffsetPagination } from &quot;src/utils/prisma&quot;;
-import { CartItemRO } from &quot;./interfaces&quot;;
+} from &#x27;src/common/pagination&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { CartItemRO } from &#x27;./interfaces&#x27;
 import {
     CheckoutDto,
     CreateOfferDto,
@@ -1025,36 +1025,36 @@ import {
     GetAllOffersDto,
     UpdateCartItemDto,
     UpdateOfferDto,
-} from &quot;./dto&quot;;
-import { TransactionService } from &quot;src/transaction/transaction.service&quot;;
-import { Order } from &quot;.prisma/client&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
-import { Offer } from &quot;./entity&quot;;
-import { UserService } from &quot;src/user/user.service&quot;;
+} from &#x27;./dto&#x27;
+import { TransactionService } from &#x27;src/transaction/transaction.service&#x27;
+import { Order } from &#x27;.prisma/client&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { Offer } from &#x27;./entity&#x27;
+import { UserService } from &#x27;src/user/user.service&#x27;
 
 function calculateBilling(
     cartItemsWithProduct: {
-        quantity: number;
+        quantity: number
         product: {
-            price: number;
-            tax: number;
-            mrp: number;
-            taxCode?: string;
-        };
+            price: number
+            tax: number
+            mrp: number
+            taxCode?: string
+        }
     }[],
     offer: Offer | null
 ) {
-    let subTotal &#x3D; 0;
-    let tax &#x3D; 0;
-    const shipping &#x3D; 0;
+    let subTotal &#x3D; 0
+    let tax &#x3D; 0
+    const shipping &#x3D; 0
     cartItemsWithProduct.forEach((item) &#x3D;&gt; {
-        const itemPrice &#x3D; item.quantity * item.product.price;
-        subTotal +&#x3D; itemPrice;
-        tax +&#x3D; Math.ceil(+itemPrice * (+item.product.tax || 0.185));
-    });
-    const total &#x3D; subTotal + tax + shipping;
-    const itemDiscount &#x3D; offer ? (total * (+offer.value || 0)) / 100 : 0;
-    const grandTotal &#x3D; (total - itemDiscount) | 0; // convert to int
+        const itemPrice &#x3D; item.quantity * item.product.price
+        subTotal +&#x3D; itemPrice
+        tax +&#x3D; Math.ceil(+itemPrice * (+item.product.tax || 0.185))
+    })
+    const total &#x3D; subTotal + tax + shipping
+    const itemDiscount &#x3D; offer ? (total * (+offer.value || 0)) / 100 : 0
+    const grandTotal &#x3D; (total - itemDiscount) | 0 // convert to int
 
     return {
         subTotal,
@@ -1065,7 +1065,7 @@ function calculateBilling(
         promo: offer ? offer.label : null,
         discount: (((total - grandTotal) / total) * 100) | 0,
         grandTotal,
-    };
+    }
 }
 @Injectable()
 export class CartService {
@@ -1084,9 +1084,9 @@ export class CartService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; options;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
@@ -1096,16 +1096,16 @@ export class CartService {
                 include: {
                     items: true,
                 },
-                model: &quot;cart&quot;,
+                model: &#x27;cart&#x27;,
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.getAllCarts&quot;
-            );
+                &#x27;CartService.getAllCarts&#x27;
+            )
         }
     }
 
@@ -1130,33 +1130,33 @@ export class CartService {
                         },
                     },
                 },
-            });
+            })
             if (!cart) {
                 throw new CustomError(
-                    &quot;Cart not found&quot;,
+                    &#x27;Cart not found&#x27;,
                     errorCodes.CartNotFound,
-                    &quot;CartService.getAllCarts&quot;
-                );
+                    &#x27;CartService.getAllCarts&#x27;
+                )
             }
             const offer &#x3D; promo
                 ? await this.db.offer.findFirst({
                       where: {
-                          AND: { label: promo, active: true, type: &quot;promo&quot; },
+                          AND: { label: promo, active: true, type: &#x27;promo&#x27; },
                       },
                       rejectOnNotFound: false,
                   })
-                : null;
-            const billing &#x3D; calculateBilling(cart.items, offer);
+                : null
+            const billing &#x3D; calculateBilling(cart.items, offer)
             return {
                 ...cart,
                 ...billing,
-            };
+            }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.getAllCarts&quot;
-            );
+                &#x27;CartService.getAllCarts&#x27;
+            )
         }
     }
 
@@ -1169,14 +1169,14 @@ export class CartService {
                         productId,
                     },
                 },
-            });
-            return cart;
+            })
+            return cart
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.getCartItem&quot;
-            );
+                &#x27;CartService.getCartItem&#x27;
+            )
         }
     }
 
@@ -1216,14 +1216,14 @@ export class CartService {
                         },
                     },
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.addCartItem&quot;
-            );
+                &#x27;CartService.addCartItem&#x27;
+            )
         }
     }
 
@@ -1242,14 +1242,14 @@ export class CartService {
                         },
                     },
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.removeCartItem&quot;
-            );
+                &#x27;CartService.removeCartItem&#x27;
+            )
         }
     }
 
@@ -1258,19 +1258,19 @@ export class CartService {
         checkout: CheckoutDto
     ): Promise&lt;
         Order &amp; {
-            razorpayOptions: Record&lt;string, any&gt;;
+            razorpayOptions: Record&lt;string, any&gt;
         }
     &gt; {
         try {
             // check if email is verified
-            const requestUser &#x3D; await this.user.find(userId);
+            const requestUser &#x3D; await this.user.find(userId)
 
             if (!requestUser.emailVerified) {
                 throw new CustomError(
-                    &quot;Email not verified, Verify email before checking out.&quot;,
+                    &#x27;Email not verified, Verify email before checking out.&#x27;,
                     errorCodes.EMailNotVerified,
-                    &quot;CartService.checkoutCart&quot;
-                );
+                    &#x27;CartService.checkoutCart&#x27;
+                )
             }
 
             // @TODO: OPTIMIZE THIS ... too slow :(
@@ -1288,22 +1288,22 @@ export class CartService {
                         },
                     },
                 },
-            });
+            })
 
             if (!userCart) {
                 throw new CustomError(
-                    &quot;Cart not found&quot;,
+                    &#x27;Cart not found&#x27;,
                     errorCodes.CartNotFound,
-                    &quot;CartService.removeCartItem&quot;
-                );
+                    &#x27;CartService.removeCartItem&#x27;
+                )
             }
 
             if (userCart.items.length &#x3D;&#x3D;&#x3D; 0) {
                 throw new CustomError(
-                    &quot;Cart is empty&quot;,
+                    &#x27;Cart is empty&#x27;,
                     errorCodes.CartIsEmpty,
-                    &quot;CartService.removeCartItem&quot;
-                );
+                    &#x27;CartService.removeCartItem&#x27;
+                )
             }
 
             const offer &#x3D; checkout.promo
@@ -1312,13 +1312,13 @@ export class CartService {
                           AND: {
                               label: checkout.promo,
                               active: true,
-                              type: &quot;promo&quot;,
+                              type: &#x27;promo&#x27;,
                           },
                       },
                       rejectOnNotFound: false,
                   })
-                : null;
-            const billing &#x3D; calculateBilling(userCart.items, offer);
+                : null
+            const billing &#x3D; calculateBilling(userCart.items, offer)
 
             const user &#x3D; await this.db.user.update({
                 where: { id: userId },
@@ -1338,19 +1338,19 @@ export class CartService {
                         },
                         take: 1,
                         orderBy: {
-                            createdAt: &quot;desc&quot;,
+                            createdAt: &#x27;desc&#x27;,
                         },
                     },
                 },
-            });
+            })
 
-            return this.txn.createTransaction(user);
+            return this.txn.createTransaction(user)
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.removeCartItem&quot;
-            );
+                &#x27;CartService.removeCartItem&#x27;
+            )
         }
     }
 
@@ -1360,9 +1360,9 @@ export class CartService {
                 cursor,
                 size &#x3D; 10,
                 buttonNum &#x3D; 10,
-                orderBy &#x3D; &quot;createdAt&quot;,
-                orderDirection &#x3D; &quot;desc&quot;,
-            } &#x3D; params;
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; params
             const result &#x3D; await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
@@ -1372,16 +1372,16 @@ export class CartService {
                 include: {
                     items: true,
                 },
-                model: &quot;offer&quot;,
+                model: &#x27;offer&#x27;,
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.getOffers&quot;
-            );
+                &#x27;CartService.getOffers&#x27;
+            )
         }
     }
 
@@ -1389,14 +1389,14 @@ export class CartService {
         try {
             const offers &#x3D; await this.db.offer.createMany({
                 data: data,
-            });
-            return offers;
+            })
+            return offers
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.findAllOffset&quot;
-            );
+                &#x27;CartService.findAllOffset&#x27;
+            )
         }
     }
 
@@ -1410,16 +1410,16 @@ export class CartService {
                         data: {
                             value: offer.value,
                         },
-                    });
+                    })
                 })
-            );
-            return update;
+            )
+            return update
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.updateCategories&quot;
-            );
+                &#x27;CartService.updateCategories&#x27;
+            )
         }
     }
 
@@ -1432,14 +1432,14 @@ export class CartService {
                 data: {
                     active: false,
                 },
-            });
-            return deleted;
+            })
+            return deleted
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &quot;CartService.deleteTags&quot;
-            );
+                &#x27;CartService.deleteTags&#x27;
+            )
         }
     }
 }

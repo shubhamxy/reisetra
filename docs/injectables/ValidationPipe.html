@@ -355,60 +355,60 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { plainToClass } from &quot;class-transformer&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { plainToClass } from &#x27;class-transformer&#x27;
 import {
     PipeTransform,
     ArgumentMetadata,
     BadRequestException,
     HttpStatus,
     Injectable,
-} from &quot;@nestjs/common&quot;;
-import { validate, ValidationError } from &quot;class-validator&quot;;
-import { isRequired } from &quot;src/constants&quot;;
-import { Exception, IError } from &quot;../response&quot;;
-import { ValidatorOptions } from &quot;@nestjs/common/interfaces/external/validator-options.interface&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { validate, ValidationError } from &#x27;class-validator&#x27;
+import { isRequired } from &#x27;src/constants&#x27;
+import { Exception, IError } from &#x27;../response&#x27;
+import { ValidatorOptions } from &#x27;@nestjs/common/interfaces/external/validator-options.interface&#x27;
 export interface ValidationPipeOptions extends ValidatorOptions {
-    transform?: boolean;
-    disableErrorMessages?: boolean;
-    exceptionFactory?: (errors: ValidationError[]) &#x3D;&gt; any;
+    transform?: boolean
+    disableErrorMessages?: boolean
+    exceptionFactory?: (errors: ValidationError[]) &#x3D;&gt; any
 }
 
 @Injectable()
 export class ValidationPipe implements PipeTransform&lt;any&gt; {
-    private options: ValidationPipeOptions;
+    private options: ValidationPipeOptions
     constructor(options?: ValidationPipeOptions) {
-        this.options &#x3D; options || {};
+        this.options &#x3D; options || {}
     }
 
     async transform(value, metadata: ArgumentMetadata) {
         if (!value) {
-            throw new BadRequestException(isRequired(&quot;Data&quot;));
+            throw new BadRequestException(isRequired(&#x27;Data&#x27;))
         }
-        const { metatype } &#x3D; metadata;
+        const { metatype } &#x3D; metadata
         if (!metatype || !this.toValidate(metatype)) {
-            return value;
+            return value
         }
 
-        const object &#x3D; plainToClass(metatype, value);
-        const errors &#x3D; await validate(object);
-        const errorList &#x3D; getValidationErrors(errors);
+        const object &#x3D; plainToClass(metatype, value)
+        const errors &#x3D; await validate(object)
+        const errorList &#x3D; getValidationErrors(errors)
         if (errorList.length &gt; 0) {
-            throw new Exception(errorList, HttpStatus.BAD_REQUEST);
+            throw new Exception(errorList, HttpStatus.BAD_REQUEST)
         }
 
-        return value;
+        return value
     }
 
     private toValidate(metatype): boolean {
-        const types &#x3D; [String, Boolean, Number, Array, Object];
-        return !types.find((type) &#x3D;&gt; metatype &#x3D;&#x3D;&#x3D; type);
+        const types &#x3D; [String, Boolean, Number, Array, Object]
+        return !types.find((type) &#x3D;&gt; metatype &#x3D;&#x3D;&#x3D; type)
     }
 }
 
 function getValidationErrors(errors: ValidationError[], depth &#x3D; 3) {
-    const errorList: IError[] &#x3D; [];
+    const errorList: IError[] &#x3D; []
     if (depth &lt; 0) {
-        return;
+        return
     }
 
     if (errors.length &gt; 0) {
@@ -420,21 +420,18 @@ function getValidationErrors(errors: ValidationError[], depth &#x3D; 3) {
                             type: errorKey,
                             message: constraint,
                             context: error.property,
-                        });
+                        })
                     }
-                );
+                )
             }
 
             if (error.children &amp;&amp; error.children.length &gt; 0) {
-                const childList &#x3D; getValidationErrors(
-                    error.children,
-                    depth - 1
-                );
-                errorList.push(...childList);
+                const childList &#x3D; getValidationErrors(error.children, depth - 1)
+                errorList.push(...childList)
             }
-        });
+        })
     }
-    return errorList;
+    return errorList
 }
 </code></pre>
     </div>

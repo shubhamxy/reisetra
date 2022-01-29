@@ -576,31 +576,31 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OAuthProvider, Role } from &quot;.prisma/client&quot;;
-import { IsNotEmpty } from &quot;class-validator&quot;;
-import { User } from &quot;../entity&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OAuthProvider, Role } from &#x27;.prisma/client&#x27;
+import { IsNotEmpty } from &#x27;class-validator&#x27;
+import { User } from &#x27;../entity&#x27;
 
 export class LoginUserDto implements User {
-    id: string;
-    emailVerified: boolean;
-    name: string;
-    dateOfBirth: Date;
-    phone: string;
-    avatar: string;
-    oauthId: string;
-    oauthProvider: OAuthProvider;
-    role: Role;
-    bio: string;
+    id: string
+    emailVerified: boolean
+    name: string
+    dateOfBirth: Date
+    phone: string
+    avatar: string
+    oauthId: string
+    oauthProvider: OAuthProvider
+    role: Role
+    bio: string
 
     @IsNotEmpty()
-    readonly email: string;
+    readonly email: string
 
     @IsNotEmpty()
-    readonly password: string;
+    readonly password: string
 
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
 }
 </code></pre>
     </div>

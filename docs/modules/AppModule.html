@@ -329,32 +329,32 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &quot;@nestjs/common&quot;;
-import { ConfigModule } from &quot;@nestjs/config&quot;;
-import { APP_GUARD } from &quot;@nestjs/core&quot;;
-import { ThrottlerGuard, ThrottlerModule } from &quot;@nestjs/throttler&quot;;
-import { LoggerModule } from &quot;nestjs-pino&quot;;
-import { AddressModule } from &quot;./address/address.module&quot;;
-import { AuthModule } from &quot;./auth/auth.module&quot;;
-import { JwtAuthGuard } from &quot;./auth/gaurd/jwt.gaurd&quot;;
-import { RolesGuard } from &quot;./auth/gaurd/roles.gaurd&quot;;
-import { CartModule } from &quot;./cart/cart.module&quot;;
-import { CacheModule } from &quot;./common/modules/cache/cache.module&quot;;
-import { config, pinoConfig } from &quot;./config&quot;;
-import { validate } from &quot;./config/env.validation&quot;;
-import settings from &quot;./config/settings&quot;;
-import { FilesModule } from &quot;./files/files.module&quot;;
-import { HealthCheckModule } from &quot;./health/health.module&quot;;
-import { InventoryModule } from &quot;./inventory/inventory.module&quot;;
-import { OrderModule } from &quot;./order/order.module&quot;;
-import { ProductModule } from &quot;./product/product.module&quot;;
-import { ReviewModule } from &quot;./review/review.module&quot;;
-import { StoryModule } from &quot;./story/story.module&quot;;
-import { SupportModule } from &quot;./support/support.module&quot;;
-import { TransactionModule } from &quot;./transaction/transaction.module&quot;;
-import { UserModule } from &quot;./user/user.module&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;
+import { ConfigModule } from &#x27;@nestjs/config&#x27;
+import { APP_GUARD } from &#x27;@nestjs/core&#x27;
+import { ThrottlerGuard, ThrottlerModule } from &#x27;@nestjs/throttler&#x27;
+import { LoggerModule } from &#x27;nestjs-pino&#x27;
+import { AddressModule } from &#x27;./address/address.module&#x27;
+import { AuthModule } from &#x27;./auth/auth.module&#x27;
+import { JwtAuthGuard } from &#x27;./auth/gaurd/jwt.gaurd&#x27;
+import { RolesGuard } from &#x27;./auth/gaurd/roles.gaurd&#x27;
+import { CartModule } from &#x27;./cart/cart.module&#x27;
+import { CacheModule } from &#x27;./common/modules/cache/cache.module&#x27;
+import { config, pinoConfig } from &#x27;./config&#x27;
+import { validate } from &#x27;./config/env.validation&#x27;
+import settings from &#x27;./config/settings&#x27;
+import { FilesModule } from &#x27;./files/files.module&#x27;
+import { HealthCheckModule } from &#x27;./health/health.module&#x27;
+import { InventoryModule } from &#x27;./inventory/inventory.module&#x27;
+import { OrderModule } from &#x27;./order/order.module&#x27;
+import { ProductModule } from &#x27;./product/product.module&#x27;
+import { ReviewModule } from &#x27;./review/review.module&#x27;
+import { StoryModule } from &#x27;./story/story.module&#x27;
+import { SupportModule } from &#x27;./support/support.module&#x27;
+import { TransactionModule } from &#x27;./transaction/transaction.module&#x27;
+import { UserModule } from &#x27;./user/user.module&#x27;
 
-const settingsEnv &#x3D; settings();
+const settingsEnv &#x3D; settings()
 
 @Module({
     imports: [

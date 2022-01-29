@@ -342,53 +342,53 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExecutionContext, HttpStatus, Injectable } from &quot;@nestjs/common&quot;;
-import { Reflector } from &quot;@nestjs/core&quot;;
-import { AuthGuard } from &quot;@nestjs/passport&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExecutionContext, HttpStatus, Injectable } from &#x27;@nestjs/common&#x27;
+import { Reflector } from &#x27;@nestjs/core&#x27;
+import { AuthGuard } from &#x27;@nestjs/passport&#x27;
 import {
     IS_LOCAL_AUTHENTICATED,
     IS_PUBLIC_KEY,
-} from &quot;../../auth/decorator/public.decorator&quot;;
-import { errorCodes, errorTypes } from &quot;../../common/codes/error&quot;;
-import { Exception } from &quot;../../common/response&quot;;
+} from &#x27;../../auth/decorator/public.decorator&#x27;
+import { errorCodes, errorTypes } from &#x27;../../common/codes/error&#x27;
+import { Exception } from &#x27;../../common/response&#x27;
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard(&quot;jwt&quot;) {
+export class JwtAuthGuard extends AuthGuard(&#x27;jwt&#x27;) {
     constructor(private reflector: Reflector) {
-        super();
+        super()
     }
 
     canActivate(context: ExecutionContext) {
         const isPublic &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(
             IS_PUBLIC_KEY,
             [context.getHandler(), context.getClass()]
-        );
+        )
         if (isPublic) {
-            return true;
+            return true
         }
         const isLocalAuthenticated &#x3D; this.reflector.getAllAndOverride&lt;boolean&gt;(
             IS_LOCAL_AUTHENTICATED,
             [context.getHandler(), context.getClass()]
-        );
+        )
         if (isLocalAuthenticated) {
-            return true;
+            return true
         }
-        return super.canActivate(context);
+        return super.canActivate(context)
     }
 
     handleRequest(err: any, user: any, info: any, context: any, status: any) {
         if (err || !user) {
             throw new Exception(
                 {
-                    message: &quot;Authentication Failed&quot;,
+                    message: &#x27;Authentication Failed&#x27;,
                     code: errorCodes.AuthFailed,
-                    context: &quot;JwtAuthGuard.handleRequest&quot;,
+                    context: &#x27;JwtAuthGuard.handleRequest&#x27;,
                     type: errorTypes[errorCodes.AuthFailed],
                 },
                 HttpStatus.UNAUTHORIZED
-            );
+            )
         }
-        return user;
+        return user
     }
 }
 </code></pre>

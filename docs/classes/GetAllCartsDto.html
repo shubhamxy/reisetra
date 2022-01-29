@@ -344,47 +344,47 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CartItem } from &quot;.prisma/client&quot;;
-import { CursorPaginationDTO } from &quot;src/common/dto&quot;;
-import { Offer } from &quot;../entity&quot;;
-type Excluded &#x3D; &quot;id&quot; | &quot;active&quot; | &quot;createdAt&quot; | &quot;updatedAt&quot; | &quot;id&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CartItem } from &#x27;.prisma/client&#x27;
+import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
+import { Offer } from &#x27;../entity&#x27;
+type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;id&#x27;
 
 export class GetAllCartsDto extends CursorPaginationDTO {}
 
 export class GetAllOffersDto extends CursorPaginationDTO {}
 
 export class CheckoutDto {
-    addressId: string;
-    cartId: string;
-    promo: string;
+    addressId: string
+    cartId: string
+    promo: string
 }
 
 export class UpdateCartItemDto
-    implements Omit&lt;CartItem, Excluded | &quot;userId&quot; | &quot;productId&quot;&gt; {
-    quantity: number;
-    cartId: string;
-    orderId: string;
-    size: string;
-    color: string;
+    implements Omit&lt;CartItem, Excluded | &#x27;userId&#x27; | &#x27;productId&#x27;&gt; {
+    quantity: number
+    cartId: string
+    orderId: string
+    size: string
+    color: string
 }
 
 export class CreateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string;
-    value: string;
-    type: string;
-    description: string;
+    label: string
+    value: string
+    type: string
+    description: string
 }
 export class UpdateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string;
-    value: string;
-    type: string;
-    description: string;
+    label: string
+    value: string
+    type: string
+    description: string
 }
 
-export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &quot;description&quot;&gt; {
-    label: string;
-    value: string;
-    type: string;
+export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;description&#x27;&gt; {
+    label: string
+    value: string
+    type: string
 }
 </code></pre>
     </div>

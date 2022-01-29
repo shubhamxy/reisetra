@@ -543,56 +543,56 @@
     Put,
     Query,
     Req,
-} from &quot;@nestjs/common&quot;;
-import { TransactionService } from &quot;./transaction.service&quot;;
-import { CustomException, SuccessResponse } from &quot;src/common/response&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { TransactionService } from &#x27;./transaction.service&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
 import {
     CreateTransactionDto,
     GetAllTransactionsDto,
     UpdateTransactionDto,
-} from &quot;./dto&quot;;
-import { AuthenticatedRequest } from &quot;src/auth/auth.interface&quot;;
-import { Roles } from &quot;src/auth/decorator/roles.decorator&quot;;
+} from &#x27;./dto&#x27;
+import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
+import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
 @Controller()
 export class TransactionController {
     constructor(private readonly txn: TransactionService) {}
 
-    @Roles(&quot;ADMIN&quot;)
-    @Get(&quot;transactions&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Get(&#x27;transactions&#x27;)
     async allTransactions(
         @Query() query: GetAllTransactionsDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const { results, ...meta } &#x3D; await this.txn.allTransactions(query);
-            return { data: results || [], meta: meta };
+            const { results, ...meta } &#x3D; await this.txn.allTransactions(query)
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;TransactionController.getAllTransaction&quot;
-            );
+                &#x27;TransactionController.getAllTransaction&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Get(&quot;transaction/:transactionId&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Get(&#x27;transaction/:transactionId&#x27;)
     async getTransaction(
-        @Param(&quot;transactionId&quot;) transactionId: string
+        @Param(&#x27;transactionId&#x27;) transactionId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.txn.transaction(transactionId);
-            return { data };
+            const data &#x3D; await this.txn.transaction(transactionId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;TransactionController.getTransaction&quot;
-            );
+                &#x27;TransactionController.getTransaction&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Post(&quot;transaction&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Post(&#x27;transaction&#x27;)
     async createTransaction(
         @Req() request: AuthenticatedRequest,
         @Body() body: CreateTransactionDto
@@ -601,49 +601,49 @@ export class TransactionController {
             const data &#x3D; await this.txn.createTransactionFromOrderId(
                 request.user.id,
                 body
-            );
-            return { data };
+            )
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;TransactionController.createTransaction&quot;
-            );
+                &#x27;TransactionController.createTransaction&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Put(&quot;transaction/:transactionId&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Put(&#x27;transaction/:transactionId&#x27;)
     async updateTransaction(
-        @Param(&quot;transactionId&quot;) transactionId: string,
+        @Param(&#x27;transactionId&#x27;) transactionId: string,
         @Body() body: UpdateTransactionDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.txn.updateTransaction(transactionId, body);
-            return { data };
+            const data &#x3D; await this.txn.updateTransaction(transactionId, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;TransactionController.updateTransaction&quot;
-            );
+                &#x27;TransactionController.updateTransaction&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Delete(&quot;transaction/:transactionId&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Delete(&#x27;transaction/:transactionId&#x27;)
     async deleteTransaction(
-        @Param(&quot;transactionId&quot;) transactionId: string
+        @Param(&#x27;transactionId&#x27;) transactionId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.txn.deleteTransaction(transactionId);
-            return { data };
+            const data &#x3D; await this.txn.deleteTransaction(transactionId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;TransactionController.deleteTransaction&quot;
-            );
+                &#x27;TransactionController.deleteTransaction&#x27;
+            )
         }
     }
 }

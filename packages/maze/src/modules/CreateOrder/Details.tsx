@@ -11,8 +11,8 @@ const STATUS = {
     CONFIRMED: 'CONFIRMED',
     SHIPPED: 'SHIPPED',
     DELIVERED: 'DELIVERED',
-    CANCELLED: 'CANCELLED'
-};
+    CANCELLED: 'CANCELLED',
+}
 export default function Details({
     values,
     errors,
@@ -54,12 +54,8 @@ export default function Details({
                             onChange={handleChange}
                             fullWidth
                             onBlur={handleBlur}
-                            error={
-                                touched.title ? !!errors.title : false
-                            }
-                            helperText={
-                                touched.title ? errors.title : ''
-                            }
+                            error={touched.title ? !!errors.title : false}
+                            helperText={touched.title ? errors.title : ''}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -74,7 +70,9 @@ export default function Details({
                             fullWidth
                             onBlur={handleBlur}
                             error={
-                                touched.description ? !!errors.description : false
+                                touched.description
+                                    ? !!errors.description
+                                    : false
                             }
                             helperText={
                                 touched.description ? errors.description : ''

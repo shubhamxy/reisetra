@@ -1,40 +1,40 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { HttpService, Injectable } from "@nestjs/common";
+import { HttpService, Injectable } from '@nestjs/common'
 
-import { AxiosResponse } from "axios";
-import { errorCodes } from "src/common/codes/error";
+import { AxiosResponse } from 'axios'
+import { errorCodes } from 'src/common/codes/error'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import { UpdateTransactionDto } from "./dto";
-import { Transaction } from "./entity";
-import { createHmac } from "crypto";
-import { ConfigService } from "@nestjs/config";
-import { ServicesEnv } from "src/config";
-import { nanoid } from "nanoid";
-import { Order } from "src/order/entity";
-import { Address } from "src/address/entity";
-import { User } from "src/user/entity";
-import { sendEmail, transactionEmail } from "src/utils";
+} from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import { UpdateTransactionDto } from './dto'
+import { Transaction } from './entity'
+import { createHmac } from 'crypto'
+import { ConfigService } from '@nestjs/config'
+import { ServicesEnv } from 'src/config'
+import { nanoid } from 'nanoid'
+import { Order } from 'src/order/entity'
+import { Address } from 'src/address/entity'
+import { User } from 'src/user/entity'
+import { sendEmail, transactionEmail } from 'src/utils'
 
 interface RazororpayOrderResponse {
-    id: string;
-    entity: string;
-    amount: number;
-    amount_paid: 0;
-    amount_due: number;
-    currency: string;
-    receipt: string;
-    offer_id: string;
-    status: string;
-    attempts: number;
-    notes: any;
-    created_at: number;
+    id: string
+    entity: string
+    amount: number
+    amount_paid: 0
+    amount_due: number
+    currency: string
+    receipt: string
+    offer_id: string
+    status: string
+    attempts: number
+    notes: any
+    created_at: number
 }
 @Injectable()
 export class TransactionService {
@@ -53,73 +53,70 @@ export class TransactionService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "transaction",
+                model: 'transaction',
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "TransactionService.allTransactions"
-            );
+                'TransactionService.allTransactions'
+            )
         }
     }
 
     async transaction(transactionId: string): Promise<Transaction> {
         const product = await this.db.transaction.findUnique({
             where: { id: transactionId },
-        });
+        })
         if (!product) {
             throw new CustomError(
-                "Transaction does not exist",
+                'Transaction does not exist',
                 errorCodes.RecordDoesNotExist
-            );
+            )
         }
-        return product;
+        return product
     }
 
     async createTransaction(
         user: User & {
             orders: (Order & {
-                transaction: Transaction;
-                address: Address;
-            })[];
+                transaction: Transaction
+                address: Address
+            })[]
         }
     ): Promise<Order & { razorpayOptions: Record<string, any> }> {
         try {
-            console.log("createTransaction::started");
-            const order = user.orders[0];
+            console.log('createTransaction::started')
+            const order = user.orders[0]
             if (!order.grandTotal) {
                 throw new CustomError(
-                    "Calculation error please try again",
+                    'Calculation error please try again',
                     errorCodes.BillingCalculationError,
-                    "TransactionService.createTransaction"
-                );
+                    'TransactionService.createTransaction'
+                )
             }
 
-            const servicesConfig = this.config.get<ServicesEnv>("services");
-            const {
-                razorpayKeyId,
-                razorpaySecretKey,
-            } = servicesConfig.razorpay;
-            console.log("createTransaction::razorpay::started", razorpayKeyId);
+            const servicesConfig = this.config.get<ServicesEnv>('services')
+            const { razorpayKeyId, razorpaySecretKey } = servicesConfig.razorpay
+            console.log('createTransaction::razorpay::started', razorpayKeyId)
             const response: AxiosResponse<RazororpayOrderResponse> = await this.httpService
                 .post<RazororpayOrderResponse>(
-                    "https://api.razorpay.com/v1/orders",
+                    'https://api.razorpay.com/v1/orders',
                     {
                         amount: order.grandTotal * 100,
-                        currency: "INR",
-                        receipt: "rcpt_" + nanoid(10),
+                        currency: 'INR',
+                        receipt: 'rcpt_' + nanoid(10),
                     },
                     {
                         auth: {
@@ -128,14 +125,14 @@ export class TransactionService {
                         },
                     }
                 )
-                .toPromise();
+                .toPromise()
 
-            const razorpayData = response.data;
+            const razorpayData = response.data
             console.log(
-                "createTransaction::razorpay::data",
+                'createTransaction::razorpay::data',
                 JSON.stringify(razorpayData, null, 4)
-            );
-            if (razorpayData?.status === "created") {
+            )
+            if (razorpayData?.status === 'created') {
                 try {
                     const product = await this.db.order.update({
                         where: {
@@ -153,8 +150,8 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: "RAZORPAY",
-                                        status: "PENDING",
+                                        type: 'RAZORPAY',
+                                        status: 'PENDING',
                                         userId: user.id,
                                     },
                                     update: {
@@ -163,70 +160,70 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: "RAZORPAY",
-                                        status: "PENDING",
+                                        type: 'RAZORPAY',
+                                        status: 'PENDING',
                                         userId: user.id,
                                     },
                                 },
                             },
                         },
-                    });
+                    })
                     console.log(
-                        "createTransaction::razorpay::order.update",
+                        'createTransaction::razorpay::order.update',
                         JSON.stringify(product, null, 4)
-                    );
+                    )
                     const razorpayOptions = {
                         key: razorpayKeyId,
                         amount: product.transaction.amount,
                         currency: product.transaction.currency,
-                        name: this.config.get<string>("services.razorpay.name"),
+                        name: this.config.get<string>('services.razorpay.name'),
                         description: this.config.get<string>(
-                            "services.razorpay.description"
+                            'services.razorpay.description'
                         ),
                         order_id: product.transaction.paymentOrderId,
                         prefill: {
                             name: user.name,
                             email: user.email,
-                            contact: order.address.phone || user.phone || "",
+                            contact: order.address.phone || user.phone || '',
                         },
                         notes: [
                             ...razorpayData.notes,
                             { userId: user.id, addressId: order.address.id },
                         ],
                         theme: {
-                            color: "#000000",
+                            color: '#000000',
                         },
-                    };
-                    return { ...product, razorpayOptions };
+                    }
+                    return { ...product, razorpayOptions }
                 } catch (error) {
                     console.log(
-                        "createTransaction::razorpay::order.update::error",
+                        'createTransaction::razorpay::order.update::error',
                         JSON.stringify(error, null, 4)
-                    );
+                    )
                     throw new CustomError(
                         error?.meta?.cause || error.message,
                         error.code,
-                        "TransactionService.createTransaction.database"
-                    );
+                        'TransactionService.createTransaction.database'
+                    )
                 }
             } else {
-                console.log("createTransaction::razorpay::data::error");
+                console.log('createTransaction::razorpay::data::error')
                 throw new CustomError(
-                    "Razorpay failed, please try again",
+                    'Razorpay failed, please try again',
                     errorCodes.RazorPayFailure,
-                    "TransactionService.createTransaction.razorpay"
-                );
+                    'TransactionService.createTransaction.razorpay'
+                )
             }
         } catch (error) {
             console.log(
-                "createTransaction::transaction::data",
+                'createTransaction::transaction::data',
                 JSON.stringify(error, null, 4)
-            );
+            )
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "TransactionService.createTransaction.razorpay"
-            );
+                'TransactionService.createTransaction.razorpay'
+            )
         }
     }
 
@@ -247,47 +244,44 @@ export class TransactionService {
                     },
                 },
             },
-        });
+        })
 
         if (!user) {
             throw new CustomError(
-                "User does not exist",
+                'User does not exist',
                 errorCodes.UserNotFound,
-                "TransactionService.createTransaction"
-            );
+                'TransactionService.createTransaction'
+            )
         }
 
         if (!user.orders[0]?.id) {
             throw new CustomError(
-                "Order does not exist with user",
+                'Order does not exist with user',
                 errorCodes.OrderDoesNotExistWithUser,
-                "TransactionService.createTransaction"
-            );
+                'TransactionService.createTransaction'
+            )
         }
 
-        const order = user.orders[0];
+        const order = user.orders[0]
 
-        if (order.transaction.status === "SUCCESS") {
+        if (order.transaction.status === 'SUCCESS') {
             throw new CustomError(
-                "Transaction already Succeded",
+                'Transaction already Succeded',
                 errorCodes.TransactionAlreadySucceded,
-                "TransactionService.createTransaction"
-            );
+                'TransactionService.createTransaction'
+            )
         }
 
         try {
-            const servicesConfig = this.config.get<ServicesEnv>("services");
-            const {
-                razorpayKeyId,
-                razorpaySecretKey,
-            } = servicesConfig.razorpay;
+            const servicesConfig = this.config.get<ServicesEnv>('services')
+            const { razorpayKeyId, razorpaySecretKey } = servicesConfig.razorpay
             const response: AxiosResponse<RazororpayOrderResponse> = await this.httpService
                 .post<RazororpayOrderResponse>(
-                    "https://api.razorpay.com/v1/orders",
+                    'https://api.razorpay.com/v1/orders',
                     {
                         amount: order.grandTotal,
-                        currency: "INR",
-                        receipt: "rcpt_" + nanoid(10),
+                        currency: 'INR',
+                        receipt: 'rcpt_' + nanoid(10),
                     },
                     {
                         auth: {
@@ -296,10 +290,10 @@ export class TransactionService {
                         },
                     }
                 )
-                .toPromise();
+                .toPromise()
 
-            const razorpayData = response.data;
-            if (razorpayData.status === "created") {
+            const razorpayData = response.data
+            if (razorpayData.status === 'created') {
                 try {
                     const product = await this.db.order.update({
                         where: {
@@ -317,8 +311,8 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: "RAZORPAY",
-                                        status: "PENDING",
+                                        type: 'RAZORPAY',
+                                        status: 'PENDING',
                                         userId,
                                     },
                                     update: {
@@ -327,20 +321,20 @@ export class TransactionService {
                                         notes: razorpayData.notes,
                                         currency: razorpayData.currency,
                                         amount: razorpayData.amount,
-                                        type: "RAZORPAY",
-                                        status: "PENDING",
+                                        type: 'RAZORPAY',
+                                        status: 'PENDING',
                                         userId,
                                     },
                                 },
                             },
                         },
-                    });
+                    })
                     const razorpayOptions = {
                         key: razorpayKeyId,
                         amount: product.transaction.amount,
                         currency: product.transaction.currency,
-                        name: this.config.get<string>("app.name"),
-                        description: this.config.get<string>("app.description"),
+                        name: this.config.get<string>('app.name'),
+                        description: this.config.get<string>('app.description'),
                         order_id: product.transaction.paymentOrderId,
                         prefill: {
                             name: user.name,
@@ -349,30 +343,30 @@ export class TransactionService {
                         },
                         notes: [...razorpayData.notes, { userId }],
                         theme: {
-                            color: "#3399cc",
+                            color: '#3399cc',
                         },
-                    };
-                    return { ...product, razorpayOptions };
+                    }
+                    return { ...product, razorpayOptions }
                 } catch (error) {
                     throw new CustomError(
                         error?.meta?.cause || error.message,
                         error.code,
-                        "TransactionService.createTransaction.database"
-                    );
+                        'TransactionService.createTransaction.database'
+                    )
                 }
             } else {
                 throw new CustomError(
-                    "Razorpay failed, please try again",
+                    'Razorpay failed, please try again',
                     errorCodes.RazorPayFailure,
-                    "TransactionService.createTransaction.razorpay"
-                );
+                    'TransactionService.createTransaction.razorpay'
+                )
             }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "TransactionService.createTransaction.razorpay"
-            );
+                'TransactionService.createTransaction.razorpay'
+            )
         }
     }
 
@@ -382,14 +376,14 @@ export class TransactionService {
     ): Promise<Transaction> {
         try {
             const { razorpaySecretKey } = this.config.get<ServicesEnv>(
-                "services"
-            ).razorpay;
+                'services'
+            ).razorpay
             const data = await this.db.transaction.findUnique({
                 where: { id: transactionId },
-            });
-            const generatedSignature = createHmac("sha256", razorpaySecretKey)
-                .update(data.paymentOrderId + "|" + update.paymentId)
-                .digest("hex");
+            })
+            const generatedSignature = createHmac('sha256', razorpaySecretKey)
+                .update(data.paymentOrderId + '|' + update.paymentId)
+                .digest('hex')
             if (generatedSignature === update.paymentSignature) {
                 const updatedData = await this.db.transaction.update({
                     where: { id: transactionId },
@@ -413,8 +407,8 @@ export class TransactionService {
                         paymentId: update.paymentId,
                         paymentSignature: update.paymentSignature,
                         verified: true,
-                        type: "RAZORPAY",
-                        status: "SUCCESS",
+                        type: 'RAZORPAY',
+                        status: 'SUCCESS',
                     },
                     include: {
                         user: {
@@ -449,7 +443,7 @@ export class TransactionService {
                             },
                         },
                     },
-                });
+                })
                 try {
                     const response = await sendEmail(
                         transactionEmail({
@@ -460,8 +454,8 @@ export class TransactionService {
                                 updatedData.order.cart.items.length
                             } item${
                                 updatedData.order.cart.items.length > 1
-                                    ? "s"
-                                    : ""
+                                    ? 's'
+                                    : ''
                             }`,
                             description: `Thank you for shopping with us. We'd like to let you know that we have received your order, and is preparing it for shipment. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
                             orderId: updatedData.order.id,
@@ -474,8 +468,8 @@ export class TransactionService {
                                 updatedData.order.cart.items.length
                             } item${
                                 updatedData.order.cart.items.length > 1
-                                    ? "s"
-                                    : ""
+                                    ? 's'
+                                    : ''
                             }.`,
                             transaction: {
                                 id: updatedData.id,
@@ -488,34 +482,34 @@ export class TransactionService {
                                 (item) => ({
                                     sku: item.product.inventory.sku,
                                     title: item.product.title,
-                                    options: item.size + " - " + item.color,
+                                    options: item.size + ' - ' + item.color,
                                     qty: item.quantity,
                                 })
                             ),
                         })
-                    );
+                    )
                 } catch (error) {
-                    console.log(error);
+                    console.log(error)
                 }
-                return updatedData;
+                return updatedData
             } else {
                 const updatedData = await this.db.transaction.update({
                     where: { id: transactionId },
                     data: {
                         paymentId: update.paymentId,
                         paymentSignature: update.paymentSignature,
-                        type: "RAZORPAY",
-                        status: "FAILED",
+                        type: 'RAZORPAY',
+                        status: 'FAILED',
                     },
-                });
-                return updatedData;
+                })
+                return updatedData
             }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "TransactionService.updateTransaction"
-            );
+                'TransactionService.updateTransaction'
+            )
         }
     }
 
@@ -523,14 +517,14 @@ export class TransactionService {
         try {
             const data = await this.db.transaction.delete({
                 where: { id: transactionId },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "TransactionService.deleteTransaction"
-            );
+                'TransactionService.deleteTransaction'
+            )
         }
     }
 }

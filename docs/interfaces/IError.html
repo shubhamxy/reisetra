@@ -336,43 +336,43 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpException, HttpStatus } from &quot;@nestjs/common&quot;;
-import { getErrorMessage, stackObj } from &quot;src/utils&quot;;
-import { PageCursorsType } from &quot;src/utils/prisma/paginator/pageCursor&quot;;
-import { ErrorCode, ErrorType, errorTypes } from &quot;../codes/error&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpException, HttpStatus } from &#x27;@nestjs/common&#x27;
+import { getErrorMessage, stackObj } from &#x27;src/utils&#x27;
+import { PageCursorsType } from &#x27;src/utils/prisma/paginator/pageCursor&#x27;
+import { ErrorCode, ErrorType, errorTypes } from &#x27;../codes/error&#x27;
 
 type Data &#x3D;
     | Record&lt;string, any&gt;
     | string
     | number
     | boolean
-    | Record&lt;string, unknown&gt;;
+    | Record&lt;string, unknown&gt;
 
 export interface IMeta {
-    context: string;
-    link: PageCursorsType;
-    totalCount: number;
-    page: number;
-    [key: string]: any;
+    context: string
+    link: PageCursorsType
+    totalCount: number
+    page: number
+    [key: string]: any
 }
 export interface IError {
-    code?: number | string;
-    type?: string;
-    context: string;
-    message?: string;
-    stack?: any;
-    [key: string]: any;
+    code?: number | string
+    type?: string
+    context: string
+    message?: string
+    stack?: any
+    [key: string]: any
 }
 
 export interface IErrorResponse&lt;T&gt; {
-    success?: false;
-    message?: string;
-    errors?: T[];
-    meta?: Partial&lt;IMeta&gt;;
-    [key: string]: any;
+    success?: false
+    message?: string
+    errors?: T[]
+    meta?: Partial&lt;IMeta&gt;
+    [key: string]: any
 }
 
-export type ErrorResponse&lt;D &#x3D; IError&gt; &#x3D; IErrorResponse&lt;D&gt;;
+export type ErrorResponse&lt;D &#x3D; IError&gt; &#x3D; IErrorResponse&lt;D&gt;
 
 export function errorResponse(
     errors?: IError[] | IError,
@@ -380,13 +380,13 @@ export function errorResponse(
     meta?: Partial&lt;IMeta&gt;
 ): ErrorResponse&lt;IError&gt; {
     if (errors &amp;&amp; !Array.isArray(errors)) {
-        errors &#x3D; [errors];
+        errors &#x3D; [errors]
     }
     return {
         errors: errors as IError[],
         message,
         meta,
-    };
+    }
 }
 
 export class Exception extends HttpException {
@@ -395,7 +395,7 @@ export class Exception extends HttpException {
         status: HttpStatus,
         description?: string
     ) {
-        super(errorResponse(errors, description), status);
+        super(errorResponse(errors, description), status)
     }
 }
 
@@ -406,7 +406,7 @@ export class CustomException extends HttpException {
         context?: string,
         description?: string
     ) {
-        const message &#x3D; getErrorMessage(error);
+        const message &#x3D; getErrorMessage(error)
         super(
             errorResponse(
                 [
@@ -422,7 +422,7 @@ export class CustomException extends HttpException {
                 description || message
             ),
             status
-        );
+        )
     }
 }
 
@@ -433,35 +433,35 @@ export function CustomError(
     type?: ErrorType,
     data?: any
 ) {
-    this.message &#x3D; message;
-    this.code &#x3D; code;
-    this.type &#x3D; type || errorTypes[code] || undefined;
-    this.context &#x3D; context;
-    this.data &#x3D; data;
+    this.message &#x3D; message
+    this.code &#x3D; code
+    this.type &#x3D; type || errorTypes[code] || undefined
+    this.context &#x3D; context
+    this.data &#x3D; data
 }
 
 export type DataT &#x3D;
     | Record&lt;string, Data&gt;[]
     | Record&lt;string, Data&gt;
     | Data[]
-    | Data;
+    | Data
 
 interface ISuccessResponse&lt;D&gt; {
-    success?: boolean;
-    message?: string;
-    data?: D;
-    meta?: Partial&lt;IMeta&gt;;
-    [key: string]: DataT;
+    success?: boolean
+    message?: string
+    data?: D
+    meta?: Partial&lt;IMeta&gt;
+    [key: string]: DataT
 }
 
-export type SuccessResponse&lt;D &#x3D; DataT&gt; &#x3D; ISuccessResponse&lt;D&gt;;
+export type SuccessResponse&lt;D &#x3D; DataT&gt; &#x3D; ISuccessResponse&lt;D&gt;
 
 export class SuccessResponseDTO&lt;T &#x3D; DataT&gt; implements SuccessResponse&lt;T&gt; {
-    [key: string]: DataT;
-    success?: boolean;
-    message?: string;
-    data?: T;
-    meta?: Partial&lt;IMeta&gt;;
+    [key: string]: DataT
+    success?: boolean
+    message?: string
+    data?: T
+    meta?: Partial&lt;IMeta&gt;
 }
 </code></pre>
     </div>

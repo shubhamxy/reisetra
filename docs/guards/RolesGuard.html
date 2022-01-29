@@ -224,11 +224,11 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Role } from &quot;.prisma/client&quot;;
-import { Injectable, CanActivate, ExecutionContext } from &quot;@nestjs/common&quot;;
-import { Reflector } from &quot;@nestjs/core&quot;;
-import config from &quot;src/config&quot;;
-import { ROLES_KEY } from &quot;../decorator/roles.decorator&quot;;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Role } from &#x27;.prisma/client&#x27;
+import { Injectable, CanActivate, ExecutionContext } from &#x27;@nestjs/common&#x27;
+import { Reflector } from &#x27;@nestjs/core&#x27;
+import config from &#x27;src/config&#x27;
+import { ROLES_KEY } from &#x27;../decorator/roles.decorator&#x27;
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -238,16 +238,16 @@ export class RolesGuard implements CanActivate {
         const requiredRoles &#x3D; this.reflector.getAllAndOverride&lt;Role[]&gt;(
             ROLES_KEY,
             [context.getHandler(), context.getClass()]
-        );
-        if(config.debug){
-            return true;
+        )
+        if (config.debug) {
+            return true
         }
 
         if (!requiredRoles) {
-            return true;
+            return true
         }
-        const { user } &#x3D; context.switchToHttp().getRequest();
-        return requiredRoles.some((role) &#x3D;&gt; user.role &#x3D;&#x3D;&#x3D; role);
+        const { user } &#x3D; context.switchToHttp().getRequest()
+        return requiredRoles.some((role) &#x3D;&gt; user.role &#x3D;&#x3D;&#x3D; role)
     }
 }
 </code></pre>

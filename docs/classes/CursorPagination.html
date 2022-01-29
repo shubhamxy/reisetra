@@ -274,53 +274,53 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PaginationType } from &quot;src/utils/prisma&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PaginationType } from &#x27;src/utils/prisma&#x27;
 
 export interface OffsetPaginationOptionsInterface {
-    limit: number;
-    page: number;
+    limit: number
+    page: number
 }
 
 export interface OffsetPaginationResultInterface&lt;PaginationEntity&gt; {
-    results: PaginationEntity[];
-    page?: number;
-    size?: number;
+    results: PaginationEntity[]
+    page?: number
+    size?: number
 
-    totalCount?: number;
-    pageCount?: number;
-    next?: string;
-    previous?: string;
+    totalCount?: number
+    pageCount?: number
+    next?: string
+    previous?: string
 
-    offset?: number;
+    offset?: number
     link?: {
-        first: string;
-        last: string;
-        self: string;
-        previous: string;
-        next: string;
-    };
+        first: string
+        last: string
+        self: string
+        previous: string
+        next: string
+    }
 }
 
 export interface CursorPaginationOptionsInterface {
-    size: number;
-    buttonNum: number;
-    cursor: string;
-    orderBy: string;
-    orderDirection: &quot;desc&quot; | &quot;asc&quot;;
+    size: number
+    buttonNum: number
+    cursor: string
+    orderBy: string
+    orderDirection: &#x27;desc&#x27; | &#x27;asc&#x27;
 }
 
 export class CursorPagination
     implements Partial&lt;CursorPaginationOptionsInterface&gt; {
-    size?: number;
-    buttonNum?: number;
-    cursor?: string;
-    orderBy?: string;
-    orderDirection?: &quot;desc&quot; | &quot;asc&quot;;
+    size?: number
+    buttonNum?: number
+    cursor?: string
+    orderBy?: string
+    orderDirection?: &#x27;desc&#x27; | &#x27;asc&#x27;
 }
 
 export interface CursorPaginationResultInterface&lt;PaginationEntity&gt;
     extends PaginationType {
-    results: PaginationEntity[];
+    results: PaginationEntity[]
 }
 </code></pre>
     </div>

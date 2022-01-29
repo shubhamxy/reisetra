@@ -511,15 +511,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OAuthProvider, Role } from &quot;.prisma/client&quot;;
-import { Type } from &quot;class-transformer&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OAuthProvider, Role } from &#x27;.prisma/client&#x27;
+import { Type } from &#x27;class-transformer&#x27;
 import {
     IsEmail,
     IsOptional,
     Matches,
     MaxLength,
     MinLength,
-} from &quot;class-validator&quot;;
+} from &#x27;class-validator&#x27;
 import {
     INVALID_PHONE,
     PASSWORD_IS_WEAK,
@@ -527,56 +527,56 @@ import {
     PASSWORD_MIN_LENGTH,
     PHONE_REGEX,
     STRONG_PASSWORD_REGEX,
-} from &quot;src/constants&quot;;
-import { User } from &quot;../entity&quot;;
+} from &#x27;src/constants&#x27;
+import { User } from &#x27;../entity&#x27;
 type Excluded &#x3D;
-    | &quot;id&quot;
-    | &quot;active&quot;
-    | &quot;createdAt&quot;
-    | &quot;updatedAt&quot;
-    | &quot;extra&quot;
-    | &quot;bio&quot;
-    | &quot;dateOfBirth&quot;
-    | &quot;phone&quot;
-    | &quot;inventoryId&quot;
-    | &quot;role&quot;
-    | &quot;oauthProvider&quot;
-    | &quot;emailVerified&quot;
-    | &quot;oauthId&quot;;
+    | &#x27;id&#x27;
+    | &#x27;active&#x27;
+    | &#x27;createdAt&#x27;
+    | &#x27;updatedAt&#x27;
+    | &#x27;extra&#x27;
+    | &#x27;bio&#x27;
+    | &#x27;dateOfBirth&#x27;
+    | &#x27;phone&#x27;
+    | &#x27;inventoryId&#x27;
+    | &#x27;role&#x27;
+    | &#x27;oauthProvider&#x27;
+    | &#x27;emailVerified&#x27;
+    | &#x27;oauthId&#x27;
 export class UpdateUserDto implements Omit&lt;User, Excluded&gt; {
     constructor(partial: Partial&lt;User&gt;) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 
     @IsOptional()
-    @IsEmail({}, { message: &quot;Email is invalid&quot; })
-    email: string;
+    @IsEmail({}, { message: &#x27;Email is invalid&#x27; })
+    email: string
 
     @IsOptional()
     @MinLength(8, { message: PASSWORD_MIN_LENGTH })
     @MaxLength(20, { message: PASSWORD_MAX_LENGTH })
     @Matches(STRONG_PASSWORD_REGEX, { message: PASSWORD_IS_WEAK })
-    password: string;
+    password: string
 
     @IsOptional()
-    @MinLength(3, { message: &quot;name should be min 3 chars&quot; })
-    name: string;
+    @MinLength(3, { message: &#x27;name should be min 3 chars&#x27; })
+    name: string
 
     @IsOptional()
     @Type(() &#x3D;&gt; Date)
-    dateOfBirth: Date;
+    dateOfBirth: Date
 
     @IsOptional()
     @Matches(PHONE_REGEX, { message: INVALID_PHONE })
-    phone: string;
+    phone: string
 
     @IsOptional()
-    avatar: string;
+    avatar: string
 
-    oauthId: string;
-    oauthProvider: OAuthProvider;
-    role: Role;
-    bio: string;
+    oauthId: string
+    oauthProvider: OAuthProvider
+    role: Role
+    bio: string
 }
 </code></pre>
     </div>

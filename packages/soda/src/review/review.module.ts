@@ -1,8 +1,8 @@
-import { Module } from "@nestjs/common";
-import { ReviewController } from "./review.controller";
-import { PrismaService } from "../common/modules/db/prisma.service";
-import { ReviewService } from "./review.service";
-import { CacheModule } from "src/common/modules/cache/cache.module";
+import { Module } from '@nestjs/common'
+import { ReviewController } from './review.controller'
+import { PrismaService } from '../common/modules/db/prisma.service'
+import { ReviewService } from './review.service'
+import { CacheModule } from 'src/common/modules/cache/cache.module'
 
 @Module({
     imports: [CacheModule],

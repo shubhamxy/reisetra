@@ -137,7 +137,7 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;inventory&#x27;)<br /></code>
+                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Post(&#x27;inventory&#x27;)<br /></code>
                 </td>
             </tr>
 
@@ -221,8 +221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/inventory/inventory.controller.ts:66</a></div>
                 </td>
             </tr>
 
@@ -293,14 +293,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;allInventory&#x27;)<br /></code>
+                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;allInventory&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/inventory/inventory.controller.ts:28</a></div>
                 </td>
             </tr>
 
@@ -377,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/inventory/inventory.controller.ts:36</a></div>
                 </td>
             </tr>
 
@@ -449,14 +449,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;inventory/:id&#x27;)<br /></code>
+                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Put(&#x27;inventory/:id&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">src/inventory/inventory.controller.ts:56</a></div>
                 </td>
             </tr>
 
@@ -530,65 +530,66 @@ import {
     Post,
     Put,
     Query,
-} from &quot;@nestjs/common&quot;;
-import { InventoryService } from &quot;./inventory.service&quot;;
-import { CustomError, SuccessResponse } from &quot;src/common/response&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { InventoryService } from &#x27;./inventory.service&#x27;
+import { CustomError, SuccessResponse } from &#x27;src/common/response&#x27;
 import {
     CreateInventoryDto,
     GetAllInventoryDto,
     UpdateInventoryDto,
-} from &quot;./dto&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
-import { Roles } from &quot;src/auth/decorator/roles.decorator&quot;;
+} from &#x27;./dto&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
 
 @Controller()
 export class InventoryController {
     constructor(private readonly inventory: InventoryService) {}
 
-    @Get(&quot;allInventory&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Get(&#x27;allInventory&#x27;)
     async getAllInventory(
         @Query() query: GetAllInventoryDto
     ): Promise&lt;SuccessResponse&gt; {
-        const { results, ...meta } &#x3D; await this.inventory.getAllInventory(
-            query
-        );
-        return { data: results || [], meta: meta };
+        const { results, ...meta } &#x3D; await this.inventory.getAllInventory(query)
+        return { data: results || [], meta: meta }
     }
 
-    @Get(&quot;inventory/:id&quot;)
+    @Get(&#x27;inventory/:id&#x27;)
     async getProduct(
-        @Param(&quot;id&quot;) inventoryId: string
+        @Param(&#x27;id&#x27;) inventoryId: string
     ): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.inventory.getInventory(inventoryId);
-        return { data };
+        const data &#x3D; await this.inventory.getInventory(inventoryId)
+        return { data }
     }
 
-    @Post(&quot;inventory&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Post(&#x27;inventory&#x27;)
     async createProduct(
         @Body() body: CreateInventoryDto
     ): Promise&lt;SuccessResponse&gt; {
         throw new CustomError(
-            &quot;Cannot create inventory directly&quot;,
+            &#x27;Cannot create inventory directly&#x27;,
             errorCodes.InvalidRequest
-        );
+        )
     }
 
-    @Put(&quot;inventory/:id&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Put(&#x27;inventory/:id&#x27;)
     async updateProduct(
-        @Param(&quot;id&quot;) inventoryId: string,
+        @Param(&#x27;id&#x27;) inventoryId: string,
         @Body() body: UpdateInventoryDto
     ): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.inventory.updateInventory(inventoryId, body);
-        return { data };
+        const data &#x3D; await this.inventory.updateInventory(inventoryId, body)
+        return { data }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Delete(&quot;inventory/:id&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Delete(&#x27;inventory/:id&#x27;)
     async deleteProduct(
-        @Param(&quot;id&quot;) inventoryId: string
+        @Param(&#x27;id&#x27;) inventoryId: string
     ): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.inventory.deleteInventory(inventoryId);
-        return { data };
+        const data &#x3D; await this.inventory.deleteInventory(inventoryId)
+        return { data }
     }
 }
 </code></pre>

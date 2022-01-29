@@ -24,13 +24,15 @@ const Schema = Yup.object().shape({
     title: Yup.string(),
     description: Yup.string(),
     status: Yup.string(),
-    documents: Yup.array().of(Yup.object().shape({
-        fileName: Yup.string(),
-        fileType: Yup.string(),
-        contentType: Yup.string(),
-        url: Yup.string().required('url is required'),
-    })),
-    sendUpdate: Yup.bool()
+    documents: Yup.array().of(
+        Yup.object().shape({
+            fileName: Yup.string(),
+            fileType: Yup.string(),
+            contentType: Yup.string(),
+            url: Yup.string().required('url is required'),
+        })
+    ),
+    sendUpdate: Yup.bool(),
 })
 
 const useStyles = makeStyles((theme) => ({
@@ -79,13 +81,7 @@ function StepContent({
 }) {
     switch (step) {
         case 0:
-            return (
-                <Documents
-                    values={values}
-                    setFieldValue={setFieldValue}
-                />
-
-            )
+            return <Documents values={values} setFieldValue={setFieldValue} />
         case 1:
             return (
                 <Details
@@ -98,16 +94,11 @@ function StepContent({
                 />
             )
         case 2:
-            return (
-                <Summary
-                    values={values}
-                />
-            )
+            return <Summary values={values} />
         default:
             return null
     }
 }
-
 
 export function Create({ data = null, isUpdate }) {
     const classes = useStyles()
@@ -152,7 +143,7 @@ export function Create({ data = null, isUpdate }) {
                         onSuccess: () => {
                             setActiveStep(activeStep + 1)
                             setServerErrors(null)
-                            resetForm();
+                            resetForm()
                         },
                         onError: (error) => {
                             globalDispatch(

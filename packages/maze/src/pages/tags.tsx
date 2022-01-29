@@ -1,16 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { Box, ButtonGroup, makeStyles } from '@material-ui/core'
+import { Box, ButtonGroup, makeStyles, Grid } from '@material-ui/core'
 import React, { useState } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 import { AppHeader } from '../ui/Header'
 import { Footer } from '../ui/Footer'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import { useAuthState, useDeleteProduct, useTags } from '../libs'
-import { Grid } from '@material-ui/core'
+import { useDeleteProduct, useTags } from '../libs'
 import { CreateTag } from '../modules/CreateTag'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GridItem } from '../modules/Categories'
 import GridList from '../ui/List/GridList'
@@ -36,13 +34,10 @@ const useStyles = makeStyles((theme) => ({
 const CMSPage = () => {
     const classes = useStyles()
     const deleteProduct = useDeleteProduct()
-    const authState = useAuthState()
-    const {} = authState
     const router = useRouter()
     const query = useTags(router.query)
-    const { push } = router
     const [open, setOpen] = useState(null)
-    const [selected, setSelected] = useState(null)
+    const [setSelected] = useState(null)
     const handleClickOpen = (key) => () => {
         setOpen(key)
     }

@@ -237,48 +237,48 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExtractJwt, Strategy } from &quot;passport-jwt&quot;;
-import { PassportStrategy } from &quot;@nestjs/passport&quot;;
-import { Injectable } from &quot;@nestjs/common&quot;;
-import { Request } from &quot;express&quot;;
-import { AuthService } from &quot;../auth.service&quot;;
-import { CustomError } from &quot;src/common/response&quot;;
-import { UserAuthPayload } from &quot;../auth.interface&quot;;
-import { auth } from &quot;src/config&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
-const config &#x3D; auth();
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExtractJwt, Strategy } from &#x27;passport-jwt&#x27;
+import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
+import { Injectable } from &#x27;@nestjs/common&#x27;
+import { Request } from &#x27;express&#x27;
+import { AuthService } from &#x27;../auth.service&#x27;
+import { CustomError } from &#x27;src/common/response&#x27;
+import { UserAuthPayload } from &#x27;../auth.interface&#x27;
+import { auth } from &#x27;src/config&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
+const config &#x3D; auth()
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
     Strategy,
-    &quot;jwt-refresh-token&quot;
+    &#x27;jwt-refresh-token&#x27;
 ) {
     constructor(private authService: AuthService) {
         super({
-            jwtFromRequest: ExtractJwt.fromHeader(&quot;x-refresh-token&quot;),
+            jwtFromRequest: ExtractJwt.fromHeader(&#x27;x-refresh-token&#x27;),
             secretOrKey: config.jwtRefreshTokenOptions.secret,
             issuer: config.jwtRefreshTokenOptions.issuer,
             audience: config.jwtRefreshTokenOptions.audience,
             passReqToCallback: true,
             ignoreExpiration: false,
-        });
+        })
     }
 
     async validate(request: Request, payload: any): Promise&lt;UserAuthPayload&gt; {
         const isValid &#x3D; await this.authService.isRefreshTokenPayloadValid(
             payload
-        );
+        )
         if (isValid) {
             return {
                 email: payload.email,
                 id: payload.sub,
                 role: payload.role,
-            };
+            }
         } else {
             throw new CustomError(
-                &quot;Refresh token expired&quot;,
+                &#x27;Refresh token expired&#x27;,
                 errorCodes.AuthFailed
-            );
+            )
         }
     }
 }

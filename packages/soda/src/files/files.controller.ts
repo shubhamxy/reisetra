@@ -9,13 +9,13 @@ import {
     Put,
     Query,
     Req,
-} from "@nestjs/common";
-import { PinoLogger } from "nestjs-pino";
-import { CustomException, SuccessResponse } from "src/common/response";
-import { FilesService } from "./files.service";
-import { AuthenticatedRequest } from "src/auth/auth.interface";
-import { FileDTO, FilesDTO, FileUploadDTO } from "./dto/file.dto";
-import { Roles } from "src/auth/decorator/roles.decorator";
+} from '@nestjs/common'
+import { PinoLogger } from 'nestjs-pino'
+import { CustomException, SuccessResponse } from 'src/common/response'
+import { FilesService } from './files.service'
+import { AuthenticatedRequest } from 'src/auth/auth.interface'
+import { FileDTO, FilesDTO, FileUploadDTO } from './dto/file.dto'
+import { Roles } from 'src/auth/decorator/roles.decorator'
 
 @Controller()
 export class FilesController {
@@ -23,44 +23,44 @@ export class FilesController {
         private readonly logger: PinoLogger,
         private readonly files: FilesService
     ) {
-        logger.setContext(FilesController.name);
+        logger.setContext(FilesController.name)
     }
 
-    @Roles("ADMIN")
-    @Get("files")
+    @Roles('ADMIN')
+    @Get('files')
     async getFiles(@Query() query: FilesDTO): Promise<SuccessResponse> {
         try {
-            const { results, ...meta } = await this.files.getAllFiles(query);
-            return { data: results || [], meta: meta };
+            const { results, ...meta } = await this.files.getAllFiles(query)
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "FilesController.getFiles"
-            );
+                'FilesController.getFiles'
+            )
         }
     }
 
-    @Put("file")
+    @Put('file')
     async addFile(
         @Req() request: AuthenticatedRequest,
         @Body() body: FileDTO
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.files.addFile(request.user.id, body);
+            const data = await this.files.addFile(request.user.id, body)
             return {
                 data: data,
-            };
+            }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "FilesController.addFile"
-            );
+                'FilesController.addFile'
+            )
         }
     }
 
-    @Post("file/upload")
+    @Post('file/upload')
     async getSignedUrl(
         @Req() request: AuthenticatedRequest,
         @Body() body: FileUploadDTO
@@ -71,7 +71,7 @@ export class FilesController {
                 contentType: body.contentType,
                 fileName: body.fileName,
                 fileType: body.fileType,
-            });
+            })
             const {
                 id,
                 contentType,
@@ -79,7 +79,7 @@ export class FilesController {
                 expiresIn,
                 fileName,
                 ...other
-            } = data;
+            } = data
             await this.files.addFile(request.user.id, {
                 ...other,
                 meta: {
@@ -87,37 +87,37 @@ export class FilesController {
                     contentType,
                     fileName,
                 },
-            });
+            })
             return {
                 data: data,
-            };
+            }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "FilesController.getSignedUrl"
-            );
+                'FilesController.getSignedUrl'
+            )
         }
     }
 
-    @Roles("ADMIN")
-    @Delete("file")
+    @Roles('ADMIN')
+    @Delete('file')
     async deleteFile(
         @Req() request: AuthenticatedRequest,
-        @Body("url") url: string
+        @Body('url') url: string
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.files.deleteFile(request.user.id, url);
-            this.logger.info("s3.deleteObject::" + data.id);
+            const data = await this.files.deleteFile(request.user.id, url)
+            this.logger.info('s3.deleteObject::' + data.id)
             return {
                 data: data,
-            };
+            }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "FilesController.deleteFile"
-            );
+                'FilesController.deleteFile'
+            )
         }
     }
 }

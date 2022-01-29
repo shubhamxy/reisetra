@@ -7,12 +7,12 @@ import { useCreateStory, useStory, useUpdateStory } from '../../libs'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
-
 function useHelper({ onSuccess, isUpdate, step, data }) {
     const createStory = useCreateStory()
     const updateStory = useUpdateStory()
 
-    const { id, slug, published, title, description, body, tags, files } = data || {}
+    const { id, slug, published, title, description, body, tags, files } =
+        data || {}
     const initialValues = {
         step: step || 0,
         isUpdate: isUpdate || false,
@@ -63,7 +63,7 @@ function useHelper({ onSuccess, isUpdate, step, data }) {
             }
             return errors
         },
-        onSubmit: ({ title, description, body, tags, published, slug, }) => {
+        onSubmit: ({ title, description, body, tags, published, slug }) => {
             if (isUpdate) {
                 updateStory.mutate(
                     {

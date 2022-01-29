@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import { CartItemRO } from "./interfaces";
+} from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import { CartItemRO } from './interfaces'
 import {
     CheckoutDto,
     CreateOfferDto,
@@ -15,36 +15,36 @@ import {
     GetAllOffersDto,
     UpdateCartItemDto,
     UpdateOfferDto,
-} from "./dto";
-import { TransactionService } from "src/transaction/transaction.service";
-import { Order } from ".prisma/client";
-import { errorCodes } from "src/common/codes/error";
-import { Offer } from "./entity";
-import { UserService } from "src/user/user.service";
+} from './dto'
+import { TransactionService } from 'src/transaction/transaction.service'
+import { Order } from '.prisma/client'
+import { errorCodes } from 'src/common/codes/error'
+import { Offer } from './entity'
+import { UserService } from 'src/user/user.service'
 
 function calculateBilling(
     cartItemsWithProduct: {
-        quantity: number;
+        quantity: number
         product: {
-            price: number;
-            tax: number;
-            mrp: number;
-            taxCode?: string;
-        };
+            price: number
+            tax: number
+            mrp: number
+            taxCode?: string
+        }
     }[],
     offer: Offer | null
 ) {
-    let subTotal = 0;
-    let tax = 0;
-    const shipping = 0;
+    let subTotal = 0
+    let tax = 0
+    const shipping = 0
     cartItemsWithProduct.forEach((item) => {
-        const itemPrice = item.quantity * item.product.price;
-        subTotal += itemPrice;
-        tax += Math.ceil(+itemPrice * (+item.product.tax || 0.185));
-    });
-    const total = subTotal + tax + shipping;
-    const itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0;
-    const grandTotal = (total - itemDiscount) | 0; // convert to int
+        const itemPrice = item.quantity * item.product.price
+        subTotal += itemPrice
+        tax += Math.ceil(+itemPrice * (+item.product.tax || 0.185))
+    })
+    const total = subTotal + tax + shipping
+    const itemDiscount = offer ? (total * (+offer.value || 0)) / 100 : 0
+    const grandTotal = (total - itemDiscount) | 0 // convert to int
 
     return {
         subTotal,
@@ -55,7 +55,7 @@ function calculateBilling(
         promo: offer ? offer.label : null,
         discount: (((total - grandTotal) / total) * 100) | 0,
         grandTotal,
-    };
+    }
 }
 @Injectable()
 export class CartService {
@@ -74,9 +74,9 @@ export class CartService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
@@ -86,16 +86,16 @@ export class CartService {
                 include: {
                     items: true,
                 },
-                model: "cart",
+                model: 'cart',
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.getAllCarts"
-            );
+                'CartService.getAllCarts'
+            )
         }
     }
 
@@ -120,33 +120,33 @@ export class CartService {
                         },
                     },
                 },
-            });
+            })
             if (!cart) {
                 throw new CustomError(
-                    "Cart not found",
+                    'Cart not found',
                     errorCodes.CartNotFound,
-                    "CartService.getAllCarts"
-                );
+                    'CartService.getAllCarts'
+                )
             }
             const offer = promo
                 ? await this.db.offer.findFirst({
                       where: {
-                          AND: { label: promo, active: true, type: "promo" },
+                          AND: { label: promo, active: true, type: 'promo' },
                       },
                       rejectOnNotFound: false,
                   })
-                : null;
-            const billing = calculateBilling(cart.items, offer);
+                : null
+            const billing = calculateBilling(cart.items, offer)
             return {
                 ...cart,
                 ...billing,
-            };
+            }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.getAllCarts"
-            );
+                'CartService.getAllCarts'
+            )
         }
     }
 
@@ -159,14 +159,14 @@ export class CartService {
                         productId,
                     },
                 },
-            });
-            return cart;
+            })
+            return cart
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.getCartItem"
-            );
+                'CartService.getCartItem'
+            )
         }
     }
 
@@ -206,14 +206,14 @@ export class CartService {
                         },
                     },
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.addCartItem"
-            );
+                'CartService.addCartItem'
+            )
         }
     }
 
@@ -232,14 +232,14 @@ export class CartService {
                         },
                     },
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.removeCartItem"
-            );
+                'CartService.removeCartItem'
+            )
         }
     }
 
@@ -248,19 +248,19 @@ export class CartService {
         checkout: CheckoutDto
     ): Promise<
         Order & {
-            razorpayOptions: Record<string, any>;
+            razorpayOptions: Record<string, any>
         }
     > {
         try {
             // check if email is verified
-            const requestUser = await this.user.find(userId);
+            const requestUser = await this.user.find(userId)
 
             if (!requestUser.emailVerified) {
                 throw new CustomError(
-                    "Email not verified, Verify email before checking out.",
+                    'Email not verified, Verify email before checking out.',
                     errorCodes.EMailNotVerified,
-                    "CartService.checkoutCart"
-                );
+                    'CartService.checkoutCart'
+                )
             }
 
             // @TODO: OPTIMIZE THIS ... too slow :(
@@ -278,22 +278,22 @@ export class CartService {
                         },
                     },
                 },
-            });
+            })
 
             if (!userCart) {
                 throw new CustomError(
-                    "Cart not found",
+                    'Cart not found',
                     errorCodes.CartNotFound,
-                    "CartService.removeCartItem"
-                );
+                    'CartService.removeCartItem'
+                )
             }
 
             if (userCart.items.length === 0) {
                 throw new CustomError(
-                    "Cart is empty",
+                    'Cart is empty',
                     errorCodes.CartIsEmpty,
-                    "CartService.removeCartItem"
-                );
+                    'CartService.removeCartItem'
+                )
             }
 
             const offer = checkout.promo
@@ -302,13 +302,13 @@ export class CartService {
                           AND: {
                               label: checkout.promo,
                               active: true,
-                              type: "promo",
+                              type: 'promo',
                           },
                       },
                       rejectOnNotFound: false,
                   })
-                : null;
-            const billing = calculateBilling(userCart.items, offer);
+                : null
+            const billing = calculateBilling(userCart.items, offer)
 
             const user = await this.db.user.update({
                 where: { id: userId },
@@ -328,19 +328,19 @@ export class CartService {
                         },
                         take: 1,
                         orderBy: {
-                            createdAt: "desc",
+                            createdAt: 'desc',
                         },
                     },
                 },
-            });
+            })
 
-            return this.txn.createTransaction(user);
+            return this.txn.createTransaction(user)
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.removeCartItem"
-            );
+                'CartService.removeCartItem'
+            )
         }
     }
 
@@ -350,9 +350,9 @@ export class CartService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = params;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = params
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
@@ -362,16 +362,16 @@ export class CartService {
                 include: {
                     items: true,
                 },
-                model: "offer",
+                model: 'offer',
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.getOffers"
-            );
+                'CartService.getOffers'
+            )
         }
     }
 
@@ -379,14 +379,14 @@ export class CartService {
         try {
             const offers = await this.db.offer.createMany({
                 data: data,
-            });
-            return offers;
+            })
+            return offers
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.findAllOffset"
-            );
+                'CartService.findAllOffset'
+            )
         }
     }
 
@@ -400,16 +400,16 @@ export class CartService {
                         data: {
                             value: offer.value,
                         },
-                    });
+                    })
                 })
-            );
-            return update;
+            )
+            return update
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.updateCategories"
-            );
+                'CartService.updateCategories'
+            )
         }
     }
 
@@ -422,14 +422,14 @@ export class CartService {
                 data: {
                     active: false,
                 },
-            });
-            return deleted;
+            })
+            return deleted
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "CartService.deleteTags"
-            );
+                'CartService.deleteTags'
+            )
         }
     }
 }

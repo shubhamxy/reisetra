@@ -294,42 +294,42 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &quot;@nestjs/config&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { registerAs } from &#x27;@nestjs/config&#x27;
 export interface AuthEnv {
     common: {
-        throttleLimit: number;
-        throttleTTL: number;
-    };
+        throttleLimit: number
+        throttleTTL: number
+    }
     jwtAccessTokenOptions: {
-        secret: string;
-        expiresIn: string;
-        issuer: string;
-        audience: string;
-    };
+        secret: string
+        expiresIn: string
+        issuer: string
+        audience: string
+    }
     jwtRefreshTokenOptions: {
-        secret: string;
-        expiresIn: string;
-        issuer: string;
-        audience: string;
-    };
+        secret: string
+        expiresIn: string
+        issuer: string
+        audience: string
+    }
     googleOAuthOptions: {
-        clientID: string;
-        clientSecret: string;
-        callbackURL: string;
-        scope: string[];
-    };
+        clientID: string
+        clientSecret: string
+        callbackURL: string
+        scope: string[]
+    }
     facebookOAuthOptions: {
-        clientID: string;
-        clientSecret: string;
-        callbackURL: string;
-        scope: string[];
-    };
+        clientID: string
+        clientSecret: string
+        callbackURL: string
+        scope: string[]
+    }
 }
 
 export const auth &#x3D; (): AuthEnv &#x3D;&gt; ({
     common: {
         throttleLimit: 3,
-        throttleTTL: 60
+        throttleTTL: 60,
     },
     jwtAccessTokenOptions: {
         secret: process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -347,17 +347,17 @@ export const auth &#x3D; (): AuthEnv &#x3D;&gt; ({
         clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
         callbackURL: process.env.GOOGLE_OAUTH_CLIENT_CALLBACK_URL,
-        scope: [&quot;email&quot;, &quot;profile&quot;],
+        scope: [&#x27;email&#x27;, &#x27;profile&#x27;],
     },
     facebookOAuthOptions: {
         clientID: process.env.FACEBOOK_OAUTH_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_OAUTH_CLIENT_SECRET,
         callbackURL: process.env.FACEBOOK_OAUTH_CLIENT_CALLBACK_URL,
-        scope: [&quot;email&quot;, &quot;profile&quot;],
+        scope: [&#x27;email&#x27;, &#x27;profile&#x27;],
     },
-});
+})
 
-export default registerAs(&quot;auth&quot;, auth);
+export default registerAs(&#x27;auth&#x27;, auth)
 </code></pre>
     </div>
 </div>

@@ -1,22 +1,22 @@
-import { Injectable } from "@nestjs/common";
-import { CustomError } from "src/common/response";
-import { CreateSupportTicketDto } from "./dto";
-import { sendEmail, supportEmail, supportEmailAck } from "src/utils";
-import { nanoid } from "nanoid";
-import { PrismaService } from "src/common/modules/db/prisma.service";
+import { Injectable } from '@nestjs/common'
+import { CustomError } from 'src/common/response'
+import { CreateSupportTicketDto } from './dto'
+import { sendEmail, supportEmail, supportEmailAck } from 'src/utils'
+import { nanoid } from 'nanoid'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
 
 @Injectable()
 export class SupportService {
     constructor(private readonly db: PrismaService) {}
     async getFormData(formId: string): Promise<any> {
         try {
-            return this.db.form.findFirst({ where: { id: formId } });
+            return this.db.form.findFirst({ where: { id: formId } })
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "SupportService.getFormData"
-            );
+                'SupportService.getFormData'
+            )
         }
     }
 
@@ -27,13 +27,13 @@ export class SupportService {
                     formId,
                     data,
                 },
-            });
+            })
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "SupportService.createFormData"
-            );
+                'SupportService.createFormData'
+            )
         }
     }
 
@@ -43,7 +43,7 @@ export class SupportService {
         data: CreateSupportTicketDto
     ): Promise<any> {
         try {
-            const ticketId = data.ticketId || nanoid();
+            const ticketId = data.ticketId || nanoid()
             const results = await Promise.all([
                 sendEmail(
                     supportEmailAck({
@@ -63,14 +63,14 @@ export class SupportService {
                         description: data.description,
                     })
                 ),
-            ]);
-            return results;
+            ])
+            return results
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "SupportService.createSupportTicket"
-            );
+                'SupportService.createSupportTicket'
+            )
         }
     }
 }

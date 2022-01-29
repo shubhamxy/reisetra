@@ -9,38 +9,38 @@ import {
     Put,
     Query,
     Req,
-} from "@nestjs/common";
-import { OrderService } from "./order.service";
-import { CustomException, SuccessResponse } from "src/common/response";
+} from '@nestjs/common'
+import { OrderService } from './order.service'
+import { CustomException, SuccessResponse } from 'src/common/response'
 import {
     CreateOrderDto,
     GetAllOrdersDocumentsDto,
     GetAllOrdersDto,
     UpdateOrderDto,
-} from "./dto";
-import { AuthenticatedRequest } from "src/auth/auth.interface";
-import { Roles } from "src/auth/decorator/roles.decorator";
+} from './dto'
+import { AuthenticatedRequest } from 'src/auth/auth.interface'
+import { Roles } from 'src/auth/decorator/roles.decorator'
 @Controller()
 export class OrderController {
     constructor(private readonly order: OrderService) {}
-    @Get("orders/all")
+    @Get('orders/all')
     async getAllOrders(
         @Req() request: AuthenticatedRequest,
         @Query() query: GetAllOrdersDto
     ): Promise<SuccessResponse> {
         try {
-            const { results, ...meta } = await this.order.getAllOrders(query);
-            return { data: results || [], meta: meta };
+            const { results, ...meta } = await this.order.getAllOrders(query)
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.getAllOrders"
-            );
+                'OrderController.getAllOrders'
+            )
         }
     }
 
-    @Get("orders")
+    @Get('orders')
     async getUserOrders(
         @Req() request: AuthenticatedRequest,
         @Query() query: GetAllOrdersDto
@@ -49,74 +49,74 @@ export class OrderController {
             const { results, ...meta } = await this.order.getUserOrders(
                 request.user.id,
                 query
-            );
-            return { data: results || [], meta: meta };
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.getUserOrders"
-            );
+                'OrderController.getUserOrders'
+            )
         }
     }
 
-    @Get("order/:orderId")
+    @Get('order/:orderId')
     async getOrder(
-        @Param("orderId") orderId: string
+        @Param('orderId') orderId: string
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.order.getOrder(orderId);
-            return { data };
+            const data = await this.order.getOrder(orderId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.getOrder"
-            );
+                'OrderController.getOrder'
+            )
         }
     }
 
-    @Get("order/:orderId/documents")
+    @Get('order/:orderId/documents')
     async getOrderDocuments(
-        @Param("orderId") orderId: string,
+        @Param('orderId') orderId: string,
         @Query() query: GetAllOrdersDocumentsDto
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.order.getOrderDocuments(
                 orderId,
                 query
-            );
-            return { data: results || [], meta: meta };
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.getOrderInvoice"
-            );
+                'OrderController.getOrderInvoice'
+            )
         }
     }
 
-    @Post("order")
+    @Post('order')
     async createOrder(
         @Req() request: AuthenticatedRequest,
         @Body() body: CreateOrderDto
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.order.createOrder(request.user.id, body);
-            return { data };
+            const data = await this.order.createOrder(request.user.id, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.createOrder"
-            );
+                'OrderController.createOrder'
+            )
         }
     }
 
-    @Put("order/:orderId")
+    @Put('order/:orderId')
     async updateOrder(
         @Req() request: AuthenticatedRequest,
-        @Param("orderId") orderId: string,
+        @Param('orderId') orderId: string,
         @Body() body: UpdateOrderDto
     ): Promise<SuccessResponse> {
         try {
@@ -124,47 +124,47 @@ export class OrderController {
                 orderId,
                 body,
                 request.user.id
-            );
-            return { data };
+            )
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.updateOrder"
-            );
+                'OrderController.updateOrder'
+            )
         }
     }
 
-    @Roles("ADMIN")
-    @Delete("order/:orderId")
+    @Roles('ADMIN')
+    @Delete('order/:orderId')
     async deleteOrder(
-        @Param("orderId") orderId: string
+        @Param('orderId') orderId: string
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.order.deleteOrder(orderId);
-            return { data };
+            const data = await this.order.deleteOrder(orderId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.deleteOrder"
-            );
+                'OrderController.deleteOrder'
+            )
         }
     }
 
-    @Put("order/:orderId/cancel")
+    @Put('order/:orderId/cancel')
     async cancelOrder(
-        @Param("orderId") orderId: string
+        @Param('orderId') orderId: string
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.order.cancelOrder(orderId);
-            return { data };
+            const data = await this.order.cancelOrder(orderId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                "OrderController.cancelOrder"
-            );
+                'OrderController.cancelOrder'
+            )
         }
     }
 }

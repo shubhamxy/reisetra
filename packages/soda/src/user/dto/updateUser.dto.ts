@@ -1,12 +1,12 @@
-import { OAuthProvider, Role } from ".prisma/client";
-import { Type } from "class-transformer";
+import { OAuthProvider, Role } from '.prisma/client'
+import { Type } from 'class-transformer'
 import {
     IsEmail,
     IsOptional,
     Matches,
     MaxLength,
     MinLength,
-} from "class-validator";
+} from 'class-validator'
 import {
     INVALID_PHONE,
     PASSWORD_IS_WEAK,
@@ -14,54 +14,54 @@ import {
     PASSWORD_MIN_LENGTH,
     PHONE_REGEX,
     STRONG_PASSWORD_REGEX,
-} from "src/constants";
-import { User } from "../entity";
+} from 'src/constants'
+import { User } from '../entity'
 type Excluded =
-    | "id"
-    | "active"
-    | "createdAt"
-    | "updatedAt"
-    | "extra"
-    | "bio"
-    | "dateOfBirth"
-    | "phone"
-    | "inventoryId"
-    | "role"
-    | "oauthProvider"
-    | "emailVerified"
-    | "oauthId";
+    | 'id'
+    | 'active'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'extra'
+    | 'bio'
+    | 'dateOfBirth'
+    | 'phone'
+    | 'inventoryId'
+    | 'role'
+    | 'oauthProvider'
+    | 'emailVerified'
+    | 'oauthId'
 export class UpdateUserDto implements Omit<User, Excluded> {
     constructor(partial: Partial<User>) {
-        Object.assign(this, partial);
+        Object.assign(this, partial)
     }
 
     @IsOptional()
-    @IsEmail({}, { message: "Email is invalid" })
-    email: string;
+    @IsEmail({}, { message: 'Email is invalid' })
+    email: string
 
     @IsOptional()
     @MinLength(8, { message: PASSWORD_MIN_LENGTH })
     @MaxLength(20, { message: PASSWORD_MAX_LENGTH })
     @Matches(STRONG_PASSWORD_REGEX, { message: PASSWORD_IS_WEAK })
-    password: string;
+    password: string
 
     @IsOptional()
-    @MinLength(3, { message: "name should be min 3 chars" })
-    name: string;
+    @MinLength(3, { message: 'name should be min 3 chars' })
+    name: string
 
     @IsOptional()
     @Type(() => Date)
-    dateOfBirth: Date;
+    dateOfBirth: Date
 
     @IsOptional()
     @Matches(PHONE_REGEX, { message: INVALID_PHONE })
-    phone: string;
+    phone: string
 
     @IsOptional()
-    avatar: string;
+    avatar: string
 
-    oauthId: string;
-    oauthProvider: OAuthProvider;
-    role: Role;
-    bio: string;
+    oauthId: string
+    oauthProvider: OAuthProvider
+    role: Role
+    bio: string
 }

@@ -1146,48 +1146,48 @@
     Post,
     Req,
     Response,
-    UseGuards
-} from &quot;@nestjs/common&quot;;
-import { ConfigService } from &quot;@nestjs/config&quot;;
-import { Throttle } from &quot;@nestjs/throttler&quot;;
-import { OAuth2Client } from &quot;google-auth-library&quot;;
-import { Public } from &quot;src/auth/decorator/public.decorator&quot;;
-import { errorCodes } from &quot;src/common/codes/error&quot;;
+    UseGuards,
+} from &#x27;@nestjs/common&#x27;
+import { ConfigService } from &#x27;@nestjs/config&#x27;
+import { Throttle } from &#x27;@nestjs/throttler&#x27;
+import { OAuth2Client } from &#x27;google-auth-library&#x27;
+import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
+import { errorCodes } from &#x27;src/common/codes/error&#x27;
 import {
     CustomError,
     CustomException,
     SuccessResponse,
-    SuccessResponseDTO
-} from &quot;src/common/response&quot;;
-import config, { auth, AuthEnv } from &quot;src/config&quot;;
-import { CreateUserDto } from &quot;src/user/dto&quot;;
-import { User } from &quot;src/user/entity&quot;;
-import { AuthenticatedRequest } from &quot;./auth.interface&quot;;
-import { AuthResponse, AuthService } from &quot;./auth.service&quot;;
+    SuccessResponseDTO,
+} from &#x27;src/common/response&#x27;
+import config, { auth, AuthEnv } from &#x27;src/config&#x27;
+import { CreateUserDto } from &#x27;src/user/dto&#x27;
+import { User } from &#x27;src/user/entity&#x27;
+import { AuthenticatedRequest } from &#x27;./auth.interface&#x27;
+import { AuthResponse, AuthService } from &#x27;./auth.service&#x27;
 import {
     EmailParams,
     ResetPasswordDto,
     UpdatePasswordDto,
-    VerifyEmailParams
-} from &quot;./dto/login.dto&quot;;
-import { GoogleAuthGuard } from &quot;./gaurd/google.gaurd&quot;;
-import { LocalAuthGuard } from &quot;./gaurd/local.gaurd&quot;;
-import JwtRefreshGuard from &quot;./gaurd/refresh.gaurd&quot;;
-import { GoogleUser } from &quot;./strategy/google.strategy&quot;;
-const authConfig &#x3D; auth();
+    VerifyEmailParams,
+} from &#x27;./dto/login.dto&#x27;
+import { GoogleAuthGuard } from &#x27;./gaurd/google.gaurd&#x27;
+import { LocalAuthGuard } from &#x27;./gaurd/local.gaurd&#x27;
+import JwtRefreshGuard from &#x27;./gaurd/refresh.gaurd&#x27;
+import { GoogleUser } from &#x27;./strategy/google.strategy&#x27;
+const authConfig &#x3D; auth()
 
-@Controller(&quot;auth&quot;)
+@Controller(&#x27;auth&#x27;)
 export class AuthController {
-    googleOAuth2client: OAuth2Client;
-    auth: AuthEnv;
+    googleOAuth2client: OAuth2Client
+    auth: AuthEnv
     constructor(
         private authService: AuthService,
         private config: ConfigService
     ) {
-        this.auth &#x3D; this.config.get&lt;AuthEnv&gt;(&quot;auth&quot;);
+        this.auth &#x3D; this.config.get&lt;AuthEnv&gt;(&#x27;auth&#x27;)
         this.googleOAuth2client &#x3D; new OAuth2Client(
             this.auth.googleOAuthOptions.clientID
-        );
+        )
     }
 
     /**
@@ -1197,17 +1197,17 @@ export class AuthController {
      * @returns authentication data
      */
     @Public()
-    @Post(&quot;email/signup&quot;)
+    @Post(&#x27;email/signup&#x27;)
     async emailSignup(@Body() body: CreateUserDto): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.authService.signup(body);
-            return { data, message: &quot;SignUp Success&quot; };
+            const data &#x3D; await this.authService.signup(body)
+            return { data, message: &#x27;SignUp Success&#x27; }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.emailSignup&quot;
-            );
+                &#x27;AuthController.emailSignup&#x27;
+            )
         }
     }
 
@@ -1219,20 +1219,20 @@ export class AuthController {
     @Public()
     @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
     @UseGuards(LocalAuthGuard)
-    @Post(&quot;email/login&quot;)
+    @Post(&#x27;email/login&#x27;)
     async emailLogin(
         @Req()
         request: AuthenticatedRequest&lt;Record&lt;string, unknown&gt;, Partial&lt;User&gt;&gt;
     ): Promise&lt;SuccessResponseDTO&lt;AuthResponse&gt;&gt; {
         try {
-            const data &#x3D; await this.authService.login(request.user);
-            return { data };
+            const data &#x3D; await this.authService.login(request.user)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.emailLogin&quot;
-            );
+                &#x27;AuthController.emailLogin&#x27;
+            )
         }
     }
 
@@ -1243,19 +1243,19 @@ export class AuthController {
      */
     @Public()
     @UseGuards(JwtRefreshGuard)
-    @Get(&quot;refresh&quot;)
+    @Get(&#x27;refresh&#x27;)
     async refresh(
         @Req() request: AuthenticatedRequest
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.authService.login(request.user);
-            return { data };
+            const data &#x3D; await this.authService.login(request.user)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.refresh&quot;
-            );
+                &#x27;AuthController.refresh&#x27;
+            )
         }
     }
 
@@ -1264,12 +1264,12 @@ export class AuthController {
      *
      */
     @Public()
-    @Get(&quot;login/oauth/google&quot;)
+    @Get(&#x27;login/oauth/google&#x27;)
     @UseGuards(GoogleAuthGuard)
     async googleAuth(): Promise&lt;SuccessResponse&gt; {
         return {
-            message: &quot;GoogleAuth Redirect&quot;,
-        };
+            message: &#x27;GoogleAuth Redirect&#x27;,
+        }
     }
 
     /**
@@ -1277,7 +1277,7 @@ export class AuthController {
      *
      */
     @Public()
-    @Get(&quot;login/oauth/google/redirect&quot;)
+    @Get(&#x27;login/oauth/google/redirect&#x27;)
     @UseGuards(GoogleAuthGuard)
     async googleAuthRedirect(
         @Req()
@@ -1285,18 +1285,18 @@ export class AuthController {
         @Response() response
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.authService.googleLogin(request.user);
+            const data &#x3D; await this.authService.googleLogin(request.user)
 
             return response.redirect(
                 303,
-                &#x60;${config.clientUrl}/login/callback?access_token&#x3D;${data.access_token}&amp;refresh_token&#x3D;${data.refresh_token}&#x60;
-            );
+                &#x60;${config.clientUrl}/login/callback?token&#x3D;${data.refresh_token}&#x60;
+            )
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.googleAuthRedirect&quot;
-            );
+                &#x27;AuthController.googleAuthRedirect&#x27;
+            )
         }
     }
 
@@ -1305,38 +1305,38 @@ export class AuthController {
      *
      */
     @Public()
-    @Post(&quot;login/oauth/google/verify&quot;)
+    @Post(&#x27;login/oauth/google/verify&#x27;)
     async googleAuthEndPoint(
         @Body()
         body: {
-            credential: string;
-            clientId: string;
-            select_by: string;
+            credential: string
+            clientId: string
+            select_by: string
         }
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const loginData &#x3D; await this.googleOAuth2client.verifyIdToken({
                 idToken: body.credential,
-                audience: this.config.get&lt;AuthEnv&gt;(&quot;auth&quot;).googleOAuthOptions
+                audience: this.config.get&lt;AuthEnv&gt;(&#x27;auth&#x27;).googleOAuthOptions
                     .clientID,
-            });
-            const payload &#x3D; loginData.getPayload();
+            })
+            const payload &#x3D; loginData.getPayload()
             const googleUser: GoogleUser &#x3D; {
                 oauthId: payload.sub,
                 email: payload.email,
                 emailVerified: payload.email_verified,
                 name: payload.name,
                 avatar: payload.picture,
-                oauthProvider: &quot;GOOGLE&quot;,
-            };
-            const data &#x3D; await this.authService.googleLogin(googleUser);
-            return { data, message: &quot;GoogleAuth Success&quot; };
+                oauthProvider: &#x27;GOOGLE&#x27;,
+            }
+            const data &#x3D; await this.authService.googleLogin(googleUser)
+            return { data, message: &#x27;GoogleAuth Success&#x27; }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.googleAuthRedirect&quot;
-            );
+                &#x27;AuthController.googleAuthRedirect&#x27;
+            )
         }
     }
 
@@ -1345,7 +1345,7 @@ export class AuthController {
      *
      */
     @Public()
-    @Get(&quot;email/verify/:id/:token&quot;)
+    @Get(&#x27;email/verify/:id/:token&#x27;)
     public async verifyEmail(
         @Param()
         params: VerifyEmailParams,
@@ -1355,20 +1355,20 @@ export class AuthController {
             const emailVerified &#x3D; await this.authService.verifyEmail(
                 params.id,
                 params.token
-            );
+            )
             if (emailVerified) {
                 // @TODO redirect to success page
-                return response.redirect(303, config.clientUrl);
+                return response.redirect(303, config.clientUrl)
             } else {
                 // @TODO redirect to error page
-                return response.redirect(303, config.clientUrl);
+                return response.redirect(303, config.clientUrl)
             }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.verifyEmail&quot;
-            );
+                &#x27;AuthController.verifyEmail&#x27;
+            )
         }
     }
 
@@ -1376,7 +1376,7 @@ export class AuthController {
      * Resend verification email.
      *
      */
-    @Get(&quot;email/resend-verification&quot;)
+    @Get(&#x27;email/resend-verification&#x27;)
     public async sendEmailVerification(
         @Req() request: AuthenticatedRequest
     ): Promise&lt;SuccessResponse&gt; {
@@ -1384,51 +1384,51 @@ export class AuthController {
             const data &#x3D; await this.authService.sendEmailVerification(
                 request.user.id,
                 request.user.email
-            );
+            )
             return {
                 data: {
                     emailSent: Boolean(data.MessageId),
                 },
-            };
+            }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.sendEmailVerification&quot;
-            );
+                &#x27;AuthController.sendEmailVerification&#x27;
+            )
         }
     }
 
     @Public()
-    @Get(&quot;email/forgot-password/:email&quot;)
+    @Get(&#x27;email/forgot-password/:email&#x27;)
     public async sendEmailForgotPassword(
         @Param() params: EmailParams
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.authService.sendForgotPasswordEmail(
                 params.email
-            );
+            )
             return {
                 data: {
                     emailSent: Boolean(data?.MessageId),
                 },
-            };
+            }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.sendEmailForgotPassword&quot;
-            );
+                &#x27;AuthController.sendEmailForgotPassword&#x27;
+            )
         }
     }
 
     @Public()
-    @Get(&quot;email/reset-password/:email/:token&quot;)
+    @Get(&#x27;email/reset-password/:email/:token&#x27;)
     public async resetPassword(
         @Param()
         params: {
-            email: string;
-            token: string;
+            email: string
+            token: string
         },
         @Response() response
     ) {
@@ -1438,22 +1438,22 @@ export class AuthController {
                 return response.redirect(
                     303,
                     &#x60;${config.clientUrl}/login/reset-password?email&#x3D;${params.email}&amp;token&#x3D;${params.token}&#x60;
-                );
+                )
             } else {
                 // @TODO redirect to error page
-                return response.redirect(303, config.clientUrl);
+                return response.redirect(303, config.clientUrl)
             }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.resetPassword&quot;
-            );
+                &#x27;AuthController.resetPassword&#x27;
+            )
         }
     }
 
     @Public()
-    @Post(&quot;email/reset-password&quot;)
+    @Post(&#x27;email/reset-password&#x27;)
     public async setNewPassord(
         @Body() body: ResetPasswordDto
     ): Promise&lt;SuccessResponse&gt; {
@@ -1461,30 +1461,30 @@ export class AuthController {
             const tokenVerified &#x3D; await this.authService.verifyForgotPasswordToken(
                 body.email,
                 body.token
-            );
+            )
             if (tokenVerified) {
                 const data &#x3D; await this.authService.resetPassword({
                     email: body.email,
                     password: body.password,
-                });
-                return { data };
+                })
+                return { data }
             }
 
             throw new CustomError(
-                &quot;Invalid Token&quot;,
+                &#x27;Invalid Token&#x27;,
                 errorCodes.ResetPasswordTokenInvalid,
-                &quot;AuthService.setNewPassord&quot;
-            );
+                &#x27;AuthService.setNewPassord&#x27;
+            )
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.setNewPassord&quot;
-            );
+                &#x27;AuthController.setNewPassord&#x27;
+            )
         }
     }
 
-    @Post(&quot;email/update-password&quot;)
+    @Post(&#x27;email/update-password&#x27;)
     public async updatePassord(
         @Body() body: UpdatePasswordDto,
         @Req() request: AuthenticatedRequest
@@ -1493,14 +1493,14 @@ export class AuthController {
             const data &#x3D; await this.authService.updatePassword(
                 request.user.email,
                 body
-            );
-            return { data };
+            )
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;AuthController.updatePassord&quot;
-            );
+                &#x27;AuthController.updatePassord&#x27;
+            )
         }
     }
 }

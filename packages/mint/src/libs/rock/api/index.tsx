@@ -1,18 +1,18 @@
-import { QueryClient } from "react-query";
-import { get } from "../utils/http";
+import { QueryClient } from 'react-query'
+import { get } from '../utils/http'
 
 export const defaultQueryFn = async ({ queryKey }) => {
-  const data = await get(queryKey[0]);
-  return data;
-};
+    const data = await get(queryKey[0])
+    return data
+}
 
 export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      queryFn: defaultQueryFn,
-      retry: 1,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
+    defaultOptions: {
+        queries: {
+            queryFn: defaultQueryFn,
+            retry: 1,
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+        },
     },
-  },
-});
+})

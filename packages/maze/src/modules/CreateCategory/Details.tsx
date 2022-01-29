@@ -14,7 +14,7 @@ export default function ProductDetails({
     handleBlur,
     handleChange,
     setFieldValue,
-    isUpdate
+    isUpdate,
 }) {
     return (
         <React.Fragment>

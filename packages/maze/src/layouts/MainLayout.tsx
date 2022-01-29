@@ -127,7 +127,10 @@ export function MainLayout({
         >
             {header ? header : null}
 
-            <Container className={clsx(cls?.container, classes.container)}     {...containerProps}>
+            <Container
+                className={clsx(cls?.container, classes.container)}
+                {...containerProps}
+            >
                 {top && (
                     <Grid
                         className={clsx(cls?.top, classes.top)}

@@ -54,7 +54,7 @@ export const useCreateProduct = () => {
 export const useProduct = (id: string) =>
     useQuery([QueryKeys.product, id], getProduct, {
         enabled: !!id,
-        onSuccess: () => { },
+        onSuccess: () => {},
     })
 
 export const useUpdateProduct = () => useMutation(updateProduct)
@@ -115,7 +115,7 @@ export const useTags = (params = {}) =>
             getNextPageParam: (lastPage, _pages) => {
                 return lastPage?.meta?.link?.next?.cursor
             },
-            onSuccess: () => { },
+            onSuccess: () => {},
         }
     )
 
@@ -135,7 +135,7 @@ export const useBrands = (params = {}) =>
             getNextPageParam: (lastPage, _pages) => {
                 return lastPage?.meta?.link?.next?.cursor
             },
-            onSuccess: () => { },
+            onSuccess: () => {},
         }
     )
 
@@ -155,7 +155,7 @@ export const useCategories = (params = {}) =>
             getNextPageParam: (lastPage, _pages) => {
                 return lastPage?.meta?.link?.next?.cursor
             },
-            onSuccess: () => { },
+            onSuccess: () => {},
         }
     )
 
@@ -175,7 +175,7 @@ export const useOffers = (params = {}) =>
             getNextPageParam: (lastPage, _pages) => {
                 return lastPage?.meta?.link?.next?.cursor
             },
-            onSuccess: () => { },
+            onSuccess: () => {},
             select: (data) => {
                 if (!Array.isArray(data.pages[0].data)) {
                     data.pages[0].data = [data.pages[0].data]
@@ -208,7 +208,7 @@ export const useReviews = (id: string) =>
             getNextPageParam: (lastPage, _pages) => {
                 return lastPage.meta.link?.next?.cursor
             },
-            onSuccess: () => { },
+            onSuccess: () => {},
         }
     )
 
@@ -283,8 +283,8 @@ export const useFiles = (params = {}) =>
         {
             enabled: true,
             getNextPageParam: (lastPage, _pages) => {
-                return lastPage.meta.link?.next?.cursor;
+                return lastPage.meta.link?.next?.cursor
             },
-            onSuccess: () => { },
+            onSuccess: () => {},
         }
     )

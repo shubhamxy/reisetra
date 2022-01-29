@@ -1014,9 +1014,9 @@ import {
     Put,
     Query,
     Req,
-} from &quot;@nestjs/common&quot;;
-import { CartService } from &quot;./cart.service&quot;;
-import { CustomException, SuccessResponse } from &quot;src/common/response&quot;;
+} from &#x27;@nestjs/common&#x27;
+import { CartService } from &#x27;./cart.service&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
 import {
     CheckoutDto,
     CreateOfferDto,
@@ -1025,176 +1025,176 @@ import {
     GetAllOffersDto,
     UpdateCartItemDto,
     UpdateOfferDto,
-} from &quot;./dto&quot;;
-import { AuthenticatedRequest } from &quot;src/auth/auth.interface&quot;;
-import { Roles } from &quot;src/auth/decorator/roles.decorator&quot;;
+} from &#x27;./dto&#x27;
+import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
+import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
 @Controller()
 export class CartController {
     constructor(private readonly cart: CartService) {}
 
-    @Get(&quot;allCarts&quot;)
+    @Get(&#x27;allCarts&#x27;)
     async getAllCarts(
         @Query() query: GetAllCartsDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const { results, ...meta } &#x3D; await this.cart.getAllCarts(query);
-            return { data: results || [], meta: meta };
+            const { results, ...meta } &#x3D; await this.cart.getAllCarts(query)
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.getAllCarts&quot;
-            );
+                &#x27;CartController.getAllCarts&#x27;
+            )
         }
     }
 
-    @Get(&quot;cart/:id&quot;)
+    @Get(&#x27;cart/:id&#x27;)
     async getUserCart(
-        @Param(&quot;id&quot;) id: string,
-        @Query(&quot;promo&quot;) promo: string
+        @Param(&#x27;id&#x27;) id: string,
+        @Query(&#x27;promo&#x27;) promo: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.getCart(id, promo);
-            return { data };
+            const data &#x3D; await this.cart.getCart(id, promo)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.getUserCart&quot;
-            );
+                &#x27;CartController.getUserCart&#x27;
+            )
         }
     }
 
-    @Post(&quot;cart/checkout&quot;)
+    @Post(&#x27;cart/checkout&#x27;)
     async checkoutCart(
         @Req() req: AuthenticatedRequest,
         @Body() body: CheckoutDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.checkoutCart(req.user.id, body);
-            return { data };
+            const data &#x3D; await this.cart.checkoutCart(req.user.id, body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.checkoutCart&quot;
-            );
+                &#x27;CartController.checkoutCart&#x27;
+            )
         }
     }
 
-    @Get(&quot;cart/:cartid/:productid&quot;)
+    @Get(&#x27;cart/:cartid/:productid&#x27;)
     async getCartItem(
-        @Param(&quot;cartid&quot;) cartid: string,
-        @Param(&quot;productid&quot;) productid: string,
+        @Param(&#x27;cartid&#x27;) cartid: string,
+        @Param(&#x27;productid&#x27;) productid: string,
         @Body() body: UpdateCartItemDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.getCartItem(cartid, productid);
-            return { data };
+            const data &#x3D; await this.cart.getCartItem(cartid, productid)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.getCartItem&quot;
-            );
+                &#x27;CartController.getCartItem&#x27;
+            )
         }
     }
 
-    @Put(&quot;cart/:cartId/:productId&quot;)
+    @Put(&#x27;cart/:cartId/:productId&#x27;)
     async updateCartItem(
-        @Param(&quot;cartId&quot;) cartId: string,
-        @Param(&quot;productId&quot;) productId: string,
+        @Param(&#x27;cartId&#x27;) cartId: string,
+        @Param(&#x27;productId&#x27;) productId: string,
         @Body() update: UpdateCartItemDto
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.updateCart(cartId, productId, update);
-            return { data };
+            const data &#x3D; await this.cart.updateCart(cartId, productId, update)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.updateCartItem&quot;
-            );
+                &#x27;CartController.updateCartItem&#x27;
+            )
         }
     }
 
-    @Delete(&quot;cart/:cartId/:productId&quot;)
+    @Delete(&#x27;cart/:cartId/:productId&#x27;)
     async deleteCartItem(
-        @Param(&quot;cartId&quot;) cartId: string,
-        @Param(&quot;productId&quot;) productId: string
+        @Param(&#x27;cartId&#x27;) cartId: string,
+        @Param(&#x27;productId&#x27;) productId: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.removeCartItem(cartId, productId);
-            return { data };
+            const data &#x3D; await this.cart.removeCartItem(cartId, productId)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.deleteCartItem&quot;
-            );
+                &#x27;CartController.deleteCartItem&#x27;
+            )
         }
     }
 
-    @Get(&quot;offers&quot;)
+    @Get(&#x27;offers&#x27;)
     async getOffers(@Query() query: GetAllOffersDto): Promise&lt;SuccessResponse&gt; {
         try {
-            const { results, ...meta } &#x3D; await this.cart.getOffers(query);
-            return { data: results || [], meta: meta };
+            const { results, ...meta } &#x3D; await this.cart.getOffers(query)
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.getOffers&quot;
-            );
+                &#x27;CartController.getOffers&#x27;
+            )
         }
     }
 
-    @Post(&quot;offers&quot;)
+    @Post(&#x27;offers&#x27;)
     async createOffers(
         @Body() body: CreateOfferDto[]
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.createOffers(body);
-            return { data };
+            const data &#x3D; await this.cart.createOffers(body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.createOffers&quot;
-            );
+                &#x27;CartController.createOffers&#x27;
+            )
         }
     }
 
-    @Put(&quot;offers&quot;)
+    @Put(&#x27;offers&#x27;)
     async updateOffers(
         @Body() body: UpdateOfferDto[]
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.updateOffers(body);
-            return { data };
+            const data &#x3D; await this.cart.updateOffers(body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.updateOffers&quot;
-            );
+                &#x27;CartController.updateOffers&#x27;
+            )
         }
     }
 
-    @Roles(&quot;ADMIN&quot;)
-    @Delete(&quot;offers&quot;)
+    @Roles(&#x27;ADMIN&#x27;)
+    @Delete(&#x27;offers&#x27;)
     async deleteOffers(
         @Body() body: DeleteOfferDto[]
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.cart.deleteOffers(body);
-            return { data };
+            const data &#x3D; await this.cart.deleteOffers(body)
+            return { data }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &quot;CartController.deleteOffers&quot;
-            );
+                &#x27;CartController.deleteOffers&#x27;
+            )
         }
     }
 }

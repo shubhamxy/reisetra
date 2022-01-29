@@ -1,16 +1,16 @@
-import { InfiniteData } from "react-query";
-import { ISuccessResponse, DataT } from "./http";
+import { InfiniteData } from 'react-query'
+import { ISuccessResponse, DataT } from './http'
 
 export function getTotalDataCount(data: InfiniteData<ISuccessResponse<DataT>>) {
-  let total = 0;
-  data?.pages?.forEach((page: { data: any[] }) => {
-    total += page?.data?.length || 0;
-  });
-  return total;
+    let total = 0
+    data?.pages?.forEach((page: { data: any[] }) => {
+        total += page?.data?.length || 0
+    })
+    return total
 }
 
 export function getTotalCount(data: {
-  pages: { meta?: { totalCount?: number } }[];
+    pages: { meta?: { totalCount?: number } }[]
 }) {
-  return data?.pages[0]?.meta?.totalCount || 0;
+    return data?.pages[0]?.meta?.totalCount || 0
 }

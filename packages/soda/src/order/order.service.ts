@@ -1,23 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Product } from ".prisma/client";
-import { Injectable } from "@nestjs/common";
-import { errorCodes } from "src/common/codes/error";
+import { Product } from '.prisma/client'
+import { Injectable } from '@nestjs/common'
+import { errorCodes } from 'src/common/codes/error'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from "src/common/pagination";
-import { CustomError } from "src/common/response";
-import { PrismaService } from "src/common/modules/db/prisma.service";
-import { CacheService } from "src/common/modules/cache/cache.service";
-import { prismaOffsetPagination } from "src/utils/prisma";
-import {
-    CreateOrderDto,
-    GetAllOrdersDocumentsDto,
-    UpdateOrderDto,
-} from "./dto";
-import { sendEmail, transactionEmail } from "src/utils";
-import type { Prisma } from ".prisma/client";
-import { File } from "src/files/entity";
+} from 'src/common/pagination'
+import { CustomError } from 'src/common/response'
+import { PrismaService } from 'src/common/modules/db/prisma.service'
+import { CacheService } from 'src/common/modules/cache/cache.service'
+import { prismaOffsetPagination } from 'src/utils/prisma'
+import { CreateOrderDto, GetAllOrdersDocumentsDto, UpdateOrderDto } from './dto'
+import { sendEmail, transactionEmail } from 'src/utils'
+import type { Prisma } from '.prisma/client'
+import { File } from 'src/files/entity'
 
 @Injectable()
 export class OrderService {
@@ -34,16 +30,16 @@ export class OrderService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "order",
+                model: 'order',
                 include: {
                     address: true,
                     user: true,
@@ -55,7 +51,7 @@ export class OrderService {
                     documents: {
                         where: {
                             meta: {
-                                path: ["invoice"],
+                                path: ['invoice'],
                                 equals: true,
                             },
                         },
@@ -63,19 +59,19 @@ export class OrderService {
                 },
                 where: {
                     transaction: {
-                        status: "SUCCESS",
+                        status: 'SUCCESS',
                     },
                     active: true,
                 },
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.getAllOrders"
-            );
+                'OrderService.getAllOrders'
+            )
         }
     }
 
@@ -88,19 +84,19 @@ export class OrderService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "order",
+                model: 'order',
                 where: {
                     transaction: {
-                        status: "SUCCESS",
+                        status: 'SUCCESS',
                     },
                     userId,
                     active: true,
@@ -116,21 +112,21 @@ export class OrderService {
                     documents: {
                         where: {
                             meta: {
-                                path: ["invoice"],
+                                path: ['invoice'],
                                 equals: true,
                             },
                         },
                     },
                 },
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.getAllOrders"
-            );
+                'OrderService.getAllOrders'
+            )
         }
     }
 
@@ -185,7 +181,7 @@ export class OrderService {
                     documents: {
                         where: {
                             meta: {
-                                path: ["invoice"],
+                                path: ['invoice'],
                                 equals: true,
                             },
                         },
@@ -195,20 +191,20 @@ export class OrderService {
                         },
                     },
                 },
-            });
+            })
             if (!product) {
                 throw new CustomError(
-                    "Order does not exist",
+                    'Order does not exist',
                     errorCodes.RecordDoesNotExist
-                );
+                )
             }
-            return product;
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.getOrder"
-            );
+                'OrderService.getOrder'
+            )
         }
     }
 
@@ -221,30 +217,30 @@ export class OrderService {
                 cursor,
                 size = 10,
                 buttonNum = 10,
-                orderBy = "createdAt",
-                orderDirection = "desc",
-            } = options;
+                orderBy = 'createdAt',
+                orderDirection = 'desc',
+            } = options
             const result = await prismaOffsetPagination({
                 cursor,
                 size: Number(size),
                 buttonNum: Number(buttonNum),
                 orderBy,
                 orderDirection,
-                model: "file",
+                model: 'file',
                 where: {
                     orderId: id,
-                    fileType: "documents",
+                    fileType: 'documents',
                     active: true,
                 },
                 prisma: this.db,
-            });
-            return result;
+            })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.getOrderDocuments"
-            );
+                'OrderService.getOrderDocuments'
+            )
         }
     }
 
@@ -259,14 +255,14 @@ export class OrderService {
                     address: true,
                     user: true,
                 },
-            });
-            return product;
+            })
+            return product
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.createOrder"
-            );
+                'OrderService.createOrder'
+            )
         }
     }
 
@@ -283,11 +279,11 @@ export class OrderService {
                 status,
                 documents,
                 ...orderData
-            } = update;
+            } = update
             const updateData: Prisma.XOR<
                 Prisma.OrderUpdateInput,
                 Prisma.OrderUncheckedUpdateInput
-            > = {};
+            > = {}
 
             if (documents && documents.length > 0) {
                 updateData.documents = {
@@ -313,11 +309,11 @@ export class OrderService {
                             url: item.url,
                         },
                     })),
-                };
+                }
             }
 
             if (status) {
-                updateData.status = status;
+                updateData.status = status
             }
 
             const data = await this.db.order.update({
@@ -349,17 +345,17 @@ export class OrderService {
                     documents: {
                         where: {
                             meta: {
-                                path: ["invoice"],
+                                path: ['invoice'],
                                 equals: true,
                             },
                         },
                         select: {
                             url: true,
                             fileType: true,
-                        }
+                        },
                     },
                 },
-            });
+            })
 
             try {
                 if (sendUpdate) {
@@ -372,7 +368,7 @@ export class OrderService {
                                     data.id
                                 } ${data.status.toLowerCase()} for ${
                                     data.cart.items.length
-                                } item${data.cart.items.length > 1 ? "s" : ""}`,
+                                } item${data.cart.items.length > 1 ? 's' : ''}`,
                             description:
                                 description ||
                                 `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
@@ -384,7 +380,7 @@ export class OrderService {
                                 data.id
                             } ${data.status.toLowerCase()} for ${
                                 data.cart.items.length
-                            } item${data.cart.items.length > 1 ? "s" : ""}.`,
+                            } item${data.cart.items.length > 1 ? 's' : ''}.`,
                             transaction: {
                                 id: data.id,
                                 grandTotal: data.grandTotal,
@@ -395,22 +391,22 @@ export class OrderService {
                             orderItems: data.cart.items.map((item) => ({
                                 sku: item.product.inventory.sku,
                                 title: item.product.title,
-                                options: item.size + " - " + item.color,
+                                options: item.size + ' - ' + item.color,
                                 qty: item.quantity,
                             })),
                         })
-                    );
+                    )
                 }
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
-            return data;
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.updateOrder"
-            );
+                'OrderService.updateOrder'
+            )
         }
     }
 
@@ -425,14 +421,14 @@ export class OrderService {
                 data: {
                     active: false,
                 },
-            });
-            return data;
+            })
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.deleteOrder"
-            );
+                'OrderService.deleteOrder'
+            )
         }
     }
 
@@ -465,9 +461,9 @@ export class OrderService {
                     user: true,
                 },
                 data: {
-                    status: "CANCELLED",
+                    status: 'CANCELLED',
                 },
-            });
+            })
             try {
                 const response = await sendEmail(
                     transactionEmail({
@@ -476,7 +472,7 @@ export class OrderService {
                             data.id
                         } ${data.status.toLowerCase()} for ${
                             data.cart.items.length
-                        } item${data.cart.items.length > 1 ? "s" : ""}`,
+                        } item${data.cart.items.length > 1 ? 's' : ''}`,
                         description: `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. we will initiate refund in 1-2 business days. please visit your orders on reisetra.com to check status.`,
                         orderId: data.id,
                         address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
@@ -486,7 +482,7 @@ export class OrderService {
                             data.id
                         } ${data.status.toLowerCase()} for ${
                             data.cart.items.length
-                        } item${data.cart.items.length > 1 ? "s" : ""}.`,
+                        } item${data.cart.items.length > 1 ? 's' : ''}.`,
                         transaction: {
                             id: data.id,
                             grandTotal: data.grandTotal,
@@ -497,21 +493,21 @@ export class OrderService {
                         orderItems: data.cart.items.map((item) => ({
                             sku: item.product.inventory.sku,
                             title: item.product.title,
-                            options: item.size + " - " + item.color,
+                            options: item.size + ' - ' + item.color,
                             qty: item.quantity,
                         })),
                     })
-                );
+                )
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
-            return data;
+            return data
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                "OrderService.cancelOrder"
-            );
+                'OrderService.cancelOrder'
+            )
         }
     }
 }

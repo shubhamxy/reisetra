@@ -1,6 +1,6 @@
-import { HttpStatus, ValidationPipe as _ValidationPipe } from "@nestjs/common";
-import { ValidationError } from "class-validator";
-import { Exception, IError } from "../response";
+import { HttpStatus, ValidationPipe as _ValidationPipe } from '@nestjs/common'
+import { ValidationError } from 'class-validator'
+import { Exception, IError } from '../response'
 export class ValidationPipe extends _ValidationPipe {
     constructor() {
         super({
@@ -10,19 +10,19 @@ export class ValidationPipe extends _ValidationPipe {
             // forbidUnknownValues: true,
             // whitelist: true,
             exceptionFactory: (errors) => {
-                const errorList = getValidationErrors(errors);
+                const errorList = getValidationErrors(errors)
                 if (errorList.length > 0) {
-                    throw new Exception(errorList, HttpStatus.BAD_REQUEST);
+                    throw new Exception(errorList, HttpStatus.BAD_REQUEST)
                 }
             },
-        });
+        })
     }
 }
 
 function getValidationErrors(errors: ValidationError[], depth = 3) {
-    const errorList: IError[] = [];
+    const errorList: IError[] = []
     if (depth < 0) {
-        return;
+        return
     }
     if (errors.length > 0) {
         errors.forEach((error) => {
@@ -33,19 +33,16 @@ function getValidationErrors(errors: ValidationError[], depth = 3) {
                             type: errorKey,
                             message: constraint,
                             context: error.property,
-                        });
+                        })
                     }
-                );
+                )
             }
 
             if (error.children && error.children.length > 0) {
-                const childList = getValidationErrors(
-                    error.children,
-                    depth - 1
-                );
-                errorList.push(...childList);
+                const childList = getValidationErrors(error.children, depth - 1)
+                errorList.push(...childList)
             }
-        });
+        })
     }
-    return errorList;
+    return errorList
 }
