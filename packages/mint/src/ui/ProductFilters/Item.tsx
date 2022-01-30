@@ -18,6 +18,7 @@ const formatHumanFriendly = (num) => {
     if (num >= 1000) return `${intlFormat(num / 1000)}k`
     return intlFormat(num)
 }
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -137,17 +138,15 @@ export function Filters({
     data: {
         [key: string]: FilterT
     }
-    values: {
-        [key: string]: string | string[] | number[]
-    }
-    setFieldValue: (key: string, value: string | string[] | number[]) => void
+    values: any
+    setFieldValue: any
 }) {
     const classes = useStyles()
     const [expanded, setExpanded] = React.useState<number>(0)
 
     const handleChange =
         (panel: number) =>
-        (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+        (_event: React.ChangeEvent<{}>, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : -1)
         }
     function valuetext(value: number) {
@@ -161,7 +160,7 @@ export function Filters({
                         <Slider
                             color="secondary"
                             value={values[filter] as number[]}
-                            onChange={(e, value) => {
+                            onChange={(_e, value) => {
                                 setFieldValue(filter, value as number[])
                             }}
                             max={100000}
@@ -242,7 +241,7 @@ export function Filters({
                                     key={item.value}
                                     disableGutters
                                     title={`${item.value} stars and up`}
-                                    onClick={(e) => {
+                                    onClick={(_e) => {
                                         if (isSelected) {
                                             setFieldValue(filter, undefined)
                                         } else {
@@ -293,13 +292,13 @@ export function Filters({
                         }}
                         disablePadding
                     >
-                        {item.data.map((item: { label: string }, index) => {
+                        {item.data.map((item: { label: string }, _index) => {
                             const value = values[filter] as string[]
                             const isSelected = value.includes(item.label)
                             return (
                                 <Chip
                                     key={item.label}
-                                    onClick={(e) => {
+                                    onClick={(_e) => {
                                         if (isSelected) {
                                             setFieldValue(filter, [
                                                 ...value.filter(
@@ -309,11 +308,9 @@ export function Filters({
                                         } else {
                                             setFieldValue(
                                                 filter,
-                                                // @ts-ignore
                                                 Array.isArray(values[filter]) &&
                                                     values[filter].length > 0
-                                                    ? // @ts-ignore
-                                                      [
+                                                    ? [
                                                           ...values[filter],
                                                           item.label,
                                                       ]
@@ -357,7 +354,7 @@ export function Filters({
                             return (
                                 <Chip
                                     key={item.label}
-                                    onClick={(e) => {
+                                    onClick={(_e) => {
                                         if (isSelected) {
                                             setFieldValue(filter, undefined)
                                         } else {
