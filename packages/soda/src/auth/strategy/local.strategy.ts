@@ -2,8 +2,8 @@ import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'
 import { HttpStatus, Injectable } from '@nestjs/common'
 import { AuthService } from '../auth.service'
-import { CustomException, CustomError } from '../../common/response'
-import { errorCodes } from '../../common/codes/error'
+import { CustomException, CustomError } from '../../core/response'
+import { errorCodes } from '../../core/codes/error'
 import { User } from '../../user/entity'
 
 @Injectable()

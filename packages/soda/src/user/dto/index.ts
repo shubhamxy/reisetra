@@ -19,7 +19,7 @@ import {
 } from 'src/constants'
 import { User } from '../entity'
 import { OAuthProvider, Role } from '.prisma/client'
-import { CursorPaginationDTO } from 'src/common/dto'
+import { CursorPaginationDTO } from 'src/core/dto'
 
 type Excluded =
     | 'id'
@@ -36,17 +36,17 @@ type Excluded =
     | 'emailVerified'
     | 'oauthId'
 
-export { LoginUserDto } from './loginUser.dto'
-export { UpdateUserDto } from './updateUser.dto'
+export { LoginUserDTO } from './loginUser.dto'
+export { UpdateUserDTO } from './updateUser.dto'
 
-export class GetAllUsersDto extends CursorPaginationDTO {
+export class GetAllUsersDTO extends CursorPaginationDTO {
     constructor(partial: Partial<User>) {
         super()
         Object.assign(this, partial)
     }
 }
 
-export class CreateUserDto implements Omit<User, Excluded> {
+export class CreateUserDTO implements Omit<User, Excluded> {
     @IsEmail({}, { message: isInvalid('Email') })
     email: string
 
@@ -75,7 +75,7 @@ export class CreateUserDto implements Omit<User, Excluded> {
     bio: string
 }
 
-export class CreateOauthUserDto implements Omit<User, Excluded> {
+export class CreateOauthUserDTO implements Omit<User, Excluded> {
     email: string
     emailVerified: boolean
     name: string

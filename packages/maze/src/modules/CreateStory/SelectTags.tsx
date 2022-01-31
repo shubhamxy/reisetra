@@ -7,7 +7,6 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    CircularProgress,
     fade,
     Grid,
     InputBase,
@@ -15,6 +14,7 @@ import {
     Chip,
     List,
     ButtonGroup,
+    LinearProgress,
 } from '@material-ui/core'
 import { useDebouncedCallback } from 'use-debounce'
 import clsx from 'clsx'
@@ -409,7 +409,11 @@ export default function CreateExperience({
                                 lineHeight: 1.4,
                             }}
                         >
-                            {isLoading ? <CircularProgress size="20px" /> : ''}
+                            {isLoading ? (
+                                <LinearProgress style={{ minWidth: 120 }} />
+                            ) : (
+                                ''
+                            )}
                         </Typography>
                     </Box>
                 </Box>

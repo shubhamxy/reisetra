@@ -2,7 +2,7 @@ import { OAuthProvider, Role } from '.prisma/client'
 import { IsNotEmpty } from 'class-validator'
 import { User } from '../entity'
 
-export class LoginUserDto implements User {
+export class LoginUserDTO implements User {
     id: string
     emailVerified: boolean
     name: string

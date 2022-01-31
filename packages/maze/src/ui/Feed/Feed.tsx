@@ -4,7 +4,7 @@ import {
     Box,
     Typography,
     makeStyles,
-    CircularProgress,
+    LinearProgress,
     Divider,
     Button,
 } from '@material-ui/core'
@@ -85,7 +85,7 @@ export function ProductsFeed({ title = 'Popular' }) {
                             pt={2}
                             pb={2}
                         >
-                            <CircularProgress size={24} />
+                            <LinearProgress style={{ minWidth: 120 }} />
                         </Box>
                     }
                 />

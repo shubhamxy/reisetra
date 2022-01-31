@@ -2,25 +2,18 @@ import { Injectable } from '@nestjs/common'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from 'src/common/pagination'
-import { CustomError } from 'src/common/response'
-import { PrismaService } from 'src/common/modules/db/prisma.service'
-import { CacheService } from 'src/common/modules/cache/cache.service'
+} from 'src/core/pagination'
+import { CustomError } from 'src/core/response'
+import { PrismaService } from 'src/core/modules/db/prisma.service'
+import { CacheService } from 'src/core/modules/cache/cache.service'
 import { prismaOffsetPagination } from 'src/utils/prisma'
 import { CartItemRO } from './interfaces'
-import {
-    CheckoutDto,
-    CreateOfferDto,
-    DeleteOfferDto,
-    GetAllOffersDto,
-    UpdateCartItemDto,
-    UpdateOfferDto,
-} from './dto'
-import { TransactionService } from 'src/transaction/transaction.service'
+import { CheckoutDTO, UpdateCartItemDTO } from './dto'
+import { TransactionService } from 'src/order/transaction/transaction.service'
 import { Order } from '.prisma/client'
-import { errorCodes } from 'src/common/codes/error'
-import { Offer } from './entity'
+import { errorCodes } from 'src/core/codes/error'
 import { UserService } from 'src/user/user.service'
+import { Offer } from 'src/master/offer/entity'
 
 function calculateBilling(
     cartItemsWithProduct: {
@@ -173,7 +166,7 @@ export class CartService {
     async updateCart(
         cartId: string,
         productId: string,
-        update: UpdateCartItemDto
+        update: UpdateCartItemDTO
     ): Promise<any> {
         try {
             const data = this.db.cart.update({
@@ -245,7 +238,7 @@ export class CartService {
 
     async checkoutCart(
         userId: string,
-        checkout: CheckoutDto
+        checkout: CheckoutDTO
     ): Promise<
         Order & {
             razorpayOptions: Record<string, any>
@@ -340,95 +333,6 @@ export class CartService {
                 error?.meta?.cause || error.message,
                 error.code,
                 'CartService.removeCartItem'
-            )
-        }
-    }
-
-    async getOffers(params: GetAllOffersDto): Promise<any> {
-        try {
-            const {
-                cursor,
-                size = 10,
-                buttonNum = 10,
-                orderBy = 'createdAt',
-                orderDirection = 'desc',
-            } = params
-            const result = await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                include: {
-                    items: true,
-                },
-                model: 'offer',
-                prisma: this.db,
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'CartService.getOffers'
-            )
-        }
-    }
-
-    async createOffers(data: CreateOfferDto[]): Promise<any> {
-        try {
-            const offers = await this.db.offer.createMany({
-                data: data,
-            })
-            return offers
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'CartService.findAllOffset'
-            )
-        }
-    }
-
-    async updateOffers(data: UpdateOfferDto[]): Promise<any> {
-        try {
-            // TODO: find beter way??
-            const update = await Promise.all(
-                data.map((offer) => {
-                    return this.db.offer.update({
-                        where: { label: offer.label },
-                        data: {
-                            value: offer.value,
-                        },
-                    })
-                })
-            )
-            return update
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'CartService.updateCategories'
-            )
-        }
-    }
-
-    async deleteOffers(data: DeleteOfferDto[]): Promise<any> {
-        try {
-            const deleted = await this.db.offer.updateMany({
-                where: {
-                    label: { in: data.map((item) => item.label) },
-                },
-                data: {
-                    active: false,
-                },
-            })
-            return deleted
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'CartService.deleteTags'
             )
         }
     }

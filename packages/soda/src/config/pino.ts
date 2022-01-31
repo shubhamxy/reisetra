@@ -17,14 +17,7 @@ if (serviceEnv.logzio.enable) {
         type: 'nodejs',
     })
 }
-const icons = {
-    10: '🔵',
-    20: '🔵',
-    30: 'ℹ️',
-    40: '👀',
-    50: '🚨',
-    60: '🔴',
-}
+
 export const pinoConfig: Params = {
     pinoHttp: {
         autoLogging: true,
@@ -40,10 +33,10 @@ export const pinoConfig: Params = {
             if (res.statusCode >= 400 && res.statusCode < 500) {
                 return `${res.statusCode} ${statusText[res.statusCode]} `
             }
-            return `${res.statusCode} ${statusText[res.statusCode]}`
+            return `${res.statusCode} ${statusText[res.statusCode]}`.trim()
         },
         customErrorMessage: function (error, res) {
-            return `${res.statusCode} ${statusText[res.statusCode]} | 🚦 ${
+            return `${res.statusCode} ${statusText[res.statusCode]} ${
                 error.message
             }`
         },
@@ -54,7 +47,7 @@ export const pinoConfig: Params = {
             colorize: false,
             crlf: true,
             translateTime: 'dd-mm-yyyy HH:MM:ss.l',
-            messageFormat: function (log) {
+            messageFormat: function messageFormat(log) {
                 let suffix = ''
                 if (log.req) {
                     log.ip =
@@ -64,19 +57,22 @@ export const pinoConfig: Params = {
                             ? log.req.socket.remoteAddress
                             : log.req.remoteAddress)
                 }
-                if (log.req && log.req.id) suffix = `| 👨‍💻 ${log.req.id}`
-                if (log.responseTime)
-                    suffix = `| ✨ ${log.responseTime}ms ${suffix}`
-                if (log.context) suffix = `| ${log.context} ${suffix}`
-                if (log.req && log.req.method)
-                    suffix = `| ${log.req.method} | ${log.req.url} ${suffix}`
-                if (log.level >= 50 && log.err)
-                    suffix += `${suffix} \n🚦 ${JSON.stringify(
-                        log.err,
-                        null,
-                        4
-                    )}`
-                log.message = `${icons[log.level]} → ${log.msg} ${suffix}`
+                if (log.req && log.req.id) {
+                    suffix = `| ${log.req.id}`
+                }
+                if (log.responseTime) {
+                    suffix = `| ${log.responseTime}ms ${suffix}`
+                }
+                if (log.context) {
+                    suffix = `| ${log.context} ${suffix}`
+                }
+                if (log.req && log.req.method) {
+                    suffix = `| ${log.req.method} → ${log.req.url} ${suffix}`
+                }
+                if (log.level >= 50 && log.err) {
+                    suffix += `${suffix} \n ${JSON.stringify(log.err, null, 4)}`
+                }
+                log.message = `${log.msg} ${suffix}`
                 if (serviceEnv.logzio.enable) {
                     logger.log(log)
                 }

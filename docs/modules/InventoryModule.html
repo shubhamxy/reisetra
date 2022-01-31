@@ -152,7 +152,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/inventory/inventory.module.ts</code>
+            <code>src/product/inventory/inventory.module.ts</code>
         </p>
 
 
@@ -210,9 +210,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;
 import { InventoryController } from &#x27;./inventory.controller&#x27;
-import { PrismaService } from &#x27;../common/modules/db/prisma.service&#x27;
+import { PrismaService } from &#x27;../../core/modules/db/prisma.service&#x27;
 import { InventoryService } from &#x27;./inventory.service&#x27;
-import { CacheModule } from &#x27;src/common/modules/cache/cache.module&#x27;
+import { CacheModule } from &#x27;src/core/modules/cache/cache.module&#x27;
 
 @Module({
     imports: [CacheModule],

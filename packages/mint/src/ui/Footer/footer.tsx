@@ -1,6 +1,6 @@
-import React, { Component, useRef } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { footerLinks } from './data'
+import { footerLinks } from '../../content/data'
 import { Icons, Image } from '../Image'
 import {
     Container,
@@ -9,13 +9,12 @@ import {
     Typography,
     createStyles,
     fade,
-    Grid,
-    Paper,
     makeStyles,
     IconButton,
     Theme,
     Box,
     useTheme,
+    ButtonGroup,
 } from '@material-ui/core'
 import { config } from '../../libs'
 import { Logo } from '../Logo'
@@ -26,7 +25,7 @@ import {
     WhatsApp,
     WbSunny,
 } from '@material-ui/icons'
-import { ButtonGroup } from '@material-ui/core'
+
 const { version } = require('../../../package.json')
 
 const useStyles = makeStyles((theme: Theme) =>

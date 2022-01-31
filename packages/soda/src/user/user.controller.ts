@@ -5,6 +5,7 @@ import {
     Get,
     HttpStatus,
     Param,
+    Post,
     Put,
     Query,
     Req,
@@ -14,20 +15,22 @@ import {
     CustomException,
     Exception,
     SuccessResponse,
-} from 'src/common/response'
-import { GetAllUsersDto, UpdateUserDto } from './dto'
-import { errorTypes } from 'src/common/codes/error'
+} from 'src/core/response'
+import { CreateUserDTO, GetAllUsersDTO, UpdateUserDTO } from './dto'
+import { errorTypes } from 'src/core/codes/error'
 import { getErrorMessage, stackObj } from 'src/utils/errorUtils'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles } from 'src/auth/decorator/roles.decorator'
+import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { ROUTES } from 'src/constants'
 
-@Controller()
+@Controller(ROUTES.users)
 export class UserController {
     constructor(private readonly user: UserService) {}
-    @Roles('ADMIN')
-    @Get('users')
+
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.users_all)
     async getAllUsers(
-        @Query() query: GetAllUsersDto
+        @Query() query: GetAllUsersDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.user.allUsers(query)
@@ -46,8 +49,19 @@ export class UserController {
         }
     }
 
-    @Get('user/me')
-    async getMe(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
+    @Roles(Role.ADMIN)
+    @Post()
+    async createUser(@Body() body: CreateUserDTO): Promise<SuccessResponse> {
+        try {
+            const data = await this.user.create(body)
+            return { data }
+        } catch (error) {
+            throw new CustomException(error, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @Get()
+    async getUser(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
         try {
             const data = await this.user.find(req.user.id)
             return { data }
@@ -56,10 +70,10 @@ export class UserController {
         }
     }
 
-    @Put('user/me')
-    async updateMe(
+    @Put()
+    async updateUser(
         @Req() req: AuthenticatedRequest,
-        @Body() body: UpdateUserDto
+        @Body() body: UpdateUserDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.user.findAndUpdate(req.user.id, body)
@@ -78,38 +92,44 @@ export class UserController {
         }
     }
 
-    @Delete('user/me')
-    async deleteMe(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
+    @Delete()
+    async deleteUser(
+        @Req() req: AuthenticatedRequest
+    ): Promise<SuccessResponse> {
         const data = await this.user.delete(req.user.id)
         return { data }
     }
 
-    @Roles('ADMIN')
-    @Get('user/:id')
-    async getUser(@Param('id') id: string): Promise<SuccessResponse> {
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.users_by_userId)
+    async getUserById(
+        @Param('userId') userId: string
+    ): Promise<SuccessResponse> {
         try {
-            const data = await this.user.find(id)
+            const data = await this.user.find(userId)
             return { data }
         } catch (error) {
             throw new CustomException(error, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @Roles('ADMIN')
-    @Put('user/:id')
-    async updateUser(
-        @Param('id') id: string,
-        @Body() body: UpdateUserDto
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.users_by_userId)
+    async updateUserById(
+        @Param('userId') userId: string,
+        @Body() body: UpdateUserDTO
     ): Promise<SuccessResponse> {
         const update = body
-        const data = await this.user.findAndUpdate(id, update)
+        const data = await this.user.findAndUpdate(userId, update)
         return { data }
     }
 
-    @Roles('ADMIN')
-    @Delete('user/:id')
-    async deleteUser(@Param('id') id: string): Promise<SuccessResponse> {
-        const data = await this.user.delete(id)
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.users_by_userId)
+    async deleteUserId(
+        @Param('userId') userId: string
+    ): Promise<SuccessResponse> {
+        const data = await this.user.delete(userId)
         return { data }
     }
 }

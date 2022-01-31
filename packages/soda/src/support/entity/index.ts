@@ -2,6 +2,7 @@ import {
     Prisma,
     Form as FormModel,
     FormResponse as FormResponseModel,
+    Ticket as TicketModel,
 } from '.prisma/client'
 
 export class Form implements FormModel {
@@ -26,6 +27,19 @@ export class FormResponse implements FormResponseModel {
     data: Prisma.JsonValue
     formId: string
 
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+}
+
+export class Ticket implements TicketModel {
+    constructor(partial: Partial<TicketModel>) {
+        Object.assign(this, partial)
+    }
+
+    id: string
+    data: Prisma.JsonValue
+    userId: string
     active: boolean
     createdAt: Date
     updatedAt: Date

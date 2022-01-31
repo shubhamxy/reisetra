@@ -1,11 +1,12 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
-import { Box, IconButton, Typography } from '@material-ui/core'
+import { Box, IconButton, Typography, Grid } from '@material-ui/core'
 import { useStyles } from './styles'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Grid } from '@material-ui/core'
 import { CloseOutlined } from '@material-ui/icons'
-import { useCartItem, useDeleteCartItem } from '../../libs'
+import { useDeleteCartItem } from '../../libs'
+
 function useHelper({ slug, data }) {
     const router = useRouter()
     const removeCartItem = useDeleteCartItem()
@@ -30,8 +31,8 @@ function useHelper({ slug, data }) {
     }
 }
 
-export function ProductCard({ data }) {
-    const { id, slug, title, description, price, mrp, images } = data.product
+export function Card({ data }) {
+    const { slug, title, price, mrp, images } = data.product
     const { handleClick, handleRemove } = useHelper({
         slug,
         data,

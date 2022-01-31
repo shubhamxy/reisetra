@@ -79,7 +79,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#deleteMe" >deleteMe</a>
+                                <a href="#createUser" >createUser</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -87,11 +87,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#getAllUsers" >getAllUsers</a>
+                                <a href="#deleteUserId" >deleteUserId</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#getMe" >getMe</a>
+                                <a href="#getAllUsers" >getAllUsers</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -99,11 +99,15 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#updateMe" >updateMe</a>
+                                <a href="#getUserById" >getUserById</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
                                 <a href="#updateUser" >updateUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateUserById" >updateUserById</a>
                             </li>
                         </ul>
                     </td>
@@ -126,18 +130,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteMe"></a>
+                    <a name="createUser"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>deleteMe</b></span>
-                        <a href="#deleteMe"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>createUser</b></span>
+                        <a href="#createUser"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteMe(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                    <code>createUser(body: <a href="../classes/CreateUserDTO.html" target="_self">CreateUserDTO</a>)</code>
                 </td>
             </tr>
 
@@ -145,14 +149,92 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Delete(&#x27;user/me&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/user/user.controller.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/user/user.controller.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/CreateUserDTO.html" target="_self" >CreateUserDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteUser"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>deleteUser</b></span>
+                        <a href="#deleteUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteUser(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Delete()<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/user/user.controller.ts:96</a></div>
                 </td>
             </tr>
 
@@ -204,18 +286,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteUser"></a>
+                    <a name="deleteUserId"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>deleteUser</b></span>
-                        <a href="#deleteUser"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteUserId</b></span>
+                        <a href="#deleteUserId"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteUser(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>deleteUserId(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -223,14 +305,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;user/:id&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.users_by_userId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">src/user/user.controller.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/user/user.controller.ts:129</a></div>
                 </td>
             </tr>
 
@@ -251,7 +333,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>userId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -293,7 +375,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllUsers(query: <a href="../classes/GetAllUsersDto.html" target="_self">GetAllUsersDto</a>)</code>
+                    <code>getAllUsers(query: <a href="../classes/GetAllUsersDTO.html" target="_self">GetAllUsersDTO</a>)</code>
                 </td>
             </tr>
 
@@ -301,14 +383,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;users&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.users_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/user/user.controller.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/user/user.controller.ts:32</a></div>
                 </td>
             </tr>
 
@@ -331,85 +413,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllUsersDto.html" target="_self" >GetAllUsersDto</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getMe"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>getMe</b></span>
-                        <a href="#getMe"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getMe(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Get(&#x27;user/me&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">src/user/user.controller.ts:50</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>req</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                                <code><a href="../classes/GetAllUsersDTO.html" target="_self" >GetAllUsersDTO</a></code>
                                     </td>
 
                                     <td>
@@ -449,7 +453,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getUser(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getUser(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
                 </td>
             </tr>
 
@@ -457,92 +461,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;user/:id&#x27;)<br /></code>
+                    <code>@Get()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/user/user.controller.ts:89</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="updateMe"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>updateMe</b></span>
-                        <a href="#updateMe"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateMe(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/UpdateUserDto.html" target="_self">UpdateUserDto</a>)</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Put(&#x27;user/me&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/user/user.controller.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/user/user.controller.ts:64</a></div>
                 </td>
             </tr>
 
@@ -574,10 +500,76 @@
 
 
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserById"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getUserById</b></span>
+                        <a href="#getUserById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUserById(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.users_by_userId)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/user/user.controller.ts:105</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
                                 <tr>
-                                    <td>body</td>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
                                     <td>
-                                                <code><a href="../classes/UpdateUserDto.html" target="_self" >UpdateUserDto</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -617,7 +609,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateUser(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateUserDto.html" target="_self">UpdateUserDto</a>)</code>
+                    <code>updateUser(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/UpdateUserDTO.html" target="_self">UpdateUserDTO</a>)</code>
                 </td>
             </tr>
 
@@ -625,14 +617,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Put(&#x27;user/:id&#x27;)<br /></code>
+                    <code>@Put()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/user/user.controller.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">src/user/user.controller.ts:74</a></div>
                 </td>
             </tr>
 
@@ -653,7 +645,97 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>req</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/UpdateUserDTO.html" target="_self" >UpdateUserDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateUserById"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>updateUserById</b></span>
+                        <a href="#updateUserById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateUserById(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateUserDTO.html" target="_self">UpdateUserDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Roles(Role.ADMIN)<br />@Put(ROUTES.users_by_userId)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">src/user/user.controller.ts:118</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -667,7 +749,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateUserDto.html" target="_self" >UpdateUserDto</a></code>
+                                                <code><a href="../classes/UpdateUserDTO.html" target="_self" >UpdateUserDTO</a></code>
                                     </td>
 
                                     <td>
@@ -703,6 +785,7 @@
     Get,
     HttpStatus,
     Param,
+    Post,
     Put,
     Query,
     Req,
@@ -712,20 +795,22 @@ import {
     CustomException,
     Exception,
     SuccessResponse,
-} from &#x27;src/common/response&#x27;
-import { GetAllUsersDto, UpdateUserDto } from &#x27;./dto&#x27;
-import { errorTypes } from &#x27;src/common/codes/error&#x27;
+} from &#x27;src/core/response&#x27;
+import { CreateUserDTO, GetAllUsersDTO, UpdateUserDTO } from &#x27;./dto&#x27;
+import { errorTypes } from &#x27;src/core/codes/error&#x27;
 import { getErrorMessage, stackObj } from &#x27;src/utils/errorUtils&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-@Controller()
+@Controller(ROUTES.users)
 export class UserController {
     constructor(private readonly user: UserService) {}
-    @Roles(&#x27;ADMIN&#x27;)
-    @Get(&#x27;users&#x27;)
+
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.users_all)
     async getAllUsers(
-        @Query() query: GetAllUsersDto
+        @Query() query: GetAllUsersDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.user.allUsers(query)
@@ -744,8 +829,19 @@ export class UserController {
         }
     }
 
-    @Get(&#x27;user/me&#x27;)
-    async getMe(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
+    @Roles(Role.ADMIN)
+    @Post()
+    async createUser(@Body() body: CreateUserDTO): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.user.create(body)
+            return { data }
+        } catch (error) {
+            throw new CustomException(error, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @Get()
+    async getUser(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.user.find(req.user.id)
             return { data }
@@ -754,10 +850,10 @@ export class UserController {
         }
     }
 
-    @Put(&#x27;user/me&#x27;)
-    async updateMe(
+    @Put()
+    async updateUser(
         @Req() req: AuthenticatedRequest,
-        @Body() body: UpdateUserDto
+        @Body() body: UpdateUserDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.user.findAndUpdate(req.user.id, body)
@@ -776,38 +872,44 @@ export class UserController {
         }
     }
 
-    @Delete(&#x27;user/me&#x27;)
-    async deleteMe(@Req() req: AuthenticatedRequest): Promise&lt;SuccessResponse&gt; {
+    @Delete()
+    async deleteUser(
+        @Req() req: AuthenticatedRequest
+    ): Promise&lt;SuccessResponse&gt; {
         const data &#x3D; await this.user.delete(req.user.id)
         return { data }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Get(&#x27;user/:id&#x27;)
-    async getUser(@Param(&#x27;id&#x27;) id: string): Promise&lt;SuccessResponse&gt; {
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.users_by_userId)
+    async getUserById(
+        @Param(&#x27;userId&#x27;) userId: string
+    ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.user.find(id)
+            const data &#x3D; await this.user.find(userId)
             return { data }
         } catch (error) {
             throw new CustomException(error, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Put(&#x27;user/:id&#x27;)
-    async updateUser(
-        @Param(&#x27;id&#x27;) id: string,
-        @Body() body: UpdateUserDto
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.users_by_userId)
+    async updateUserById(
+        @Param(&#x27;userId&#x27;) userId: string,
+        @Body() body: UpdateUserDTO
     ): Promise&lt;SuccessResponse&gt; {
         const update &#x3D; body
-        const data &#x3D; await this.user.findAndUpdate(id, update)
+        const data &#x3D; await this.user.findAndUpdate(userId, update)
         return { data }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;user/:id&#x27;)
-    async deleteUser(@Param(&#x27;id&#x27;) id: string): Promise&lt;SuccessResponse&gt; {
-        const data &#x3D; await this.user.delete(id)
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.users_by_userId)
+    async deleteUserId(
+        @Param(&#x27;userId&#x27;) userId: string
+    ): Promise&lt;SuccessResponse&gt; {
+        const data &#x3D; await this.user.delete(userId)
         return { data }
     }
 }

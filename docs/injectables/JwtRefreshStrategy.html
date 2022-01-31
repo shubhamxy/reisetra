@@ -242,10 +242,10 @@ import { PassportStrategy } from &#x27;@nestjs/passport&#x27;
 import { Injectable } from &#x27;@nestjs/common&#x27;
 import { Request } from &#x27;express&#x27;
 import { AuthService } from &#x27;../auth.service&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
 import { UserAuthPayload } from &#x27;../auth.interface&#x27;
 import { auth } from &#x27;src/config&#x27;
-import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
 const config &#x3D; auth()
 
 @Injectable()

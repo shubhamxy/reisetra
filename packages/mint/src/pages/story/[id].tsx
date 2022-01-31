@@ -7,6 +7,7 @@ import { Story } from '../../modules/Story'
 
 import { useRouter } from 'next/router'
 import { useStory } from '../../libs'
+
 const useStyles = makeStyles((theme) => ({
     content: {
         marginBottom: 48,

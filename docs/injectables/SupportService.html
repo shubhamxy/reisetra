@@ -80,15 +80,27 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#createFormData" >createFormData</a>
+                                <a href="#createTicket" >createTicket</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#createSupportTicket" >createSupportTicket</a>
+                                <a href="#deleteTicket" >deleteTicket</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#getFormData" >getFormData</a>
+                                <a href="#getAllTicketes" >getAllTicketes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getTicketById" >getTicketById</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getTicketesByUser" >getTicketesByUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateTicket" >updateTicket</a>
                             </li>
                         </ul>
                     </td>
@@ -113,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/support/support.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/support/support.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -160,109 +172,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createFormData"></a>
+                    <a name="createTicket"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>createFormData</b></span>
-                        <a href="#createFormData"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>createTicket</b></span>
+                        <a href="#createTicket"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createFormData(formId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>createTicket(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/TicketDTO.html" target="_self">TicketDTO</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/support/support.service.ts:23</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>formId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createSupportTicket"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>createSupportTicket</b></span>
-                        <a href="#createSupportTicket"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createSupportTicket(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/CreateSupportTicketDto.html" target="_self">CreateSupportTicketDto</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/support/support.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">src/support/support.service.ts:98</a></div>
                 </td>
             </tr>
 
@@ -309,7 +238,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                                <code><a href="../classes/CreateSupportTicketDto.html" target="_self" >CreateSupportTicketDto</a></code>
+                                                <code><a href="../classes/TicketDTO.html" target="_self" >TicketDTO</a></code>
                                     </td>
 
                                     <td>
@@ -338,26 +267,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getFormData"></a>
+                    <a name="deleteTicket"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>getFormData</b></span>
-                        <a href="#getFormData"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteTicket</b></span>
+                        <a href="#deleteTicket"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getFormData(formId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>deleteTicket(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">src/support/support.service.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">src/support/support.service.ts:170</a></div>
                 </td>
             </tr>
 
@@ -378,7 +307,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>formId</td>
+                                    <td>id</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -395,7 +324,315 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/Ticket.html" target="_self" >Promise&lt;Ticket&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllTicketes"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getAllTicketes</b></span>
+                        <a href="#getAllTicketes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllTicketes(options: <a href="../classes/CursorPagination.html" target="_self">CursorPagination</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">src/support/support.service.ts:17</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/CursorPagination.html" target="_self" >CursorPagination</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTicketById"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getTicketById</b></span>
+                        <a href="#getTicketById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTicketById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/support/support.service.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Ticket.html" target="_self" >Promise&lt;Ticket&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTicketesByUser"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getTicketesByUser</b></span>
+                        <a href="#getTicketesByUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTicketesByUser(options: <a href="../classes/CursorPagination.html" target="_self">CursorPagination</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">src/support/support.service.ts:50</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/CursorPagination.html" target="_self" >CursorPagination</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateTicket"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>updateTicket</b></span>
+                        <a href="#updateTicket"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateTicket(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/TicketDTO.html" target="_self">TicketDTO</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">src/support/support.service.ts:149</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="../classes/TicketDTO.html" target="_self" >TicketDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Ticket.html" target="_self" >Promise&lt;Ticket&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -412,51 +649,120 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { CreateSupportTicketDto } from &#x27;./dto&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { TicketDTO } from &#x27;./dto&#x27;
 import { sendEmail, supportEmail, supportEmailAck } from &#x27;src/utils&#x27;
-import { nanoid } from &#x27;nanoid&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
+import {
+    CursorPagination,
+    CursorPaginationResultInterface,
+} from &#x27;src/core/pagination&#x27;
+import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
+import { Ticket } from &#x27;./entity&#x27;
 
 @Injectable()
 export class SupportService {
     constructor(private readonly db: PrismaService) {}
-    async getFormData(formId: string): Promise&lt;any&gt; {
+    async getAllTicketes(
+        options: CursorPagination
+    ): Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt; {
         try {
-            return this.db.form.findFirst({ where: { id: formId } })
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                &#x27;SupportService.getFormData&#x27;
-            )
-        }
-    }
-
-    async createFormData(formId: string, data: any): Promise&lt;any&gt; {
-        try {
-            return this.db.formResponse.create({
-                data: {
-                    formId,
-                    data,
+            const {
+                cursor,
+                size &#x3D; 10,
+                buttonNum &#x3D; 10,
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
+            const result &#x3D; await prismaOffsetPagination({
+                cursor,
+                size: Number(size),
+                buttonNum: Number(buttonNum),
+                orderBy,
+                orderDirection,
+                model: &#x27;ticket&#x27;,
+                prisma: this.db,
+                where: {
+                    active: true,
                 },
             })
+            return result
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
-                &#x27;SupportService.createFormData&#x27;
+                &#x27;SupportService.getAllTickets&#x27;
             )
         }
     }
 
-    async createSupportTicket(
+    async getTicketesByUser(
+        options: CursorPagination,
+        userId: string
+    ): Promise&lt;CursorPaginationResultInterface&lt;Ticket&gt;&gt; {
+        try {
+            const {
+                cursor,
+                size &#x3D; 10,
+                buttonNum &#x3D; 10,
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
+            const result &#x3D; await prismaOffsetPagination({
+                cursor,
+                size: Number(size),
+                buttonNum: Number(buttonNum),
+                orderBy,
+                orderDirection,
+                model: &#x27;ticket&#x27;,
+                prisma: this.db,
+                where: {
+                    userId,
+                    active: true,
+                },
+            })
+            return result
+        } catch (error) {
+            throw new CustomError(
+                error?.meta?.cause || error.message,
+                error.code,
+                &#x27;SupportService.getTicketes&#x27;
+            )
+        }
+    }
+
+    async getTicketById(id: string): Promise&lt;Ticket&gt; {
+        const ticket &#x3D; await this.db.ticket.findUnique({
+            where: { id },
+        })
+        if (!ticket) {
+            throw new CustomError(
+                &#x27;Ticket does not exist&#x27;,
+                errorCodes.RecordDoesNotExist
+            )
+        }
+        return ticket
+    }
+
+    async createTicket(
         userId: string,
         email: string,
-        data: CreateSupportTicketDto
+        data: TicketDTO
     ): Promise&lt;any&gt; {
         try {
-            const ticketId &#x3D; data.ticketId || nanoid()
+            const ticket &#x3D; await this.db.ticket.create({
+                data: {
+                    userId,
+                    data: {
+                        email,
+                        subject: data.subject,
+                        description: data.description,
+                        orderId: data.orderId,
+                    },
+                },
+            })
+            const ticketId &#x3D; ticket.id || data.ticketId
             const results &#x3D; await Promise.all([
                 sendEmail(
                     supportEmailAck({
@@ -477,12 +783,54 @@ export class SupportService {
                     })
                 ),
             ])
-            return results
+            return {
+                ...ticket,
+                messages: results,
+            }
         } catch (error) {
             throw new CustomError(
                 error?.meta?.cause || error.message,
                 error.code,
                 &#x27;SupportService.createSupportTicket&#x27;
+            )
+        }
+    }
+
+    async updateTicket(id: string, data: TicketDTO): Promise&lt;Ticket&gt; {
+        try {
+            const ticket &#x3D; await this.db.ticket.update({
+                where: { id },
+                data: {
+                    data: {
+                        subject: data.subject,
+                        description: data.description,
+                    },
+                },
+            })
+            return ticket
+        } catch (error) {
+            throw new CustomError(
+                error?.meta?.cause || error.message,
+                error.code,
+                &#x27;SupportService.updateTicket&#x27;
+            )
+        }
+    }
+
+    async deleteTicket(id: string): Promise&lt;Ticket&gt; {
+        try {
+            const ticket &#x3D; await this.db.ticket.update({
+                where: { id },
+                data: {
+                    active: false,
+                },
+            })
+            return ticket
+        } catch (error) {
+            throw new CustomError(
+                error?.meta?.cause || error.message,
+                error.code,
+                &#x27;SupportService.deleteTicket&#x27;
             )
         }
     }

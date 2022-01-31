@@ -11,25 +11,26 @@ import {
     Req,
 } from '@nestjs/common'
 import { StoryService } from './story.service'
-import { CustomException, SuccessResponse } from 'src/common/response'
+import { CustomException, SuccessResponse } from 'src/core/response'
 import {
-    CreateStoryDto,
-    GetStoriesDto,
-    GetAllStoriesDto,
-    UpdateStoryDto,
+    CreateStoryDTO,
+    GetStoriesDTO,
+    GetAllStoriesDTO,
+    UpdateStoryDTO,
 } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
 import { Public } from 'src/auth/decorator/public.decorator'
-import { Roles } from 'src/auth/decorator/roles.decorator'
+import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { ROUTES } from 'src/constants'
 
-@Controller()
+@Controller(ROUTES.stories)
 export class StoryController {
     constructor(private readonly story: StoryService) {}
 
     @Public()
-    @Get('stories/all')
+    @Get(ROUTES.stories_all)
     async getAllStories(
-        @Query() query: GetAllStoriesDto
+        @Query() query: GetAllStoriesDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.story.getAllStories(query)
@@ -43,10 +44,10 @@ export class StoryController {
         }
     }
 
-    @Get('stories')
+    @Get()
     async getStories(
         @Req() req: AuthenticatedRequest,
-        @Query() query: GetStoriesDto
+        @Query() query: GetStoriesDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.story.getStories(
@@ -63,26 +64,11 @@ export class StoryController {
         }
     }
 
-    @Public()
-    @Get('story/:slug')
-    async getStory(@Param('slug') slug: string): Promise<SuccessResponse> {
-        try {
-            const data = await this.story.getStory(slug)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'StoryController.getStory'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('story')
+    @Roles(Role.ADMIN)
+    @Post()
     async createStory(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateStoryDto
+        @Body() body: CreateStoryDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.story.createStory(request.user.id, body)
@@ -96,14 +82,29 @@ export class StoryController {
         }
     }
 
-    @Roles('ADMIN')
-    @Put('story/:storyId')
+    @Public()
+    @Get(ROUTES.stories_by_slug)
+    async getStory(@Param('slug') slug: string): Promise<SuccessResponse> {
+        try {
+            const data = await this.story.getStory(slug)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'StoryController.getStory'
+            )
+        }
+    }
+
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.stories_by_slug)
     async updateStory(
-        @Param('storyId') storyId: string,
-        @Body() body: UpdateStoryDto
+        @Param('storyId') slug: string,
+        @Body() body: UpdateStoryDTO
     ): Promise<SuccessResponse> {
         try {
-            const data = await this.story.updateStory(storyId, body)
+            const data = await this.story.updateStory(slug, body)
             return { data }
         } catch (error) {
             throw new CustomException(
@@ -114,13 +115,11 @@ export class StoryController {
         }
     }
 
-    @Roles('ADMIN')
-    @Delete('story/:storyId')
-    async deleteStory(
-        @Param('storyId') storyId: string
-    ): Promise<SuccessResponse> {
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.stories_by_slug)
+    async deleteStory(@Param('slug') slug: string): Promise<SuccessResponse> {
         try {
-            const data = await this.story.deleteStory(storyId)
+            const data = await this.story.deleteStory(slug)
             return { data }
         } catch (error) {
             throw new CustomException(

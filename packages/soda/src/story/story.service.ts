@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { errorCodes } from 'src/common/codes/error'
+import { errorCodes } from 'src/core/codes/error'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from 'src/common/pagination'
-import { CustomError } from 'src/common/response'
-import { PrismaService } from 'src/common/modules/db/prisma.service'
-import { CacheService } from 'src/common/modules/cache/cache.service'
+} from 'src/core/pagination'
+import { CustomError } from 'src/core/response'
+import { PrismaService } from 'src/core/modules/db/prisma.service'
+import { CacheService } from 'src/core/modules/cache/cache.service'
 import { prismaOffsetPagination } from 'src/utils/prisma'
-import { CreateStoryDto, UpdateStoryDto } from './dto'
+import { CreateStoryDTO, UpdateStoryDTO } from './dto'
 import { StoryRO } from './interfaces'
 
 @Injectable()
@@ -123,7 +123,7 @@ export class StoryService {
         return story
     }
 
-    async createStory(userId: string, data: CreateStoryDto): Promise<any> {
+    async createStory(userId: string, data: CreateStoryDTO): Promise<any> {
         try {
             const product = await this.db.story.create({
                 data: {
@@ -149,7 +149,7 @@ export class StoryService {
         }
     }
 
-    async updateStory(slug: string, update: UpdateStoryDto): Promise<any> {
+    async updateStory(slug: string, update: UpdateStoryDTO): Promise<any> {
         try {
             const data = await this.db.story.update({
                 where: { slug },

@@ -43,6 +43,7 @@ export class Category implements CategoryModel {
         Object.assign(this, partial)
     }
 
+    id: string
     label: string
     value: string
     styles: string[]
@@ -57,6 +58,7 @@ export class Tag implements TagModel {
         Object.assign(this, partial)
     }
 
+    id: string
     styles: string[]
     active: boolean
     createdAt: Date
@@ -71,5 +73,6 @@ export class Company implements CompanyModel {
         Object.assign(this, partial)
     }
 
+    id: string
     name: string
 }

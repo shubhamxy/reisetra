@@ -13,23 +13,24 @@ import { ConfigService } from '@nestjs/config'
 import { Throttle } from '@nestjs/throttler'
 import { OAuth2Client } from 'google-auth-library'
 import { Public } from 'src/auth/decorator/public.decorator'
-import { errorCodes } from 'src/common/codes/error'
+import { errorCodes } from 'src/core/codes/error'
 import {
     CustomError,
     CustomException,
     SuccessResponse,
     SuccessResponseDTO,
-} from 'src/common/response'
+} from 'src/core/response'
 import config, { auth, AuthEnv } from 'src/config'
-import { CreateUserDto } from 'src/user/dto'
+import { ROUTES } from 'src/constants'
+import { CreateUserDTO } from 'src/user/dto'
 import { User } from 'src/user/entity'
 import { AuthenticatedRequest } from './auth.interface'
 import { AuthResponse, AuthService } from './auth.service'
 import {
-    EmailParams,
-    ResetPasswordDto,
-    UpdatePasswordDto,
-    VerifyEmailParams,
+    EmailDTO,
+    ResetPasswordDTO,
+    UpdatePasswordDTO,
+    VerifyEmailDTO,
 } from './dto/login.dto'
 import { GoogleAuthGuard } from './gaurd/google.gaurd'
 import { LocalAuthGuard } from './gaurd/local.gaurd'
@@ -37,7 +38,7 @@ import JwtRefreshGuard from './gaurd/refresh.gaurd'
 import { GoogleUser } from './strategy/google.strategy'
 const authConfig = auth()
 
-@Controller('auth')
+@Controller(ROUTES.auth)
 export class AuthController {
     googleOAuth2client: OAuth2Client
     auth: AuthEnv
@@ -58,8 +59,9 @@ export class AuthController {
      * @returns authentication data
      */
     @Public()
-    @Post('email/signup')
-    async emailSignup(@Body() body: CreateUserDto): Promise<SuccessResponse> {
+    @Post(ROUTES.email_signup)
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    async emailSignup(@Body() body: CreateUserDTO): Promise<SuccessResponse> {
         try {
             const data = await this.authService.signup(body)
             return { data, message: 'SignUp Success' }
@@ -80,7 +82,7 @@ export class AuthController {
     @Public()
     @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
     @UseGuards(LocalAuthGuard)
-    @Post('email/login')
+    @Post(ROUTES.email_login)
     async emailLogin(
         @Req()
         request: AuthenticatedRequest<Record<string, unknown>, Partial<User>>
@@ -103,8 +105,9 @@ export class AuthController {
      * @returns authentication data
      */
     @Public()
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
     @UseGuards(JwtRefreshGuard)
-    @Get('refresh')
+    @Get(ROUTES.refresh)
     async refresh(
         @Req() request: AuthenticatedRequest
     ): Promise<SuccessResponse> {
@@ -125,7 +128,8 @@ export class AuthController {
      *
      */
     @Public()
-    @Get('login/oauth/google')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.login_oauth_google)
     @UseGuards(GoogleAuthGuard)
     async googleAuth(): Promise<SuccessResponse> {
         return {
@@ -138,7 +142,8 @@ export class AuthController {
      *
      */
     @Public()
-    @Get('login/oauth/google/redirect')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.login_oauth_google_redirect)
     @UseGuards(GoogleAuthGuard)
     async googleAuthRedirect(
         @Req()
@@ -166,7 +171,8 @@ export class AuthController {
      *
      */
     @Public()
-    @Post('login/oauth/google/verify')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Post(ROUTES.login_oauth_google_verify)
     async googleAuthEndPoint(
         @Body()
         body: {
@@ -206,15 +212,16 @@ export class AuthController {
      *
      */
     @Public()
-    @Get('email/verify/:id/:token')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.email_verify_by_userId_and_token)
     public async verifyEmail(
         @Param()
-        params: VerifyEmailParams,
+        params: VerifyEmailDTO,
         @Response() response
     ) {
         try {
             const emailVerified = await this.authService.verifyEmail(
-                params.id,
+                params.userId,
                 params.token
             )
             if (emailVerified) {
@@ -237,7 +244,7 @@ export class AuthController {
      * Resend verification email.
      *
      */
-    @Get('email/resend-verification')
+    @Get(ROUTES.auth_email_resend_verification)
     public async sendEmailVerification(
         @Req() request: AuthenticatedRequest
     ): Promise<SuccessResponse> {
@@ -261,9 +268,10 @@ export class AuthController {
     }
 
     @Public()
-    @Get('email/forgot-password/:email')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.email_forgot_password_by_email)
     public async sendEmailForgotPassword(
-        @Param() params: EmailParams
+        @Param() params: EmailDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.authService.sendForgotPasswordEmail(
@@ -284,7 +292,8 @@ export class AuthController {
     }
 
     @Public()
-    @Get('email/reset-password/:email/:token')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Get(ROUTES.email_reset_password_by_email_and_token)
     public async resetPassword(
         @Param()
         params: {
@@ -298,7 +307,7 @@ export class AuthController {
                 // @TODO redirect to reset page
                 return response.redirect(
                     303,
-                    `${config.clientUrl}/login/reset-password?email=${params.email}&token=${params.token}`
+                    `${config.authUrl}/reset-password?email=${params.email}&token=${params.token}`
                 )
             } else {
                 // @TODO redirect to error page
@@ -314,9 +323,10 @@ export class AuthController {
     }
 
     @Public()
-    @Post('email/reset-password')
+    @Throttle(authConfig.common.throttleLimit, authConfig.common.throttleTTL)
+    @Post(ROUTES.email_reset_password)
     public async setNewPassord(
-        @Body() body: ResetPasswordDto
+        @Body() body: ResetPasswordDTO
     ): Promise<SuccessResponse> {
         try {
             const tokenVerified = await this.authService.verifyForgotPasswordToken(
@@ -345,9 +355,9 @@ export class AuthController {
         }
     }
 
-    @Post('email/update-password')
+    @Post(ROUTES.email_update_password)
     public async updatePassord(
-        @Body() body: UpdatePasswordDto,
+        @Body() body: UpdatePasswordDTO,
         @Req() request: AuthenticatedRequest
     ): Promise<SuccessResponse> {
         try {

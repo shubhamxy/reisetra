@@ -70,21 +70,21 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
         errors,
         handleChange,
         handleSubmit,
-        validateForm,
-        setTouched,
         handleBlur,
-        resetForm,
     } = useFormik({
         initialValues,
         validateOnMount: true,
         enableReinitialize: true,
         validationSchema: addressSchema,
         onSubmit: (data) => {
-            const { isBillingAddressSame, ...rest } = data
+            const { isBillingAddressSame } = data
             cartCheckout.mutate(
                 {
                     cartId: cart.id,
                     addressId: data['address'],
+                    billingAddressId: isBillingAddressSame
+                        ? data['address']
+                        : data['billingAddress'],
                     promo: promo,
                 },
                 {
@@ -197,7 +197,7 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
                             variant="contained"
                             size="medium"
                             color="secondary"
-                            onClick={(e) => {
+                            onClick={() => {
                                 dispatch(updatePromo(values.promo))
                             }}
                         >
@@ -224,7 +224,7 @@ export function Checkout({ cart, promo, data, handleTransaction }) {
                         variant="contained"
                         size="large"
                         color="primary"
-                        onClick={(e) => {
+                        onClick={() => {
                             if (!isValid) {
                                 dispatch(
                                     updateSnackBar({

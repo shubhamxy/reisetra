@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/inventory/inventory.controller.ts</code>
+            <code>src/product/inventory/inventory.controller.ts</code>
         </p>
 
 
@@ -129,7 +129,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createProduct(body: <a href="../classes/CreateInventoryDto.html" target="_self">CreateInventoryDto</a>)</code>
+                    <code>createProduct(body: <a href="../classes/CreateInventoryDTO.html" target="_self">CreateInventoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -137,14 +137,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Post(&#x27;inventory&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/product/inventory/inventory.controller.ts:46</a></div>
                 </td>
             </tr>
 
@@ -167,7 +167,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateInventoryDto.html" target="_self" >CreateInventoryDto</a></code>
+                                                <code><a href="../classes/CreateInventoryDTO.html" target="_self" >CreateInventoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -215,14 +215,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;inventory/:id&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.inventories_by_id)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/product/inventory/inventory.controller.ts:67</a></div>
                 </td>
             </tr>
 
@@ -285,7 +285,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllInventory(query: <a href="../classes/GetAllInventoryDto.html" target="_self">GetAllInventoryDto</a>)</code>
+                    <code>getAllInventory(query: <a href="../classes/GetAllInventoryDTO.html" target="_self">GetAllInventoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -293,14 +293,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;allInventory&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.inventories_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/product/inventory/inventory.controller.ts:29</a></div>
                 </td>
             </tr>
 
@@ -323,7 +323,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllInventoryDto.html" target="_self" >GetAllInventoryDto</a></code>
+                                                <code><a href="../classes/GetAllInventoryDTO.html" target="_self" >GetAllInventoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -371,14 +371,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;inventory/:id&#x27;)<br /></code>
+                    <code>@Get(ROUTES.inventories_by_id)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/product/inventory/inventory.controller.ts:37</a></div>
                 </td>
             </tr>
 
@@ -441,7 +441,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateProduct(inventoryId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateInventoryDto.html" target="_self">UpdateInventoryDto</a>)</code>
+                    <code>updateProduct(inventoryId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateInventoryDTO.html" target="_self">UpdateInventoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -449,14 +449,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Put(&#x27;inventory/:id&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Put(ROUTES.inventories_by_id)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">src/inventory/inventory.controller.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/product/inventory/inventory.controller.ts:57</a></div>
                 </td>
             </tr>
 
@@ -491,7 +491,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateInventoryDto.html" target="_self" >UpdateInventoryDto</a></code>
+                                                <code><a href="../classes/UpdateInventoryDTO.html" target="_self" >UpdateInventoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -532,29 +532,30 @@ import {
     Query,
 } from &#x27;@nestjs/common&#x27;
 import { InventoryService } from &#x27;./inventory.service&#x27;
-import { CustomError, SuccessResponse } from &#x27;src/common/response&#x27;
+import { CustomError, SuccessResponse } from &#x27;src/core/response&#x27;
 import {
-    CreateInventoryDto,
-    GetAllInventoryDto,
-    UpdateInventoryDto,
+    CreateInventoryDTO,
+    GetAllInventoryDTO,
+    UpdateInventoryDTO,
 } from &#x27;./dto&#x27;
-import { errorCodes } from &#x27;src/common/codes/error&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-@Controller()
+@Controller(ROUTES.inventories)
 export class InventoryController {
     constructor(private readonly inventory: InventoryService) {}
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Get(&#x27;allInventory&#x27;)
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.inventories_all)
     async getAllInventory(
-        @Query() query: GetAllInventoryDto
+        @Query() query: GetAllInventoryDTO
     ): Promise&lt;SuccessResponse&gt; {
         const { results, ...meta } &#x3D; await this.inventory.getAllInventory(query)
         return { data: results || [], meta: meta }
     }
 
-    @Get(&#x27;inventory/:id&#x27;)
+    @Get(ROUTES.inventories_by_id)
     async getProduct(
         @Param(&#x27;id&#x27;) inventoryId: string
     ): Promise&lt;SuccessResponse&gt; {
@@ -562,10 +563,10 @@ export class InventoryController {
         return { data }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Post(&#x27;inventory&#x27;)
+    @Roles(Role.ADMIN)
+    @Post()
     async createProduct(
-        @Body() body: CreateInventoryDto
+        @Body() body: CreateInventoryDTO
     ): Promise&lt;SuccessResponse&gt; {
         throw new CustomError(
             &#x27;Cannot create inventory directly&#x27;,
@@ -573,18 +574,18 @@ export class InventoryController {
         )
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Put(&#x27;inventory/:id&#x27;)
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.inventories_by_id)
     async updateProduct(
         @Param(&#x27;id&#x27;) inventoryId: string,
-        @Body() body: UpdateInventoryDto
+        @Body() body: UpdateInventoryDTO
     ): Promise&lt;SuccessResponse&gt; {
         const data &#x3D; await this.inventory.updateInventory(inventoryId, body)
         return { data }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;inventory/:id&#x27;)
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.inventories_by_id)
     async deleteProduct(
         @Param(&#x27;id&#x27;) inventoryId: string
     ): Promise&lt;SuccessResponse&gt; {

@@ -13,7 +13,8 @@ import {
     isRequired,
     PASSWORD_IS_WEAK,
 } from '../../constants'
-export class AuthUserDto {
+
+export class AuthUserDTO {
     @IsEmail({}, { message: 'Email is invalid' })
     readonly email: string
 
@@ -21,7 +22,7 @@ export class AuthUserDto {
     readonly password: string
 }
 
-export class ResetPasswordDto {
+export class ResetPasswordDTO {
     @IsEmail({}, { message: 'Email is invalid' })
     readonly email: string
 
@@ -34,7 +35,7 @@ export class ResetPasswordDto {
     readonly token: string
 }
 
-export class UpdatePasswordDto {
+export class UpdatePasswordDTO {
     @IsNotEmpty({ message: isRequired('Password') })
     @MinLength(8, { message: PASSWORD_MIN_LENGTH })
     @MaxLength(20, { message: PASSWORD_MAX_LENGTH })
@@ -44,15 +45,15 @@ export class UpdatePasswordDto {
     readonly oldPassword: string
 }
 
-export class VerifyEmailParams {
+export class VerifyEmailDTO {
     @IsString()
-    id: string
+    userId: string
 
     @IsString()
     token: string
 }
 
-export class EmailParams {
+export class EmailDTO {
     @IsEmail({}, { message: 'Email is invalid' })
     readonly email: string
 }

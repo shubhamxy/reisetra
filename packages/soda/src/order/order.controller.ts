@@ -11,22 +11,23 @@ import {
     Req,
 } from '@nestjs/common'
 import { OrderService } from './order.service'
-import { CustomException, SuccessResponse } from 'src/common/response'
+import { CustomException, SuccessResponse } from 'src/core/response'
 import {
-    CreateOrderDto,
-    GetAllOrdersDocumentsDto,
-    GetAllOrdersDto,
-    UpdateOrderDto,
+    CreateOrderDTO,
+    GetAllOrdersDocumentsDTO,
+    GetAllOrdersDTO,
+    UpdateOrderDTO,
 } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles } from 'src/auth/decorator/roles.decorator'
-@Controller()
+import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { ROUTES } from 'src/constants'
+@Controller(ROUTES.orders)
 export class OrderController {
     constructor(private readonly order: OrderService) {}
-    @Get('orders/all')
+    @Get(ROUTES.orders_all)
     async getAllOrders(
         @Req() request: AuthenticatedRequest,
-        @Query() query: GetAllOrdersDto
+        @Query() query: GetAllOrdersDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.order.getAllOrders(query)
@@ -40,10 +41,10 @@ export class OrderController {
         }
     }
 
-    @Get('orders')
+    @Get()
     async getUserOrders(
         @Req() request: AuthenticatedRequest,
-        @Query() query: GetAllOrdersDto
+        @Query() query: GetAllOrdersDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.order.getUserOrders(
@@ -60,7 +61,7 @@ export class OrderController {
         }
     }
 
-    @Get('order/:orderId')
+    @Get(ROUTES.orders_by_orderId)
     async getOrder(
         @Param('orderId') orderId: string
     ): Promise<SuccessResponse> {
@@ -76,10 +77,10 @@ export class OrderController {
         }
     }
 
-    @Get('order/:orderId/documents')
+    @Get(ROUTES.orders_by_orderId_documents)
     async getOrderDocuments(
         @Param('orderId') orderId: string,
-        @Query() query: GetAllOrdersDocumentsDto
+        @Query() query: GetAllOrdersDocumentsDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.order.getOrderDocuments(
@@ -96,10 +97,10 @@ export class OrderController {
         }
     }
 
-    @Post('order')
+    @Post()
     async createOrder(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateOrderDto
+        @Body() body: CreateOrderDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.order.createOrder(request.user.id, body)
@@ -113,11 +114,11 @@ export class OrderController {
         }
     }
 
-    @Put('order/:orderId')
+    @Put(ROUTES.orders_by_orderId)
     async updateOrder(
         @Req() request: AuthenticatedRequest,
         @Param('orderId') orderId: string,
-        @Body() body: UpdateOrderDto
+        @Body() body: UpdateOrderDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.order.updateOrder(
@@ -135,8 +136,8 @@ export class OrderController {
         }
     }
 
-    @Roles('ADMIN')
-    @Delete('order/:orderId')
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.orders_by_orderId)
     async deleteOrder(
         @Param('orderId') orderId: string
     ): Promise<SuccessResponse> {
@@ -152,7 +153,7 @@ export class OrderController {
         }
     }
 
-    @Put('order/:orderId/cancel')
+    @Put(ROUTES.orders_by_orderId_cancel)
     async cancelOrder(
         @Param('orderId') orderId: string
     ): Promise<SuccessResponse> {

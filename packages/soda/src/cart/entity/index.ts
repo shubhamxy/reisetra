@@ -1,14 +1,11 @@
-import {
-    CartItem as CartItemModel,
-    Cart as CartModel,
-    Offer as OfferModel,
-} from '.prisma/client'
+import { CartItem as CartItemModel, Cart as CartModel } from '.prisma/client'
 
 export class CartItem implements CartItemModel {
     constructor(partial: Partial<CartItemModel>) {
         Object.assign(this, partial)
     }
 
+    id: string
     userId: string
     quantity: number
     size: string
@@ -43,18 +40,4 @@ export class Cart implements CartModel {
     updatedAt: Date
     checkedOut: boolean
     active: boolean
-}
-
-export class Offer implements OfferModel {
-    constructor(partial: Partial<OfferModel>) {
-        Object.assign(this, partial)
-    }
-
-    label: string
-    value: string
-    type: string
-    description: string
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
 }

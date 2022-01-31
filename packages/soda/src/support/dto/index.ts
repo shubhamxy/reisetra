@@ -1,6 +1,10 @@
 import { Allow } from 'class-validator'
+import { CursorPaginationDTO } from 'src/core/dto'
 
-export class CreateSupportTicketDto {
+export class AllTicketsDTO extends CursorPaginationDTO {}
+export class TicketsDTO extends CursorPaginationDTO {}
+
+export class TicketDTO {
     @Allow()
     subject: string
 
@@ -14,9 +18,9 @@ export class CreateSupportTicketDto {
     ticketId?: string
 }
 
-export class GetFormDataDto {
+export class GetFormDataDTO {
     @Allow()
     formId: string
 }
 
-export class CreateFormDataDto {}
+export class CreateFormDataDTO {}

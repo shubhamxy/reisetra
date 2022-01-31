@@ -195,7 +195,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createStory(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/CreateStoryDto.html" target="_self">CreateStoryDto</a>)</code>
+                    <code>createStory(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/CreateStoryDTO.html" target="_self">CreateStoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -238,7 +238,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                                <code><a href="../classes/CreateStoryDto.html" target="_self" >CreateStoryDto</a></code>
+                                                <code><a href="../classes/CreateStoryDTO.html" target="_self" >CreateStoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -574,7 +574,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateStoryDto.html" target="_self">UpdateStoryDto</a>)</code>
+                    <code>updateStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateStoryDTO.html" target="_self">UpdateStoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -617,7 +617,7 @@
                                 <tr>
                                     <td>update</td>
                                     <td>
-                                                <code><a href="../classes/UpdateStoryDto.html" target="_self" >UpdateStoryDto</a></code>
+                                                <code><a href="../classes/UpdateStoryDTO.html" target="_self" >UpdateStoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -649,16 +649,16 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
-import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &#x27;src/common/pagination&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+} from &#x27;src/core/pagination&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
 import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
-import { CreateStoryDto, UpdateStoryDto } from &#x27;./dto&#x27;
+import { CreateStoryDTO, UpdateStoryDTO } from &#x27;./dto&#x27;
 import { StoryRO } from &#x27;./interfaces&#x27;
 
 @Injectable()
@@ -773,7 +773,7 @@ export class StoryService {
         return story
     }
 
-    async createStory(userId: string, data: CreateStoryDto): Promise&lt;any&gt; {
+    async createStory(userId: string, data: CreateStoryDTO): Promise&lt;any&gt; {
         try {
             const product &#x3D; await this.db.story.create({
                 data: {
@@ -799,7 +799,7 @@ export class StoryService {
         }
     }
 
-    async updateStory(slug: string, update: UpdateStoryDto): Promise&lt;any&gt; {
+    async updateStory(slug: string, update: UpdateStoryDTO): Promise&lt;any&gt; {
         try {
             const data &#x3D; await this.db.story.update({
                 where: { slug },

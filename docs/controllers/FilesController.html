@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/files/files.controller.ts</code>
+            <code>src/master/files/files.controller.ts</code>
         </p>
 
 
@@ -84,6 +84,10 @@
                             <li>
                                     <span class="modifier">Async</span>
                                 <a href="#deleteFile" >deleteFile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAllFiles" >getAllFiles</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -133,14 +137,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;file&#x27;)<br /></code>
+                    <code>@Put()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/files/files.controller.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">src/master/files/files.controller.ts:84</a></div>
                 </td>
             </tr>
 
@@ -223,14 +227,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;file&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">src/files/files.controller.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">src/master/files/files.controller.ts:104</a></div>
                 </td>
             </tr>
 
@@ -294,18 +298,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getFiles"></a>
+                    <a name="getAllFiles"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>getFiles</b></span>
-                        <a href="#getFiles"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getAllFiles</b></span>
+                        <a href="#getAllFiles"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getFiles(query: <a href="../classes/FilesDTO.html" target="_self">FilesDTO</a>)</code>
+                    <code>getAllFiles(query: <a href="../classes/FilesDTO.html" target="_self">FilesDTO</a>)</code>
                 </td>
             </tr>
 
@@ -313,14 +317,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Get(&#x27;files&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.files_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/files/files.controller.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/master/files/files.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -372,6 +376,96 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getFiles"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getFiles</b></span>
+                        <a href="#getFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFiles(query: <a href="../classes/FilesDTO.html" target="_self">FilesDTO</a>, request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get()<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/master/files/files.controller.ts:40</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="../classes/FilesDTO.html" target="_self" >FilesDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getSignedUrl"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -391,14 +485,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;file/upload&#x27;)<br /></code>
+                    <code>@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/files/files.controller.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/master/files/files.controller.ts:60</a></div>
                 </td>
             </tr>
 
@@ -474,27 +568,42 @@ import {
     Query,
     Req,
 } from &#x27;@nestjs/common&#x27;
-import { PinoLogger } from &#x27;nestjs-pino&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
 import { FilesService } from &#x27;./files.service&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
 import { FileDTO, FilesDTO, FileUploadDTO } from &#x27;./dto/file.dto&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-@Controller()
+@Controller(ROUTES.files)
 export class FilesController {
-    constructor(
-        private readonly logger: PinoLogger,
-        private readonly files: FilesService
-    ) {
-        logger.setContext(FilesController.name)
-    }
+    constructor(private readonly files: FilesService) {}
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Get(&#x27;files&#x27;)
-    async getFiles(@Query() query: FilesDTO): Promise&lt;SuccessResponse&gt; {
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.files_all)
+    async getAllFiles(@Query() query: FilesDTO): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.files.getAllFiles(query)
+            return { data: results || [], meta: meta }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;FilesController.getAllFiles&#x27;
+            )
+        }
+    }
+
+    @Get()
+    async getFiles(
+        @Query() query: FilesDTO,
+        @Req() request: AuthenticatedRequest
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const { results, ...meta } &#x3D; await this.files.getFiles(
+                query,
+                request.user.id
+            )
             return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
@@ -505,7 +614,31 @@ export class FilesController {
         }
     }
 
-    @Put(&#x27;file&#x27;)
+    @Post()
+    async getSignedUrl(
+        @Req() request: AuthenticatedRequest,
+        @Body() body: FileUploadDTO
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.files.uploadFile({
+                userId: request.user.id,
+                contentType: body.contentType,
+                fileName: body.fileName,
+                fileType: body.fileType,
+            })
+            return {
+                data: data,
+            }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;FilesController.getSignedUrl&#x27;
+            )
+        }
+    }
+
+    @Put()
     async addFile(
         @Req() request: AuthenticatedRequest,
         @Body() body: FileDTO
@@ -524,55 +657,14 @@ export class FilesController {
         }
     }
 
-    @Post(&#x27;file/upload&#x27;)
-    async getSignedUrl(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: FileUploadDTO
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.files.uploadFile({
-                userId: request.user.id,
-                contentType: body.contentType,
-                fileName: body.fileName,
-                fileType: body.fileType,
-            })
-            const {
-                id,
-                contentType,
-                signedUrl,
-                expiresIn,
-                fileName,
-                ...other
-            } &#x3D; data
-            await this.files.addFile(request.user.id, {
-                ...other,
-                meta: {
-                    id,
-                    contentType,
-                    fileName,
-                },
-            })
-            return {
-                data: data,
-            }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;FilesController.getSignedUrl&#x27;
-            )
-        }
-    }
-
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;file&#x27;)
+    @Roles(Role.ADMIN)
+    @Delete()
     async deleteFile(
         @Req() request: AuthenticatedRequest,
         @Body(&#x27;url&#x27;) url: string
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.files.deleteFile(request.user.id, url)
-            this.logger.info(&#x27;s3.deleteObject::&#x27; + data.id)
             return {
                 data: data,
             }

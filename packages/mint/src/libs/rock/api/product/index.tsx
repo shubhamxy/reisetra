@@ -65,8 +65,41 @@ export interface CreateOfferDTO {
 }
 
 export function getProduct({ queryKey }: { queryKey: any }) {
-    return get(`product/${queryKey[1]}`)
+    return get(`products/${queryKey[1]}`)
 }
+
+export function createProduct(body: CreateProductDTO) {
+    return post('products', body)
+}
+
+export function updateProduct({
+    productId,
+    body,
+}: {
+    productId: string
+    body: CreateProductDTO
+}) {
+    return put(`products/${productId}`, body)
+}
+interface PaginationParams {
+    [key: string]: string
+    size?: string
+    buttonNum?: string
+    cursor?: string
+    orderBy?: string
+    orderDirection?: 'desc' | 'asc'
+}
+
+export function getProducts(params: PaginationParams) {
+    const qs = queryString.stringify(pickBy(params, identity))
+    return get(`products?${qs}`)
+}
+
+export function getRecommendations(params: PaginationParams) {
+    const qs = queryString.stringify(pickBy(params, identity))
+    return get(`products/recommendations?${qs}`)
+}
+
 export function getTags({ queryKey }) {
     const qs = queryString.stringify(pickBy(queryKey[1], identity))
     return get(`tags?${qs}`)
@@ -90,38 +123,6 @@ export function createTag(body: CreateTagDTO) {
 }
 export function createOffer(body: CreateOfferDTO[]) {
     return post('offers', body)
-}
-
-export function createProduct(body: CreateProductDTO) {
-    return post('product', body)
-}
-
-export function updateProduct({
-    productId,
-    body,
-}: {
-    productId: string
-    body: CreateProductDTO
-}) {
-    return put(`product/${productId}`, body)
-}
-interface PaginationParams {
-    [key: string]: string
-    size?: string
-    buttonNum?: string
-    cursor?: string
-    orderBy?: string
-    orderDirection?: 'desc' | 'asc'
-}
-
-export function getProducts(params: PaginationParams) {
-    const qs = queryString.stringify(pickBy(params, identity))
-    return get(`products?${qs}`)
-}
-
-export function getRecommendations(params: PaginationParams) {
-    const qs = queryString.stringify(pickBy(params, identity))
-    return get(`product/recommendations?${qs}`)
 }
 
 export function getReviews({
@@ -148,8 +149,9 @@ interface CreateReviewDTO {
     tags: string[]
     rating: number
 }
+
 export function createReview(body: CreateReviewDTO) {
-    return post('review', body)
+    return post('reviews', body)
 }
 
 export function updateReview({
@@ -159,9 +161,9 @@ export function updateReview({
     id: string
     body: CreateReviewDTO
 }) {
-    return put(`review/${id}`, body)
+    return put(`reviews/${id}`, body)
 }
 
 export function deleteReview(id: string) {
-    return del(`review/${id}`)
+    return del(`reviews/${id}`)
 }

@@ -195,11 +195,9 @@ const useGridItemStyles = makeStyles<
 
 export function GridItem({
     styleIndex = 0,
-    id,
     title,
     description,
     tags,
-    body,
     styles: colors,
     onClick,
     files,

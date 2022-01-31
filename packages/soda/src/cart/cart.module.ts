@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { CartController } from './cart.controller'
-import { PrismaService } from '../common/modules/db/prisma.service'
+import { PrismaService } from '../core/modules/db/prisma.service'
 import { CartService } from './cart.service'
 import { UserService } from '../user/user.service'
-import { CacheModule } from 'src/common/modules/cache/cache.module'
-import { TransactionModule } from 'src/transaction/transaction.module'
+import { CacheModule } from 'src/core/modules/cache/cache.module'
+import { TransactionModule } from 'src/order/transaction/transaction.module'
 
 @Module({
     imports: [CacheModule, TransactionModule],

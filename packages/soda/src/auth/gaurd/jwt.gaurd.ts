@@ -6,8 +6,8 @@ import {
     IS_LOCAL_AUTHENTICATED,
     IS_PUBLIC_KEY,
 } from '../../auth/decorator/public.decorator'
-import { errorCodes, errorTypes } from '../../common/codes/error'
-import { Exception } from '../../common/response'
+import { errorCodes, errorTypes } from '../../core/codes/error'
+import { CustomException } from '../../core/response'
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -35,7 +35,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     handleRequest(err: any, user: any, info: any, context: any, status: any) {
         if (err || !user) {
-            throw new Exception(
+            throw new CustomException(
                 {
                     message: 'Authentication Failed',
                     code: errorCodes.AuthFailed,

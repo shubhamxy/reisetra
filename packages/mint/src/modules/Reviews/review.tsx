@@ -15,9 +15,9 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
+    Button,
 } from '@material-ui/core'
 import { Delete, Edit } from '@material-ui/icons'
-import { Button } from '@material-ui/core'
 
 const useStyles = makeStyles<any, any>((theme: Theme) =>
     createStyles({
@@ -66,13 +66,11 @@ export default function ReviewCard({
     onEdit,
     onDelete,
     selected,
-    onClick,
     images,
     rating,
     description,
     createdAt,
     editable,
-    onSelected,
     user,
 }) {
     const classes = useStyles({ selected })

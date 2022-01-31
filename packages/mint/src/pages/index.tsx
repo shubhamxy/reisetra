@@ -131,7 +131,7 @@ const IndexPage = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <Categories filters={{}} />
+                        <Categories />
                     </Grid>
                 </Grid>
                 <HelpDesk />

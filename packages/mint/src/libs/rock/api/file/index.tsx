@@ -17,17 +17,10 @@ export interface fileUploadParams {
 }
 
 export function createFileUploadSignedUrl(body: fileUploadParams) {
-    return post<fileUploadParams, FileUploadSignedUrlResponse>(
-        'file/upload',
-        body
-    )
+    return post<fileUploadParams, FileUploadSignedUrlResponse>('files', body)
 }
 
-export function uploadFileToUrl(
-    url: string,
-    contentType: string,
-    file: BodyInit
-) {
+export function uploadFileToUrl(url: string, contentType: string, file: any) {
     const config = {}
     config['headers'] = {}
     config['headers']['Content-Type'] = contentType
@@ -38,7 +31,7 @@ export async function uploadFile({
     file,
     params,
 }: {
-    file: BodyInit
+    file: any
     params: fileUploadParams
 }) {
     const result = await createFileUploadSignedUrl(params)

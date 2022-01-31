@@ -1,16 +1,7 @@
-import { useInfiniteQuery } from 'react-query'
-import {
-    DataT,
-    del,
-    get,
-    IErrorResponse,
-    ISuccessResponse,
-    post,
-    put,
-} from '../../utils/http'
-const queryString = require('query-string')
+import { del, get, put } from '../../utils/http'
 import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
+const queryString = require('query-string')
 
 interface PaginationParams {
     [key: string]: string
@@ -41,7 +32,7 @@ interface IOrder {
 }
 
 export function getOrder({ queryKey }: { queryKey: any }) {
-    return get(`order/${queryKey[1]}`)
+    return get(`orders/${queryKey[1]}`)
 }
 
 export function getOrders(params: PaginationParams) {
@@ -56,17 +47,17 @@ export function updateOrder({
     orderId: string
     body: Partial<IOrder>
 }) {
-    return put<Partial<IOrder>, Partial<IOrder>>(`order/${orderId}`, body)
+    return put<Partial<IOrder>, Partial<IOrder>>(`orders/${orderId}`, body)
 }
 
 export function cancelOrder(orderId: string) {
-    return put<Partial<IOrder>>(`order/${orderId}/cancel`, {})
+    return put<Partial<IOrder>>(`orders/${orderId}/cancel`, {})
 }
 
 export function deleteOrder(orderId: string) {
-    return del<Partial<IOrder>>(`order/${orderId}`, {})
+    return del<Partial<IOrder>>(`orders/${orderId}`, {})
 }
 
 export function getOrderInvoice(orderId: string) {
-    return get(`order/${orderId}/documents`)
+    return get(`orders/${orderId}/documents`)
 }

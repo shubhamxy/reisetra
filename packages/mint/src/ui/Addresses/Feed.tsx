@@ -1,17 +1,7 @@
-import React, { useEffect } from 'react'
-import {
-    Paper,
-    Box,
-    Typography,
-    makeStyles,
-    CircularProgress,
-    Divider,
-    Button,
-    Grid,
-    ButtonGroup,
-} from '@material-ui/core'
+import React from 'react'
+import { Box, Typography, makeStyles, LinearProgress } from '@material-ui/core'
 import { List } from '../List/List'
-import { ProductCard } from './Card'
+import { Card } from './Card'
 
 export const useStyles = makeStyles<any>((theme) => ({
     root: { height: '100%', display: 'flex', flexDirection: 'column', flex: 1 },
@@ -28,7 +18,7 @@ export const useStyles = makeStyles<any>((theme) => ({
     },
 }))
 
-export function AddressList({ data, selected, setSelected }) {
+export function Feed({ data, selected, setSelected }) {
     const classes = useStyles()
     return (
         <List
@@ -47,7 +37,7 @@ export function AddressList({ data, selected, setSelected }) {
                 </Box>
             }
             renderItem={({ item, index }) => (
-                <ProductCard
+                <Card
                     key={index}
                     data={item}
                     selected={selected}
@@ -64,7 +54,10 @@ export function AddressList({ data, selected, setSelected }) {
                     pt={2}
                     pb={2}
                 >
-                    <CircularProgress size={24} />
+                    <LinearProgress
+                        style={{ minWidth: 140 }}
+                        variant="indeterminate"
+                    />
                 </Box>
             }
         />

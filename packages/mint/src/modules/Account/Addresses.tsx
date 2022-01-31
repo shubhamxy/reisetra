@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import {
     Theme,
     createStyles,
@@ -15,14 +15,11 @@ import {
     useDeleteAddress,
     useUpdateAddress,
 } from '../../libs'
-import { AddressList } from '../../ui/Addresses'
+import { Feed } from '../../ui/Addresses'
 import {
     Grid,
-    Paper,
     ButtonGroup,
     Button,
-    FormControlLabel,
-    Checkbox,
     Box,
     Accordion,
     AccordionSummary,
@@ -33,11 +30,8 @@ import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-import { useState } from 'react'
-import { useRouter } from 'next/router'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
@@ -136,15 +130,12 @@ export function Addresses({
 
     const {
         values,
-        setFieldValue,
         isValid,
         touched,
         errors,
         handleChange,
         setValues,
         handleSubmit,
-        validateForm,
-        setTouched,
         handleBlur,
         resetForm,
     } = useFormik({
@@ -160,7 +151,7 @@ export function Addresses({
                         body: data,
                     },
                     {
-                        onSuccess: ({ data }) => {
+                        onSuccess: () => {
                             handleClose()
                         },
                         onError: () => {},
@@ -168,7 +159,7 @@ export function Addresses({
                 )
             } else {
                 createAddress.mutate(data, {
-                    onSuccess: ({ data }) => {
+                    onSuccess: () => {
                         handleClose()
                     },
                     onError: () => {},
@@ -281,7 +272,7 @@ export function Addresses({
                                 </Grid>
                             )}
                             <Grid item xs={12}>
-                                <AddressList
+                                <Feed
                                     data={userAddresses.data?.pages[0].data}
                                     selected={selected}
                                     setSelected={setSelected}
@@ -499,8 +490,9 @@ export function Addresses({
                         </Button>
 
                         <Button
-                            onClick={(e) => {
+                            onClick={() => {
                                 if (!isValid) {
+                                    return
                                 }
                                 handleSubmit()
                             }}
