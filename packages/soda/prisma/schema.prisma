@@ -1,7 +1,7 @@
 generator client {
-  provider      = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["filterJson"]
-  binaryTargets = ["linux-musl", "native"]
+  binaryTargets   = ["linux-musl", "native"]
 }
 
 datasource db {
@@ -19,26 +19,27 @@ model Secrets {
 }
 
 model File {
-  url         String     @id
-  meta        Json       @default("{}")
-  fileType    FileType?
-  userId      String?
-  productId   String?
-  reviewId    String?
-  categoryId  String?
-  tagId       String?
-  storyId     String?
-  orderId     String?
-  active      Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  category    Category? @relation(fields: [categoryId], references: [label])
-  story       Story?    @relation(fields: [storyId], references: [id])
-  product     Product?  @relation(fields: [productId], references: [id])
-  review      Review?   @relation(fields: [reviewId], references: [id])
-  tag         Tag?      @relation(fields: [tagId], references: [label])
-  user        User?     @relation(fields: [userId], references: [id])
-  order       Order?    @relation(fields: [orderId], references: [id])
+  id         String    @id @default(cuid())
+  url        String    @unique
+  meta       Json      @default("{}")
+  fileType   FileType?
+  userId     String?
+  productId  String?
+  reviewId   String?
+  categoryId String?
+  tagId      String?
+  storyId    String?
+  orderId    String?
+  active     Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  story      Story?    @relation(fields: [storyId], references: [id])
+  product    Product?  @relation(fields: [productId], references: [id])
+  review     Review?   @relation(fields: [reviewId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
+  order      Order?    @relation(fields: [orderId], references: [id])
+  category   Category? @relation(fields: [categoryId], references: [id])
+  tag        Tag?      @relation(fields: [tagId], references: [id])
 }
 
 model User {
@@ -64,6 +65,7 @@ model User {
   stories       Story[]
   secrets       Secrets?
   transactions  Transaction[]
+  tickets       Ticket[]
 }
 
 model Cart {
@@ -79,6 +81,7 @@ model Cart {
 }
 
 model CartItem {
+  id        String   @id @default(cuid())
   productId String
   cartId    String
   quantity  Int
@@ -114,7 +117,8 @@ model Address {
 }
 
 model Tag {
-  label       String    @id
+  id          String    @id @default(cuid())
+  label       String    @unique
   value       String?
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now())
@@ -126,7 +130,8 @@ model Tag {
 }
 
 model Category {
-  label       String    @id
+  id          String    @id @default(cuid())
+  label       String    @unique
   value       String?
   styles      String[]
   active      Boolean   @default(true)
@@ -138,6 +143,7 @@ model Category {
 }
 
 model Offer {
+  id          String   @id @default(cuid())
   label       String   @unique
   value       String?
   description String?
@@ -165,40 +171,42 @@ model Review {
 }
 
 model Company {
-  name    String    @id
+  id       String    @id @default(cuid())
+  name     String    @unique
   products Product[]
 }
 
 model Product {
-  id           String     @id @default(cuid())
-  slug         String?    @unique @default(cuid())
+  id           String   @id @default(cuid())
+  slug         String   @unique @default(cuid())
   title        String
-  description  String
-  company      Company    @relation(fields: [brand], references: [name])
-  brand        String     @default("Generic")
+  description  String?
+  brand        String?
   colors       String[]
   sizes        String[]
   styles       String[]
   rating       Int
   dimensions   String[]
   details      Json
-  faqs         Json       @default("[]")
-  published    Boolean    @default(false)
+  faqs         Json     @default("{}")
+  published    Boolean  @default(false)
   mrp          Float
   price        Float
   tax          Float
   taxCode      String?
-  inventoryId  String     @unique
-  active       Boolean    @default(true)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  ratingsCount Int        @default(0)
-  inventory    Inventory  @relation(fields: [inventoryId], references: [id])
-  cart         CartItem[]
-  images       File[]
-  reviews      Review[]
-  categories   Category[]
-  tags         Tag[]
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  ratingsCount Int      @default(0)
+  inventoryId  String   @unique
+
+  company    Company?   @relation(fields: [brand], references: [name])
+  inventory  Inventory? @relation(fields: [inventoryId], references: [id])
+  cart       CartItem[]
+  images     File[]
+  reviews    Review[]
+  categories Category[]
+  tags       Tag[]
 }
 
 model Inventory {
@@ -219,7 +227,7 @@ model Order {
   shipping     Float        @default(0)
   total        Float        @default(0)
   discount     Float        @default(0)
-  grandTotal   Float
+  grandTotal   Float        @default(0)
   promo        String?
   userId       String
   addressId    String
@@ -258,48 +266,58 @@ model Transaction {
 }
 
 model Story {
-  id           String     @id @default(cuid())
-  slug         String?     @unique
-  title        String
-  subtitle     String?
-  styles       String[]
+  id       String   @id @default(cuid())
+  slug     String   @unique
+  title    String
+  subtitle String?
+  styles   String[]
 
-  description  String?
+  description String?
 
-  body         Json       @default("{}")
-  published    Boolean    @default(false)
+  body      Json    @default("{}")
+  published Boolean @default(false)
 
-  userId       String?
+  userId String?
 
-  files         File[]
+  files File[]
 
-  tags         String[]
+  tags String[]
 
-  user         User?              @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
 
-  active       Boolean    @default(true)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Form {
-  id           String     @id @default(cuid())
-  data         Json       @default("{}")
+  id   String @id @default(cuid())
+  data Json   @default("{}")
 
-  active       Boolean    @default(true)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  formResponses       FormResponse[]
+  active        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  formResponses FormResponse[]
 }
 
 model FormResponse {
-  id           String     @id @default(cuid())
-  data         Json       @default("{}")
-  formId       String 
-  active       Boolean    @default(true)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  form         Form?  @relation(fields: [formId], references: [id])
+  id        String   @id @default(cuid())
+  data      Json     @default("{}")
+  formId    String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  form      Form?    @relation(fields: [formId], references: [id])
+}
+
+model Ticket {
+  id        String   @id @default(cuid())
+  data      Json     @default("{}")
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum OAuthProvider {

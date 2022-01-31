@@ -1,9 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { useStyles } from './styles'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Rating } from '@material-ui/lab'
 
 function useHelper({ slug }) {
     const router = useRouter()
@@ -22,18 +22,8 @@ function useHelper({ slug }) {
     }
 }
 
-export function ProductCard({ data }) {
-    const {
-        id,
-        slug,
-        title,
-        description,
-        rating,
-        ratingsCount,
-        price,
-        mrp,
-        images,
-    } = data.product
+export function Card({ data }) {
+    const { slug, title, price, images } = data.product
     const { handleClick } = useHelper({
         slug,
     })

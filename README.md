@@ -9,8 +9,9 @@
   </a>
 </p>
 <p align="center">
-  <img src="./docs/screenshots/1.png" alt="Screengrab"  width="60%"/>
+  <img src="./docs/screenshots/home.png" alt="Screengrab"  width="100%"/>
 </p>
+
 
 ---
 

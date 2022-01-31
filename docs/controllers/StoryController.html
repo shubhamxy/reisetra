@@ -133,7 +133,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createStory(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateStoryDto.html" target="_self">CreateStoryDto</a>)</code>
+                    <code>createStory(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateStoryDTO.html" target="_self">CreateStoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -141,14 +141,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Post(&#x27;story&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">src/story/story.controller.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">src/story/story.controller.ts:69</a></div>
                 </td>
             </tr>
 
@@ -183,7 +183,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateStoryDto.html" target="_self" >CreateStoryDto</a></code>
+                                                <code><a href="../classes/CreateStoryDTO.html" target="_self" >CreateStoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -223,7 +223,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteStory(storyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>deleteStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -231,14 +231,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;story/:storyId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.stories_by_slug)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">src/story/story.controller.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">src/story/story.controller.ts:120</a></div>
                 </td>
             </tr>
 
@@ -259,7 +259,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>storyId</td>
+                                    <td>slug</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -301,7 +301,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllStories(query: <a href="../classes/GetAllStoriesDto.html" target="_self">GetAllStoriesDto</a>)</code>
+                    <code>getAllStories(query: <a href="../classes/GetAllStoriesDTO.html" target="_self">GetAllStoriesDTO</a>)</code>
                 </td>
             </tr>
 
@@ -309,14 +309,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;stories/all&#x27;)<br /></code>
+                    <code>@Public()<br />@Get(ROUTES.stories_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/story/story.controller.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/story/story.controller.ts:32</a></div>
                 </td>
             </tr>
 
@@ -339,7 +339,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllStoriesDto.html" target="_self" >GetAllStoriesDto</a></code>
+                                                <code><a href="../classes/GetAllStoriesDTO.html" target="_self" >GetAllStoriesDTO</a></code>
                                     </td>
 
                                     <td>
@@ -379,7 +379,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getStories(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetStoriesDto.html" target="_self">GetStoriesDto</a>)</code>
+                    <code>getStories(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetStoriesDTO.html" target="_self">GetStoriesDTO</a>)</code>
                 </td>
             </tr>
 
@@ -387,14 +387,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;stories&#x27;)<br /></code>
+                    <code>@Get()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/story/story.controller.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/story/story.controller.ts:48</a></div>
                 </td>
             </tr>
 
@@ -429,7 +429,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetStoriesDto.html" target="_self" >GetStoriesDto</a></code>
+                                                <code><a href="../classes/GetStoriesDTO.html" target="_self" >GetStoriesDTO</a></code>
                                     </td>
 
                                     <td>
@@ -477,14 +477,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;story/:slug&#x27;)<br /></code>
+                    <code>@Public()<br />@Get(ROUTES.stories_by_slug)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">src/story/story.controller.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/story/story.controller.ts:87</a></div>
                 </td>
             </tr>
 
@@ -547,7 +547,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateStory(storyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateStoryDto.html" target="_self">UpdateStoryDto</a>)</code>
+                    <code>updateStory(slug: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateStoryDTO.html" target="_self">UpdateStoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -555,14 +555,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Put(&#x27;story/:storyId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Put(ROUTES.stories_by_slug)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/story/story.controller.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/story/story.controller.ts:102</a></div>
                 </td>
             </tr>
 
@@ -583,7 +583,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>storyId</td>
+                                    <td>slug</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -597,7 +597,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateStoryDto.html" target="_self" >UpdateStoryDto</a></code>
+                                                <code><a href="../classes/UpdateStoryDTO.html" target="_self" >UpdateStoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -639,25 +639,26 @@
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { StoryService } from &#x27;./story.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
 import {
-    CreateStoryDto,
-    GetStoriesDto,
-    GetAllStoriesDto,
-    UpdateStoryDto,
+    CreateStoryDTO,
+    GetStoriesDTO,
+    GetAllStoriesDTO,
+    UpdateStoryDTO,
 } from &#x27;./dto&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
 import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-@Controller()
+@Controller(ROUTES.stories)
 export class StoryController {
     constructor(private readonly story: StoryService) {}
 
     @Public()
-    @Get(&#x27;stories/all&#x27;)
+    @Get(ROUTES.stories_all)
     async getAllStories(
-        @Query() query: GetAllStoriesDto
+        @Query() query: GetAllStoriesDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.story.getAllStories(query)
@@ -671,10 +672,10 @@ export class StoryController {
         }
     }
 
-    @Get(&#x27;stories&#x27;)
+    @Get()
     async getStories(
         @Req() req: AuthenticatedRequest,
-        @Query() query: GetStoriesDto
+        @Query() query: GetStoriesDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.story.getStories(
@@ -691,26 +692,11 @@ export class StoryController {
         }
     }
 
-    @Public()
-    @Get(&#x27;story/:slug&#x27;)
-    async getStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.story.getStory(slug)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;StoryController.getStory&#x27;
-            )
-        }
-    }
-
-    @Roles(&#x27;ADMIN&#x27;)
-    @Post(&#x27;story&#x27;)
+    @Roles(Role.ADMIN)
+    @Post()
     async createStory(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateStoryDto
+        @Body() body: CreateStoryDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.story.createStory(request.user.id, body)
@@ -724,14 +710,29 @@ export class StoryController {
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Put(&#x27;story/:storyId&#x27;)
+    @Public()
+    @Get(ROUTES.stories_by_slug)
+    async getStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.story.getStory(slug)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;StoryController.getStory&#x27;
+            )
+        }
+    }
+
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.stories_by_slug)
     async updateStory(
-        @Param(&#x27;storyId&#x27;) storyId: string,
-        @Body() body: UpdateStoryDto
+        @Param(&#x27;storyId&#x27;) slug: string,
+        @Body() body: UpdateStoryDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.story.updateStory(storyId, body)
+            const data &#x3D; await this.story.updateStory(slug, body)
             return { data }
         } catch (error) {
             throw new CustomException(
@@ -742,13 +743,11 @@ export class StoryController {
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;story/:storyId&#x27;)
-    async deleteStory(
-        @Param(&#x27;storyId&#x27;) storyId: string
-    ): Promise&lt;SuccessResponse&gt; {
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.stories_by_slug)
+    async deleteStory(@Param(&#x27;slug&#x27;) slug: string): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.story.deleteStory(storyId)
+            const data &#x3D; await this.story.deleteStory(slug)
             return { data }
         } catch (error) {
             throw new CustomException(

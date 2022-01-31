@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/inventory/inventory.service.ts</code>
+            <code>src/product/inventory/inventory.service.ts</code>
         </p>
 
 
@@ -121,7 +121,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/inventory/inventory.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/product/inventory/inventory.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -191,7 +191,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createInventory(data: <a href="../classes/CreateInventoryDto.html" target="_self">CreateInventoryDto</a>)</code>
+                    <code>createInventory(data: <a href="../classes/CreateInventoryDTO.html" target="_self">CreateInventoryDTO</a>)</code>
                 </td>
             </tr>
 
@@ -199,7 +199,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/inventory/inventory.service.ts:71</a></div>
+                            class="link-to-prism">src/product/inventory/inventory.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -222,7 +222,7 @@
                                 <tr>
                                     <td>data</td>
                                     <td>
-                                                <code><a href="../classes/CreateInventoryDto.html" target="_self" >CreateInventoryDto</a></code>
+                                                <code><a href="../classes/CreateInventoryDTO.html" target="_self" >CreateInventoryDTO</a></code>
                                     </td>
 
                                     <td>
@@ -270,7 +270,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/inventory/inventory.service.ts:108</a></div>
+                            class="link-to-prism">src/product/inventory/inventory.service.ts:108</a></div>
                 </td>
             </tr>
 
@@ -341,7 +341,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/inventory/inventory.service.ts:20</a></div>
+                            class="link-to-prism">src/product/inventory/inventory.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -412,7 +412,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/inventory/inventory.service.ts:53</a></div>
+                            class="link-to-prism">src/product/inventory/inventory.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -483,7 +483,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/inventory/inventory.service.ts:89</a></div>
+                            class="link-to-prism">src/product/inventory/inventory.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -553,12 +553,12 @@ import { Injectable } from &#x27;@nestjs/common&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &#x27;src/common/pagination&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+} from &#x27;src/core/pagination&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
 import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
-import { CreateInventoryDto } from &#x27;./dto&#x27;
+import { CreateInventoryDTO } from &#x27;./dto&#x27;
 
 @Injectable()
 export class InventoryService {
@@ -618,7 +618,7 @@ export class InventoryService {
         }
     }
 
-    async createInventory(data: CreateInventoryDto): Promise&lt;any&gt; {
+    async createInventory(data: CreateInventoryDTO): Promise&lt;any&gt; {
         try {
             const product &#x3D; await this.db.inventory.create({
                 data,

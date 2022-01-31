@@ -224,8 +224,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpStatus, Injectable } from &#x27;@nestjs/common&#x27;
 import { AuthGuard } from &#x27;@nestjs/passport&#x27;
-import { errorCodes, errorTypes } from &#x27;../../common/codes/error&#x27;
-import { CustomException } from &#x27;../../common/response&#x27;
+import { errorCodes, errorTypes } from &#x27;../../core/codes/error&#x27;
+import { CustomException } from &#x27;../../core/response&#x27;
 
 @Injectable()
 export default class JwtRefreshGuard extends AuthGuard(&#x27;jwt-refresh-token&#x27;) {

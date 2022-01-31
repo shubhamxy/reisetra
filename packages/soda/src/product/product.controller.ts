@@ -11,29 +11,22 @@ import {
     Req,
 } from '@nestjs/common'
 import { ProductService } from './product.service'
-import { CustomException, SuccessResponse } from 'src/common/response'
-import {
-    CreateCompanyDto,
-    CreateCategoryDto,
-    CreateProductDto,
-    CreateTagDto,
-    GetAllProductsDto,
-    UpdateProductDto,
-    UpdateTagDto,
-    GetAllTagsDto,
-} from './dto'
+import { CustomException, SuccessResponse } from 'src/core/response'
+import { CreateProductDTO, GetAllProductsDTO, UpdateProductDTO } from './dto'
 import { Public } from 'src/auth/decorator/public.decorator'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles } from 'src/auth/decorator/roles.decorator'
+import { Roles, Role } from 'src/auth/decorator/roles.decorator'
 import { Throttle } from '@nestjs/throttler'
-@Controller()
+import { ROUTES } from 'src/constants'
+
+@Controller(ROUTES.products)
 export class ProductController {
     constructor(private readonly product: ProductService) {}
     @Throttle(60, 120)
     @Public()
-    @Get('products')
+    @Get()
     async getAllProducts(
-        @Query() query: GetAllProductsDto
+        @Query() query: GetAllProductsDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.product.getAllProducts(
@@ -51,9 +44,9 @@ export class ProductController {
 
     @Throttle(60, 120)
     @Public()
-    @Get('product/recommendations')
+    @Get(ROUTES.products_recommendations)
     async getRecommendations(
-        @Query() query: GetAllProductsDto
+        @Query() query: GetAllProductsDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.product.getRecommendations(
@@ -69,26 +62,11 @@ export class ProductController {
         }
     }
 
-    @Public()
-    @Get('product/:slug')
-    async getProduct(@Param('slug') slug: string): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.getProduct(slug)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.getProduct'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('product')
+    @Roles(Role.ADMIN)
+    @Post()
     async createProduct(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateProductDto
+        @Body() body: CreateProductDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.product.createProduct(request.user.id, body)
@@ -102,12 +80,28 @@ export class ProductController {
         }
     }
 
-    @Roles('ADMIN')
-    @Put('product/:slug')
+    @Throttle(60, 120)
+    @Public()
+    @Get(ROUTES.products_by_slug)
+    async getProduct(@Param('slug') slug: string): Promise<SuccessResponse> {
+        try {
+            const data = await this.product.getProduct(slug)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'ProductController.getProduct'
+            )
+        }
+    }
+
+    @Roles(Role.ADMIN)
+    @Put(ROUTES.products_by_slug)
     async updateProduct(
         @Req() request: AuthenticatedRequest,
         @Param('slug') slug: string,
-        @Body() body: UpdateProductDto
+        @Body() body: UpdateProductDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.product.updateProduct(
@@ -125,8 +119,8 @@ export class ProductController {
         }
     }
 
-    @Roles('ADMIN')
-    @Delete('product/:productId')
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.products_by_slug)
     async deleteProduct(
         @Param('productId') productId: string
     ): Promise<SuccessResponse> {
@@ -138,290 +132,6 @@ export class ProductController {
                 error,
                 HttpStatus.BAD_REQUEST,
                 'ProductController.deleteProduct'
-            )
-        }
-    }
-
-    @Public()
-    @Get('tags/all')
-    async getAllTags(@Query() query: GetAllTagsDto): Promise<SuccessResponse> {
-        try {
-            const { results, ...meta } = await this.product.getAllTags(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.getTags'
-            )
-        }
-    }
-
-    @Public()
-    @Get('tags')
-    async getTags(
-        @Query('category') category: string
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.getTags(category)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.getTags'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('tag')
-    async createTag(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateTagDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.createTag(request.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.createTag'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('tags')
-    async createTags(@Body() body: CreateTagDto[]): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.createTags(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.createTag'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Put('tags')
-    async updateTags(@Body() body: UpdateTagDto[]): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.updateTags(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.updateTags'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Put('tags')
-    async deleteTags(@Body() body: UpdateTagDto[]): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.deleteTags(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.deleteTags'
-            )
-        }
-    }
-
-    @Public()
-    @Get('categories')
-    async getCategories(): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.getCategories()
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.getCategories'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('category')
-    async createCategory(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCategoryDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.createCategory(
-                request.user.id,
-                body
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.createCategory'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Put('category')
-    async updateCategory(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCategoryDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.updateCategory(
-                request.user.id,
-                body
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.createCategory'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('categories')
-    async createCategories(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCategoryDto[]
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.createCategories(
-                request.user.id,
-                body
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.createCategories'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Put('category')
-    async updateCategories(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCategoryDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.updateCategories(
-                request.user.id,
-                body
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.updateCategories'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Delete('category')
-    async deleteCategories(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCategoryDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.deleteCategories(
-                request.user.id,
-                body
-            )
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.deleteCategories'
-            )
-        }
-    }
-
-    @Public()
-    @Get('brands')
-    async getBrands(
-        @Query('category') category: string
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.getBrands(category)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.getBrands'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Post('brand')
-    async createBrand(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCompanyDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.createBrand(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.createBrand'
-            )
-        }
-    }
-
-    @Put('brand')
-    async updateBrand(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateCompanyDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.updateBrand(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.updateBrand'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Delete('brand')
-    async deleteBrand(
-        @Body() body: CreateCompanyDto
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.product.deleteBrand(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'ProductController.deleteBrand'
             )
         }
     }

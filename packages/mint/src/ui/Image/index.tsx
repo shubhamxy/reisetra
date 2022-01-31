@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable unused-imports/no-unused-vars */
 import React, { useState } from 'react'
 import NextImage, { ImageProps } from 'next/image'
 import { useTheme } from '@material-ui/core'

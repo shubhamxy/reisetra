@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/common/dto/index.ts</code>
+            <code>src/core/dto/index.ts</code>
         </p>
 
 
@@ -150,7 +150,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/common/dto/index.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/core/dto/index.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -185,7 +185,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/common/dto/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/core/dto/index.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -220,7 +220,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/common/dto/index.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/core/dto/index.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -255,7 +255,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/common/dto/index.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/core/dto/index.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -290,7 +290,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/common/dto/index.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/core/dto/index.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -318,10 +318,12 @@
 } from &#x27;class-validator&#x27;
 import { mustBeOfType, mustBeValidEnum } from &#x27;src/constants&#x27;
 import { CursorPaginationOptionsInterface } from &#x27;../pagination&#x27;
+
 export enum OrderDirection {
     asc &#x3D; &#x27;asc&#x27;,
     desc &#x3D; &#x27;desc&#x27;,
 }
+
 export class CursorPaginationDTO implements CursorPaginationOptionsInterface {
     @IsOptional()
     @IsNumberString()

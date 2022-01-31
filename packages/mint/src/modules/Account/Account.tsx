@@ -28,6 +28,7 @@ const AccountSchema = Yup.object().shape({
         .min(3, 'Name is too short - should be 3 chars minimum.'),
     email: Yup.string().required('Email is required.').email('Invalid email'),
     phone: Yup.string()
+        // eslint-disable-next-line prefer-regex-literals
         .matches(new RegExp(/^\+[1-9]\d{8,14}$/), 'Phone must be valid')
         .nullable(),
 })
@@ -149,7 +150,6 @@ export function Account() {
     const {
         values,
         isValid,
-        setErrors,
         touched,
         errors,
         handleChange,
@@ -163,7 +163,7 @@ export function Account() {
         validationSchema: AccountSchema,
         onSubmit: function (data) {
             updateUserProfile.mutate(data, {
-                onSuccess: (response) => {
+                onSuccess: () => {
                     globalDispatch(
                         updateSnackBar({
                             message: 'Profile Updated Successfully',

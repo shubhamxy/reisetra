@@ -3,7 +3,7 @@ import { Icons, Image } from '../Image'
 import { config } from '../../libs'
 import { useRouter } from 'next/router'
 
-export function Logo({}) {
+export function Logo() {
     const { push } = useRouter()
     return (
         <Box

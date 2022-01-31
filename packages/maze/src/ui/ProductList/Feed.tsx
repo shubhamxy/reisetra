@@ -4,7 +4,7 @@ import {
     Box,
     Typography,
     makeStyles,
-    CircularProgress,
+    LinearProgress,
     Divider,
     Grid,
     Chip,

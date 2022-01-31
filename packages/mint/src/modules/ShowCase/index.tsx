@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import {
@@ -7,10 +8,9 @@ import {
     CardContent,
     fade,
     Typography,
-    IconButton,
     Button,
 } from '@material-ui/core'
-import { useInterval, useProducts, useRecommendations } from '../../libs'
+import { useInterval, useRecommendations } from '../../libs'
 import GridList from '../../ui/List/GridList'
 import { useRouter } from 'next/router'
 import { ShoppingCart } from '@material-ui/icons'
@@ -96,14 +96,14 @@ const useGridItemStyles = makeStyles<
         flex: 1,
     },
 
-    title: ({ styleIndex }) => ({
+    title: {
         ...theme.typography.subtitle2,
         display: '-webkit-box',
         overflow: 'hidden',
         WebkitLineClamp: 2,
         WebkitBoxOrient: 'vertical',
         wordBreak: 'break-all',
-    }),
+    },
     description: {
         ...theme.typography.caption,
         display: '-webkit-box',

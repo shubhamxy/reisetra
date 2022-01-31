@@ -1,16 +1,8 @@
-import { useInfiniteQuery } from 'react-query'
-import {
-    DataT,
-    del,
-    get,
-    IErrorResponse,
-    ISuccessResponse,
-    post,
-    put,
-} from '../../utils/http'
-const queryString = require('query-string')
+import { del, get, post, put } from '../../utils/http'
 import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
+const queryString = require('query-string')
+
 export interface UserProfile {
     id: string
     email: string
@@ -29,11 +21,11 @@ export interface UserProfile {
 }
 
 export function getMe() {
-    return get<Partial<UserProfile>>('user/me')
+    return get<Partial<UserProfile>>('users')
 }
 
 export function updateMe(body: Partial<UserProfile>) {
-    return put<Partial<UserProfile>, Partial<UserProfile>>('user/me', body)
+    return put<Partial<UserProfile>, Partial<UserProfile>>('users', body)
 }
 
 interface IAddress {
@@ -62,7 +54,7 @@ export function getAddreses(params: PaginationParams) {
 }
 
 export function createAddress(body: Partial<IAddress>) {
-    return post<Partial<IAddress>, Partial<IAddress>>('address', body)
+    return post<Partial<IAddress>, Partial<IAddress>>('addresses', body)
 }
 
 export function updateAddress({
@@ -73,11 +65,11 @@ export function updateAddress({
     body: Partial<IAddress>
 }) {
     return put<Partial<IAddress>, Partial<IAddress>>(
-        `address/${addressId}`,
+        `addresses/${addressId}`,
         body
     )
 }
 
 export function deleteAddress(addressId: string) {
-    return del<Partial<IAddress>>(`address/${addressId}`)
+    return del<Partial<IAddress>>(`addresses/${addressId}`)
 }

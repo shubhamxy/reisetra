@@ -1,28 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prefer-const */
-import { Product } from '.prisma/client'
 import { Injectable } from '@nestjs/common'
-import { errorCodes } from 'src/common/codes/error'
-import { CursorPaginationResultInterface } from 'src/common/pagination'
-import { CustomError } from 'src/common/response'
-import { PrismaService } from 'src/common/modules/db/prisma.service'
-import { CacheService } from 'src/common/modules/cache/cache.service'
+import { errorCodes } from 'src/core/codes/error'
+import { CursorPaginationResultInterface } from 'src/core/pagination'
+import { CustomError } from 'src/core/response'
+import { PrismaService } from 'src/core/modules/db/prisma.service'
+import { CacheService } from 'src/core/modules/cache/cache.service'
 import { prismaOffsetPagination } from 'src/utils/prisma'
 import urlSlug from 'url-slug'
 import {
-    CreateProductDto,
+    CreateProductDTO,
     ProductSort,
-    GetAllProductsDto,
-    UpdateProductDto,
-    CreateCategoryDto,
-    CreateTagDto,
-    UpdateTagDto,
-    UpdateCategoryDto,
-    CreateCompanyDto,
-    GetAllTagsDto,
+    GetAllProductsDTO,
+    UpdateProductDTO,
 } from './dto'
-import { OrderDirection } from '../common/dto'
+import { OrderDirection } from '../core/dto'
 import type { Prisma } from '.prisma/client'
+import { ProductRO } from './interfaces'
+import { ProductsRO } from 'src/product/inventory/interfaces'
 
 @Injectable()
 export class ProductService {
@@ -32,8 +25,8 @@ export class ProductService {
     ) {}
 
     async getAllProducts(
-        options: GetAllProductsDto
-    ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
+        options: GetAllProductsDTO
+    ): Promise<CursorPaginationResultInterface<ProductRO>> {
         try {
             const whereObj: Prisma.ProductWhereInput = {}
             let {
@@ -153,8 +146,8 @@ export class ProductService {
     }
 
     async getRecommendations(
-        options: GetAllProductsDto
-    ): Promise<CursorPaginationResultInterface<Partial<Product>>> {
+        options: GetAllProductsDTO
+    ): Promise<CursorPaginationResultInterface<ProductRO>> {
         try {
             const whereObj: any = {}
             let {
@@ -273,7 +266,7 @@ export class ProductService {
         }
     }
 
-    async getProduct(slug: string): Promise<any> {
+    async getProduct(slug: string): Promise<ProductRO> {
         const product = await this.db.product.findUnique({
             where: { slug },
             include: {
@@ -296,20 +289,8 @@ export class ProductService {
         return product
     }
 
-    async getProducts(options: GetAllProductsDto): Promise<any> {
-        const {
-            price,
-            category,
-            tags,
-            sort,
-            cursor,
-            size = 10,
-            buttonNum = 10,
-            orderBy = 'createdAt',
-            orderDirection = OrderDirection.asc,
-            rating,
-            q,
-        } = options
+    async getProducts(options: GetAllProductsDTO): Promise<ProductsRO> {
+        const { price, category, tags, rating, q } = options
 
         const whereObj: Prisma.ProductWhereInput = {}
         if (price) {
@@ -377,7 +358,10 @@ export class ProductService {
         return products
     }
 
-    async createProduct(userId: string, data: CreateProductDto): Promise<any> {
+    async createProduct(
+        userId: string,
+        data: CreateProductDTO
+    ): Promise<ProductRO> {
         try {
             const {
                 inventory,
@@ -467,8 +451,8 @@ export class ProductService {
     async updateProduct(
         userId: string,
         slug: string,
-        update: UpdateProductDto
-    ): Promise<any> {
+        update: UpdateProductDTO
+    ): Promise<ProductRO> {
         try {
             const {
                 inventory,
@@ -551,7 +535,7 @@ export class ProductService {
         }
     }
 
-    async deleteProduct(productId: string): Promise<any> {
+    async deleteProduct(productId: string): Promise<ProductRO> {
         try {
             const data = await this.db.product.delete({
                 where: { id: productId },
@@ -570,446 +554,6 @@ export class ProductService {
                 error?.meta?.cause || error.message,
                 error.code,
                 'ProductService.findAllOffset'
-            )
-        }
-    }
-
-    async getCategories(): Promise<any> {
-        try {
-            const categories = await this.db.category.findMany({
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-                take: 20,
-            })
-            return categories
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.getCategories'
-            )
-        }
-    }
-
-    async createCategory(
-        userId: string,
-        data: CreateCategoryDto
-    ): Promise<any> {
-        try {
-            const { images, ...rest } = data
-
-            const dataObj: Prisma.XOR<
-                Prisma.CategoryCreateInput,
-                Prisma.CategoryUncheckedCreateInput
-            > = {
-                label: rest.label,
-                value: rest.value,
-            }
-
-            if (images && images.length > 0) {
-                dataObj.images = {
-                    connectOrCreate: images.map((item) => ({
-                        create: {
-                            fileType: item.fileType,
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                }
-            }
-
-            if (data.styles) {
-                dataObj.styles = rest.styles
-            }
-            const category = await this.db.category.create({
-                data: dataObj,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-            })
-            return category
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.findAllOffset'
-            )
-        }
-    }
-
-    async createCategories(
-        userId: string,
-        data: CreateCategoryDto[]
-    ): Promise<any> {
-        try {
-            const results = await Promise.all(
-                data.map((item) => this.createCategory(userId, item))
-            )
-            return results
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.findAllOffset'
-            )
-        }
-    }
-
-    async updateCategory(
-        userId: string,
-        data: UpdateCategoryDto
-    ): Promise<any> {
-        try {
-            const { images, ...rest } = data
-
-            const dataObj: Prisma.XOR<
-                Prisma.CategoryCreateInput,
-                Prisma.CategoryUncheckedCreateInput
-            > = {
-                label: rest.label,
-                value: rest.value,
-            }
-            if (images && images.length > 0) {
-                dataObj.images = {
-                    connectOrCreate: images.map((item) => ({
-                        create: {
-                            fileType: item.fileType,
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                }
-            }
-            if (data.styles) {
-                dataObj.styles = rest.styles
-            }
-            const category = await this.db.category.update({
-                where: {
-                    label: data.label,
-                },
-                data: dataObj,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-            })
-            return category
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.findAllOffset'
-            )
-        }
-    }
-
-    async updateCategories(
-        userId: string,
-        data: UpdateCategoryDto
-    ): Promise<any> {
-        try {
-            const { images, ...rest } = data
-            const imageData = images.map((item) => ({ ...item, userId }))
-            const categories = await this.db.category.update({
-                where: { label: data.label },
-                data: {
-                    ...rest,
-                    images: {
-                        createMany: { data: imageData },
-                    },
-                },
-            })
-            return categories
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.updateCategories'
-            )
-        }
-    }
-
-    async deleteCategories(
-        userId: string,
-        data: CreateCategoryDto
-    ): Promise<any> {
-        try {
-            const deleted = await this.db.category.update({
-                where: {
-                    label: data.label,
-                },
-                data: {
-                    active: false,
-                },
-            })
-            return deleted
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.deleteTags'
-            )
-        }
-    }
-
-    async getAllTags(options: GetAllTagsDto): Promise<any> {
-        try {
-            const whereObj = {}
-            const {
-                cursor,
-                size = 10,
-                buttonNum = 10,
-                orderBy = 'createdAt',
-                orderDirection = OrderDirection.asc,
-            } = options
-            const result = await prismaOffsetPagination({
-                cursor,
-                size: Number(size),
-                buttonNum: Number(buttonNum),
-                orderBy,
-                orderDirection,
-                model: 'tag',
-                where: whereObj,
-                include: {
-                    label: true,
-                    value: true,
-                    description: true,
-                    styles: true,
-                },
-                prisma: this.db,
-            })
-            return result
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.getAllTags'
-            )
-        }
-    }
-
-    async getTags(category?: string): Promise<any> {
-        try {
-            const findObj: Prisma.TagFindManyArgs = {
-                take: 20,
-                include: {
-                    images: {
-                        select: {
-                            url: true,
-                            meta: true,
-                        },
-                    },
-                },
-            }
-            if (category) {
-                findObj.where = {
-                    products: {
-                        some: {
-                            categories: {
-                                some: {
-                                    label: category,
-                                },
-                            },
-                        },
-                    },
-                }
-            }
-            const tags = await this.db.tag.findMany(findObj)
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.getCategories'
-            )
-        }
-    }
-
-    async createTag(userId, data: CreateTagDto): Promise<any> {
-        try {
-            if (data.images && data.images.length > 0) {
-                data.images = {
-                    connectOrCreate: data.images.map((item) => ({
-                        create: {
-                            fileType: item.fileType,
-                            url: item.url,
-                            meta: item.meta,
-                            userId,
-                        },
-                        where: {
-                            url: item.url,
-                        },
-                    })),
-                } as any
-            }
-
-            const tags = await this.db.tag.create({
-                data: data,
-            })
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.createTag'
-            )
-        }
-    }
-
-    async createTags(data: CreateTagDto[]): Promise<any> {
-        try {
-            const tags = await this.db.tag.createMany({
-                data: data,
-            })
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.createTags'
-            )
-        }
-    }
-
-    async updateTags(data: UpdateTagDto[]): Promise<any> {
-        try {
-            // TODO: find beter way??
-            const update = await Promise.all(
-                data.map((tag) => {
-                    return this.db.tag.update({
-                        where: { label: tag.label },
-                        data: {
-                            label: tag.label,
-                            value: tag.value,
-                        },
-                    })
-                })
-            )
-            return update
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.findAllOffset'
-            )
-        }
-    }
-
-    async deleteTags(data: UpdateTagDto[]): Promise<any> {
-        try {
-            const tags = await this.db.tag.deleteMany({
-                where: {
-                    label: { in: data.map((item) => item.label) },
-                },
-            })
-            return tags
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.deleteTags'
-            )
-        }
-    }
-
-    async getBrands(category?: string): Promise<any> {
-        try {
-            const findObj: Prisma.CompanyFindManyArgs = {
-                take: 10,
-            }
-            if (category) {
-                findObj.where = {
-                    products: {
-                        some: {
-                            categories: {
-                                some: {
-                                    label: category,
-                                },
-                            },
-                        },
-                    },
-                }
-            }
-            const companies = await this.db.company.findMany(findObj)
-            return companies
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.getCategories'
-            )
-        }
-    }
-
-    async createBrand(data: CreateCompanyDto): Promise<any> {
-        try {
-            const brand = await this.db.company.create({
-                data: data,
-            })
-            return brand
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.createBrand'
-            )
-        }
-    }
-
-    async updateBrand(data: CreateCompanyDto): Promise<any> {
-        try {
-            const brand = await this.db.company.update({
-                where: {
-                    name: data.name,
-                },
-                data: data,
-            })
-            return brand
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.createBrand'
-            )
-        }
-    }
-
-    async deleteBrand(data: CreateCompanyDto): Promise<any> {
-        try {
-            const brand = await this.db.company.delete({
-                where: {
-                    name: data.name,
-                },
-            })
-            return brand
-        } catch (error) {
-            throw new CustomError(
-                error?.meta?.cause || error.message,
-                error.code,
-                'ProductService.deleteBrand'
             )
         }
     }

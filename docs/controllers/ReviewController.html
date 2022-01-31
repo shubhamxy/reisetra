@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/review/review.controller.ts</code>
+            <code>src/product/review/review.controller.ts</code>
         </p>
 
 
@@ -129,7 +129,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createReview(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateReviewDto.html" target="_self">CreateReviewDto</a>)</code>
+                    <code>createReview(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateReviewDTO.html" target="_self">CreateReviewDTO</a>)</code>
                 </td>
             </tr>
 
@@ -137,14 +137,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;review&#x27;)<br /></code>
+                    <code>@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/review/review.controller.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/product/review/review.controller.ts:46</a></div>
                 </td>
             </tr>
 
@@ -179,7 +179,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateReviewDto.html" target="_self" >CreateReviewDto</a></code>
+                                                <code><a href="../classes/CreateReviewDTO.html" target="_self" >CreateReviewDTO</a></code>
                                     </td>
 
                                     <td>
@@ -227,14 +227,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Delete(&#x27;review/:reviewId&#x27;)<br /></code>
+                    <code>@Delete(ROUTES.reviews_by_reviewId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/review/review.controller.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/product/review/review.controller.ts:102</a></div>
                 </td>
             </tr>
 
@@ -297,7 +297,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllReviews(productId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../classes/GetAllReviewsDto.html" target="_self">GetAllReviewsDto</a>)</code>
+                    <code>getAllReviews(productId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../classes/GetAllReviewsDTO.html" target="_self">GetAllReviewsDTO</a>)</code>
                 </td>
             </tr>
 
@@ -305,14 +305,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;reviews/:productId&#x27;)<br /></code>
+                    <code>@Public()<br />@Get(ROUTES.reviews_by_productId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/review/review.controller.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/product/review/review.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -347,7 +347,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllReviewsDto.html" target="_self" >GetAllReviewsDto</a></code>
+                                                <code><a href="../classes/GetAllReviewsDTO.html" target="_self" >GetAllReviewsDTO</a></code>
                                     </td>
 
                                     <td>
@@ -395,14 +395,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;review/:reviewId&#x27;)<br /></code>
+                    <code>@Public()<br />@Get(ROUTES.reviews_by_reviewId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/review/review.controller.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/product/review/review.controller.ts:64</a></div>
                 </td>
             </tr>
 
@@ -465,7 +465,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateReview(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, reviewId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateReviewDto.html" target="_self">UpdateReviewDto</a>)</code>
+                    <code>updateReview(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, reviewId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateReviewDTO.html" target="_self">UpdateReviewDTO</a>)</code>
                 </td>
             </tr>
 
@@ -473,14 +473,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;review/:reviewId&#x27;)<br /></code>
+                    <code>@Put(ROUTES.reviews_by_reviewId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/review/review.controller.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">src/product/review/review.controller.ts:80</a></div>
                 </td>
             </tr>
 
@@ -527,7 +527,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateReviewDto.html" target="_self" >UpdateReviewDto</a></code>
+                                                <code><a href="../classes/UpdateReviewDTO.html" target="_self" >UpdateReviewDTO</a></code>
                                     </td>
 
                                     <td>
@@ -569,19 +569,21 @@
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { ReviewService } from &#x27;./review.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
-import { CreateReviewDto, GetAllReviewsDto, UpdateReviewDto } from &#x27;./dto&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { CreateReviewDTO, GetAllReviewsDTO, UpdateReviewDTO } from &#x27;./dto&#x27;
 import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-@Controller()
+import { ROUTES } from &#x27;src/constants&#x27;
+
+@Controller(ROUTES.reviews)
 export class ReviewController {
     constructor(private readonly review: ReviewService) {}
 
     @Public()
-    @Get(&#x27;reviews/:productId&#x27;)
+    @Get(ROUTES.reviews_by_productId)
     async getAllReviews(
         @Param(&#x27;productId&#x27;) productId: string,
-        @Query() query: GetAllReviewsDto
+        @Query() query: GetAllReviewsDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.review.getAllReviews(
@@ -598,8 +600,25 @@ export class ReviewController {
         }
     }
 
+    @Post()
+    async createReview(
+        @Req() request: AuthenticatedRequest,
+        @Body() body: CreateReviewDTO
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.review.createReview(request.user.id, body)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;ReviewController.createReview&#x27;
+            )
+        }
+    }
+
     @Public()
-    @Get(&#x27;review/:reviewId&#x27;)
+    @Get(ROUTES.reviews_by_reviewId)
     async getReview(
         @Param(&#x27;reviewId&#x27;) reviewId: string
     ): Promise&lt;SuccessResponse&gt; {
@@ -615,28 +634,11 @@ export class ReviewController {
         }
     }
 
-    @Post(&#x27;review&#x27;)
-    async createReview(
-        @Req() request: AuthenticatedRequest,
-        @Body() body: CreateReviewDto
-    ): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.review.createReview(request.user.id, body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;ReviewController.createReview&#x27;
-            )
-        }
-    }
-
-    @Put(&#x27;review/:reviewId&#x27;)
+    @Put(ROUTES.reviews_by_reviewId)
     async updateReview(
         @Req() request: AuthenticatedRequest,
         @Param(&#x27;reviewId&#x27;) reviewId: string,
-        @Body() body: UpdateReviewDto
+        @Body() body: UpdateReviewDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.review.updateReview(
@@ -654,7 +656,7 @@ export class ReviewController {
         }
     }
 
-    @Delete(&#x27;review/:reviewId&#x27;)
+    @Delete(ROUTES.reviews_by_reviewId)
     async deleteReview(
         @Param(&#x27;reviewId&#x27;) reviewId: string
     ): Promise&lt;SuccessResponse&gt; {

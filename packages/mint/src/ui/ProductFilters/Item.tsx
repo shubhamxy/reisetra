@@ -9,6 +9,7 @@ import { Box, Chip, TextField, List, Slider, ListItem } from '@material-ui/core'
 import { FilterT } from '../../pages/products'
 import clsx from 'clsx'
 import { Rating } from '@material-ui/lab'
+
 const intlFormat = (num) => {
     return new Intl.NumberFormat().format(Math.round(num * 10) / 10)
 }

@@ -1,10 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 import {
     Box,
     Card,
     CardActions,
     CardContent,
-    fade,
     makeStyles,
     Typography,
     Button,
@@ -133,8 +133,8 @@ export default function Success({ handleNext, onCloseHandler }) {
                             style={{ maxWidth: '420px' }}
                             className={classes.description}
                         >
-                            Order places successfully. we'll send a confirmation
-                            on the email.
+                            Order placed successfully. we'll send you a
+                            confirmation on the email.
                         </Typography>
                     </Box>
                 </Box>

@@ -1,2 +1,2 @@
 export * from './text'
-export * from './links'
+export * from '../content/links'

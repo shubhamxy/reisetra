@@ -149,14 +149,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;order/:orderId/cancel&#x27;)<br /></code>
+                    <code>@Put(ROUTES.orders_by_orderId_cancel)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">src/order/order.controller.ts:156</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">src/order/order.controller.ts:157</a></div>
                 </td>
             </tr>
 
@@ -219,7 +219,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateOrderDto.html" target="_self">CreateOrderDto</a>)</code>
+                    <code>createOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateOrderDTO.html" target="_self">CreateOrderDTO</a>)</code>
                 </td>
             </tr>
 
@@ -227,14 +227,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;order&#x27;)<br /></code>
+                    <code>@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/order/order.controller.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/order/order.controller.ts:101</a></div>
                 </td>
             </tr>
 
@@ -269,7 +269,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateOrderDto.html" target="_self" >CreateOrderDto</a></code>
+                                                <code><a href="../classes/CreateOrderDTO.html" target="_self" >CreateOrderDTO</a></code>
                                     </td>
 
                                     <td>
@@ -317,14 +317,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Roles(&#x27;ADMIN&#x27;)<br />@Delete(&#x27;order/:orderId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.orders_by_orderId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">src/order/order.controller.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">src/order/order.controller.ts:141</a></div>
                 </td>
             </tr>
 
@@ -387,7 +387,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAllOrders(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetAllOrdersDto.html" target="_self">GetAllOrdersDto</a>)</code>
+                    <code>getAllOrders(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetAllOrdersDTO.html" target="_self">GetAllOrdersDTO</a>)</code>
                 </td>
             </tr>
 
@@ -395,14 +395,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;orders/all&#x27;)<br /></code>
+                    <code>@Get(ROUTES.orders_all)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/order/order.controller.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/order/order.controller.ts:28</a></div>
                 </td>
             </tr>
 
@@ -437,7 +437,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllOrdersDto.html" target="_self" >GetAllOrdersDto</a></code>
+                                                <code><a href="../classes/GetAllOrdersDTO.html" target="_self" >GetAllOrdersDTO</a></code>
                                     </td>
 
                                     <td>
@@ -485,14 +485,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;order/:orderId&#x27;)<br /></code>
+                    <code>@Get(ROUTES.orders_by_orderId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/order/order.controller.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/order/order.controller.ts:65</a></div>
                 </td>
             </tr>
 
@@ -555,7 +555,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getOrderDocuments(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../classes/GetAllOrdersDocumentsDto.html" target="_self">GetAllOrdersDocumentsDto</a>)</code>
+                    <code>getOrderDocuments(orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../classes/GetAllOrdersDocumentsDTO.html" target="_self">GetAllOrdersDocumentsDTO</a>)</code>
                 </td>
             </tr>
 
@@ -563,14 +563,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;order/:orderId/documents&#x27;)<br /></code>
+                    <code>@Get(ROUTES.orders_by_orderId_documents)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">src/order/order.controller.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/order/order.controller.ts:81</a></div>
                 </td>
             </tr>
 
@@ -605,7 +605,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllOrdersDocumentsDto.html" target="_self" >GetAllOrdersDocumentsDto</a></code>
+                                                <code><a href="../classes/GetAllOrdersDocumentsDTO.html" target="_self" >GetAllOrdersDocumentsDTO</a></code>
                                     </td>
 
                                     <td>
@@ -645,7 +645,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getUserOrders(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetAllOrdersDto.html" target="_self">GetAllOrdersDto</a>)</code>
+                    <code>getUserOrders(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/GetAllOrdersDTO.html" target="_self">GetAllOrdersDTO</a>)</code>
                 </td>
             </tr>
 
@@ -653,14 +653,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;orders&#x27;)<br /></code>
+                    <code>@Get()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/order/order.controller.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/order/order.controller.ts:45</a></div>
                 </td>
             </tr>
 
@@ -695,7 +695,7 @@
                                 <tr>
                                     <td>query</td>
                                     <td>
-                                                <code><a href="../classes/GetAllOrdersDto.html" target="_self" >GetAllOrdersDto</a></code>
+                                                <code><a href="../classes/GetAllOrdersDTO.html" target="_self" >GetAllOrdersDTO</a></code>
                                     </td>
 
                                     <td>
@@ -735,7 +735,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateOrderDto.html" target="_self">UpdateOrderDto</a>)</code>
+                    <code>updateOrder(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, orderId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/UpdateOrderDTO.html" target="_self">UpdateOrderDTO</a>)</code>
                 </td>
             </tr>
 
@@ -743,14 +743,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Put(&#x27;order/:orderId&#x27;)<br /></code>
+                    <code>@Put(ROUTES.orders_by_orderId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">src/order/order.controller.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">src/order/order.controller.ts:118</a></div>
                 </td>
             </tr>
 
@@ -797,7 +797,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/UpdateOrderDto.html" target="_self" >UpdateOrderDto</a></code>
+                                                <code><a href="../classes/UpdateOrderDTO.html" target="_self" >UpdateOrderDTO</a></code>
                                     </td>
 
                                     <td>
@@ -839,22 +839,23 @@
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { OrderService } from &#x27;./order.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
 import {
-    CreateOrderDto,
-    GetAllOrdersDocumentsDto,
-    GetAllOrdersDto,
-    UpdateOrderDto,
+    CreateOrderDTO,
+    GetAllOrdersDocumentsDTO,
+    GetAllOrdersDTO,
+    UpdateOrderDTO,
 } from &#x27;./dto&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Roles } from &#x27;src/auth/decorator/roles.decorator&#x27;
-@Controller()
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
+@Controller(ROUTES.orders)
 export class OrderController {
     constructor(private readonly order: OrderService) {}
-    @Get(&#x27;orders/all&#x27;)
+    @Get(ROUTES.orders_all)
     async getAllOrders(
         @Req() request: AuthenticatedRequest,
-        @Query() query: GetAllOrdersDto
+        @Query() query: GetAllOrdersDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.order.getAllOrders(query)
@@ -868,10 +869,10 @@ export class OrderController {
         }
     }
 
-    @Get(&#x27;orders&#x27;)
+    @Get()
     async getUserOrders(
         @Req() request: AuthenticatedRequest,
-        @Query() query: GetAllOrdersDto
+        @Query() query: GetAllOrdersDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.order.getUserOrders(
@@ -888,7 +889,7 @@ export class OrderController {
         }
     }
 
-    @Get(&#x27;order/:orderId&#x27;)
+    @Get(ROUTES.orders_by_orderId)
     async getOrder(
         @Param(&#x27;orderId&#x27;) orderId: string
     ): Promise&lt;SuccessResponse&gt; {
@@ -904,10 +905,10 @@ export class OrderController {
         }
     }
 
-    @Get(&#x27;order/:orderId/documents&#x27;)
+    @Get(ROUTES.orders_by_orderId_documents)
     async getOrderDocuments(
         @Param(&#x27;orderId&#x27;) orderId: string,
-        @Query() query: GetAllOrdersDocumentsDto
+        @Query() query: GetAllOrdersDocumentsDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const { results, ...meta } &#x3D; await this.order.getOrderDocuments(
@@ -924,10 +925,10 @@ export class OrderController {
         }
     }
 
-    @Post(&#x27;order&#x27;)
+    @Post()
     async createOrder(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateOrderDto
+        @Body() body: CreateOrderDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.order.createOrder(request.user.id, body)
@@ -941,11 +942,11 @@ export class OrderController {
         }
     }
 
-    @Put(&#x27;order/:orderId&#x27;)
+    @Put(ROUTES.orders_by_orderId)
     async updateOrder(
         @Req() request: AuthenticatedRequest,
         @Param(&#x27;orderId&#x27;) orderId: string,
-        @Body() body: UpdateOrderDto
+        @Body() body: UpdateOrderDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
             const data &#x3D; await this.order.updateOrder(
@@ -963,8 +964,8 @@ export class OrderController {
         }
     }
 
-    @Roles(&#x27;ADMIN&#x27;)
-    @Delete(&#x27;order/:orderId&#x27;)
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.orders_by_orderId)
     async deleteOrder(
         @Param(&#x27;orderId&#x27;) orderId: string
     ): Promise&lt;SuccessResponse&gt; {
@@ -980,7 +981,7 @@ export class OrderController {
         }
     }
 
-    @Put(&#x27;order/:orderId/cancel&#x27;)
+    @Put(ROUTES.orders_by_orderId_cancel)
     async cancelOrder(
         @Param(&#x27;orderId&#x27;) orderId: string
     ): Promise&lt;SuccessResponse&gt; {

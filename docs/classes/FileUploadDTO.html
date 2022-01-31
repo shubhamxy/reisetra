@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/files/dto/file.dto.ts</code>
+            <code>src/master/files/dto/file.dto.ts</code>
         </p>
 
 
@@ -135,7 +135,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/files/dto/file.dto.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/master/files/dto/file.dto.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -170,7 +170,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/files/dto/file.dto.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/master/files/dto/file.dto.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -205,7 +205,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/files/dto/file.dto.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/master/files/dto/file.dto.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -226,9 +226,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { FileType, File } from &#x27;../entity&#x27;
 import { IsEnum, IsOptional, IsString } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
-import { UploadUrlProps } from &#x27;src/utils&#x27;
-import { mustBeValidEnum, mustBe } from &#x27;../../constants/validation&#x27;
+import { CursorPaginationDTO } from &#x27;src/core/dto&#x27;
+import { UploadUrlParams } from &#x27;src/utils&#x27;
+import { mustBeValidEnum, mustBe } from &#x27;../../../constants/validation&#x27;
 import { Prisma } from &#x27;@prisma/client&#x27;
 
 enum ContentTypeEnum {
@@ -237,6 +237,17 @@ enum ContentTypeEnum {
     png &#x3D; &#x27;image/png&#x27;,
     svg &#x3D; &#x27;image/svg&#x27;,
 }
+
+type Excluded &#x3D;
+    | &#x27;id&#x27;
+    | &#x27;userId&#x27;
+    | &#x27;fileName&#x27;
+    | &#x27;active&#x27;
+    | &#x27;createdAt&#x27;
+    | &#x27;updatedAt&#x27;
+    | &#x27;extra&#x27;
+    | &#x27;slug&#x27;
+    | &#x27;inventoryId&#x27;
 
 export class FilesDTO extends CursorPaginationDTO {
     @IsOptional()
@@ -268,7 +279,7 @@ export class FilesDTO extends CursorPaginationDTO {
     active: boolean
 }
 
-export class FileUploadDTO implements Omit&lt;UploadUrlProps, &#x27;userId&#x27;&gt; {
+export class FileUploadDTO implements Omit&lt;UploadUrlParams, Excluded&gt; {
     @IsEnum(FileType, {
         message: mustBeValidEnum(FileType, &#x27;fileType&#x27;),
     })
@@ -280,8 +291,10 @@ export class FileUploadDTO implements Omit&lt;UploadUrlProps, &#x27;userId&#x27;
     contentType: ContentTypeEnum
 }
 
-export class FileDTO
-    implements Omit&lt;File, &#x27;userId&#x27; | &#x27;fileName&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27;&gt; {
+export class FileDTO implements Omit&lt;File, Excluded&gt; {
+    @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;id&#x27;) })
+    id: string
+
     @IsString({ message: mustBe(&#x27;string&#x27;, &#x27;url&#x27;) })
     url: string
 

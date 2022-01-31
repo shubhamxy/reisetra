@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/transaction/transaction.service.ts</code>
+            <code>src/order/transaction/transaction.service.ts</code>
         </p>
 
 
@@ -100,6 +100,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#transactions" >transactions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#updateTransaction" >updateTransaction</a>
                             </li>
                         </ul>
@@ -125,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/transaction/transaction.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/order/transaction/transaction.service.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +231,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/transaction/transaction.service.ts:48</a></div>
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -297,8 +301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">src/transaction/transaction.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:126</a></div>
                 </td>
             </tr>
 
@@ -364,8 +368,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="230"
-                            class="link-to-prism">src/transaction/transaction.service.ts:230</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="265"
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:265</a></div>
                 </td>
             </tr>
 
@@ -447,8 +451,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="516"
-                            class="link-to-prism">src/transaction/transaction.service.ts:516</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="551"
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:551</a></div>
                 </td>
             </tr>
 
@@ -518,8 +522,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/transaction/transaction.service.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:113</a></div>
                 </td>
             </tr>
 
@@ -571,6 +575,89 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="transactions"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>transactions</b></span>
+                        <a href="#transactions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>transactions(options: <a href="../classes/CursorPagination.html" target="_self">CursorPagination</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:78</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../classes/CursorPagination.html" target="_self" >CursorPagination</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CursorPaginationResultInterface.html" target="_self" >Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Transaction&gt;&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateTransaction"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -582,15 +669,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateTransaction(transactionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateTransactionDto.html" target="_self">UpdateTransactionDto</a>)</code>
+                    <code>updateTransaction(transactionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, update: <a href="../classes/UpdateTransactionDTO.html" target="_self">UpdateTransactionDTO</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="373"
-                            class="link-to-prism">src/transaction/transaction.service.ts:373</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="408"
+                            class="link-to-prism">src/order/transaction/transaction.service.ts:408</a></div>
                 </td>
             </tr>
 
@@ -625,7 +712,7 @@
                                 <tr>
                                     <td>update</td>
                                     <td>
-                                                <code><a href="../classes/UpdateTransactionDto.html" target="_self" >UpdateTransactionDto</a></code>
+                                                <code><a href="../classes/UpdateTransactionDTO.html" target="_self" >UpdateTransactionDTO</a></code>
                                     </td>
 
                                     <td>
@@ -659,23 +746,23 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpService, Injectable } from &#x27;@nestjs/common&#x27;
 
 import { AxiosResponse } from &#x27;axios&#x27;
-import { errorCodes } from &#x27;src/common/codes/error&#x27;
+import { errorCodes } from &#x27;src/core/codes/error&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &#x27;src/common/pagination&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+} from &#x27;src/core/pagination&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
 import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
-import { UpdateTransactionDto } from &#x27;./dto&#x27;
+import { UpdateTransactionDTO } from &#x27;./dto&#x27;
 import { Transaction } from &#x27;./entity&#x27;
 import { createHmac } from &#x27;crypto&#x27;
 import { ConfigService } from &#x27;@nestjs/config&#x27;
 import { ServicesEnv } from &#x27;src/config&#x27;
 import { nanoid } from &#x27;nanoid&#x27;
 import { Order } from &#x27;src/order/entity&#x27;
-import { Address } from &#x27;src/address/entity&#x27;
+import { Address } from &#x27;src/master/address/entity&#x27;
 import { User } from &#x27;src/user/entity&#x27;
 import { sendEmail, transactionEmail } from &#x27;src/utils&#x27;
 
@@ -720,6 +807,41 @@ export class TransactionService {
                 orderBy,
                 orderDirection,
                 model: &#x27;transaction&#x27;,
+                prisma: this.db,
+            })
+            return result
+        } catch (error) {
+            throw new CustomError(
+                error?.meta?.cause || error.message,
+                error.code,
+                &#x27;TransactionService.allTransactions&#x27;
+            )
+        }
+    }
+
+    async transactions(
+        options: CursorPagination,
+        userId: string
+    ): Promise&lt;CursorPaginationResultInterface&lt;Partial&lt;Transaction&gt;&gt;&gt; {
+        try {
+            const {
+                cursor,
+                size &#x3D; 10,
+                buttonNum &#x3D; 10,
+                orderBy &#x3D; &#x27;createdAt&#x27;,
+                orderDirection &#x3D; &#x27;desc&#x27;,
+            } &#x3D; options
+
+            const result &#x3D; await prismaOffsetPagination({
+                cursor,
+                size: Number(size),
+                buttonNum: Number(buttonNum),
+                orderBy,
+                orderDirection,
+                model: &#x27;transaction&#x27;,
+                where: {
+                    userId,
+                },
                 prisma: this.db,
             })
             return result
@@ -1029,7 +1151,7 @@ export class TransactionService {
 
     async updateTransaction(
         transactionId: string,
-        update: UpdateTransactionDto
+        update: UpdateTransactionDTO
     ): Promise&lt;Transaction&gt; {
         try {
             const { razorpaySecretKey } &#x3D; this.config.get&lt;ServicesEnv&gt;(

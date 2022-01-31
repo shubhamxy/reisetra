@@ -1,17 +1,17 @@
 import { OrderStatus } from '.prisma/client'
 import { Allow, IsArray, IsOptional } from 'class-validator'
-import { CursorPaginationDTO } from 'src/common/dto'
+import { CursorPaginationDTO } from 'src/core/dto'
 import { mustBeOfType } from 'src/constants'
-import { File } from 'src/files/entity'
+import { File } from 'src/master/files/entity'
 import { Order } from '../entity'
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId'
 
-export class GetAllOrdersDto extends CursorPaginationDTO {}
+export class GetAllOrdersDTO extends CursorPaginationDTO {}
 
-export class GetAllOrdersDocumentsDto extends CursorPaginationDTO {}
+export class GetAllOrdersDocumentsDTO extends CursorPaginationDTO {}
 
-export class CreateOrderDto implements Omit<Order, Excluded> {
+export class CreateOrderDTO implements Omit<Order, Excluded> {
     @Allow()
     subTotal: number
 
@@ -52,7 +52,7 @@ export class CreateOrderDto implements Omit<Order, Excluded> {
     documents: Omit<File, 'userId'>[]
 }
 
-export class UpdateOrderDto implements Omit<Order, Excluded> {
+export class UpdateOrderDTO implements Omit<Order, Excluded> {
     cartId: string
     @Allow()
     subTotal: number

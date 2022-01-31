@@ -1,10 +1,11 @@
 module.exports = {
     extends: ['next/core-web-vitals', 'standard', 'prettier'],
-    plugins: ['unused-imports'],
+    plugins: ['import', 'node', 'promise', 'unused-imports'],
     rules: {
         'react/no-children-prop': 0,
-        'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
-        'unused-imports/no-unused-imports': 'error',
+        'dot-notation': 'warn',
+        'no-unused-vars': 'warn',
+        'unused-imports/no-unused-imports': 'warn',
         'unused-imports/no-unused-vars': [
             'warn',
             {
@@ -14,5 +15,7 @@ module.exports = {
                 argsIgnorePattern: '^_',
             },
         ],
+        'import/newline-after-import': 0,
+        // 'function-paren-newline': 1,
     },
 }

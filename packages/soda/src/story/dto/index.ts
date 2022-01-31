@@ -1,13 +1,13 @@
 import { Prisma } from '.prisma/client'
-import { CursorPaginationDTO } from 'src/common/dto'
+import { CursorPaginationDTO } from 'src/core/dto'
 import { Story } from '../entity'
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId'
 
-export class GetAllStoriesDto extends CursorPaginationDTO {}
-export class GetStoriesDto extends CursorPaginationDTO {}
+export class GetAllStoriesDTO extends CursorPaginationDTO {}
+export class GetStoriesDTO extends CursorPaginationDTO {}
 
-export class CreateStoryDto implements Omit<Story, Excluded> {
+export class CreateStoryDTO implements Omit<Story, Excluded> {
     slug: string
     subtitle: string
     styles: string[]
@@ -19,7 +19,7 @@ export class CreateStoryDto implements Omit<Story, Excluded> {
     tags: string[]
 }
 
-export class UpdateStoryDto implements Omit<Story, Excluded> {
+export class UpdateStoryDTO implements Omit<Story, Excluded> {
     slug: string
     subtitle: string
     styles: string[]

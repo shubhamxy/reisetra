@@ -7,22 +7,28 @@ import { UserModule } from '../user/user.module'
 import { LocalStrategy } from './strategy/local.strategy'
 import { JwtRefreshStrategy } from './strategy/refresh.strategy'
 import { AuthController } from './auth.controller'
-import { CacheModule } from '../common/modules/cache/cache.module'
-import { auth } from '../config'
+import { CacheModule } from '../core/modules/cache/cache.module'
+import { AuthEnv } from '../config'
 import { GoogleStrategy } from './strategy/google.strategy'
-
-const config = auth()
+import { ConfigModule, ConfigService } from '@nestjs/config'
 @Module({
     imports: [
         UserModule,
         PassportModule,
         CacheModule,
-        JwtModule.register({
-            secret: config.jwtAccessTokenOptions.secret,
-            signOptions: {
-                expiresIn: config.jwtAccessTokenOptions.expiresIn,
-                audience: config.jwtAccessTokenOptions.audience,
-                issuer: config.jwtAccessTokenOptions.issuer,
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: async (configService: ConfigService) => {
+                const config = configService.get<AuthEnv>('auth')
+                return {
+                    secret: config.jwtAccessTokenOptions.secret,
+                    signOptions: {
+                        expiresIn: config.jwtAccessTokenOptions.expiresIn,
+                        audience: config.jwtAccessTokenOptions.audience,
+                        issuer: config.jwtAccessTokenOptions.issuer,
+                    },
+                }
             },
         }),
     ],
@@ -34,6 +40,6 @@ const config = auth()
         JwtRefreshStrategy,
         GoogleStrategy,
     ],
-    exports: [],
+    exports: [AuthService],
 })
 export class AuthModule {}

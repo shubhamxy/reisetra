@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { RocksProvider, analytics } from '../libs'
 import 'nprogress/nprogress.css'
 import '../assets/styles/main.css'
+
 analytics.initialize()
 
 export const cache = createCache({ key: 'css', prepend: true })

@@ -12,25 +12,19 @@ import {
     Req,
 } from '@nestjs/common'
 import { CartService } from './cart.service'
-import { CustomException, SuccessResponse } from 'src/common/response'
-import {
-    CheckoutDto,
-    CreateOfferDto,
-    DeleteOfferDto,
-    GetAllCartsDto,
-    GetAllOffersDto,
-    UpdateCartItemDto,
-    UpdateOfferDto,
-} from './dto'
+import { CustomException, SuccessResponse } from 'src/core/response'
+import { CheckoutDTO, GetAllCartsDTO, UpdateCartItemDTO } from './dto'
 import { AuthenticatedRequest } from 'src/auth/auth.interface'
-import { Roles } from 'src/auth/decorator/roles.decorator'
-@Controller()
+import { Roles, Role } from 'src/auth/decorator/roles.decorator'
+import { ROUTES } from 'src/constants'
+@Controller(ROUTES.carts)
 export class CartController {
     constructor(private readonly cart: CartService) {}
 
-    @Get('allCarts')
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.carts_all)
     async getAllCarts(
-        @Query() query: GetAllCartsDto
+        @Query() query: GetAllCartsDTO
     ): Promise<SuccessResponse> {
         try {
             const { results, ...meta } = await this.cart.getAllCarts(query)
@@ -44,27 +38,10 @@ export class CartController {
         }
     }
 
-    @Get('cart/:id')
-    async getUserCart(
-        @Param('id') id: string,
-        @Query('promo') promo: string
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.cart.getCart(id, promo)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'CartController.getUserCart'
-            )
-        }
-    }
-
-    @Post('cart/checkout')
+    @Post()
     async checkoutCart(
         @Req() req: AuthenticatedRequest,
-        @Body() body: CheckoutDto
+        @Body() body: CheckoutDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.cart.checkoutCart(req.user.id, body)
@@ -78,11 +55,28 @@ export class CartController {
         }
     }
 
-    @Get('cart/:cartid/:productid')
+    @Get(ROUTES.carts_by_cartId)
+    async getUserCart(
+        @Param('cartId') cartId: string,
+        @Query('promo') promo: string
+    ): Promise<SuccessResponse> {
+        try {
+            const data = await this.cart.getCart(cartId, promo)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                'CartController.getUserCart'
+            )
+        }
+    }
+
+    @Get(ROUTES.carts_by_cartId_and_productId)
     async getCartItem(
         @Param('cartid') cartid: string,
         @Param('productid') productid: string,
-        @Body() body: UpdateCartItemDto
+        @Body() body: UpdateCartItemDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.cart.getCartItem(cartid, productid)
@@ -96,11 +90,11 @@ export class CartController {
         }
     }
 
-    @Put('cart/:cartId/:productId')
+    @Put(ROUTES.carts_by_cartId_and_productId)
     async updateCartItem(
         @Param('cartId') cartId: string,
         @Param('productId') productId: string,
-        @Body() update: UpdateCartItemDto
+        @Body() update: UpdateCartItemDTO
     ): Promise<SuccessResponse> {
         try {
             const data = await this.cart.updateCart(cartId, productId, update)
@@ -114,7 +108,7 @@ export class CartController {
         }
     }
 
-    @Delete('cart/:cartId/:productId')
+    @Delete(ROUTES.carts_by_cartId_and_productId)
     async deleteCartItem(
         @Param('cartId') cartId: string,
         @Param('productId') productId: string
@@ -127,69 +121,6 @@ export class CartController {
                 error,
                 HttpStatus.BAD_REQUEST,
                 'CartController.deleteCartItem'
-            )
-        }
-    }
-
-    @Get('offers')
-    async getOffers(@Query() query: GetAllOffersDto): Promise<SuccessResponse> {
-        try {
-            const { results, ...meta } = await this.cart.getOffers(query)
-            return { data: results || [], meta: meta }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'CartController.getOffers'
-            )
-        }
-    }
-
-    @Post('offers')
-    async createOffers(
-        @Body() body: CreateOfferDto[]
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.cart.createOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'CartController.createOffers'
-            )
-        }
-    }
-
-    @Put('offers')
-    async updateOffers(
-        @Body() body: UpdateOfferDto[]
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.cart.updateOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'CartController.updateOffers'
-            )
-        }
-    }
-
-    @Roles('ADMIN')
-    @Delete('offers')
-    async deleteOffers(
-        @Body() body: DeleteOfferDto[]
-    ): Promise<SuccessResponse> {
-        try {
-            const data = await this.cart.deleteOffers(body)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                'CartController.deleteOffers'
             )
         }
     }

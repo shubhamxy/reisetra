@@ -79,15 +79,27 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#createFormData" >createFormData</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
                                 <a href="#createTicket" >createTicket</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#getFormData" >getFormData</a>
+                                <a href="#deleteTicket" >deleteTicket</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAllTicketes" >getAllTicketes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getTicket" >getTicket</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getTicketes" >getTicketes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateTicket" >updateTicket</a>
                             </li>
                         </ul>
                     </td>
@@ -110,89 +122,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createFormData"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>createFormData</b></span>
-                        <a href="#createFormData"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createFormData(formId, body)</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Public()<br />@Post(&#x27;form/:formId&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/support/support.controller.ts:36</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>formId</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>body</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="createTicket"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -204,7 +133,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createTicket(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/CreateSupportTicketDto.html" target="_self">CreateSupportTicketDto</a>)</code>
+                    <code>createTicket(request: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, body: <a href="../classes/TicketDTO.html" target="_self">TicketDTO</a>)</code>
                 </td>
             </tr>
 
@@ -212,14 +141,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post(&#x27;support&#x27;)<br /></code>
+                    <code>@Post()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/support/support.controller.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/support/support.controller.ts:64</a></div>
                 </td>
             </tr>
 
@@ -254,7 +183,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CreateSupportTicketDto.html" target="_self" >CreateSupportTicketDto</a></code>
+                                                <code><a href="../classes/TicketDTO.html" target="_self" >TicketDTO</a></code>
                                     </td>
 
                                     <td>
@@ -283,18 +212,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getFormData"></a>
+                    <a name="deleteTicket"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>getFormData</b></span>
-                        <a href="#getFormData"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteTicket</b></span>
+                        <a href="#deleteTicket"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getFormData(formId)</code>
+                    <code>deleteTicket(ticketId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -302,14 +231,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Public()<br />@Get(&#x27;form/:formId&#x27;)<br /></code>
+                    <code>@Roles(Role.ADMIN)<br />@Delete(ROUTES.support_by_ticketId)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">src/support/support.controller.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">src/support/support.controller.ts:119</a></div>
                 </td>
             </tr>
 
@@ -324,12 +253,352 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>formId</td>
+                                    <td>ticketId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllTicketes"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getAllTicketes</b></span>
+                        <a href="#getAllTicketes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllTicketes(query: <a href="../classes/AllTicketsDTO.html" target="_self">AllTicketsDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Roles(Role.ADMIN)<br />@Get(ROUTES.supports_all)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/support/support.controller.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="../classes/AllTicketsDTO.html" target="_self" >AllTicketsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTicket"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getTicket</b></span>
+                        <a href="#getTicket"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTicket(ticketId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(ROUTES.support_by_ticketId)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/support/support.controller.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ticketId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTicketes"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getTicketes</b></span>
+                        <a href="#getTicketes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTicketes(req: <a href="../undefineds/AuthenticatedRequest.html" target="_self">AuthenticatedRequest</a>, query: <a href="../classes/TicketsDTO.html" target="_self">TicketsDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get()<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/support/support.controller.ts:44</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>req</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#AuthenticatedRequest" target="_self" >AuthenticatedRequest</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="../classes/TicketsDTO.html" target="_self" >TicketsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SuccessResponse" target="_self" >Promise&lt;SuccessResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateTicket"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>updateTicket</b></span>
+                        <a href="#updateTicket"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateTicket(ticketId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, body: <a href="../classes/TicketDTO.html" target="_self">TicketDTO</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Put(ROUTES.support_by_ticketId)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/support/support.controller.ts:101</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ticketId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/TicketDTO.html" target="_self" >TicketDTO</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -360,61 +629,72 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
     Body,
     Controller,
+    Delete,
     Get,
     HttpStatus,
     Param,
     Post,
+    Put,
+    Query,
     Req,
 } from &#x27;@nestjs/common&#x27;
 import { SupportService } from &#x27;./support.service&#x27;
-import { CustomException, SuccessResponse } from &#x27;src/common/response&#x27;
-import { CreateSupportTicketDto } from &#x27;./dto&#x27;
+import { CustomException, SuccessResponse } from &#x27;src/core/response&#x27;
+import { TicketDTO, AllTicketsDTO, TicketsDTO } from &#x27;./dto&#x27;
 import { AuthenticatedRequest } from &#x27;src/auth/auth.interface&#x27;
-import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
+import { Roles, Role } from &#x27;src/auth/decorator/roles.decorator&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-@Controller()
+@Controller(ROUTES.supports)
 export class SupportController {
     constructor(private readonly support: SupportService) {}
-    @Public()
-    @Get(&#x27;form/:formId&#x27;)
-    async getFormData(@Param(&#x27;formId&#x27;) formId): Promise&lt;SuccessResponse&gt; {
-        try {
-            const data &#x3D; await this.support.getFormData(formId)
-            return { data }
-        } catch (error) {
-            throw new CustomException(
-                error,
-                HttpStatus.BAD_REQUEST,
-                &#x27;SupportController.getFormData&#x27;
-            )
-        }
-    }
 
-    @Public()
-    @Post(&#x27;form/:formId&#x27;)
-    async createFormData(
-        @Param(&#x27;formId&#x27;) formId,
-        @Body() body
+    @Roles(Role.ADMIN)
+    @Get(ROUTES.supports_all)
+    async getAllTicketes(
+        @Query() query: AllTicketsDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.support.createFormData(formId, body)
-            return { data }
+            const { results, ...meta } &#x3D; await this.support.getAllTicketes(
+                query
+            )
+            return { data: results || [], meta: meta }
         } catch (error) {
             throw new CustomException(
                 error,
                 HttpStatus.BAD_REQUEST,
-                &#x27;SupportController.createFormData&#x27;
+                &#x27;TicketController.getAllTicketes&#x27;
             )
         }
     }
 
-    @Post(&#x27;support&#x27;)
+    @Get()
+    async getTicketes(
+        @Req() req: AuthenticatedRequest,
+        @Query() query: TicketsDTO
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const { results, ...meta } &#x3D; await this.support.getTicketesByUser(
+                query,
+                req.user.id
+            )
+            return { data: results || [], meta: meta }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;TicketController.getTicketes&#x27;
+            )
+        }
+    }
+
+    @Post()
     async createTicket(
         @Req() request: AuthenticatedRequest,
-        @Body() body: CreateSupportTicketDto
+        @Body() body: TicketDTO
     ): Promise&lt;SuccessResponse&gt; {
         try {
-            const data &#x3D; await this.support.createSupportTicket(
+            const data &#x3D; await this.support.createTicket(
                 request.user.id,
                 request.user.email,
                 body
@@ -425,6 +705,56 @@ export class SupportController {
                 error,
                 HttpStatus.BAD_REQUEST,
                 &#x27;SupportController.createTicket&#x27;
+            )
+        }
+    }
+
+    @Get(ROUTES.support_by_ticketId)
+    async getTicket(
+        @Param(&#x27;ticketId&#x27;) ticketId: string
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.support.getTicketById(ticketId)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;TicketController.getTicket&#x27;
+            )
+        }
+    }
+
+    @Put(ROUTES.support_by_ticketId)
+    async updateTicket(
+        @Param(&#x27;ticketId&#x27;) ticketId: string,
+        @Body() body: TicketDTO
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.support.updateTicket(ticketId, body)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;TicketController.updateTicket&#x27;
+            )
+        }
+    }
+
+    @Roles(Role.ADMIN)
+    @Delete(ROUTES.support_by_ticketId)
+    async deleteTicket(
+        @Param(&#x27;ticketId&#x27;) ticketId: string
+    ): Promise&lt;SuccessResponse&gt; {
+        try {
+            const data &#x3D; await this.support.deleteTicket(ticketId)
+            return { data }
+        } catch (error) {
+            throw new CustomException(
+                error,
+                HttpStatus.BAD_REQUEST,
+                &#x27;TicketController.deleteTicket&#x27;
             )
         }
     }

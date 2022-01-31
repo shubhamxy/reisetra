@@ -30,7 +30,7 @@ type Excluded =
     | 'oauthProvider'
     | 'emailVerified'
     | 'oauthId'
-export class UpdateUserDto implements Omit<User, Excluded> {
+export class UpdateUserDTO implements Omit<User, Excluded> {
     constructor(partial: Partial<User>) {
         Object.assign(this, partial)
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 // @ts-nocheck
 import { useEffect } from 'react'
 import { config, isBrowser, useAuthState } from '../../libs'
@@ -31,7 +32,7 @@ const HelpDesk = () => {
         }
 
         function initialize(i, t) {
-            var e
+            let e
             i.getElementById(t)
                 ? initFreshChat()
                 : (((e = i.createElement('script')).id = t),

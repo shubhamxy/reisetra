@@ -294,7 +294,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>create(user: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                    <code>create(user: <a href="../classes/CreateUserDTO.html" target="_self">CreateUserDTO</a>)</code>
                 </td>
             </tr>
 
@@ -325,7 +325,7 @@
                                 <tr>
                                     <td>user</td>
                                     <td>
-                                                <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                                <code><a href="../classes/CreateUserDTO.html" target="_self" >CreateUserDTO</a></code>
                                     </td>
 
                                     <td>
@@ -365,7 +365,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOauthAccount(user: <a href="../classes/CreateOauthUserDto.html" target="_self">CreateOauthUserDto</a>)</code>
+                    <code>createOauthAccount(user: <a href="../classes/CreateOauthUserDTO.html" target="_self">CreateOauthUserDTO</a>)</code>
                 </td>
             </tr>
 
@@ -396,7 +396,7 @@
                                 <tr>
                                     <td>user</td>
                                     <td>
-                                                <code><a href="../classes/CreateOauthUserDto.html" target="_self" >CreateOauthUserDto</a></code>
+                                                <code><a href="../classes/CreateOauthUserDTO.html" target="_self" >CreateOauthUserDTO</a></code>
                                     </td>
 
                                     <td>
@@ -732,7 +732,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findAndUpdateOauthAccount(user: <a href="../s/auth.html" target="_self">Partial&lt;CreateOauthUserDto&gt;</a>)</code>
+                    <code>findAndUpdateOauthAccount(user: <a href="../s/auth.html" target="_self">Partial&lt;CreateOauthUserDTO&gt;</a>)</code>
                 </td>
             </tr>
 
@@ -763,7 +763,7 @@
                                 <tr>
                                     <td>user</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#auth" target="_self" >Partial&lt;CreateOauthUserDto&gt;</a></code>
+                                                <code><a href="../miscellaneous/variables.html#auth" target="_self" >Partial&lt;CreateOauthUserDTO&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -1135,7 +1135,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>verifyEmailPassword(undefined: Partial<LoginUserDto>)</code>
+                    <code>verifyEmailPassword(undefined: Partial<LoginUserDTO>)</code>
                 </td>
             </tr>
 
@@ -1165,7 +1165,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                            <code>Partial&lt;LoginUserDto&gt;</code>
+                                            <code>Partial&lt;LoginUserDTO&gt;</code>
                                     </td>
 
                                     <td>
@@ -1198,22 +1198,22 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;
 import * as argon2 from &#x27;argon2&#x27;
-import { CustomError } from &#x27;src/common/response&#x27;
-import { PrismaService } from &#x27;src/common/modules/db/prisma.service&#x27;
-import { CacheService } from &#x27;src/common/modules/cache/cache.service&#x27;
+import { CustomError } from &#x27;src/core/response&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
+import { CacheService } from &#x27;src/core/modules/cache/cache.service&#x27;
 import {
-    CreateUserDto,
-    LoginUserDto,
-    UpdateUserDto,
-    CreateOauthUserDto,
+    CreateUserDTO,
+    LoginUserDTO,
+    UpdateUserDTO,
+    CreateOauthUserDTO,
 } from &#x27;./dto&#x27;
 import { UserRO } from &#x27;./interfaces/user.interface&#x27;
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from &#x27;src/common/pagination&#x27;
+} from &#x27;src/core/pagination&#x27;
 import { User } from &#x27;./entity&#x27;
-import { errorCodes, errorTypes } from &#x27;src/common/codes/error&#x27;
+import { errorCodes, errorTypes } from &#x27;src/core/codes/error&#x27;
 import { prismaOffsetPagination } from &#x27;src/utils/prisma&#x27;
 
 @Injectable()
@@ -1245,7 +1245,7 @@ export class UserService {
         return result
     }
 
-    async create(user: CreateUserDto): Promise&lt;UserRO&gt; {
+    async create(user: CreateUserDTO): Promise&lt;UserRO&gt; {
         try {
             // create new user
             const { password, ...update } &#x3D; user
@@ -1293,7 +1293,7 @@ export class UserService {
 
     async findAndUpdate(
         id: string,
-        update: Partial&lt;UpdateUserDto &amp; { emailVerified: boolean }&gt;
+        update: Partial&lt;UpdateUserDTO &amp; { emailVerified: boolean }&gt;
     ): Promise&lt;UserRO&gt; {
         try {
             const user &#x3D; await this.db.user.update({
@@ -1374,7 +1374,7 @@ export class UserService {
         }
     }
 
-    async createOauthAccount(user: CreateOauthUserDto): Promise&lt;UserRO&gt; {
+    async createOauthAccount(user: CreateOauthUserDTO): Promise&lt;UserRO&gt; {
         try {
             const newUser &#x3D; await this.db.user.create({
                 data: {
@@ -1400,7 +1400,7 @@ export class UserService {
     }
 
     async findAndUpdateOauthAccount(
-        user: Partial&lt;CreateOauthUserDto&gt;
+        user: Partial&lt;CreateOauthUserDTO&gt;
     ): Promise&lt;UserRO&gt; {
         try {
             const updatedUser &#x3D; await this.db.user.update({
@@ -1429,7 +1429,7 @@ export class UserService {
     async verifyEmailPassword({
         email,
         password,
-    }: Partial&lt;LoginUserDto&gt;): Promise&lt;UserRO&gt; {
+    }: Partial&lt;LoginUserDTO&gt;): Promise&lt;UserRO&gt; {
         try {
             const user &#x3D; await this.db.user.findUnique({
                 where: {

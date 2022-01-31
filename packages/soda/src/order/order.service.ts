@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Product } from '.prisma/client'
 import { Injectable } from '@nestjs/common'
-import { errorCodes } from 'src/common/codes/error'
+import { errorCodes } from 'src/core/codes/error'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from 'src/common/pagination'
-import { CustomError } from 'src/common/response'
-import { PrismaService } from 'src/common/modules/db/prisma.service'
-import { CacheService } from 'src/common/modules/cache/cache.service'
+} from 'src/core/pagination'
+import { CustomError } from 'src/core/response'
+import { PrismaService } from 'src/core/modules/db/prisma.service'
+import { CacheService } from 'src/core/modules/cache/cache.service'
 import { prismaOffsetPagination } from 'src/utils/prisma'
-import { CreateOrderDto, GetAllOrdersDocumentsDto, UpdateOrderDto } from './dto'
+import { CreateOrderDTO, GetAllOrdersDocumentsDTO, UpdateOrderDTO } from './dto'
 import { sendEmail, transactionEmail } from 'src/utils'
 import type { Prisma } from '.prisma/client'
-import { File } from 'src/files/entity'
+import { File } from 'src/master/files/entity'
 
 @Injectable()
 export class OrderService {
@@ -210,7 +210,7 @@ export class OrderService {
 
     async getOrderDocuments(
         id: string,
-        options: GetAllOrdersDocumentsDto
+        options: GetAllOrdersDocumentsDTO
     ): Promise<CursorPaginationResultInterface<Partial<File>>> {
         try {
             const {
@@ -244,7 +244,7 @@ export class OrderService {
         }
     }
 
-    async createOrder(userId: string, data: CreateOrderDto): Promise<any> {
+    async createOrder(userId: string, data: CreateOrderDTO): Promise<any> {
         try {
             const product = await this.db.order.create({
                 data: {
@@ -268,7 +268,7 @@ export class OrderService {
 
     async updateOrder(
         orderId: string,
-        update: UpdateOrderDto,
+        update: UpdateOrderDTO,
         userId: string
     ): Promise<any> {
         try {

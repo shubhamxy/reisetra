@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
-    Paper,
     Box,
     Typography,
     makeStyles,
-    CircularProgress,
+    LinearProgress,
     Divider,
     Button,
     Grid,
     TextField,
-    fade,
     IconButton,
 } from '@material-ui/core'
 import { List } from '../List/List'
-import { Footer } from '../List'
-import {
-    updatePromo,
-    useAuthState,
-    useCartCheckout,
-    useCartItems,
-    useGlobalDispatch,
-    useGlobalState,
-    useProducts,
-} from '../../libs'
-import { ProductCard } from './Card'
-import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'
-import clsx from 'clsx'
+import { updatePromo, useGlobalDispatch, useGlobalState } from '../../libs'
+import { Card } from './Card'
 import { useRouter } from 'next/router'
 import Close from '@material-ui/icons/Close'
 
@@ -120,9 +107,7 @@ export function Cart({ data, handleClose }) {
                     </Typography>
                 </Box>
             }
-            renderItem={({ item, index }) => (
-                <ProductCard key={index} data={item} />
-            )}
+            renderItem={({ item, index }) => <Card key={index} data={item} />}
             variant="default"
             ListLoadingComponent={
                 <Box
@@ -133,7 +118,10 @@ export function Cart({ data, handleClose }) {
                     pt={2}
                     pb={2}
                 >
-                    <CircularProgress size={24} />
+                    <LinearProgress
+                        style={{ minWidth: 140 }}
+                        variant="indeterminate"
+                    />
                 </Box>
             }
             ListFooterComponent={

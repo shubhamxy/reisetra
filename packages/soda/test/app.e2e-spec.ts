@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { AppModule } from '../src/app.module'
 
 import { INestApplication } from '@nestjs/common'
-import { PrismaService } from '../src/common/modules/db/prisma.service'
+import { PrismaService } from '../src/core/modules/db/prisma.service'
 import { AppEnv } from 'src/config'
 import { NestExpressApplication } from '@nestjs/platform-express'
 

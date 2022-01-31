@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { login, useAuthDispatch, useRefreshAuth, config } from '../../libs'
-import { Box, makeStyles, CircularProgress } from '@material-ui/core'
+import { Box, LinearProgress, makeStyles, Typography } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
 import { AppHeader } from '../../ui/Header'
 import { Footer } from '../../ui/Footer'
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function Auth0CallbackPage() {
     const classes = useStyles()
     const fetchRefreshToken = useRefreshAuth()
-    const { query } = useRouter()
+    const { query, replace } = useRouter()
     const dispatch = useAuthDispatch()
     const pageMeta = {
         title: '',
@@ -48,7 +48,9 @@ function Auth0CallbackPage() {
                     refresh_token: response.data.refresh_token,
                 })
             )
-        } catch (error) {}
+        } catch (error) {
+            replace('/')
+        }
     }
 
     useEffect(() => {
@@ -68,10 +70,17 @@ function Auth0CallbackPage() {
                     data={{
                         title: pageMeta.title,
                         subtitle: pageMeta.description,
+                        backgroundImage: '',
                     }}
                     actions={
-                        <Box pt={2.4}>
-                            <CircularProgress />
+                        <Box>
+                            <Box p={4}>
+                                <Typography variant="h4" color="textPrimary">
+                                    Authenticating
+                                </Typography>
+                            </Box>
+
+                            <LinearProgress style={{ minWidth: 120 }} />
                         </Box>
                     }
                 />

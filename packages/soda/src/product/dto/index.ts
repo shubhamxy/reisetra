@@ -11,11 +11,11 @@ import {
     IsString,
     ValidateNested,
 } from 'class-validator'
-import { CursorPaginationDTO } from 'src/common/dto'
+import { CursorPaginationDTO } from 'src/core/dto'
 import { mustBeOfType } from 'src/constants'
-import { File } from 'src/files/entity'
-import { CreateInventoryDto } from 'src/inventory/dto'
-import { Category, Product, Tag, Company } from '../entity'
+import { File } from 'src/master/files/entity'
+import { CreateInventoryDTO } from 'src/product/inventory/dto'
+import { Product } from '../entity'
 
 type Excluded =
     | 'id'
@@ -33,7 +33,7 @@ export enum ProductSort {
     relevant = 'relevant',
 }
 
-export class GetAllProductsDto extends CursorPaginationDTO {
+export class GetAllProductsDTO extends CursorPaginationDTO {
     sort: ProductSort
     tags: string[]
     brands: string[]
@@ -43,9 +43,7 @@ export class GetAllProductsDto extends CursorPaginationDTO {
     rating: number | string
 }
 
-export class GetAllTagsDto extends CursorPaginationDTO {}
-
-export class CreateProductDto implements Omit<Product, Excluded> {
+export class CreateProductDTO implements Omit<Product, Excluded> {
     @IsString({ message: mustBeOfType('string', 'slug') })
     slug: string
 
@@ -102,8 +100,8 @@ export class CreateProductDto implements Omit<Product, Excluded> {
         each: true,
         message: mustBeOfType('object', 'inventory'),
     })
-    @Type(() => CreateInventoryDto)
-    inventory?: CreateInventoryDto
+    @Type(() => CreateInventoryDTO)
+    inventory?: CreateInventoryDTO
 
     images: Omit<File, 'userId'>[]
 
@@ -122,7 +120,7 @@ export class CreateProductDto implements Omit<Product, Excluded> {
     ratingsCount: number
 }
 
-export class UpdateProductDto implements Omit<Product, Excluded> {
+export class UpdateProductDTO implements Omit<Product, Excluded> {
     @IsOptional()
     @IsString({ message: mustBeOfType('string', 'string') })
     title: string
@@ -182,8 +180,8 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
         each: true,
         message: mustBeOfType('object', 'inventory'),
     })
-    @Type(() => CreateInventoryDto)
-    inventory?: CreateInventoryDto
+    @Type(() => CreateInventoryDTO)
+    inventory?: CreateInventoryDTO
 
     @IsOptional()
     @IsArray({ message: mustBeOfType('array', 'styles') })
@@ -206,40 +204,4 @@ export class UpdateProductDto implements Omit<Product, Excluded> {
     rating: number
 
     ratingsCount: number
-}
-
-export class CreateCategoryDto implements Omit<Category, Excluded> {
-    label: string
-    value: string
-    styles: string[]
-    description: string
-    images: Omit<File, 'userId'>[]
-}
-
-export class UpdateCategoryDto implements Omit<Category, Excluded> {
-    label: string
-    value: string
-    styles: string[]
-    description: string
-    images: Omit<File, 'userId'>[]
-}
-
-export class CreateTagDto implements Omit<Tag, Excluded> {
-    styles: string[]
-    label: string
-    value: string
-    description: string
-    images: Omit<File, 'userId'>[]
-}
-
-export class UpdateTagDto implements Omit<Tag, Excluded> {
-    styles: string[]
-    label: string
-    value: string
-    description: string
-    images: Omit<File, 'userId'>[]
-}
-
-export class CreateCompanyDto implements Omit<Company, Excluded> {
-    name: string
 }

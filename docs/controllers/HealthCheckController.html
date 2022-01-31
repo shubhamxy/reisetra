@@ -58,12 +58,6 @@
             <code>src/health/health.controller.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Prefix</h3>
-            </p>
-            <p class="comment">
-                <code>healthz</code>
-            </p>
 
 
 
@@ -133,8 +127,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/health/health.controller.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/health/health.controller.ts:19</a></div>
                 </td>
             </tr>
 
@@ -155,40 +149,20 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get } from &#x27;@nestjs/common&#x27;
-import { PinoLogger } from &#x27;nestjs-pino&#x27;
 import { Public } from &#x27;src/auth/decorator/public.decorator&#x27;
-import { SuccessResponse } from &#x27;src/common/response&#x27;
-import { PrismaService } from &#x27;../common/modules/db/prisma.service&#x27;
+import { SuccessResponse } from &#x27;src/core/response&#x27;
+import { PrismaService } from &#x27;src/core/modules/db/prisma.service&#x27;
 import { ConfigService } from &#x27;@nestjs/config&#x27;
 import { AppEnv } from &#x27;src/config&#x27;
+import { timeFn } from &#x27;src/utils&#x27;
+import { ROUTES } from &#x27;src/constants&#x27;
 
-function timeFn(sec_num: number) {
-    sec_num &#x3D; parseInt(sec_num + &#x27;&#x27;, 10)
-    let hours: string | number &#x3D; Math.floor(sec_num / 3600)
-    let minutes: string | number &#x3D; Math.floor((sec_num - hours * 3600) / 60)
-    let seconds: string | number &#x3D; sec_num - hours * 3600 - minutes * 60
-    if (hours &lt; 10) {
-        hours &#x3D; &#x27;0&#x27; + hours
-    }
-    if (minutes &lt; 10) {
-        minutes &#x3D; &#x27;0&#x27; + minutes
-    }
-    if (seconds &lt; 10) {
-        seconds &#x3D; &#x27;0&#x27; + seconds
-    }
-    const time &#x3D; hours + &#x27;:&#x27; + minutes + &#x27;:&#x27; + seconds
-    return time
-}
-
-@Controller(&#x27;healthz&#x27;)
+@Controller(ROUTES.healthz)
 export class HealthCheckController {
     constructor(
         private readonly prismaService: PrismaService,
-        private readonly logger: PinoLogger,
         private readonly config: ConfigService
-    ) {
-        logger.setContext(HealthCheckController.name)
-    }
+    ) {}
 
     @Public()
     @Get()
@@ -200,6 +174,9 @@ export class HealthCheckController {
                 server: &#x27;up&#x27;,
                 database: database ? &#x27;up&#x27; : &#x27;down&#x27;,
                 uptime: timeFn(process.uptime()),
+                ...(this.config.get&lt;AppEnv&gt;(&#x27;app&#x27;).debug
+                    ? (this.config.get&lt;AppEnv&gt;(&#x27;app&#x27;) as any)
+                    : {}),
             },
         }
     }

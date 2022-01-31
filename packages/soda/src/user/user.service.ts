@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
-import { CustomError } from 'src/common/response'
-import { PrismaService } from 'src/common/modules/db/prisma.service'
-import { CacheService } from 'src/common/modules/cache/cache.service'
+import { CustomError } from 'src/core/response'
+import { PrismaService } from 'src/core/modules/db/prisma.service'
+import { CacheService } from 'src/core/modules/cache/cache.service'
 import {
-    CreateUserDto,
-    LoginUserDto,
-    UpdateUserDto,
-    CreateOauthUserDto,
+    CreateUserDTO,
+    LoginUserDTO,
+    UpdateUserDTO,
+    CreateOauthUserDTO,
 } from './dto'
 import { UserRO } from './interfaces/user.interface'
 import {
     CursorPagination,
     CursorPaginationResultInterface,
-} from 'src/common/pagination'
+} from 'src/core/pagination'
 import { User } from './entity'
-import { errorCodes, errorTypes } from 'src/common/codes/error'
+import { errorCodes, errorTypes } from 'src/core/codes/error'
 import { prismaOffsetPagination } from 'src/utils/prisma'
 
 @Injectable()
@@ -47,7 +47,7 @@ export class UserService {
         return result
     }
 
-    async create(user: CreateUserDto): Promise<UserRO> {
+    async create(user: CreateUserDTO): Promise<UserRO> {
         try {
             // create new user
             const { password, ...update } = user
@@ -95,7 +95,7 @@ export class UserService {
 
     async findAndUpdate(
         id: string,
-        update: Partial<UpdateUserDto & { emailVerified: boolean }>
+        update: Partial<UpdateUserDTO & { emailVerified: boolean }>
     ): Promise<UserRO> {
         try {
             const user = await this.db.user.update({
@@ -176,7 +176,7 @@ export class UserService {
         }
     }
 
-    async createOauthAccount(user: CreateOauthUserDto): Promise<UserRO> {
+    async createOauthAccount(user: CreateOauthUserDTO): Promise<UserRO> {
         try {
             const newUser = await this.db.user.create({
                 data: {
@@ -202,7 +202,7 @@ export class UserService {
     }
 
     async findAndUpdateOauthAccount(
-        user: Partial<CreateOauthUserDto>
+        user: Partial<CreateOauthUserDTO>
     ): Promise<UserRO> {
         try {
             const updatedUser = await this.db.user.update({
@@ -231,7 +231,7 @@ export class UserService {
     async verifyEmailPassword({
         email,
         password,
-    }: Partial<LoginUserDto>): Promise<UserRO> {
+    }: Partial<LoginUserDTO>): Promise<UserRO> {
         try {
             const user = await this.db.user.findUnique({
                 where: {
