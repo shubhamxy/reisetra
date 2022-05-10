@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Attach by Process ID",
+            "processId": "${command:PickProcess}",
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "type": "pwa-chrome",
+            "name": "ws://127.0.0.1:9229/d1db551a-0009-4b23-9b5f-61df30a9ca33",
+            "request": "launch",
+            "url": "ws://127.0.0.1:9229/d1db551a-0009-4b23-9b5f-61df30a9ca33"
+        }
+    ]
+}

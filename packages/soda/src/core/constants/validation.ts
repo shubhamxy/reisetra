@@ -14,6 +14,6 @@ export const PASSWORD_MAX_LENGTH = 'Password must be less than 30 character.'
 export const PASSWORD_IS_WEAK =
     'Password must contain at least one uppercase and a special character (ex: !, @, # etc).'
 
-export const STRONG_PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
+export const STRONG_PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
 export const PHONE_REGEX = /^\+[1-9]\d{1,14}$/
 export const INVALID_PHONE = 'Invalid phone number.'

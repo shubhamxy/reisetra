@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import { useMutation } from 'react-query'
 import { login, useAuthDispatch } from '.'
 import {

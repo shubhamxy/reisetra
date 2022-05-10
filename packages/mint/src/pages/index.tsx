@@ -11,6 +11,7 @@ import {
 } from '../ui'
 import { Footer } from '../ui/Footer'
 import { Catalogs, Categories, Products, ShowCase } from '../modules'
+import { HeadShowCase } from '../ui/HeadShowcase'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -49,15 +50,17 @@ const IndexPage = () => {
                 right: classes.right,
             }}
             top={
-                <HeroCard
-                    data={{
-                        objectFit: 'contain',
-                        title: 'Indian Handcrafts',
-                        subtitle:
-                            'Unique products designed by independent artists.',
-                        backgroundImage: '/images/hero2.jpeg',
-                    }}
-                />
+                // <HeroCard
+                //     data={{
+                //         objectFit: 'contain',
+                //         title: 'Indian Handcrafts',
+                //         subtitle:
+                //             'Unique products designed by independent artists.',
+                //         backgroundImage: '/images/hero2.jpeg',
+                //     }}
+                // />
+
+                <HeadShowCase />
             }
             header={<AppHeader />}
             right={

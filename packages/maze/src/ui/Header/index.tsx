@@ -18,9 +18,8 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 import SearchIcon from '@material-ui/icons/Search'
 import { Button, InputBase } from '@material-ui/core'
 import Link from 'next/link'
-import { logout, useAuthDispatch, useAuthState } from '../../libs/rock/auth'
+import { useAuthState, useAuthDispatch, logout, config } from '../../libs'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { config } from '../../libs'
 import { Logo } from '../Logo'
 import { useRouter } from 'next/router'
 
@@ -33,8 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
             left: 0,
             border: 'none',
             right: 0,
-            position: '-webkit-sticky',
-            // @ts-ignore
             position: 'sticky',
             display: 'flex',
             flex: 1,
@@ -249,8 +246,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export function AppHeader() {
     const [searchText, setSearchText] = useState('')
     const authState = useAuthState()
-    const router = useRouter()
     const authDispatch = useAuthDispatch()
+    const router = useRouter()
+    const { route, query, isReady, replace, asPath } = router;
     const debounced = useDebouncedCallback((value) => {
         const routerObj = {
             pathname: router.pathname,
@@ -334,7 +332,10 @@ export function AppHeader() {
         },
         {
             label: 'Logout',
-            link: `/logout?redirect_route=${encodeURIComponent(router.asPath)}`,
+            link:  '',
+            onClick: () => {
+                authDispatch(logout());
+            }
         },
     ]
 
@@ -356,7 +357,7 @@ export function AppHeader() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            {ProfileMenu.map((item, index) => {
+            {ProfileMenu.map((item) => {
                 return (
                     <MenuItem
                         key={item.label}
@@ -367,9 +368,10 @@ export function AppHeader() {
                         }}
                         className={classes.menuPaperItem}
                     >
-                        <Link href={item.link}>
+                        <Link passHref href={item.link}>
                             <Button
                                 variant="text"
+                                {...(item.onClick ? {onClick: item.onClick}: {})}
                                 color={
                                     item.link === router.pathname
                                         ? 'primary'
@@ -422,16 +424,20 @@ export function AppHeader() {
         </MenuItem>
     ) : (
         <MenuItem className={classes.menuPaperItem}>
-            <Link
-                href={`/login?redirect_route=${encodeURIComponent(
-                    router.asPath
-                )}`}
-                passHref
-            >
-                <Button variant="contained" color="primary">
+
+                <Button onClick={() =>{
+                        replace({
+                            pathname: config.authUrl,
+                            query: {
+                                ...query,
+                                client_id: config.clientId,
+                                redirect_uri: config.callbackUrl,
+                                redirect_route: router.asPath
+                            },
+                        }, config.authUrl, { shallow: true })
+                }} variant="contained" color="primary">
                     Login
                 </Button>
-            </Link>
         </MenuItem>
     )
 
@@ -476,9 +482,10 @@ export function AppHeader() {
         >
             {NavigationMenu.concat(ProfileMenu).map((item) => (
                 <MenuItem className={classes.menuPaperItem} key={item.label}>
-                    <Link href={item.link}>
+                    <Link passHref href={item.link}>
                         <Button
                             variant="text"
+                            {...(item.label)}
                             color={
                                 item.link === router.pathname
                                     ? 'primary'
@@ -512,7 +519,7 @@ export function AppHeader() {
                                     className={classes.menuPaperItem}
                                     key={item.link}
                                 >
-                                    <Link href={item.link}>
+                                    <Link passHref href={item.link}>
                                         <Button
                                             variant="text"
                                             color={

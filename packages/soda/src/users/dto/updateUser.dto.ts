@@ -36,6 +36,9 @@ export class UpdateUserDTO implements Omit<User, Excluded> {
     }
 
     @IsOptional()
+    clientId: string
+
+    @IsOptional()
     @IsEmail({}, { message: 'Email is invalid' })
     email: string
 

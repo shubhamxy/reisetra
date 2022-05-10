@@ -2,6 +2,7 @@ import { Box, Container, LinearProgress } from '@material-ui/core'
 import React from 'react'
 import { getTotalCount, getTotalDataCount, useOrders } from '../../libs'
 import { List, ListFooter } from '../../ui/List'
+import { EmptyListComponent } from '../../ui/List/EmptyListComponent'
 import OrderCard from './order'
 
 export function Orders() {
@@ -36,7 +37,11 @@ export function Orders() {
                         fetchNextPage={orders?.fetchNextPage}
                         totalDataCount={getTotalDataCount(orders?.data)}
                         totalCount={getTotalCount(orders?.data)}
-                        // isLoading={isLoading}
+                    />
+                }
+                ListEmptyComponent={
+                    <EmptyListComponent
+                        title={"No orders."}
                     />
                 }
             />

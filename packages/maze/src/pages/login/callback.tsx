@@ -1,7 +1,8 @@
+/* eslint-disable dot-notation */
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { login, useAuthDispatch, useRefreshAuth, config } from '../../libs'
-import { Box, LinearProgress, makeStyles, Typography } from '@material-ui/core'
+import { config, login, useAuthDispatch, useRefreshAuth } from '../../libs'
+import { Box, LinearProgress, makeStyles } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
 import { AppHeader } from '../../ui/Header'
 import { Footer } from '../../ui/Footer'
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function Auth0CallbackPage() {
     const classes = useStyles()
     const fetchRefreshToken = useRefreshAuth()
-    const { query, replace } = useRouter()
+    const { query, isReady, replace } = useRouter()
     const dispatch = useAuthDispatch()
     const pageMeta = {
         title: '',
@@ -41,24 +42,32 @@ function Auth0CallbackPage() {
             const response = await fetchRefreshToken.mutateAsync({
                 token,
             })
-
-            dispatch(
-                login({
-                    access_token: response.data.access_token,
-                    refresh_token: response.data.refresh_token,
-                })
-            )
+            if(response.data.role === 'ADMIN'){
+                dispatch(
+                    login({
+                        access_token: response.data.access_token,
+                        refresh_token: response.data.refresh_token,
+                    })
+                )   
+            } else {
+                throw Error("Admin required!")
+            }
         } catch (error) {
-            replace('/')
+            delete query.token;
+            replace({
+                pathname: query['redirect_route'] as string || '/'
+            })
         }
     }
 
     useEffect(() => {
+        if (!isReady) return;
+        console.log(query)
         if (query.token && typeof query.token === 'string') {
             refreshAuth(query.token as string)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query])
+    }, [query, isReady])
     return (
         <MainLayout
             classes={{
@@ -70,17 +79,13 @@ function Auth0CallbackPage() {
                     data={{
                         title: pageMeta.title,
                         subtitle: pageMeta.description,
-                        backgroundImage: '',
                     }}
                     actions={
-                        <Box>
-                            <Box p={4}>
-                                <Typography variant="h4" color="textPrimary">
-                                    Authenticating
-                                </Typography>
-                            </Box>
-
-                            <LinearProgress style={{ minWidth: 120 }} />
+                        <Box pt={2.4}>
+                            <LinearProgress
+                                style={{ minWidth: 140 }}
+                                variant="indeterminate"
+                            />
                         </Box>
                     }
                 />

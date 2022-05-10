@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { analytics, AUTH_ROUTES, PRIVATE_ROUTES, storage } from '../utils'
+import { analytics, AUTH_ROUTES, PRIVATE_ROUTES, ROUTES, storage } from '../utils'
 import { config } from '../config'
 import { useRefreshAuth } from './useAuth'
 import { useUserProfile } from '../users'
@@ -121,31 +121,28 @@ function useAuth() {
     useEffect(() => {
         if (!isReady || !state.isHydrated) return
         if (state.isAuthenticated) {
-            if (AUTH_ROUTES.has(route) || route === '/login/callback') {
+            if (AUTH_ROUTES.has(route as ROUTES)) {
+                replace((query.redirect_route as string) || '/')
+            } else if (route === '/login/callback'){
                 replace((query.redirect_route as string) || '/')
             }
         } else {
-            if (AUTH_ROUTES.has(route)) {
-                const redirectTo = qs.stringifyUrl({
-                    url: config.callbackUrl,
-                    query,
-                })
+            if (AUTH_ROUTES.has(route as ROUTES)) {
                 replace({
                     pathname: config.authUrl,
                     query: {
-                        redirect_uri: redirectTo,
+                        ...query,
+                        client_id: config.clientId,
+                        redirect_uri: config.callbackUrl,
                     },
-                })
-            } else if (PRIVATE_ROUTES.has(route)) {
-                const redirectTo = qs.stringifyUrl({
-                    url: config.callbackUrl,
-                    query,
-                })
-                console.log(redirectTo)
+                }, config.authUrl, {shallow: true})
+            } else if (PRIVATE_ROUTES.has(route as ROUTES)) {
                 replace({
                     pathname: config.authUrl,
                     query: {
-                        redirect_uri: redirectTo,
+                        ...query,
+                        client_id: config.clientId,
+                        redirect_uri: config.callbackUrl,
                     },
                 })
             }
@@ -156,7 +153,6 @@ function useAuth() {
         state.isAuthenticated,
         state.isHydrated,
         query,
-        asPath,
         replace,
     ])
 

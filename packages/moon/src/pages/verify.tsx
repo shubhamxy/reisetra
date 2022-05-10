@@ -22,7 +22,10 @@ function VerifyCallbackPage() {
                             open: true,
                         })
                     )
-                    replace(`/?ref=${encodeURIComponent(asPath)}`)
+                    replace({
+                        query,
+                        pathname: '/'
+                    })
                 })
                 .catch(() => {
                     dispatch(
@@ -32,7 +35,10 @@ function VerifyCallbackPage() {
                             open: true,
                         })
                     )
-                    replace(`/?ref=${encodeURIComponent(asPath)}`)
+                    replace({
+                        query,
+                        pathname: '/'
+                    })
                 })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

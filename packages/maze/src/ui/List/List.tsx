@@ -35,7 +35,6 @@ export function List(props: ListProps) {
         classes = {},
         variant = 'default',
         isLoading = false,
-        isEmpty = false,
         ListLoadingComponent,
         ListHeaderComponent,
         ListFooterComponent,
@@ -75,7 +74,7 @@ export function List(props: ListProps) {
                         {data?.pages?.map(
                             (page: ISuccessResponse<any>, pageIndex: number) =>
                                 page.data?.map((item, index) => (
-                                    //@TODO fix the type ???
+                                    // @TODO fix the type ???
                                     <MaterialListItem
                                         disableGutters
                                         className={classes.listItem}
@@ -134,6 +133,7 @@ export function List(props: ListProps) {
                     {ListEmptyComponent &&
                         !isLoading &&
                         data &&
+                        // eslint-disable-next-line dot-notation
                         data['length'] === 0 && (
                             <Grid item xs={12} className={classes.empty}>
                                 {ListEmptyComponent}

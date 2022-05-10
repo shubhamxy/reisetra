@@ -1,9 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable dot-notation */
 import React, { useEffect, useRef } from 'react'
 import * as Yup from 'yup'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Link from '@material-ui/core/Link'
-import NextLink from 'next/link'
 
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -11,22 +12,21 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Checkbox,
-    FormControlLabel,
     FormHelperText,
     Paper,
 } from '@material-ui/core'
 import { useFormik } from 'formik'
-import { useUserEmailSignUp } from '../../libs/rock/auth/useAuth'
-import { updateSnackBar, useGlobalDispatch } from '../../libs/rock/global'
-import { IErrorResponse } from '../../libs/rock/utils/http'
 import { Logo } from '../../ui/Logo'
+
 import {
-    login,
-    logout,
+    config, login,
     useAuthDispatch,
     useVerifyGoogleLogin,
-} from '../../libs/rock/auth'
-import { config } from '../../libs'
+    updateSnackBar, useGlobalDispatch,
+    useUserEmailSignUp,
+    IErrorResponse
+} from '../../libs'
+import { useRouter } from 'next/router'
 
 const SignUpSchema = Yup.object().shape({
     tos: Yup.boolean().isTrue('Agreement is required for signup.'),
@@ -41,20 +41,7 @@ const SignUpSchema = Yup.object().shape({
         .min(8, 'Password is too short - should be 8 chars minimum.')
         .max(64, 'Password is too Long - should be 64 chars maximum.'),
 })
-const footerLinks = [
-    {
-        to: '/terms',
-        label: 'Terms',
-    },
-    {
-        to: '/privacy',
-        label: 'Privacy',
-    },
-    {
-        to: '/resources',
-        label: 'Resources',
-    },
-]
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backdropFilter: 'blur(50px)',
@@ -160,7 +147,7 @@ export function SignUp() {
     const globalDispatch = useGlobalDispatch()
     const verifyGoogleLogin = useVerifyGoogleLogin()
     const googleBtnRef = useRef()
-
+    const router = useRouter();
     const {
         values,
         isValid,
@@ -182,6 +169,8 @@ export function SignUp() {
         onSubmit: function (data) {
             emailSignup.mutate(
                 {
+                    clientId: router.query['client_id'] as string || config.clientId,
+                    redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
                     name: data.name,
                     email: data.email,
                     password: data.password,
@@ -455,12 +444,24 @@ export function SignUp() {
                 alignContent="center"
             >
                 <Grid item>
-                    <Typography variant="caption" align="center">
+                    <Typography variant="caption" align="center"
+                        style={{ marginRight: 8 }}
+                    >
                         Already a user?{' '}
-                        <Link href={`/`} variant="caption" underline={'none'}>
-                            {'Log In'}
-                        </Link>
                     </Typography>
+                    <Button
+                        title='Log In'
+                        variant='text'
+                        color='primary'
+                        onClick={() => {
+                            router.push({
+                                query: router.query,
+                                pathname: '/'
+                            })
+                        }}
+                    >
+                        {'Log In'}
+                    </Button>
                 </Grid>
                 <Grid item style={{ width: '100%' }}>
                     <Box className={classes.links}>

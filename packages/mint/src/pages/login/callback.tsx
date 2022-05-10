@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function Auth0CallbackPage() {
     const classes = useStyles()
     const fetchRefreshToken = useRefreshAuth()
-    const { query } = useRouter()
+    const { query,isReady, replace } = useRouter()
     const dispatch = useAuthDispatch()
     const pageMeta = {
         title: '',
@@ -48,15 +48,22 @@ function Auth0CallbackPage() {
                     refresh_token: response.data.refresh_token,
                 })
             )
-        } catch (error) {}
+        } catch (error) {
+            delete query.token;
+            replace({
+                pathname: query['redirect_route'] as string || '/'
+            })
+        }
     }
 
     useEffect(() => {
+        if(!isReady) return;
+        console.log(query)
         if (query.token && typeof query.token === 'string') {
             refreshAuth(query.token as string)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query])
+    }, [query, isReady])
     return (
         <MainLayout
             classes={{

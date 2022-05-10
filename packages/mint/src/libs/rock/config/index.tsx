@@ -16,6 +16,9 @@ export interface Config {
     appEnv: Environment
     port: number
     apiUrl: string
+    clientId: string
+    cmsClientId: string
+    authClientId: string
     clientUrl: string
     cmsUrl: string
     authUrl: string
@@ -72,15 +75,20 @@ export const config: Config = {
     appEnv: (process.env.NEXT_PUBLIC_APP_ENV || 'production') as Environment,
     debug: +process.env.NEXT_PUBLIC_APP_DEBUG === 1,
     port: +process.env.NEXT_PUBLIC_PORT || 3000,
+    clientId:
+        process.env.NEXT_PUBLIC_CLIENT_ID || 'mint',
+    cmsClientId: process.env.NEXT_PUBLIC_CMS_CLIENT_ID || 'maze',
+    authClientId:
+        process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || 'moon',
     clientUrl:
-        process.env.NEXT_PUBLIC_CLIENT_URL || 'https://next.reisetra.com',
+        process.env.NEXT_PUBLIC_CLIENT_URL || 'https://reisetra.com',
     cmsUrl:
         process.env.NEXT_PUBLIC_CMS_CLIENT_URL || 'https://cms.reisetra.com',
-    callbackUrl:
-        process.env.NEXT_PUBLIC_CALLBACK_URL ||
-        'https://next.reisetra.com/login/callback',
     authUrl:
         process.env.NEXT_PUBLIC_AUTH_CLIENT_URL || 'https://auth.reisetra.com',
+    callbackUrl:
+        process.env.NEXT_PUBLIC_CALLBACK_URL ||
+        'https://reisetra.com/login/callback',
     cdnUrl:
         process.env.NEXT_PUBLIC_CDN_URL ||
         'https://d38bp8dgh2l2dc.cloudfront.net', // API

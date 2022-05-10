@@ -1,3 +1,5 @@
+/* eslint-disable dot-notation */
+/* eslint-disable no-template-curly-in-string */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react'
@@ -12,12 +14,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { useFormik } from 'formik'
 import { IErrorResponse } from '../../libs/rock/utils/http'
-import { login, useVerifyGoogleLogin } from '../../libs/rock/auth'
-import { config } from '../../libs'
-import { useUserEmailLogin, useAuthDispatch } from '../../libs/rock/auth'
+import { login, useVerifyGoogleLogin, useUserEmailLogin, useAuthDispatch, config } from '../../libs'
 import { Logo } from '../../ui/Logo'
-import { useRouter } from 'next/router'
 import { footerLinks } from '../../constants'
+import { useRouter } from 'next/router'
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -133,10 +133,9 @@ export function LogIn() {
     const verifyGoogleLogin = useVerifyGoogleLogin()
     const authDispatch = useAuthDispatch()
     const googleBtnRef = useRef()
-    const { asPath } = useRouter()
+    const router = useRouter();
     const {
         values,
-        isValid,
         setErrors,
         touched,
         errors,
@@ -152,6 +151,8 @@ export function LogIn() {
         onSubmit: function (data) {
             emailLogin.mutate(
                 {
+                    clientId: router.query['client_id'] as string || config.clientId,
+                    redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
                     email: data.email,
                     password: data.password,
                 },
@@ -293,13 +294,19 @@ export function LogIn() {
                                             variant="caption"
                                             align="center"
                                         >
-                                            <Link
-                                                href="/forgot-password"
-                                                variant="caption"
-                                                underline={'none'}
+                                            <Button
+                                                title='forgot password?'
+                                                variant='text'
+                                                color='primary'
+                                                onClick={() => {
+                                                    router.push({
+                                                        query: router.query,
+                                                        pathname: '/forgot-password'
+                                                    })
+                                                }}
                                             >
                                                 Forgot password?
-                                            </Link>
+                                            </Button>
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -328,24 +335,32 @@ export function LogIn() {
                                     justify="center"
                                     style={{ textAlign: 'center' }}
                                 >
-                                    <Grid item>
+                                    <Grid item >
                                         <Typography
                                             variant="caption"
                                             align="center"
+                                            style={{marginRight: 8}}
                                         >
                                             Don't have an account?{' '}
-                                            <Link
-                                                href={`/signup`}
-                                                variant="caption"
-                                                underline={'none'}
-                                            >
-                                                {'Sign Up'}
-                                            </Link>
+                                            
                                         </Typography>
+                                        <Button
+                                            title='Sign Up'
+                                            variant='text'
+                                            color='primary'
+                                            onClick={() => {
+                                                router.push({
+                                                    query: router.query,
+                                                    pathname: '/signup'
+                                                })
+                                            }}
+                                        >
+                                            {'Sign Up'}
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </form>
-                            <Grid container className={classes.authProviders}>
+                            <Grid container className={classes.authProviders} spacing={2}>
                                 <Typography
                                     variant="caption"
                                     color="textSecondary"

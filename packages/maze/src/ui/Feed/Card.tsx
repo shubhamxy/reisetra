@@ -19,10 +19,8 @@ function useHelper({ slug }) {
 
 export function ProductCard({ data }) {
     const {
-        id,
         slug,
         title,
-        description,
         rating,
         ratingsCount,
         price,
@@ -58,6 +56,7 @@ export function ProductCard({ data }) {
                         />
                     ) : (
                         <Image
+                            alt=""
                             src="/images/fallback.png"
                             className={classes.img}
                             height={62}

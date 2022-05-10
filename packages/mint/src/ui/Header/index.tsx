@@ -20,6 +20,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { Button, InputBase } from '@material-ui/core'
 import Link from 'next/link'
 import {
+    config,
     logout,
     ROUTES,
     useAuthDispatch,
@@ -261,6 +262,8 @@ export function AppHeader() {
     const authState = useAuthState()
     const globalState = useGlobalState()
     const router = useRouter()
+    const { route, query, isReady, replace, asPath } = router;
+
     const { data: response } = useCartItems(
         authState?.user?.cart.id,
         globalState?.promo || null
@@ -440,16 +443,29 @@ export function AppHeader() {
         </MenuItem>
     ) : (
         <MenuItem className={classes.menuPaperItem}>
-            <Link
+            {/* <Link
                 href={`/login?redirect_route=${encodeURIComponent(
                     router.asPath
                 )}`}
                 passHref
-            >
-                <Button variant="contained" size="medium" color="primary">
-                    Login
-                </Button>
-            </Link>
+            > */}
+            <Button
+                onClick={() => {
+                    replace({
+                        pathname: config.authUrl,
+                        query: {
+                            ...query,
+                            client_id: config.clientId,
+                            redirect_uri: config.callbackUrl,
+                            redirect_route: router.asPath
+                        },
+                    }, config.authUrl, { shallow: true })
+                }}
+
+                variant="contained" size="medium" color="primary">
+                Login
+            </Button>
+            {/* </Link> */}
         </MenuItem>
     )
     const renderMobileMenu = (

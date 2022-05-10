@@ -1,7 +1,4 @@
-import React, { Component } from 'react'
-import Link from 'next/link'
-import { footerLinks } from './data'
-import { Icons, Image } from '../Image'
+import React from 'react'
 import {
     Container,
     Typography,

@@ -1,5 +1,3 @@
-export const Message = {}
-
 export enum ROUTES {
     healthz = '/healthz',
 
@@ -81,4 +79,8 @@ export enum ROUTES {
 
     offers = '/offers',
     offers_all = '/all',
+}
+
+export enum Message {
+    success = 'Success',
 }

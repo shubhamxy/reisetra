@@ -18,6 +18,14 @@ model Secrets {
   user      User     @relation(fields: [id], references: [id])
 }
 
+model Client {
+  id           String   @id @default(cuid())
+  clientId     String   @unique
+  redirectUrls String[]
+  meta         Json     @default("{}")
+  user         User[]
+}
+
 model File {
   id         String    @id @default(cuid())
   url        String    @unique
@@ -57,6 +65,7 @@ model User {
   active        Boolean        @default(true)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  client        Client[]
   addresses     Address[]
   cart          Cart?
   files         File[]

@@ -88,71 +88,70 @@ const authenticationRoutes = new Set([
     '/signup',
     '/verify',
 ])
+const authReducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case ActionKind.hydrate:
+            try {
+                return {
+                    ...state,
+                    ...action.payload,
+                    isHydrated: true,
+                }
+            } catch (error) {
+                console.error('authReducer.hydrate', error)
+                return state
+            }
+        case ActionKind.login:
+            try {
+                const hasPutAccessToken = storage.put.access_token(
+                    action.payload.access_token
+                )
+                const hasPutRefreshToken = storage.put.refresh_token(
+                    action.payload.refresh_token
+                )
+                return {
+                    ...state,
+                    isAuthenticated: Boolean(
+                        hasPutAccessToken && hasPutRefreshToken
+                    ),
+                }
+            } catch (error) {
+                console.error('authReducer.login', error)
+                return state
+            }
+        case ActionKind.logout:
+            try {
+                storage.clear()
+                return {
+                    ...initialState,
+                    isHydrated: true,
+                }
+            } catch (error) {
+                console.error('authReducer.logout', error)
+                return state
+            }
+
+        case ActionKind.setAuthState:
+            try {
+                const update = {
+                    ...state,
+                    ...action.payload,
+                }
+                return update
+            } catch (error) {
+                console.error('authReducer.setAuthState', error)
+                return state
+            }
+        default:
+            return state
+    }
+}
 
 function useAuth() {
     const { route, query, isReady, replace, asPath } = useRouter()
 
     const fetchUserProfile = useUserProfile()
     const fetchRefreshToken = useRefreshAuth()
-
-    const authReducer = (state: State, action: Action): State => {
-        switch (action.type) {
-            case ActionKind.hydrate:
-                try {
-                    return {
-                        ...state,
-                        ...action.payload,
-                        isHydrated: true,
-                    }
-                } catch (error) {
-                    console.error('authReducer.hydrate', error)
-                    return state
-                }
-            case ActionKind.login:
-                try {
-                    const hasPutAccessToken = storage.put.access_token(
-                        action.payload.access_token
-                    )
-                    const hasPutRefreshToken = storage.put.refresh_token(
-                        action.payload.refresh_token
-                    )
-                    return {
-                        ...state,
-                        isAuthenticated: Boolean(
-                            hasPutAccessToken && hasPutRefreshToken
-                        ),
-                    }
-                } catch (error) {
-                    console.error('authReducer.login', error)
-                    return state
-                }
-            case ActionKind.logout:
-                try {
-                    storage.clear()
-                    return {
-                        ...initialState,
-                        isHydrated: true,
-                    }
-                } catch (error) {
-                    console.error('authReducer.logout', error)
-                    return state
-                }
-
-            case ActionKind.setAuthState:
-                try {
-                    const update = {
-                        ...state,
-                        ...action.payload,
-                    }
-                    return update
-                } catch (error) {
-                    console.error('authReducer.setAuthState', error)
-                    return state
-                }
-            default:
-                return state
-        }
-    }
 
     const [state, dispatch] = useReducer(authReducer, initialState)
 
@@ -174,6 +173,7 @@ function useAuth() {
                 replace({
                     pathname: config.authUrl,
                     query: {
+                        client_id: config.cmsClientId,
                         redirect_uri: redirectTo,
                     },
                 })
@@ -185,6 +185,7 @@ function useAuth() {
                 replace({
                     pathname: config.authUrl,
                     query: {
+                        client_id: config.cmsClientId,
                         redirect_uri: redirectTo,
                     },
                 })

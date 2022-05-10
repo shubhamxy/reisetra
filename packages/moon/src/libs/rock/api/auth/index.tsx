@@ -1,7 +1,10 @@
+/* eslint-disable camelcase */
 import { get, post } from '../../utils/http'
 import { storage } from '../../utils/storage'
 
 export type LoginT = {
+    readonly clientId: string
+    readonly redirectUri: string
     readonly email: string
     readonly password: string
 }
@@ -12,6 +15,8 @@ export type ResetPasswordT = {
 }
 
 export type SignupT = {
+    clientId: string
+    redirectUri: string
     email: string
     password: string
     name: string
@@ -67,7 +72,7 @@ export function userPasswordUpdate(body) {
     return post<LoginT, AuthResponse>(`auth/email/update-password`, body)
 }
 
-export function refreshAuthToken(config?: RequestInit) {
+export function refreshAuthToken(config) {
     const refresh_token = storage.get.refresh_token()
     config = config || {}
     config.headers = config.headers || {}

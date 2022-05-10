@@ -1,5 +1,5 @@
 import { OAuthProvider, Role } from '.prisma/client'
-import { IsNotEmpty } from 'class-validator'
+import { IsNotEmpty, IsOptional } from 'class-validator'
 import { User } from '../entity'
 
 export class LoginUserDTO implements User {
@@ -13,6 +13,8 @@ export class LoginUserDTO implements User {
     oauthProvider: OAuthProvider
     role: Role
     bio: string
+    @IsOptional()
+    clientId: string
 
     @IsNotEmpty()
     readonly email: string

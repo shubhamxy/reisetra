@@ -32,8 +32,8 @@ export interface AuthEnv {
 
 export const auth = (): AuthEnv => ({
     common: {
-        throttleLimit: 3,
-        throttleTTL: 60,
+        throttleLimit: +process.env.AUTH_THROTTLE_LIMIT || 3000,
+        throttleTTL: +process.env.AUTH_THROTTLE_TTL || 60,
     },
     jwtAccessTokenOptions: {
         secret: process.env.JWT_ACCESS_TOKEN_SECRET,

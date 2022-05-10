@@ -30,6 +30,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
             }
             return userOrNull
         } catch (error) {
+            console.log(error)
             throw new CustomException(
                 error,
                 HttpStatus.UNAUTHORIZED,

@@ -7,9 +7,7 @@ import {
     createStyles,
     makeStyles,
     Typography,
-    Button,
     CardActions,
-    fade,
 } from '@material-ui/core'
 import { NextSeo } from 'next-seo'
 import { config } from '../../libs'

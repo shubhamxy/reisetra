@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
     Paper,
     Box,
@@ -6,7 +6,6 @@ import {
     makeStyles,
     LinearProgress,
     Divider,
-    Button,
 } from '@material-ui/core'
 import { List } from '../List/List'
 import { Footer } from '../List'
@@ -14,7 +13,7 @@ import { useProducts } from '../../libs'
 import { ProductCard } from './Card'
 import { getTotalCount, getTotalDataCount } from '../../libs/rock/utils/data'
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
