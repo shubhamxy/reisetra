@@ -1,6 +1,7 @@
 {
   "name": "@reisetra/mono",
   "private": true,
+  "version": "1.0.2",
   "homepage": "https://github.com/shubhamxy/reisetra",
   "repository": {
     "type": "git",
