@@ -1,4 +1,4 @@
-import { Prisma } from '.prisma/client'
+import { Prisma } from '@prisma/client'
 import { Type } from 'class-transformer'
 
 import {
@@ -12,7 +12,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 import { CursorPaginationDTO, mustBeOfType } from '@app/core'
-import { File } from 'src/master/file/entity'
+import { File } from '@app/master'
 import { Product } from '../entity'
 import { CreateInventoryDTO } from '../inventory/dto'
 

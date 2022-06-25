@@ -124,46 +124,40 @@ export function ForgotPassword() {
     const emailForgotPassword = useUserEmailForgotPassword()
     const { replace, push, query } = useRouter()
     const globalDispatch = useGlobalDispatch()
-    const {
-        values,
-        touched,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-    } = useFormik({
-        initialValues: {
-            email: '',
-        },
-        validationSchema: LoginSchema,
-        onSubmit: function (data) {
-            emailForgotPassword.mutate(data.email, {
-                onSuccess: () => {
-                    globalDispatch(
-                        updateSnackBar({
-                            message: 'Email Sent Successfully',
-                            type: 'success',
-                            open: true,
+    const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
+        useFormik({
+            initialValues: {
+                email: '',
+            },
+            validationSchema: LoginSchema,
+            onSubmit: function (data) {
+                emailForgotPassword.mutate(data.email, {
+                    onSuccess: () => {
+                        globalDispatch(
+                            updateSnackBar({
+                                message: 'Email Sent Successfully',
+                                type: 'success',
+                                open: true,
+                            })
+                        )
+                        replace({
+                            query: query,
+                            pathname: '/',
                         })
-                    )
-                    replace({
-                        query: query,
-                        pathname: '/'
-                    })
-                },
-                onError: (error: IErrorResponse<any>) => {
-                    globalDispatch(
-                        updateSnackBar({
-                            message: error.message,
-                            type: 'error',
-                            open: true,
-                            duration: 10000,
-                        })
-                    )
-                },
-            })
-        },
-    })
+                    },
+                    onError: (error: IErrorResponse<any>) => {
+                        globalDispatch(
+                            updateSnackBar({
+                                message: error.message,
+                                type: 'error',
+                                open: true,
+                                duration: 10000,
+                            })
+                        )
+                    },
+                })
+            },
+        })
 
     return (
         <Grid
@@ -248,13 +242,13 @@ export function ForgotPassword() {
                             >
                                 <Grid item>
                                     <Button
-                                        title='Back to Login'
-                                        variant='text'
-                                        color='primary'
+                                        title="Back to Login"
+                                        variant="text"
+                                        color="primary"
                                         onClick={() => {
                                             push({
                                                 query: query,
-                                                pathname: '/'
+                                                pathname: '/',
                                             })
                                         }}
                                     >

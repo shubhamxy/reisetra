@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   Post,
   Put,
@@ -11,113 +10,73 @@ import {
   Req,
 } from '@nestjs/common'
 import { CartService } from './cart.service'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { Message, Routes, SuccessResponse } from '@app/core'
 import { CheckoutDTO, GetAllCartsDTO, UpdateCartItemDTO } from './dto'
-import { AuthenticatedRequest, Role, Roles } from '@app/auth'
+import { AuthenticatedRequest, Public, Role, Roles } from '@app/auth'
+import { ExceptionHandler } from '@app/core/decorators'
+import { CART_ID, PRODUCT_ID, PROMO } from '@app/user/user.const'
 
-@Controller(ROUTES.carts)
+@Controller(Routes.carts)
 export class CartController {
   constructor(private readonly cart: CartService) {}
 
   @Roles(Role.ADMIN)
-  @Get(ROUTES.carts_all)
+  @Get(Routes.carts_all)
+  @ExceptionHandler()
   async getAllCarts(@Query() query: GetAllCartsDTO): Promise<SuccessResponse> {
-    try {
-      const { results, ...meta } = await this.cart.getAllCarts(query)
-      return { data: results || [], meta: meta }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'CartController.getAllCarts'
-      )
-    }
+    const { results, ...meta } = await this.cart.getAllCarts(query)
+    return { data: results || [], meta: meta, message: Message.success }
   }
 
   @Post()
+  @ExceptionHandler()
   async checkoutCart(
     @Req() req: AuthenticatedRequest,
     @Body() body: CheckoutDTO
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.cart.checkoutCart(req.user.id, body)
-      return { data }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'CartController.checkoutCart'
-      )
-    }
+    const data = await this.cart.checkoutCart(req.user.username, body)
+    return { data }
   }
 
-  @Get(ROUTES.carts_by_cartId)
+  @Get(Routes.carts_by_cartId)
+  @ExceptionHandler()
   async getUserCart(
-    @Param('cartId') cartId: string,
-    @Query('promo') promo: string
+    @Param(CART_ID) cartId: string,
+    @Query(PROMO) promo: string
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.cart.getCart(cartId, promo)
-      return { data }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'CartController.getUserCart'
-      )
-    }
+    const data = await this.cart.getCart(cartId, promo)
+    return { data, message: Message.success }
   }
 
-  @Get(ROUTES.carts_by_cartId_and_productId)
+  @Get(Routes.carts_by_cartId_and_productId)
+  @ExceptionHandler()
   async getCartItem(
-    @Param('cartid') cartid: string,
-    @Param('productid') productid: string,
+    @Param(CART_ID) cartId: string,
+    @Param(PRODUCT_ID) productId: string,
     @Body() body: UpdateCartItemDTO
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.cart.getCartItem(cartid, productid)
-      return { data }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'CartController.getCartItem'
-      )
-    }
+    const data = await this.cart.getCartItem(cartId, productId)
+    return { data, message: Message.success }
   }
 
-  @Put(ROUTES.carts_by_cartId_and_productId)
+  @Put(Routes.carts_by_cartId_and_productId)
+  @ExceptionHandler()
   async updateCartItem(
-    @Param('cartId') cartId: string,
-    @Param('productId') productId: string,
+    @Param(CART_ID) cartId: string,
+    @Param(PRODUCT_ID) productId: string,
     @Body() update: UpdateCartItemDTO
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.cart.updateCart(cartId, productId, update)
-      return { data }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'CartController.updateCartItem'
-      )
-    }
+    const data = await this.cart.updateCart(cartId, productId, update)
+    return { data, message: Message.success }
   }
 
-  @Delete(ROUTES.carts_by_cartId_and_productId)
+  @Delete(Routes.carts_by_cartId_and_productId)
+  @ExceptionHandler()
   async deleteCartItem(
-    @Param('cartId') cartId: string,
-    @Param('productId') productId: string
+    @Param(CART_ID) cartId: string,
+    @Param(PRODUCT_ID) productId: string
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.cart.removeCartItem(cartId, productId)
-      return { data }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'CartController.deleteCartItem'
-      )
-    }
+    const data = await this.cart.removeCartItem(cartId, productId)
+    return { data, message: Message.success }
   }
 }

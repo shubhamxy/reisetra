@@ -44,7 +44,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >CheckoutDto</li>
+  <li >CheckoutDTO</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -84,6 +84,9 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#addressId" >addressId</a>
+                            </li>
+                            <li>
+                                <a href="#billingAddressId" >billingAddressId</a>
                             </li>
                             <li>
                                 <a href="#cartId" >cartId</a>
@@ -140,6 +143,32 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="billingAddressId"></a>
+                    <span class="name">
+                        <span ><b>billingAddressId</b></span>
+                        <a href="#billingAddressId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/cart/dto/index.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="cartId"></a>
                     <span class="name">
                         <span ><b>cartId</b></span>
@@ -155,7 +184,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/cart/dto/index.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/cart/dto/index.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -181,7 +210,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/cart/dto/index.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/cart/dto/index.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -201,46 +230,28 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CartItem } from &#x27;.prisma/client&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
-import { Offer } from &#x27;../entity&#x27;
-type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;id&#x27;
+import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 
-export class GetAllCartsDto extends CursorPaginationDTO {}
+type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;description&#x27;
 
-export class GetAllOffersDto extends CursorPaginationDTO {}
+export class GetAllCartsDTO extends CursorPaginationDTO {}
 
-export class CheckoutDto {
-    addressId: string
-    cartId: string
-    promo: string
+export class GetAllOffersDTO extends CursorPaginationDTO {}
+
+export class CheckoutDTO {
+  addressId: string
+  billingAddressId: string
+  cartId: string
+  promo: string
 }
 
-export class UpdateCartItemDto
-    implements Omit&lt;CartItem, Excluded | &#x27;userId&#x27; | &#x27;productId&#x27;&gt; {
-    quantity: number
-    cartId: string
-    orderId: string
-    size: string
-    color: string
-}
-
-export class CreateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
-}
-export class UpdateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
-}
-
-export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;description&#x27;&gt; {
-    label: string
-    value: string
-    type: string
+export class UpdateCartItemDTO
+  implements Omit&lt;CartItem, Excluded | &#x27;userId&#x27; | &#x27;productId&#x27;&gt; {
+  quantity: number
+  cartId: string
+  orderId: string
+  size: string
+  color: string
 }
 </code></pre>
     </div>
@@ -279,7 +290,7 @@ export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;descripti
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'CheckoutDto.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'CheckoutDTO.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

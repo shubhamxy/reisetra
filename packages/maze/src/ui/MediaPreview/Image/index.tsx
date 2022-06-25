@@ -3,11 +3,7 @@
 /* eslint-disable react/no-children-prop */
 import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-import {
-    Box,
-    Dialog,
-    Typography,
-} from '@material-ui/core'
+import { Box, Dialog, Typography } from '@material-ui/core'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import Image from 'next/image'

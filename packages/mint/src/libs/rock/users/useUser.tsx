@@ -4,7 +4,10 @@ import {
     createSupportTicket,
     deleteAddress,
     getAddresses,
+    getCountries,
+    getLocalities,
     getMe,
+    getStates,
     updateAddress,
     updateMe,
 } from '../api'
@@ -59,6 +62,7 @@ export const useCreateAddress = () => {
         },
     })
 }
+
 export const useUpdateAddress = () => {
     const queryClient = useQueryClient()
     const dispatch = useGlobalDispatch()
@@ -119,7 +123,7 @@ export const useAddresses = (filters = {}, { onSuccess }) => {
             getAddresses({
                 ...filters,
                 buttonNum: '4',
-                size: '4',
+                size: '400',
                 cursor: pageParam,
             }),
         {
@@ -127,6 +131,58 @@ export const useAddresses = (filters = {}, { onSuccess }) => {
                 return lastPage.meta.link?.next?.cursor
             },
             onSuccess,
+        }
+    )
+}
+
+export const useLocalities = (filters = {}) => {
+    return useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
+        [QueryKeys.localities, filters],
+        ({ queryKey, pageParam = undefined }) =>
+            getLocalities({
+                ...filters,
+                cursor: pageParam,
+            }),
+        {
+            enabled:
+                !!filters?.['name'] ||
+                !!(filters['countryCode'] && filters['stateCode']),
+            getNextPageParam: (lastPage, _pages) => {
+                return lastPage.meta.link?.next?.cursor
+            },
+        }
+    )
+}
+
+export const useStates = (filters = {}) => {
+    return useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
+        [QueryKeys.states, filters],
+        ({ queryKey, pageParam = undefined }) =>
+            getStates({
+                ...filters,
+                cursor: pageParam,
+            }),
+        {
+            enabled: !!filters?.['name'] || !!filters?.['countryCode'],
+            getNextPageParam: (lastPage, _pages) => {
+                return lastPage.meta.link?.next?.cursor
+            },
+        }
+    )
+}
+
+export const useCountries = (filters = {}) => {
+    return useInfiniteQuery<ISuccessResponse<DataT>, IErrorResponse<DataT>>(
+        [QueryKeys.countries, filters],
+        ({ queryKey, pageParam = undefined }) =>
+            getCountries({
+                ...filters,
+                cursor: pageParam,
+            }),
+        {
+            getNextPageParam: (lastPage, _pages) => {
+                return lastPage.meta.link?.next?.cursor
+            },
         }
     )
 }

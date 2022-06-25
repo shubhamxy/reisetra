@@ -51,7 +51,7 @@ const useStyles = makeStyles<any, any>((theme: Theme) =>
 
 export default function OrderCard(orderData) {
     const [data, setData] = useState(orderData)
-    const { query, isReady, push } = useRouter();
+    const { query, isReady, push } = useRouter()
     const {
         id,
         subTotal,
@@ -87,10 +87,10 @@ export default function OrderCard(orderData) {
         selected,
     } = data
     useEffect(() => {
-        if(!isReady) return;
-        if(query.id === id) {
-            delete query.id;
-            push({query: query})
+        if (!isReady) return
+        if (query.id === id) {
+            delete query.id
+            push({ query: query })
             setOpen(true)
         }
     }, [query, isReady])

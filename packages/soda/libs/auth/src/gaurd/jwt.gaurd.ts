@@ -2,7 +2,7 @@ import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { AuthGuard } from '@nestjs/passport'
 import { IS_LOCAL_AUTHENTICATED, IS_PUBLIC_KEY } from '@app/auth'
-import { CustomException, errorCodes, errorTypes } from '@app/core'
+import { AuthFailed, CustomException, errorCodes, ErrorTypes } from '@app/core'
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -33,9 +33,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new CustomException(
         {
           message: 'Authentication Failed',
-          code: errorCodes.AuthFailed,
-          context: 'JwtAuthGuard.handleRequest',
-          type: errorTypes[errorCodes.AuthFailed],
+          code: AuthFailed,
+          context: JwtAuthGuard.name,
         },
         HttpStatus.UNAUTHORIZED
       )

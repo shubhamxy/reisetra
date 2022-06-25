@@ -248,7 +248,7 @@ export function AppHeader() {
     const authState = useAuthState()
     const authDispatch = useAuthDispatch()
     const router = useRouter()
-    const { route, query, isReady, replace, asPath } = router;
+    const { route, query, isReady, replace, asPath } = router
     const debounced = useDebouncedCallback((value) => {
         const routerObj = {
             pathname: router.pathname,
@@ -332,10 +332,10 @@ export function AppHeader() {
         },
         {
             label: 'Logout',
-            link:  '',
+            link: '',
             onClick: () => {
-                authDispatch(logout());
-            }
+                authDispatch(logout())
+            },
         },
     ]
 
@@ -371,7 +371,9 @@ export function AppHeader() {
                         <Link passHref href={item.link}>
                             <Button
                                 variant="text"
-                                {...(item.onClick ? {onClick: item.onClick}: {})}
+                                {...(item.onClick
+                                    ? { onClick: item.onClick }
+                                    : {})}
                                 color={
                                     item.link === router.pathname
                                         ? 'primary'
@@ -424,20 +426,27 @@ export function AppHeader() {
         </MenuItem>
     ) : (
         <MenuItem className={classes.menuPaperItem}>
-
-                <Button onClick={() =>{
-                        replace({
+            <Button
+                onClick={() => {
+                    replace(
+                        {
                             pathname: config.authUrl,
                             query: {
                                 ...query,
                                 client_id: config.clientId,
                                 redirect_uri: config.callbackUrl,
-                                redirect_route: router.asPath
+                                redirect_route: router.asPath,
                             },
-                        }, config.authUrl, { shallow: true })
-                }} variant="contained" color="primary">
-                    Login
-                </Button>
+                        },
+                        config.authUrl,
+                        { shallow: true }
+                    )
+                }}
+                variant="contained"
+                color="primary"
+            >
+                Login
+            </Button>
         </MenuItem>
     )
 
@@ -485,7 +494,7 @@ export function AppHeader() {
                     <Link passHref href={item.link}>
                         <Button
                             variant="text"
-                            {...(item.label)}
+                            {...item.label}
                             color={
                                 item.link === router.pathname
                                     ? 'primary'

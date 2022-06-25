@@ -1,4 +1,12 @@
-import { FormControl, InputAdornment, InputLabel, MenuItem, Paper, Select, Switch } from '@material-ui/core'
+import {
+    FormControl,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    Switch,
+} from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -142,10 +150,11 @@ export function Account() {
     const globalDispatch = useGlobalDispatch()
     const [selected, setSelected] = useState()
     const initialValues = {
-        name: authState.user?.name,
-        email: authState.user?.email,
+        name: authState.user?.name || '',
+        email: authState.user?.email || '',
         avatar: authState.user?.avatar,
-        emailVerified: authState.user?.emailVerified,
+        emailVerified: authState.user?.emailVerified || false,
+        phoneVerified: authState.user?.phoneVerified || false,
         bio: authState.user?.bio,
         dateOfBirth: authState.user?.dateOfBirth,
         phone: authState.user?.phone,
@@ -290,7 +299,7 @@ export function Account() {
                                 fullWidth
                                 id="email"
                                 name="email"
-                                disabled
+                                disabled={!!values.email}
                                 type="text"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -371,6 +380,18 @@ export function Account() {
                                 error={touched.phone ? !!errors.phone : false}
                                 helperText={touched.phone ? errors.phone : ''}
                                 placeholder="e.g. +9198683700"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            {values.phoneVerified ? (
+                                                <VerifiedUser
+                                                    titleAccess="Phone Verified"
+                                                    style={{ fontSize: 16 }}
+                                                />
+                                            ) : null}
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
 
                             <Box mt={2}>
@@ -395,34 +416,50 @@ export function Account() {
                                     }
                                 />
                             </Box>
-                            {authState?.user?.roles.findIndex(item => item === 'ADMIN') && <Box mt={2}>
-                                <FormControl
-                                    variant="outlined"
-                                    className={classes.client}
-                                >
-                                    <InputLabel id="clientId-label">
-                                        Client
-                                    </InputLabel>
-                                    <Select
+                            {authState?.user?.roles.findIndex(
+                                (item) => item === 'ADMIN'
+                            ) > -1 ? (
+                                <Box mt={2}>
+                                    <FormControl
                                         variant="outlined"
-                                        style={{ height: 40, overflow: 'hidden' }}
-                                        fullWidth
-                                        labelId="clientId"
-                                        id="clientId"
-                                        value={values.clientId}
-                                        onChange={(e) => {
-                                            setFieldValue('clientId', e.target.value as string)
-                                        }}
-                                        label="Client"
+                                        className={classes.client}
                                     >
-                                        {[config.clientId, config.cmsClientId].map((item) => (
-                                            <MenuItem key={item} value={item}>
-                                                {item}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Box>}
+                                        <InputLabel id="clientId-label">
+                                            Client
+                                        </InputLabel>
+                                        <Select
+                                            variant="outlined"
+                                            style={{
+                                                height: 36,
+                                                overflow: 'hidden',
+                                            }}
+                                            fullWidth
+                                            labelId="clientId"
+                                            id="clientId"
+                                            value={values.clientId}
+                                            onChange={(e) => {
+                                                setFieldValue(
+                                                    'clientId',
+                                                    e.target.value as string
+                                                )
+                                            }}
+                                            label="Client"
+                                        >
+                                            {[
+                                                config.clientId,
+                                                config.cmsClientId,
+                                            ].map((item) => (
+                                                <MenuItem
+                                                    key={item}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                            ) : null}
                             <Addresses
                                 mt={4.6}
                                 children={null}

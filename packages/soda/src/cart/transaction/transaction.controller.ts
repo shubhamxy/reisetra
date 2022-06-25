@@ -11,7 +11,7 @@ import {
   Req,
 } from '@nestjs/common'
 import { TransactionService } from './transaction.service'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { CustomException, Routes, SuccessResponse } from '@app/core'
 import {
   CreateTransactionDTO,
   GetAllTransactionsDTO,
@@ -19,12 +19,12 @@ import {
 } from './dto'
 import { AuthenticatedRequest, Role, Roles } from '@app/auth'
 
-@Controller(ROUTES.transactions)
+@Controller(Routes.transactions)
 export class TransactionController {
   constructor(private readonly txn: TransactionService) {}
 
   @Roles(Role.ADMIN)
-  @Get(ROUTES.transactions_all)
+  @Get(Routes.transactions_all)
   async allTransactions(
     @Query() query: GetAllTransactionsDTO
   ): Promise<SuccessResponse> {
@@ -83,7 +83,7 @@ export class TransactionController {
   }
 
   @Roles(Role.ADMIN)
-  @Get(ROUTES.transactions_by_transactionId)
+  @Get(Routes.transactions_by_transactionId)
   async getTransaction(
     @Param('transactionId') transactionId: string
   ): Promise<SuccessResponse> {
@@ -100,7 +100,7 @@ export class TransactionController {
   }
 
   @Roles(Role.ADMIN)
-  @Put(ROUTES.transactions_by_transactionId)
+  @Put(Routes.transactions_by_transactionId)
   async updateTransaction(
     @Param('transactionId') transactionId: string,
     @Body() body: UpdateTransactionDTO
@@ -118,7 +118,7 @@ export class TransactionController {
   }
 
   @Roles(Role.ADMIN)
-  @Delete(ROUTES.transactions_by_transactionId)
+  @Delete(Routes.transactions_by_transactionId)
   async deleteTransaction(
     @Param('transactionId') transactionId: string
   ): Promise<SuccessResponse> {

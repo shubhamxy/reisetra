@@ -45,10 +45,9 @@ export const pinoConfig: PinoConfig = {
       return req.headers.requestid
     },
     prettyPrint: {
-      colorize: false,
-      crlf: true,
+      colorize: appEnv.debug === 1 || !appEnv.isProduction,
       translateTime: 'dd-mm-yyyy HH:MM:ss.l',
-      messageFormat: function messageFormat(log) {
+      messageFormat: function messageFormat(log, messageKey) {
         let suffix = ''
         if (log.req) {
           log.ip =
@@ -71,15 +70,22 @@ export const pinoConfig: PinoConfig = {
           suffix = `| ${log.req.method} → ${log.req.url} ${suffix}`
         }
         if (log.level >= 50 && log.err) {
-          suffix += `${suffix} \n ${JSON.stringify(log.err, null, 4)}`
+          suffix += `${suffix} \n${JSON.stringify(log.err, null, 4)}`
         }
-        log.message = `${log.msg || ''} ${suffix}`.trim()
+        log.message = `${log[messageKey] || ''} ${suffix}`.trim()
+
+        if (!log[messageKey]) {
+          const { level, time, pid, hostname, message, ...other } = log
+          log.message = JSON.stringify(other)
+        }
+
         if (serviceEnv.logzio.enable) {
           logger.log(log)
         }
+
         return log.message
       },
-      hideObject: !appEnv.debug,
+      hideObject: appEnv.debug === 0,
       ignore: 'hostname,pid',
     },
   },

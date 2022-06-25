@@ -7,6 +7,7 @@ export interface ServicesEnv {
     description: string
     razorpayKeyId: string
     razorpaySecretKey: string
+    razorpayOrderAPI: string
   }
   mailer: {
     senderName: string
@@ -27,6 +28,8 @@ export interface ServicesEnv {
     snsTopicArnComplaintEndpoint: string
     snsTopicArnDelivery: string
     snsTopicArnDeliveryEndpoint: string
+    snsTopicArnSMS: string
+    snsTopicArnSMSEndpoint: string
     snsRegion: string
   }
   logzio: {
@@ -38,10 +41,11 @@ export interface ServicesEnv {
 
 export const services = (): ServicesEnv => ({
   razorpay: {
-    name: 'Reisetra',
-    description: 'Reisetra description',
+    name: process.env.RAZORPAY_NAME || 'Reisetra',
+    description: process.env.RAZORPAY_DESCRIPTION || 'Indian Handicrafts',
     razorpayKeyId: process.env.RAZORPAY_KEY_ID,
     razorpaySecretKey: process.env.RAZORPAY_SECRET_KEY,
+    razorpayOrderAPI: 'https://api.razorpay.com/v1/orders',
   },
   mailer: {
     senderName: process.env.EMAIL_SENDER_NAME || 'Reisetra',
@@ -68,6 +72,8 @@ export const services = (): ServicesEnv => ({
     snsTopicArnDelivery: process.env.AWS_SNS_TOPIC_ARN_DELIVERIES,
     snsTopicArnDeliveryEndpoint:
       process.env.AWS_SNS_TOPIC_ARN_DELIVERIES_ENDPOINT,
+    snsTopicArnSMS: process.env.AWS_SNS_TOPIC_ARN_SMS,
+    snsTopicArnSMSEndpoint: process.env.AWS_SNS_TOPIC_ARN_SMS_ENDPOINT,
   },
   logzio: {
     enable: Boolean(process.env.LOGZIO_TOKEN),

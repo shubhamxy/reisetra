@@ -32,5 +32,7 @@ module.exports = {
     '@app/user': '<rootDir>/libs/user/src',
     '@app/notification/(.*)': '<rootDir>/libs/notification/src/$1',
     '@app/notification': '<rootDir>/libs/notification/src',
+    '@app/master/(.*)': '<rootDir>/libs/master/src/$1',
+    '@app/master': '<rootDir>/libs/master/src',
   },
 }

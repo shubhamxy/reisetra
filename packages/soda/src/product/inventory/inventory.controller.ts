@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { InventoryService } from './inventory.service'
-import { CustomError, errorCodes, ROUTES, SuccessResponse } from '@app/core'
+import { AppError, errorCodes, Routes, SuccessResponse } from '@app/core'
 import {
   CreateInventoryDTO,
   GetAllInventoryDTO,
@@ -18,12 +18,12 @@ import {
 } from './dto'
 import { Role, Roles } from '@app/auth'
 
-@Controller(ROUTES.inventories)
+@Controller(Routes.inventories)
 export class InventoryController {
   constructor(private readonly inventory: InventoryService) {}
 
   @Roles(Role.ADMIN)
-  @Get(ROUTES.inventories_all)
+  @Get(Routes.inventories_all)
   async getAllInventory(
     @Query() query: GetAllInventoryDTO
   ): Promise<SuccessResponse> {
@@ -31,7 +31,7 @@ export class InventoryController {
     return { data: results || [], meta: meta }
   }
 
-  @Get(ROUTES.inventories_by_id)
+  @Get(Routes.inventories_by_id)
   async getProduct(@Param('id') inventoryId: string): Promise<SuccessResponse> {
     const data = await this.inventory.getInventory(inventoryId)
     return { data }
@@ -42,14 +42,14 @@ export class InventoryController {
   async createProduct(
     @Body() body: CreateInventoryDTO
   ): Promise<SuccessResponse> {
-    throw new CustomError(
+    throw new AppError(
       'Cannot create inventory directly',
       errorCodes.InvalidRequest
     )
   }
 
   @Roles(Role.ADMIN)
-  @Put(ROUTES.inventories_by_id)
+  @Put(Routes.inventories_by_id)
   async updateProduct(
     @Param('id') inventoryId: string,
     @Body() body: UpdateInventoryDTO
@@ -59,7 +59,7 @@ export class InventoryController {
   }
 
   @Roles(Role.ADMIN)
-  @Delete(ROUTES.inventories_by_id)
+  @Delete(Routes.inventories_by_id)
   async deleteProduct(
     @Param('id') inventoryId: string
   ): Promise<SuccessResponse> {

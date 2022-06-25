@@ -24,7 +24,7 @@ function VerifyCallbackPage() {
                     )
                     replace({
                         query,
-                        pathname: '/'
+                        pathname: '/',
                     })
                 })
                 .catch(() => {
@@ -37,7 +37,7 @@ function VerifyCallbackPage() {
                     )
                     replace({
                         query,
-                        pathname: '/'
+                        pathname: '/',
                     })
                 })
         }

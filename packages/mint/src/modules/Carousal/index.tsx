@@ -1,7 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, Button, Card, CardContent, Fade, Grid, Typography } from '@material-ui/core'
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Fade,
+    Grid,
+    Typography,
+} from '@material-ui/core'
 import { GridList } from '../../ui'
 import { ROUTES, useInterval, useTags } from '../../libs'
 import { useRouter } from 'next/router'
@@ -30,7 +38,9 @@ export function CatalogGridItem({
     return (
         <Card
             elevation={0}
-            className={selected ? clsx(classes.root, classes.selected) : classes.root}
+            className={
+                selected ? clsx(classes.root, classes.selected) : classes.root
+            }
             onMouseEnter={() =>
                 images?.length > 0 ? setImage((image + 1) % images.length) : ''
             }
@@ -110,9 +120,9 @@ const useGridStyles = makeStyles<any, any>((theme) => ({
         zIndex: 11,
         transition: 'all ease-in 0.4s',
         opacity: 0.1,
-        "&:hover": {
-            opacity: 0.8
-        }
+        '&:hover': {
+            opacity: 0.8,
+        },
     },
     arrowRight: {
         position: 'absolute',
@@ -120,9 +130,9 @@ const useGridStyles = makeStyles<any, any>((theme) => ({
         zIndex: 11,
         opacity: 0.1,
         transition: 'all ease-in 0.4s',
-        "&:hover": {
-            opacity: 0.8
-        }
+        '&:hover': {
+            opacity: 0.8,
+        },
     },
     dots: {
         display: 'inline-block',
@@ -130,7 +140,7 @@ const useGridStyles = makeStyles<any, any>((theme) => ({
         marginTop: 2,
         position: 'absolute',
         bottom: -36,
-        transform: 'translateX(-50%)'
+        transform: 'translateX(-50%)',
     },
     dot: ({ active }) => ({
         border: 0,
@@ -144,9 +154,9 @@ const useGridStyles = makeStyles<any, any>((theme) => ({
         width: 18,
         opacity: 0.3,
         transition: 'all ease-in 0.4s',
-        "&:hover": {
-            opacity: 0.8
-        }
+        '&:hover': {
+            opacity: 0.8,
+        },
     }),
     dotActive: ({ active }) => ({
         border: 0,
@@ -160,23 +170,32 @@ const useGridStyles = makeStyles<any, any>((theme) => ({
         background: colors[active].background,
         opacity: 0.8,
         transition: 'all ease-in 0.4s',
-        "&:hover": {
-            opacity: 1
-        }
-    })
+        '&:hover': {
+            opacity: 1,
+        },
+    }),
 }))
 
-export function CatalogGrid({ children, active, items, nextClick, prevClick, ...rest }) {
+export function CatalogGrid({
+    children,
+    active,
+    items,
+    nextClick,
+    prevClick,
+    ...rest
+}) {
     const classes = useGridStyles({ active: active % colors.length })
     const handleDotClick = (idx) => {
-        if (idx < active) prevClick(active - idx);
-        if (idx > active) nextClick(idx - active);
-    };
+        if (idx < active) prevClick(active - idx)
+        if (idx > active) nextClick(idx - active)
+    }
     return (
         <>
             <Button
-                variant='text'
-                onClick={() => { prevClick(1) }}
+                variant="text"
+                onClick={() => {
+                    prevClick(1)
+                }}
                 className={classes.arrowLeft}
             >
                 <ArrowLeft style={{ width: 32, height: 32 }} />
@@ -186,7 +205,9 @@ export function CatalogGrid({ children, active, items, nextClick, prevClick, ...
             </Box>
 
             <Button
-                onClick={() => { nextClick(1) }}
+                onClick={() => {
+                    nextClick(1)
+                }}
                 className={classes.arrowRight}
             >
                 <ArrowRight style={{ width: 32, height: 32 }} />
@@ -196,14 +217,15 @@ export function CatalogGrid({ children, active, items, nextClick, prevClick, ...
                     <button
                         key={i}
                         onClick={() => handleDotClick(i)}
-                        className={i === active ? classes.dotActive : classes.dot}
+                        className={
+                            i === active ? classes.dotActive : classes.dot
+                        }
                     />
                 ))}
             </Box>
         </>
     )
 }
-
 
 export const Carousal = ({ data = [], active = 0, nextClick, prevClick }) => {
     const router = useRouter()
@@ -212,10 +234,13 @@ export const Carousal = ({ data = [], active = 0, nextClick, prevClick }) => {
         nextClick(1)
     }, 5000)
 
-
-
     return (
-        <CatalogGrid active={active} items={data} nextClick={nextClick} prevClick={prevClick}>
+        <CatalogGrid
+            active={active}
+            items={data}
+            nextClick={nextClick}
+            prevClick={prevClick}
+        >
             {data.map((item, index) => (
                 <Fade key={index}>
                     <CatalogGridItem

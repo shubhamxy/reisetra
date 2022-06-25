@@ -44,7 +44,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >GetAllOrdersDto</li>
+  <li >GetAllOrdersDTO</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -156,7 +156,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:21</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -198,7 +198,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:26</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:28</a></code>
 </div>
                         </td>
                     </tr>
@@ -240,7 +240,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:30</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:32</a></code>
 </div>
                         </td>
                     </tr>
@@ -282,7 +282,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:36</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:38</a></code>
 </div>
                         </td>
                     </tr>
@@ -324,7 +324,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:17</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -346,102 +346,68 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrderStatus } from &#x27;.prisma/client&#x27;
 import { Allow, IsArray, IsOptional } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
-import { mustBeOfType } from &#x27;src/constants&#x27;
-import { File } from &#x27;src/files/entity&#x27;
+import { CursorPaginationDTO, mustBeOfType } from &#x27;@app/core&#x27;
+import { File } from &#x27;src/master/file/entity&#x27;
 import { Order } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;userId&#x27;
 
-export class GetAllOrdersDto extends CursorPaginationDTO {}
+export class GetAllOrdersDTO extends CursorPaginationDTO {}
 
-export class GetAllOrdersDocumentsDto extends CursorPaginationDTO {}
+export class GetAllOrdersDocumentsDTO extends CursorPaginationDTO {}
 
-export class CreateOrderDto implements Omit&lt;Order, Excluded&gt; {
-    @Allow()
-    subTotal: number
+export class OrderDTO implements Omit&lt;Order, Excluded&gt; {
+  @Allow()
+  subTotal: number
 
-    @Allow()
-    itemDiscount: number
+  @Allow()
+  itemDiscount: number
 
-    @Allow()
-    tax: number
+  @Allow()
+  tax: number
 
-    @Allow()
-    shipping: number
+  @Allow()
+  shipping: number
 
-    @Allow()
-    total: number
+  @Allow()
+  total: number
 
-    @Allow()
-    promo: string
+  @Allow()
+  promo: string
 
-    @Allow()
-    discount: number
+  @Allow()
+  discount: number
 
-    @Allow()
-    grandTotal: number
+  @Allow()
+  grandTotal: number
 
-    @Allow()
-    addressId: string
+  @Allow()
+  addressId: string
 
-    @Allow()
-    status: OrderStatus
+  @Allow()
+  billingAddressId: string
 
-    cartId: string
+  @Allow()
+  status: OrderStatus
 
-    @Allow()
-    note: string
+  @Allow()
+  cartId: string
 
-    @IsOptional()
-    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;documents&#x27;) })
-    documents: Omit&lt;File, &#x27;userId&#x27;&gt;[]
-}
+  @Allow()
+  note: string
 
-export class UpdateOrderDto implements Omit&lt;Order, Excluded&gt; {
-    cartId: string
-    @Allow()
-    subTotal: number
+  @Allow()
+  title: string
 
-    @Allow()
-    itemDiscount: number
+  @Allow()
+  description: string
 
-    @Allow()
-    tax: number
+  @Allow()
+  sendUpdate: boolean
 
-    @Allow()
-    shipping: number
-
-    @Allow()
-    total: number
-
-    @Allow()
-    promo: string
-
-    @Allow()
-    discount: number
-
-    @Allow()
-    grandTotal: number
-
-    @Allow()
-    addressId: string
-
-    @Allow()
-    status: OrderStatus
-
-    @Allow()
-    title: string
-
-    @Allow()
-    description: string
-
-    @Allow()
-    sendUpdate: boolean
-
-    @IsOptional()
-    @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;documents&#x27;) })
-    documents: Omit&lt;File, &#x27;userId&#x27;&gt;[]
+  @IsOptional()
+  @IsArray({ message: mustBeOfType(&#x27;array&#x27;, &#x27;documents&#x27;) })
+  documents: Omit&lt;File, &#x27;userId&#x27;&gt;[]
 }
 </code></pre>
     </div>
@@ -480,7 +446,7 @@ export class UpdateOrderDto implements Omit&lt;Order, Excluded&gt; {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'GetAllOrdersDto.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'GetAllOrdersDTO.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

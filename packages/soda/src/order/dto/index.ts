@@ -1,7 +1,7 @@
-import { OrderStatus } from '.prisma/client'
+import { OrderStatus } from '@prisma/client'
 import { Allow, IsArray, IsOptional } from 'class-validator'
 import { CursorPaginationDTO, mustBeOfType } from '@app/core'
-import { File } from 'src/master/file/entity'
+import { File } from '@app/master'
 import { Order } from '../entity'
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'userId'

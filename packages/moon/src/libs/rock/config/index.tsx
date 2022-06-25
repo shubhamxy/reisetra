@@ -71,20 +71,15 @@ export const config: Config = {
     appEnv: (process.env.NEXT_PUBLIC_APP_ENV || 'production') as Environment,
     debug: +process.env.NEXT_PUBLIC_APP_DEBUG === 1,
     port: +process.env.NEXT_PUBLIC_PORT || 3000,
-    clientId:
-        process.env.NEXT_PUBLIC_CLIENT_ID || 'mint',
+    clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'mint',
     cmsClientId: process.env.NEXT_PUBLIC_CMS_CLIENT_ID || 'maze',
-    authClientId:
-        process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || 'moon',
-    clientUrl:
-        process.env.NEXT_PUBLIC_CLIENT_URL || 'https://reisetra.com',
+    authClientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || 'moon',
+    clientUrl: process.env.NEXT_PUBLIC_CLIENT_URL || 'https://reisetra.com',
     cmsUrl:
         process.env.NEXT_PUBLIC_CMS_CLIENT_URL || 'https://cms.reisetra.com',
     authUrl:
         process.env.NEXT_PUBLIC_AUTH_CLIENT_URL || 'https://auth.reisetra.com',
-    cdnUrl:
-        process.env.NEXT_PUBLIC_CDN_URL ||
-        'https://cdn.reisetra.com',
+    cdnUrl: process.env.NEXT_PUBLIC_CDN_URL || 'https://cdn.reisetra.com',
     callbackUrl:
         process.env.NEXT_PUBLIC_CALLBACK_URL ||
         'https://reisetra.com/login/callback',

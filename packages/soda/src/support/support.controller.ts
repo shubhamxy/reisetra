@@ -11,12 +11,12 @@ import {
   Req,
 } from '@nestjs/common'
 import { SupportService } from './support.service'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { CustomException, Routes, SuccessResponse } from '@app/core'
 import { AllTicketsDTO, TicketDTO, TicketsDTO } from './dto'
 import { AuthenticatedRequest, Role, Roles } from '@app/auth'
 import { ConfigService } from '@nestjs/config'
 
-@Controller(ROUTES.supports)
+@Controller(Routes.supports)
 export class SupportController {
   constructor(
     private readonly support: SupportService,
@@ -24,7 +24,7 @@ export class SupportController {
   ) {}
 
   @Roles(Role.ADMIN)
-  @Get(ROUTES.supports_all)
+  @Get(Routes.supports_all)
   async getAllTicketes(
     @Query() query: AllTicketsDTO
   ): Promise<SuccessResponse> {
@@ -68,7 +68,7 @@ export class SupportController {
     try {
       const data = await this.support.createTicket(
         request.user.id,
-        request.user.email,
+        request.user.username,
         body
       )
       return { data }
@@ -81,7 +81,7 @@ export class SupportController {
     }
   }
 
-  @Get(ROUTES.support_by_ticketId)
+  @Get(Routes.support_by_ticketId)
   async getTicket(
     @Param('ticketId') ticketId: string
   ): Promise<SuccessResponse> {
@@ -97,7 +97,7 @@ export class SupportController {
     }
   }
 
-  @Put(ROUTES.support_by_ticketId)
+  @Put(Routes.support_by_ticketId)
   async updateTicket(
     @Param('ticketId') ticketId: string,
     @Body() body: TicketDTO
@@ -115,7 +115,7 @@ export class SupportController {
   }
 
   @Roles(Role.ADMIN)
-  @Delete(ROUTES.support_by_ticketId)
+  @Delete(Routes.support_by_ticketId)
   async deleteTicket(
     @Param('ticketId') ticketId: string
   ): Promise<SuccessResponse> {

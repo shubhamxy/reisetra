@@ -1,4 +1,4 @@
-import { setupNestApp, ROUTES } from '@app/core'
+import { setupNestApp, Routes } from '@app/core'
 import * as request from 'supertest'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AppModule } from '../src/app.module'
@@ -34,7 +34,7 @@ describe('AppController (e2e)', () => {
 
   it(`/healthz (GET)`, () => {
     return request(app.getHttpServer())
-      .get(`/${api}${ROUTES.healthz}`)
+      .get(`/${api}${Routes.healthz}`)
       .expect(200)
       .expect((res) => {
         return expect(res.body).toEqual(

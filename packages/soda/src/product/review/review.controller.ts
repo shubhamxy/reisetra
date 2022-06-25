@@ -11,16 +11,16 @@ import {
   Req,
 } from '@nestjs/common'
 import { ReviewService } from './review.service'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { CustomException, Routes, SuccessResponse } from '@app/core'
 import { CreateReviewDTO, GetAllReviewsDTO, UpdateReviewDTO } from './dto'
 import { AuthenticatedRequest, Public } from '@app/auth'
 
-@Controller(ROUTES.reviews)
+@Controller(Routes.reviews)
 export class ReviewController {
   constructor(private readonly review: ReviewService) {}
 
   @Public()
-  @Get(ROUTES.reviews_by_productId)
+  @Get(Routes.reviews_by_productId)
   async getAllReviews(
     @Param('productId') productId: string,
     @Query() query: GetAllReviewsDTO
@@ -58,7 +58,7 @@ export class ReviewController {
   }
 
   @Public()
-  @Get(ROUTES.reviews_by_reviewId)
+  @Get(Routes.reviews_by_reviewId)
   async getReview(
     @Param('reviewId') reviewId: string
   ): Promise<SuccessResponse> {
@@ -74,7 +74,7 @@ export class ReviewController {
     }
   }
 
-  @Put(ROUTES.reviews_by_reviewId)
+  @Put(Routes.reviews_by_reviewId)
   async updateReview(
     @Req() request: AuthenticatedRequest,
     @Param('reviewId') reviewId: string,
@@ -96,7 +96,7 @@ export class ReviewController {
     }
   }
 
-  @Delete(ROUTES.reviews_by_reviewId)
+  @Delete(Routes.reviews_by_reviewId)
   async deleteReview(
     @Param('reviewId') reviewId: string
   ): Promise<SuccessResponse> {

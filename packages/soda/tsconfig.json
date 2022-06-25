@@ -71,6 +71,12 @@
       ],
       "@app/notification/*": [
         "libs/notification/src/*"
+      ],
+      "@app/master": [
+        "libs/master/src"
+      ],
+      "@app/master/*": [
+        "libs/master/src/*"
       ]
     }
   }

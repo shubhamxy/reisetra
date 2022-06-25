@@ -3,7 +3,6 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 import { Logger } from 'nestjs-pino'
-import { AWSService } from '@app/aws'
 
 async function bootstrap() {
   try {
@@ -16,9 +15,6 @@ async function bootstrap() {
     logger.log(
       `Starting ${config.name} version ${config.version} on ${config.apiUrl}`
     )
-
-    const aws = app.get(AWSService)
-    await aws.subscribeAllSNS()
 
     await app.listen(config.port)
   } catch (error) {

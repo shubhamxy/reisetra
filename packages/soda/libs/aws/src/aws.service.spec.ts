@@ -20,16 +20,4 @@ describe('AwsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined()
   })
-
-  it('should send email', () => {
-    service.sendEmail({
-      Destination: {
-        BccAddresses: ['s.shubjain@gmail.com'],
-        CcAddresses: ['s.shubjain@gmail.com'],
-        ToAddresses: ['s.shubjain@gmail.com'],
-      },
-      Message: undefined,
-      Source: '',
-    })
-  })
 })

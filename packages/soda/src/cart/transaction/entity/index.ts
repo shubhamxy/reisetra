@@ -2,7 +2,7 @@ import {
   Prisma,
   Transaction as TransactionModel,
   TransactionStatus,
-} from '.prisma/client'
+} from '@prisma/client'
 
 export class Transaction implements TransactionModel {
   constructor(partial: Partial<TransactionModel>) {

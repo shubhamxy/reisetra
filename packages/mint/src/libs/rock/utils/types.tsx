@@ -11,6 +11,9 @@ enum QueryKeys {
     users = 'users',
     stories = 'stories',
     forms = 'forms',
+    localities = 'localities',
+    states = 'states',
+    countries = 'countries',
 }
 
 enum API_ROUTES {
@@ -28,6 +31,9 @@ enum API_ROUTES {
     supports = 'supports',
     transactions = 'transactions',
     files = 'files',
+    localities = 'addresses/localities',
+    states = 'addresses/states',
+    countries = 'addresses/countries',
 }
 
 enum ROUTES {

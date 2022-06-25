@@ -1,0 +1,5 @@
+export const SNS_SUBSCRIPTION_SUCCESS = 'SNS subscription set up successfully.'
+export const SNS_SUBSCRIPTION_FAILED = 'SNS subscription set up failed.'
+export const EMAIL_IS_UNVERIFIED = 'Email is unverified'
+export const PHONE_IS_UNVERIFIED = 'Phone is unverified'
+export const SNS_SUBSCRIPTION_SETUP_FAILED = 'Unable to set up SNS subscription'

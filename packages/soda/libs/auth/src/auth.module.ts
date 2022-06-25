@@ -14,7 +14,7 @@ import {
   LocalStrategy,
 } from './strategy'
 import { DbService } from '@app/db'
-import { AuthController } from '@app/auth/auth.controller'
+import { AuthController } from './auth.controller'
 
 @Module({
   imports: [

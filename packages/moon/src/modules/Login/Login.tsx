@@ -3,6 +3,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react'
+
 import * as Yup from 'yup'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -13,18 +14,48 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { useFormik } from 'formik'
-import { IErrorResponse } from '../../libs/rock/utils/http'
-import { login, useVerifyGoogleLogin, useUserEmailLogin, useAuthDispatch, config } from '../../libs'
-import { Logo } from '../../ui/Logo'
+import {
+    IErrorResponse,
+    login,
+    useVerifyGoogleLogin,
+    useUserEmailLogin,
+    useAuthDispatch,
+    config,
+    useUserPhoneLogin,
+    useSendPhoneOTP,
+} from '../../libs'
+import { Logo } from '../../ui'
 import { footerLinks } from '../../constants'
 import { useRouter } from 'next/router'
+import PhoneInput from 'react-phone-input-material-ui'
+import 'react-phone-input-material-ui/lib/style.css'
+import OtpInput from '../../libs/otp-input'
+import { Edit } from '@material-ui/icons'
 
 const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Required'),
-    password: Yup.string()
-        .required('No password provided.')
-        .min(8, 'Password is too short - should be 8 chars minimum.')
-        .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+    isPhone: Yup.boolean(),
+    isOTPSent: Yup.boolean(),
+    phone: Yup.string().when('isPhone', {
+        is: true,
+        then: Yup.string()
+            .matches(/^\+[1-9]\d{8,14}$/, 'Phone must be valid')
+            .required('Phone is required'),
+    }),
+    otp: Yup.string().when('isOTPSent', {
+        is: true,
+        then: Yup.string().required('OTP is required'),
+    }),
+    email: Yup.string().when('isPhone', {
+        is: false,
+        then: Yup.string().required('Email is required'),
+    }),
+    password: Yup.string().when('isPhone', {
+        is: false,
+        then: Yup.string()
+            .min(8, 'Password is too short - should be 8 chars minimum.')
+            .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+            .required('Password is required'),
+    }),
 })
 
 const useStyles = makeStyles((theme) => ({
@@ -125,34 +156,129 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(1, 0, 2.4, 0),
     },
+    email: {},
+    phoneContainer: {
+        position: 'relative',
+    },
+    phoneInputContainer: {
+        ...theme.typography.body1,
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '100%',
+    },
+    phoneInput: {
+        height: '48px !important',
+        display: 'flex',
+        flex: 1,
+        width: '100%',
+        background: `${theme.palette.background.paper} !important`,
+    },
+    phoneButton: {
+        background: `transparent !important`,
+        marginTop: '6px',
+        marginLeft: '2px',
+    },
+    phoneDropdown: {
+        background: `${theme.palette.background.paper} !important`,
+        '&:hover': {
+            backgroundColor: 'unset',
+        },
+    },
+    edit: {
+        position: 'absolute',
+        top: 'calc(50% - 6px)',
+        right: 0,
+        paddingRight: '8px',
+    },
 }))
 
 export function LogIn() {
     const classes = useStyles()
     const emailLogin = useUserEmailLogin()
+    const phoneLogin = useUserPhoneLogin()
+    const sendOTP = useSendPhoneOTP()
+
     const verifyGoogleLogin = useVerifyGoogleLogin()
     const authDispatch = useAuthDispatch()
     const googleBtnRef = useRef()
-    const router = useRouter();
+    const router = useRouter()
     const {
         values,
         setErrors,
         touched,
         errors,
+        setFieldValue,
+        resetForm,
+        submitForm,
         handleChange,
         handleBlur,
         handleSubmit,
     } = useFormik({
         initialValues: {
+            isPhone: false,
+            isOTPSent: false,
+            otp: '',
+            phone: '',
             email: '',
             password: '',
         },
         validationSchema: LoginSchema,
         onSubmit: function (data) {
+            if (data.isPhone) {
+                if (data.isOTPSent) {
+                    phoneLogin.mutate(
+                        {
+                            clientId:
+                                (router.query['client_id'] as string) ||
+                                config.clientId,
+                            redirectUri:
+                                (router.query['redirect_uri'] as string) ||
+                                config.callbackUrl,
+                            phone: data.phone,
+                            otp: data.otp,
+                        },
+                        {
+                            onError: (error: IErrorResponse<any>) => {
+                                setErrors({
+                                    phone: error.message,
+                                })
+                            },
+                        }
+                    )
+                } else {
+                    sendOTP.mutate(
+                        {
+                            clientId:
+                                (router.query['client_id'] as string) ||
+                                config.clientId,
+                            redirectUri:
+                                (router.query['redirect_uri'] as string) ||
+                                config.callbackUrl,
+                            phone: data.phone,
+                        },
+                        {
+                            onSuccess: () => {
+                                setFieldValue('isOTPSent', true)
+                            },
+                            onError: (error: IErrorResponse<any>) => {
+                                setErrors({
+                                    phone: error.message,
+                                })
+                            },
+                        }
+                    )
+                }
+                return
+            }
             emailLogin.mutate(
                 {
-                    clientId: router.query['client_id'] as string || config.clientId,
-                    redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
+                    clientId:
+                        (router.query['client_id'] as string) ||
+                        config.clientId,
+                    redirectUri:
+                        (router.query['redirect_uri'] as string) ||
+                        config.callbackUrl,
                     email: data.email,
                     password: data.password,
                 },
@@ -177,8 +303,12 @@ export function LogIn() {
                     verifyGoogleLogin
                         .mutateAsync({
                             ...response,
-                            clientId: router.query['client_id'] as string || config.clientId,
-                            redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
+                            clientId:
+                                (router.query['client_id'] as string) ||
+                                config.clientId,
+                            redirectUri:
+                                (router.query['redirect_uri'] as string) ||
+                                config.callbackUrl,
                         })
                         .then((response) => {
                             authDispatch(
@@ -205,6 +335,12 @@ export function LogIn() {
         }
     }, [googleBtnRef.current])
 
+    useEffect(() => {
+        if (values.otp.length === 6) {
+            submitForm()
+        }
+    }, [values.otp])
+    // @ts-ignore
     return (
         <Grid container alignContent="center" justify="center">
             <Grid item container alignContent="center" justify="center">
@@ -234,7 +370,7 @@ export function LogIn() {
                                 <input
                                     style={{ display: 'none' }}
                                     type="email"
-                                    name="fakeusernameremembered"
+                                    name="fakeemailremembered"
                                 />
                                 <input
                                     style={{ display: 'none' }}
@@ -242,56 +378,162 @@ export function LogIn() {
                                     name="fakepasswordremembered"
                                 />
 
-                                <TextField
-                                    label="Email Address"
-                                    size="small"
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    name="email"
-                                    type="text"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.email}
-                                    error={
-                                        touched.email ? !!errors.email : false
-                                    }
-                                    helperText={
-                                        touched.email ? errors.email : ''
-                                    }
-                                    placeholder="e.g. email@address.com"
-                                />
-                                <TextField
-                                    label="Password"
-                                    size="small"
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    type="password"
-                                    id="password"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.password}
-                                    error={
-                                        touched.password
-                                            ? !!errors.password
-                                            : false
-                                    }
-                                    helperText={
-                                        touched.password ? errors.password : ''
-                                    }
-                                    placeholder="e.g. ••••••••"
-                                />
+                                {values.isPhone ? (
+                                    <>
+                                        <Box className={classes.phoneContainer}>
+                                            <PhoneInput
+                                                value={values.phone}
+                                                showDropdown={false}
+                                                onChange={(value) =>
+                                                    setFieldValue(
+                                                        'phone',
+                                                        '+' + value
+                                                    )
+                                                }
+                                                country={'in'}
+                                                containerClass={
+                                                    classes.phoneInputContainer
+                                                }
+                                                inputClass={classes.phoneInput}
+                                                buttonClass={
+                                                    classes.phoneButton
+                                                }
+                                                prefix={'+'}
+                                                disabled={
+                                                    values.isPhone &&
+                                                    values.isOTPSent
+                                                }
+                                                dropdownClass={
+                                                    classes.phoneDropdown
+                                                }
+                                                component={TextField}
+                                                inputProps={{
+                                                    label: 'Phone',
+                                                    size: 'medium',
+                                                    margin: 'normal',
+                                                    fullWidth: true,
+                                                    id: 'phone',
+                                                    name: 'phone',
+                                                    error: touched.phone
+                                                        ? !!errors.phone
+                                                        : false,
+                                                    helperText: touched.phone
+                                                        ? errors.phone
+                                                        : '',
+                                                }}
+                                            />
+                                            {values.isOTPSent && (
+                                                <Box className={classes.edit}>
+                                                    <Edit
+                                                        onClick={() => {
+                                                            setFieldValue(
+                                                                'isOTPSent',
+                                                                false
+                                                            )
+                                                        }}
+                                                    />
+                                                </Box>
+                                            )}
+                                        </Box>
+
+                                        {values.isOTPSent && (
+                                            <OtpInput
+                                                containerStyle={{
+                                                    alignItems: 'center',
+                                                }}
+                                                inputStyle="inputStyle"
+                                                numInputs={6}
+                                                isDisabled={false}
+                                                hasErrored={false}
+                                                errorStyle="error"
+                                                onChange={(value) =>
+                                                    setFieldValue('otp', value)
+                                                }
+                                                separator={
+                                                    <span
+                                                        style={{ width: '8px' }}
+                                                    ></span>
+                                                }
+                                                isInputNum={true}
+                                                isInputSecure={false}
+                                                shouldAutoFocus
+                                                value={values.otp}
+                                                placeholder={''}
+                                            />
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        <TextField
+                                            label="Email"
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            name="email"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.email}
+                                            error={
+                                                touched.email
+                                                    ? !!errors.email
+                                                    : false
+                                            }
+                                            helperText={
+                                                touched.email
+                                                    ? errors.email
+                                                    : ''
+                                            }
+                                            placeholder="e.g. john.doe@example.com"
+                                        />
+                                        <TextField
+                                            label="Password"
+                                            size="small"
+                                            variant="outlined"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            type="password"
+                                            id="password"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.password}
+                                            error={
+                                                touched.password
+                                                    ? !!errors.password
+                                                    : false
+                                            }
+                                            helperText={
+                                                touched.password
+                                                    ? errors.password
+                                                    : ''
+                                            }
+                                            placeholder="e.g. ••••••••"
+                                        />
+                                    </>
+                                )}
+
                                 <Grid
                                     container
-                                    direction="column"
+                                    direction="row"
                                     justify="center"
                                     alignItems="flex-end"
-                                    style={{ textAlign: 'center' }}
+                                    style={
+                                        values.isPhone
+                                            ? {
+                                                  textAlign: 'center',
+                                                  justifyContent: 'flex-end',
+                                              }
+                                            : {
+                                                  textAlign: 'center',
+                                                  justifyContent:
+                                                      'space-between',
+                                              }
+                                    }
                                 >
                                     <Grid item>
                                         <Typography
@@ -299,20 +541,51 @@ export function LogIn() {
                                             align="center"
                                         >
                                             <Button
-                                                title='forgot password?'
-                                                variant='text'
-                                                color='primary'
+                                                title={
+                                                    values.isPhone
+                                                        ? 'Login with email'
+                                                        : 'Login with phone'
+                                                }
+                                                variant="text"
+                                                color="primary"
                                                 onClick={() => {
-                                                    router.push({
-                                                        query: router.query,
-                                                        pathname: '/forgot-password'
-                                                    })
+                                                    resetForm()
+                                                    setFieldValue(
+                                                        'isPhone',
+                                                        !values.isPhone
+                                                    )
                                                 }}
                                             >
-                                                Forgot password?
+                                                {values.isPhone
+                                                    ? 'Continue with email'
+                                                    : 'Continue with phone'}
                                             </Button>
                                         </Typography>
                                     </Grid>
+
+                                    {!values.isPhone && (
+                                        <Grid item>
+                                            <Typography
+                                                variant="caption"
+                                                align="center"
+                                            >
+                                                <Button
+                                                    title="forgot password?"
+                                                    variant="text"
+                                                    color="primary"
+                                                    onClick={() => {
+                                                        router.push({
+                                                            query: router.query,
+                                                            pathname:
+                                                                '/forgot-password',
+                                                        })
+                                                    }}
+                                                >
+                                                    Forgot password?
+                                                </Button>
+                                            </Typography>
+                                        </Grid>
+                                    )}
                                 </Grid>
                                 <Grid
                                     item
@@ -327,10 +600,18 @@ export function LogIn() {
                                         variant="contained"
                                         color="primary"
                                         size="medium"
-                                        disabled={emailLogin.isLoading}
+                                        disabled={
+                                            values.isPhone
+                                                ? phoneLogin.isLoading
+                                                : emailLogin.isLoading
+                                        }
                                         className={classes.submit}
                                     >
-                                        Login
+                                        {values.isPhone
+                                            ? values.isOTPSent
+                                                ? 'Login'
+                                                : 'Login'
+                                            : 'Login'}
                                     </Button>
                                 </Grid>
                                 <Grid
@@ -339,23 +620,22 @@ export function LogIn() {
                                     justify="center"
                                     style={{ textAlign: 'center' }}
                                 >
-                                    <Grid item >
+                                    <Grid item>
                                         <Typography
                                             variant="caption"
                                             align="center"
-                                            style={{marginRight: 8}}
+                                            style={{ marginRight: 8 }}
                                         >
                                             Don't have an account?{' '}
-                                            
                                         </Typography>
                                         <Button
-                                            title='Sign Up'
-                                            variant='text'
-                                            color='primary'
+                                            title="Sign Up"
+                                            variant="text"
+                                            color="primary"
                                             onClick={() => {
                                                 router.push({
                                                     query: router.query,
-                                                    pathname: '/signup'
+                                                    pathname: '/signup',
                                                 })
                                             }}
                                         >
@@ -364,7 +644,11 @@ export function LogIn() {
                                     </Grid>
                                 </Grid>
                             </form>
-                            <Grid container className={classes.authProviders} spacing={2}>
+                            <Grid
+                                container
+                                className={classes.authProviders}
+                                spacing={2}
+                            >
                                 <Typography
                                     variant="caption"
                                     color="textSecondary"

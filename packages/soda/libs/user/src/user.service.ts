@@ -1,22 +1,27 @@
 import { Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 import {
+  AppError,
+  AuthFailed,
   CursorPagination,
   CursorPaginationResultInterface,
-  CustomError,
-  errorCodes,
-  errorTypes,
+  RecordDoesNotExist,
 } from '@app/core'
 import { DbService } from '@app/db'
-import {
-  CreateOauthUserDTO,
-  CreateUserDTO,
-  LoginUserDTO,
-  UpdateUserDTO,
-} from './dto'
+import { CreateOauthUserDTO, UpdateUserDTO, UserDTO } from './dto'
 import { UserRO } from '@app/user'
 import { User } from './entity'
-import { prismaOffsetPagination } from '@app/utils'
+import { createHashedPassword, prismaOffsetPagination } from '@app/utils'
+import {
+  BUTTON_NUMBER,
+  CREATED_AT,
+  DESC,
+  EMAIL_PASSWORD_DOES_NOT_MATCH,
+  PAGE_SIZE,
+  USER_DOES_NOT_EXISTS,
+} from '@app/user/user.const'
+import { Role } from '@app/auth'
+import { ErrorHandler } from '@app/core/decorators'
 
 @Injectable()
 export class UserService {
@@ -27,10 +32,10 @@ export class UserService {
   ): Promise<CursorPaginationResultInterface<UserRO>> {
     const {
       cursor,
-      size = 10,
-      buttonNum = 10,
-      orderBy = 'createdAt',
-      orderDirection = 'desc',
+      size = PAGE_SIZE,
+      buttonNum = BUTTON_NUMBER,
+      orderBy = CREATED_AT,
+      orderDirection = DESC,
     } = options
     return await prismaOffsetPagination({
       cursor,
@@ -43,269 +48,204 @@ export class UserService {
     })
   }
 
-  async create(user: CreateUserDTO): Promise<UserRO> {
-    try {
-      // create new user
-      const { clientId, password, ...update } = user
-      const newPassword = await this.createPassword(password)
-      const newUser = await this.db.user.create({
-        data: {
-          ...update,
-          cart: {
-            create: {},
-          },
-          secrets: {
-            create: {
-              password: newPassword,
-            },
-          },
-          ...(clientId
-            ? {
-                client: {
-                  connect: {
-                    clientId,
-                  },
-                },
-              }
-            : {}),
+  @ErrorHandler()
+  async create(user: UserDTO): Promise<UserRO> {
+    // create new user
+    const { clientId, password, roles, ...update } = user
+    const newPassword = await createHashedPassword(password)
+    const newUser = await this.db.user.create({
+      data: {
+        ...update,
+        username: user.username || user.email || user.phone,
+        roles: [Role.USER],
+        cart: {
+          create: {},
         },
-      })
-      return new User(newUser)
-    } catch (error) {
-      let message: string = error?.meta?.cause || error.message
-      if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = 'User with email already exists'
-      }
-      throw new CustomError(
-        error?.meta?.cause || message,
-        error.code,
-        'UserService.emailLogin'
-      )
-    }
+        secrets: {
+          create: {
+            password: newPassword,
+          },
+        },
+        ...(clientId
+          ? {
+              client: {
+                connect: {
+                  clientId,
+                },
+              },
+            }
+          : {}),
+      },
+    })
+    return new User(newUser)
   }
 
-  async find(id: string): Promise<UserRO> {
+  async findByUsername(username: string): Promise<UserRO> {
     const user = await this.db.user.findUnique({
-      where: { id },
+      where: { username },
       include: { cart: true },
     })
     if (user) {
       return new User(user)
     }
-    throw new CustomError(
-      'User with id does not exist',
-      errorCodes.RecordDoesNotExist
-    )
+    throw new AppError(USER_DOES_NOT_EXISTS, RecordDoesNotExist)
   }
 
-  async findAndUpdate(
-    id: string,
-    update: Partial<UpdateUserDTO & { emailVerified: boolean }>
+  @ErrorHandler()
+  async findByUsernameAndUpdate(
+    username: string,
+    update: Partial<UpdateUserDTO>
   ): Promise<UserRO> {
-    try {
-      const { clientId, ...body } = update
-      const user = await this.db.user.update({
-        where: { id },
-        data: {
-          ...body,
-          ...(clientId
-            ? {
-                client: {
-                  connect: {
-                    clientId,
-                  },
+    const { clientId, ...body } = update
+    const user = await this.db.user.update({
+      where: { username },
+      data: {
+        ...body,
+        ...(clientId
+          ? {
+              client: {
+                connect: {
+                  clientId,
                 },
-              }
-            : {}),
-        },
-      })
-      return new User(user)
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        'UserService.findAndUpdate'
-      )
-    }
+              },
+            }
+          : {}),
+      },
+    })
+    return new User(user)
   }
 
-  async delete(id: string): Promise<UserRO> {
-    try {
-      return await this.db.user.update({
-        where: { id },
-        data: {
-          active: false,
-        },
-      })
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        'UserService.delete'
-      )
-    }
+  @ErrorHandler()
+  async deleteByUsername(username: string): Promise<UserRO> {
+    return await this.db.user.update({
+      where: { username },
+      data: {
+        active: false,
+      },
+    })
   }
 
-  async createPassword(password: string | Buffer) {
-    return argon2.hash(password)
-  }
-
+  @ErrorHandler()
   async updatePassword(
-    email: string,
+    username: string,
     newPassword: string,
     oldPassword: string
   ) {
-    const userOrNull = await this.verifyEmailPassword({
-      email,
+    const userOrNull = await this.verifyUsernamePassword({
+      username,
       password: oldPassword,
     })
     if (userOrNull) {
-      const hasshedpw = await this.createPassword(newPassword)
+      const hashedpw = await createHashedPassword(newPassword)
       return await this.db.user.update({
-        where: { email },
-        data: { secrets: { update: { password: hasshedpw } } },
+        where: { username },
+        data: { secrets: { update: { password: hashedpw } } },
       })
     }
-    throw new CustomError(
-      'Email Password combination does not match',
-      errorTypes[errorCodes.AuthFailed],
-      'UserService.updatePassword'
-    )
+    throw new AppError(EMAIL_PASSWORD_DOES_NOT_MATCH, AuthFailed)
   }
 
-  async resetPassword(email: string, newPassword: string) {
-    try {
-      // create new user
-      const hasshedpw = await this.createPassword(newPassword)
-      return await this.db.user.update({
-        where: { email },
-        data: { secrets: { update: { password: hasshedpw } } },
-      })
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        'UserService.resetPassword'
-      )
-    }
+  @ErrorHandler()
+  async resetPassword(username: string, newPassword: string) {
+    // create new user
+    const hashedpw = await createHashedPassword(newPassword)
+    return await this.db.user.update({
+      where: { username },
+      data: { secrets: { update: { password: hashedpw } } },
+    })
   }
 
+  @ErrorHandler()
   async createOauthAccount(user: CreateOauthUserDTO): Promise<UserRO> {
-    try {
-      const { roles, ...update } = user
-      return await this.db.user.create({
-        data: {
-          ...update,
-          roles: {
-            set: roles,
-          },
-          cart: {
-            create: {},
-          },
-          client: {
-            connect: {
-              clientId: update.client,
-            },
-          },
+    const { roles, clientId, ...update } = user
+    return await this.db.user.create({
+      data: {
+        ...update,
+        roles: {
+          set: roles,
         },
-      })
-    } catch (error) {
-      let message: string = error?.meta?.cause || error.message
-      if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = 'Account already present, please login with user credentials.'
-      }
-      throw new CustomError(
-        message,
-        error.code,
-        'UserService.createOauthAccount'
-      )
-    }
+        cart: {
+          create: {},
+        },
+        ...(clientId
+          ? {
+              client: {
+                connect: {
+                  clientId,
+                },
+              },
+            }
+          : {}),
+      },
+    })
   }
 
-  async findAndUpdateOauthAccount(
-    user: Partial<CreateOauthUserDTO>
-  ): Promise<UserRO> {
-    try {
-      return await this.db.user.update({
-        where: { oauthId: user.oauthId },
-        data: user,
-      })
-    } catch (error) {
-      if (error.code === errorCodes.RecordToUpdateNotFound) {
-        // we create a new account
-        return null
-      }
-      let message: string = error?.meta?.cause || error.message
-      if (error.code === errorCodes.UniqueConstraintViolation) {
-        message = 'Account already present, please login with user credentials.'
-      }
-      throw new CustomError(
-        message,
-        error.code,
-        'UserService.findAndUpdateOauthAccount'
-      )
-    }
+  @ErrorHandler()
+  async findAndUpdateOauthAccount(user: CreateOauthUserDTO): Promise<UserRO> {
+    return await this.db.user.update({
+      where: { oauthId: user.oauthId },
+      data: user,
+    })
   }
 
-  async verifyEmailPassword({
-    email,
+  @ErrorHandler()
+  async verifyUsernamePassword({
+    username,
     password,
-  }: Partial<LoginUserDTO>): Promise<UserRO> {
-    try {
-      const user = await this.db.user.findUnique({
-        where: {
-          email,
-        },
-        include: {
-          secrets: true,
-        },
-      })
-      if (!user || !user.secrets || !user.secrets.password) {
-        return null
-      }
-      if (await argon2.verify(user.secrets.password, password)) {
-        user.secrets = undefined
-        return user
-      }
+  }: Partial<UpdateUserDTO>): Promise<UserRO> {
+    const user = await this.db.user.findFirst({
+      where: {
+        OR: [{ username: username }, { email: username }, { phone: username }],
+      },
+      include: {
+        secrets: true,
+      },
+    })
+    if (!user || !user.secrets || !user.secrets.password) {
       return null
-    } catch (error) {
-      console.log({ error })
-
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        'UserService.verifyEmailPassword'
-      )
     }
-  }
-
-  async findByEmail(email: string): Promise<UserRO> {
-    const user = await this.db.user.findUnique({ where: { email } })
-    if (user) {
-      return new User(user)
+    if (await argon2.verify(user.secrets.password, password)) {
+      user.secrets = undefined
+      return user
     }
     return null
   }
 
-  async findByEmailAndUpdate(
-    email: string,
-    update: UpdateUserDTO
-  ): Promise<UserRO> {
-    try {
-      const user = await this.db.user.update({
-        where: { email },
-        data: update,
-      })
-      if (user) {
-        return new User(user)
-      }
+  @ErrorHandler()
+  async verifyEmailPassword({
+    email,
+    password,
+  }: Partial<UpdateUserDTO>): Promise<UserRO> {
+    const user = await this.db.user.findFirst({
+      where: { email: email },
+      include: {
+        secrets: true,
+      },
+    })
+    if (!user || !user.secrets || !user.secrets.password) {
       return null
-    } catch (error) {
-      throw new CustomError(
-        error?.meta?.cause || error.message,
-        error.code,
-        'UserService.findByEmailAndUpdate'
-      )
     }
+    if (await argon2.verify(user.secrets.password, password)) {
+      user.secrets = undefined
+      return user
+    }
+    return null
+  }
+
+  @ErrorHandler()
+  async findByPhoneAndUpdate(
+    phone: string,
+    update: Partial<UpdateUserDTO>
+  ): Promise<UserRO> {
+    const user = await this.db.user.update({
+      where: {
+        phone,
+      },
+      data: update,
+    })
+    if (user) {
+      return new User(user)
+    }
+    return null
   }
 }

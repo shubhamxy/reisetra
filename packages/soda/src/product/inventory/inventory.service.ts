@@ -1,9 +1,9 @@
-import { Product } from '.prisma/client'
+import { Product } from '@prisma/client'
 import { Injectable } from '@nestjs/common'
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-  CustomError,
+  AppError,
 } from '@app/core'
 import { DbService } from '@app/db'
 import { CacheService } from '@app/cache'
@@ -42,7 +42,7 @@ export class InventoryService {
       })
       return result
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'InventoryService.getAllInventory'
@@ -60,7 +60,7 @@ export class InventoryService {
       })
       return product
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'InventoryService.getInventory'
@@ -78,7 +78,7 @@ export class InventoryService {
       })
       return product
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'InventoryService.createInventory'
@@ -97,7 +97,7 @@ export class InventoryService {
       })
       return updated
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'InventoryService.updateInventory'
@@ -110,7 +110,7 @@ export class InventoryService {
       const data = await this.db.inventory.delete({ where: { id } })
       return data
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'InventoryService.deleteInventory'

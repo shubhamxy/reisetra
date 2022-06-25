@@ -41,7 +41,7 @@ export const app = (): AppEnv => ({
   name: process.env.APP_NAME || '',
   appEnv: (process.env.APP_ENV || 'production') as Environment,
   nodeEnv: (process.env.NODE_ENV || 'production') as Environment,
-  debug: +process.env.APP_DEBUG || 1,
+  debug: +process.env.APP_DEBUG || 0,
   service: process.env.SERVICE_NAME || '',
   description: process.env.SERVICE_DESCRIPTION || '',
   // API

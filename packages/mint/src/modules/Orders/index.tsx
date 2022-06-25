@@ -39,11 +39,7 @@ export function Orders() {
                         totalCount={getTotalCount(orders?.data)}
                     />
                 }
-                ListEmptyComponent={
-                    <EmptyListComponent
-                        title={"No orders."}
-                    />
-                }
+                ListEmptyComponent={<EmptyListComponent title={'No orders.'} />}
             />
         </Container>
     )

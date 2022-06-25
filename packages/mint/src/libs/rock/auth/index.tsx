@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { analytics, AUTH_ROUTES, PRIVATE_ROUTES, ROUTES, storage } from '../utils'
+import {
+    analytics,
+    AUTH_ROUTES,
+    PRIVATE_ROUTES,
+    ROUTES,
+    storage,
+} from '../utils'
 import { config } from '../config'
 import { useRefreshAuth } from './useAuth'
 import { useUserProfile } from '../users'
@@ -126,14 +132,18 @@ function useAuth() {
             }
         } else {
             if (AUTH_ROUTES.has(route as ROUTES)) {
-                replace({
-                    pathname: config.authUrl,
-                    query: {
-                        ...query,
-                        client_id: config.clientId,
-                        redirect_uri: config.callbackUrl,
+                replace(
+                    {
+                        pathname: config.authUrl,
+                        query: {
+                            ...query,
+                            client_id: config.clientId,
+                            redirect_uri: config.callbackUrl,
+                        },
                     },
-                }, config.authUrl, { shallow: true })
+                    config.authUrl,
+                    { shallow: true }
+                )
             } else if (PRIVATE_ROUTES.has(route as ROUTES)) {
                 replace({
                     pathname: config.authUrl,

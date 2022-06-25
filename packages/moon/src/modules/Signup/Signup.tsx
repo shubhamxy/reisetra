@@ -10,21 +10,19 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-    Checkbox,
-    FormHelperText,
-    Paper,
-} from '@material-ui/core'
+import { Checkbox, FormHelperText, Paper } from '@material-ui/core'
 import { useFormik } from 'formik'
 import { Logo } from '../../ui/Logo'
 
 import {
-    config, login,
+    config,
+    login,
     useAuthDispatch,
     useVerifyGoogleLogin,
-    updateSnackBar, useGlobalDispatch,
+    updateSnackBar,
+    useGlobalDispatch,
     useUserEmailSignUp,
-    IErrorResponse
+    IErrorResponse,
 } from '../../libs'
 import { useRouter } from 'next/router'
 
@@ -147,7 +145,7 @@ export function SignUp() {
     const globalDispatch = useGlobalDispatch()
     const verifyGoogleLogin = useVerifyGoogleLogin()
     const googleBtnRef = useRef()
-    const router = useRouter();
+    const router = useRouter()
     const {
         values,
         isValid,
@@ -169,8 +167,12 @@ export function SignUp() {
         onSubmit: function (data) {
             emailSignup.mutate(
                 {
-                    clientId: router.query['client_id'] as string || config.clientId,
-                    redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
+                    clientId:
+                        (router.query['client_id'] as string) ||
+                        config.clientId,
+                    redirectUri:
+                        (router.query['redirect_uri'] as string) ||
+                        config.callbackUrl,
                     name: data.name,
                     email: data.email,
                     password: data.password,
@@ -220,8 +222,12 @@ export function SignUp() {
                     verifyGoogleLogin
                         .mutateAsync({
                             ...response,
-                            clientId: router.query['client_id'] as string || config.clientId,
-                            redirectUri: router.query['redirect_uri'] as string || config.callbackUrl,
+                            clientId:
+                                (router.query['client_id'] as string) ||
+                                config.clientId,
+                            redirectUri:
+                                (router.query['redirect_uri'] as string) ||
+                                config.callbackUrl,
                         })
                         .then((response) => {
                             authDispatch(
@@ -448,19 +454,21 @@ export function SignUp() {
                 alignContent="center"
             >
                 <Grid item>
-                    <Typography variant="caption" align="center"
+                    <Typography
+                        variant="caption"
+                        align="center"
                         style={{ marginRight: 8 }}
                     >
                         Already a user?{' '}
                     </Typography>
                     <Button
-                        title='Log In'
-                        variant='text'
-                        color='primary'
+                        title="Log In"
+                        variant="text"
+                        color="primary"
                         onClick={() => {
                             router.push({
                                 query: router.query,
-                                pathname: '/'
+                                pathname: '/',
                             })
                         }}
                     >

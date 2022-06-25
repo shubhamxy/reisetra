@@ -4,7 +4,6 @@ import { timeFn } from '@app/utils'
 import { DbService } from '@app/db'
 import { ConfigService } from '@nestjs/config'
 import { Message } from '@app/core'
-import { TemplateService } from '@app/aws'
 
 const date = new Date()
 
@@ -12,8 +11,7 @@ const date = new Date()
 export class HealthService {
   constructor(
     private readonly db: DbService,
-    private readonly config: ConfigService,
-    private readonly template: TemplateService
+    private readonly config: ConfigService
   ) {}
 
   async healthCheck() {

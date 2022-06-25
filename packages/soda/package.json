@@ -35,7 +35,7 @@
     "test:e2e:cov": "jest --config ./jest-e2e.config.js --coverage --runInBand",
     "build:docs": "npx @compodoc/compodoc -p tsconfig.json --output ../../docs",
     "start:docs": "npx @compodoc/compodoc -p tsconfig.json -s -w --port 8081 --output ../../docs",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
+    "prettier": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.{js,ts}\" --fix"
   },
   "engines": {
@@ -73,6 +73,8 @@
     "nestjs-pino": "^1.4.0",
     "nodemailer": "^6.6.0",
     "passport": "^0.4.1",
+    "passport-anonymous": "^1.0.1",
+    "passport-custom": "^1.1.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -118,5 +120,8 @@
     "ts-node": "9.1.1",
     "tsconfig-paths": "3.9.0",
     "typescript": "4.2.4"
+  },
+  "prisma": {
+    "seed": "ts-node prisma\\seed.ts"
   }
 }

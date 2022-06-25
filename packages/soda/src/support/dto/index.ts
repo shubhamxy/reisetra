@@ -18,10 +18,3 @@ export class TicketDTO {
   @Allow()
   ticketId?: string
 }
-
-export class GetFormDataDTO {
-  @Allow()
-  formId: string
-}
-
-export class CreateFormDataDTO {}

@@ -4,7 +4,7 @@ import {
   Prisma,
   Product as ProductModel,
   Tag as TagModel,
-} from '.prisma/client'
+} from '@prisma/client'
 
 export class Product implements ProductModel {
   constructor(partial: Partial<ProductModel>) {

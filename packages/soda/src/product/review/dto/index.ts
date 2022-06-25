@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator'
 import { CursorPaginationDTO, mustBeOfType } from '@app/core'
-import { File } from 'src/master/file/entity'
+import { File } from '@app/master'
 import { Review } from '../entity'
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'userId' | 'updatedAt' | 'extra'

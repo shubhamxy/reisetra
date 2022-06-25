@@ -1,73 +1,92 @@
-import { OAuthProvider, Role } from '.prisma/client'
-import { Type } from 'class-transformer'
+import { OAuthProvider, Role } from '@prisma/client'
 import {
+  IsArray,
+  IsBoolean,
   IsEmail,
   IsOptional,
+  IsPhoneNumber,
+  IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator'
 import {
   INVALID_PHONE,
+  isInvalid,
   PASSWORD_IS_WEAK,
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
-  PHONE_REGEX,
   STRONG_PASSWORD_REGEX,
 } from '@app/core'
 import { User } from '../entity'
 
-type Excluded =
-  | 'id'
-  | 'active'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'extra'
-  | 'bio'
-  | 'dateOfBirth'
-  | 'phone'
-  | 'inventoryId'
-  | 'role'
-  | 'oauthProvider'
-  | 'emailVerified'
-  | 'oauthId'
-
-export class UpdateUserDTO implements Omit<User, Excluded> {
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial)
-  }
+export class UpdateUserDTO implements Partial<User> {
+  @IsOptional()
+  @IsString()
+  id?: string
 
   @IsOptional()
-  clientId: string
+  @IsString()
+  clientId?: string
 
   @IsOptional()
-  @IsEmail({}, { message: 'Email is invalid' })
-  email: string
+  @IsString()
+  @IsEmail({}, { message: isInvalid('Email') })
+  email?: string
+
+  @IsOptional()
+  @IsString()
+  emailVerified?: boolean
+
+  @IsOptional()
+  @IsString()
+  name?: string
+
+  @IsOptional()
+  dateOfBirth?: Date
+
+  @IsOptional()
+  @IsBoolean()
+  emailSubscribed?: boolean
+
+  @IsOptional()
+  @IsPhoneNumber('IN', { message: INVALID_PHONE })
+  phone?: string
+
+  @IsOptional()
+  @IsBoolean()
+  phoneSubscribed?: boolean
+
+  @IsOptional()
+  @IsBoolean()
+  phoneVerified?: boolean
+
+  @IsOptional()
+  @IsString()
+  avatar?: string
+
+  @IsOptional()
+  @IsArray()
+  roles?: Role[]
+
+  @IsOptional()
+  @IsString()
+  bio?: string
+
+  @IsOptional()
+  @IsString()
+  oauthId?: string
+
+  @IsOptional()
+  oauthProvider?: OAuthProvider
+
+  @IsOptional()
+  @IsString()
+  username?: string
 
   @IsOptional()
   @MinLength(8, { message: PASSWORD_MIN_LENGTH })
   @MaxLength(20, { message: PASSWORD_MAX_LENGTH })
   @Matches(STRONG_PASSWORD_REGEX, { message: PASSWORD_IS_WEAK })
-  password: string
-
-  @IsOptional()
-  @MinLength(3, { message: 'name should be min 3 chars' })
-  name: string
-
-  @IsOptional()
-  @Type(() => Date)
-  dateOfBirth: Date
-
-  @IsOptional()
-  @Matches(PHONE_REGEX, { message: INVALID_PHONE })
-  phone: string
-
-  @IsOptional()
-  avatar: string
-
-  oauthId: string
-  oauthProvider: OAuthProvider
-  role: Role
-  roles: Role[]
-  bio: string
+  password?: string
 }

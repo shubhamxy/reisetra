@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   Post,
   Put,
@@ -11,128 +10,89 @@ import {
   Req,
 } from '@nestjs/common'
 import { UserService } from './user.service'
-import { CustomException, Message, ROUTES, SuccessResponse } from '@app/core'
-import { CreateUserDTO, GetAllUsersDTO, UpdateUserDTO } from './dto'
+import { Message, Routes, SuccessResponse } from '@app/core'
+import { UpdateUserDTO, UserDTO, UsersDTO } from './dto'
 import { AuthenticatedRequest, Role, Roles } from '@app/auth'
+import { ExceptionHandler } from '@app/core/decorators/exceptionHandler.decorator'
+import { USER_ID, USERNAME } from './user.const'
 
-@Controller(ROUTES.users)
+@Controller(Routes.users)
 export class UserController {
   constructor(private readonly user: UserService) {}
 
-  @Get(ROUTES.users_all)
+  @Get(Routes.users_all)
   @Roles(Role.ADMIN)
-  async getAllUsers(@Query() query: GetAllUsersDTO): Promise<SuccessResponse> {
-    try {
-      const { results, ...meta } = await this.user.allUsers(query)
-      return { data: results, meta: meta, message: Message.success }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.getAllUsers'
-      )
-    }
+  @ExceptionHandler()
+  async getAllUsers(@Query() query: UsersDTO): Promise<SuccessResponse> {
+    const { results, ...meta } = await this.user.allUsers(query)
+    return { data: results, meta: meta, message: Message.success }
   }
 
-  @Roles(Role.ADMIN)
   @Post()
-  async createUser(@Body() body: CreateUserDTO): Promise<SuccessResponse> {
-    try {
-      const data = await this.user.create(body)
-      return { data, message: Message.created }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.createUser'
-      )
-    }
+  @Roles(Role.ADMIN)
+  @ExceptionHandler()
+  async createUser(@Body() user: UserDTO): Promise<SuccessResponse> {
+    const data = await this.user.create(user)
+    return { data, message: Message.created }
   }
 
   @Get()
-  async getUser(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
-    try {
-      const data = await this.user.find(req.user.id)
-      return { data, message: Message.success }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.getUser'
-      )
-    }
+  @ExceptionHandler()
+  async getUser(
+    @Req() request: AuthenticatedRequest
+  ): Promise<SuccessResponse> {
+    const data = await this.user.findByUsername(request.user.username)
+    return { data, message: Message.success }
   }
 
   @Put()
+  @ExceptionHandler()
   async updateUser(
     @Req() req: AuthenticatedRequest,
     @Body() body: UpdateUserDTO
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.user.findAndUpdate(req.user.id, body)
-      return { data, message: Message.updated }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.updateUser'
-      )
-    }
+    const data = await this.user.findByUsernameAndUpdate(
+      req.user.username,
+      body
+    )
+    return { data, message: Message.updated }
   }
 
   @Delete()
+  @ExceptionHandler()
   async deleteUser(@Req() req: AuthenticatedRequest): Promise<SuccessResponse> {
-    const data = await this.user.delete(req.user.id)
+    const data = await this.user.deleteByUsername(req.user.id)
     return { data, message: Message.success }
   }
 
   @Roles(Role.ADMIN)
-  @Get(ROUTES.users_by_userId)
-  async getUserById(@Param('userId') userId: string): Promise<SuccessResponse> {
-    try {
-      const data = await this.user.find(userId)
-      return { data, message: Message.success }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.deleteUser'
-      )
-    }
+  @Get(Routes.users_by_username)
+  @ExceptionHandler()
+  async getUserById(
+    @Param(USERNAME) username: string
+  ): Promise<SuccessResponse> {
+    const data = await this.user.findByUsername(username)
+    return { data, message: Message.success }
   }
 
   @Roles(Role.ADMIN)
-  @Put(ROUTES.users_by_userId)
+  @Put(Routes.users_by_username)
+  @ExceptionHandler()
   async updateUserById(
-    @Param('userId') userId: string,
+    @Param(USERNAME) username: string,
     @Body() body: UpdateUserDTO
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.user.findAndUpdate(userId, body)
-      return { data, message: Message.updated }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.updateUserById'
-      )
-    }
+    const data = await this.user.findByUsernameAndUpdate(username, body)
+    return { data, message: Message.updated }
   }
 
   @Roles(Role.ADMIN)
-  @Delete(ROUTES.users_by_userId)
+  @Delete(Routes.users_by_username)
+  @ExceptionHandler()
   async deleteUserId(
-    @Param('userId') userId: string
+    @Param(USERNAME) username: string
   ): Promise<SuccessResponse> {
-    try {
-      const data = await this.user.delete(userId)
-      return { data, message: Message.success }
-    } catch (error) {
-      throw new CustomException(
-        error,
-        HttpStatus.BAD_REQUEST,
-        'UserController.deleteUserId'
-      )
-    }
+    const data = await this.user.deleteByUsername(username)
+    return { data, message: Message.success }
   }
 }

@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpStatus, Injectable } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { CustomException, errorCodes, errorTypes } from '@app/core'
+import {
+  CustomException,
+  errorCodes,
+  ErrorTypes,
+  RefreshAuthFailed,
+} from '@app/core'
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard('jwt-refresh-strategy') {
@@ -10,9 +15,8 @@ export class JwtRefreshGuard extends AuthGuard('jwt-refresh-strategy') {
       throw new CustomException(
         {
           message: 'Authentication Failed',
-          code: errorCodes.RefreshAuthFailed,
-          context: 'JwtRefreshGuard.handleRequest',
-          type: errorTypes[errorCodes.RefreshAuthFailed],
+          code: RefreshAuthFailed,
+          context: JwtRefreshGuard.name,
         },
         HttpStatus.UNAUTHORIZED
       )

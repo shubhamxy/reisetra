@@ -29,17 +29,17 @@ interface HeroCardParams {
     actions?: React.ReactChild
     data?: HeroCardData
 }
-const slideWidth = 30;
+const slideWidth = 30
 
 const sleep = (ms = 0) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-};
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 export function HeadShowCase(props: HeroCardParams) {
     const router = useRouter()
     const classes = useStyles()
-    const categories = useCategories();
-    const [items, setItems] = useState([]);
+    const categories = useCategories()
+    const [items, setItems] = useState([])
     const [data, setData] = useState({
         index: -1,
         title: config.title,
@@ -54,49 +54,49 @@ export function HeadShowCase(props: HeroCardParams) {
         }
     }, [categories?.data?.data, categories.isLoading])
 
-    const [isTicking, setIsTicking] = useState(false);
-    const [activeIdx, setActiveIdx] = useState(0);
-    const bigLength = items.length;
+    const [isTicking, setIsTicking] = useState(false)
+    const [activeIdx, setActiveIdx] = useState(0)
+    const bigLength = items.length
 
     const prevClick = (jump = 1) => {
         if (!isTicking) {
-            setIsTicking(true);
+            setIsTicking(true)
             setActiveIdx((idx) => (idx - jump + bigLength) % bigLength)
             setItems((prev) => {
-                return prev.map((_, i) => prev[(i + jump) % bigLength]);
-            });
+                return prev.map((_, i) => prev[(i + jump) % bigLength])
+            })
         }
-    };
+    }
 
     const nextClick = (jump = 1) => {
         if (!isTicking) {
-            setIsTicking(true);
+            setIsTicking(true)
             setActiveIdx((idx) => (idx + jump) % bigLength)
             setItems((prev) => {
                 return prev.map(
-                    (_, i) => prev[(i - jump + bigLength) % bigLength],
-                );
-            });
+                    (_, i) => prev[(i - jump + bigLength) % bigLength]
+                )
+            })
         }
-    };
+    }
 
     useEffect(() => {
-        if (isTicking) sleep(300).then(() => setIsTicking(false));
-    }, [isTicking]);
+        if (isTicking) sleep(300).then(() => setIsTicking(false))
+    }, [isTicking])
 
     useEffect(() => {
         if (items.length > 0) {
             const item = items[0]
             setData({
                 index: 0,
-                backgroundImage: item.images[0].url,
+                backgroundImage: item.images[0]?.url,
                 description: '',
                 objectFit: 'cover',
                 subtitle: '',
-                title: item.label
+                title: item.label,
             })
         }
-    }, [items]);
+    }, [items])
 
     return (
         <Card className={classes.root}>
@@ -139,21 +139,30 @@ export function HeadShowCase(props: HeroCardParams) {
                         </Typography>
                     )}
                     <CardActions className={classes.actionsContainer}>
-                        {data.index > -1 && <Box className={classes.seeAll} onClick={() => {
-                            const item = {
-                                pathname: ROUTES.products,
-                                query: router.query,
-                            }
-                            if (!data.title) {
-                                delete item.query.category
-                            } else {
-                                // @ts-ignore
-                                item.query.category = data.title
-                            }
-                            router.push(item)
-                        }}>
-                            <Typography children={'See details'} className={classes.subtitle} variant="caption" />
-                        </Box>}
+                        {data.index > -1 && (
+                            <Box
+                                className={classes.seeAll}
+                                onClick={() => {
+                                    const item = {
+                                        pathname: ROUTES.products,
+                                        query: router.query,
+                                    }
+                                    if (!data.title) {
+                                        delete item.query.category
+                                    } else {
+                                        // @ts-ignore
+                                        item.query.category = data.title
+                                    }
+                                    router.push(item)
+                                }}
+                            >
+                                <Typography
+                                    children={'See details'}
+                                    className={classes.subtitle}
+                                    variant="caption"
+                                />
+                            </Box>
+                        )}
                     </CardActions>
                 </Grid>
             </CardContent>
@@ -172,7 +181,8 @@ export function HeadShowCase(props: HeroCardParams) {
                             title: item?.label,
                             styles: item?.styles,
                             images: item?.images,
-                        }))} />
+                        }))}
+                    />
                 )}
             </Grid>
         </Card>

@@ -1,4 +1,4 @@
-import { File } from '../../../../src/master/file/entity'
+import { File } from '@app/master'
 
 export interface FileUploadDTO {
   userId: string

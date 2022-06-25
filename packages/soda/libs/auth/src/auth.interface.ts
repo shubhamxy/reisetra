@@ -1,8 +1,17 @@
-import { Role } from '.prisma/client'
+import { Role } from '@prisma/client'
 
 export interface UserAuthPayload {
   id: string
-  email: string
+  username: string
+  // email: string
+  roles: Role[]
+  isAdmin: boolean
+}
+
+export interface AnonymousAuthPayload {
+  id: string
+  username: string
+  // email: string
   roles: Role[]
   isAdmin: boolean
 }

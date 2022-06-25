@@ -1,4 +1,4 @@
-import { Prisma, TransactionStatus } from '.prisma/client'
+import { Prisma, TransactionStatus } from '@prisma/client'
 import {
   Allow,
   IsEnum,

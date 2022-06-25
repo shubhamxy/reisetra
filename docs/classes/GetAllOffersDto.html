@@ -44,7 +44,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >GetAllOffersDto</li>
+  <li >GetAllOffersDTO</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -156,7 +156,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:21</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -198,7 +198,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:26</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:28</a></code>
 </div>
                         </td>
                     </tr>
@@ -240,7 +240,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:30</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:32</a></code>
 </div>
                         </td>
                     </tr>
@@ -282,7 +282,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:36</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:38</a></code>
 </div>
                         </td>
                     </tr>
@@ -324,7 +324,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:17</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/CursorPaginationDTO.html#source" target="_self" >CursorPaginationDTO:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -345,46 +345,28 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CartItem } from &#x27;.prisma/client&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
-import { Offer } from &#x27;../entity&#x27;
-type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;id&#x27;
+import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 
-export class GetAllCartsDto extends CursorPaginationDTO {}
+type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;description&#x27;
 
-export class GetAllOffersDto extends CursorPaginationDTO {}
+export class GetAllCartsDTO extends CursorPaginationDTO {}
 
-export class CheckoutDto {
-    addressId: string
-    cartId: string
-    promo: string
+export class GetAllOffersDTO extends CursorPaginationDTO {}
+
+export class CheckoutDTO {
+  addressId: string
+  billingAddressId: string
+  cartId: string
+  promo: string
 }
 
-export class UpdateCartItemDto
-    implements Omit&lt;CartItem, Excluded | &#x27;userId&#x27; | &#x27;productId&#x27;&gt; {
-    quantity: number
-    cartId: string
-    orderId: string
-    size: string
-    color: string
-}
-
-export class CreateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
-}
-export class UpdateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
-}
-
-export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;description&#x27;&gt; {
-    label: string
-    value: string
-    type: string
+export class UpdateCartItemDTO
+  implements Omit&lt;CartItem, Excluded | &#x27;userId&#x27; | &#x27;productId&#x27;&gt; {
+  quantity: number
+  cartId: string
+  orderId: string
+  size: string
+  color: string
 }
 </code></pre>
     </div>
@@ -423,7 +405,7 @@ export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;descripti
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'GetAllOffersDto.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'GetAllOffersDTO.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

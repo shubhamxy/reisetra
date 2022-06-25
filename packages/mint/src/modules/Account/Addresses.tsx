@@ -11,11 +11,14 @@ import {
     config,
     useAddresses,
     useAuthState,
+    useCountries,
     useCreateAddress,
     useDeleteAddress,
+    useLocalities,
+    useStates,
     useUpdateAddress,
 } from '../../libs'
-import { AddressFeed } from '../../ui/Addresses'
+import { AddressFeed } from '../../ui'
 import {
     Accordion,
     AccordionDetails,
@@ -34,16 +37,19 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
+import { AsyncListInput } from '../../ui/Addresses/AsyncListInput'
+import { useDebounce } from 'use-debounce'
+import { PlaceInput } from '../../ui/Addresses/PlaceInput'
 
 const addressSchema = Yup.object().shape({
     fullname: Yup.string().required('Fullname is required'),
-    address: Yup.string().min(4).required('Address is required'),
+    address: Yup.string(),
     region: Yup.string(),
     nearby: Yup.string(),
     zipcode: Yup.string().required('Zipcode is required'),
-    city: Yup.string().required('City is required'),
-    state: Yup.string().required('State is required'),
-    country: Yup.string().required('Country is required'),
+    locality: Yup.object().required('Locality is required'),
+    state: Yup.object().required('State is required'),
+    country: Yup.object().required('Country is required'),
     email: Yup.string().email().required('Email is required'),
     phone: Yup.string().required('Phone is required'),
     isSameBillingAddress: Yup.boolean(),
@@ -90,6 +96,7 @@ export function Addresses({
     const createAddress = useCreateAddress()
     const updateAddress = useUpdateAddress()
     const deleteAddress = useDeleteAddress()
+
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const handleClickOpen = () => {
@@ -103,26 +110,52 @@ export function Addresses({
     const { user } = authState
     const initialValues = {
         fullname: '',
+        addressSearch: '',
         address: '',
         region: '',
         nearby: '',
         zipcode: '',
-        city: '',
-        state: '',
-        country: 'India',
+        localitySearch: '',
+        locality: {
+            code: '',
+            name: '',
+        },
+        stateSearch: '',
+        state: {
+            code: '',
+            name: '',
+        },
+        countrySearch: '',
+        country: {
+            code: '',
+            name: '',
+        },
         email: user?.email || '',
         phone: user?.phone || '',
         ...(config.isProduction
             ? {}
             : {
                   fullname: 'Shubham Jain',
+                  addressSearch: '',
                   address: 'H 116, A-1 Sector 6, Rohini',
                   region: 'Rohini',
                   nearby: 'Aggarwal sweets',
                   zipcode: '110085',
-                  city: 'Delhi',
-                  state: 'Delhi',
-                  country: 'India',
+                  localitySearch: '',
+                  locality: {
+                      code: 'IN_DL_1000',
+                      name: 'Rohini',
+                  },
+                  stateSearch: '',
+                  state: {
+                      code: 'IN_DL',
+                      name: 'Delhi',
+                  },
+                  countrySearch: '',
+                  country: {
+                      code: 'IN',
+                      name: 'India',
+                  },
                   email: user?.email || '',
                   phone: user?.phone || '+918123456789',
               }),
@@ -136,6 +169,7 @@ export function Addresses({
         handleChange,
         setValues,
         handleSubmit,
+        setFieldValue,
         handleBlur,
         resetForm,
     } = useFormik({
@@ -144,11 +178,24 @@ export function Addresses({
         enableReinitialize: true,
         validationSchema: addressSchema,
         onSubmit: (data) => {
+            const {
+                addressSearch,
+                localitySearch,
+                countrySearch,
+                stateSearch,
+                ...other
+            } = data
             if (selected) {
                 updateAddress.mutate(
                     {
                         addressId: selected,
-                        body: data,
+                        body: {
+                            ...other,
+                            address: other.address || addressSearch,
+                            locality: other.locality.name || localitySearch,
+                            state: other.state.code || stateSearch,
+                            country: other.country.code || countrySearch,
+                        },
                     },
                     {
                         onSuccess: () => {
@@ -157,15 +204,45 @@ export function Addresses({
                     }
                 )
             } else {
-                createAddress.mutate(data, {
-                    onSuccess: () => {
-                        handleClose()
+                createAddress.mutate(
+                    {
+                        ...other,
+                        locality: other.locality.name,
+                        state: other.state.code,
+                        country: other.country.code,
                     },
-                })
+                    {
+                        onSuccess: () => {
+                            handleClose()
+                        },
+                    }
+                )
             }
         },
     })
 
+    const [debouncedCountryFilters] = useDebounce(
+        { name: values.countrySearch },
+        2000
+    )
+    const countries = useCountries(debouncedCountryFilters)
+    const [debouncedStateFilters] = useDebounce(
+        {
+            name: values.stateSearch,
+            countryCode: values?.country?.code,
+        },
+        2000
+    )
+    const [debouncedLocalityFilters] = useDebounce(
+        {
+            name: values.localitySearch,
+            countryCode: values?.country?.code,
+            stateCode: values?.state?.code,
+        },
+        2000
+    )
+    const states = useStates(debouncedStateFilters)
+    const localities = useLocalities(debouncedLocalityFilters)
     return (
         <>
             <Box className={classes.root} {...rest}>
@@ -310,7 +387,8 @@ export function Addresses({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <PlaceInput
+                                freeSolo
                                 required
                                 id="address"
                                 name="address"
@@ -318,9 +396,13 @@ export function Addresses({
                                 fullWidth
                                 multiline
                                 placeholder="Eg. 45, 5th Floor, Industry House, Race Course Road"
-                                autoComplete="shipping"
+                                autoComplete="Address"
                                 value={values.address}
-                                onChange={handleChange}
+                                onChange={(e, v) => {
+                                    console.log(e, v)
+                                    setFieldValue('address', v)
+                                }}
+                                // onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={
                                     touched.address ? !!errors.address : false
@@ -328,6 +410,10 @@ export function Addresses({
                                 helperText={
                                     touched.address ? errors.address : ''
                                 }
+                                inputValue={values.addressSearch}
+                                onInputChange={(e, v) => {
+                                    setFieldValue('address', v)
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -346,31 +432,56 @@ export function Addresses({
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField
+                            <AsyncListInput
+                                freeSolo
+                                query={localities}
                                 required
-                                id="city"
-                                name="city"
-                                label="City"
+                                id="locality"
+                                name="locality"
+                                label="City / Province / Town"
                                 fullWidth
                                 placeholder="Eg. Bangalore"
                                 autoComplete="shipping city"
-                                value={values.city}
-                                onChange={handleChange}
+                                value={values.locality}
+                                handleNoOptions={(e, val) => {
+                                    setFieldValue('locality', {
+                                        code: '__',
+                                        name: val,
+                                    })
+                                }}
+                                onChange={(e, v) => {
+                                    setFieldValue('locality', v)
+                                }}
+                                inputValue={values.localitySearch}
+                                onInputChange={(e, v) => {
+                                    setFieldValue('localitySearch', v)
+                                }}
                                 onBlur={handleBlur}
-                                error={touched.city ? !!errors.city : false}
-                                helperText={touched.city ? errors.city : ''}
+                                error={
+                                    touched.locality ? !!errors.locality : false
+                                }
+                                helperText={
+                                    touched.locality ? errors.locality : ''
+                                }
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField
+                            <AsyncListInput
+                                query={states}
                                 required
                                 id="state"
                                 name="state"
-                                label="State / Province / Town"
+                                label="State"
                                 placeholder="Eg. Karnataka"
                                 fullWidth
                                 value={values.state}
-                                onChange={handleChange}
+                                onChange={(e, v) => {
+                                    setFieldValue('state', v)
+                                }}
+                                inputValue={values.stateSearch}
+                                onInputChange={(e, v) => {
+                                    setFieldValue('stateSearch', v)
+                                }}
                                 onBlur={handleBlur}
                                 error={touched.state ? !!errors.state : false}
                                 helperText={touched.state ? errors.state : ''}
@@ -411,16 +522,11 @@ export function Addresses({
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
+                            <AsyncListInput
                                 id="country"
                                 name="country"
                                 label="Country"
-                                fullWidth
                                 placeholder="Eg. India"
-                                autoComplete="shipping country"
-                                value={values.country}
-                                onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={
                                     touched.country ? !!errors.country : false
@@ -428,9 +534,18 @@ export function Addresses({
                                 helperText={
                                     touched.country ? errors.country : ''
                                 }
+                                fullWidth
+                                query={countries}
+                                value={values.country}
+                                onChange={(e, v) => {
+                                    setFieldValue('country', v)
+                                }}
+                                inputValue={values.countrySearch}
+                                onInputChange={(e, v) => {
+                                    setFieldValue('countrySearch', v)
+                                }}
                             />
                         </Grid>
-
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 required

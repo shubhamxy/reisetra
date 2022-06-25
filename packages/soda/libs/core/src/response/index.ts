@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
-import { getErrorMessage, PageCursorsType, stackObj } from '@app/utils'
-import { ErrorCode, ErrorType, errorTypes } from '../codes/error'
+import { PageCursorsType } from '@app/utils'
+import { ErrorCode, ErrorType, ErrorTypes } from '../codes/error'
 
 type Data =
   | Record<string, any>
@@ -64,45 +64,27 @@ export class Exception extends HttpException {
   }
 }
 
-export class CustomException extends HttpException {
-  constructor(
-    error: IError,
-    status: HttpStatus,
-    context?: string,
-    description?: string
-  ) {
-    const message = getErrorMessage(error)
-    super(
-      errorResponse(
-        [
-          {
-            message: getErrorMessage(error),
-            code: error.code,
-            context: context,
-            type: errorTypes[error.code],
-            stack: stackObj(error.message),
-            data: error?.data || undefined,
-          },
-        ],
-        description || message
-      ),
-      status
-    )
-  }
-}
-
-export function CustomError(
+export function AppError(
   message: string,
   code: ErrorCode,
   context?: string,
+  status?: HttpStatus,
   type?: ErrorType,
   data?: any
 ) {
   this.message = message
   this.code = code
-  this.type = type || errorTypes[code] || undefined
+  this.type = type || ErrorTypes[code] || undefined
   this.context = context
+  this.status = status
   this.data = data
+}
+
+export function DBError(error, context) {
+  this.message = error?.meta?.cause || error.message
+  this.code = error.code
+  this.context = context
+  this.data = error.data
 }
 
 export type DataT =

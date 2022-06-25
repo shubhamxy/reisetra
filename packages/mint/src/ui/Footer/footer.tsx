@@ -158,7 +158,7 @@ function Footer() {
                                 variant="caption"
                                 title={`Copyright ${config.name} ${config.version}`}
                             >
-                                &copy; 2021 {config.name}.
+                                &copy; {new Date().getFullYear()} {config.name}.
                             </Typography>
                         </Box>
                     </Box>
@@ -271,11 +271,9 @@ function Footer() {
                     title="Enable / Disable dark mode"
                     id="dark_mode_button"
                     onClick={() => {
-                        const event = new CustomEvent('toggle_dark_mode')
-                        document.dispatchEvent(event)
-                    }}
-                    style={{
-                        backgroundColor: theme.palette.background.paper,
+                        document.dispatchEvent(
+                            new CustomEvent('toggle_dark_mode')
+                        )
                     }}
                 >
                     {theme.palette.type !== 'dark' ? (

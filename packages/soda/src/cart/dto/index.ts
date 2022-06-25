@@ -1,4 +1,4 @@
-import { CartItem } from '.prisma/client'
+import { CartItem } from '@prisma/client'
 import { CursorPaginationDTO } from '@app/core'
 
 type Excluded = 'id' | 'active' | 'createdAt' | 'updatedAt' | 'description'

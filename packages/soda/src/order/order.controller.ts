@@ -11,15 +11,15 @@ import {
   Req,
 } from '@nestjs/common'
 import { OrderService } from './order.service'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { CustomException, Routes, SuccessResponse } from '@app/core'
 import { GetAllOrdersDocumentsDTO, GetAllOrdersDTO, OrderDTO } from './dto'
 import { AuthenticatedRequest, Role, Roles } from '@app/auth'
 
-@Controller(ROUTES.orders)
+@Controller(Routes.orders)
 export class OrderController {
   constructor(private readonly order: OrderService) {}
 
-  @Get(ROUTES.orders_all)
+  @Get(Routes.orders_all)
   async getAllOrders(
     @Req() request: AuthenticatedRequest,
     @Query() query: GetAllOrdersDTO
@@ -56,7 +56,7 @@ export class OrderController {
     }
   }
 
-  @Get(ROUTES.orders_by_orderId)
+  @Get(Routes.orders_by_orderId)
   async getOrder(@Param('orderId') orderId: string): Promise<SuccessResponse> {
     try {
       const data = await this.order.getOrder(orderId)
@@ -70,7 +70,7 @@ export class OrderController {
     }
   }
 
-  @Get(ROUTES.orders_by_orderId_documents)
+  @Get(Routes.orders_by_orderId_documents)
   async getOrderDocuments(
     @Param('orderId') orderId: string,
     @Query() query: GetAllOrdersDocumentsDTO
@@ -107,7 +107,7 @@ export class OrderController {
     }
   }
 
-  @Put(ROUTES.orders_by_orderId)
+  @Put(Routes.orders_by_orderId)
   async updateOrder(
     @Req() request: AuthenticatedRequest,
     @Param('orderId') orderId: string,
@@ -126,7 +126,7 @@ export class OrderController {
   }
 
   @Roles(Role.ADMIN)
-  @Delete(ROUTES.orders_by_orderId)
+  @Delete(Routes.orders_by_orderId)
   async deleteOrder(
     @Param('orderId') orderId: string
   ): Promise<SuccessResponse> {
@@ -142,7 +142,7 @@ export class OrderController {
     }
   }
 
-  @Put(ROUTES.orders_by_orderId_cancel)
+  @Put(Routes.orders_by_orderId_cancel)
   async cancelOrder(
     @Param('orderId') orderId: string
   ): Promise<SuccessResponse> {

@@ -1,4 +1,4 @@
-export enum ROUTES {
+export enum Routes {
   healthz = '/healthz',
   utils = '/_utils',
   auth = '/auth',
@@ -9,7 +9,8 @@ export enum ROUTES {
   email_signup = '/email/signup',
   email_login = '/email/login',
   phone_login = '/phone/login',
-  email_verify_by_userId_and_token = '/email/verify/:userId/:token',
+  phone_otp = '/phone/otp',
+  email_verify_by_username_and_token = '/email/verify/:username/:token',
   auth_email_resend_verification = '/email/resend-verification',
   email_forgot_password_by_email = '/email/forgot-password/:email',
   email_reset_password_by_email_and_token = '/email/reset-password/:email/:token',
@@ -18,16 +19,20 @@ export enum ROUTES {
 
   users = '/users',
   users_all = '/all',
-  users_by_userId = '/:userId',
+  users_by_username = '/:username',
 
   addresses = '/addresses',
   addresses_all = '/all',
   addresses_by_addressId = '/:addressId',
+  countries = '/countries',
+  localities = '/localities',
+  states = '/states',
 
   brands = '/brands',
 
   carts = '/carts',
   carts_all = '/all',
+  carts_by_anon_cartId = '/anonymous/:cartId',
   carts_by_cartId = '/:cartId',
   carts_checkout = '/checkout',
   carts_by_cartId_and_productId = '/:cartId/:productId',
@@ -77,6 +82,7 @@ export enum ROUTES {
   complaint = '/complaints',
   delivery = '/deliveries',
   unsubscribe = '/unsubscribe',
+  sms = '/sms',
 
   forms = '/forms',
   forms_by_formId = '/:formId',
@@ -93,4 +99,5 @@ export enum Message {
   created = 'Created',
   updated = 'Updated',
   redirected = 'Redirected',
+  failed = 'Failed',
 }

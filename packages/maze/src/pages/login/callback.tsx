@@ -1,7 +1,15 @@
 /* eslint-disable dot-notation */
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { config, login, storage, updateSnackBar, useAuthDispatch, useGlobalDispatch, useRefreshAuth } from '../../libs'
+import {
+    config,
+    login,
+    storage,
+    updateSnackBar,
+    useAuthDispatch,
+    useGlobalDispatch,
+    useRefreshAuth,
+} from '../../libs'
 import { Box, LinearProgress, makeStyles } from '@material-ui/core'
 import { MainLayout } from '../../layouts/MainLayout'
 import { AppHeader } from '../../ui/Header'
@@ -25,12 +33,12 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }))
-const PERMITTED_DOMAINS = [config.authUrl];
+const PERMITTED_DOMAINS = [config.authUrl]
 
 function Auth0CallbackPage() {
     const classes = useStyles()
     function postCrossDomainMessage(data) {
-        window.parent.postMessage(data, config.authUrl);
+        window.parent.postMessage(data, config.authUrl)
     }
     const fetchRefreshToken = useRefreshAuth()
     const dispatchGlobal = useGlobalDispatch()
@@ -55,18 +63,18 @@ function Auth0CallbackPage() {
                     })
                 )
             } else {
-                throw Error("Requires Admin role")
+                throw Error('Requires Admin role')
             }
         } catch (error) {
-            delete query.token;
+            delete query.token
             replace({
-                pathname: query['redirect_route'] as string || '/'
+                pathname: (query['redirect_route'] as string) || '/',
             })
         }
     }
 
     useEffect(() => {
-        if (!isReady) return;
+        if (!isReady) return
         if (query.token && typeof query.token === 'string') {
             refreshAuth(query.token as string)
         }
@@ -74,16 +82,17 @@ function Auth0CallbackPage() {
     }, [query, isReady])
 
     useEffect(() => {
-        if (!isReady) return;
+        if (!isReady) return
         async function handlePostMessage(event) {
             if (PERMITTED_DOMAINS.includes(event.origin)) {
                 if (event.data && event.data.type) {
                     switch (event.data.type) {
                         case 'login': {
                             try {
-                                const response = await fetchRefreshToken.mutateAsync({
-                                    token: event.data.token,
-                                })
+                                const response =
+                                    await fetchRefreshToken.mutateAsync({
+                                        token: event.data.token,
+                                    })
                                 if (response.data.admin) {
                                     storage.put.access_token(
                                         response.data.access_token
@@ -93,16 +102,16 @@ function Auth0CallbackPage() {
                                     )
                                     postCrossDomainMessage({
                                         ...event.data,
-                                        type: 'redirect'
+                                        type: 'redirect',
                                     })
                                 } else {
-                                    throw new Error("Requires Admin role")
+                                    throw new Error('Requires Admin role')
                                 }
                             } catch (error) {
                                 postCrossDomainMessage({
                                     ...event.data,
                                     type: 'error',
-                                    error: error.message
+                                    error: error.message,
                                 })
                             }
                             break
@@ -110,23 +119,23 @@ function Auth0CallbackPage() {
                         case 'error': {
                             dispatchGlobal(
                                 updateSnackBar({
-                                    message: event.data.error || 'Error Authorization.',
+                                    message:
+                                        event.data.error ||
+                                        'Error Authorization.',
                                     type: 'error',
                                     open: true,
                                 })
                             )
                             console.error('handlePostMessage', event)
                         }
-
                     }
                 }
-
             }
         }
-        window.addEventListener('message', handlePostMessage);
+        window.addEventListener('message', handlePostMessage)
         return () => {
-            window.removeEventListener("message", handlePostMessage);
-        };
+            window.removeEventListener('message', handlePostMessage)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReady])
     return (

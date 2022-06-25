@@ -1,5 +1,6 @@
 import { readdirSync, statSync } from 'fs'
 import { parse, resolve } from 'path'
+import * as argon2 from 'argon2'
 
 export const CUID_REGEX = /^cw{6,24}$/ // 6 - to - 24 length starts with c
 export const isCUID = (str: string) => CUID_REGEX.test(str)
@@ -49,3 +50,9 @@ export function readFilesSync(dir) {
   })
   return files
 }
+
+export async function createHashedPassword(password: string | Buffer) {
+  return argon2.hash(password)
+}
+
+export * from './stringify'

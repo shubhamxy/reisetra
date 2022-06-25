@@ -1,4 +1,4 @@
-import { Review as ReviewModal } from '.prisma/client'
+import { Review as ReviewModal } from '@prisma/client'
 
 export class Review implements ReviewModal {
   id: string

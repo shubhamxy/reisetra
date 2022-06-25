@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type {Prisma} from '.prisma/client'
-import {Product} from '.prisma/client'
-import {Injectable} from '@nestjs/common'
-import {CursorPagination, CursorPaginationResultInterface, CustomError, errorCodes,} from '@app/core'
-import {DbService} from '@app/db'
-import {CacheService} from '@app/cache'
-import {prismaOffsetPagination} from '@app/utils'
-import {GetAllOrdersDocumentsDTO, OrderDTO} from './dto'
-import {File} from 'src/master/file/entity'
-import {AuthService} from '@app/auth'
-import {AWSService} from '@app/aws'
-import {TemplateService} from '@app/aws/template.service'
+import type { Prisma } from '@prisma/client'
+import { Product } from '@prisma/client'
+import { Injectable } from '@nestjs/common'
+import {
+  CursorPagination,
+  CursorPaginationResultInterface,
+  AppError,
+  errorCodes,
+} from '@app/core'
+import { DbService } from '@app/db'
+import { CacheService } from '@app/cache'
+import { prismaOffsetPagination } from '@app/utils'
+import { GetAllOrdersDocumentsDTO, OrderDTO } from './dto'
+import { File } from '@app/master'
+import { AuthService } from '@app/auth'
+import { AWSService } from '@app/aws'
+import { TemplateService } from '@app/aws/template.service'
 
 @Injectable()
 export class OrderService {
@@ -41,7 +46,13 @@ export class OrderService {
         orderDirection,
         model: 'order',
         include: {
-          address: true,
+          address: {
+            include: {
+              locality: true,
+              state: true,
+              country: true,
+            },
+          },
           user: true,
           cart: {
             include: {
@@ -66,7 +77,7 @@ export class OrderService {
         prisma: this.db,
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.getAllOrders'
@@ -106,7 +117,13 @@ export class OrderService {
               items: true,
             },
           },
-          address: true,
+          address: {
+            include: {
+              locality: true,
+              state: true,
+              country: true,
+            },
+          },
           user: true,
           documents: {
             where: {
@@ -120,7 +137,7 @@ export class OrderService {
         prisma: this.db,
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.getAllOrders'
@@ -164,7 +181,12 @@ export class OrderService {
               },
             },
           },
-          address: true,
+          address: {
+            include: {
+              state: true,
+              country: true,
+            },
+          },
           transaction: {
             select: {
               id: true,
@@ -191,14 +213,14 @@ export class OrderService {
         },
       })
       if (!product) {
-        throw new CustomError(
+        throw new AppError(
           'Order does not exist',
           errorCodes.RecordDoesNotExist
         )
       }
       return product
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.getOrder'
@@ -233,7 +255,7 @@ export class OrderService {
         prisma: this.db,
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.getOrderDocuments'
@@ -249,12 +271,17 @@ export class OrderService {
           userId: userId,
         },
         include: {
-          address: true,
+          address: {
+            include: {
+              state: true,
+              country: true,
+            },
+          },
           user: true,
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.createOrder'
@@ -336,7 +363,12 @@ export class OrderService {
               },
             },
           },
-          address: true,
+          address: {
+            include: {
+              state: true,
+              country: true,
+            },
+          },
           user: true,
           documents: {
             where: {
@@ -369,7 +401,7 @@ export class OrderService {
                 description ||
                 `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. If you would like to view the status of your order or make any changes to it, please visit Your Orders on reisetra.com.`,
               orderId: data.id,
-              address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
+              address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.locality}, ${data.address.state.name}, ${data.address.country.name}, ${data.address.zipcode}`,
               email: data.address.email,
               phone: data.address.phone,
               status: `Your Reisetra.com order #${
@@ -398,7 +430,7 @@ export class OrderService {
       }
       return data
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.updateOrder'
@@ -411,7 +443,12 @@ export class OrderService {
       const data = await this.db.order.update({
         where: { id: orderId },
         include: {
-          address: true,
+          address: {
+            include: {
+              state: true,
+              country: true,
+            },
+          },
           user: true,
         },
         data: {
@@ -420,7 +457,7 @@ export class OrderService {
       })
       return data
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.deleteOrder'
@@ -453,7 +490,12 @@ export class OrderService {
               },
             },
           },
-          address: true,
+          address: {
+            include: {
+              state: true,
+              country: true,
+            },
+          },
           user: true,
         },
         data: {
@@ -471,7 +513,7 @@ export class OrderService {
             }`,
             description: `Thank you for shopping with us. We'd like to let you know that we have ${data.status.toLowerCase()} your order. we will initiate refund in 1-2 business days. please visit your orders on reisetra.com to check status.`,
             orderId: data.id,
-            address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.city}, ${data.address.state}, ${data.address.country}, ${data.address.zipcode}`,
+            address: `${data.address.address}, ${data.address.region}, ${data.address.nearby}, ${data.address.locality}, ${data.address.state.name}, ${data.address.country.name}, ${data.address.zipcode}`,
             email: data.address.email,
             phone: data.address.phone,
             status: `Your Reisetra.com order #${
@@ -499,7 +541,7 @@ export class OrderService {
       }
       return data
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'OrderService.cancelOrder'

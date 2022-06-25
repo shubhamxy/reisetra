@@ -3,7 +3,7 @@ import {
   FormResponse as FormResponseModel,
   Prisma,
   Ticket as TicketModel,
-} from '.prisma/client'
+} from '@prisma/client'
 
 export class Form implements FormModel {
   constructor(partial: Partial<FormModel>) {

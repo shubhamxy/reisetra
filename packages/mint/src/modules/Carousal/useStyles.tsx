@@ -48,9 +48,9 @@ export const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         background:
             styles && styles[1] ? styles[1] : colors[colorIndex].background,
         transition: 'all ease-in 0.4s',
-        "&:hover": {
+        '&:hover': {
             boxShadow: '0px 4px 12px rgba(15, 15, 15, 0.7)',
-        }
+        },
     }),
     selected: {
         boxShadow: '0px 4px 12px rgba(15, 15, 15, 0.7)',
@@ -64,7 +64,8 @@ export const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         cursor: 'pointer',
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0) 100%)',
+        background:
+            'linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0) 100%)',
         zIndex: 10,
     },
     titleContainer: {
@@ -84,7 +85,7 @@ export const useGridItemStyles = makeStyles<Theme, any>((theme) => ({
         WebkitBoxOrient: 'vertical',
         wordBreak: 'break-all',
         opacity: 0.6,
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
     },
     card: {
         margin: 0,

@@ -1,13 +1,8 @@
-import {
-    del,
-    get,
-    post,
-    put,
-} from '../../utils/http'
+import { del, get, post, put } from '../../utils/http'
 import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
 const queryString = require('query-string')
-type Role =  'USER' | 'ADMIN';
+type Role = 'USER' | 'ADMIN'
 export interface UserProfile {
     id: string
     email: string

@@ -10,6 +10,8 @@ import {
     loginEmailResetPassword,
     emailResendVerification,
     userPasswordUpdate,
+    loginPhone,
+    sendOTP,
 } from '../api/auth'
 import { updateSnackBar, useGlobalDispatch } from '../global'
 import { analytics } from '../utils'
@@ -28,11 +30,13 @@ export const useRefreshAuth = () => {
             analytics.login()
         },
         onError: (error) => {
-            dispatch(updateSnackBar({
-                message: error['message'] || 'Server Error',
-                type: "error",
-                open: true,
-            }));
+            dispatch(
+                updateSnackBar({
+                    message: error['message'] || 'Server Error',
+                    type: 'error',
+                    open: true,
+                })
+            )
         },
     })
 }
@@ -81,9 +85,13 @@ export const useUserEmailLogin = () => {
             analytics.login()
         },
         onError: (error) => {
+            console.log(error)
             dispatch(
                 updateSnackBar({
-                    message: error['message'] || 'Server Error',
+                    message:
+                        (error['errors'] && error['errors'][0]['message']) ||
+                        error['message'] ||
+                        'Server Error',
                     type: 'error',
                     open: true,
                 })
@@ -91,6 +99,64 @@ export const useUserEmailLogin = () => {
         },
     })
 }
+
+export const useUserPhoneLogin = () => {
+    const dispatch = useGlobalDispatch()
+    const authDispatch = useAuthDispatch()
+    return useMutation(loginPhone, {
+        onSuccess: ({ data }) => {
+            console.log(data)
+            dispatch(
+                updateSnackBar({
+                    message: 'Logged In Successfully',
+                    type: 'success',
+                    open: true,
+                })
+            )
+            authDispatch(
+                login({
+                    access_token: data.access_token,
+                    refresh_token: data.refresh_token,
+                })
+            )
+            analytics.login()
+        },
+        onError: (error) => {
+            dispatch(
+                updateSnackBar({
+                    message:
+                        (error['errors'] && error['errors'][0]['message']) ||
+                        error['message'] ||
+                        'Server Error',
+                    type: 'error',
+                    open: true,
+                })
+            )
+        },
+    })
+}
+
+export const useSendPhoneOTP = () => {
+    const dispatch = useGlobalDispatch()
+    return useMutation(sendOTP, {
+        onSuccess: ({ data }) => {},
+        onError: (error) => {
+            dispatch(
+                updateSnackBar({
+                    message:
+                        (error['errors'] &&
+                            error['errors'].length > 0 &&
+                            error['errors'][0]['message']) ||
+                        error['message'] ||
+                        'Server Error',
+                    type: 'error',
+                    open: true,
+                })
+            )
+        },
+    })
+}
+
 export const useUserEmailForgotPassword = () => {
     const dispatch = useGlobalDispatch()
     return useMutation(loginEmailForgotPassword, {

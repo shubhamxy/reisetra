@@ -1,9 +1,9 @@
-import type { Prisma } from '.prisma/client'
-import { Product } from '.prisma/client'
+import type { Prisma } from '@prisma/client'
+import { Product } from '@prisma/client'
 import { Injectable } from '@nestjs/common'
 import {
   CursorPaginationResultInterface,
-  CustomError,
+  AppError,
   errorCodes,
   OrderDirection,
 } from '@app/core'
@@ -61,7 +61,7 @@ export class ReviewService {
       })
       return result
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ReviewService.getAllReviews'
@@ -88,14 +88,14 @@ export class ReviewService {
         },
       })
       if (!review) {
-        throw new CustomError(
+        throw new AppError(
           'Review does not exist',
           errorCodes.RecordDoesNotExist
         )
       }
       return review
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ReviewService.getReview'
@@ -124,7 +124,7 @@ export class ReviewService {
       },
     })
     if (!products) {
-      throw new CustomError(
+      throw new AppError(
         'Product does not exist',
         errorCodes.RecordDoesNotExist
       )
@@ -202,7 +202,7 @@ export class ReviewService {
       })
       return product
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ReviewService.createReview'
@@ -281,7 +281,7 @@ export class ReviewService {
       })
       return review
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ReviewService.updateReview'
@@ -312,7 +312,7 @@ export class ReviewService {
       })
       return data
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ReviewService.deleteReview'

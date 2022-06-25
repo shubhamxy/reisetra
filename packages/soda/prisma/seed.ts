@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+// import countries_json = require('../../../../../Downloads/countries.json')
+// import states_json = require('../../../../../Downloads/states.json')
+// import cities_json = require('../../../../../Downloads/cities.json')
+const db = new PrismaClient()
 
 async function main() {
   console.log(`Start seeding ...`)
@@ -96,7 +99,53 @@ async function main() {
   //     })
   // })
 
-  // console.log(`Seeding finished.`)
+  // await db.country.createMany({
+  //   data: countries_json.map((item) => ({
+  //     code: item.iso2,
+  //     name: item.name,
+  //     currency: item.currency_name,
+  //     currencySymbol: item.currency_symbol,
+  //     emoji: item.emojiU,
+  //   })),
+  // })
+
+  // await db.state.createMany({
+  //   data: await Promise.all(
+  //     states_json.map(async (item) => {
+  //       return {
+  //         name: item.name,
+  //         code: item.country_code + '_' + item.state_code,
+  //         countryCode: item.country_code,
+  //         type: item.type,
+  //       }
+  //     })
+  //   ),
+  // })
+  //
+  //   cities_json.filter((item) => item.country_code === 'IN')
+  //     .map(async (item) => {
+  //       try {
+  //         await db.locality.create({
+  //           data: {
+  //             name: item.name,
+  //             code:
+  //               (item.country_code || '00') +
+  //               '_' +
+  //               (item.state_code || '00') +
+  //               '_' +
+  //               item.id,
+  //             stateCode: item.country_code + '_' + item.state_code,
+  //             countryCode: item.country_code,
+  //             type: null,
+  //           },
+  //         })
+  //       } catch (err) {
+  //         console.log(err, item)
+  //         throw err
+  //       }
+  //     })
+
+  console.log(`Seeding finished.`)
 }
 
 main()
@@ -105,5 +154,5 @@ main()
     process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect()
+    await db.$disconnect()
   })

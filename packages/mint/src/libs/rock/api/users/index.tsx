@@ -3,7 +3,7 @@ import pickBy from 'lodash.pickby'
 import identity from 'lodash.identity'
 
 const queryString = require('query-string')
-type Role = 'USER' | 'ADMIN';
+type Role = 'USER' | 'ADMIN'
 export interface UserProfile {
     id: string
     email: string
@@ -46,7 +46,8 @@ interface IAddress {
     region: string
     nearby: string
     zipcode: string
-    city: string
+    locality: string
+    state: string
     country: string
 }
 
@@ -63,6 +64,21 @@ interface PaginationParams {
 export function getAddresses(params: PaginationParams) {
     const qs = queryString.stringify(pickBy(params, identity))
     return get<Partial<IAddress[]>>(`${API_ROUTES.addresses}?${qs}`)
+}
+
+export function getCountries(params: PaginationParams) {
+    const qs = queryString.stringify(pickBy(params, identity))
+    return get<Partial<IAddress[]>>(`${API_ROUTES.countries}?${qs}`)
+}
+
+export function getStates(params: PaginationParams) {
+    const qs = queryString.stringify(pickBy(params, identity))
+    return get<Partial<IAddress[]>>(`${API_ROUTES.states}?${qs}`)
+}
+
+export function getLocalities(params: PaginationParams) {
+    const qs = queryString.stringify(pickBy(params, identity))
+    return get<Partial<IAddress[]>>(`${API_ROUTES.localities}?${qs}`)
 }
 
 export function createAddress(body: Partial<IAddress>) {

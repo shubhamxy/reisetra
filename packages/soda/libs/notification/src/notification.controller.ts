@@ -10,20 +10,22 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Public } from '@app/auth'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { CustomException, Message, Routes, SuccessResponse } from '@app/core'
 import { Config } from '@app/config'
-import { NotificationService } from '@app/notification/notification.service'
+import { NotificationService } from './notification.service'
 import { BounceDTO } from './dto'
+import { Throttle } from '@nestjs/throttler'
 
-@Controller(ROUTES.notification)
+@Controller(Routes.notification)
 export class NotificationController {
   constructor(
     private readonly notification: NotificationService,
     private readonly config: ConfigService
   ) {}
 
+  @Throttle(3, 120)
   @Public()
-  @Get(ROUTES.unsubscribe)
+  @Get(Routes.unsubscribe)
   async handleUnsubscribe(
     @Query('token') token: string,
     @Query('email') email: string,
@@ -36,63 +38,83 @@ export class NotificationController {
       throw new CustomException(
         error,
         HttpStatus.BAD_REQUEST,
-        'NotificationController.handleUnsubscribe'
+        NotificationController.name
       )
     }
   }
 
+  @Throttle(3, 120)
   @Public()
-  @Post(ROUTES.bounce)
+  @Post(Routes.bounce)
   async handleBounce(
     @Headers('x-amz-sns-message-type') messageType: string,
     @Body() body: BounceDTO
   ): Promise<SuccessResponse> {
     try {
-      // @eslint-ignore
-      const x = 10
       const data = await this.notification.handleBounce(messageType, body)
-      return { data: data }
+      return { data: data, message: Message.success }
     } catch (error) {
       throw new CustomException(
         error,
         HttpStatus.BAD_REQUEST,
-        'NotificationController.getAllTicketes'
+        NotificationController.name
       )
     }
   }
 
+  @Throttle(3, 120)
   @Public()
-  @Post(ROUTES.complaint)
+  @Post(Routes.complaint)
   async handleComplaints(
     @Headers('x-amz-sns-message-type') messageType: string,
     @Body() body: BounceDTO
   ): Promise<SuccessResponse> {
     try {
       const data = await this.notification.handleComplaints(messageType, body)
-      return { data: data }
+      return { data: data, message: Message.success }
     } catch (error) {
       throw new CustomException(
         error,
         HttpStatus.BAD_REQUEST,
-        'NotificationController.handleComplaints'
+        NotificationController.name
       )
     }
   }
 
+  @Throttle(3, 120)
   @Public()
-  @Post(ROUTES.delivery)
+  @Post(Routes.delivery)
   async handleDeliveries(
     @Headers('x-amz-sns-message-type') messageType: string,
     @Body() body: BounceDTO
   ): Promise<SuccessResponse> {
     try {
       const data = await this.notification.handleDeliveries(messageType, body)
-      return { data: data }
+      return { data: data, message: Message.success }
     } catch (error) {
       throw new CustomException(
         error,
         HttpStatus.BAD_REQUEST,
-        'NotificationController.handleDeliveries'
+        NotificationController.name
+      )
+    }
+  }
+
+  @Throttle(1, 120)
+  @Public()
+  @Post(Routes.sms)
+  async handleSMS(
+    @Headers('x-amz-sns-message-type') messageType: string,
+    @Body() body: BounceDTO
+  ): Promise<SuccessResponse> {
+    try {
+      const data = await this.notification.handleSMS(messageType, body)
+      return { data, message: Message.success }
+    } catch (error) {
+      throw new CustomException(
+        error,
+        HttpStatus.BAD_REQUEST,
+        NotificationController.name
       )
     }
   }

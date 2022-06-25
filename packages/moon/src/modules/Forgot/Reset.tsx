@@ -343,13 +343,13 @@ export function ResetPassword() {
                                         align="center"
                                     >
                                         <Button
-                                            title='Back to Login'
-                                            variant='text'
-                                            color='primary'
+                                            title="Back to Login"
+                                            variant="text"
+                                            color="primary"
                                             onClick={() => {
                                                 push({
                                                     query: query,
-                                                    pathname: '/'
+                                                    pathname: '/',
                                                 })
                                             }}
                                         >

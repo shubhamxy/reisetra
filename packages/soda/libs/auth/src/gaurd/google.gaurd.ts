@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpStatus, Injectable } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { CustomException, errorCodes, errorTypes } from '@app/core'
+import { AuthFailed, CustomException, errorCodes, ErrorTypes } from '@app/core'
 
 @Injectable()
 export class GoogleAuthGuard extends AuthGuard('google') {
@@ -10,9 +10,8 @@ export class GoogleAuthGuard extends AuthGuard('google') {
       throw new CustomException(
         {
           message: 'Authentication Failed',
-          code: errorCodes.AuthFailed,
-          context: 'GoogleAuthGuard.handleRequest',
-          type: errorTypes[errorCodes.AuthFailed],
+          code: AuthFailed,
+          context: GoogleAuthGuard.name,
         },
         HttpStatus.UNAUTHORIZED
       )

@@ -262,7 +262,7 @@ export function AppHeader() {
     const authState = useAuthState()
     const globalState = useGlobalState()
     const router = useRouter()
-    const { route, query, isReady, replace, asPath } = router;
+    const { route, query, isReady, replace, asPath } = router
 
     const { data: response } = useCartItems(
         authState?.user?.cart.id,
@@ -451,18 +451,24 @@ export function AppHeader() {
             > */}
             <Button
                 onClick={() => {
-                    replace({
-                        pathname: config.authUrl,
-                        query: {
-                            ...query,
-                            client_id: config.clientId,
-                            redirect_uri: config.callbackUrl,
-                            redirect_route: router.asPath
+                    replace(
+                        {
+                            pathname: config.authUrl,
+                            query: {
+                                ...query,
+                                client_id: config.clientId,
+                                redirect_uri: config.callbackUrl,
+                                redirect_route: router.asPath,
+                            },
                         },
-                    }, config.authUrl, { shallow: true })
+                        config.authUrl,
+                        { shallow: true }
+                    )
                 }}
-
-                variant="contained" size="medium" color="primary">
+                variant="contained"
+                size="medium"
+                color="primary"
+            >
                 Login
             </Button>
             {/* </Link> */}

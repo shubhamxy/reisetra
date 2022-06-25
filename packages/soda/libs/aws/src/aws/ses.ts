@@ -1,4 +1,4 @@
-import { SES } from 'aws-sdk'
+import { SES, SESV2 } from 'aws-sdk'
 import { SESMailDTO, SESMailRTO } from './types'
 
 export const createParams = ({
@@ -50,4 +50,20 @@ export function sendEmail(
       }
     })
   })
+}
+
+export async function putSuppressedDestination(
+  ses: SESV2,
+  awsConfig,
+  params: SESV2.PutSuppressedDestinationRequest
+): Promise<SESV2.PutSuppressedDestinationResponse> {
+  return ses.putSuppressedDestination(params).promise()
+}
+
+export async function deleteSuppressedDestination(
+  ses: SESV2,
+  awsConfig,
+  params: SESV2.DeleteSuppressedDestinationRequest
+): Promise<SESV2.DeleteSuppressedDestinationResponse> {
+  return ses.deleteSuppressedDestination(params).promise()
 }

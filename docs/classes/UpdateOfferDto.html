@@ -44,7 +44,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >UpdateOfferDto</li>
+  <li >UpdateOfferDTO</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/cart/dto/index.ts</code>
+            <code>src/master/offer/dto/index.ts</code>
         </p>
 
 
@@ -138,7 +138,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/cart/dto/index.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/master/offer/dto/index.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -164,7 +164,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/cart/dto/index.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/master/offer/dto/index.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -190,7 +190,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/cart/dto/index.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/master/offer/dto/index.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -216,7 +216,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/cart/dto/index.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/master/offer/dto/index.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -235,47 +235,31 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CartItem } from &#x27;.prisma/client&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 import { Offer } from &#x27;../entity&#x27;
-type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;id&#x27;
 
-export class GetAllCartsDto extends CursorPaginationDTO {}
+type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;description&#x27;
 
-export class GetAllOffersDto extends CursorPaginationDTO {}
+export class GetAllOffersDTO extends CursorPaginationDTO {}
 
-export class CheckoutDto {
-    addressId: string
-    cartId: string
-    promo: string
+export class CreateOfferDTO implements Omit&lt;Offer, Excluded&gt; {
+  label: string
+  value: string
+  type: string
+  description: string
 }
 
-export class UpdateCartItemDto
-    implements Omit&lt;CartItem, Excluded | &#x27;userId&#x27; | &#x27;productId&#x27;&gt; {
-    quantity: number
-    cartId: string
-    orderId: string
-    size: string
-    color: string
+export class UpdateOfferDTO implements Omit&lt;Offer, Excluded&gt; {
+  label: string
+  value: string
+  type: string
+  description: string
 }
 
-export class CreateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
-}
-export class UpdateOfferDto implements Omit&lt;Offer, Excluded&gt; {
-    label: string
-    value: string
-    type: string
-    description: string
-}
-
-export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;description&#x27;&gt; {
-    label: string
-    value: string
-    type: string
+export class DeleteOfferDTO implements Omit&lt;Offer, Excluded&gt; {
+  label: string
+  value: string
+  type: string
 }
 </code></pre>
     </div>
@@ -314,7 +298,7 @@ export class DeleteOfferDto implements Omit&lt;Offer, Excluded | &#x27;descripti
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'UpdateOfferDto.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'UpdateOfferDTO.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

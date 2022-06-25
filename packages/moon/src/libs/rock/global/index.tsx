@@ -41,7 +41,6 @@ type Action = {
     payload?: Record<string, boolean | number> | Partial<SnackBar>
 }
 
-
 const GlobalStateContext = createContext<GlobalState>(null)
 const GlobalDispatchContext = createContext(null)
 
@@ -64,7 +63,6 @@ export function useGlobalDispatch(): React.Dispatch<Action> {
     }
     return context
 }
-
 
 export const openSnackBar: Action = {
     type: ActionKind.OpenSnackBar,

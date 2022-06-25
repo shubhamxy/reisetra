@@ -1,4 +1,4 @@
-import { ROUTES, setupNestApp } from '@app/core'
+import { Routes, setupNestApp } from '@app/core'
 import * as request from 'supertest'
 import { Test, TestingModule } from '@nestjs/testing'
 
@@ -25,9 +25,9 @@ describe('ProductController (e2e)', () => {
     await app.init()
   })
 
-  it(`/${ROUTES.products} (GET)`, () => {
+  it(`/${Routes.products} (GET)`, () => {
     return request(app.getHttpServer())
-      .get(`/${api}${ROUTES.products}`)
+      .get(`/${api}${Routes.products}`)
       .expect(200)
       .expect((res) => {
         expect(res.body).toBeDefined()

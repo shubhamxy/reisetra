@@ -1,6 +1,8 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
+import { PUBLIC_DIR, VIEWS_DIR } from '@app/core/core.const'
+
 import { join } from 'path'
 import { ClassSerializerInterceptor } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -47,8 +49,8 @@ export const setupNestApp = (app: NestExpressApplication): AppEnv => {
     new ClassSerializerInterceptor(reflector),
     new DataTransformInterceptor()
   )
-  app.useStaticAssets(join(process.env.NODE_PATH, 'public'))
-  app.setBaseViewsDir(join(process.env.NODE_PATH, 'views'))
+  app.useStaticAssets(join(process.env.NODE_PATH, PUBLIC_DIR))
+  app.setBaseViewsDir(join(process.env.NODE_PATH, VIEWS_DIR))
   app.setViewEngine('hbs')
 
   app.useGlobalFilters(new AllExceptionsFilter())

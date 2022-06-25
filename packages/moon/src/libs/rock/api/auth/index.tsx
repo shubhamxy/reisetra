@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-import { get, post } from '../../utils/http'
-import { storage } from '../../utils/storage'
+import { get, post, storage } from '../../utils'
 
 export type LoginT = {
     readonly clientId: string
@@ -8,6 +7,7 @@ export type LoginT = {
     readonly email: string
     readonly password: string
 }
+
 export type ResetPasswordT = {
     readonly email: string
     readonly token: string
@@ -28,8 +28,8 @@ export type SignupT = {
 
 export interface AuthResponse {
     id: string
-    email: string
-    role: string
+    username: string
+    roles: string[]
     expires_in: string
     access_token: string
     refresh_token: string
@@ -37,11 +37,35 @@ export interface AuthResponse {
 }
 
 export function signupEmail(body: SignupT) {
-    return post<LoginT, AuthResponse>('auth/email/signup', body)
+    return post<SignupT, AuthResponse>('auth/email/signup', body)
 }
 
 export function loginEmail(body: LoginT) {
     return post<LoginT, AuthResponse>('auth/email/login', body)
+}
+
+export type LoginPhoneT = {
+    readonly clientId: string
+    readonly redirectUri: string
+    readonly phone: string
+    readonly otp: string
+}
+
+export type SendPhoneOTP = {
+    readonly clientId: string
+    readonly redirectUri: string
+    readonly phone: string
+}
+
+export function loginPhone(body: LoginPhoneT) {
+    return post<LoginPhoneT, AuthResponse>('auth/phone/login', body)
+}
+
+export function sendOTP(body: SendPhoneOTP) {
+    return post<SendPhoneOTP, { data: { emailSend: boolean } }>(
+        'auth/phone/otp',
+        body
+    )
 }
 
 export function loginEmailForgotPassword(email: string) {

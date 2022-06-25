@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import {
   CursorPaginationResultInterface,
-  CustomError,
+  AppError,
   errorCodes,
   OrderDirection,
 } from '@app/core'
 import { DbService } from '@app/db'
-import { CacheService } from '@app/cache'
 import { prismaOffsetPagination } from '@app/utils'
 import urlSlug from 'url-slug'
 import {
@@ -15,16 +14,13 @@ import {
   ProductSort,
   UpdateProductDTO,
 } from './dto'
-import type { Prisma } from '.prisma/client'
+import type { Prisma } from '@prisma/client'
 import { ProductRO } from './interfaces'
 import { ProductsRO } from 'src/product/inventory/interfaces'
 
 @Injectable()
 export class ProductService {
-  constructor(
-    private readonly db: DbService,
-    private readonly cache: CacheService
-  ) {}
+  constructor(private readonly db: DbService) {}
 
   async getAllProducts(
     options: GetAllProductsDTO
@@ -137,7 +133,7 @@ export class ProductService {
         prisma: this.db,
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ProductService.getAllProducts'
@@ -256,7 +252,7 @@ export class ProductService {
         prisma: this.db,
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ProductService.getAllProducts'
@@ -279,7 +275,7 @@ export class ProductService {
       },
     })
     if (!product) {
-      throw new CustomError(
+      throw new AppError(
         'Product does not exist',
         errorCodes.RecordDoesNotExist
       )
@@ -348,7 +344,7 @@ export class ProductService {
       },
     })
     if (!products) {
-      throw new CustomError(
+      throw new AppError(
         'Product does not exist',
         errorCodes.RecordDoesNotExist
       )
@@ -437,7 +433,7 @@ export class ProductService {
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ProductService.findAllOffset'
@@ -517,7 +513,7 @@ export class ProductService {
       }
       return await this.db.product.update(productUpdate)
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ProductService.findAllOffset'
@@ -539,7 +535,7 @@ export class ProductService {
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'ProductService.findAllOffset'

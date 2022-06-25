@@ -11,12 +11,12 @@ import {
   Req,
 } from '@nestjs/common'
 import { ProductService } from './product.service'
-import { CustomException, ROUTES, SuccessResponse } from '@app/core'
+import { CustomException, Routes, SuccessResponse } from '@app/core'
 import { CreateProductDTO, GetAllProductsDTO, UpdateProductDTO } from './dto'
 import { AuthenticatedRequest, Public, Role, Roles } from '@app/auth'
 import { Throttle } from '@nestjs/throttler'
 
-@Controller(ROUTES.products)
+@Controller(Routes.products)
 export class ProductController {
   constructor(private readonly product: ProductService) {}
 
@@ -40,7 +40,7 @@ export class ProductController {
 
   @Throttle(60, 120)
   @Public()
-  @Get(ROUTES.products_recommendations)
+  @Get(Routes.products_recommendations)
   async getRecommendations(
     @Query() query: GetAllProductsDTO
   ): Promise<SuccessResponse> {
@@ -76,7 +76,7 @@ export class ProductController {
 
   @Throttle(60, 120)
   @Public()
-  @Get(ROUTES.products_by_slug)
+  @Get(Routes.products_by_slug)
   async getProduct(@Param('slug') slug: string): Promise<SuccessResponse> {
     try {
       const data = await this.product.getProduct(slug)
@@ -91,7 +91,7 @@ export class ProductController {
   }
 
   @Roles(Role.ADMIN)
-  @Put(ROUTES.products_by_slug)
+  @Put(Routes.products_by_slug)
   async updateProduct(
     @Req() request: AuthenticatedRequest,
     @Param('slug') slug: string,
@@ -110,7 +110,7 @@ export class ProductController {
   }
 
   @Roles(Role.ADMIN)
-  @Delete(ROUTES.products_by_slug)
+  @Delete(Routes.products_by_slug)
   async deleteProduct(
     @Param('productId') productId: string
   ): Promise<SuccessResponse> {

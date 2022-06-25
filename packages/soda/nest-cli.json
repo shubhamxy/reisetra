@@ -92,6 +92,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/notification/tsconfig.lib.json"
       }
+    },
+    "master": {
+      "type": "library",
+      "root": "libs/master",
+      "entryFile": "index",
+      "sourceRoot": "libs/master/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/master/tsconfig.lib.json"
+      }
     }
   }
 }

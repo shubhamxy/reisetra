@@ -51,30 +51,34 @@ model File {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  email         String         @unique
-  emailVerified Boolean        @default(false)
-  name          String
-  avatar        String?
-  dateOfBirth   DateTime?
-  phone         String?        @unique
-  bio           String?
-  oauthId       String?        @unique
-  oauthProvider OAuthProvider?
-  roles         Role[]
-  active        Boolean        @default(true)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  client        Client[]
-  addresses     Address[]
-  cart          Cart?
-  files         File[]
-  orders        Order[]
-  reviews       Review[]
-  stories       Story[]
-  secrets       Secrets?
-  transactions  Transaction[]
-  tickets       Ticket[]
+  id              String         @id @default(cuid())
+  username        String?        @unique
+  email           String?        @unique
+  emailVerified   Boolean        @default(false)
+  emailSubscribed Boolean        @default(false)
+  name            String?
+  avatar          String?
+  dateOfBirth     DateTime?
+  phone           String?        @unique
+  phoneVerified   Boolean        @default(false)
+  phoneSubscribed Boolean        @default(false)
+  bio             String?
+  oauthId         String?        @unique
+  oauthProvider   OAuthProvider?
+  roles           Role[]
+  active          Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  client          Client[]
+  addresses       Address[]
+  cart            Cart?
+  files           File[]
+  orders          Order[]
+  reviews         Review[]
+  stories         Story[]
+  secrets         Secrets?
+  transactions    Transaction[]
+  tickets         Ticket[]
 }
 
 model Cart {
@@ -109,21 +113,69 @@ model Address {
   id            String   @id @default(cuid())
   fullname      String
   address       String
-  region        String?
-  nearby        String?
   zipcode       String
-  city          String
-  state         String
-  country       String
+  nearby        String?
+  region        String?
+  locality      String?
+  state         State?    @relation(fields: [stateCode], references: [code])
+  country       Country?  @relation(fields: [countryCode], references: [code])
   phone         String
   email         String
   userId        String
+  latitude      String?
+  longitude     String?
   active        Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User     @relation(fields: [userId], references: [id])
   orders        Order[]  @relation("address")
   billingOrders Order[]  @relation("billingAddress")
+  stateCode      String?
+  countryCode     String?
+}
+
+model Locality {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  name      String
+  type      String?
+  state     State?   @relation(fields: [stateCode], references: [code])
+  stateCode   String?
+  country   Country?   @relation(fields: [countryCode], references: [code])
+  countryCode   String?
+
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+}
+
+model State {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  name      String
+  type      String?
+  country   Country   @relation(fields: [countryCode], references: [code])
+  countryCode String
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  addresses   Address[]
+  localities    Locality[]
+}
+
+model Country {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  name      String
+  currency  String
+  currencySymbol  String
+  emoji     String
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  addresses   Address[]
+  localities    Locality[]
+  State     State[]
 }
 
 model Tag {

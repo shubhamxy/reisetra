@@ -44,7 +44,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >UpdateStoryDto</li>
+  <li >UpdateStoryDTO</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/story/dto/index.ts</code>
+            <code>src/master/story/dto/index.ts</code>
         </p>
 
 
@@ -153,7 +153,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/story/dto/index.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/master/story/dto/index.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -179,7 +179,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/story/dto/index.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/master/story/dto/index.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -205,7 +205,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/story/dto/index.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/master/story/dto/index.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -231,7 +231,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/story/dto/index.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/master/story/dto/index.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -257,7 +257,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/story/dto/index.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/master/story/dto/index.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -283,7 +283,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/story/dto/index.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/master/story/dto/index.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -309,7 +309,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/story/dto/index.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/master/story/dto/index.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -335,7 +335,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/story/dto/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/master/story/dto/index.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -361,7 +361,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/story/dto/index.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/master/story/dto/index.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -381,36 +381,37 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Prisma } from &#x27;.prisma/client&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
+import { CursorPaginationDTO } from &#x27;@app/core&#x27;
 import { Story } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27; | &#x27;userId&#x27;
 
-export class GetAllStoriesDto extends CursorPaginationDTO {}
-export class GetStoriesDto extends CursorPaginationDTO {}
+export class GetAllStoriesDTO extends CursorPaginationDTO {}
 
-export class CreateStoryDto implements Omit&lt;Story, Excluded&gt; {
-    slug: string
-    subtitle: string
-    styles: string[]
-    title: string
-    description: string | null
-    body: Prisma.JsonValue
-    published: boolean
-    userId: string | null
-    tags: string[]
+export class GetStoriesDTO extends CursorPaginationDTO {}
+
+export class CreateStoryDTO implements Omit&lt;Story, Excluded&gt; {
+  slug: string
+  subtitle: string
+  styles: string[]
+  title: string
+  description: string | null
+  body: Prisma.JsonValue
+  published: boolean
+  userId: string | null
+  tags: string[]
 }
 
-export class UpdateStoryDto implements Omit&lt;Story, Excluded&gt; {
-    slug: string
-    subtitle: string
-    styles: string[]
-    title: string
-    description: string | null
-    body: Prisma.JsonValue
-    published: boolean
-    userId: string | null
-    tags: string[]
+export class UpdateStoryDTO implements Omit&lt;Story, Excluded&gt; {
+  slug: string
+  subtitle: string
+  styles: string[]
+  title: string
+  description: string | null
+  body: Prisma.JsonValue
+  published: boolean
+  userId: string | null
+  tags: string[]
 }
 </code></pre>
     </div>
@@ -449,7 +450,7 @@ export class UpdateStoryDto implements Omit&lt;Story, Excluded&gt; {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'UpdateStoryDto.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'UpdateStoryDTO.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

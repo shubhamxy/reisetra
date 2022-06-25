@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 import { handlebars } from 'hbs'
 import { Injectable } from '@nestjs/common'
 import { createParams } from './aws'
-import { getUnsubscribeKey, readFilesSync } from '@app/utils'
+import { GET_UNSUBSCRIBE_TOKEN_KEY, readFilesSync } from '@app/utils'
 import { nanoid } from 'nanoid'
 import { CacheService } from '@app/cache'
 
@@ -148,7 +148,7 @@ export class TemplateService {
   async emailVerificationEmail(user: {
     email: string
     token: string
-    id: string
+    username: string
   }) {
     const config = this.appConfig
     return createParams(
@@ -160,7 +160,7 @@ export class TemplateService {
         header: 'Welcome',
         subheader: `Verify your e-mail to finish signing up`,
         mainParagraph: `Please confirm that ${user.email} is your e-mail address by clicking on the button below.`,
-        mainCallToActionUrl: `${config.authUrl}/verify?id=${user.id}&token=${user.token}`,
+        mainCallToActionUrl: `${config.authUrl}/verify?username=${user.username}&token=${user.token}`,
         mainCallToActionText: 'Verify Email',
         footerText: `This message was meant for ${user.email}.`,
         unsubscribeLink: await this.unsubscribeLink(user.email),
@@ -170,7 +170,7 @@ export class TemplateService {
   }
 
   async supportEmailAck(data: {
-    id: string
+    username: string
     email: string
     ticketId: string
     subject: string
@@ -195,7 +195,7 @@ export class TemplateService {
   }
 
   async supportEmail(data: {
-    id: string
+    username: string
     email: string
     ticketId: string
     description: string
@@ -208,7 +208,7 @@ export class TemplateService {
         ...this.commonData,
         messageSubject: `${data.subject} | Support Ticket #${data.ticketId}`,
         preheader: ``,
-        header: `Support ticket for ${data.id} ${data.email}`,
+        header: `Support ticket for ${data.username}`,
         subheader: `A support ticket has been created and assigned the ticket number #${data.ticketId} for Order #${data.orderId}`,
         heroImageSrc: this.images.support,
         mainParagraph: `${data.description}`,
@@ -222,7 +222,7 @@ export class TemplateService {
   }
 
   async transactionEmail(data: {
-    id: string
+    username: string
     email: string
     subject: string
     description: string
@@ -271,19 +271,19 @@ export class TemplateService {
 
   async createUnsubscribeToken(email: string): Promise<string> {
     const storedToken = (await this.cache.get(
-      getUnsubscribeKey(email)
+      GET_UNSUBSCRIBE_TOKEN_KEY(email)
     )) as string
     if (storedToken) {
       return storedToken
     }
     const token = nanoid(8)
-    await this.cache.set(getUnsubscribeKey(email), token)
+    await this.cache.set(GET_UNSUBSCRIBE_TOKEN_KEY(email), token)
     return token
   }
 
   async verifyUnsubscribeToken(email: string, token: string): Promise<boolean> {
     const storedToken = (await this.cache.get(
-      getUnsubscribeKey(email)
+      GET_UNSUBSCRIBE_TOKEN_KEY(email)
     )) as string
     if (!storedToken) {
       return false

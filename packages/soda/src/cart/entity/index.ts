@@ -1,4 +1,4 @@
-import { Cart as CartModel, CartItem as CartItemModel } from '.prisma/client'
+import { Cart as CartModel, CartItem as CartItemModel } from '@prisma/client'
 
 export class CartItem implements CartItemModel {
   constructor(partial: Partial<CartItemModel>) {

@@ -44,7 +44,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >UpdateInventoryDto</li>
+  <li >UpdateInventoryDTO</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/inventory/dto/index.ts</code>
+            <code>src/product/inventory/dto/index.ts</code>
         </p>
 
 
@@ -141,7 +141,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/inventory/dto/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/product/inventory/dto/index.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/inventory/dto/index.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/product/inventory/dto/index.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -196,31 +196,30 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsNotEmpty, IsNumber, IsOptional, IsString } from &#x27;class-validator&#x27;
-import { CursorPaginationDTO } from &#x27;src/common/dto&#x27;
-import { mustBeOfType } from &#x27;src/constants&#x27;
+import { CursorPaginationDTO, mustBeOfType } from &#x27;@app/core&#x27;
 import { Inventory } from &#x27;../entity&#x27;
 
 type Excluded &#x3D; &#x27;id&#x27; | &#x27;active&#x27; | &#x27;createdAt&#x27; | &#x27;updatedAt&#x27;
 
-export class GetAllInventoryDto extends CursorPaginationDTO {}
+export class GetAllInventoryDTO extends CursorPaginationDTO {}
 
-export class CreateInventoryDto implements Omit&lt;Inventory, Excluded&gt; {
-    @IsNotEmpty()
-    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
-    stockQuantity: number
+export class CreateInventoryDTO implements Omit&lt;Inventory, Excluded&gt; {
+  @IsNotEmpty()
+  @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
+  stockQuantity: number
 
-    @IsNotEmpty()
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
-    sku: string
+  @IsNotEmpty()
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
+  sku: string
 }
 
-export class UpdateInventoryDto implements Omit&lt;Inventory, Excluded&gt; {
-    @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
-    stockQuantity: number
+export class UpdateInventoryDTO implements Omit&lt;Inventory, Excluded&gt; {
+  @IsNumber({}, { message: mustBeOfType(&#x27;number&#x27;, &#x27;stockQuantity&#x27;) })
+  stockQuantity: number
 
-    @IsOptional()
-    @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
-    sku: string
+  @IsOptional()
+  @IsString({ message: mustBeOfType(&#x27;string&#x27;, &#x27;sku&#x27;) })
+  sku: string
 }
 </code></pre>
     </div>
@@ -259,7 +258,7 @@ export class UpdateInventoryDto implements Omit&lt;Inventory, Excluded&gt; {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'UpdateInventoryDto.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'UpdateInventoryDTO.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

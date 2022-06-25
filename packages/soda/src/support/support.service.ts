@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import {
   CursorPagination,
   CursorPaginationResultInterface,
-  CustomError,
+  AppError,
   errorCodes,
 } from '@app/core'
 import { TicketDTO } from './dto'
@@ -47,7 +47,7 @@ export class SupportService {
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'SupportService.getAllTickets'
@@ -81,7 +81,7 @@ export class SupportService {
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'SupportService.getTicketes'
@@ -94,17 +94,14 @@ export class SupportService {
       where: { id },
     })
     if (!ticket) {
-      throw new CustomError(
-        'Ticket does not exist',
-        errorCodes.RecordDoesNotExist
-      )
+      throw new AppError('Ticket does not exist', errorCodes.RecordDoesNotExist)
     }
     return ticket
   }
 
   async createTicket(
     userId: string,
-    email: string,
+    username: string,
     data: TicketDTO
   ): Promise<any> {
     try {
@@ -112,27 +109,30 @@ export class SupportService {
         data: {
           userId,
           data: {
-            email,
             subject: data.subject,
             description: data.description,
             orderId: data.orderId,
           },
+        },
+        select: {
+          id: true,
+          user: true,
         },
       })
       const ticketId = ticket.id || data.ticketId
       const results = await Promise.all([
         this.aws.sendEmail(
           await this.template.supportEmailAck({
-            id: userId,
+            username,
             subject: data.subject,
-            email,
+            email: ticket.user.email,
             ticketId,
           })
         ),
         this.aws.sendEmail(
           await this.template.supportEmail({
-            id: userId,
-            email,
+            username,
+            email: ticket.user.email,
             ticketId,
             orderId: data.orderId,
             subject: data.subject,
@@ -145,7 +145,7 @@ export class SupportService {
         messages: results,
       }
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'SupportService.createSupportTicket'
@@ -165,7 +165,7 @@ export class SupportService {
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'SupportService.updateTicket'
@@ -182,7 +182,7 @@ export class SupportService {
         },
       })
     } catch (error) {
-      throw new CustomError(
+      throw new AppError(
         error?.meta?.cause || error.message,
         error.code,
         'SupportService.deleteTicket'
