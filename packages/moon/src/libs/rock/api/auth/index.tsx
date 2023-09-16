@@ -15,8 +15,8 @@ export type ResetPasswordT = {
 }
 
 export type SignupT = {
-    clientId: string
-    redirectUri: string
+    clientId?: string
+    redirectUri?: string
     email: string
     password: string
     name: string

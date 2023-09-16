@@ -167,12 +167,12 @@ export function SignUp() {
         onSubmit: function (data) {
             emailSignup.mutate(
                 {
-                    clientId:
-                        (router.query['client_id'] as string) ||
-                        config.clientId,
-                    redirectUri:
-                        (router.query['redirect_uri'] as string) ||
-                        config.callbackUrl,
+                    // clientId:
+                    //     (router.query['client_id'] as string) ||
+                    //     config.clientId,
+                    // redirectUri:
+                    //     (router.query['redirect_uri'] as string) ||
+                    //     config.callbackUrl,
                     name: data.name,
                     email: data.email,
                     password: data.password,
