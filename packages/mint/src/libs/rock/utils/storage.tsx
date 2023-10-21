@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { isBrowser } from '../config'
 import { analytics } from './analytics'
 

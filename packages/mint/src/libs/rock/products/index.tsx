@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { createContext, useContext, useReducer } from 'react'
 
 const ProductsStateContext = createContext<ProductsState>(null)

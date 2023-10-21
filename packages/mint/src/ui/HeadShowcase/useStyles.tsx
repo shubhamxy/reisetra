@@ -36,7 +36,7 @@ export const useStyles = makeStyles((theme) =>
             paddingLeft: 60,
             paddingRight: 60,
             background:
-                'linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 25%, rgba(0, 0, 0, 0) 100%)',
+                'linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0) 100%)',
         },
         title: {
             width: '100%',

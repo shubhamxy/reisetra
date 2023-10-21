@@ -9,12 +9,10 @@ import {
     Grid,
     Typography,
 } from '@material-ui/core'
-import { NextSeo } from 'next-seo'
 import { config, ROUTES, useCategories, useInterval } from '../../libs'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useStyles } from './useStyles'
-import { Catalogs } from '../../modules'
 import { Carousal } from '../../modules/Carousal'
 
 interface HeroCardData {
@@ -81,7 +79,7 @@ export function HeadShowCase(props: HeroCardParams) {
     }
 
     useEffect(() => {
-        if (isTicking) sleep(300).then(() => setIsTicking(false))
+        if (isTicking) sleep(5000).then(() => setIsTicking(false))
     }, [isTicking])
 
     useEffect(() => {
@@ -113,32 +111,32 @@ export function HeadShowCase(props: HeroCardParams) {
 
             <CardContent className={classes.content}>
                 <Grid container className={classes.titleContainer}>
-                    {data.subtitle && (
+                    {/* {data.subtitle && (
                         <Typography
                             className={classes.subtitle}
                             variant={'caption'}
                         >
                             {data.subtitle}
                         </Typography>
-                    )}
-                    {data.title && (
+                    )} */}
+                    {/* {data.title && (
                         <Typography
                             style={{ textTransform: 'uppercase' }}
                             className={classes.title}
                         >
                             {data.title}
                         </Typography>
-                    )}
+                    )} */}
 
-                    {data.description && (
+                    {/* {data.description && (
                         <Typography
                             className={classes.description}
                             variant={'body1'}
                         >
                             {data.description}
                         </Typography>
-                    )}
-                    <CardActions className={classes.actionsContainer}>
+                    )} */}
+                    {/* <CardActions className={classes.actionsContainer}>
                         {data.index > -1 && (
                             <Box
                                 className={classes.seeAll}
@@ -163,7 +161,7 @@ export function HeadShowCase(props: HeroCardParams) {
                                 />
                             </Box>
                         )}
-                    </CardActions>
+                    </CardActions> */}
                 </Grid>
             </CardContent>
 

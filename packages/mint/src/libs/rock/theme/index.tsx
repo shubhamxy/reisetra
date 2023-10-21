@@ -8,9 +8,9 @@ import { createTheme, ThemeOptions } from '@material-ui/core/styles'
 import { storage } from '../utils'
 
 export const primary: SimplePaletteColorOptions = {
-    main: '#665df5',
-    dark: '#463dbb',
-    light: '#7856ff',
+    main: '#878581',
+    dark: '#878581',
+    light: '#878581',
     contrastText: '#f5f5f5',
 }
 
@@ -132,12 +132,12 @@ export function themeOptions(type: 'light' | 'dark'): ThemeOptions {
             primary,
             secondary,
             background: {
-                default: type === 'dark' ? '#020202' : '#ffffff',
-                paper: type === 'dark' ? '#090909' : '#efeff1',
+                default: type === 'dark' ? '#020202' : '#fdfdf9',
+                paper: type === 'dark' ? '#090909' : '#fdfdf9',
             },
             text: {
-                primary: type === 'dark' ? '#eeeeee' : '#535b62',
-                secondary: type === 'dark' ? '#f6f7f8' : '#57565d',
+                primary: type === 'dark' ? '#eeeeee' : '#292924',
+                secondary: type === 'dark' ? '#f6f7f8' : '#504F48',
             },
             error,
             warning,

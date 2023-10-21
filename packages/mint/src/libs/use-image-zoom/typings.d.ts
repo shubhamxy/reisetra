@@ -1,3 +1,4 @@
+import * as React from 'react'
 /**
  * Default CSS definition for typescript,
  * will be overridden with files-specific definitions by rollup

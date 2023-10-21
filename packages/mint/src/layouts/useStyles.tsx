@@ -8,7 +8,7 @@ export const useStyles = makeStyles<
         '@supports (backdrop-filter: none)': {
             ...(hasHeader && hasFooter
                 ? {
-                      backgroundImage: `linear-gradient(to right, #d88ea3 0%, #453dbb 33%, #453dbb 66%, #d88ea3), linear-gradient(to right, #d88ea3ce 0%, #453dbbd0 33%, #453dbbd0 66%, #d88ea3ce)`,
+                    // backgroundImage: `linear-gradient(to right, #000000 0%, #ffffff 33%, #ffffff 66%, #000000), linear-gradient(to right, #000000 0%, #ffffff 33%, #ffffff 66%, #000000)`,
                       backgroundPosition: 'top, bottom',
                       backgroundSize: '100% 1px, 100% 1px',
                       backgroundRepeat: 'no-repeat',
